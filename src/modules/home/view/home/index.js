@@ -1,6 +1,7 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
 import ButtonDefault from "../../../../components/ButtonDefault/ButtonDefault";
+import Logout from './logout.multicolor.svg';
 
 export const HomePage = () => (
   <Banner
@@ -11,15 +12,18 @@ export const HomePage = () => (
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque eius et, eum facere illo obcaecati quibusdam
       sunt! Alias sed, veritatis? Deleniti ducimus enim fuga iste officiis possimus ratione similique voluptatem.
       <br/>
-      <ButtonDefault>
-        ButtonDefault
-      </ButtonDefault>
+      <Logout/>
       <br/>
+
       <ButtonDefault variant='primary'>
         ButtonDefault
       </ButtonDefault>
       <br/>
-      <ButtonDefault>
+      <ButtonDefault variant='variant.buttons.primary'>
+        ButtonDefault
+      </ButtonDefault>
+      <br/>
+      <ButtonDefault variant='buttons.primary'>
         ButtonDefault
       </ButtonDefault>
     </Heading>
