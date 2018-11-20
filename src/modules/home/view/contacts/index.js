@@ -2,12 +2,9 @@ import React from 'react';
 import { Banner, Heading } from 'rebass';
 
 export const ContactsPage = () => (
-  <Banner
-    color="white"
-    bg="darken"
-    backgroundImage="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20">
-    <Heading f={[4, 5, 6, 7]}>Contact page</Heading>
-  </Banner>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid autem, consequuntur deserunt dolor ex impedit incidunt molestiae neque nesciunt odit repudiandae, sit soluta veritatis. Cumque facere nam sapiente veritatis voluptatibus?
+  </div>
 );
 
 export default ContactsPage;

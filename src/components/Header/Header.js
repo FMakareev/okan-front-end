@@ -121,11 +121,11 @@ export class Header extends Component {
         </NavLink>
         <NavLink ml="auto" />
 
-        {this.createNavigationAfterSortingRoutes(ConfigRouter).map((item, index) => (
-          <LinkStyled key={`LinkStyled-${index}`} to={item.path}>
-            {item.name}
-          </LinkStyled>
-        ))}
+        {/*{this.createNavigationAfterSortingRoutes(ConfigRouter).map((item, index) => (*/}
+          {/*<LinkStyled key={`LinkStyled-${index}`} to={item.path}>*/}
+            {/*{item.name}*/}
+          {/*</LinkStyled>*/}
+        {/*))}*/}
       </Toolbar>
     );
   }
