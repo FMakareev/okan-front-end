@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Должен быть в состоянии загрузки 1`] = `
+<p>
+  Loading...
+</p>
+`;
+
+exports[`Проверка визуализации после удоления. 1`] = `
+<p>
+  Loading...
+</p>
+`;
+
+exports[`Проверка рендера при ошибке 1`] = `
+<p>
+  Loading...
+</p>
+`;

@@ -1,0 +1,5 @@
+RenderError example:
+
+```js
+<RenderError />
+```

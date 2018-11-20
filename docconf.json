@@ -1,0 +1,40 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "sourceType": "module",
+    "babel": {
+        "extensions": ["js", "es6", "jsx"],
+        "presets": ["es2015", "es2015-loose", "stage-1"]
+      },
+    "source": {
+        "includePattern": ".+\\.js(x)?$",
+        "include": "./",
+        "exclude": [
+            ".git",
+            ".meteor",
+            "node_modules",
+            "public"
+          ]
+    },
+    "recurseDepth": 10,
+    "plugins": [],
+    "linenums": true,
+    "dateFormat": "MMMM Do YYYY, h:mm:ss a",
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true,
+        "default": {
+            "outputSourceFiles": true,
+            "includeDate": true
+        }
+    },
+    "opts": {
+        "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./docs/generated/",
+        "recurse": true,
+        "verbose": true
+    }
+}

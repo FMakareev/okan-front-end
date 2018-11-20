@@ -1,0 +1,15 @@
+{
+  "name": "utilities",
+  "version": "0.0.5",
+  "description": "A collection of tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.compaero.ru/caFront/compaero-ui-library"
+  },
+  "author": "compaero",
+  "license": "ISC"
+}
