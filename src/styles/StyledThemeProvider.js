@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'rebass';
-import { ButtonVariant } from "./variants/buttonVariant";
+import { ButtonVariant } from './variants/buttonVariant';
+import { ButtonSize } from './variants/buttonSize';
 
 export const ColorPallet = {
   color0: '#FFFFFF',
@@ -33,14 +34,9 @@ export const StyledThemeProvider = ({ children }) => (
       borderColor: ColorPallet,
       breakpoints: Breakpoints,
       colors: ColorPallet,
-      variant: {
-        buttons: ButtonVariant,
-      },
-      fontFamily: {
-        regular: 'Roboto-Regular',
-        bold: 'Roboto-Bold',
-        medium: 'Roboto-Medium',
-      },
+      variant: { buttons: ButtonVariant },
+      variants: { buttonSize: ButtonSize },
+      fontFamily: { regular: 'Roboto-Regular', bold: 'Roboto-Bold', medium: 'Roboto-Medium' },
     }}>
     {children}
   </Provider>

@@ -1,27 +1,34 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
-import ButtonDefault from "../../../../components/ButtonDefault/ButtonDefault";
+import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 
 export const HomePage = () => (
   <Banner
-    color="white"
+    color="#006699"
     bg="darken"
     backgroundImage="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20">
     <Heading f={[4, 5, 6, 7]}>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque eius et, eum facere illo obcaecati quibusdam
-      sunt! Alias sed, veritatis? Deleniti ducimus enim fuga iste officiis possimus ratione similique voluptatem.
-      <br/>
-      <ButtonDefault>
-        ButtonDefault
-      </ButtonDefault>
-      <br/>
-      <ButtonDefault variant='primary'>
-        ButtonDefault
-      </ButtonDefault>
-      <br/>
-      <ButtonDefault>
-        ButtonDefault
-      </ButtonDefault>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque eius et, eum facere illo
+      obcaecati quibusdam sunt! Alias sed, veritatis? Deleniti ducimus enim fuga iste officiis
+      possimus ratione similique voluptatem.
+      <br />
+      <ButtonBase variant="large" size={'large'} mb={4}>
+        Создать проект
+      </ButtonBase>
+      <br />
+      <ButtonBase variant="large" size={'medium'} mb={4}>
+        Создать пользователя
+      </ButtonBase>
+      <br />
+      <ButtonBase variant="small" size={'small'} mb={4}>
+        Сохранить настройки
+      </ButtonBase>
+      <br />
+      <ButtonBase variant="xsmall" size={'xsmall'}>
+        Поиск
+      </ButtonBase>
+      <TextFieldBase color={'#006699'} />
     </Heading>
   </Banner>
 );

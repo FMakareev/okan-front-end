@@ -1,7 +1,7 @@
 import React from 'react';
 import { asyncComponent } from 'react-async-component';
 import * as modules from '../modules/index';
-import { LayoutBase } from '../components/LayoutBase';
+import { LayoutBase } from '../components/LayoutBase/LayoutBase';
 import { ErrorComponent } from './errors/ErrorComponent';
 
 const has = Object.prototype.hasOwnProperty;
