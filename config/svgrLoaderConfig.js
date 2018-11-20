@@ -13,6 +13,8 @@ const getProps = config => {
 const reactDomTemplate = (code, config, state) => {
   const props = getProps(config);
 
+  console.log(1, code);
+
   let result = `import React from 'react'\n\n`;
   if (config.replaceAttrValues.fill) {
     result += `const ${state.componentName} = ${props} => ${code.replace(

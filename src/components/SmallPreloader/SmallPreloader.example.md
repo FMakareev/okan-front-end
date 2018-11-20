@@ -1,0 +1,7 @@
+SmallPreloader example:
+
+```jsx
+ <SmallPreloader 
+ />
+
+``` 

@@ -1,6 +1,12 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+// import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
+// import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
+
+// import Play from '../../../../assets/icons/monocolor/play.monocolor.svg';
+
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 
 export const HomePage = () => (
@@ -28,9 +34,21 @@ export const HomePage = () => (
       <ButtonBase variant="xsmall" size={'xsmall'}>
         Поиск
       </ButtonBase>
-      <TextFieldBase color={'#006699'} />
+      <br />
+      <TextFieldBase color={'#006699'} mb={4} />
+      <br />
+      <ButtonWithImage variant={'large'} size={'large'} name={'Создать пользователя'} ml={5} />
+      <br />
+      <hr />
+      {/* <Field name={'description'} component={RichTextEditor} />*/}
+      <br />
+      <hr />
     </Heading>
   </Banner>
 );
+
+// HomePage = reduxForm({
+//   form: 'HomePage',
+// })(HomePage);
 
 export default HomePage;

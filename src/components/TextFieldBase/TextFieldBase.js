@@ -14,12 +14,12 @@ const TextField = styled.input`
   background-color: transparent;
   box-sizing: border-box;
   border-radius: 4px;
+  padding-left: 5px;
   ${BorderRadiusProperty};
   ${BorderColorProperty};
   ${display};
   ${color};
   ${space};
-  ${props => console.log(props)}
 `;
 
 /**
