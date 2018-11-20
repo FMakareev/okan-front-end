@@ -12,9 +12,9 @@ const getProps = config => {
 
 const reactDomTemplate = (code, config, state) => {
   const props = getProps(config);
-  console.log('reactDomTemplate: ',code);
+
   let result = `import React from 'react'\n\n`;
-  if (config.replaceAttrValues.fill && code) {
+  if (config.replaceAttrValues.fill) {
     result += `const ${state.componentName} = ${props} => ${code.replace(
       /#(?:[0-9a-fA-F]{3}){1,2}/,
       'inherit',

@@ -6,9 +6,9 @@ import LayoutApp from '../components/LayoutApp/LayoutApp';
 
 import ErrorCatch from '../components/ErrorCatch/ErrorCatch';
 import { Store } from '../store';
-import { LayoutAuth } from "../components/LayoutAuth/layoutAuth";
-import { GetPageTitle } from "../components/GetPageTitle/GetPageTitle";
-import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from "../shared/layout";
+import { LayoutAuth } from '../components/LayoutAuth/layoutAuth';
+import { GetPageTitle } from '../components/GetPageTitle/GetPageTitle';
+import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../shared/layout';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -39,15 +39,11 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         name: modulesRoutes[i].name || modulesRoutes[i].title,
         // path: `/${moduleName}${modulesRoutes[i].path}`,
         path: modulesRoutes[i].path,
-        component: GetPageTitle({Store})(
+        component: GetPageTitle({ Store })(
           asyncComponent({
             resolve: modulesRoutes[i].load,
-            LoadingComponent: () => (<div>Loading...</div>),
-            ErrorComponent: ({error}) => (
-              <ErrorCatch>
-                {error.message}
-              </ErrorCatch>
-            ),
+            LoadingComponent: () => <div>Loading...</div>,
+            ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
           }),
         ),
         resolvers: modulesRoutes[i].resolvers || [],
@@ -89,8 +85,8 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       console.error(
         `Error: in the module ${moduleName} there is no component at
             the address ${
-          modulesRoutes[i].path
-          }. Make sure that you added the "load: () => import('...')"
+              modulesRoutes[i].path
+            }. Make sure that you added the "load: () => import('...')"
             property with the component import or React component. `,
       );
     }
@@ -113,33 +109,32 @@ Object.entries(modules).map(([moduleName, value]) => {
   return null;
 });
 
-
 const Page404 = {
   path: '*',
   hidden: true,
   name: 'Page not found',
   component: asyncComponent({
     resolve: () => import('./errors/404'),
-    LoadingComponent: () =>  (<div>Loading...</div>),
-    ErrorComponent: ({error}) => (<ErrorCatch>
-      {error.message}
-    </ErrorCatch>),
+    LoadingComponent: () => <div>Loading...</div>,
+    ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
   }),
 };
 
-const layoutSorting = (routes) => {
+const layoutSorting = routes => {
   let newRoutes = [
     {
       layout: LAYOUT_AUTH,
       path: '/auth',
       component: LayoutAuth,
       routes: [],
-    },{
+    },
+    {
       layout: LAYOUT_APP,
       path: '/app',
       component: LayoutApp,
       routes: [],
-    },{
+    },
+    {
       layout: LAYOUT_ADMIN,
       path: '/admin',
       component: LayoutAuth,
@@ -147,26 +142,26 @@ const layoutSorting = (routes) => {
     },
   ];
   routes.forEach(item => {
-    switch (item.layout){
-      case(LAYOUT_AUTH):{
-        newRoutes[0].routes.push({...item, path: `/${LAYOUT_AUTH}${item.path}`});
+    switch (item.layout) {
+      case LAYOUT_AUTH: {
+        newRoutes[0].routes.push({ ...item, path: `/${LAYOUT_AUTH}${item.path}` });
         return item;
       }
-      case(LAYOUT_APP):{
-        newRoutes[1].routes.push({...item, path: `/${LAYOUT_APP}${item.path}`});
+      case LAYOUT_APP: {
+        newRoutes[1].routes.push({ ...item, path: `/${LAYOUT_APP}${item.path}` });
         return item;
       }
-      case(LAYOUT_ADMIN):{
-        newRoutes[2].routes.push({...item, path: `/${LAYOUT_ADMIN}${item.path}`});
+      case LAYOUT_ADMIN: {
+        newRoutes[2].routes.push({ ...item, path: `/${LAYOUT_ADMIN}${item.path}` });
         break;
       }
-      default:{
+      default: {
         console.log(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
         break;
       }
     }
   });
-  newRoutes = newRoutes.map(item =>{
+  newRoutes = newRoutes.map(item => {
     item.routes.push(Page404);
     return item;
   });
