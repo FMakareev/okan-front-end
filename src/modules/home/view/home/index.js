@@ -40,7 +40,7 @@ export const HomePage = () => (
       <ButtonWithImage variant={'large'} size={'large'} name={'Создать пользователя'} ml={5} />
       <br />
       <hr />
-      {/* <Field name={'description'} component={RichTextEditor} />*/}
+      {/*<Field name={'description'} component={RichTextEditor} />*/}
       <br />
       <hr />
     </Heading>

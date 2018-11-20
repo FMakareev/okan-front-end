@@ -13,17 +13,21 @@ class ButtonWithImage extends Component {
     return (
       <ButtonBase variant={variant} size={size}>
         <Flex justifyContent={'center'} alignItems={'center'}>
-          <Flex mr={mr} justifyContent={'center'} alignItems={'center'}>
-            {leftIcon}
-          </Flex>
+          {leftIcon && (
+            <Flex mr={mr} justifyContent={'center'} alignItems={'center'}>
+              {leftIcon}
+            </Flex>
+          )}
 
           <Flex justifyContent={'center'} alignItems={'center'}>
             {name}
           </Flex>
 
-          <Flex ml={ml} justifyContent={'center'} alignItems={'center'}>
-            {rightIcon}
-          </Flex>
+          {rightIcon && (
+            <Flex ml={ml} justifyContent={'center'} alignItems={'center'}>
+              {rightIcon}
+            </Flex>
+          )}
         </Flex>
       </ButtonBase>
     );
