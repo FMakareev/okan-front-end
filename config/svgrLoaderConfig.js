@@ -13,8 +13,6 @@ const getProps = config => {
 const reactDomTemplate = (code, config, state) => {
   const props = getProps(config);
 
-  console.log(1, code);
-
   let result = `import React from 'react'\n\n`;
   if (config.replaceAttrValues.fill) {
     result += `const ${state.componentName} = ${props} => ${code.replace(
@@ -50,14 +48,14 @@ export const svgrLoaderConfig = [
   {
     test: /monocolor\.svg$/,
     loader: '@svgr/webpack',
-    options: {
-      icon: true,
-      expandProps: true,
-      replaceAttrValues: {
-        fill: 'inherit',
-      },
-      template: reactDomTemplate,
-    },
+    // options: {
+    //   icon: true,
+    //   expandProps: true,
+    //   replaceAttrValues: {
+    //     fill: 'inherit',
+    //   },
+    //   // template: reactDomTemplate,
+    // },
   },
 ];
 

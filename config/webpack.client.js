@@ -35,7 +35,6 @@ export const browserConfigGenerator = () => {
         fileLoaderConfig,
         // Rules for style
         styleLoaderConfig,
-        ...svgrLoaderConfig,
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
           use: "url-loader?limit=10000&mimetype=application/font-woff"
@@ -48,7 +47,11 @@ export const browserConfigGenerator = () => {
         }, {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
           use: "file-loader"
+        }, {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: "url?limit=10000&mimetype=image/svg+xml"
         },
+        ...svgrLoaderConfig,
       ],
     },
     plugins: [
