@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
-import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
+import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
@@ -36,23 +36,26 @@ export class LayoutBase extends PureComponent {
     }
   }
 
-  findLayoutInPathname = (pathname) => {
-    if(pathname.indexOf(`${LAYOUT_AUTH}`) === 1){
+  findLayoutInPathname = pathname => {
+    if (pathname.indexOf(`${LAYOUT_AUTH}`) === 1) {
       return 0;
-    } else if(pathname.indexOf(`${LAYOUT_APP}`) === 1){
+    }
+    if (pathname.indexOf(`${LAYOUT_APP}`) === 1) {
       return 1;
-    } else if(pathname.indexOf(`${LAYOUT_ADMIN}`) === 1){
+    }
+    if (pathname.indexOf(`${LAYOUT_ADMIN}`) === 1) {
       return 2;
     }
   };
 
   updateLayout = (location, routes) => {
     const indexRoute = this.findLayoutInPathname(location.pathname);
+
     this.setState(
       () => ({
         indexRoute,
         pathname: location.pathname,
-        Layout: routes[indexRoute].component,
+        Layout: routes[indexRoute] ? routes[indexRoute].component : null,
         routes: routes[indexRoute],
         loading: false,
       }),
@@ -62,13 +65,8 @@ export class LayoutBase extends PureComponent {
 
   render() {
     const { Layout, routes } = this.state;
-    return (
-      <Fragment>
-        {Layout && <Layout {...this.props} route={routes} />}
-      </Fragment>
-    );
+    return <Fragment>{Layout && <Layout {...this.props} route={routes} />}</Fragment>;
   }
 }
-
 
 export default LayoutBase;

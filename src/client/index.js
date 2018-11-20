@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { hydrate } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { Provider as ProviderRedux } from 'react-redux';
@@ -11,10 +11,7 @@ import { client } from '../apollo/index.client';
 import { ConfigRouter } from '../routes';
 import { Store } from '../store';
 import { StyledThemeProvider } from '../styles/StyledThemeProvider';
-import { GlobalStyle } from "../styles/GlobalStyle";
-
-
-
+import { GlobalStyle } from '../styles/GlobalStyle';
 
 /**
  * @description https://github.com/ctrlplusb/react-async-component#server-side-rendering
@@ -31,7 +28,7 @@ const ROOT = (
       <ApolloProvider client={client}>
         <ProviderRedux store={Store}>
           <Fragment>
-            <GlobalStyle/>
+            <GlobalStyle />
             <BrowserRouter>{renderRoutes(ConfigRouter)}</BrowserRouter>
           </Fragment>
         </ProviderRedux>
