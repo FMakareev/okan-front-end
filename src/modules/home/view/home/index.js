@@ -1,7 +1,7 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
 import ButtonDefault from "../../../../components/ButtonDefault/ButtonDefault";
-import Logout from './logout.multicolor.svg';
+import Logout from './logout.monocolor.svg';
 
 export const HomePage = () => (
   <Banner
