@@ -3,9 +3,19 @@ import { Banner, Heading } from 'rebass';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
+// import SelectBase from '../../../../components/SelectBase/SelectBase';
+
 // import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
 // import Play from '../../../../assets/icons/monocolor/play.monocolor.svg';
+import Checkbox from '../../../../components/Checkbox/Checkbox';
+
+import Table from '../../../../components/Table/Table';
+import Td from '../../../../components/Table/Td';
+import Th from '../../../../components/Table/Th';
+import Tr from '../../../../components/Table/Tr';
+import Thead from '../../../../components/Table/Thead';
+import { Tbody } from 'react-super-responsive-table';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 
@@ -40,7 +50,30 @@ export const HomePage = () => (
       <ButtonWithImage variant={'large'} size={'large'} name={'Создать пользователя'} ml={5} />
       <br />
       <hr />
-      {/*<Field name={'description'} component={RichTextEditor} />*/}
+      {/*<Field name={'description'} component={SelectBase} />
+<Field name={'description'} component={RichTextEditor} />*/}
+      <br />
+      <hr />
+      <div>
+        <Table width="100%">
+          <Thead>
+            <Tr>
+              <Th style={{ border: '1px solid black' }}>Conference Theme</Th>
+              <Th style={{ border: '1px solid black' }}>Conference Theme</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Th style={{ border: '1px solid black' }} py={2} px={2}>
+                1
+              </Th>
+              <Th style={{ border: '1px solid black' }} py={2} px={2}>
+                2
+              </Th>
+            </Tr>
+          </Tbody>
+        </Table>
+      </div>
       <br />
       <hr />
     </Heading>
