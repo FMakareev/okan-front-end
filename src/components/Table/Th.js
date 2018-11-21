@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { space, color } from 'styled-system';
-import { Th as ThComponent } from 'react-super-responsive-table';
-import { OrderProperty } from '../../styles/styleProperty/OrderProperty';
 
 /**
  *  Компонент одной ячейки таблицы, которая обозначается как заголовочная.
  * @example ./Th.example.md
  */
-export const Th = styled(ThComponent)`
+export const Th = styled.th`
   ${space};
   ${color};
-  ${OrderProperty}
 `;
 
 Th.propTypes = {

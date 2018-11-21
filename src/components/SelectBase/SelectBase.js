@@ -4,8 +4,6 @@ import Select from 'react-select';
 import styled from 'styled-components';
 import { Absolute, Relative } from 'rebass';
 
-// import 'react-select/dist/react-select.css';
-
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
 const SelectStyled = styled(Select)`

@@ -7,7 +7,7 @@ import ButtonBase from '../ButtonBase/ButtonBase';
 export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, ml }) => {
   return (
     <ButtonBase variant={variant} size={size}>
-      <Flex justifyContent={'center'} alignItems={'center'}>
+      <Flex justifyContent={'center'} alignItems={'space-around'}>
         {leftIcon && (
           <Flex mr={mr} justifyContent={'center'} alignItems={'center'}>
             {leftIcon}
