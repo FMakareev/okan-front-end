@@ -10,7 +10,7 @@ import {
   Warning,
   Success,
   Message,
-} from './TooltipDefaultStyled';
+} from './TooltipBaseStyled';
 
 const RelativeStyled = styled(Relative)`
   width: 100%;
