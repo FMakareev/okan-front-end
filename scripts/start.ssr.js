@@ -17,6 +17,7 @@ import {
   initMessage,
   clear,
 } from '../tools/index';
+import { assetsMove } from '../tools/assetsMove';
 
 // https://github.com/manuelbieh/react-ssr-setup
 
@@ -25,7 +26,7 @@ const start = async () => {
   await createIndex();
   await initMessage();
   await getVariablesesEnvironment();
-
+  assetsMove();
   const app = express();
   const WEBPACK_PORT = 3001;
   const clientConfig = browserConfigGenerator();

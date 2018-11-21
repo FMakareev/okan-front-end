@@ -4,24 +4,24 @@ import HtmlWebPackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
 import { browserConfigGenerator } from '../config/webpack.client';
-import {
-  createIndex,
-  logMessage,
-  compilerPromise,
-  getVariablesesEnvironment,
-  initMessage,
-  clear,
-} from '../tools/index';
+import { Clear } from '../tools/clear';
+import { initMessage } from '../tools/initLocalizationFiles';
+import { getVariablesesEnvironment } from '../tools/getVariablesesEnvironment';
+import { logMessage } from '../tools/logMessage';
+import { init as createIndex } from '../tools/createIndex';
+import { assetsMove } from '../tools/assetsMove';
 
 const build = async () => {
   /** @desc remove temporary files */
-  await clear();
+  await Clear();
   /** @desc create index.js in src/modules */
   await createIndex();
   /** @desc create localization files */
   await initMessage();
   /** @desc get cli arguments */
   await getVariablesesEnvironment();
+
+  assetsMove();
 
   const clientConfig = browserConfigGenerator();
 
@@ -33,20 +33,23 @@ const build = async () => {
   );
 
   const clientCompiler = webpack(clientConfig);
-  console.log(clientCompiler);
-  const clientPromise = compilerPromise(clientCompiler);
-
-  clientCompiler.watch({}, (error, stats) => {
-    if (!error && !stats.hasErrors()) {
-      console.log(stats.toString(clientConfig.stats));
-    }
-    return null;
-  });
 
   try {
-    await clientPromise;
-    logMessage('Done!', 'info');
-    process.exit();
+    await clientCompiler.run((error, stats) => {
+      if (!error && !stats.hasErrors()) {
+        console.log(stats.toString(clientConfig.stats));
+      }
+      logMessage('Done!', 'info');
+
+      return null;
+    });
+
+    await clientCompiler.plugin('done', stats => {
+      if (!stats.hasErrors()) {
+        console.log(stats.toString(clientConfig.stats));
+      }
+      logMessage('Done!', 'info');
+    });
   } catch (error) {
     logMessage(error, 'error');
   }
