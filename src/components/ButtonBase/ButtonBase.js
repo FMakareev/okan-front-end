@@ -46,12 +46,8 @@ export const ButtonBase = styled.button`
 ButtonBase.propTypes = {
   /** Background color alias. */
   bgc: PropTypes.string,
-  // /** Background color. */
-  // backgroundColor: PropTypes.oneOf([0, 1, 2, 3, 4]),
   /** Border color alias. */
   bc: PropTypes.string,
-  // /** Border color. */
-  // borderColor: PropTypes.oneOf([0, 1, 2, 3, 4]),
   /** Font color. */
   color: PropTypes.string,
   /** Description of prop "px". */

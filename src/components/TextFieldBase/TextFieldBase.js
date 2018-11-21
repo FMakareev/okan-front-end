@@ -5,8 +5,6 @@ import { color, display, space, variant } from 'styled-system';
 
 import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusProperty';
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
-import LineHeightRemProperty from '../../styles/styleProperty/LineHeightRemProperty';
-import FontSizeRemProperty from '../../styles/styleProperty/FontSizeRemProperty';
 
 const TextField = styled.input`
   width: 100%;
