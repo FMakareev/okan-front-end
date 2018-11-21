@@ -47,9 +47,9 @@ export const InsideTriangle = styled.div`
 `;
 
 export const Message = styled(Text)`
-  font-family: 'Museo Sans Cyrl', sans-serif;
+  font-family: ${props => props.theme.fontFamily.main}, sans-serif;
   font-size: ${props => props.theme.fontSizes[5]}px;
-  font-weight: 300;
+  font-weight: ${props => props.theme.fontWeight[0]};
   line-height: ${props => props.theme.fontSizes[6]}px;
   color: ${props => props.theme.colors.color9};
 `;
