@@ -7,13 +7,15 @@ import { initMessage } from '../tools/initLocalizationFiles';
 import { getVariablesesEnvironment } from '../tools/getVariablesesEnvironment';
 import { compilerPromise } from '../tools/compilerPromise';
 import { logMessage } from '../tools/logMessage';
-import {init as createIndex} from '../tools/createIndex';
+import { init as createIndex } from '../tools/createIndex';
+import { assetsMove } from '../tools/assetsMove';
 
 const build = async () => {
   await Clear();
   await createIndex();
   await initMessage();
   await getVariablesesEnvironment();
+  assetsMove();
 
   const clientConfig = browserConfigGenerator();
   const serverConfig = serverConfigGenerator();
