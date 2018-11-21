@@ -1,7 +1,9 @@
+/* global isBrowser */
+
 import React, { Component } from 'react';
 
-export const GetPageTitle = ({ Store }) => WrappedComponent => {
-  return class GetPageTitle extends Component {
+export const GetPageTitle = ({ Store }) => WrappedComponent =>
+  class GetPageTitle extends Component {
     constructor(props) {
       super(props);
       this.state = this.initialState;
@@ -28,12 +30,13 @@ export const GetPageTitle = ({ Store }) => WrappedComponent => {
         this.state.storeUnSubscribe();
       }
     }
+
     onChangePageTitle() {
       if (isBrowser) {
         try {
           const $Title = document.getElementsByTagName('title')[0];
           const currentTitle = $Title.innerHTML;
-          const newTitle = `TYB: ${this.props.route.name}`;
+          const newTitle = `OKAN: ${this.props.route.name}`;
           if (currentTitle !== newTitle) {
             $Title.innerHTML = newTitle;
           }
@@ -51,6 +54,5 @@ export const GetPageTitle = ({ Store }) => WrappedComponent => {
       return <WrappedComponent {...this.props} />;
     }
   };
-};
 
 export default GetPageTitle;
