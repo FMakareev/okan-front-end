@@ -33,7 +33,7 @@ export const GetPageTitle = ({ Store }) => WrappedComponent => {
         try {
           const $Title = document.getElementsByTagName('title')[0];
           const currentTitle = $Title.innerHTML;
-          const newTitle = `TYB: ${this.props.route.name}`;
+          const newTitle = `OKAH: ${this.props.route.name}`;
           if (currentTitle !== newTitle) {
             $Title.innerHTML = newTitle;
           }

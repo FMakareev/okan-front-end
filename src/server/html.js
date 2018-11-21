@@ -3,8 +3,6 @@ import React from 'react';
 import serialize from 'serialize-javascript';
 import PropTypes from 'prop-types';
 
-
-
 const Html = ({ content, client: { cache }, reduxState, asyncState, lang }) => {
   const preLoadedReduxState = reduxState && JSON.stringify(reduxState);
 
@@ -13,7 +11,7 @@ const Html = ({ content, client: { cache }, reduxState, asyncState, lang }) => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>AntiFake</title>
+        <title>OKAH</title>
         <style />
       </head>
       <body>
