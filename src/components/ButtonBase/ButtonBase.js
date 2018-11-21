@@ -26,9 +26,9 @@ const buttonsSize = variant({
 export const ButtonBase = styled.button`
   outline: none !important;
   cursor: pointer;
-  display: 'flex';
-  align-items: 'center';
-  justify-content: 'center';
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 3px;
   ${buttonsVariant};
   ${buttonsSize};
