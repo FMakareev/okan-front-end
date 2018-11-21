@@ -46,7 +46,7 @@ export const InsideTriangle = styled.div`
   border-color: transparent ${props => props.theme.colors.color0} transparent transparent;
 `;
 
-export const Message = styled(Text)`
+export const Warning = styled(Text)`
   font-family: ${props => props.theme.fontFamily.main}, sans-serif;
   font-size: ${props => props.theme.fontSizes[5]}px;
   font-weight: ${props => props.theme.fontWeight[0]};

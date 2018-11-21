@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Relative } from 'rebass';
 import styled from 'styled-components';
 
-import { Wrapper, OutsideTriangle, InsideTriangle, Message } from './TooltipBaseStyled';
+import { Wrapper, OutsideTriangle, InsideTriangle, Warning } from './TooltipBaseStyled';
 
 const RelativeStyled = styled(Relative)`
   width: 100%;
@@ -11,13 +11,13 @@ const RelativeStyled = styled(Relative)`
 
 /**
  * Компонент тултипа (Tooltip)
- * @example ./TooltipDefault.example.md
+ * @example ./TooltipBase.example.md
  */
 
-export class TooltipDefault extends PureComponent {
+export class TooltipBase extends PureComponent {
   static propTypes = {
     /** message text */
-    message: PropTypes.string,
+    warning: PropTypes.string,
     /** top position % */
     top: PropTypes.number,
     /** right position % */
@@ -29,7 +29,7 @@ export class TooltipDefault extends PureComponent {
   };
 
   static defaultProps = {
-    message: 'Информация не доступна',
+    warning: 'Информация не доступна',
     left: 0,
     top: 175,
     isActive: false,
@@ -37,14 +37,14 @@ export class TooltipDefault extends PureComponent {
   };
 
   render() {
-    const { message, top, isActive, left, children } = this.props;
+    const { warning, top, isActive, left, children } = this.props;
     return (
       <RelativeStyled>
         {isActive && (
           <Wrapper top={top} left={left}>
             <OutsideTriangle />
             <InsideTriangle />
-            <Message>{message}</Message>
+            <Warning>{warning}</Warning>
           </Wrapper>
         )}
         {children}
@@ -53,4 +53,4 @@ export class TooltipDefault extends PureComponent {
   }
 }
 
-export default TooltipDefault;
+export default TooltipBase;
