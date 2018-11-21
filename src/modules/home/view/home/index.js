@@ -1,5 +1,6 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
+import { Tbody } from 'react-super-responsive-table';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
@@ -15,9 +16,9 @@ import Td from '../../../../components/Table/Td';
 import Th from '../../../../components/Table/Th';
 import Tr from '../../../../components/Table/Tr';
 import Thead from '../../../../components/Table/Thead';
-import { Tbody } from 'react-super-responsive-table';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 export const HomePage = () => (
   <Banner
@@ -29,29 +30,31 @@ export const HomePage = () => (
       obcaecati quibusdam sunt! Alias sed, veritatis? Deleniti ducimus enim fuga iste officiis
       possimus ratione similique voluptatem.
       <br />
-      <ButtonBase variant="large" size={'large'} mb={4}>
+      <ButtonBase variant="large" size="large" mb={4}>
         Создать проект
       </ButtonBase>
       <br />
-      <ButtonBase variant="large" size={'medium'} mb={4}>
+      <ButtonBase variant="large" size="medium" mb={4}>
         Создать пользователя
       </ButtonBase>
       <br />
-      <ButtonBase variant="small" size={'small'} mb={4}>
+      <ButtonBase variant="small" size="small" mb={4}>
         Сохранить настройки
       </ButtonBase>
       <br />
-      <ButtonBase variant="xsmall" size={'xsmall'}>
-        Поиск
-      </ButtonBase>
+      <TooltipBase isActive message="Неверный логин или пароль">
+        <ButtonBase variant="xsmall" size="xsmall">
+          Поиск
+        </ButtonBase>
+      </TooltipBase>
       <br />
-      <TextFieldBase color={'#006699'} mb={4} />
+      <TextFieldBase color="#006699" mb={4} />
       <br />
-      <ButtonWithImage variant={'large'} size={'large'} name={'Создать пользователя'} ml={5} />
+      <ButtonWithImage variant="large" size="large" name="Создать пользователя" ml={5} />
       <br />
       <hr />
-      {/*<Field name={'description'} component={SelectBase} />
-<Field name={'description'} component={RichTextEditor} />*/}
+      {/* <Field name={'description'} component={SelectBase} />
+<Field name={'description'} component={RichTextEditor} /> */}
       <br />
       <hr />
       <div>
