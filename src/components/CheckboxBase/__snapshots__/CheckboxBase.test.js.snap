@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Disabled checkbox 1`] = `
+.c1 {
+  position: absolute;
+  opacity: 0;
+}
+
+.c1 + label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+
+.c1 + label:before {
+  content: '';
+  margin-right: 12px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background-color: #FFFFFF;
+  border: 2px solid #1F414B;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.c1:hover + label:before {
+  background-color: #44BB55;
+}
+
+.c1:focus + label:before {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
+}
+
+.c1:checked + label:before {
+  background-color: #44BB55;
+}
+
+.c1:disabled + label {
+  color: #b8b8b8;
+  cursor: auto;
+}
+
+.c1:disabled + label:before {
+  box-shadow: none;
+  background-color: #ddd;
+}
+
+.c1:checked + label:after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  background-color: #FFFFFF;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 white,4px 0 0 white,4px -2px 0 white,4px -4px 0 white,4px -6px 0 white,4px -8px 0 white;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c0 {
+  font-family: system-ui,sans-serif;
+}
+
+.c0 * {
+  box-sizing: border-box;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className=""
+  >
+    <input
+      className="c1"
+      id="styled-checkbox-1"
+      type="checkbox"
+    />
+    <label
+      htmlFor="styled-checkbox-1"
+    >
+      CheckboxBase
+    </label>
+  </div>
+</div>
+`;
+
+exports[`Enabled checkbox 1`] = `
+.c1 {
+  position: absolute;
+  opacity: 0;
+}
+
+.c1 + label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+
+.c1 + label:before {
+  content: '';
+  margin-right: 12px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background-color: #FFFFFF;
+  border: 2px solid #1F414B;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.c1:hover + label:before {
+  background-color: #44BB55;
+}
+
+.c1:focus + label:before {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
+}
+
+.c1:checked + label:before {
+  background-color: #44BB55;
+}
+
+.c1:disabled + label {
+  color: #b8b8b8;
+  cursor: auto;
+}
+
+.c1:disabled + label:before {
+  box-shadow: none;
+  background-color: #ddd;
+}
+
+.c1:checked + label:after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  background-color: #FFFFFF;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 white,4px 0 0 white,4px -2px 0 white,4px -4px 0 white,4px -6px 0 white,4px -8px 0 white;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.c0 {
+  font-family: system-ui,sans-serif;
+}
+
+.c0 * {
+  box-sizing: border-box;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className=""
+  >
+    <input
+      checked={true}
+      className="c1"
+      id="styled-checkbox-1"
+      type="checkbox"
+    />
+    <label
+      htmlFor="styled-checkbox-1"
+    >
+      CheckboxBase
+    </label>
+  </div>
+</div>
+`;

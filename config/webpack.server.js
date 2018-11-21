@@ -6,6 +6,7 @@ import WriteFileWebpackPlugin from 'write-file-webpack-plugin';
 import { fileLoaderConfig } from './fileLoaderConfig';
 import { graphqlLoaderConfig } from './graphqlLoaderConfig';
 import { scriptsLoaderConfig } from './scriptsLoaderConfig';
+import { svgrLoaderConfig } from "./svgrLoaderConfig";
 
 export const serverConfigGenerator = () => {
   const reStyle = /\.(css|less|styl|scss|sass|sss)$/;
@@ -36,6 +37,7 @@ export const serverConfigGenerator = () => {
         graphqlLoaderConfig,
         // Rules for image
         fileLoaderConfig,
+        ...svgrLoaderConfig,
         {
           test: reStyle,
           loader: 'ignore-loader',

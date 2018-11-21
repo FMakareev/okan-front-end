@@ -48,14 +48,14 @@ export const svgrLoaderConfig = [
   {
     test: /monocolor\.svg$/,
     loader: '@svgr/webpack',
-    options: {
-      icon: true,
-      expandProps: true,
-      replaceAttrValues: {
-        fill: 'inherit',
-      },
-      template: reactDomTemplate,
-    },
+    // options: {
+    //   icon: true,
+    //   expandProps: true,
+    //   replaceAttrValues: {
+    //     fill: 'inherit',
+    //   },
+    //   // template: reactDomTemplate,
+    // },
   },
 ];
 

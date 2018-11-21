@@ -8,6 +8,7 @@ import { fileLoaderConfig } from './fileLoaderConfig';
 import { graphqlLoaderConfig } from './graphqlLoaderConfig';
 import { styleLoaderConfig } from './styleLoaderConfig';
 import { scriptsLoaderConfig } from './scriptsLoaderConfig';
+import { svgrLoaderConfig } from "./svgrLoaderConfig";
 
 
 export const browserConfigGenerator = () => {
@@ -48,8 +49,9 @@ export const browserConfigGenerator = () => {
           use: "file-loader"
         }, {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          use: "url-loader?limit=10000&mimetype=image/svg+xml"
-        }
+          loader: "url?limit=10000&mimetype=image/svg+xml"
+        },
+        ...svgrLoaderConfig,
       ],
     },
     plugins: [

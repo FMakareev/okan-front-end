@@ -1,4 +1,4 @@
-import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
+import { LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
 
 export const routes = [
   {
@@ -22,7 +22,7 @@ export const routes = [
     resolvers: [],
   },
   {
-    layout: LAYOUT_ADMIN,
+    layout: LAYOUT_APP,
     exact: true,
     name: 'Help',
     path: '/help',

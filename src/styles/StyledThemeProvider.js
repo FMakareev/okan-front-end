@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'rebass';
-import { ButtonVariant } from "./variants/buttonVariant";
+import { ButtonVariant } from './variants/buttonVariant';
+import { ButtonSize } from './variants/buttonSize';
 
 export const ColorPallet = {
   color0: '#FFFFFF',
-  color1: '#848484',
-  color2: '#006699',
-  color3: '#007FC1',
-  color4: '#007FAF',
-  color5: '#D9D9D9',
-  color6: '#F2F2F2',
+  color1: '#E5E5E5',
+  color2: '#DEDEDE',
+  color3: '#4F4F4F',
+  color4: '#848484',
+  color5: '#007FAF',
+  color6: '#006699',
+  color7: '#00649C',
+  color8: '#007CC4',
 };
 
 const Space = [0, 2, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80];
@@ -33,9 +36,9 @@ export const StyledThemeProvider = ({ children }) => (
       borderColor: ColorPallet,
       breakpoints: Breakpoints,
       colors: ColorPallet,
-      variant: {
-        buttons: ButtonVariant,
-      },
+      variant: { buttons: ButtonVariant },
+      variants: { buttonSize: ButtonSize },
+      fontFamily: { regular: 'Roboto-Regular', bold: 'Roboto-Bold', medium: 'Roboto-Medium' },
     }}>
     {children}
   </Provider>

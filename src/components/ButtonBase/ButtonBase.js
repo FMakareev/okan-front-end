@@ -9,26 +9,29 @@ import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemP
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { BorderRadiusProperty } from '../../styles/styleProperty/BorderRadiusProperty';
 
-
 const buttonsVariant = variant({
-  key: 'buttons',
-  prop: 'variant'
+  key: 'variant.buttons',
+  prop: 'variant',
 });
 
+const buttonsSize = variant({
+  key: 'variants.buttonSize',
+  prop: 'size',
+});
 
 /**
  * Компонента обычная кнопка
  * @example ./ButtonDefault.example.md
  */
-export const ButtonDefault = styled.button`
+export const ButtonBase = styled.button`
   outline: none !important;
   cursor: pointer;
-  border: 0;
-  border-radius: 25px;
-  ${(props) => {
-  console.log(props);
-}};
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+  border-radius: 3px;
   ${buttonsVariant};
+  ${buttonsSize};
   ${space};
   ${width};
   ${color};
@@ -36,20 +39,15 @@ export const ButtonDefault = styled.button`
   ${fontWeight};
   ${LineHeightRemProperty};
   ${FontSizeProperty};
-  ${BorderColorProperty};
   ${BackgroundColorProperty};
   ${BorderRadiusProperty};
 `;
 
-ButtonDefault.propTypes = {
+ButtonBase.propTypes = {
   /** Background color alias. */
   bgc: PropTypes.string,
-  /** Background color. */
-  backgroundColor: PropTypes.oneOf([0, 1, 2, 3, 4]),
   /** Border color alias. */
   bc: PropTypes.string,
-  /** Border color. */
-  borderColor: PropTypes.oneOf([0, 1, 2, 3, 4]),
   /** Font color. */
   color: PropTypes.string,
   /** Description of prop "px". */
@@ -63,8 +61,6 @@ ButtonDefault.propTypes = {
   active: PropTypes.bool,
 };
 
-ButtonDefault.defaultProps = {
+ButtonBase.defaultProps = {};
 
-};
-
-export default ButtonDefault;
+export default ButtonBase;
