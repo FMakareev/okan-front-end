@@ -15,6 +15,7 @@ export const ColorPallet = {
   color7: '#00649C',
   color8: '#007CC4',
   color9: '#F97E63',
+  color10: '#000000',
 };
 
 const Space = [0, 2, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80];
@@ -42,7 +43,11 @@ export const StyledThemeProvider = ({ children }) => (
       colors: ColorPallet,
       variant: { buttons: ButtonVariant },
       variants: { buttonSize: ButtonSize },
-      fontFamily: { main: 'Museo Sans 300 Light', header: 'Circe Regular', headerBold: 'Circe Bold' },
+      fontFamily: {
+        main: 'Museo Sans 300 Light',
+        header: 'Circe Regular',
+        headerBold: 'Circe Bold',
+      },
     }}>
     {children}
   </Provider>
