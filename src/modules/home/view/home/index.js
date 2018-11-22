@@ -1,5 +1,6 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
+import { Tbody } from 'react-super-responsive-table';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
@@ -8,16 +9,16 @@ import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithIm
 // import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
 // import Play from '../../../../assets/icons/monocolor/play.monocolor.svg';
-// import Checkbox from '../../../../components/Checkbox/Checkbox';
+import Checkbox from '../../../../components/Checkbox/Checkbox';
 
-// import Table from '../../../../components/Table/Table';
-// import Td from '../../../../components/Table/Td';
-// import Th from '../../../../components/Table/Th';
-// import Tr from '../../../../components/Table/Tr';
-// import Thead from '../../../../components/Table/Thead';
-// import { Tbody } from 'react-super-responsive-table';
+import Table from '../../../../components/Table/Table';
+import Td from '../../../../components/Table/Td';
+import Th from '../../../../components/Table/Th';
+import Tr from '../../../../components/Table/Tr';
+import Thead from '../../../../components/Table/Thead';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 export const HomePage = () => (
   <Banner
@@ -41,17 +42,19 @@ export const HomePage = () => (
         Сохранить настройки
       </ButtonBase>
       <br />
-      <ButtonBase variant="xsmall" size={'xsmall'}>
-        Поиск
-      </ButtonBase>
+      <TooltipBase isActive message="Неверный логин или пароль">
+        <ButtonBase variant="xsmall" size="xsmall">
+          Поиск
+        </ButtonBase>
+      </TooltipBase>
       <br />
-      <TextFieldBase color={'#006699'} mb={4} />
+      <TextFieldBase color="#006699" mb={4} />
       <br />
-      <ButtonWithImage variant={'large'} size={'large'} name={'Создать пользователя'} ml={5} />
+      <ButtonWithImage variant="large" size="large" name="Создать пользователя" ml={5} />
       <br />
       <hr />
-      {/*<Field name={'description'} component={SelectBase} />
-<Field name={'description'} component={RichTextEditor} />*/}
+      {/* <Field name={'description'} component={SelectBase} />
+<Field name={'description'} component={RichTextEditor} /> */}
       <br />
       <hr />
       <div>

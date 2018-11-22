@@ -27,7 +27,8 @@ export class LayoutBase extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname !== this.state.pathname) {
+    const pathname = { ...this.state };
+    if (nextProps.location.pathname !== pathname) {
       const {
         route: { routes },
         location,
@@ -46,6 +47,7 @@ export class LayoutBase extends PureComponent {
     if (pathname.indexOf(`${LAYOUT_ADMIN}`) === 1) {
       return 2;
     }
+    return undefined;
   };
 
   updateLayout = (location, routes) => {

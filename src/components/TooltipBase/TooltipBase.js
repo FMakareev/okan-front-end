@@ -3,14 +3,7 @@ import PropTypes from 'prop-types';
 import { Relative } from 'rebass';
 import styled from 'styled-components';
 
-import {
-  Wrapper,
-  OutsideTriangle,
-  InsideTriangle,
-  Warning,
-  Success,
-  Message,
-} from './TooltipBaseStyled';
+import { Wrapper, OutsideTriangle, InsideTriangle, Warning } from './TooltipBaseStyled';
 
 const RelativeStyled = styled(Relative)`
   width: 100%;
@@ -18,63 +11,46 @@ const RelativeStyled = styled(Relative)`
 
 /**
  * Компонент тултипа (Tooltip)
- * @example ./TooltipDefault.example.md
+ * @example ./TooltipBase.example.md
  */
 
-export class TooltipDefault extends PureComponent {
+export class TooltipBase extends PureComponent {
   static propTypes = {
-    /** warning message label */
-    warning: PropTypes.string,
-    /** success message label */
-    success: PropTypes.string,
     /** message text */
-    message: PropTypes.string,
-    /** top position px */
+    warning: PropTypes.string,
+    /** top position % */
     top: PropTypes.number,
-    /** right position px */
-    right: PropTypes.number,
-    /** tooltip'arrow centered */
-    arrowCentered: PropTypes.bool,
+    /** right position % */
+    left: PropTypes.number,
     /** active or not */
     isActive: PropTypes.bool,
     /** the element whose tooltip is displayed */
     children: PropTypes.element,
-    /** the location of the tooltip relative to the element for which it is applied */
-    position: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
   };
 
   static defaultProps = {
-    position: 'right',
+    warning: 'Информация не доступна',
+    left: 0,
+    top: 175,
+    isActive: false,
+    children: <div>Test</div>,
   };
 
   render() {
-    const {
-      warning,
-      success,
-      message,
-      top,
-      isActive,
-      right,
-      arrowCentered,
-      children,
-      position,
-    } = this.props;
+    const { warning, top, isActive, left, children } = this.props;
     return (
       <RelativeStyled>
         {isActive && (
-          <Wrapper position={position} top={top} right={right}>
-            <OutsideTriangle arrowCentered={arrowCentered} />
-            <InsideTriangle arrowCentered={arrowCentered} />
-            {warning ? <Warning>{warning}</Warning> : null}
-            {success ? <Success>{success}</Success> : null}
-            {message ? <Message>{message}</Message> : null}
+          <Wrapper top={top} left={left}>
+            <OutsideTriangle />
+            <InsideTriangle />
+            <Warning>{warning}</Warning>
           </Wrapper>
         )}
-
         {children}
       </RelativeStyled>
     );
   }
 }
 
-export default TooltipDefault;
+export default TooltipBase;

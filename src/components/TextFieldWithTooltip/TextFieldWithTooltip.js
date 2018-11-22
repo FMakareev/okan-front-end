@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TooltipDefault } from '../TooltipDefault/TooltipDefault';
+import { TooltipBase } from '../TooltipBase/TooltipBase';
 
-import { TextField } from '../TextField/TextField';
+import { TextFieldBase } from '../TextFieldBase/TextFieldBase';
 
 /**
  * Компонент инпута с тултипом (Text Field With Tooltip)
@@ -24,8 +24,6 @@ export class TextFieldWithTooltip extends PureComponent {
     type: PropTypes.string,
     /** input */
     disabled: PropTypes.bool,
-    /** tooltip's arrow centered */
-    arrowCentered: PropTypes.bool,
   };
 
   static defaultProps = {};
@@ -41,16 +39,14 @@ export class TextFieldWithTooltip extends PureComponent {
       required,
       disabled,
       loading,
-      arrowCentered,
     } = this.props;
 
     return (
-      <TooltipDefault
+      <TooltipBase
         isActive={meta.touched && meta.error}
         warning={meta.error && meta.error.label}
-        message={meta.error && meta.error.text}
-        arrowCentered={arrowCentered}>
-        <TextField
+        message={meta.error && meta.error.text}>
+        <TextFieldBase
           required={required}
           type={type}
           className={classNameTextField}
@@ -61,7 +57,7 @@ export class TextFieldWithTooltip extends PureComponent {
           meta={meta}
           label={label}
         />
-      </TooltipDefault>
+      </TooltipBase>
     );
   }
 }
