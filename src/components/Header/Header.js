@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+
+import styled from 'styled-components';
+
 // import PropTypes from 'prop-types';
 
-
-
 export class Header extends Component {
-  static propTypes = { };
+  static propTypes = {};
 
   static defaultProps = {};
 
@@ -18,11 +19,8 @@ export class Header extends Component {
   }
 
   render() {
-    return (
-      <div>
-        Header
-      </div>
-    );
+    console.log(this.props);
+    return <div>Header</div>;
   }
 }
 

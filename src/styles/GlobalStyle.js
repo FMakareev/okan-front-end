@@ -28,16 +28,36 @@ export const GlobalStyle = createGlobalStyle`
   src: url('../assets/fonts/Circe-Bold/Circe-Bold.eot?#iefix') format('embedded-opentype'),
   url('../assets/fonts/Circe-Bold/Circe-Bold.woff') format('woff'),
   url('../assets/fonts/Circe-Bold/Circe-Bold.ttf') format('truetype');
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   }
 
   @font-face {
-  font-family: 'Museo Sans 300 Light';
+  font-family: 'Museo Sans 300';
   src: url('../assets/fonts/Museo/MuseoSansCyrl-300.eot');
   src: url('../assets/fonts/Museo/MuseoSansCyrl-300.eot?#iefix') format('embedded-opentype'),
   url('../assets/fonts/Museo/MuseoSansCyrl-300.woff') format('woff'),
   url('../assets/fonts/Museo/MuseoSansCyrl-300.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ @font-face {
+  font-family: 'Museo Sans 500';
+  src: url('../assets/fonts/Museo/MuseoSansCyrl-500.eot');
+  src: url('../assets/fonts/Museo/MuseoSansCyrl-500.eot?#iefix') format('embedded-opentype'),
+  url('../assets/fonts/Museo/MuseoSansCyrl-500.woff') format('woff'),
+  url('../assets/fonts/Museo/MuseoSansCyrl-500.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ @font-face {
+  font-family: 'Museo Sans 700';
+  src: url('../assets/fonts/Museo/MuseoSansCyrl-700.eot');
+  src: url('../assets/fonts/Museo/MuseoSansCyrl-700.eot?#iefix') format('embedded-opentype'),
+  url('../assets/fonts/Museo/MuseoSansCyrl-700.woff') format('woff'),
+  url('../assets/fonts/Museo/MuseoSansCyrl-700.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
