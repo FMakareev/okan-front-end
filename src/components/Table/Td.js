@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { space, width, fontSize, color } from 'styled-system';
+import { space, width, color } from 'styled-system';
 import { Td as TdComponent } from 'react-super-responsive-table';
 import { OrderProperty } from '../../styles/styleProperty/OrderProperty';
 

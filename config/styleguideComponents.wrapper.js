@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { Provider as ProviderRedux } from 'react-redux';
 import { Store } from '../src/store';
-import {StyledThemeProvider} from "../src/style";
+import { StyledThemeProvider } from "../src/styles/StyledThemeProvider";
 
 export const Wrapper = ({ children }) => {
 	return (

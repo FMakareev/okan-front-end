@@ -17,7 +17,7 @@ export const routes = [
     path: '/login',
     order: 0,
     hidden: false,
-    load: () => import('./view/login'),
+    load: () => import(/* webpackChunkName: 'userLogin' */ './view/login'),
     resolvers: [],
   },  {
     layout: LAYOUT_AUTH,
@@ -26,7 +26,7 @@ export const routes = [
     path: '/login',
     order: 0,
     hidden: false,
-    load: () => import('./view/registration'),
+    load: () => import(/* webpackChunkName: 'userRegistration' */ './view/registration'),
     resolvers: [],
   },  {
     layout: LAYOUT_AUTH,
@@ -35,7 +35,7 @@ export const routes = [
     path: '/password-recovery',
     order: 0,
     hidden: false,
-    load: () => import('./view/passwordRecovery'),
+    load: () => import(/* webpackChunkName: 'userPasswordRecovery' */'./view/passwordRecovery'),
     resolvers: [],
   },{
     layout: LAYOUT_APP,
@@ -44,7 +44,7 @@ export const routes = [
     path: '/profile',
     order: 0,
     hidden: false,
-    load: () => import('./view/profile'),
+    load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile'),
     resolvers: [],
   },
 ];
