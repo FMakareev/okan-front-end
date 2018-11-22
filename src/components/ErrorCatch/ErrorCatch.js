@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getTranslate } from 'react-localize-redux/lib/index';
 
 import { Redirect } from 'react-router-dom';
 import GraphQLError from './GraphQLError';
@@ -69,8 +67,5 @@ export class ErrorCatch extends Component {
   }
 }
 
-ErrorCatch = connect(state => ({
-  translate: getTranslate(state.locale),
-}))(ErrorCatch);
 
 export default ErrorCatch;

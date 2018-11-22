@@ -1,40 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import styled from 'styled-components';
 import { Absolute, Relative } from 'rebass';
 
-// import 'react-select/dist/react-select.css';
 
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
-const SelectStyled = styled(Select)`
-  min-width: 120px;
-  ${({ disabled }) => (disabled ? 'opacity: 0.25;' : '')} & .Select-control {
-    background-color: #ffffff;
-    box-shadow: 0px 0px 4px rgba(31, 65, 75, 0.25);
-    border: none;
-    height: 40px;
-  }
-  & .Select-control:hover {
-    box-shadow: 0px 0px 4px rgba(31, 65, 75, 0.25);
-  }
-  & .Select-control .Select-value {
-    line-height: 40px !important;
-  }
-  & .Select-control .Select-placeholder {
-    line-height: 40px;
-    color: #757575;
-  }
-
-  & .Select-menu-outer {
-    z-index: 150;
-  }
-
-  input {
-    border: none;
-  }
-`;
 
 /**
  * Компонент селекта (SelectBase)
@@ -116,7 +87,7 @@ export class SelectBase extends Component {
     } = this.props;
     return (
       <Relative>
-        <SelectStyled
+        <Select
           defaultOptions={defaultOptions}
           selectValue={selectValue}
           name={input.name}

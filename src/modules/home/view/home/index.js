@@ -4,7 +4,7 @@ import { Tbody } from 'react-super-responsive-table';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
-// import SelectBase from '../../../../components/SelectBase/SelectBase';
+import SelectBase from '../../../../components/SelectBase/SelectBase';
 
 // import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
@@ -19,8 +19,10 @@ import Thead from '../../../../components/Table/Thead';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
+import { Field, reduxForm } from "redux-form";
+import CheckboxBase from "../../../../components/CheckboxBase/CheckboxBase";
 
-export const HomePage = () => (
+export let HomePage = () => (
   <Banner
     color="#006699"
     bg="darken"
@@ -53,8 +55,9 @@ export const HomePage = () => (
       <ButtonWithImage variant="large" size="large" name="Создать пользователя" ml={5} />
       <br />
       <hr />
-      {/* <Field name={'description'} component={SelectBase} />
-<Field name={'description'} component={RichTextEditor} /> */}
+     <Field name={'CheckboxBase'} component={CheckboxBase} />
+     <Field name={'description'} component={SelectBase} />
+{/*<Field name={'description'} component={RichTextEditor} />*/}
       <br />
       <hr />
       <div>
@@ -83,8 +86,8 @@ export const HomePage = () => (
   </Banner>
 );
 
-// HomePage = reduxForm({
-//   form: 'HomePage',
-// })(HomePage);
+HomePage = reduxForm({
+  form: 'HomePage',
+})(HomePage);
 
 export default HomePage;

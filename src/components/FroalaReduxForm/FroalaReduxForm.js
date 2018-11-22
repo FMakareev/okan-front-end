@@ -1,5 +1,5 @@
 // FroalaReduxForm
-import React from 'react';
+import React, {Component} from 'react';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -12,28 +12,8 @@ import 'font-awesome/css/font-awesome.css';
 
 import FroalaEditor from 'react-froala-wysiwyg';
 
-export class FroalaReduxForm extends React.Component {
-  options = {
-    placeholder: 'Edit Me',
-    fileUploadURL: '/upload/uploader',
-    fileUploadParams: { id: 'my_editor' },
-    fileUploadMethod: 'POST',
+export class FroalaReduxForm extends Component {
 
-    events: {
-      'froalaEditor.focus': function(e, editor) {
-        console.log('froalaEditor.focus: ', editor.selection.get());
-      },
-      'froalaEditor.file.beforeUpload': function(e, editor) {
-        console.log('froalaEditor.file.beforeUpload', editor.selection.get());
-      },
-      'froalaEditor.file.uploaded': function(e, editor) {
-        console.log('froalaEditor.file.beforeUpload', editor.selection.get());
-      },
-      'froalaEditor.file.uploaded': function(e, editor) {
-        console.log('froalaEditor.file.beforeUpload', editor.selection.get());
-      },
-    },
-  };
 
   constructor(props) {
     super(props);
@@ -82,7 +62,6 @@ export class FroalaReduxForm extends React.Component {
 
     return (
       <FroalaEditor
-        config={this.options}
         onModelChange={this.handleModelChange}
         model={input.value}
         tag={'textarea'}

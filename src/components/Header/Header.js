@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { NavLink, Toolbar } from 'rebass';
-import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 
 
-const has = Object.prototype.hasOwnProperty;
 
 export class Header extends Component {
-  static propTypes = {
-    user: PropTypes.object,
-  };
+  static propTypes = { };
 
   static defaultProps = {};
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
-    this.createNavigation = this.createNavigation.bind(this);
   }
 
   get initialState() {
@@ -28,14 +20,10 @@ export class Header extends Component {
   render() {
     return (
       <div>
-
+        Header
       </div>
     );
   }
 }
-
-Header = connect(state => ({
-  user: state.user,
-}))(Header);
 
 export default Header;

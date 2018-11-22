@@ -74,6 +74,8 @@
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-styled-components": "^1.8.0",
     "browser-sync": "^2.23.7",
+    "carte-blanche": "^0.3.1",
+    "carte-blanche-react-plugin": "^0.3.0",
     "chalk": "^2.4.1",
     "clean-webpack-plugin": "^1.0.0",
     "concurrently": "^4.1.0",
@@ -106,7 +108,7 @@
     "prettier": "1.15.2",
     "pretty-quick": "^1.4.1",
     "react-dev-utils": "^6.1.1",
-    "react-styleguidist": "^8.0.5",
+    "react-docgen": "^2.21.0",
     "react-test-renderer": "^16.4.1",
     "redocx": "^1.0.3",
     "redux-devtools-extension": "^2.13.2",
@@ -117,11 +119,11 @@
     "serialize-javascript": "^1.5.0",
     "simple-git": "^1.96.0",
     "style-loader": "^0.23.1",
+    "url": "^0.11.0",
     "url-loader": "^1.0.1",
     "waait": "^1.0.2",
     "webpack": "^4.5.0",
     "webpack-assets-manifest": "^3.0.1",
-    "webpack-blocks": "^1.0.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-dev-server": "^3.1.4",
@@ -148,8 +150,8 @@
     "-prepush": "lint-staged",
     "format": "prettier --config .prettierrc --write 'src/**/*.{js,jsx}'",
     "checkMergeConflict": "babel-node ./tools/checkMergeConflict.js",
-    "sg:start": " npx styleguidist server --config ./config/styleguide.config.js",
-    "sg:build": " npx styleguidist build --config ./config/styleguide.config.js"
+    "start:cb": "babel-node scripts/start.cb.js --port=3006 --mode=development --watch=true --ssr_fetch=false"
+
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/jest-css-modules"
