@@ -4,5 +4,6 @@ import renderer from 'react-test-renderer';
 import Header from './Header';
 
 it('Header: Рендерится без ошибок', () => {
-  renderer.create(<Header />);
+  renderer.create(<Header />).toJSON();
+  expect(tree).toMatchSnapshot();
 });
