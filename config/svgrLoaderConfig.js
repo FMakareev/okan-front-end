@@ -37,25 +37,30 @@ const reactDomTemplate = (code, config, state) => {
 };
 
 export const svgrLoaderConfig = [
+
+  // {
+  //   test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+  //   loader: "url?limit=10000&mimetype=image/svg+xml"
+  // },
+  // {
+  //   test: /multicolor\.svg$/,
+  //   loader: ['@svgr/webpack'],
+  // },
+  // {
+  //   test: /monocolor\.svg$/,
+  //   loader: '@svgr/webpack',
+  //   // options: {
+  //   //   icon: true,
+  //   //   expandProps: true,
+  //   //   replaceAttrValues: {
+  //   //     fill: 'inherit',
+  //   //   },
+  //   //   // template: reactDomTemplate,
+  //   // },
+  // },
   {
-    test: /url\.svg$/,
-    use: ['@svgr/webpack', 'url-loader'],
-  },
-  {
-    test: /multicolor\.svg$/,
-    loader: ['@svgr/webpack'],
-  },
-  {
-    test: /monocolor\.svg$/,
-    loader: '@svgr/webpack',
-    // options: {
-    //   icon: true,
-    //   expandProps: true,
-    //   replaceAttrValues: {
-    //     fill: 'inherit',
-    //   },
-    //   // template: reactDomTemplate,
-    // },
+    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+    use: ["url?limit=10000&mimetype=image/svg+xml"],
   },
 ];
 

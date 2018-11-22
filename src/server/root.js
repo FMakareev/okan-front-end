@@ -7,7 +7,7 @@ import { Store } from '../store';
 import { client } from '../apollo/index.server';
 
 import CreateRootComponent from './CreateRootComponent';
-import { initLocalize } from '../store/reducers/localization/actions';
+// import { initLocalize } from '../store/reducers/localization/actions';
 import CreateRenderComponents from './CreateRenderComponents';
 
 export const Root = async (request, response) => {
@@ -16,7 +16,7 @@ export const Root = async (request, response) => {
    * */
   const asyncContext = createAsyncContext();
   const STStyleRenderer = new ServerStyleSheet();
-  await Store.dispatch(initLocalize(Store.getState(), request.language || 'EN'));
+  // await Store.dispatch(initLocalize(Store.getState(), request.language || 'EN'));
 
   const RouterContext = {};
 

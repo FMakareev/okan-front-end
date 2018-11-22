@@ -3,7 +3,7 @@ export const ButtonVariant = {
     color: '#fff',
     fill: '#fff',
     backgroundColor: '#00649C',
-    border: '1px solid',
+    border: '1px solid #00649C',
     '&:hover': { backgroundColor: '#fff', color: '#00649C', fill: '#00649C' },
   },
   small: {

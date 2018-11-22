@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { matchRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
+import { Box } from "../Box/Box";
 
 export class LayoutAuth extends Component {
   static propTypes = {};
@@ -22,7 +23,7 @@ export class LayoutAuth extends Component {
       route: { routes },
       location,
     } = this.props;
-    return ( <div>{this.renderRoutes(routes, location.pathname)}</div>);
+    return ( <Box backgroundColor={'color1'} height={'100vh'}>{this.renderRoutes(routes, location.pathname)}</Box>);
   }
 }
 
