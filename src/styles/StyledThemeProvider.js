@@ -17,7 +17,31 @@ export const ColorPallet = {
   color9: '#F97E63',
 };
 
-const Space = [0, 2, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80];
+const Space = [
+  0,
+  2,
+  4,
+  8,
+  12,
+  16,
+  18,
+  20,
+  24,
+  28,
+  32,
+  36,
+  40,
+  44,
+  48,
+  52,
+  56,
+  60,
+  64,
+  68,
+  72,
+  76,
+  80,
+];
 
 const Weight = [300, 500, 700];
 
@@ -26,6 +50,7 @@ const Breakpoints = ['1024px', '1200px', '1440px'];
 const boxShadow = [
   '2px 4px 8px 0px rgba(138,138,138,0.5)',
   '2px 4px 8px 0px rgba(138,138,138,0.5)',
+  '2px 2px 4px 0px rgba(0,127,175,1)',
 ];
 
 export const StyledThemeProvider = ({ children }) => (
