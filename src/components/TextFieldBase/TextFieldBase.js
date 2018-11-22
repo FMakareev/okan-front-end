@@ -8,16 +8,26 @@ import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty'
 
 const TextField = styled.input`
   width: 100%;
-  border: 1px solid;
+  border: 2px solid #00649c;
   background-color: transparent;
   box-sizing: border-box;
-  border-radius: 4px;
   padding-left: 5px;
+  font-size: 32px;
+  line-height: 40px;
+  padding: 10px 10px;
+  background-color: #fff;
   ${BorderRadiusProperty};
   ${BorderColorProperty};
   ${display};
-  ${color};
   ${space};
+
+  ::placeholder {
+    color: ${props => props.theme.colors.color10}};
+  }
+
+  :focus::-webkit-input-placeholder {
+    color: transparent;
+  }
 `;
 
 /**
