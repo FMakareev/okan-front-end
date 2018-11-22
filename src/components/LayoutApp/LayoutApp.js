@@ -7,16 +7,34 @@ import Header from '../Header/Header';
 export class LayoutApp extends Component {
   static propTypes = {};
 
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+  }
+
+  get initialState() {
+    return { name: '' };
+  }
+
+  updateName(name) {
+    this.setState({ name });
+  }
+
   renderRoutes = (routes, pathname) => {
     try {
       const result = matchRoutes(routes, pathname).reverse();
       const Component = result[0].route.component;
-      return (
-        <Component location={this.props.location} route={result[0].route} match={result[0].match} />
-      );
+      const { location } = this.props;
+
+      if (this.state.name !== result[0].route.name) {
+        this.updateName(result[0].route.name);
+      }
+
+      return <Component location={location} route={result[0].route} match={result[0].match} />;
     } catch (error) {
       console.log(error);
     }
+    return undefined;
   };
 
   render() {
@@ -26,7 +44,7 @@ export class LayoutApp extends Component {
     } = this.props;
     return (
       <div>
-        <Header {...this.props} />
+        <Header {...this.state} />
         {this.renderRoutes(routes, location.pathname)}
       </div>
     );
