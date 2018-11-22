@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { space } from 'styled-system';
+import onCheckbox from '../../assets/icons/monocolor/onCheckbox.monocolor.svg';
+// import onCheckbox from '../../assets/image/onCheckbox.png';
 
 const Wrapper = styled.div`
   ${space};
@@ -19,30 +21,28 @@ const Input = styled.input`
   // Box.
   & + label:before {
     content: '';
-    margin-right: ${props => props.theme.space[4]}px;
     display: inline-block;
     vertical-align: text-top;
-    width: ${props => props.theme.space[6]}px;
-    height: ${props => props.theme.space[6]}px;
+    width: ${props => props.theme.space[9] - 2}px;
+    height: ${props => props.theme.space[9] - 2}px;
     background-color: ${props => props.theme.colors.color0};
     border: ${props => props.theme.space[1]}px solid ${props => props.theme.colors.color6};
-    border-radius: ${props => props.theme.space[2]}px;
     box-sizing: border-box;
   }
 
-  // Box hover
+  /* // Box hover
   &:hover + label:before {
     background-color: ${props => props.theme.colors.color2};
-  }
+  } */
 
-  // Box focus
+  /* // Box focus
   &:focus + label:before {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-  }
+  } */
 
-  // Box checked
+   // Box checked
   &:checked + label:before {
-    background-color: ${props => props.theme.colors.color2};
+   display:none;
   }
 
   // Disabled state label.
@@ -61,14 +61,12 @@ const Input = styled.input`
   &:checked + label:after {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 9px;
-    background-color: ${props => props.theme.colors.color0};
-    width: ${props => props.theme.space[1]}px;
-    height: ${props => props.theme.space[1]}px;
-    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white,
-      4px -8px 0 white;
-    transform: rotate(45deg);
+    left: 0px;
+    top: -2px;
+    width: ${props => props.theme.space[9]}px;
+    height: ${props => props.theme.space[9]}px;
+    background-image: url(${onCheckbox}) !important;
+    background-repeat: no-repeat;
   }
 `;
 
