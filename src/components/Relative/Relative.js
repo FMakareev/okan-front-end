@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import Box from "../Box/Box";
-import { zIndex } from "styled-system";
+import Box from '../Box/Box';
+import { zIndex, width } from 'styled-system';
 
 export const Relative = styled(Box)`
-    ${zIndex};
-
+  ${zIndex};
+  ${width}
 `;
 Relative.defaultProps = {
   position: 'relative',
