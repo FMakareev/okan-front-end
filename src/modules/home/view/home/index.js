@@ -16,6 +16,8 @@ import Thead from '../../../../components/Table/Thead';
 import Tbody from '../../../../components/Table/Tbody';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import { Text } from '../../../../components/Text/Text';
+import { fontFamily } from 'styled-system';
 
 export let HomePage = props => {
   const SvgPlay = () => (

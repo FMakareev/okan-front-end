@@ -8,6 +8,7 @@ import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundCo
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 
 import { Box } from '../Box/Box';
+import { FontFamilyProperty } from "../../styles/styleProperty/FontFamilyProperty";
 
 /**
  * Компонент текста
@@ -20,7 +21,7 @@ export const Text = styled(Box)`
   ${display};
   ${letterSpacing};
   ${textAlign};
-  ${fontFamily};
+  ${FontFamilyProperty};
   ${fontWeight};
   ${LineHeightRemProperty};
   ${BackgroundColorProperty};
