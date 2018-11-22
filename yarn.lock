@@ -8574,7 +8574,6 @@ react-styleguidist@^8.0.5:
     walkes "^0.2.1"
     webpack-dev-server "^3.1.10"
     webpack-merge "^4.1.4"
->>>>>>> e436e1d36d9d5992257836439e4c544962328669
 
 react-test-renderer@^16.0.0-0, react-test-renderer@^16.4.1:
   version "16.6.3"

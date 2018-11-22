@@ -1,10 +1,9 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
-import { Tbody } from 'react-super-responsive-table';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
-import SelectBase from '../../../../components/SelectBase/SelectBase';
+// import SelectBase from '../../../../components/SelectBase/SelectBase';
 
 // import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
@@ -15,14 +14,11 @@ import Td from '../../../../components/Table/Td';
 import Th from '../../../../components/Table/Th';
 import Tr from '../../../../components/Table/Tr';
 import Thead from '../../../../components/Table/Thead';
-
+import Tbody from '../../../../components/Table/Tbody';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import { Field, reduxForm } from "redux-form";
-import CheckboxBase from "../../../../components/CheckboxBase/CheckboxBase";
 
-export let HomePage = () => {
+export const HomePage = () => {
   const SvgPlay = () => (
     <svg
       width="16"
@@ -116,8 +112,8 @@ export let HomePage = () => {
   );
 };
 
-HomePage = reduxForm({
-  form: 'HomePage',
-})(HomePage);
+// HomePage = reduxForm({
+//   form: 'HomePage',
+// })(HomePage);
 
 export default HomePage;

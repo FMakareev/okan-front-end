@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { space, width, color } from 'styled-system';
 
-
 /**
  * Компонент одной ячейки таблицы.
  * @example ./Td.example.md
  */
-export const Td = styled.td`
+const Td = styled.td`
   ${space};
   ${color};
   ${width};
