@@ -8,7 +8,7 @@ export const routes = [
     path: '/project-settings',
     order: 0,
     hidden: false,
-    load: () => import('./view/projectSettings'),
+    load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
     resolvers: [],
   },  {
     layout: LAYOUT_APP,
@@ -17,7 +17,7 @@ export const routes = [
     path: '/project-list',
     order: 0,
     hidden: false,
-    load: () => import('./view/projectList'),
+    load: () => import(/* webpackChunkName: 'projectList'  */'./view/projectList'),
     resolvers: [],
   }, {
     layout: LAYOUT_APP,
@@ -26,7 +26,7 @@ export const routes = [
     path: '/project-create',
     order: 0,
     hidden: false,
-    load: () => import('./view/projectCreate'),
+    load: () => import(/* webpackChunkName: 'projectCreate'  */ './view/projectCreate'),
     resolvers: [],
   },{
     layout: LAYOUT_APP,
@@ -35,7 +35,7 @@ export const routes = [
     path: '/revision-list',
     order: 0,
     hidden: false,
-    load: () => import('./view/revisionList'),
+    load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),
     resolvers: [],
   },{
     layout: LAYOUT_APP,
@@ -44,7 +44,7 @@ export const routes = [
     path: '/document-settings',
     order: 0,
     hidden: false,
-    load: () => import('./view/documentSettings'),
+    load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),
     resolvers: [],
   },{
     layout: LAYOUT_APP,
@@ -53,7 +53,7 @@ export const routes = [
     path: '/project/:projectid',
     order: 0,
     hidden: false,
-    load: () => import('./view/projectEditor'),
+    load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
     resolvers: [],
   },
 ];

@@ -16,11 +16,11 @@ import { BorderRadiusProperty } from '../../styles/styleProperty/BorderRadiusPro
 import { Box } from '../Box/Box';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { BoxShadowProperty } from '../../styles/styleProperty/BoxShadowProperty';
+
 /**
  * Компонент карточки
  * @example ./Card.example.md
  */
-
 export const Card = styled(Box)`
   ${BoxShadowProperty};
   ${zIndex};

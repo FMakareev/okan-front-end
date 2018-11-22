@@ -1,6 +1,5 @@
 import React from 'react';
 import { Banner, Heading } from 'rebass';
-import { Tbody } from 'react-super-responsive-table';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 // import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form';
@@ -18,7 +17,6 @@ import Thead from '../../../../components/Table/Thead';
 import Tbody from '../../../../components/Table/Tbody';
 
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 export const HomePage = () => {
   const SvgPlay = () => (

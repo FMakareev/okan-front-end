@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { space } from 'styled-system';
 
 import Message from '../Message/Message';
 import CheckboxBase from '../CheckboxBase/CheckboxBase';
 import { Flex } from '../Flex/Flex';
 import { Text } from '../Text/Text';
-
-const Wrapper = styled.div`
-  ${space};
-`;
+import { Box } from "../Box/Box";
 
 /**
  * Компонент чекбокса (Checkbox)
@@ -45,16 +40,19 @@ export class Checkbox extends Component {
   }
 
   render() {
-    const { className, mb, input, label, type, meta, placeholder } = this.props;
+    const { input, label, meta, placeholder } = this.props;
 
     return (
-      <Wrapper mb={mb} className={className}>
+      <Box>
         <Flex alignItems={'center'}>
           {label && <Text mr={5}>{label}</Text>}
           <CheckboxBase input={input} placeholder={placeholder} />
         </Flex>
-        <Message meta={meta} />
-      </Wrapper>
+        {
+          meta &&
+          <Message meta={meta} />
+        }
+      </Box>
     );
   }
 }

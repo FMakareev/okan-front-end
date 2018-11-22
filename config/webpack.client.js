@@ -48,7 +48,7 @@ export const browserConfigGenerator = () => {
           use: "file-loader"
         }, {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url?limit=10000&mimetype=image/svg+xml"
+          loader: "url-loader?limit=10000&mimetype=image/svg+xml"
         },
       ],
     },

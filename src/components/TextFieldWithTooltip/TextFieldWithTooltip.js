@@ -8,7 +8,6 @@ import { TextFieldBase } from '../TextFieldBase/TextFieldBase';
  * Компонент инпута с тултипом (Text Field With Tooltip)
  * @example ./TextFieldWithTooltip.example.md
  */
-
 export class TextFieldWithTooltip extends PureComponent {
   static propTypes = {
     /** class */

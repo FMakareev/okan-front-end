@@ -49,7 +49,7 @@ export class RichTextEditor extends Component {
   }
 
   render() {
-    const { className, mb, input, label, type, meta, disabled } = this.props;
+    const { className, mb, meta } = this.props;
 
     return (
       <Wrapper mb={mb} className={className}>

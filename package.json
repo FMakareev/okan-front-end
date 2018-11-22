@@ -142,7 +142,7 @@
     "test": "jest",
     "test:snapshot:update": "jest --updateSnapshot",
     "lint:js": "eslint ./src ./tools --color --format stylish --fix",
-    "precommit": "npm run checkMergeConflict -q",
+    "-precommit": "npm run checkMergeConflict -q",
     "-prepush": "lint-staged",
     "format": "prettier --config .prettierrc --write 'src/**/*.{js,jsx}'",
     "checkMergeConflict": "babel-node ./tools/checkMergeConflict.js",

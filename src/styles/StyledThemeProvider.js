@@ -48,7 +48,7 @@ export const StyledThemeProvider = ({ children }) => (
   </Provider>
 );
 
-StyledThemeProvider.prototype = {
+StyledThemeProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
