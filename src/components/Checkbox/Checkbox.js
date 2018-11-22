@@ -5,7 +5,7 @@ import Message from '../Message/Message';
 import CheckboxBase from '../CheckboxBase/CheckboxBase';
 import { Flex } from '../Flex/Flex';
 import { Text } from '../Text/Text';
-import { Box } from "../Box/Box";
+import { Box } from '../Box/Box';
 
 /**
  * Компонент чекбокса (Checkbox)
@@ -40,18 +40,15 @@ export class Checkbox extends Component {
   }
 
   render() {
-    const { input, label, meta, placeholder } = this.props;
+    const { input, label, meta } = this.props;
 
     return (
       <Box>
         <Flex alignItems={'center'}>
           {label && <Text mr={5}>{label}</Text>}
-          <CheckboxBase input={input} placeholder={placeholder} />
+          <CheckboxBase input={input} />
         </Flex>
-        {
-          meta &&
-          <Message meta={meta} />
-        }
+        {meta && <Message meta={meta} />}
       </Box>
     );
   }
