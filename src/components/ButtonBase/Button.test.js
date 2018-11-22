@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
-import { Button } from './Button';
+import { ButtonBase } from './ButtonBase';
 
 it('Button: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
-      <Button />
+      <ButtonBase />
     </StyledThemeProvider>,
   );
 });
