@@ -47,7 +47,7 @@ export const InsideTriangle = styled.div`
 `;
 
 export const Warning = styled(Text)`
-  font-family: 'Museo Sans Cyrl', sans-serif;
+  font-family: 'Museo Sans 300', sans-serif;
   font-size: ${props => props.theme.fontSizes[5]}px;
   font-weight: ${props => props.theme.fontWeight[0]};
   line-height: ${props => props.theme.fontSizes[6]}px;
