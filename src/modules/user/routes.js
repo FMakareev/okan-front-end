@@ -1,4 +1,4 @@
-import { LAYOUT_AUTH } from "../../shared/layout";
+import { LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
 
 export const routes = [
   {
@@ -36,6 +36,15 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import('./view/passwordRecovery'),
+    resolvers: [],
+  },{
+    layout: LAYOUT_APP,
+    exact: true,
+    name: 'Личный кабинет',
+    path: '/profile',
+    order: 0,
+    hidden: false,
+    load: () => import('./view/profile'),
     resolvers: [],
   },
 ];
