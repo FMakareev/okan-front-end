@@ -6,7 +6,7 @@ import { space, width, color } from 'styled-system';
  * Компонент одной ячейки таблицы.
  * @example ./Td.example.md
  */
-const Td = styled.td`
+export const Td = styled.td`
   ${space};
   ${color};
   ${width};
