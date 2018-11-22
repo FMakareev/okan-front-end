@@ -19,5 +19,6 @@ export const ButtonSize = {
     fontSize: ' 32px',
     lineHeight: '40px',
     padding: '10px 0',
+    padding: '0 60px',
   },
 };

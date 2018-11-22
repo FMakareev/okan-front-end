@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 /**
  * Компонент для хранения одной или нескольких строк, которые представлены вверху таблицы
- * @example ./Thead.example.md
+ * @example ./Tbody.example.md
  */
 
-export const Thead = styled.thead``;
+export const Tbody = styled.tbody``;
 
-Thead.propTypes = {
+Tbody.propTypes = {
   /**  children React element  */
   children: PropTypes.any,
   /** className */
@@ -17,4 +17,4 @@ Thead.propTypes = {
   bgc: PropTypes.string,
 };
 
-export default Thead;
+export default Tbody;
