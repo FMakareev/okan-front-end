@@ -24,7 +24,7 @@ export class LayoutAuth extends Component {
       location,
     } = this.props;
     return (
-      <Box backgroundColor={'color1'} height={'100vh'}>
+      <Box backgroundColor={'color1'} height={'110vh'}>
         {this.renderRoutes(routes, location.pathname)}
       </Box>
     );
