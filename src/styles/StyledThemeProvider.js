@@ -67,7 +67,11 @@ export const StyledThemeProvider = ({ children }) => (
       colors: ColorPallet,
       variant: { buttons: ButtonVariant },
       variants: { buttonSize: ButtonSize },
-      // fontFamily: { main: 'Museo Sans Cyrl', header: 'Circe Regular', headerBold: 'Circe Bold' },
+      fontFamily: {
+        main: 'Museo Sans 300 Light',
+        header: 'Circe Regular',
+        headerBold: 'Circe Bold',
+      },
     }}>
     {children}
   </Provider>
