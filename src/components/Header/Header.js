@@ -8,25 +8,23 @@ import {
   LogoWrapper,
   ControlsWrapper,
   Title,
-  ProfileButton,
+  ProfileLink,
   ControlImg,
-  BurgerMenuButton,
+  ProjectListLink,
 } from './HeaderStyled';
 
 import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
-import Play from '../../assets/icons/monocolor/play.monocolor.svg';
+import ProfileLogo from '../../assets/icons/monocolor/headerProfile.monocolor.svg';
+import ProjectListLogo from '../../assets/icons/monocolor/headerProjectList.monocolor.svg';
 
 export class Header extends Component {
   static propTypes = {
     /** route name */
     name: PropTypes.string,
-    /** open menu function */
-    onOpenMenu: PropTypes.func,
   };
 
   static defaultProps = {
     name: 'Title not found',
-    onOpenMenu: null,
   };
 
   constructor(props) {
@@ -39,7 +37,7 @@ export class Header extends Component {
   }
 
   render() {
-    const { name, onOpenMenu } = this.props;
+    const { name } = this.props;
     return (
       <Wrapper>
         <LeftLineWrapper />
@@ -47,12 +45,12 @@ export class Header extends Component {
         <LineWrapper />
         <ControlsWrapper>
           <Title>{name}</Title>
-          <ProfileButton>
-            <ControlImg src={Play} alt="profile" />
-          </ProfileButton>
-          <BurgerMenuButton onClick={onOpenMenu}>
-            <ControlImg src={Play} alt="profile" />
-          </BurgerMenuButton>
+          <ProfileLink to="/app">
+            <ControlImg src={ProfileLogo} alt="profile" />
+          </ProfileLink>
+          <ProjectListLink to="/app">
+            <ControlImg src={ProjectListLogo} alt="profile" />
+          </ProjectListLink>
         </ControlsWrapper>
       </Wrapper>
     );

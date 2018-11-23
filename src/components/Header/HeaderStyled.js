@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 const Wrapper = styled.header`
   width: 100%;
@@ -24,13 +25,11 @@ const LineWrapper = styled.div`
 `;
 
 const LeftLineWrapper = styled(LineWrapper)`
-  width: 20px;
+  width: 28px;
 `;
 
 const LogoWrapper = styled.img`
-  width: 106px;
-  height: 24px;
-  margin-top: 6px;
+  margin-bottom: 5px;
   background-color: ${props => props.theme.colors.color5};
 `;
 
@@ -68,18 +67,10 @@ const Title = styled.div`
   }
 `;
 
-const ProfileButton = styled.button`
-  width: 24px;
-  height: 26px;
+const ProfileLink = styled(NavLink)`
   margin-left: 17px;
   margin-top: auto;
   margin-bottom: auto;
-  background-color: transparent;
-  border: unset;
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const ControlImg = styled.img`
@@ -87,7 +78,7 @@ const ControlImg = styled.img`
   margin-bottom: auto;
 `;
 
-const BurgerMenuButton = styled(ProfileButton)`
+const ProjectListLink = styled(ProfileLink)`
   margin-left: 13px;
   margin-right: 32px;
 `;
@@ -99,7 +90,7 @@ export {
   LogoWrapper,
   ControlsWrapper,
   Title,
-  ProfileButton,
+  ProfileLink,
   ControlImg,
-  BurgerMenuButton,
+  ProjectListLink,
 };
