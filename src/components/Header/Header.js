@@ -9,13 +9,13 @@ import {
   ControlsWrapper,
   Title,
   ProfileLink,
-  ControlImg,
   ProjectListLink,
 } from './HeaderStyled';
 
 import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
-import ProfileLogo from '../../assets/icons/monocolor/headerProfile.monocolor.svg';
-import ProjectListLogo from '../../assets/icons/monocolor/headerProjectList.monocolor.svg';
+
+import ProfileLogo from './profileLogo';
+import ProjectListLogo from './projectListLogo';
 
 export class Header extends Component {
   static propTypes = {
@@ -45,11 +45,11 @@ export class Header extends Component {
         <LineWrapper />
         <ControlsWrapper>
           <Title>{name}</Title>
-          <ProfileLink to="/app">
-            <ControlImg src={ProfileLogo} alt="profile" />
+          <ProfileLink to="/app/profile" activeClassName="active">
+            <ProfileLogo />
           </ProfileLink>
-          <ProjectListLink to="/app">
-            <ControlImg src={ProjectListLogo} alt="profile" />
+          <ProjectListLink to="/app/project-list" activeClassName="active">
+            <ProjectListLogo />
           </ProjectListLink>
         </ControlsWrapper>
       </Wrapper>

@@ -44,7 +44,7 @@ const Title = styled.div`
   position: relative;
   padding-top: 2px;
   padding-bottom: 1px;
-  padding-left: 6px;
+  padding-left: 7px;
   padding-right: 10px;
   font-family: 'Circe Bold';
   font-size: ${props => props.theme.fontSizes[6]}px;
@@ -71,14 +71,18 @@ const ProfileLink = styled(NavLink)`
   margin-left: 17px;
   margin-top: auto;
   margin-bottom: auto;
-`;
 
-const ControlImg = styled.img`
-  margin-top: auto;
-  margin-bottom: auto;
+  & > svg {
+    fill: ${props => props.theme.colors.color0};
+  }
+
+  &.active > svg {
+    fill: ${props => props.theme.colors.color10};
+  }
 `;
 
 const ProjectListLink = styled(ProfileLink)`
+  margin-top: 6px;
   margin-left: 13px;
   margin-right: 32px;
 `;
@@ -91,6 +95,5 @@ export {
   ControlsWrapper,
   Title,
   ProfileLink,
-  ControlImg,
   ProjectListLink,
 };
