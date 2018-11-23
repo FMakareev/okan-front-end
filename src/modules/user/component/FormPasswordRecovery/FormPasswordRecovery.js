@@ -62,7 +62,7 @@ class FormPasswordRecovery extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { type: 'password', isOpen: false };
+    this.state = { type: 'password', isOpen: false, item: 1 };
 
     this.submit = this.submit.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -93,7 +93,7 @@ class FormPasswordRecovery extends Component {
                 type={type}
               />
               <Absolute top={'33%'} right={'4%'}>
-                <ButtonBase variant={'empty'} onClick={this.handleClick}>
+                <ButtonBase variant={'empty'} value={this.state.item} onClick={this.handleClick}>
                   {isOpen ? <div> {SvgEye()} </div> : <div> {SvgEye()}</div>}
                 </ButtonBase>
               </Absolute>
