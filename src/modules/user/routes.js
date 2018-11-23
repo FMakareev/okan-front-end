@@ -1,4 +1,4 @@
-import { LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
+import { LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 
 export const routes = [
   {
@@ -10,7 +10,8 @@ export const routes = [
     hidden: false,
     load: () => import('./view/login'),
     resolvers: [],
-  },{
+  },
+  {
     layout: LAYOUT_AUTH,
     exact: false,
     name: 'Вход',
@@ -19,7 +20,8 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'userLogin' */ './view/login'),
     resolvers: [],
-  },  {
+  },
+  {
     layout: LAYOUT_AUTH,
     exact: true,
     name: 'Регистрация',
@@ -28,16 +30,18 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'userRegistration' */ './view/registration'),
     resolvers: [],
-  },  {
+  },
+  {
     layout: LAYOUT_AUTH,
     exact: true,
     name: 'Восстановление пароля',
     path: '/password-recovery',
     order: 0,
     hidden: false,
-    load: () => import(/* webpackChunkName: 'userPasswordRecovery' */'./view/passwordRecovery'),
+    load: () => import(/* webpackChunkName: 'userPasswordRecovery' */ './view/passwordRecovery'),
     resolvers: [],
-  },{
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Личный кабинет',
