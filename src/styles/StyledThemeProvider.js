@@ -15,6 +15,7 @@ export const ColorPallet = {
   color7: '#00649C',
   color8: '#007CC4',
   color9: '#F97E63',
+  color10: '#AEAEAE',
 };
 
 const Space = [
