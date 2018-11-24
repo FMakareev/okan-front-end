@@ -69,9 +69,11 @@ export const StyledThemeProvider = ({ children }) => (
       variant: { buttons: ButtonVariant },
       variants: { buttonSize: ButtonSize },
       fontFamily: {
-        main: 'Museo Sans 300 Light',
-        header: 'Circe Regular',
-        headerBold: 'Circe Bold',
+        primary300: "'Museo Sans 300'",
+        primary500: "'Museo Sans 500'",
+        primary700: "'Museo Sans 700'",
+        secondary: "'Circe Regular'",
+        secondaryBold: "'Circe Bold'",
       },
     }}>
     {children}

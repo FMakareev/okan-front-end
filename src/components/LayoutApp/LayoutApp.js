@@ -44,7 +44,7 @@ export class LayoutApp extends Component {
     } = this.props;
     return (
       <div>
-        <Header {...this.state} />
+        <Header {...this.state} {...this.props} />
         {this.renderRoutes(routes, location.pathname)}
       </div>
     );
