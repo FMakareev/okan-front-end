@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'rebass';
 import { ButtonVariant } from './variants/buttonVariant';
 import { ButtonSize } from './variants/buttonSize';
+import { TextVariant } from './variants/textVariant';
 
 export const ColorPallet = {
   color0: '#FFFFFF',
@@ -66,7 +67,7 @@ export const StyledThemeProvider = ({ children }) => (
       borderColor: ColorPallet,
       breakpoints: Breakpoints,
       colors: ColorPallet,
-      variant: { buttons: ButtonVariant },
+      variant: { buttons: ButtonVariant, text: TextVariant },
       variants: { buttonSize: ButtonSize },
       fontFamily: {
         primary300: "'Museo Sans 300'",

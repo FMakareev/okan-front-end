@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { display, fontWeight, fontFamily, textAlign, letterSpacing } from 'styled-system';
+import { display, fontWeight, fontFamily, textAlign, letterSpacing, variant } from 'styled-system';
 
 import { FontSizeRemProperty } from '../../styles/styleProperty/FontSizeRemProperty';
 import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
@@ -8,7 +8,12 @@ import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundCo
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 
 import { Box } from '../Box/Box';
-import { FontFamilyProperty } from "../../styles/styleProperty/FontFamilyProperty";
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+
+const textVariant = variant({
+  key: 'variant.text',
+  prop: 'variant',
+});
 
 /**
  * Компонент текста
@@ -17,6 +22,7 @@ import { FontFamilyProperty } from "../../styles/styleProperty/FontFamilyPropert
 export const Text = styled(Box)`
   font-family: inherit;
   text-decoration: none;
+  ${textVariant};
   ${FontSizeRemProperty};
   ${display};
   ${letterSpacing};
@@ -58,7 +64,7 @@ Text.propTypes = {
 };
 
 Text.defaultProps = {
-  color: 'fontColor.color16',
+  color: 'fontColor.color1',
 };
 
 export default Text;
