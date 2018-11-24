@@ -13,9 +13,7 @@ import {
 } from './HeaderStyled';
 
 import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
-
-import ProfileLogo from './profileLogo';
-import ProjectListLogo from './projectListLogo';
+import { ProfileLogo, ProjectListLogo } from './Logos';
 
 export class Header extends Component {
   static propTypes = {
