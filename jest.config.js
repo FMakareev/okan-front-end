@@ -13,4 +13,9 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
+  "globals": {
+    "ENDPOINT_CLIENT": 'http://localhost:5001',
+    "ENDPOINT_SERVER": 'http://localhost:5001',
+    "isBrowser": true,
+  }
 };
