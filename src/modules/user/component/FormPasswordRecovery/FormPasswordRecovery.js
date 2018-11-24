@@ -77,6 +77,8 @@ class FormPasswordRecovery extends Component {
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
     const { type, isOpen } = this.state;
+    // TODO review:MICHA: нужна проверка чтобы поля были заполнены, а кнопка заблокирована пока форма не валидна
+    // TODO review:MICHA: старый пароль не должен быть похож на новый, а новыи и повтор нового должны совпадать
     return (
       <form onSubmit={handleSubmit(this.submit)}>
         <Flex alignItems={'center'} justifyContent={'center'} pt={17} pb={'125px'}>

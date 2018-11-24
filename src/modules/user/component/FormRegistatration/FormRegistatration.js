@@ -76,6 +76,8 @@ class FormRegistration extends Component {
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
     const { type, isOpen } = this.state;
+    // TODO review:MICHA: кнопку заблокировать пока форма не станет валидной
+    // TODO review:MICHA: сделать провеку на совпадение паролей
     return (
       <form onSubmit={handleSubmit(this.submit)}>
         <Flex alignItems={'center'} justifyContent={'center'} pt={17} pb={'125px'}>
