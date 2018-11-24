@@ -55,7 +55,7 @@ ButtonBase.propTypes = {
   /** Description of prop "py". */
   py: PropTypes.number,
   /** children. */
-  children: PropTypes.string,
+  children: PropTypes.any,
   /** disabled. */
   disabled: PropTypes.bool,
   active: PropTypes.bool,

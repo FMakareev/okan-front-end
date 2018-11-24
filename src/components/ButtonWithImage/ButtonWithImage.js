@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
 
-export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, ml }) => {
+export const ButtonWithImage = ({ leftIcon, rightIcon, children, variant, size, mr, ml }) => {
   return (
     <ButtonBase variant={variant} size={size}>
       <Flex justifyContent={'center'} alignItems={'space-around'}>
@@ -15,7 +15,7 @@ export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, 
         )}
 
         <Flex justifyContent={'center'} alignItems={'center'}>
-          {name}
+          {children}
         </Flex>
 
         {rightIcon && (
@@ -28,13 +28,13 @@ export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, 
   );
 };
 
-ButtonWithImage.PropTypes = {
+ButtonWithImage.propTypes = {
   /**name button */
   name: PropTypes.string,
   /**left icon */
-  leftIcon: PropTypes.string,
+  leftIcon: PropTypes.any,
   /**right icon */
-  rightIcon: PropTypes.string,
+  rightIcon: PropTypes.any,
   /**variant button */
   variant: PropTypes.string,
   /**size button */
