@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
 
+// TODO review:MICHA:внутренние блоки те что слева, по центру и справа нет смысла делать через компонент Flex,
+// лучше переделать на Box так по крайней мере появится возможность внутри их стилизовать и позиционировать
+// на сколько я помню есть у нас в профиле кнопка у которой иконка под текстом стоит и такую используя этот
+// компонент получится сделать только если блок по центру будет не Flex, а Box т.к. у Flex по умолчанию элементы строятся в ряд
 export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, ml }) => {
   return (
     <ButtonBase variant={variant} size={size}>

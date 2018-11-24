@@ -1,5 +1,7 @@
 import React from 'react';
-
+// TODO review:nik-z: первое: это должна быть константа и называтся так же как файл с большой буквы
+// TODO review:nik-z: второе: должен быть обычный экспорт (export const ...) и экспорт по умолчанию
+// TODO review:nik-z: третье: внутри у тебя обычный jsx и в jsx аргументы не пишутся через "-", а пишутся в camalCase т.к. в js нельзя создавать переменные или свойства (за исключением свойств строкой) с дефисом
 export default () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="inherit" xmlns="http://www.w3.org/2000/svg">
     <mask
