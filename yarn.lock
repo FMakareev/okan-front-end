@@ -1235,8 +1235,8 @@ apollo-link-http-common@^0.2.6:
     apollo-link "^1.2.4"
 
 apollo-link-http@^1.5.4:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.5.6.tgz#7d6952998870c2fc9e6e7fcff70b5a2bc3b1c448"
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.5.7.tgz#098615c427a910ec8c5817476bbabe68c586b339"
   dependencies:
     apollo-link "^1.2.4"
     apollo-link-http-common "^0.2.6"
@@ -1277,7 +1277,7 @@ archiver-utils@^1.3.0:
 
 archiver@~1.3.0:
   version "1.3.0"
-  resolved "https://registry.yarnpkg.com/archiver/-/archiver-1.3.0.tgz#4f2194d6d8f99df3f531e6881f14f15d55faaf22"
+  resolved "http://registry.npmjs.org/archiver/-/archiver-1.3.0.tgz#4f2194d6d8f99df3f531e6881f14f15d55faaf22"
   dependencies:
     archiver-utils "^1.3.0"
     async "^2.0.0"
@@ -3488,7 +3488,7 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
 
-enzyme-adapter-react-16@^1.1.1:
+enzyme-adapter-react-16@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.7.0.tgz#90344395a89624edbe7f0e443bc19fef62bf1f9f"
   dependencies:
@@ -4075,8 +4075,8 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.4:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
 fast-xml-parser@^3.9.10:
-  version "3.12.8"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.12.8.tgz#b4421b1e2d8db447a6d0d06e2253b26866a4a149"
+  version "3.12.9"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.12.9.tgz#7d285baecc7105a544816b1609d5c46679b9416a"
   dependencies:
     nimnjs "^1.3.2"
 
@@ -10155,6 +10155,10 @@ undefsafe@^2.0.2:
 underscore@~1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
+
+unfetch@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.0.1.tgz#8750c4c7497ade75d40387d7dbc4ba024416b8f6"
 
 unherit@^1.0.4:
   version "1.1.1"

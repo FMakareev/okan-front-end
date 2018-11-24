@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonWithImage: Рендерится без ошибок 1`] = `
+<div
+  className="sc-bxivhb dUiVDW"
+>
+  <button
+    className="mxzgdr-0 eAwEWa"
+    size="large"
+  >
+    <div
+      className="wterhv-0 icKJBl"
+    >
+      <div
+        className="wterhv-0 irkFkV"
+      >
+        Button
+      </div>
+    </div>
+  </button>
+</div>
+`;
+
+exports[`ButtonWithImage: Рендерится с иконкой слева 1`] = `
+<div
+  className="sc-bxivhb dUiVDW"
+>
+  <button
+    className="mxzgdr-0 eAwEWa"
+    size="large"
+  >
+    <div
+      className="wterhv-0 icKJBl"
+    >
+      <div
+        className="wterhv-0 irkFkV"
+      >
+        <svg
+          data-file-name="SvgPlayMonocolor"
+        />
+      </div>
+      <div
+        className="wterhv-0 irkFkV"
+      >
+        Button
+      </div>
+    </div>
+  </button>
+</div>
+`;
+
+exports[`ButtonWithImage: Рендерится с иконкой справа 1`] = `
+<div
+  className="sc-bxivhb dUiVDW"
+>
+  <button
+    className="mxzgdr-0 eAwEWa"
+    size="large"
+  >
+    <div
+      className="wterhv-0 icKJBl"
+    >
+      <div
+        className="wterhv-0 irkFkV"
+      >
+        Button
+      </div>
+      <div
+        className="wterhv-0 irkFkV"
+      >
+        <svg
+          data-file-name="SvgPlayMonocolor"
+        />
+      </div>
+    </div>
+  </button>
+</div>
+`;
