@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Flex from '../../../../components/Flex/Flex';
 
@@ -12,7 +11,5 @@ export const FormLogo = () => {
     </Flex>
   );
 };
-
-FormLogo.PropTypes = {};
 
 export default FormLogo;

@@ -6,7 +6,7 @@ import { Link } from './Link';
 it('Link: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
-      <Link />
+      <Link to={'/'} />
     </StyledThemeProvider>,
   );
 });

@@ -56,8 +56,6 @@ class FormPasswordRecovery extends Component {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
     const { type, isOpen } = this.state;
 
-    console.log(1, this.props.error);
-
     // TODO review:MICHA: нужна проверка чтобы поля были заполнены, а кнопка заблокирована пока форма не валидна
     // TODO review:MICHA: старый пароль не должен быть похож на новый, а новыи и повтор нового должны совпадать
     return (

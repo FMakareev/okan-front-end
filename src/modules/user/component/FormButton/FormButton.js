@@ -9,15 +9,14 @@ import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 export const FormButton = ({ disabled, children }) => {
   return (
     <Flex justifyContent={'center'}>
-        <ButtonWithImage
-          type="submit"
-          disabled={disabled}
-          variant={'large'}
-          size={'large'}
-          children={children}
-          ml={9}
-          rightIcon={SvgPlay()}
-        />
+      <ButtonWithImage
+        type="submit"
+        disabled={disabled}
+        variant={'large'}
+        size={'large'}
+        children={children}
+        rightIcon={SvgPlay()}
+      />
     </Flex>
   );
 };
