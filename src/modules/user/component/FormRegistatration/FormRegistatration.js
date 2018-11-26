@@ -14,6 +14,10 @@ import FormLogo from '../FormLogo/FormLogo';
 import FormButton from '../FormButton/FormButton';
 
 class FormRegistration extends Component {
+  static propTypes = {
+    ...formPropTypes,
+  };
+
   constructor(props) {
     super(props);
 
@@ -23,8 +27,10 @@ class FormRegistration extends Component {
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
+
     // TODO review:MICHA: кнопку заблокировать пока форма не станет валидной
     // TODO review:MICHA: сделать провеку на совпадение паролей
+
     return (
       <form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
@@ -45,7 +51,7 @@ class FormRegistration extends Component {
           <FieldInputPassword name={'ups1'} placeholder={'Потвердите пароль'} validate={required} />
         </Flex>
 
-        <FormButton disabled={pristine || submitting || invalid} children={'Войти'} />
+        <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
       </form>
     );
   }

@@ -14,7 +14,7 @@ it('FormButton: Рендерится без ошибок', () => {
 it('FormButton: Рендерится без ошибок с свойствами', () => {
   renderer.create(
     <StyledThemeProvider>
-      <FormButton children={'button'} disabled={false} />
+      <FormButton children={'button'} disabled={false} ml={9} />
     </StyledThemeProvider>,
   );
 });

@@ -12,7 +12,13 @@ import FormButton from '../FormButton/FormButton';
 
 import required from '../../../../utils/validation/required';
 
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+
 class FormLogin extends Component {
+  static propTypes = {
+    ...formPropTypes,
+  };
+
   constructor(props) {
     super(props);
 
@@ -20,11 +26,11 @@ class FormLogin extends Component {
 
     this.submit = this.submit.bind(this);
   }
+
   submit(value) {}
 
   render() {
     const { handleSubmit, pristine, submitting, fill, invalid, error } = this.props;
-    const { type, isOpen } = this.state;
 
     // TODO review:MICHA: добавь валидацию на обязательность заполнения полей и заблокируй кнопку если форма не валидна и так на всех формах должно быть
     return (
@@ -47,7 +53,7 @@ class FormLogin extends Component {
           {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
         </Flex>
 
-        <FormButton disabled={pristine || submitting || invalid} children={'Войти'} />
+        <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
       </form>
     );
   }

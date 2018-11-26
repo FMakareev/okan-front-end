@@ -20,6 +20,19 @@ class FieldInputPassword extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  static propTypes = {
+    /** name input */
+    name: PropTypes.string,
+    /** placeholder input */
+    placeholder: PropTypes.string,
+    /** validation */
+    validate: PropTypes.func,
+    /** type input */
+    type: PropTypes.string,
+    /** open input password */
+    isOpen: PropTypes.bool,
+  };
+
   handleClick() {
     this.setState({ isOpen: !this.state.isOpen, type: this.state.isOpen ? 'password' : 'text' });
   }

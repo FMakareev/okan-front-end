@@ -6,7 +6,7 @@ import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithIm
 
 import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 
-export const FormButton = ({ disabled, children }) => {
+export const FormButton = ({ disabled, children, ml }) => {
   return (
     <Flex justifyContent={'center'}>
       <ButtonWithImage
@@ -16,9 +16,19 @@ export const FormButton = ({ disabled, children }) => {
         size={'large'}
         children={children}
         rightIcon={SvgPlay()}
+        ml={ml}
       />
     </Flex>
   );
+};
+
+FormButton.PropTypes = {
+  /** disabled input */
+  disabled: PropTypes.bool,
+  /** name button */
+  children: PropTypes.string,
+  /** css property: margin-left */
+  ml: PropTypes.number,
 };
 
 export default FormButton;
