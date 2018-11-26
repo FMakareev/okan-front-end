@@ -92,11 +92,39 @@ export const HomePage = () => {
         <br/>
         <br/>
 
-        <Text fontFamily={'main'}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab amet cumque dicta dolore eius, eos expedita fuga
-          ipsa ipsam laboriosam maiores modi natus numquam odit quam soluta sunt tempore velit!
-
+        <Text fontFamily={'primary300'}>
+          primary300
         </Text>
+
+        <Text fontFamily={'primary500'}>
+          primary500
+        </Text>
+
+        <Text fontFamily={'primary700'}>
+          primary700
+        </Text>
+
+        <Text fontFamily={'secondary'}>
+          secondary
+        </Text>
+
+        <Text fontFamily={'secondaryBold'}>
+          secondaryBold
+        </Text>
+
+        <Text variant={'document'}>
+          document
+        </Text>
+
+        <Text variant={'firstHeader'}>
+          firstHeader
+        </Text>
+
+        <Text variant={'secondHeader'}>
+          firstHeader
+        </Text>
+
+
         <Text fontFamily={'header'}>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab amet cumque dicta dolore eius, eos expedita fuga
           ipsa ipsam laboriosam maiores modi natus numquam odit quam soluta sunt tempore velit!

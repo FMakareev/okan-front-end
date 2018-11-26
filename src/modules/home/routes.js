@@ -2,7 +2,7 @@ import { LAYOUT_APP, LAYOUT_AUTH } from "../../shared/layout";
 
 export const routes = [
   {
-    layout: LAYOUT_AUTH,
+    layout: LAYOUT_APP,
     exact: true,
     name: 'Home',
     path: '/home',
