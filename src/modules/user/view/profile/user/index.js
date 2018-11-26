@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import Wrapper from '../components/Wrapper';
 
+import { Text } from '../../../../../components/Text/Text';
+import ButtonBase from '../../../../../components/ButtonBase/ButtonBase';
+
 const Primary300 = styled.p`
   font-family: ${props => props.theme.fontFamily.primary300};
 `;
@@ -35,6 +38,16 @@ export const ProfilePage = () => (
     <Primary700>ProfilePageUser</Primary700>
     <Secondary>ProfilePageUser</Secondary>
     <SecondaryBold>ProfilePageUser</SecondaryBold>
+    <Text as="h2" variant="firstHeader" mb={[0]}>
+      Hello World
+    </Text>
+    <Text as="h3" variant="secondHeader" mb={[0]}>
+      Hello World
+    </Text>
+    <Text as="p" variant="document">
+      Hello World sdasd sdasd asd asda sd asd asd asd asd asd asd afsd sadfsadfdfvb fsd fsdfwew fsd
+      fsdf sdf s fsdf sdf sd fsd fsd gsg sg sdg fgdf gd gdf gdfg dfg df
+    </Text>
   </Wrapper>
 );
 

@@ -14,7 +14,7 @@ const RigthPadding = styled.div`
 const CentralSection = styled.div`
   width: 80%;
   max-width: 1130px;
-  background-color: coral;
+  background-color: white;
 `;
 export const Wrapper = ({ children }) => (
   <Flex>
