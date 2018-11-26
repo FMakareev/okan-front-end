@@ -22,7 +22,7 @@ export const FormButton = ({ disabled, children, ml }) => {
   );
 };
 
-FormButton.PropTypes = {
+FormButton.propTypes = {
   /** disabled input */
   disabled: PropTypes.bool,
   /** name button */

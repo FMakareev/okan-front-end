@@ -6,7 +6,7 @@ import { FieldInputPassword } from './FieldInputPassword';
 it('FieldInputPassword: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
-      <FieldInputPassword />
+      <FieldInputPassword type={'password'} isOpen={true} name={'bu'} placeholder={'bu'} />
     </StyledThemeProvider>,
   );
 });

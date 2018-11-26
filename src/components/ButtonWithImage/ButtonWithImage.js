@@ -40,9 +40,9 @@ ButtonWithImage.propTypes = {
   /**size button */
   size: PropTypes.string,
   /**css value - margin-right */
-  mr: PropTypes.string,
+  mr: PropTypes.number,
   /**css value - margin-left */
-  ml: PropTypes.string,
+  ml: PropTypes.number,
 };
 
 export default ButtonWithImage;
