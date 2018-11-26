@@ -69,6 +69,7 @@ export const StyledThemeProvider = ({ children }) => (
       colors: ColorPallet,
       variant: { buttons: ButtonVariant, text: TextVariant },
       variants: { buttonSize: ButtonSize },
+      // TODO review:nik-z: не надо использовать две пары ковычек, дотсточно одной, просто проверь в браузере работает твой вариант или нет и все поймешь
       fontFamily: {
         primary300: "'Museo Sans 300'",
         primary500: "'Museo Sans 500'",

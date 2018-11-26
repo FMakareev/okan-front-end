@@ -36,7 +36,7 @@ export const Text = styled(Box)`
   ${({ overflow }) => `overflow: ${overflow};`};
   ${({ textOverflow }) => `text-overflow: ${textOverflow};`};
 `;
-
+// TODO review:nik-z: добавь propTypes для варианта и для шрифта, использую перечисление PropTypes.oneOf и туда передай масив доступных в теме значений
 Text.propTypes = {
   /**  children React element  */
   children: PropTypes.string,
@@ -58,11 +58,10 @@ Text.propTypes = {
 
   ...display.propTypes,
   ...fontWeight.propTypes,
-  ...fontFamily.propTypes,
   ...textAlign.propTypes,
   ...letterSpacing.propTypes,
 };
-
+// TODO review:nik-z: забыл прописать пропсы по умолчанию
 Text.defaultProps = {
   color: 'fontColor.color1',
 };
