@@ -22,7 +22,7 @@ const rehydrateState = window.ASYNC_COMPONENTS_STATE;
  * {@linkcode https://github.com/ctrlplusb/react-universally/blob/master/client/index.js#L34}
  * {@linkcode https://github.com/ctrlplusb/react-async-component#server-side-rendering}
  * */
-const ROOT = (
+export const ROOT = (
   <AsyncComponentProvider rehydrateState={rehydrateState}>
     <StyledThemeProvider>
       <ApolloProvider client={client}>
