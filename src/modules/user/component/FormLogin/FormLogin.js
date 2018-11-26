@@ -13,7 +13,7 @@ import Relative from '../../../../components/Relative/Relative';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 // import Logo from '../../../../assets/icons/multicolor/logo.multicolor.svg';
-
+// TODO review:MICHA: константы доп. компонентов надо вынести в отельные файлы, т.к. это иконки надо поместить их в /src/components/Icons/название иконки
 const logo = () => {
   return (
     <svg
@@ -37,7 +37,7 @@ const logo = () => {
     </svg>
   );
 };
-
+// TODO review:MICHA: это jsx, а в jsx нет поддержки атредутов через "-", потому что в js нельзя создавать свойства и переменные с дефисом так что тут только camelCase
 const SvgPlay = () => (
   <svg width="16" height="20" viewBox="0 0 16 20" fill="inherit" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -48,7 +48,8 @@ const SvgPlay = () => (
     />
   </svg>
 );
-
+// TODO review:MICHA: цвет глаза не меняется как в макете, для смены цвета глаза можно прокидывать нужный цвет в props.fill и этот props вставлять вместо fill в элементы компоненты
+// TODO review:MICHA: если ты не понимаешь почему у тебя компоненты не наследуют цвет от родителя как в тибе то надо просто везде в компоненте указать `fill: inherit;`
 const SvgEye = () => (
   <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -76,9 +77,13 @@ class FormLogin extends Component {
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
     const { type, isOpen } = this.state;
+    // TODO review:MICHA: placeholder в макетах серым, а у тебя черным, исправить
+    // TODO review:MICHA: поля для ввода не соответствуют макетам
+    // TODO review:MICHA: добавь валидацию на обязательность заполнения полей и заблокируй кнопку если форма не валидна и так на всех формах должно быть
     return (
       <form onSubmit={handleSubmit(this.submit)}>
         <Flex alignItems={'center'} justifyContent={'center'} pt={17} pb={'125px'}>
+          {/*TODO review:MICHA: конечно можно и так но лучше пиши JSX, и название класа или еременной всегда с большой буквы если это компонент и он возвращает JSX */}
           {logo()}
         </Flex>
 
@@ -92,6 +97,7 @@ class FormLogin extends Component {
               fz={9}
             />
           </Flex>
+          {/*TODO review:MICHA: текстовое поле с кнопкой скрытия вынеси в отдельный компонент чтобы не дублировать код в трех компонентах, тебе потом проще будет тест для него написать */}
           <Flex width={'100%'}>
             <Relative width={'100%'}>
               <Field name="ups" component={TextFieldBase} placeholder={'Пароль'} type={type} />
@@ -103,7 +109,7 @@ class FormLogin extends Component {
             </Relative>
           </Flex>
         </Flex>
-
+        {/*TODO review:MICHA: кнопка не соответствует макеты */}
         <Flex justifyContent={'center'}>
           <Link to="/auth/login">
             <ButtonWithImage
