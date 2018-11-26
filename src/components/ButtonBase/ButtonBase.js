@@ -13,9 +13,9 @@ const buttonsVariant = variant({
   key: 'variant.buttons',
   prop: 'variant',
 });
-// TODO review:MICHA: в теме свойство "buttonSize" ты можешь поместить в "variant" и писать не "variants.buttonSize", а "variant.buttonSize"
+
 const buttonsSize = variant({
-  key: 'variants.buttonSize',
+  key: 'variant.buttonSize',
   prop: 'size',
 });
 
@@ -29,7 +29,7 @@ export const ButtonBase = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 5px;
   ${buttonsVariant};
   ${buttonsSize};
   ${space};
