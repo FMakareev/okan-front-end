@@ -8,13 +8,21 @@ import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty'
 
 const TextField = styled.input`
   width: 100%;
-  border: 2px solid #00649c;
+  border: 2px solid
+    ${props => {
+      if ((props.meta && props.meta.active) || props.meta.dirty) {
+        return props.theme.colors.color7;
+      }
+      return props.theme.colors.color4;
+    }}!important;
   background-color: transparent;
   box-sizing: border-box;
   padding-left: 5px;
   font-size: 32px;
   line-height: 40px;
   padding: 10px 10px;
+  border-radius: 5px;
+  color: ${props => props.theme.colors.color10};
   background-color: #fff;
   ${BorderRadiusProperty};
   ${BorderColorProperty};
@@ -22,7 +30,7 @@ const TextField = styled.input`
   ${space};
 
   ::placeholder {
-    color: ${props => props.theme.colors.color10}};
+    color: ${props => props.theme.colors.color4}};
   }
 
   :focus::-webkit-input-placeholder {
