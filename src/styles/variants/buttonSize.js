@@ -20,6 +20,6 @@ export const ButtonSize = {
     lineHeight: '40px',
     padding: '10px 0',
     fontWeight: 700,
-    padding: '0 60px',
+    padding: '8px 60px',
   },
 };
