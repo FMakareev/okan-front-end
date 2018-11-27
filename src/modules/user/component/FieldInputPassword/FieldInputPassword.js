@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Absolute } from 'rebass';
+import styled from 'styled-components';
 
 import Flex from '../../../../components/Flex/Flex';
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
@@ -42,26 +43,24 @@ class FieldInputPassword extends Component {
     const { name, placeholder, validate } = this.props;
 
     return (
-      <Flex width={'100%'}>
-        <Relative width={'100%'}>
-          <Field
-            name={name}
-            component={TextFieldBase}
-            placeholder={placeholder}
-            type={type}
-            validate={validate}
-          />
-          <Absolute top={'33%'} right={'4%'}>
-            <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
-              {isOpen ? (
-                <div style={{ fill: '#00649C' }}>{SvgEye()}</div>
-              ) : (
-                <div style={{ fill: '#848484' }}> {SvgEye()}</div>
-              )}
-            </ButtonBase>
-          </Absolute>
-        </Relative>
-      </Flex>
+      <Relative width={'100%'}>
+        <Field
+          name={name}
+          component={TextFieldBase}
+          placeholder={placeholder}
+          type={type}
+          validate={validate}
+        />
+        <Absolute top={'33%'} right={'4%'}>
+          <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
+            {isOpen ? (
+              <div style={{ fill: '#00649C' }}>{SvgEye()}</div>
+            ) : (
+              <div style={{ fill: '#848484' }}> {SvgEye()}</div>
+            )}
+          </ButtonBase>
+        </Absolute>
+      </Relative>
     );
   }
 }
