@@ -22,7 +22,7 @@ const TextField = styled.input`
   line-height: 40px;
   padding: 10px 10px;
   border-radius: 5px;
-  color: ${props => props.theme.colors.color10};
+  color: ${props => props.theme.colors.color11};
   background-color: #fff;
   ${BorderRadiusProperty};
   ${BorderColorProperty};

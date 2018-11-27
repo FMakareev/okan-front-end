@@ -8,7 +8,7 @@ import ButtonBase from '../ButtonBase/ButtonBase';
 // лучше переделать на Box так по крайней мере появится возможность внутри их стилизовать и позиционировать
 // на сколько я помню есть у нас в профиле кнопка у которой иконка под текстом стоит и такую используя этот
 // компонент получится сделать только если блок по центру будет не Flex, а Box т.к. у Flex по умолчанию элементы строятся в ряд
-export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, ml }) => (
+export const ButtonWithImage = ({ leftIcon, rightIcon, children, variant, size, mr, ml }) => (
   <ButtonBase variant={variant} size={size}>
     <Flex justifyContent="center" alignItems="space-around">
       {leftIcon && (
@@ -18,7 +18,7 @@ export const ButtonWithImage = ({ leftIcon, rightIcon, name, variant, size, mr, 
       )}
 
       <Flex justifyContent="center" alignItems="center">
-        {name}
+        {children}
       </Flex>
 
       {rightIcon && (

@@ -20,7 +20,6 @@ import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import { Text } from '../../../../components/Text/Text';
 import { fontFamily } from 'styled-system';
 
-export let HomePage = props => {
 const Bold = styled.div`
   font-family: 'Museo Sans';
   font-weight: 300;
