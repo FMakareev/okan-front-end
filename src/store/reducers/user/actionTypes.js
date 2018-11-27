@@ -1,0 +1,7 @@
+export const USER_LOADING = 'USER_LOADING';
+export const USER_LOADING_ERROR = 'USER_LOADING_ERROR';
+export const USER_LOADING_SUCCESS = 'USER_LOADING_SUCCESS';
+
+export const USER_ADD = 'USER_ADD';
+
+export const USER_REMOVE = 'USER_REMOVE';
