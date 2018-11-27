@@ -50,6 +50,8 @@ class FieldInputPassword extends Component {
           placeholder={placeholder}
           type={type}
           validate={validate}
+          fontSize={9}
+          lineHeight={11}
         />
         <Absolute top={'33%'} right={'4%'}>
           <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
