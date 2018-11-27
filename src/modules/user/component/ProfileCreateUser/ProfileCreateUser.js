@@ -9,6 +9,7 @@ import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
 import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
+import DayPickerField from '../../../../components/DayPickerField/DayPickerField';
 
 const BoxFirst = styled(Box)`
   input:first-child {
@@ -73,7 +74,7 @@ class ProfileCreateUser extends Component {
         />
         <Field
           name="DateOfBirth"
-          component={TextFieldBase}
+          component={DayPickerField}
           placeholder={'Дата рождения'}
           type="text"
           fontSize={5}
