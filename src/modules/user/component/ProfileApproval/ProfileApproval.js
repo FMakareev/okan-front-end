@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 
-import Flex from '../../../../components/Flex/Flex';
-import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
+import Flex from '../../../../components/Flex/Flex';
 import Tbody from '../../../../components/Table/Tbody';
 import Td from '../../../../components/Table/Td';
 import Tr from '../../../../components/Table/Tr';
@@ -11,6 +10,12 @@ import Tr from '../../../../components/Table/Tr';
 const TrStyled = styled(Tr)`
   display: flex;
   justify-content: space-around;
+  padding: 3px 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #007faf21;
+  }
 `;
 
 const TbodyStyled = styled(Tbody)`
@@ -35,10 +40,11 @@ export class ProfileApproval extends Component {
           На согласование
         </Text>
         <Tbody>
-          <TrStyled>
+          <Flex justifyContent={'space-around'}>
             <Td>Номер документа</Td>
+
             <Td>Название документа</Td>
-          </TrStyled>
+          </Flex>
         </Tbody>
         <TbodyStyled>
           <TrStyled>
