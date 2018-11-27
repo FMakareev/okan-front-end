@@ -19,12 +19,15 @@ const TextField = styled.input`
     }}!important;
   background-color: transparent;
   box-sizing: border-box;
-  /* font-size: 32px;
-
-  line-height: 40px; */
   padding: 10px 10px;
   color: ${props => props.theme.colors.color10} !important;
   background-color: #fff;
+  cursor: ${props => {
+    if ((props.meta && props.meta.active) || props.meta.dirty) {
+      return 'text';
+    }
+    return 'pointer';
+  }}!important;
   ${FontSizeProperty};
   ${LineHeightProperty};
   ${BorderRadiusProperty};
