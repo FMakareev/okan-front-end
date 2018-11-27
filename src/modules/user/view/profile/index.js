@@ -7,22 +7,31 @@ import Box from '../../../../components/Box/Box';
 
 import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
 import ProfileCreateUser from '../../component/ProfileCreateUser/ProfileCreateUser';
+import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
+import ProfileRecoveryEmail from '../../component/ProfileRecoveryEmail/ProfileRecoveryEmail';
 
 export class ProfilePage extends Component {
   state = {};
   render() {
     return (
       <ErrorCatch>
-        <Flex ml={'240px'} mr={'70px'} justifyContent={'space-between'}>
-          <Flex flexDirection={'column'} width={'44%'}>
-            <ProfileApproval />
-            <div>1</div>
+        <Flex ml={'240px'} mr={'70px'} flexDirection={'column'}>
+          <Flex justifyContent={'space-between'} mb={'100px'}>
+            <Flex width={'44%'} flexDirection={'column'}>
+              <ProfileApproval />
+            </Flex>
+            <Flex width={'44%'} flexDirection={'column'}>
+              <ProfileCreateUser />
+            </Flex>
           </Flex>
 
-          <Flex flexDirection={'column'} width={'44%'}>
-            <ProfileCreateUser />
-
-            <div>4</div>
+          <Flex justifyContent={'space-between'}>
+            <Flex width={'44%'} flexDirection={'column'}>
+              <ProfileNotification />
+            </Flex>
+            <Flex width={'44%'} flexDirection={'column'}>
+              <ProfileRecoveryEmail />
+            </Flex>
           </Flex>
         </Flex>
       </ErrorCatch>
