@@ -5,7 +5,7 @@ exports[`ButtonWithImage: Рендерится без ошибок 1`] = `
   className="sc-bxivhb dUiVDW"
 >
   <button
-    className="mxzgdr-0 eAwEWa"
+    className="mxzgdr-0 ioAChj"
     size="large"
   >
     <div
@@ -26,7 +26,7 @@ exports[`ButtonWithImage: Рендерится с иконкой слева 1`] 
   className="sc-bxivhb dUiVDW"
 >
   <button
-    className="mxzgdr-0 eAwEWa"
+    className="mxzgdr-0 ioAChj"
     size="large"
   >
     <div
@@ -54,7 +54,7 @@ exports[`ButtonWithImage: Рендерится с иконкой справа 1`
   className="sc-bxivhb dUiVDW"
 >
   <button
-    className="mxzgdr-0 eAwEWa"
+    className="mxzgdr-0 ioAChj"
     size="large"
   >
     <div
