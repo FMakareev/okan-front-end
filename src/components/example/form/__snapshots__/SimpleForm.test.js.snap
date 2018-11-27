@@ -9,17 +9,21 @@ exports[`SimpleForm: просто рендер 1`] = `
       First Name
     </label>
     <div>
-      <input
-        name="firstName"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        onFocus={[Function]}
-        placeholder="First Name"
-        type="text"
-        value=""
-      />
+      <div>
+        <label />
+        <div>
+          <input
+            name="firstName"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
     </div>
   </div>
   <div>
@@ -96,77 +100,8 @@ exports[`SimpleForm: просто рендер 1`] = `
     </div>
   </div>
   <div>
-    <label>
-      Favorite Color
-    </label>
-    <div>
-      <select
-        name="favoriteColor"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        onFocus={[Function]}
-        value=""
-      >
-        <option />
-        <option
-          value="ff0000"
-        >
-          Red
-        </option>
-        <option
-          value="00ff00"
-        >
-          Green
-        </option>
-        <option
-          value="0000ff"
-        >
-          Blue
-        </option>
-      </select>
-    </div>
-  </div>
-  <div>
-    <label
-      htmlFor="employed"
-    >
-      Employed
-    </label>
-    <div>
-      <input
-        checked={false}
-        id="employed"
-        name="employed"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        onFocus={[Function]}
-        type="checkbox"
-        value=""
-      />
-    </div>
-  </div>
-  <div>
-    <label>
-      Notes
-    </label>
-    <div>
-      <textarea
-        name="notes"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        onFocus={[Function]}
-        value=""
-      />
-    </div>
-  </div>
-  <div>
     <button
+      className="clicks-0"
       disabled={true}
       type="submit"
     >
