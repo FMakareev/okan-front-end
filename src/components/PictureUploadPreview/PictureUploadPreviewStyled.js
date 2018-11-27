@@ -10,8 +10,11 @@ export const DropZoneStyled = styled(DropZoneDefault)`
   ${BorderRadiusProperty};
   cursor: pointer;
   overflow: hidden;
-  height: 50px;
+  height: 52px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `;
+
 export const DropZoneIconWrapper = styled.div`
   position: relative;
   text-align: center;
@@ -20,6 +23,8 @@ export const DropZoneIconWrapper = styled.div`
   overflow: hidden;
   color: #848484;
   border: 2px solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   background-color: #fff;
   ${({ disabled }) => (disabled ? 'opacity: 0.25;' : '')};
 `;
