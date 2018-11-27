@@ -197,7 +197,8 @@ class FormLogin extends Component {
               component={TextFieldBase}
               placeholder={'Логин'}
               type="text"
-              fz={9}
+              fontSize={9}
+              lineHeight={11}
               validate={[required]}
             />
           </BoxFirst>
