@@ -4,10 +4,19 @@ import PropTypes from 'prop-types';
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
 
-export const ButtonWithImage = ({ leftIcon, rightIcon, children, variant, size, mr, ml }) => {
+export const ButtonWithImage = ({
+  leftIcon,
+  rightIcon,
+  children,
+  variant,
+  size,
+  mr,
+  ml,
+  width,
+}) => {
   return (
-    <ButtonBase variant={variant} size={size}>
-      <Flex justifyContent={'center'} alignItems={'space-around'}>
+    <ButtonBase variant={variant} size={size} width={width}>
+      <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
         {leftIcon && (
           <Flex mr={mr} justifyContent={'center'} alignItems={'center'}>
             {leftIcon}
