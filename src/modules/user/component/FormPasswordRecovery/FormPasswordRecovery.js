@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm, getFormValues, SubmissionError, setSubmitFailed } from 'redux-form';
+import styled from 'styled-components';
+import { Field, reduxForm, Form, SubmissionError } from 'redux-form';
 
 import Flex from '../../../../components/Flex/Flex';
+import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 import required from '../../../../utils/validation/required';
@@ -41,6 +43,24 @@ const validate = values => {
   return errors;
 };
 
+const BoxFirst = styled(Box)`
+  input:first-child {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+  }
+`;
+
+const BoxSecond = styled(Box)`
+  input:first-child {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+  }
+`;
+
 class FormPasswordRecovery extends Component {
   static propTypes = {
     ...formPropTypes,
@@ -55,25 +75,46 @@ class FormPasswordRecovery extends Component {
   }
 
   submit(value) {
-    console.log(11, value);
+    //   const { setNotificationError, setNotificationSuccess, translate } = this.props;
+    //   console.log('FormProfilePassword:', value);
+    //   const data = { variables: value };
+    //   return this.props
+    //     .updateUser(data)
+    //     .then(response => {
+    //       console.log('FormProfilePassword response:', response);
+    //       console.log('FormProfilePassword response:', JSON.stringify(response));
+    //       if (response.errors) {
+    //         throw response;
+    //       } else {
+    //         setNotificationSuccess(notificationOption(translate).success);
+    //         this.props.reset();
+    //         return Promise.resolve(response);
+    //       }
+    //     })
+    //     .catch(({ errors, message }) => {
+    //       console.log('FormProfilePassword error: ', JSON.stringify(errors));
+    //       console.log('FormProfilePassword error: ', message);
+    //       setNotificationError(notificationOption(translate).error);
+    //       throw new SubmissionError({ _error: message || errors[0].message });
+    //     });
+    // }
   }
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
 
-    // TODO review:MICHA: нужна проверка чтобы поля были заполнены, а кнопка заблокирована пока форма не валидна
-    // TODO review:MICHA: старый пароль не должен быть похож на новый, а новыи и повтор нового должны совпадать
     return (
-      <form onSubmit={handleSubmit(this.submit)}>
+      <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
 
-        <Flex alignItems={'center'} flexDirection={'column'} mb={'100px'}>
-          <FieldInputPassword
-            name={'oldPassword'}
-            placeholder={'Старый пароль'}
-            validate={required}
-          />
-          {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
+        <Box mb={'100px'}>
+          <BoxFirst>
+            <FieldInputPassword
+              name={'oldPassword'}
+              placeholder={'Старый пароль'}
+              validate={required}
+            />
+          </BoxFirst>
 
           <FieldInputPassword
             name={'newPassword'}
@@ -81,19 +122,23 @@ class FormPasswordRecovery extends Component {
             validate={required}
           />
 
-          <FieldInputPassword
-            name={'retypePassword'}
-            placeholder={'Потвердите новый пароль'}
-            validate={required}
-          />
-        </Flex>
+          <BoxSecond>
+            <FieldInputPassword
+              name={'retypePassword'}
+              placeholder={'Потвердите новый пароль'}
+              validate={required}
+            />
+          </BoxSecond>
+
+          {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
+        </Box>
 
         <FormButton
           disabled={pristine || submitting || invalid}
           children={'Сменить пароль'}
           ml={9}
         />
-      </form>
+      </Form>
     );
   }
 }

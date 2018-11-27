@@ -21,8 +21,7 @@ const TextField = styled.input`
   font-size: 32px;
   line-height: 40px;
   padding: 10px 10px;
-  border-radius: 5px;
-  color: ${props => props.theme.colors.color11};
+  color: ${props => props.theme.colors.color10} !important;
   background-color: #fff;
   ${BorderRadiusProperty};
   ${BorderColorProperty};
