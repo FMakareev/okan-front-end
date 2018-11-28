@@ -16,7 +16,7 @@ export const ButtonVariant = {
   large: {
     color: '#00649C',
     fill: '#00649C',
-    backgroundColor: '#E5E5E5',
+    backgroundColor: '#ffffff',
     border: '2px solid',
     '&:hover': { backgroundColor: '#00649C', color: '#ffffff', fill: '#ffffff' },
   },
