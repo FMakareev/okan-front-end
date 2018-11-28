@@ -15,20 +15,16 @@ const FlexStyled = styled(Flex)`
 `;
 
 class DayPickerField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
+  state = { isOpen: true };
 
-  handleClick() {
-    this.setState({ isOpen: !this.state.isOpen });
-  }
+  handleClick = () => {
+    // this.setState({ isOpen: !this.state.isOpen });
+  };
 
   render() {
     const { isOpen } = this.state;
     const { placeholder, selectedDay } = this.props;
-    console.log(3, this.props.selectedDay);
+    console.log(3, this.props);
 
     return (
       <ButtonBase onClick={this.handleClick} variant={'empty'} width={'100%'} p={0}>

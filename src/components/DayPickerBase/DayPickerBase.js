@@ -32,30 +32,22 @@ const DayPickerStyled = styled(DayPicker)`
 `;
 
 export default class DayPickerBase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedDay: null,
-    };
+  state = {
+    selectedDay: null,
+  };
 
-    this.handleDayClick = this.handleDayClick.bind(this);
-  }
-  handleDayClick(day, { selected }) {
-    console.log(1, day);
-
-    if (selected) {
-      // Unselect the day if already selected
-      this.setState({ selectedDay: undefined });
-      return;
-    }
+  handleDayClick = day => {
     this.setState({ selectedDay: day });
-  }
+  };
+
   render() {
-    const { selectedDay } = this.state;
-    console.log(2, this.state.selectedDay);
+    // const { selectedDay } = this.state;
+    console.log(1, this.state);
+    console.log(2, this.props);
     return (
       <div>
-        <DayPickerStyled onDayClick={this.handleDayClick} selectedDay={selectedDay} />
+        <DayPickerStyled onDayClick={this.handleDayClick} />
+        {this.state.selectedDay && this.state.selectedDay.toLocaleDateString()}
       </div>
     );
   }
