@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { display, fontWeight, fontFamily, textAlign, letterSpacing, variant } from 'styled-system';
 
-import { FontSizeRemProperty } from '../../styles/styleProperty/FontSizeRemProperty';
-import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
@@ -21,21 +19,15 @@ const textVariant = variant({
  * @example ./Text.example.md
  */
 export const Text = styled(Box)`
-  text-decoration: none;
   ${textVariant};
-  ${FontSizeRemProperty};
   ${display};
   ${letterSpacing};
   ${textAlign};
   ${FontFamilyProperty};
   ${FontFamileProperty}
   ${fontWeight};
-  ${LineHeightRemProperty};
   ${BackgroundColorProperty};
   ${FillSvgProperty};
-  ${({ whiteSpace }) => `white-space: ${whiteSpace};`};
-  ${({ overflow }) => `overflow: ${overflow};`};
-  ${({ textOverflow }) => `text-overflow: ${textOverflow};`};
 `;
 // TODO review:nik-z: добавь propTypes для варианта и для шрифта, использую перечисление PropTypes.oneOf и туда передай масив доступных в теме значений
 Text.propTypes = {
