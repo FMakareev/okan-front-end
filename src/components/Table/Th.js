@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { space, color } from 'styled-system';
+import { space, color, width } from 'styled-system';
+import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
+import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
+import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 
 /**
  *  Компонент одной ячейки таблицы, которая обозначается как заголовочная.
@@ -9,6 +13,11 @@ import { space, color } from 'styled-system';
 export const Th = styled.th`
   ${space};
   ${color};
+  ${width};
+  ${FontSizeProperty};
+  ${LineHeightProperty};
+  ${FontFamilyProperty};
+  ${TextAlignProperty};
 `;
 
 Th.propTypes = {
