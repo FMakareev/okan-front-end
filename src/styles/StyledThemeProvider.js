@@ -56,6 +56,8 @@ const boxShadow = [
   '2px 2px 4px 0px rgba(0,127,175,1)',
 ];
 
+const textAlign = ['left', 'center', 'right'];
+
 export const StyledThemeProvider = ({ children }) => (
   <Provider
     theme={{
@@ -80,6 +82,7 @@ export const StyledThemeProvider = ({ children }) => (
         secondary: 'Circe Regular',
         secondaryBold: 'Circe Bold',
       },
+      textAlign: textAlign,
     }}>
     {children}
   </Provider>
