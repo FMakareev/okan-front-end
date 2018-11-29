@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { color, display, width, space, fontWeight, variant } from 'styled-system';
-// TODO review:MICHA: не забываем удолять лишние импорты
-import { BorderColorProperty } from '../../styles/styleProperty/BorderColorProperty';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
@@ -13,7 +11,6 @@ const buttonsVariant = variant({
   key: 'variant.buttons',
   prop: 'variant',
 });
-// TODO review:MICHA: в теме свойство "buttonSize" ты можешь поместить в "variant" и писать не "variants.buttonSize", а "variant.buttonSize"
 const buttonsSize = variant({
   key: 'variant.buttonSize',
   prop: 'size',

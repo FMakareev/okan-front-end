@@ -24,8 +24,12 @@ const TbodyStyled = styled(Tbody)`
   margin: 10px 0 0 0;
 `;
 
+const TdStyles = styled(Td)`
+  font-weight: 500;
+`;
+
 const TdStyled = styled(Td)`
-  font-weight: 700;
+  font-family: ${props => props.theme.fontFamily.secondaryBold};
 `;
 
 export class ProfileApproval extends Component {
@@ -36,7 +40,7 @@ export class ProfileApproval extends Component {
   render() {
     return (
       <Fragment>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
           На согласование
         </Text>
         <Tbody>
@@ -52,13 +56,13 @@ export class ProfileApproval extends Component {
         </Tbody>
         <TbodyStyled>
           <TrStyled>
-            <Td>234151</Td>
+            <TdStyles>234151</TdStyles>
             <TdStyled>ТЗ - RK-186-344</TdStyled>
           </TrStyled>
         </TbodyStyled>
         <TbodyStyled>
           <TrStyled>
-            <Td>234151</Td>
+            <TdStyles>234151</TdStyles>
             <TdStyled>ТЗ - RK-186-344</TdStyled>
           </TrStyled>
         </TbodyStyled>

@@ -10,12 +10,13 @@ export const DropZoneStyled = styled(DropZoneDefault)`
   ${BorderRadiusProperty};
   cursor: pointer;
   overflow: hidden;
-  height: 52px;
+  height: 58px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `;
 
 export const DropZoneIconWrapper = styled.div`
+  font-family: ${props => props.theme.fontFamily.secondary} !important;
   position: relative;
   text-align: center;
   vertical-align: top;

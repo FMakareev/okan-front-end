@@ -51,6 +51,7 @@ export class ProfileRecoveryEmail extends Component {
           ml={9}
           disabled={pristine || submitting || invalid}
           width={'100%'}
+          widthIcon={'10px'}
         />
       </Form>
     );

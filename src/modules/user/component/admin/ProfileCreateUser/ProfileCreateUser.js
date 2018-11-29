@@ -40,7 +40,7 @@ class ProfileCreateUser extends Component {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
           Создать пользователя
         </Text>
 
@@ -124,6 +124,7 @@ class ProfileCreateUser extends Component {
           ml={9}
           disabled={pristine || submitting || invalid}
           width={'100%'}
+          widthIcon={'10px'}
         />
       </Form>
     );

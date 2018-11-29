@@ -14,6 +14,7 @@ const TextStyled = styled(Text)`
   border-top: 2px solid #00649c;
   padding-top: 4px;
   padding-bottom: 4px;
+  font-family: ${props => props.theme.fontFamily.secondary};
 `;
 
 class PersonData extends Component {
@@ -24,7 +25,7 @@ class PersonData extends Component {
   render() {
     return (
       <Fragment>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
           Личные данные
         </Text>
         <BoxStyled>

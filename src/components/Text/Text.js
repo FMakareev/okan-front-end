@@ -6,9 +6,10 @@ import { FontSizeRemProperty } from '../../styles/styleProperty/FontSizeRemPrope
 import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
 
 import { Box } from '../Box/Box';
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 
 const textVariant = variant({
   key: 'variant.text',
@@ -20,7 +21,6 @@ const textVariant = variant({
  * @example ./Text.example.md
  */
 export const Text = styled(Box)`
-  font-family: inherit;
   text-decoration: none;
   ${textVariant};
   ${FontSizeRemProperty};
@@ -28,6 +28,7 @@ export const Text = styled(Box)`
   ${letterSpacing};
   ${textAlign};
   ${FontFamilyProperty};
+  ${FontFamileProperty}
   ${fontWeight};
   ${LineHeightRemProperty};
   ${BackgroundColorProperty};

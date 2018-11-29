@@ -10,6 +10,7 @@ import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
 
 const TextField = styled.input`
   width: 100%;
+  font-family: ${props => props.theme.fontFamily.secondary};
   border: 2px solid
     ${props => {
       if ((props.meta && props.meta.active) || props.meta.dirty) {
@@ -20,7 +21,7 @@ const TextField = styled.input`
   background-color: transparent;
   box-sizing: border-box;
   padding: 10px 10px;
-  color: ${props => props.theme.colors.color10} !important;
+  color: ${props => props.theme.colors.color11} !important;
   background-color: #fff;
   cursor: ${props => {
     if ((props.meta && props.meta.active) || props.meta.dirty) {

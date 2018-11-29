@@ -11,6 +11,7 @@ const DatePickerStyled = styled(DatePicker)`
   border: 0 !important;
   padding: 10px !important;
   width: 100% !important;
+  font-family: ${props => props.theme.fontFamily.secondary} !important;
 
   .react-datepicker-wrapper,
   .react-datepicker__input-container {
@@ -42,7 +43,6 @@ export class DayPickerBase extends Component {
 
   render() {
     const { placeholder, input } = this.props;
-    console.log(1, this.props);
     return (
       <DatePickerStyled
         selected={this.state.startDate}

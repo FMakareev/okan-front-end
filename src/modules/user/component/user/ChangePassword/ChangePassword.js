@@ -17,6 +17,7 @@ export const ChangePassword = () => {
         rightIcon={SvgPlay()}
         ml={9}
         width={'100%'}
+        widthIcon={'10px'}
       />
     </Link>
   );
