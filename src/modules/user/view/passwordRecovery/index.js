@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import FormPasswordRecovery from '../../component/FormPasswordRecovery/FormPasswordRecovery';
+/**Components*/
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Container from '../../../../components/Container/Container';
 
+/**View*/
+import FormPasswordRecovery from '../../component/FormPasswordRecovery/FormPasswordRecovery';
+
+/**PropTypes*/
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+
 class PasswordRecovery extends Component {
-  static propTypes = {};
+  static propTypes = { ...ReactRoutePropTypes };
 
   static defaultProps = {};
 
