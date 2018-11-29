@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
+/**Components */
 import Text from '../../../../../components/Text/Text';
 import Flex from '../../../../../components/Flex/Flex';
 import Tbody from '../../../../../components/Table/Tbody';
@@ -24,15 +26,9 @@ const TbodyStyled = styled(Tbody)`
   margin: 10px 0 0 0;
 `;
 
-const TdStyles = styled(Td)`
-  font-weight: 500;
-`;
-
-const TdStyled = styled(Td)`
-  font-family: ${props => props.theme.fontFamily.secondaryBold};
-`;
-
 export class ProfileApproval extends Component {
+  static propTypes = {};
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -40,30 +36,30 @@ export class ProfileApproval extends Component {
   render() {
     return (
       <Fragment>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           На согласование
         </Text>
         <Tbody>
           <Flex justifyContent={'space-around'}>
-            <Text fz={5} lh={6} fontWeight={500}>
+            <Text fz={5} lh={6} fontFamily={'primary500'}>
               Номер документа
             </Text>
 
-            <Text fz={5} lh={6} fontWeight={500}>
+            <Text fz={5} lh={6} fontFamily={'primary500'}>
               Название документа
             </Text>
           </Flex>
         </Tbody>
         <TbodyStyled>
           <TrStyled>
-            <TdStyles>234151</TdStyles>
-            <TdStyled>ТЗ - RK-186-344</TdStyled>
+            <Td fontFamily={'primary500'}>234151</Td>
+            <Td fontFamily={'secondaryBold'}>ТЗ - RK-186-344</Td>
           </TrStyled>
         </TbodyStyled>
         <TbodyStyled>
           <TrStyled>
-            <TdStyles>234151</TdStyles>
-            <TdStyled>ТЗ - RK-186-344</TdStyled>
+            <Td fontFamily={'primary500'}>234151</Td>
+            <Td fontFamily={'secondaryBold'}>ТЗ - RK-186-344</Td>
           </TrStyled>
         </TbodyStyled>
       </Fragment>
