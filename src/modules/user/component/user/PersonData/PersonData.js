@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
+/**Components*/
 import Box from '../../../../../components/Box/Box';
 import Text from '../../../../../components/Text/Text';
 
@@ -18,6 +20,8 @@ const TextStyled = styled(Text)`
 `;
 
 class PersonData extends Component {
+  static propTypes = {};
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -25,11 +29,11 @@ class PersonData extends Component {
   render() {
     return (
       <Fragment>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Личные данные
         </Text>
         <BoxStyled>
-          <Text fz={5} lh={6} pl={4} pt={0} pb={2}>
+          <Text fz={5} lh={6} pl={4} pt={0} pb={2} fontFamily={'secondary'}>
             Колесников
           </Text>
           <TextStyled fz={5} lh={6} pl={4}>
