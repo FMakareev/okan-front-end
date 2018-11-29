@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';
+
 /**
  * Компонент служит контейнером для создания строки таблицы
  * @example ./Tr.example.md
  */
-export const Tr = styled.tr``;
+export const Tr = styled.tr`
+  ${TextAlignProperty};
+`;
 
 Tr.propTypes = {
   /**  children React element  */
