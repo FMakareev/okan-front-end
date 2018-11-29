@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
+/**Components */
 import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
 import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
 import { SvgPlay } from '../../../../../components/Icons/SvgPlay';
 import Box from '../../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../../components/PictureUploadPreview/PictureUploadPreview';
-import DayPickerField from '../../../../../components/DayPickerField/DayPickerField';
+
+/**PropTypes */
+import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 
 const BoxStyled = styled(Box)`
   input:first-child {
@@ -17,6 +19,8 @@ const BoxStyled = styled(Box)`
 `;
 
 export class ProfileRecoveryEmail extends Component {
+  static propTypes = { ...formPropTypes };
+
   constructor(props) {
     super(props);
 
