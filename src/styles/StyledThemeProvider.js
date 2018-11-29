@@ -75,7 +75,7 @@ export const StyledThemeProvider = ({ children }) => (
       },
       fontFamily: {
         primary300: 'Museo Sans 300',
-        primary500: 'Museo Sans',
+        primary500: 'Museo Sans 500',
         primary700: 'Museo Sans 700',
         secondary: 'Circe Regular',
         secondaryBold: 'Circe Bold',
