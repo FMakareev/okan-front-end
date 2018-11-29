@@ -10,37 +10,34 @@ import { SvgCalendar } from '../Icons/SvgCalendar';
 
 const FlexStyled = styled(Flex)`
   border: 2px solid #848484;
-  padding: 10px;
   cursor: pointer;
+  position: relative;
 `;
 
 class DayPickerField extends Component {
-  state = { isOpen: true };
-
-  handleClick = () => {
-    // this.setState({ isOpen: !this.state.isOpen });
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   render() {
-    const { isOpen } = this.state;
-    const { placeholder, selectedDay } = this.props;
-    console.log(3, this.props);
+    const {
+      placeholder,
+      input: { onChange },
+      input,
+    } = this.props;
+
+    console.log(2, this.props);
 
     return (
-      <ButtonBase onClick={this.handleClick} variant={'empty'} width={'100%'} p={0}>
-        <FlexStyled justifyContent={'space-between'} width={'100%'}>
-          <Text color={'#848484'} fontSize={5} lineHeight={6}>
-            {selectedDay ? selectedDay.toLocaleDateString() : placeholder}
-          </Text>
-
+      <FlexStyled justifyContent={'space-between'} width={'100%'}>
+        <Text color={'#848484'} fontSize={5} lineHeight={6} width={'100%'}>
+          <DayPickerBase placeholder={placeholder} input={input} />
+        </Text>
+        <Absolute zIndex={10} right={'7%'} top={'24%'}>
           {SvgCalendar()}
-          {isOpen && (
-            <Absolute zIndex={10} right={'10%'} top={'30%'}>
-              <DayPickerBase selectedDay={selectedDay} />
-            </Absolute>
-          )}
-        </FlexStyled>
-      </ButtonBase>
+        </Absolute>
+      </FlexStyled>
     );
   }
 }

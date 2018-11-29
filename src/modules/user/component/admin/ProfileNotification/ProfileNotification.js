@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 
-import Text from '../../../../components/Text/Text';
+import Text from '../../../../../components/Text/Text';
 
 const TextStyled = styled(Text)`
   background-color: #f2f2f2;

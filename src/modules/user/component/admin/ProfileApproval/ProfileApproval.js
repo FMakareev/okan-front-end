@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 
-import Text from '../../../../components/Text/Text';
-import Flex from '../../../../components/Flex/Flex';
-import Tbody from '../../../../components/Table/Tbody';
-import Td from '../../../../components/Table/Td';
-import Tr from '../../../../components/Table/Tr';
+import Text from '../../../../../components/Text/Text';
+import Flex from '../../../../../components/Flex/Flex';
+import Tbody from '../../../../../components/Table/Tbody';
+import Td from '../../../../../components/Table/Td';
+import Tr from '../../../../../components/Table/Tr';
 
 const TrStyled = styled(Tr)`
   display: flex;
@@ -41,9 +41,13 @@ export class ProfileApproval extends Component {
         </Text>
         <Tbody>
           <Flex justifyContent={'space-around'}>
-            <Td>Номер документа</Td>
+            <Text fz={5} lh={6} fontWeight={500}>
+              Номер документа
+            </Text>
 
-            <Td>Название документа</Td>
+            <Text fz={5} lh={6} fontWeight={500}>
+              Название документа
+            </Text>
           </Flex>
         </Tbody>
         <TbodyStyled>

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
-import DayPickerField from '../../../../components/DayPickerField/DayPickerField';
+import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
+import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
+import { SvgPlay } from '../../../../../components/Icons/SvgPlay';
+import Text from '../../../../../components/Text/Text';
+import Box from '../../../../../components/Box/Box';
+import PictureUploadPreview from '../../../../../components/PictureUploadPreview/PictureUploadPreview';
+import DayPickerField from '../../../../../components/DayPickerField/DayPickerField';
 
 const BoxFirst = styled(Box)`
   input:first-child {

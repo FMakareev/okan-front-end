@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+/**Components */
+
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 
-import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
-import ProfileCreateUser from '../../component/ProfileCreateUser/ProfileCreateUser';
-import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
-import ProfileRecoveryEmail from '../../component/ProfileRecoveryEmail/ProfileRecoveryEmail';
+/** Admin */
+import ProfileApproval from '../../component/admin/ProfileApproval/ProfileApproval';
+import ProfileCreateUser from '../../component/admin/ProfileCreateUser/ProfileCreateUser';
+import ProfileNotification from '../../component/admin/ProfileNotification/ProfileNotification';
+import ProfileRecoveryEmail from '../../component/admin/ProfileRecoveryEmail/ProfileRecoveryEmail';
+
+/** User */
+import PersonData from '../../component/user/PersonData/PersonData';
+import ChangePassword from '../../component/user/ChangePassword/ChangePassword';
 
 export class ProfilePage extends Component {
   state = {};
@@ -22,6 +29,7 @@ export class ProfilePage extends Component {
             </Flex>
             <Flex width={'44%'} flexDirection={'column'}>
               <ProfileCreateUser />
+              {/*<PersonData />*/}
             </Flex>
           </Flex>
 
@@ -31,6 +39,7 @@ export class ProfilePage extends Component {
             </Flex>
             <Flex width={'44%'} flexDirection={'column'}>
               <ProfileRecoveryEmail />
+              {/*<ChangePassword />*/}
             </Flex>
           </Flex>
         </Flex>

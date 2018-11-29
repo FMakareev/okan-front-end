@@ -1,54 +1,63 @@
 import React, { Component } from 'react';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
+import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
+// import { ru } from 'date-fns/locale/ru';
 
-import Go from '../../assets/icons/monocolor/go.monocolor.svg';
-import Back from '../../assets/icons/monocolor/back.monocolor.svg';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const DayPickerStyled = styled(DayPicker)`
-  cursor: pointer;
+const DatePickerStyled = styled(DatePicker)`
+  font-size: 16px !important;
+  line-height: 20px !important;
+  border: 0 !important;
+  padding: 10px !important;
+  width: 100% !important;
 
-  .DayPicker-Caption {
-    color: #fff;
-    background: #007faf;
-    border: 1px solid #007faf;
-    height: 50px;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    margin: 0;
-    padding: 10px 0 0 10px;
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container {
+    width: 100% !important;
   }
 
-  .DayPicker-Month {
-    border: 1px solid grey;
-    background-color: #fff;
-  }
-
-  .DayPicker-NavButton--prev,
-  .DayPicker-NavButton--next {
-    background-image: url;
+  & .react-datepicker__header {
+    background-color: #007faf !important;
   }
 `;
 
-export default class DayPickerBase extends Component {
-  state = {
-    selectedDay: null,
-  };
+export class DayPickerBase extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { startDate: null };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  handleDayClick = day => {
-    this.setState({ selectedDay: day });
-  };
+  handleChange(date) {
+    this.setState({ startDate: date });
+
+    // const {
+    //   input: { onChange },
+    // } = this.props;
+    // const dateString = date && date.format('YYYY.MM.DD');
+    // console.log(dateString);
+    // onChange(dateString);
+  }
 
   render() {
-    // const { selectedDay } = this.state;
-    console.log(1, this.state);
-    console.log(2, this.props);
+    const { placeholder, input } = this.props;
+    console.log(1, this.props);
     return (
-      <div>
-        <DayPickerStyled onDayClick={this.handleDayClick} />
-        {this.state.selectedDay && this.state.selectedDay.toLocaleDateString()}
-      </div>
+      <DatePickerStyled
+        selected={this.state.startDate}
+        onChange={this.handleChange}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        placeholderText={placeholder}
+        dateFormat="dd/MM/yyyy"
+        locale={'ru'}
+        input={input}
+      />
     );
   }
 }
+
+export default DayPickerBase;
