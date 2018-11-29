@@ -11,7 +11,7 @@ import Flex from '../../../../components/Flex/Flex';
 import Container from '../../../../components/Container/Container';
 
 /** View */
-import ProjectList from '../component/ProjectList';
+import ProjectList from '../component/ProjectList/ProjectList';
 
 class ProjectListPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
