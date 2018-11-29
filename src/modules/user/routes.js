@@ -1,16 +1,16 @@
 import { LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 
 export const routes = [
-  {
-    layout: LAYOUT_AUTH,
-    exact: true,
-    name: 'Вход',
-    path: '/',
-    order: 0,
-    hidden: false,
-    load: () => import('./view/login'),
-    resolvers: [],
-  },
+  // {
+  //   layout: LAYOUT_AUTH,
+  //   exact: false,
+  //   name: 'Вход',
+  //   path: '/',
+  //   order: 0,
+  //   hidden: false,
+  //   load: () => import('./view/login'),
+  //   resolvers: [],
+  // },
   {
     layout: LAYOUT_AUTH,
     exact: false,
@@ -48,19 +48,7 @@ export const routes = [
     path: '/profile',
     order: 0,
     hidden: false,
-    load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile/user'),
-    resolvers: [],
-  },
-  {
-    layout: LAYOUT_APP,
-    exact: true,
-    name: 'Личный кабинет',
-    path: '/profileAdmin',
-    order: 0,
-    hidden: false,
-    load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile/admin'),
+    load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile'),
     resolvers: [],
   },
 ];
-
-export default routes;

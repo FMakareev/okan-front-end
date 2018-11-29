@@ -49,7 +49,7 @@ export const routes = [
   },{
     layout: LAYOUT_APP,
     exact: true,
-    name: 'Настройки документа',
+    name: 'Проект',
     path: '/project/:projectid',
     order: 0,
     hidden: false,
