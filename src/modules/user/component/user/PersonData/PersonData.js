@@ -19,7 +19,7 @@ const TextStyled = styled(Text)`
   font-family: ${props => props.theme.fontFamily.secondary};
 `;
 
-class PersonData extends Component {
+export class PersonData extends Component {
   static propTypes = {};
 
   constructor(props) {

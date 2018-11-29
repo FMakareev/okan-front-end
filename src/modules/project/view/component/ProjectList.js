@@ -13,7 +13,7 @@ const FlexStyled = styled(Flex)`
   border-radius: 5px;
 `;
 
-class ProjectList extends Component {
+export class ProjectList extends Component {
   static propTypes = {};
 
   constructor(props) {

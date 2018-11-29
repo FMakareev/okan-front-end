@@ -29,7 +29,7 @@ const BoxSecond = styled(Box)`
   }
 `;
 
-class ProfileCreateUser extends Component {
+export class ProfileCreateUser extends Component {
   static propTypes = { ...formPropTypes };
 
   constructor(props) {
