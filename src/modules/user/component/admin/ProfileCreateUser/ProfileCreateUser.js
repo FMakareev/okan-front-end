@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
+/**Components */
 import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
 import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
 import { SvgPlay } from '../../../../../components/Icons/SvgPlay';
@@ -10,6 +11,9 @@ import Text from '../../../../../components/Text/Text';
 import Box from '../../../../../components/Box/Box';
 import PictureUploadPreview from '../../../../../components/PictureUploadPreview/PictureUploadPreview';
 import DayPickerField from '../../../../../components/DayPickerField/DayPickerField';
+
+/**PropTypes */
+import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 
 const BoxFirst = styled(Box)`
   input:first-child {
@@ -26,6 +30,8 @@ const BoxSecond = styled(Box)`
 `;
 
 class ProfileCreateUser extends Component {
+  static propTypes = { ...formPropTypes };
+
   constructor(props) {
     super(props);
 
@@ -38,9 +44,10 @@ class ProfileCreateUser extends Component {
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontWeight={500}>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 
