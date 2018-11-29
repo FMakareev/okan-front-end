@@ -4,6 +4,7 @@ import { space, width, color } from 'styled-system';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';
 
 /**
  * Компонент одной ячейки таблицы.
@@ -15,12 +16,13 @@ export const Td = styled.td`
   ${width};
   ${FontSizeProperty};
   ${LineHeightProperty};
-  ${FontFamilyProperty}
+  ${FontFamilyProperty};
+  ${TextAlignProperty}
 `;
 
 Td.defaultProps = {
   color: '#333333',
-  fontSize: '18px',
+  fontSize: '16px',
   lineHeight: '24px',
 };
 
