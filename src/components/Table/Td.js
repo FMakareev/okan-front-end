@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { space, width, color } from 'styled-system';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+
 /**
  * Компонент одной ячейки таблицы.
  * @example ./Td.example.md
@@ -12,7 +14,8 @@ export const Td = styled.td`
   ${color};
   ${width};
   ${FontSizeProperty};
-  ${LineHeightProperty}
+  ${LineHeightProperty};
+  ${FontFamilyProperty}
 `;
 
 Td.defaultProps = {
