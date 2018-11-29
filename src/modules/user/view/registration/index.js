@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import FormRegistatration from '../../component/FormRegistatration/FormRegistatration';
+/**Components*/
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Container from '../../../../components/Container/Container';
 
+/**View*/
+import FormRegistatration from '../../component/FormRegistatration/FormRegistatration';
+
+/**PropTypes*/
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+
 class Login extends Component {
-  static propTypes = {};
+  static propTypes = { ...ReactRoutePropTypes };
 
   static defaultProps = {};
 
