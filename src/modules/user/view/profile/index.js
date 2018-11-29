@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-/**Components */
-
+/**Components*/
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 
-/** Admin */
+/** Admin*/
 import ProfileApproval from '../../component/admin/ProfileApproval/ProfileApproval';
 import ProfileCreateUser from '../../component/admin/ProfileCreateUser/ProfileCreateUser';
 import ProfileNotification from '../../component/admin/ProfileNotification/ProfileNotification';
 import ProfileRecoveryEmail from '../../component/admin/ProfileRecoveryEmail/ProfileRecoveryEmail';
 
-/** User */
+/** User*/
 import PersonData from '../../component/user/PersonData/PersonData';
 import ChangePassword from '../../component/user/ChangePassword/ChangePassword';
+
+/**PropTypes*/
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 const FlexStyled = styled(Flex)`
   width: calc(100% - 600px + 60px);
 `;
 
 export class ProfilePage extends Component {
+  static propTypes = { ...ReactRoutePropTypes };
+
   state = {};
   render() {
     return (
@@ -32,8 +37,8 @@ export class ProfilePage extends Component {
               <ProfileApproval />
             </FlexStyled>
             <Flex width={'35%'} flexDirection={'column'}>
-              {/* <ProfileCreateUser />*/}
-              <PersonData />
+              <ProfileCreateUser />
+              {/* <PersonData />*/}
             </Flex>
           </Flex>
 
@@ -42,8 +47,8 @@ export class ProfilePage extends Component {
               <ProfileNotification />
             </FlexStyled>
             <Flex width={'35%'} flexDirection={'column'}>
-              {/* <ProfileRecoveryEmail />*/}
-              <ChangePassword />
+              <ProfileRecoveryEmail />
+              {/*<ChangePassword />*/}
             </Flex>
           </Flex>
         </Flex>
