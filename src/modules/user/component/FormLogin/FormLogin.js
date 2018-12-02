@@ -3,18 +3,24 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
+/** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
+/**Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
 import FormButton from '../FormButton/FormButton';
 
+/** Validation */
 import required from '../../../../utils/validation/required';
+
+/** json method */
 import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
+/** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 const validate = values => {
@@ -207,7 +213,7 @@ class FormLogin extends Component {
             <FieldInputPassword name={'ups'} placeholder={'Пароль'} validate={required} />
           </BoxSecond>
 
-          {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
+          {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}
         </Box>
 
         <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />

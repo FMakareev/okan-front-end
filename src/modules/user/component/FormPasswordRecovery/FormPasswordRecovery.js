@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, Form, SubmissionError } from 'redux-form';
 
+/** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
+/** validation */
 import required from '../../../../utils/validation/required';
 
+/** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
 import FormButton from '../FormButton/FormButton';
 
+/** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 const validate = values => {
@@ -75,29 +79,18 @@ class FormPasswordRecovery extends Component {
   }
 
   submit(value) {
-    //   const { setNotificationError, setNotificationSuccess, translate } = this.props;
-    //   console.log('FormProfilePassword:', value);
-    //   const data = { variables: value };
-    //   return this.props
-    //     .updateUser(data)
-    //     .then(response => {
-    //       console.log('FormProfilePassword response:', response);
-    //       console.log('FormProfilePassword response:', JSON.stringify(response));
-    //       if (response.errors) {
-    //         throw response;
-    //       } else {
-    //         setNotificationSuccess(notificationOption(translate).success);
-    //         this.props.reset();
-    //         return Promise.resolve(response);
-    //       }
-    //     })
-    //     .catch(({ errors, message }) => {
-    //       console.log('FormProfilePassword error: ', JSON.stringify(errors));
-    //       console.log('FormProfilePassword error: ', message);
-    //       setNotificationError(notificationOption(translate).error);
-    //       throw new SubmissionError({ _error: message || errors[0].message });
-    //     });
-    // }
+    return this.props
+      .then(response => {
+        if (response.errors) {
+          throw response;
+        } else {
+          this.props.reset();
+          return Promise.resolve(response);
+        }
+      })
+      .catch(({ errors, message }) => {
+        throw new SubmissionError({ _error: message || errors[0].message });
+      });
   }
 
   render() {

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import { ru } from 'date-fns/locale/ru';
-
 import 'react-datepicker/dist/react-datepicker.css';
+
+/** PropTypes */
+import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 const DatePickerStyled = styled(DatePicker)`
   font-size: 16px !important;
@@ -24,6 +27,13 @@ const DatePickerStyled = styled(DatePicker)`
 `;
 
 export class DayPickerBase extends Component {
+  static propTypes = {
+    /**placeholder */
+    placeholder: PropTypes.string,
+    /**input */
+    ...fieldInputPropTypes,
+  };
+
   constructor(props) {
     super(props);
     this.state = { startDate: null };

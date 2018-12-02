@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-/**Components */
+/**View */
 import Text from '../../../../../components/Text/Text';
 
 const TextStyled = styled(Text)`

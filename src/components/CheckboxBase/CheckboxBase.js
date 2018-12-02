@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { space } from 'styled-system';
+
+/** Image */
 import onCheckbox from '../../assets/icons/monocolor/onCheckbox.monocolor.svg';
-// import onCheckbox from '../../assets/image/onCheckbox.png';
 
 const Wrapper = styled.div`
   ${space};

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 
+/**View */
 import Message from '../Message/Message';
 import { FroalaReduxForm } from '../FroalaReduxForm/FroalaReduxForm';
 

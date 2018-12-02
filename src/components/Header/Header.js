@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/** Css value */
+
 import {
   Wrapper,
   LineWrapper,
@@ -12,6 +14,7 @@ import {
   ProjectListLink,
 } from './HeaderStyled';
 
+/** Image */
 import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
 import { ProfileLogo, ProjectListLogo } from './Logos';
 

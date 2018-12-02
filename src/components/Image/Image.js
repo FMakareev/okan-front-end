@@ -11,4 +11,5 @@ export const Image = styled.img`
 Image.defaultProps = {
   display: 'block',
 };
+
 export default Image;

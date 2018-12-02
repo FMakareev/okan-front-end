@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Relative } from 'rebass';
 import styled from 'styled-components';
 
+/** Css value */
 import { Wrapper, OutsideTriangle, InsideTriangle, Warning } from './TooltipBaseStyled';
 
 const RelativeStyled = styled(Relative)`

@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TooltipBase } from '../TooltipBase/TooltipBase';
 
+/** View */
+import { TooltipBase } from '../TooltipBase/TooltipBase';
 import { TextFieldBase } from '../TextFieldBase/TextFieldBase';
 
 /**

@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
-/**Components */
+/** View */
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Flex from '../../../../components/Flex/Flex';
 import Container from '../../../../components/Container/Container';
 
-/** View */
+/**  Components*/
 import RevisionList from '../component/RevisionList/RevisionList';
 
 class RevisionListPage extends Component {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color, display, space, variant } from 'styled-system';
 
+/** Style property */
 import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusProperty';
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
 import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
@@ -11,13 +12,13 @@ import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
 const TextField = styled.input`
   width: 100%;
   font-family: ${props => props.theme.fontFamily.secondary};
-  border: 2px solid
+  border: 1px solid
     ${props => {
       if ((props.meta && props.meta.active) || props.meta.dirty) {
         return props.theme.colors.color7;
       }
       return props.theme.colors.color4;
-    }}!important;
+    }};
   background-color: transparent;
   box-sizing: border-box;
   padding: 10px 10px;

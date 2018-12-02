@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+/**View */
 import { Text } from '../Text/Text';
 
 /**
@@ -42,22 +44,17 @@ export class Message extends Component {
   }
 
   render() {
-    const {
-      description,
-      meta,
-    } = this.props;
+    const { description, meta } = this.props;
 
     return (
       <Fragment>
         {description && <Text {...this.props}>{description}</Text>}
-        {meta && meta.touched &&
-        meta.error && (
+        {meta && meta.touched && meta.error && (
           <Text color={'line.color23'} {...this.props}>
             {meta.error}
           </Text>
         )}
-        {meta && meta.touched &&
-        meta.warning && (
+        {meta && meta.touched && meta.warning && (
           <Text color={'status.color10'} {...this.props}>
             {meta.warning}
           </Text>

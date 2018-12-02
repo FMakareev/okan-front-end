@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { color, display, width, space, fontWeight, variant } from 'styled-system';
+
+/** Style property */
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
@@ -55,6 +57,7 @@ ButtonBase.propTypes = {
   children: PropTypes.any,
   /** disabled. */
   disabled: PropTypes.bool,
+  /** Active button */
   active: PropTypes.bool,
 };
 

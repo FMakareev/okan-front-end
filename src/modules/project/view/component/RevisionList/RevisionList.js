@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-/**Components */
+/**View */
 import Text from '../../../../../components/Text/Text';
 import Flex from '../../../../../components/Flex/Flex';
 import Table from '../../../../../components/Table/Table';
@@ -11,12 +11,15 @@ import Tbody from '../../../../../components/Table/Tbody';
 import Td from '../../../../../components/Table/Td';
 import Th from '../../../../../components/Table/Th';
 import Tr from '../../../../../components/Table/Tr';
+import ButtonBase from '../../../../../components/ButtonBase/ButtonBase';
+
+/** Image */
 import { SvgExport } from '../../../../../components/Icons/SvgExport';
 import { SvgFolder } from '../../../../../components/Icons/SvgFolder';
-import ButtonBase from '../../../../../components/ButtonBase/ButtonBase';
 
 const TableStyled = styled(Table)`
   border-collapse: collapse;
+  table-layout: fixed;
 `;
 
 const TdStyled = styled(Td)`
@@ -34,11 +37,11 @@ class RevisionList extends Component {
     return (
       <TableStyled width={'100%'}>
         <Tr>
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} textAlign={'left'}>
+          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} textAlign={'left'} width={'100px'}>
             № Ревизии
           </Th>
 
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4}>
+          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} width={'500px'}>
             Ф. И. О.
           </Th>
 

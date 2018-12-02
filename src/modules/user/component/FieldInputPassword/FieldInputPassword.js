@@ -4,13 +4,16 @@ import { Field } from 'redux-form';
 import { Absolute } from 'rebass';
 import styled from 'styled-components';
 
+/** View */
 import Flex from '../../../../components/Flex/Flex';
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import Relative from '../../../../components/Relative/Relative';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
+/** validation */
 import required from '../../../../utils/validation/required';
 
+/** Image */
 import { SvgEye } from '../../../../components/Icons/SvgEye';
 
 class FieldInputPassword extends Component {

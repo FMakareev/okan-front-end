@@ -1,5 +1,10 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
+/**View */
 import { Box } from '../Box/Box';
+
+/**Style property */
 import { MaxWidthProperty } from '../../styles/styleProperty/MaxWidthProperty';
 
 export const Container = styled(Box)`
@@ -13,5 +18,7 @@ Container.defaultProps = {
   mr: 'auto',
   maxWidth: '992px',
 };
+
+Container.propTypes = {};
 
 export default Container;

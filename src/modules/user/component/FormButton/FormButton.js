@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/** View */
 import Flex from '../../../../components/Flex/Flex';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 
+/** Image */
 import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 
 export const FormButton = ({ disabled, children, ml }) => {

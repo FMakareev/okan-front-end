@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-icons-kit';
 
+/** Icons */
 import { ic_add } from 'react-icons-kit/md/ic_add';
 
+/** Image */
 import { SvgDownload } from '../../components/Icons/SvgDownload';
 
+/** Image */
 import Image from '../Image/Image';
 
+/** Css value */
 import { DropZoneStyled, DropZoneIconWrapper, Img, IconStyled } from './PictureUploadPreviewStyled';
 
 const handleDropRejected = (...args) => console.log('reject', args);

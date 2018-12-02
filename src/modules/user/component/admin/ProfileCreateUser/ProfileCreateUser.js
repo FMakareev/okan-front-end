@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
-/**Components */
+/** View */
 import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
 import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
 import { SvgPlay } from '../../../../../components/Icons/SvgPlay';

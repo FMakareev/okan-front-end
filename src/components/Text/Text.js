@@ -2,11 +2,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { display, fontWeight, fontFamily, textAlign, letterSpacing, variant } from 'styled-system';
 
+/** Style property */
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
 
+/** View */
 import { Box } from '../Box/Box';
 
 const textVariant = variant({

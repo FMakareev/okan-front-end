@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { space, color, width } from 'styled-system';
+
+/** Style property */
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';

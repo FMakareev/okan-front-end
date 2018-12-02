@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Absolute } from 'rebass';
 
+/**view */
 import DayPickerBase from '../DayPickerBase/DayPickerBase';
 import ButtonBase from '../ButtonBase/ButtonBase';
 import Flex from '../Flex/Flex';
 import Text from '../Text/Text';
 import { SvgCalendar } from '../Icons/SvgCalendar';
+
+/** PropTypes */
+import { fieldPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 const FlexStyled = styled(Flex)`
   border: 2px solid #848484;
@@ -15,18 +19,17 @@ const FlexStyled = styled(Flex)`
 `;
 
 class DayPickerField extends Component {
+  static propTypes = {
+    ...fieldPropTypes,
+  };
+
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
-    const {
-      placeholder,
-      input: { onChange },
-      input,
-    } = this.props;
-
+    const { placeholder, input } = this.props;
 
     return (
       <FlexStyled justifyContent={'space-between'} width={'100%'}>

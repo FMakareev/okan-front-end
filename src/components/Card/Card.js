@@ -12,8 +12,12 @@ import {
   opacity,
   zIndex,
 } from 'styled-system';
-import { BorderRadiusProperty } from '../../styles/styleProperty/BorderRadiusProperty';
+
+/** View */
 import { Box } from '../Box/Box';
+
+/** Style property */
+import { BorderRadiusProperty } from '../../styles/styleProperty/BorderRadiusProperty';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { BoxShadowProperty } from '../../styles/styleProperty/BoxShadowProperty';
 

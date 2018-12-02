@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-/**Components */
+/**View */
 import Box from '../../../../../components/Box/Box';
 import Flex from '../../../../../components/Flex/Flex';
 import Text from '../../../../../components/Text/Text';
+
+/** Image */
 import { SvgSetting } from '../../../../../components/Icons/SvgSetting';
 
 const FlexStyled = styled(Flex)`

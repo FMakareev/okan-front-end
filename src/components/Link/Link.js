@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-
 import { Link as DefaultLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { space, width, display, color } from 'styled-system';
+
+/** Style property */
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 
 export const Link = styled(DefaultLink)`

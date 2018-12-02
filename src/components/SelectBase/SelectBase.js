@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import SmallPreloader from '../SmallPreloader/SmallPreloader';
-import { Relative } from "../Relative/Relative";
-import { Absolute } from "../Absolute/Absolute";
 
+/**View */
+import SmallPreloader from '../SmallPreloader/SmallPreloader';
+import { Relative } from '../Relative/Relative';
+import { Absolute } from '../Absolute/Absolute';
 
 /**
  * Компонент селекта (SelectBase)

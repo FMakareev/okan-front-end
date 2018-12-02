@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
+/** View */
 import Flex from '../../../../components/Flex/Flex';
 
+/**Image */
 import { SvgLogo } from '../../../../components/Icons/SvgLogo';
 
 export const FormLogo = () => {

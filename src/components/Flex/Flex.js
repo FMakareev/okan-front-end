@@ -9,7 +9,11 @@ import {
   display,
 } from 'styled-system';
 import styled from 'styled-components';
+
+/**View */
 import { Box } from '../Box/Box';
+
+/**Style Property */
 import { OrderProperty } from '../../styles/styleProperty/OrderProperty';
 
 export const Flex = styled(Box)`

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-/**Components*/
+/**View*/
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Container from '../../../../components/Container/Container';
 
-/**View*/
+/**Components*/
 import FormPasswordRecovery from '../../component/FormPasswordRecovery/FormPasswordRecovery';
 
 /**PropTypes*/

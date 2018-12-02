@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm, getFormValues, SubmissionError, setSubmitFailed } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import styled from 'styled-components';
 import { Absolute } from 'rebass';
 
+/** View */
 import Box from '../../../../components/Box/Box';
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 
+/** Validation */
 import required from '../../../../utils/validation/required';
 
+/** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
 import FormButton from '../FormButton/FormButton';
 
+/** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 const BoxFirst = styled(Box)`
@@ -40,32 +44,32 @@ class FormRegistration extends Component {
     this.submit = this.submit.bind(this);
   }
   submit(value) {
-    //  const { setNotificationError, setNotificationSuccess, translate, history, successRedirect } = this.props;
-    //  const data = { variables: Object.assign({ avatar: 'avatar' }, value) };
-    //  // data.variables.role = data.variables.role.map(item => item.name);
-    //  return this.props['@apollo/create'](data)
-    //    .then(response => {
-    //      console.log(response);
-    //      if (response.errors) {
-    //        throw response;
-    //      } else {
-    //        if (typeof successRedirect === 'string') {
-    //          history.push(successRedirect);
-    //        } else if (typeof successRedirect === 'function') {
-    //          successRedirect();
-    //        }
-    //        setNotificationSuccess(notificationOption(translate).success);
-    //      }
-    //    })
-    //    .catch(error => {
-    //      console.log(error);
-    //      setNotificationError(notificationOption(translate).error);
-    //      throw new SubmissionError({ _error: error.message || error.statusText });
-    //    });
+    const { history, successRedirect } = this.props;
+    const data = { variables: Object.assign({}, value) };
+    // data.variables.role = data.variables.role.map(item => item.name);
+    return this.props['@apollo/create'](data)
+      .then(response => {
+        console.log(response);
+        if (response.errors) {
+          throw response;
+        } else {
+          if (typeof successRedirect === 'string') {
+            history.push(successRedirect);
+          } else if (typeof successRedirect === 'function') {
+            successRedirect();
+          }
+          setNotificationSuccess(notificationOption(translate).success);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        setNotificationError(notificationOption(translate).error);
+        throw new SubmissionError({ _error: error.message || error.statusText });
+      });
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.submit)}>
@@ -92,6 +96,7 @@ class FormRegistration extends Component {
               validate={required}
             />
           </BoxSecond>
+          {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
         </Box>
 
         <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />

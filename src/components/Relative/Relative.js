@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Box from '../Box/Box';
 import { zIndex, width } from 'styled-system';
+
+/** View */
+import Box from '../Box/Box';
 
 export const Relative = styled(Box)`
   ${zIndex};
