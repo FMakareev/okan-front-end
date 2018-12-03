@@ -210,7 +210,12 @@ class FormLogin extends Component {
           </BoxFirst>
 
           <BoxSecond>
-            <FieldInputPassword name={'ups'} placeholder={'Пароль'} validate={required} />
+            <FieldInputPassword
+              name={'ups'}
+              placeholder={'Пароль'}
+              validate={required}
+              TextFieldInput={Field}
+            />
           </BoxSecond>
 
           {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}
