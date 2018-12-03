@@ -21,15 +21,29 @@ const BoxStyled = styled(Box)`
   input {
     border-radius: 5px;
     text-align: center;
-    font-family: ${props => {
-      // if ((props.meta && props.meta.active) || props.meta.dirty) {
-      //   return props.theme.fontFamily.secondary;
-      // }
-      // return props.theme.fontFamily.secondaryBold;
-      return console.log(props);
-    }};
+    font-size: 18px;
+    line-height: 24px;
+    padding: 7px;
+    border: 0;
   }
+  border-radius: 5px;
+  border: 1px solid #848484;
 `;
+
+const options = [
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+  { value: 'E6 - OK-186-346', label: 'E6 - OK-186-346' },
+  { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
+];
 
 export class ProjectCreate extends Component {
   static propTypes = { ...formPropTypes };
@@ -75,6 +89,7 @@ export class ProjectCreate extends Component {
             type="text"
             fontSize={5}
             lineHeight={6}
+            options={options}
           />
         </BoxStyled>
 
