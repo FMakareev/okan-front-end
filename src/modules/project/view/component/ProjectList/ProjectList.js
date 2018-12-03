@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-/**View */
+/** View */
 import Box from '../../../../../components/Box/Box';
 import Flex from '../../../../../components/Flex/Flex';
 import Text from '../../../../../components/Text/Text';
+import Image from '../../../../../components/Image/Image';
 
 /** Image */
-import { SvgSetting } from '../../../../../components/Icons/SvgSetting';
+import settings from '../../../../../assets/image/settings.png';
 
 const FlexStyled = styled(Flex)`
   border: 1px solid #333333;
@@ -35,7 +36,9 @@ export class ProjectList extends Component {
           <Text color={'color11'} fontFamily={'secondaryBold'} fz={6} lh={7}>
             055 - ЛАЭС - КШ
           </Text>
-          <Box>{SvgSetting()}</Box>
+          <Box>
+            <Image src={settings} />
+          </Box>
         </FlexStyled>
 
         <FlexStyled
@@ -48,7 +51,9 @@ export class ProjectList extends Component {
           <Text color={'color11'} fontFamily={'secondaryBold'} fz={6} lh={7}>
             055 - ЛАЭС - КШ
           </Text>
-          <Box>{SvgSetting()}</Box>
+          <Box>
+            <Image src={settings} />
+          </Box>
         </FlexStyled>
       </Box>
     );
