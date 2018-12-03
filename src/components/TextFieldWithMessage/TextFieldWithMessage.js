@@ -51,6 +51,8 @@ export class TextField extends Component {
       required,
       disabled,
       loading,
+      fontSize,
+      lineHeight,
     } = this.props;
 
     return (
@@ -64,6 +66,8 @@ export class TextField extends Component {
           disabled={disabled}
           loading={loading}
           meta={meta}
+          fontSize={fontSize}
+          lineHeight={lineHeight}
         />
         <TooltipBase meta={meta} />
       </Wrapper>
