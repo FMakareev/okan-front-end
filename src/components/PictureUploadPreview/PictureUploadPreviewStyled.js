@@ -23,7 +23,7 @@ export const DropZoneIconWrapper = styled.div`
   cursor: pointer;
   overflow: hidden;
   color: #848484;
-  border: 2px solid;
+  border: 1px solid;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   background-color: #fff;
