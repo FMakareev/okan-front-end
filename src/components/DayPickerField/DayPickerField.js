@@ -13,7 +13,7 @@ import { SvgCalendar } from '../Icons/SvgCalendar';
 import { fieldPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 const FlexStyled = styled(Flex)`
-  border: 2px solid #848484;
+  border: 1px solid #848484;
   cursor: pointer;
   position: relative;
 `;
