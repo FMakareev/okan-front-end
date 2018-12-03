@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { Absolute } from 'rebass';
 import styled from 'styled-components';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 import Relative from '../../../../components/Relative/Relative';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
@@ -43,19 +42,20 @@ class FieldInputPassword extends Component {
 
   render() {
     const { type, isOpen } = this.state;
-    const { name, placeholder, validate } = this.props;
+    const { name, placeholder, validate, TextFieldInput } = this.props;
 
     return (
       <Relative width={'100%'}>
-        <Field
+        <TextFieldInput
           name={name}
-          component={TextFieldBase}
+          component={TextFieldWithMessage}
           placeholder={placeholder}
           type={type}
           validate={validate}
           fontSize={9}
           lineHeight={11}
         />
+
         <Absolute top={'33%'} right={'4%'}>
           <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
             {isOpen ? (
