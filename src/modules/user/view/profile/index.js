@@ -21,7 +21,7 @@ import ChangePassword from '../../component/user/ChangePassword/ChangePassword';
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 const FlexStyled = styled(Flex)`
-  width: calc(100% - 600px + 60px);
+  width: calc(100% - 490px);
 `;
 
 export class ProfilePage extends Component {
