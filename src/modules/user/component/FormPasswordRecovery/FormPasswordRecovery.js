@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Field, reduxForm, Form, SubmissionError } from 'redux-form';
 
 /** View */
-import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
@@ -78,20 +77,35 @@ class FormPasswordRecovery extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {
-    return this.props
-      .then(response => {
-        if (response.errors) {
-          throw response;
-        } else {
-          this.props.reset();
-          return Promise.resolve(response);
-        }
-      })
-      .catch(({ errors, message }) => {
-        throw new SubmissionError({ _error: message || errors[0].message });
+  // submit(value) {
+  //   const data = { variables: Object.assign({}, value) };
+  //   return this.props['@apollo/update'](data)
+  //     .then(response => {
+  //       if (response.errors) {
+  //         throw response;
+  //       } else {
+  //         this.props.reset();
+  //         return Promise.resolve(response);
+  //       }
+  //     })
+  //     .catch(({ errors, message }) => {
+  //       throw new SubmissionError({ _error: message || errors[0].message });
+  //     });
+  // }
+
+  submit = value => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
+      }, 1000);
+    }).then(() => {
+      console.log('here');
+      throw new SubmissionError({
+        email: 'тут ошибка которая появится в инпуте с именем email',
+        _error: 'Connection error!',
       });
-  }
+    });
+  };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
@@ -106,6 +120,7 @@ class FormPasswordRecovery extends Component {
               name={'oldPassword'}
               placeholder={'Старый пароль'}
               validate={required}
+              TextFieldInput={Field}
             />
           </BoxFirst>
 
@@ -113,6 +128,7 @@ class FormPasswordRecovery extends Component {
             name={'newPassword'}
             placeholder={'Новый пароль'}
             validate={required}
+            TextFieldInput={Field}
           />
 
           <BoxSecond>
@@ -120,10 +136,11 @@ class FormPasswordRecovery extends Component {
               name={'retypePassword'}
               placeholder={'Потвердите новый пароль'}
               validate={required}
+              TextFieldInput={Field}
             />
           </BoxSecond>
 
-          {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
+          {error && <TooltipBase position="bottom">Невеврный пароль</TooltipBase>}
         </Box>
 
         <FormButton
