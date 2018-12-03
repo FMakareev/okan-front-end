@@ -1,11 +1,113 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Select from 'react-select';
+import { Absolute, Relative } from 'rebass';
+import DeepEqual from 'fast-deep-equal';
 
-/**View */
+/** View */
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
-import { Relative } from '../Relative/Relative';
-import { Absolute } from '../Absolute/Absolute';
+
+/** Image */
+import back from '../../assets/image/back.png';
+import go from '../../assets/image/go.png';
+
+const SelectStyled = styled(Select)`
+  .css-15k3avv {
+    border-bottom: '1px solid #333333';
+    position: static;
+    padding: 0;
+    margin: 0;
+    border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: ${props => props.theme.fontFamily.primary500};
+  }
+
+  .css-vj8t7z {
+    border: 0;
+
+    /* :hover,
+    :active {
+      border-bottom: 1px solid #848484;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+    } */
+  }
+
+  .css-1wy0on6 {
+    width: 36px;
+    height: 36px;
+  }
+
+  .css-1ep9fjw {
+    background-image: url(${go});
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    padding: 10px;
+  }
+
+  .css-1uq0kb5 {
+    background-image: url(${back});
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
+  .css-19bqh2r,
+  .css-d8oujb {
+    display: none;
+  }
+
+  .css-1492t68 {
+    font-family: ${props => props.theme.fontFamily.secondary};
+    line-height: 24px;
+    font-size: 18px;
+    left: 35%;
+  }
+
+  .css-xp4uvy {
+    text-align: center;
+    left: 35%;
+    color: #333333;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .css-v73v8k,
+  .css-wqgs6e,
+  .css-z5z6cw {
+    border-bottom: 1px solid #00649c;
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+
+    :last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .css-z5z6cw {
+    color: #333333;
+    background-color: #fff;
+  }
+
+  .css-11unzgr {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .css-z5z6cw: active {
+    background-color: #deebff;
+  }
+
+  .css-z5z6cw {
+    :hover {
+      background-color: #deebff;
+    }
+  }
+`;
 
 /**
  * Компонент селекта (SelectBase)
@@ -15,95 +117,134 @@ import { Absolute } from '../Absolute/Absolute';
 export class SelectBase extends Component {
   static propTypes = {
     /** input */
-    input: PropTypes.object.isRequired,
-    // label: PropTypes.oneOfType([ PropTypes.object, PropTypes.string ]),
-    // type: PropTypes.string.isRequired,
-    // mods: PropTypes.oneOfType([ PropTypes.object, PropTypes.bool ]),
+    input: PropTypes.object.isRequired, // mods: PropTypes.oneOfType([ PropTypes.object, PropTypes.bool ]), // type: PropTypes.string.isRequired, // label: PropTypes.oneOfType([ PropTypes.object, PropTypes.string ]),
     options: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-    // meta: PropTypes.object.isRequired
-    labelKey: PropTypes.string,
-    /**  value key input */
-    valueKey: PropTypes.string,
-    /** input value seelct */
-    selectValue: PropTypes.string,
-    /** loading */
+    labelKey: PropTypes.string /**  value key input */,
+    valueKey: PropTypes.string /** input value seelct */,
+    selectValue: PropTypes.string /** loading */,
     loading: PropTypes.bool,
     defaultOptions: PropTypes.object,
     placeholder: PropTypes.string,
-  };
+  }; // meta: PropTypes.object.isRequired
 
-  static defaultProps = {
-    mods: false,
-    options: [],
-    placeholder: '',
-  };
+  static defaultProps = { mods: false, options: [], placeholder: '' }; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
   }
 
-  get initialState() {
-    return {};
-  }
-  shouldComponentUpdate(nextProps) {
-    // console.log('shouldComponentUpdate nextProps', nextProps);
-    // console.log('shouldComponentUpdate this.props', this.props);
+  //перестраиваются элементы в вирт.доме
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      input: { value },
+      isLoading,
+      options,
+    } = this.props;
+    const { selectedOption } = this.state;
+
     if (
-      nextProps.input.value !== this.props.input.value ||
-      nextProps.options.length !== this.props.options.length ||
-      nextProps.loading !== this.props.loading
+      nextProps.input.value !== this.props.value ||
+      nextProps.placeholder !== this.props.placeholder ||
+      !DeepEqual(nextProps.options, options) ||
+      nextProps.isLoading !== isLoading ||
+      selectedOption !== nextState.selectedOption
     ) {
       return true;
     }
     return false;
   }
-  // componentDidMount() {
-  //   const {
-  //     input: { onChange },
-  //     selectValue,
-  //   } = this.props;
-  //   if (selectValue) {
-  //     onChange(selectValue);
-  //   }
-  // }
 
-  onChange = event => {
+  //Когда будет изменено вирт. дом (устаревший)
+  componentWillReceiveProps = nextProps => {
+    const {
+      input: { value },
+      valueKey,
+      options,
+    } = nextProps;
+
+    if (
+      nextProps.input.value !== this.props.input.value ||
+      !DeepEqual(nextProps.options, this.props.options)
+    ) {
+      this.setState({
+        selectedOption: this.getSelectedValueFromOptions(options, value, valueKey),
+      });
+    }
+  };
+
+  // Доступ к предыдущим пропсам
+  componentDidUpdate(prevProps) {
+    const {
+      // then options is update - we must update selectedOption at state
+      input: { value },
+      valueKey,
+      options,
+    } = this.props;
+    if (!DeepEqual(prevProps.options, options)) {
+      this.setState({
+        selectedOption: this.getSelectedValueFromOptions(options, value, valueKey),
+      });
+    }
+  }
+
+  get initialState() {
+    const {
+      input: { value },
+      valueKey,
+      options,
+    } = this.props;
+
+    if (value) {
+      return { selectedOption: this.getSelectedValueFromOptions(options, value, valueKey) };
+    }
+    return { selectedOption: null };
+  }
+
+  getSelectedValueFromOptions = (options, value, valueKey) => {
+    let selectedOption = {};
+    if (options) {
+      options.forEach(item => {
+        if (item[valueKey] === value) {
+          selectedOption = item;
+        }
+      });
+    }
+    if (!Object.keys(selectedOption).length) {
+      // if we return empty object (it means no selected value), placeholders not working
+      selectedOption = null;
+    }
+    return selectedOption;
+  };
+
+  onChange = selectedOption => {
     const { input, valueKey } = this.props;
-    input.onChange(event ? event[valueKey] : null);
+    this.setState(
+      () => ({ selectedOption }),
+      () => {
+        input.onChange(this.state.selectedOption ? this.state.selectedOption[valueKey] : null);
+      },
+    );
   };
 
   render() {
-    const {
-      input,
-      options,
-      disabled,
-      labelKey,
-      valueKey,
-      selectValue,
-      loading,
-      defaultOptions,
-      placeholder,
-    } = this.props;
+    const { input, options, disabled, labelKey, valueKey, placeholder, isLoading } = this.props;
+    const { selectedOption } = this.state;
     return (
       <Relative>
-        <Select
-          defaultOptions={defaultOptions}
-          selectValue={selectValue}
+        <SelectStyled
+          value={selectedOption}
           name={input.name}
-          value={input.value ? input.value : selectValue || ''}
           options={options}
-          labelKey={labelKey}
-          valueKey={valueKey}
+          isLoading={isLoading}
+          getOptionValue={
+            option => option[valueKey] // getOptionLabel={option => option[labelKey]}
+          }
           onChange={this.onChange}
           disabled={disabled}
           placeholder={placeholder}
+          blurInputOnSelect={true}
         />
-        {loading && (
-          <Absolute right={0} top={0}>
-            <SmallPreloader />
-          </Absolute>
-        )}
       </Relative>
     );
   }
