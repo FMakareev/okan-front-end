@@ -34,7 +34,6 @@ export class TooltipBase extends PureComponent {
     left: 0,
     top: 175,
     isActive: false,
-    children: <div>Test</div>,
   };
 
   render() {
