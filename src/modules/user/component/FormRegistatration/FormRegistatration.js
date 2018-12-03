@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import styled from 'styled-components';
-import { Absolute } from 'rebass';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
@@ -43,36 +43,48 @@ class FormRegistration extends Component {
 
     this.submit = this.submit.bind(this);
   }
-  submit(value) {
-    const { history, successRedirect } = this.props;
-    const data = { variables: Object.assign({}, value) };
-    // data.variables.role = data.variables.role.map(item => item.name);
-    return this.props['@apollo/create'](data)
-      .then(response => {
-        console.log(response);
-        if (response.errors) {
-          throw response;
-        } else {
-          if (typeof successRedirect === 'string') {
-            history.push(successRedirect);
-          } else if (typeof successRedirect === 'function') {
-            successRedirect();
-          }
-          setNotificationSuccess(notificationOption(translate).success);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        setNotificationError(notificationOption(translate).error);
-        throw new SubmissionError({ _error: error.message || error.statusText });
+  // submit(value) {
+  //   const { history, successRedirect } = this.props;
+  //   const data = { variables: Object.assign({}, value) };
+  //   // data.variables.role = data.variables.role.map(item => item.name);
+  //   return this.props['@apollo/create'](data)
+  //     .then(response => {
+  //       console.log(response);
+  //       if (response.errors) {
+  //         throw response;
+  //       } else {
+  //         if (typeof successRedirect === 'string') {
+  //           history.push(successRedirect);
+  //         } else if (typeof successRedirect === 'function') {
+  //           successRedirect();
+  //         }
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       throw new SubmissionError({ _error: 'Ошибка!' });
+  //     });
+  // }
+
+  submit = value => {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
+      }, 1000);
+    }).then(() => {
+      throw new SubmissionError({
+        email: 'тут ошибка которая появится в инпуте с именем email',
+        _error: 'Connection error!',
       });
-  }
+    });
+    return promise;
+  };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.submit)}>
+      <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
 
         <Box mb={'100px'}>
@@ -84,23 +96,31 @@ class FormRegistration extends Component {
               type="text"
               fontSize={9}
               lineHeight={11}
+              validate={[required]}
             />
           </BoxFirst>
 
-          <FieldInputPassword name={'ups'} placeholder={'Пароль'} validate={required} />
+          <FieldInputPassword
+            name={'ups'}
+            placeholder={'Пароль'}
+            validate={required}
+            TextFieldInput={Field}
+          />
 
           <BoxSecond>
             <FieldInputPassword
               name={'ups1'}
               placeholder={'Потвердите пароль'}
               validate={required}
+              TextFieldInput={Field}
             />
           </BoxSecond>
+
           {error && <TooltipBase position="bottom">Невеврный логин или пароль</TooltipBase>}
         </Box>
 
         <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
-      </form>
+      </Form>
     );
   }
 }
