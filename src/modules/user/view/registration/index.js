@@ -6,7 +6,7 @@ import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Container from '../../../../components/Container/Container';
 
 /**Components*/
-import FormRegistatration from '../../component/FormRegistatration/FormRegistatration';
+import FormRegistration from '../../component/FormRegistration/FormRegistration';
 
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -29,7 +29,7 @@ class Login extends Component {
     return (
       <ErrorCatch>
         <Container maxWidth={'500px'}>
-          <FormRegistatration />
+          <FormRegistration />
         </Container>
       </ErrorCatch>
     );
