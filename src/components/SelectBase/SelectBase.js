@@ -244,6 +244,8 @@ export class SelectBase extends Component {
           disabled={disabled}
           placeholder={placeholder}
           blurInputOnSelect={true}
+          labelKey={labelKey}
+          valueKey={valueKey}
         />
       </Relative>
     );
