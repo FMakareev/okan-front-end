@@ -10,7 +10,7 @@ import Flex from '../../../../components/Flex/Flex';
 import Container from '../../../../components/Container/Container';
 
 /** Components */
-import ProjectCreate from '../component/ProjectCreate/ProjectCreate';
+import ProjectCreate from '../../component/ProjectCreate/ProjectCreate';
 
 class ProjectCreatePage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
