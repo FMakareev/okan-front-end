@@ -10,7 +10,7 @@ import Flex from '../../../../components/Flex/Flex';
 import Container from '../../../../components/Container/Container';
 
 /**  Components*/
-import RevisionList from '../component/RevisionList/RevisionList';
+import RevisionList from '../../component/RevisionList/RevisionList';
 
 class RevisionListPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
