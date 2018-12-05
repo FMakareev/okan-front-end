@@ -43,6 +43,7 @@ export class ProfileRecoveryEmail extends Component {
             type="text"
             fontSize={5}
             lineHeight={6}
+            fontFamily={'secondary'}
           />
         </BoxStyled>
 

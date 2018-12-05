@@ -59,6 +59,7 @@ export class ProfileCreateUser extends Component {
             type="text"
             fontSize={5}
             lineHeight={6}
+            fontFamily={'secondary'}
           />
         </BoxFirst>
 
@@ -69,6 +70,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
 
         <Field
@@ -78,6 +80,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
         <Field
           name="DateOfBirth"
@@ -86,6 +89,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
         <Field
           name="position"
@@ -94,6 +98,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
         <Field
           name="phone"
@@ -102,6 +107,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
         <Field
           name="email"
@@ -110,6 +116,7 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          fontFamily={'secondary'}
         />
         <BoxSecond mb={11}>
           <Field

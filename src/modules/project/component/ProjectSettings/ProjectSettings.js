@@ -1,0 +1,81 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Field, reduxForm, SubmissionError, Form, FieldArray } from 'redux-form';
+
+/**View */
+import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+import Text from '../../../../components/Text/Text';
+import Box from '../../../../components/Box/Box';
+import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
+import SelectBase from '../../../../components/SelectBase/SelectBase';
+import TextFieldArray from '../../../../components/TextFieldArray/TextFieldArray';
+
+/**Image */
+import { SvgPlay } from '../../../../components/Icons/SvgPlay';
+
+/**PropTypes */
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+
+const BoxStyled = styled(Box)`
+  input {
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 7px;
+    border: 0;
+  }
+  border-radius: 5px;
+  border: 1px solid #848484;
+`;
+
+export class ProjectSettings extends Component {
+  static propTypes = { ...formPropTypes };
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+    this.submit = this.submit.bind(this);
+  }
+
+  submit(value) {}
+
+  render() {
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
+
+    return (
+      <Form onSubmit={handleSubmit(this.submit)}>
+        <BoxStyled mb={16}>
+          <Field
+            name="projectName"
+            component={TextFieldBase}
+            placeholder={'Название документа'}
+            type="text"
+            fontSize={5}
+            lineHeight={6}
+            fontFamily={'secondary'}
+          />
+        </BoxStyled>
+        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+          Участники проекта
+        </Text>
+
+        <FieldArray
+          name={'userProject'}
+          component={TextFieldArray}
+          type={'text'}
+          button={'Добавить нового участника'}
+        />
+      </Form>
+    );
+  }
+}
+
+ProjectSettings = reduxForm({
+  form: 'ProjectSettings',
+})(ProjectSettings);
+
+export default ProjectSettings;

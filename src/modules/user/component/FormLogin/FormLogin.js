@@ -65,7 +65,7 @@ const BoxSecond = styled(Box)`
   }
 `;
 
-class FormLogin extends Component {
+export class FormLogin extends Component {
   static propTypes = {
     ...formPropTypes,
   };
@@ -205,11 +205,17 @@ class FormLogin extends Component {
               fontSize={9}
               lineHeight={11}
               left={'45%'}
+              validate={required}
             />
           </BoxFirst>
 
           <BoxSecond>
-            <FieldInputPassword name={'ups'} placeholder={'Пароль'} TextFieldInput={Field} />
+            <Field
+              name={'ups'}
+              placeholder={'Пароль'}
+              TextFieldInput={TextFieldWithMessage}
+              component={FieldInputPassword}
+            />
           </BoxSecond>
 
           {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}

@@ -134,17 +134,19 @@ class FormPasswordRecovery extends Component {
             />
           </BoxFirst>
 
-          <FieldInputPassword
+          <Field
             name={'newPassword'}
             placeholder={'Новый пароль'}
-            TextFieldInput={Field}
+            TextFieldInput={TextFieldWithMessage}
+            component={FieldInputPassword}
           />
 
           <BoxSecond>
-            <FieldInputPassword
+            <Field
               name={'retypePassword'}
               placeholder={'Потвердите новый пароль'}
-              TextFieldInput={Field}
+              TextFieldInput={TextFieldWithMessage}
+              component={FieldInputPassword}
             />
           </BoxSecond>
 

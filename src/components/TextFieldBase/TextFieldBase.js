@@ -8,10 +8,12 @@ import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusPropert
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
 import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
+import FontFamileProperty from '../../styles/styleProperty/FontFamileProperty';
+import FontFamilyProperty from '../../styles/styleProperty/FontFamilyProperty';
 
 const TextField = styled.input`
   width: 100%;
-  font-family: ${props => props.theme.fontFamily.secondary};
+  /* font-family: ${props => props.theme.fontFamily.secondary}; */
   border: 1px solid ${props => props.theme.colors.color4};
   background-color: transparent;
   box-sizing: border-box;
@@ -20,6 +22,8 @@ const TextField = styled.input`
   background-color: #fff;
   ${FontSizeProperty};
   ${LineHeightProperty};
+  ${FontFamileProperty};
+  ${FontFamilyProperty};
   ${BorderRadiusProperty};
   ${BorderColorProperty};
   ${display};

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Absolute } from 'rebass';
@@ -38,16 +38,23 @@ const MessageStyled = styled(Message)`
  * @example ./TextField.example.md
  */
 
-export class TextFieldWithMessage extends PureComponent {
+export class TextFieldWithMessage extends Component {
   static propTypes = {
     /** input */
-    input: fieldInputPropTypes /** meta */,
-    meta: fieldMetaPropTypes /** class */,
-    className: PropTypes.string /** class */,
-    classNameTextField: PropTypes.string /** input */,
-    placeholder: PropTypes.string /** input */,
-    required: PropTypes.string /** input */,
-    type: PropTypes.string /** input */,
+    ...fieldInputPropTypes,
+    /** meta */
+    ...fieldMetaPropTypes,
+    /** class */
+    className: PropTypes.string,
+    /** class */
+    classNameTextField: PropTypes.string,
+    /** input */
+    placeholder: PropTypes.string,
+    /** input */
+    required: PropTypes.string,
+    /** input */
+    type: PropTypes.string,
+    /** input */
     disabled: PropTypes.bool,
   };
 
@@ -97,6 +104,7 @@ export class TextFieldWithMessage extends PureComponent {
           fontSize={fontSize}
           type={type}
           meta={meta}
+          fontFamily={'secondary'}
         />
         <Absolute zIndex={10} left={left}>
           <MessageStyled meta={meta} color={'#df4624'} fz={5} lh={6} px={4} py={3} />

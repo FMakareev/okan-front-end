@@ -19,6 +19,40 @@ import FormButton from '../FormButton/FormButton';
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
+const validate = values => {
+  const errors = {};
+
+  const logins = values.log;
+  const passwords = values.password;
+  const retypePasswords = values.retryPas;
+
+  if (!logins) {
+    errors.logins = 'Required';
+  }
+
+  if (!passwords) {
+    errors.passwords = 'Required';
+  }
+
+  if (!retypePasswords) {
+    errors.retypePasswords = 'Required';
+  }
+
+  // if (password !== undefined && password.length <= 8) {
+  //   errors.password = 'Пароль должен состоять минимум из 8 цифр';
+  // }
+
+  // if (password !== undefined && password.length > 64) {
+  //   errors.password = 'Пароль должен состоять не больше 32 цифр';
+  // }
+
+  // if (password !== retypePassword) {
+  //   errors.retypePassword = 'Пароли не совпадают';
+  // }
+
+  return errors;
+};
+
 const BoxFirst = styled(Box)`
   input:first-child {
     border-top-left-radius: 5px;
@@ -90,30 +124,29 @@ class FormRegistration extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="uname"
+              name="log"
               component={TextFieldWithMessage}
               placeholder={'Логин'}
               type="text"
               fontSize={9}
               lineHeight={11}
-              validate={[required]}
               left={'40%'}
             />
           </BoxFirst>
 
-          <FieldInputPassword
-            name={'ups'}
+          <Field
+            name={'password'}
             placeholder={'Пароль'}
-            validate={required}
-            TextFieldInput={Field}
+            TextFieldInput={TextFieldWithMessage}
+            component={FieldInputPassword}
           />
 
           <BoxSecond>
-            <FieldInputPassword
-              name={'ups1'}
+            <Field
+              name={'retryPas'}
               placeholder={'Потвердите пароль'}
-              validate={required}
-              TextFieldInput={Field}
+              TextFieldInput={TextFieldWithMessage}
+              component={FieldInputPassword}
             />
           </BoxSecond>
 
@@ -128,6 +161,7 @@ class FormRegistration extends Component {
 
 FormRegistration = reduxForm({
   form: 'FormRegistration',
+  validate,
 })(FormRegistration);
 
 export default FormRegistration;

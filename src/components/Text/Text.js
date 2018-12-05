@@ -7,6 +7,7 @@ import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundCo
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
+import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 
 /** View */
 import { Box } from '../Box/Box';
@@ -24,8 +25,9 @@ export const Text = styled(Box)`
   ${textVariant};
   ${display};
   ${letterSpacing};
+  ${LineHeightProperty};
   ${textAlign};
-  /* ${FontFamilyProperty}; */
+  ${FontFamilyProperty};
   ${FontFamileProperty}
   ${fontWeight};
   ${BackgroundColorProperty};
