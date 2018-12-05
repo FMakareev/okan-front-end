@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 /** Validation */
@@ -125,7 +125,7 @@ class FormRegistration extends Component {
           <BoxFirst>
             <Field
               name="log"
-              component={TextFieldWithMessage}
+              component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
               fontSize={9}
@@ -137,7 +137,7 @@ class FormRegistration extends Component {
           <Field
             name={'password'}
             placeholder={'Пароль'}
-            TextFieldInput={TextFieldWithMessage}
+            TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -145,7 +145,7 @@ class FormRegistration extends Component {
             <Field
               name={'retryPas'}
               placeholder={'Потвердите пароль'}
-              TextFieldInput={TextFieldWithMessage}
+              TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
