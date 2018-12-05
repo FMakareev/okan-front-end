@@ -84,8 +84,6 @@ export class TextField extends PureComponent {
       left,
     } = this.props;
 
-    console.log('with message', this.props.type);
-
     return (
       <Box mb={mb} className={className}>
         <TextFieldBase

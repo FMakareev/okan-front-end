@@ -76,8 +76,6 @@ export class TextFieldBase extends Component {
       color,
     } = this.props;
 
-    console.log('base', this.props.type);
-
     return (
       <TextField
         px={px}

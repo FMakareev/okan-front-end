@@ -25,23 +25,32 @@ const validate = values => {
   const newPassword = values.newPassword;
   const retypePassword = values.retypePassword;
 
+  if (!oldPassword) {
+    errors.oldPassword = 'Required';
+  }
+
+  if (!newPassword) {
+    errors.newPassword = 'Required';
+  }
+
+  if (!retypePassword) {
+    errors.retypePassword = 'Required';
+  }
+
   if (newPassword !== undefined && newPassword.length <= 8) {
-    errors.newPassword = { label: 'Ошибка!', text: 'Пароль должен состоять минимум из 8 цифр' };
+    errors.newPassword = 'Пароль должен состоять минимум из 8 цифр';
   }
 
   if (newPassword !== undefined && newPassword.length > 64) {
-    errors.newPassword = { label: 'Ошибка!', text: 'Пароль должен состоять не больше 64 цифр' };
+    errors.newPassword = 'Пароль должен состоять не больше 32 цифр';
   }
 
   if (newPassword !== retypePassword) {
-    errors.retypePassword = { label: 'Ошибка!', text: 'Пароли не совпадают' };
+    errors.retypePassword = 'Пароли не совпадают';
   }
 
   if (oldPassword === newPassword || oldPassword === retypePassword) {
-    errors.retypePassword = {
-      label: 'Ошибка!',
-      text: 'Старый паполь и новый пароль, не должны совпадать',
-    };
+    errors.retypePassword = 'Старый паполь и новый пароль, не должны совпадать';
   }
   return errors;
 };
@@ -119,7 +128,6 @@ class FormPasswordRecovery extends Component {
             <FieldInputPassword
               name={'oldPassword'}
               placeholder={'Старый пароль'}
-              validate={required}
               TextFieldInput={Field}
             />
           </BoxFirst>
@@ -127,7 +135,6 @@ class FormPasswordRecovery extends Component {
           <FieldInputPassword
             name={'newPassword'}
             placeholder={'Новый пароль'}
-            validate={required}
             TextFieldInput={Field}
           />
 
@@ -135,7 +142,6 @@ class FormPasswordRecovery extends Component {
             <FieldInputPassword
               name={'retypePassword'}
               placeholder={'Потвердите новый пароль'}
-              validate={required}
               TextFieldInput={Field}
             />
           </BoxSecond>

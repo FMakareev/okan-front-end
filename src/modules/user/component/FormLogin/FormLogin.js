@@ -6,7 +6,7 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 /** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 /**Components */
@@ -48,7 +48,6 @@ const validate = values => {
   if (password !== undefined && password.length > 30) {
     errors.password = 'Пароль должен состоять не больше 30 цифр ';
   }
-
   return errors;
 };
 
@@ -190,7 +189,7 @@ class FormLogin extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, fill, invalid, error } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -200,22 +199,17 @@ class FormLogin extends Component {
           <BoxFirst>
             <Field
               name="uname"
-              component={TextFieldBase}
+              component={TextFieldWithMessage}
               placeholder={'Логин'}
               type="text"
               fontSize={9}
               lineHeight={11}
-              validate={[required]}
+              left={'45%'}
             />
           </BoxFirst>
 
           <BoxSecond>
-            <FieldInputPassword
-              name={'ups'}
-              placeholder={'Пароль'}
-              validate={required}
-              TextFieldInput={Field}
-            />
+            <FieldInputPassword name={'ups'} placeholder={'Пароль'} TextFieldInput={Field} />
           </BoxSecond>
 
           {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}
