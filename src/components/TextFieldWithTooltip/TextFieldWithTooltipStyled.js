@@ -15,7 +15,7 @@ export const LabelStyled = styled.span`
   left: ${props => props.theme.space[0]}px;
   font-size: ${props => props.theme.fontSizes[4]}px;
   line-height: ${props => props.theme.space[5]}px;
-  color: ${props => props.theme.colors.fontColor.color7};
+  color: ${props => props.theme.colors.fontColor.color12};
   font-weight: ${props => props.theme.fontWeight[1]};
   transform-origin: 0 0;
   transition: all 0.2s ease;

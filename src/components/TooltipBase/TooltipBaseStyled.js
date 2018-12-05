@@ -13,27 +13,27 @@ export const Wrapper = styled.div`
   top: ${props => props.top}%;
   right: 0;
   left: ${props => props.left}%;
-  
-  ${({position}) => {
-    switch (position){
-      case ('bottom'):{
+
+  ${({ position }) => {
+    switch (position) {
+      case 'bottom': {
         return `
           left: 14px;
           top: calc(100% + 10px);
-        `
+        `;
       }
       default: {
         return `
           left: 14px;
           top: calc(100% + 10px);
-        `
+        `;
       }
-    } 
-}}
-  
+    }
+  }}
+
   z-index: 1;
   text-align: left;
-  border: 1px solid ${props => props.theme.colors.color9};
+  border: 1px solid ${props => props.theme.colors.color12};
   border-radius: 3px;
   background: ${props => props.theme.colors.color0};
 `;
@@ -45,7 +45,7 @@ export const OutsideTriangle = styled.div`
   z-index: 1;
   border-style: solid;
   border-width: 10.5px 18px 10.5px 0;
-  border-color: transparent ${props => props.theme.colors.color9} transparent transparent;
+  border-color: transparent ${props => props.theme.colors.color12} transparent transparent;
   transform: rotate(90deg);
   top: -20px;
   left: 15%;
@@ -69,5 +69,5 @@ export const Warning = styled(Text)`
   font-size: ${props => props.theme.fontSizes[5]}px;
   font-weight: ${props => props.theme.fontWeight[0]};
   line-height: ${props => props.theme.fontSizes[6]}px;
-  color: ${props => props.theme.colors.color9};
+  color: ${props => props.theme.colors.color12};
 `;
