@@ -6,6 +6,7 @@ import { Field, reduxForm, Form, SubmissionError } from 'redux-form';
 /** View */
 import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** validation */
 import required from '../../../../utils/validation/required';
@@ -17,7 +18,6 @@ import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
-import TextFieldWithTooltip from "../../../../components/TextFieldWithTooltip/TextFieldWithTooltip";
 
 const validate = values => {
   const errors = {};
