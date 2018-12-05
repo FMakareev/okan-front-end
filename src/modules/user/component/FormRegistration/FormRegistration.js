@@ -27,28 +27,28 @@ const validate = values => {
   const retypePasswords = values.retryPas;
 
   if (!logins) {
-    errors.logins = 'Required';
+    errors.log = 'Required';
   }
 
   if (!passwords) {
-    errors.passwords = 'Required';
+    errors.password = 'Required';
   }
 
   if (!retypePasswords) {
-    errors.retypePasswords = 'Required';
+    errors.retryPas = 'Required';
   }
 
-  // if (password !== undefined && password.length <= 8) {
-  //   errors.password = 'Пароль должен состоять минимум из 8 цифр';
-  // }
+  if (passwords !== undefined && passwords.length <= 8) {
+    errors.password = 'Пароль должен состоять минимум из 8 цифр';
+  }
 
-  // if (password !== undefined && password.length > 64) {
-  //   errors.password = 'Пароль должен состоять не больше 32 цифр';
-  // }
+  if (passwords !== undefined && passwords.length > 64) {
+    errors.password = 'Пароль должен состоять не больше 32 цифр';
+  }
 
-  // if (password !== retypePassword) {
-  //   errors.retypePassword = 'Пароли не совпадают';
-  // }
+  if (passwords !== retypePasswords) {
+    errors.retryPas = 'Пароли не совпадают';
+  }
 
   return errors;
 };

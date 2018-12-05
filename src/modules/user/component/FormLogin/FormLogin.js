@@ -26,27 +26,27 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 const validate = values => {
   const errors = {};
 
-  const login = values.uname;
-  const password = values.ups;
+  const uname = values.uname;
+  const ups = values.ups;
 
-  if (login === undefined) {
-    errors.login = 'Обязательно для заполнения';
+  if (uname === undefined) {
+    errors.uname = 'Обязательно для заполнения';
   }
 
-  if (login === undefined || password === undefined) {
-    errors.password = 'Обязательно для заполнения';
+  if (uname === undefined || ups === undefined) {
+    errors.ups = 'Обязательно для заполнения';
   }
 
-  if (login !== undefined && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(login)) {
+  if (uname !== undefined && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(uname)) {
     errors.login = 'Не верный почтовый адрес';
   }
 
-  if (password !== undefined && password.length <= 8) {
-    errors.password = 'Пароль должен состоять минимум из 8 цифр ';
+  if (ups !== undefined && ups.length <= 8) {
+    errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
-  if (password !== undefined && password.length > 30) {
-    errors.password = 'Пароль должен состоять не больше 30 цифр ';
+  if (ups !== undefined && ups.length > 30) {
+    errors.ups = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
 };
