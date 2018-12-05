@@ -6,8 +6,8 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 /** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
-import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /**Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
@@ -22,7 +22,6 @@ import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 const validate = values => {
   const errors = {};
@@ -34,19 +33,15 @@ const validate = values => {
     errors.uname = 'Обязательно для заполнения';
   }
 
-  if (login === undefined || password === undefined) {
+  if (ups === undefined) {
     errors.ups = 'Обязательно для заполнения';
   }
 
-  if (uname !== undefined && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(uname)) {
-    errors.login = 'Не верный почтовый адрес';
-  }
-
-  if (password !== undefined && password.length <= 8) {
+  if (ups !== undefined && ups.length <= 8) {
     errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
-  if (password !== undefined && password.length > 30) {
+  if (ups !== undefined && ups.length > 30) {
     errors.ups = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
@@ -214,8 +209,8 @@ export class FormLogin extends Component {
             <Field
               name={'ups'}
               placeholder={'Пароль'}
-              TextFieldInput={TextFieldWithMessage}
-              component={TextFieldWithTooltip}
+              TextFieldInput={TextFieldWithTooltip}
+              component={FieldInputPassword}
             />
           </BoxSecond>
 
