@@ -17,7 +17,7 @@ import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
-import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
+import TextFieldWithTooltip from "../../../../components/TextFieldWithTooltip/TextFieldWithTooltip";
 
 const validate = values => {
   const errors = {};
@@ -129,7 +129,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'oldPassword'}
               placeholder={'Старый пароль'}
-              TextFieldInput={TextFieldWithMessage}
+              TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxFirst>
@@ -137,7 +137,7 @@ class FormPasswordRecovery extends Component {
           <Field
             name={'newPassword'}
             placeholder={'Новый пароль'}
-            TextFieldInput={TextFieldWithMessage}
+            TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -145,7 +145,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'retypePassword'}
               placeholder={'Потвердите новый пароль'}
-              TextFieldInput={TextFieldWithMessage}
+              TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
