@@ -42,20 +42,11 @@ class FieldInputPassword extends Component {
 
   render() {
     const { type, isOpen } = this.state;
-    const { name, placeholder, validate, TextFieldInput } = this.props;
+    const { name, placeholder, TextFieldInput } = this.props;
 
     return (
       <Relative width={'100%'}>
-        <TextFieldInput
-          name={name}
-          component={TextFieldWithMessage}
-          placeholder={placeholder}
-          type={type}
-          validate={validate}
-          fontSize={9}
-          lineHeight={11}
-          left={'40%'}
-        />
+        <TextFieldInput fontSize={9} lineHeight={11} left={'40%'} {...this.props} type={type} />
 
         <Absolute top={'33%'} right={'4%'}>
           <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>

@@ -38,7 +38,7 @@ const MessageStyled = styled(Message)`
  * @example ./TextField.example.md
  */
 
-export class TextField extends PureComponent {
+export class TextFieldWithMessage extends PureComponent {
   static propTypes = {
     /** input */
     input: fieldInputPropTypes /** meta */,
@@ -60,7 +60,8 @@ export class TextField extends PureComponent {
       nextProps.loading !== this.props.loading ||
       nextProps.meta.touched !== this.props.meta.touched ||
       nextProps.input.value !== this.props.input.value ||
-      nextProps.label !== this.props.label
+      nextProps.label !== this.props.label ||
+      nextProps.type !== this.props.type
     ) {
       return true;
     }
@@ -105,4 +106,4 @@ export class TextField extends PureComponent {
   }
 }
 
-export default TextField;
+export default TextFieldWithMessage;

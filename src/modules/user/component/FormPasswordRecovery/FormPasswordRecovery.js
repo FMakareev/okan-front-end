@@ -17,6 +17,7 @@ import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 
 const validate = values => {
   const errors = {};
@@ -125,10 +126,11 @@ class FormPasswordRecovery extends Component {
 
         <Box mb={'100px'}>
           <BoxFirst>
-            <FieldInputPassword
+            <Field
               name={'oldPassword'}
               placeholder={'Старый пароль'}
-              TextFieldInput={Field}
+              TextFieldInput={TextFieldWithMessage}
+              component={FieldInputPassword}
             />
           </BoxFirst>
 
