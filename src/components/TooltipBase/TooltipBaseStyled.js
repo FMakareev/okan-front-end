@@ -13,6 +13,24 @@ export const Wrapper = styled.div`
   top: ${props => props.top}%;
   right: 0;
   left: ${props => props.left}%;
+  
+  ${({position}) => {
+    switch (position){
+      case ('bottom'):{
+        return `
+          left: 14px;
+          top: calc(100% + 10px);
+        `
+      }
+      default: {
+        return `
+          left: 14px;
+          top: calc(100% + 10px);
+        `
+      }
+    } 
+}}
+  
   z-index: 1;
   text-align: left;
   border: 1px solid ${props => props.theme.colors.color9};

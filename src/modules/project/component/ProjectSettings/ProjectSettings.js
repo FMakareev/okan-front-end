@@ -63,11 +63,25 @@ export class ProjectSettings extends Component {
           Участники проекта
         </Text>
 
-        <FieldArray
-          name={'userProject'}
-          component={TextFieldArray}
-          type={'text'}
-          button={'Добавить нового участника'}
+        <Box mb={'180px'}>
+          <FieldArray
+            name={'userProject'}
+            component={TextFieldArray}
+            type={'text'}
+            button={'Добавить нового участника'}
+          />
+        </Box>
+
+        <ButtonWithImage
+          type="submit"
+          variant={'large'}
+          size={'medium'}
+          children={'Сохранить настройки'}
+          rightIcon={SvgPlay()}
+          ml={9}
+          disabled={pristine || submitting || invalid}
+          width={'100%'}
+          widthIcon={'10px'}
         />
       </Form>
     );

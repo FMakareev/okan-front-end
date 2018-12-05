@@ -19,6 +19,8 @@ export class TooltipBase extends PureComponent {
   static propTypes = {
     /** message text */
     warning: PropTypes.string,
+    /** tooltip position */
+    position: PropTypes.string,
     /** top position % */
     top: PropTypes.number,
     /** right position % */
@@ -31,17 +33,16 @@ export class TooltipBase extends PureComponent {
 
   static defaultProps = {
     warning: 'Информация не доступна',
-    left: 0,
-    top: 175,
+    position: 'bottom',
     isActive: false,
   };
 
   render() {
-    const { warning, top, isActive, left, children } = this.props;
+    const { warning, position, isActive, children } = this.props;
     return (
       <RelativeStyled>
         {isActive && (
-          <Wrapper top={top} left={left}>
+          <Wrapper position={position}>
             <OutsideTriangle />
             <InsideTriangle />
             <Warning>{warning}</Warning>

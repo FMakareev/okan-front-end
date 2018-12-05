@@ -22,6 +22,7 @@ import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 const validate = values => {
   const errors = {};
@@ -33,7 +34,7 @@ const validate = values => {
     errors.uname = 'Обязательно для заполнения';
   }
 
-  if (uname === undefined || ups === undefined) {
+  if (login === undefined || password === undefined) {
     errors.ups = 'Обязательно для заполнения';
   }
 
@@ -41,11 +42,11 @@ const validate = values => {
     errors.login = 'Не верный почтовый адрес';
   }
 
-  if (ups !== undefined && ups.length <= 8) {
+  if (password !== undefined && password.length <= 8) {
     errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
-  if (ups !== undefined && ups.length > 30) {
+  if (password !== undefined && password.length > 30) {
     errors.ups = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
@@ -199,7 +200,7 @@ export class FormLogin extends Component {
           <BoxFirst>
             <Field
               name="uname"
-              component={TextFieldWithMessage}
+              component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
               fontSize={9}
@@ -214,7 +215,7 @@ export class FormLogin extends Component {
               name={'ups'}
               placeholder={'Пароль'}
               TextFieldInput={TextFieldWithMessage}
-              component={FieldInputPassword}
+              component={TextFieldWithTooltip}
             />
           </BoxSecond>
 
