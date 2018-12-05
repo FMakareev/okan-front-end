@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 /**View */
-import Text from '../../../../components/Text/Text';
 import Flex from '../../../../components/Flex/Flex';
 import Table from '../../../../components/Table/Table';
 import Thead from '../../../../components/Table/Thead';

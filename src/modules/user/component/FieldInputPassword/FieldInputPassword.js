@@ -44,6 +44,8 @@ class FieldInputPassword extends Component {
     const { type, isOpen } = this.state;
     const { name, placeholder, validate, TextFieldInput } = this.props;
 
+    console.log('fieldInputpassword', this.state.type);
+
     return (
       <Relative width={'100%'}>
         <TextFieldInput
@@ -54,6 +56,7 @@ class FieldInputPassword extends Component {
           validate={validate}
           fontSize={9}
           lineHeight={11}
+          left={'40%'}
         />
 
         <Absolute top={'33%'} right={'4%'}>

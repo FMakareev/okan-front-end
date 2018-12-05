@@ -12,24 +12,12 @@ import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
 const TextField = styled.input`
   width: 100%;
   font-family: ${props => props.theme.fontFamily.secondary};
-  border: 1px solid
-    ${props => {
-      if ((props.meta && props.meta.active) || props.meta.dirty) {
-        return props.theme.colors.color7;
-      }
-      return props.theme.colors.color4;
-    }};
+  border: 1px solid ${props => props.theme.colors.color4};
   background-color: transparent;
   box-sizing: border-box;
   padding: 10px 10px;
   color: ${props => props.theme.colors.color11} !important;
   background-color: #fff;
-  cursor: ${props => {
-    if ((props.meta && props.meta.active) || props.meta.dirty) {
-      return 'text';
-    }
-    return 'pointer';
-  }}!important;
   ${FontSizeProperty};
   ${LineHeightProperty};
   ${BorderRadiusProperty};
@@ -88,12 +76,13 @@ export class TextFieldBase extends Component {
       color,
     } = this.props;
 
+    console.log('base', this.props.type);
+
     return (
       <TextField
         px={px}
         py={py}
         placeholder={placeholder}
-        className={className}
         type={type}
         {...this.props}
         {...input}

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
 /** Validation */
@@ -91,12 +91,13 @@ class FormRegistration extends Component {
           <BoxFirst>
             <Field
               name="uname"
-              component={TextFieldBase}
+              component={TextFieldWithMessage}
               placeholder={'Логин'}
               type="text"
               fontSize={9}
               lineHeight={11}
               validate={[required]}
+              left={'40%'}
             />
           </BoxFirst>
 

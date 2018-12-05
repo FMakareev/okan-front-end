@@ -25,7 +25,7 @@ export const Text = styled(Box)`
   ${display};
   ${letterSpacing};
   ${textAlign};
-  ${FontFamilyProperty};
+  /* ${FontFamilyProperty}; */
   ${FontFamileProperty}
   ${fontWeight};
   ${BackgroundColorProperty};

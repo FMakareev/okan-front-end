@@ -31,13 +31,7 @@ export class Message extends Component {
     touched: PropTypes.bool,
   };
 
-  static defaultProps = {
-    px: 0,
-    py: 0,
-    mt: 2,
-    fontSize: 4,
-    lineHeight: 5,
-  };
+  static defaultProps = {};
 
   componentDidCatch(error, info) {
     console.log(error, info);
@@ -50,12 +44,12 @@ export class Message extends Component {
       <Fragment>
         {description && <Text {...this.props}>{description}</Text>}
         {meta && meta.touched && meta.error && (
-          <Text color={'line.color23'} {...this.props}>
+          <Text {...this.props} fontFamily={'primary500'}>
             {meta.error}
           </Text>
         )}
         {meta && meta.touched && meta.warning && (
-          <Text color={'status.color10'} {...this.props}>
+          <Text {...this.props} fontFamily={'primary500'}>
             {meta.warning}
           </Text>
         )}
