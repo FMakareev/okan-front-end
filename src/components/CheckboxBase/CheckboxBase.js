@@ -5,6 +5,7 @@ import { space } from 'styled-system';
 
 /** Image */
 import onCheckbox from '../../assets/icons/monocolor/onCheckbox.monocolor.svg';
+import offCheckbox from '../../assets/icons/monocolor/offCheckbox.monocolor.svg';
 
 const Wrapper = styled.div`
   ${space};
@@ -22,28 +23,19 @@ const Input = styled.input`
   // Box.
   & + label:before {
     content: '';
-    display: inline-block;
-    vertical-align: text-top;
-    width: ${props => props.theme.space[9] - 2}px;
-    height: ${props => props.theme.space[9] - 2}px;
-    background-color: ${props => props.theme.colors.color0};
-    border: ${props => props.theme.space[1]}px solid ${props => props.theme.colors.color6};
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: ${props => props.theme.space[10]}px;
+    height: ${props => props.theme.space[10]}px;
+    background-image: url(${offCheckbox}) !important;
+    background-repeat: no-repeat;
     box-sizing: border-box;
   }
 
-  /* // Box hover
-  &:hover + label:before {
-    background-color: ${props => props.theme.colors.color2};
-  } */
-
-  /* // Box focus
-  &:focus + label:before {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-  } */
-
-   // Box checked
+  // Box checked
   &:checked + label:before {
-   display:none;
+    display: none;
   }
 
   // Disabled state label.
@@ -64,8 +56,8 @@ const Input = styled.input`
     position: absolute;
     left: 0px;
     top: -2px;
-    width: ${props => props.theme.space[9]}px;
-    height: ${props => props.theme.space[9]}px;
+    width: ${props => props.theme.space[10]}px;
+    height: ${props => props.theme.space[10]}px;
     background-image: url(${onCheckbox}) !important;
     background-repeat: no-repeat;
   }
@@ -101,10 +93,10 @@ export class CheckboxBase extends Component {
   static defaultProps = {};
 
   render() {
-    const { children, input, index, mb, py, px, checked, disabled } = this.props;
+    const { children, input, index, checked, disabled } = this.props;
 
     return (
-      <Wrapper mb={mb} px={px} py={py}>
+      <Wrapper>
         <Input
           id={`styled-checkbox-${index || input.name}`}
           type="checkbox"
