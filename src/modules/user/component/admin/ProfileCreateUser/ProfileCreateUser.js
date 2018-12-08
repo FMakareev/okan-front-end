@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /** View */
-import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithTooltip from '../../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
 import { SvgPlay } from '../../../../../components/Icons/SvgPlay';
 import Text from '../../../../../components/Text/Text';
@@ -14,6 +14,10 @@ import DayPickerField from '../../../../../components/DayPickerField/DayPickerFi
 
 /**PropTypes */
 import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
+
+/** Validation */
+import required from '../../../../../utils/validation/required';
+import isEmail from '../../../../../utils/validation/isEmail';
 
 const BoxFirst = styled(Box)`
   input:first-child {
@@ -50,36 +54,36 @@ export class ProfileCreateUser extends Component {
         <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Создать пользователя
         </Text>
-
         <BoxFirst>
           <Field
             name="firstName"
-            component={TextFieldBase}
+            component={TextFieldWithTooltip}
             placeholder={'Фамилия'}
             type="text"
             fontSize={5}
             lineHeight={6}
             fontFamily={'secondary'}
+            validate={required}
           />
         </BoxFirst>
-
         <Field
           name="lastName"
-          component={TextFieldBase}
+          component={TextFieldWithTooltip}
           placeholder={'Имя'}
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={required}
           fontFamily={'secondary'}
         />
-
         <Field
           name="patronymic"
-          component={TextFieldBase}
+          component={TextFieldWithTooltip}
           placeholder={'Отчество'}
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={required}
           fontFamily={'secondary'}
         />
         <Field
@@ -89,33 +93,37 @@ export class ProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={required}
           fontFamily={'secondary'}
         />
         <Field
           name="position"
-          component={TextFieldBase}
+          component={TextFieldWithTooltip}
           placeholder={'Должность'}
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={required}
           fontFamily={'secondary'}
         />
         <Field
           name="phone"
-          component={TextFieldBase}
+          component={TextFieldWithTooltip}
           placeholder={'Телефон'}
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={required}
           fontFamily={'secondary'}
         />
         <Field
           name="email"
-          component={TextFieldBase}
+          component={TextFieldWithTooltip}
           placeholder={'Электронная почта'}
           type="text"
           fontSize={5}
           lineHeight={6}
+          validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
         <BoxSecond mb={11}>
@@ -126,9 +134,9 @@ export class ProfileCreateUser extends Component {
             type="text"
             fontSize={5}
             lineHeight={6}
+            validate={required}
           />
         </BoxSecond>
-
         <ButtonWithImage
           type="submit"
           variant={'large'}
@@ -140,6 +148,8 @@ export class ProfileCreateUser extends Component {
           width={'100%'}
           widthIcon={'10px'}
         />
+        {/* TODO: //После этого пользователю на указанную электронную почту придёт письмо с ссылкой для
+       // подтверждения регистрации. При клике по ссылке пользователь попадает в интерфейс авторизации пользователя*/}
       </Form>
     );
   }
