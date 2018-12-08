@@ -87,6 +87,8 @@ class FormPasswordRecovery extends Component {
     this.submit = this.submit.bind(this);
   }
 
+  // {/* В случае успешной или не успешной смены пароля выводится notification*/}
+
   // submit(value) {
   //   const data = { variables: Object.assign({}, value) };
   //   return this.props['@apollo/update'](data)
