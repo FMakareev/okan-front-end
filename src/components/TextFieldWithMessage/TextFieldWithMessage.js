@@ -77,8 +77,6 @@ export class TextFieldWithMessage extends Component {
 
   render() {
     const {
-      className,
-      mb,
       input,
       type,
       meta,
@@ -90,10 +88,11 @@ export class TextFieldWithMessage extends Component {
       fontSize,
       lineHeight,
       left,
+      values,
     } = this.props;
 
     return (
-      <Box mb={mb} className={className}>
+      <Box>
         <TextFieldBase
           required={required}
           input={input}
@@ -105,6 +104,7 @@ export class TextFieldWithMessage extends Component {
           type={type}
           meta={meta}
           fontFamily={'secondary'}
+          value={values}
         />
         <Absolute zIndex={10} left={left}>
           <MessageStyled meta={meta} color={'#df4624'} fz={5} lh={6} px={4} py={3} />
