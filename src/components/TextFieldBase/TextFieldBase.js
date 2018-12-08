@@ -78,6 +78,7 @@ export class TextFieldBase extends Component {
       fontSize,
       meta,
       color,
+      value,
     } = this.props;
 
     return (
@@ -91,6 +92,7 @@ export class TextFieldBase extends Component {
         aria-required={required || false}
         disabled={disabled}
         meta={meta}
+        value={value}
       />
     );
   }
