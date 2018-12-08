@@ -16,6 +16,7 @@ import FormButton from '../FormButton/FormButton';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
+import isEmail from '../../../../utils/validation/isEmail';
 
 /** json method */
 import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
@@ -201,7 +202,7 @@ export class FormLogin extends Component {
               fontSize={9}
               lineHeight={11}
               left={'45%'}
-              validate={required}
+              validate={[required, isEmail]}
             />
           </BoxFirst>
 
@@ -218,6 +219,8 @@ export class FormLogin extends Component {
         </Box>
 
         <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
+        {/* if succes => to={'/app/project-list'}  ----- USER*/}
+        {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
       </Form>
     );
   }
