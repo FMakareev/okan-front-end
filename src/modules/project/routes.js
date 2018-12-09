@@ -1,4 +1,4 @@
-import { LAYOUT_APP } from "../../shared/layout";
+import { LAYOUT_APP } from '../../shared/layout';
 
 export const routes = [
   {
@@ -10,16 +10,18 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
     resolvers: [],
-  },  {
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Список проектов',
     path: '/project-list',
     order: 0,
     hidden: false,
-    load: () => import(/* webpackChunkName: 'projectList'  */'./view/projectList'),
+    load: () => import(/* webpackChunkName: 'projectList'  */ './view/projectList'),
     resolvers: [],
-  }, {
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Создание проекта',
@@ -28,7 +30,8 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectCreate'  */ './view/projectCreate'),
     resolvers: [],
-  },{
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Список ревизий',
@@ -37,7 +40,8 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),
     resolvers: [],
-  },{
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Настройки документа',
@@ -46,11 +50,13 @@ export const routes = [
     hidden: false,
     load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),
     resolvers: [],
-  },{
+  },
+  {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Проект',
-    path: '/project/:projectid',
+    // path: '/project/:projectid',
+    path: '/project',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
