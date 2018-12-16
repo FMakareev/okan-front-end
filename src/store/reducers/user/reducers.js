@@ -1,7 +1,11 @@
 import { USER_ADD, USER_REMOVE } from './actionTypes';
 
-const initialState = null;
-
+const initialState = {
+  error: null,
+  initLoading: false,
+  updateLoading: false,
+  isAuth: false,
+};
 export const ReducerUser = (prevState = initialState, { type, payload }) => {
   switch (type) {
     case USER_ADD:
