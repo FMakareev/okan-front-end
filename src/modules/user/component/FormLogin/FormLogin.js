@@ -214,7 +214,7 @@ export class FormLogin extends Component {
               component={FieldInputPassword}
             />
           </BoxSecond>
-
+          {/*TODO: переделать тултип должен оборачивать кнопку отправки как в инпутах */}
           {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}
         </Box>
 
