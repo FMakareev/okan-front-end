@@ -1,7 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Box} from "../Box/Box";
 
-const SpeedingWheel = styled.div`
+export const PreloaderWrapper = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%; 
+  background-color: rgba(255, 255, 255, 0.6); 
+  transition: .225s all;
+`;
+export const SpeedingWheel = styled.div`
   width: 24px;
   height: 24px;
   margin: 0 auto;
