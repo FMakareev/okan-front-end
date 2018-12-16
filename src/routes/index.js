@@ -124,7 +124,7 @@ const layoutSorting = routes => {
   let newRoutes = [
     {
       layout: LAYOUT_AUTH,
-      path: '/auth',
+      path: '/',
       component: LayoutAuth,
       routes: [],
     },
@@ -134,26 +134,16 @@ const layoutSorting = routes => {
       component: LayoutApp,
       routes: [],
     },
-    {
-      layout: LAYOUT_ADMIN,
-      path: '/admin',
-      component: LayoutAuth,
-      routes: [],
-    },
   ];
   routes.forEach(item => {
     switch (item.layout) {
       case LAYOUT_AUTH: {
-        newRoutes[0].routes.push({ ...item, path: `/${LAYOUT_AUTH}${item.path}` });
+        newRoutes[0].routes.push(item);
         return item;
       }
       case LAYOUT_APP: {
-        newRoutes[1].routes.push({ ...item, path: `/${LAYOUT_APP}${item.path}` });
+        newRoutes[1].routes.push({ ...item, path: `${newRoutes[1].path}${item.path}` });
         return item;
-      }
-      case LAYOUT_ADMIN: {
-        newRoutes[2].routes.push({ ...item, path: `/${LAYOUT_ADMIN}${item.path}` });
-        break;
       }
       default: {
         console.log(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
@@ -178,3 +168,4 @@ export const ConfigRouter = [
 ];
 
 export default ConfigRouter;
+
