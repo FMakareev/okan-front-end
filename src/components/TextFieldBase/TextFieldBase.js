@@ -13,12 +13,12 @@ import FontFamilyProperty from '../../styles/styleProperty/FontFamilyProperty';
 
 const TextField = styled.input`
   width: 100%;
-  /* font-family: ${props => props.theme.fontFamily.secondary}; */
-  border: 1px solid ${props => props.theme.colors.color4};
+  border: 1px solid;
+  ${props => BorderColorProperty({...props,borderColor:'color4'})}
   background-color: transparent;
   box-sizing: border-box;
   padding: 10px 10px;
-  color: ${props => props.theme.colors.color11} !important;
+    ${props => color({...props, color:'color11'})}
   background-color: #fff;
   ${FontSizeProperty};
   ${LineHeightProperty};
@@ -30,7 +30,7 @@ const TextField = styled.input`
   ${space};
 
   ::placeholder {
-    color: ${props => props.theme.colors.color4}};
+    ${props => color({...props, color:'color4'})}
   }
 
   :focus::-webkit-input-placeholder {

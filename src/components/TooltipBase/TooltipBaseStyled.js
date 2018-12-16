@@ -1,5 +1,11 @@
 import styled from 'styled-components';
+import { color, fontWeight } from 'styled-system';
+
 import Text from '../Text/Text';
+import {BorderColorProperty} from "../../styles/styleProperty/BorderColorProperty";
+import BackgroundColorProperty from "../../styles/styleProperty/BackgroundColorProperty";
+import {FontSizeProperty} from "../../styles/styleProperty/FontSizeProperty";
+import {LineHeightProperty} from "../../styles/styleProperty/LineHeightProperty";
 
 export const Wrapper = styled.div`
   width: fit-content;
@@ -10,9 +16,7 @@ export const Wrapper = styled.div`
   padding-bottom: 14px;
   padding-left: 10px;
   position: absolute;
-  top: ${props => props.top}%;
   right: 0;
-  left: ${props => props.left}%;
 
   ${({ position }) => {
     switch (position) {
@@ -33,9 +37,10 @@ export const Wrapper = styled.div`
 
   z-index: 1;
   text-align: left;
-  border: 1px solid ${props => props.theme.colors.color12};
+  border: 1px solid;
+  ${props => BorderColorProperty({...props,borderColor:'color12'})}
+  ${props => BackgroundColorProperty({...props,backgroundColor:'color0'})}
   border-radius: 3px;
-  background: ${props => props.theme.colors.color0};
 `;
 
 export const OutsideTriangle = styled.div`
@@ -45,7 +50,8 @@ export const OutsideTriangle = styled.div`
   z-index: 1;
   border-style: solid;
   border-width: 10.5px 18px 10.5px 0;
-  border-color: transparent ${props => props.theme.colors.color12} transparent transparent;
+  border-color: transparent #DF4624 transparent transparent;
+  ${props => BorderColorProperty({...props,borderTopColor:'color12'})}
   transform: rotate(90deg);
   top: -20px;
   left: 15%;
@@ -61,13 +67,14 @@ export const InsideTriangle = styled.div`
   transform: rotate(90deg);
   border-style: solid;
   border-width: 10.5px 18px 10.5px 0;
-  border-color: transparent ${props => props.theme.colors.color0} transparent transparent;
+  border-color: transparent #fff transparent transparent;
+  ${props => BorderColorProperty({...props,borderTopColor:'color12'})}
 `;
 
 export const Warning = styled(Text)`
   font-family: 'Museo Sans 300', sans-serif;
-  font-size: ${props => props.theme.fontSizes[5]}px;
-  font-weight: ${props => props.theme.fontWeight[0]};
-  line-height: ${props => props.theme.fontSizes[6]}px;
-  color: ${props => props.theme.colors.color12};
+  ${props => FontSizeProperty({...props, fontSize:5})}
+  ${props=> fontWeight({...props, fontWeight: 0})}
+  ${props=> LineHeightProperty({...props, fontWeight: 6})}
+  ${props=> color({...props, color: 'color12'})}
 `;

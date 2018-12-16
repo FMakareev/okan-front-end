@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
+import {FontFamilyProperty} from "../../styles/styleProperty/FontFamilyProperty";
 
 const DatePickerStyled = styled(DatePicker)`
   font-size: 16px !important;
@@ -14,7 +15,8 @@ const DatePickerStyled = styled(DatePicker)`
   border: 0 !important;
   padding: 10px !important;
   width: 100% !important;
-  font-family: ${props => props.theme.fontFamily.secondary} !important;
+    ${props => FontFamilyProperty({...props, fontFamily: 'secondary'})}
+
   color: #333333;
 
   .react-datepicker-wrapper,

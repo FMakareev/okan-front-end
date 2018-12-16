@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 /**Components*/
 import Box from '../../../../../components/Box/Box';
 import Text from '../../../../../components/Text/Text';
+import {FontFamilyProperty} from "../../../../../styles/styleProperty/FontFamilyProperty";
 
 const BoxStyled = styled(Box)`
   border: 1px solid #848484;
@@ -16,7 +17,7 @@ const TextStyled = styled(Text)`
   border-top: 2px solid #00649c;
   padding-top: 4px;
   padding-bottom: 4px;
-  font-family: ${props => props.theme.fontFamily.secondary};
+  ${props => FontFamilyProperty({...props, fontFamily: 'secondary'})}
 `;
 
 export class PersonData extends Component {
