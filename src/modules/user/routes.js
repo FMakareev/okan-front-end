@@ -1,19 +1,19 @@
 import { LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 
 export const routes = [
-  // {
-  //   layout: LAYOUT_AUTH,
-  //   exact: false,
-  //   name: 'Вход',
-  //   path: '/',
-  //   order: 0,
-  //   hidden: false,
-  //   load: () => import('./view/login'),
-  //   resolvers: [],
-  // },
   {
     layout: LAYOUT_AUTH,
-    exact: false,
+    exact: true,
+    name: 'Вход',
+    path: '/',
+    order: 0,
+    hidden: false,
+    load: () => import('./view/login'),
+    resolvers: [],
+  },
+  {
+    layout: LAYOUT_AUTH,
+    exact: true,
     name: 'Вход',
     path: '/login',
     order: 0,
