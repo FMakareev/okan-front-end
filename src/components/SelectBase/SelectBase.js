@@ -8,6 +8,9 @@ import DeepEqual from 'fast-deep-equal';
 /** View */
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
+/** Styles */
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+
 /** Image */
 import back from '../../assets/image/back.png';
 import go from '../../assets/image/go.png';
@@ -22,7 +25,7 @@ const SelectStyled = styled(Select)`
     border-top-left-radius: 0px;
     font-size: 18px;
     line-height: 24px;
-    font-family: ${props => props.theme.fontFamily.primary500};
+    ${props => FontFamilyProperty({ ...props, fontFamily: 'primary500' })}
   }
 
   .css-vj8t7z {
@@ -60,7 +63,7 @@ const SelectStyled = styled(Select)`
   }
 
   .css-1492t68 {
-    font-family: ${props => props.theme.fontFamily.secondary};
+    ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })}
     line-height: 24px;
     font-size: 18px;
     left: 35%;
