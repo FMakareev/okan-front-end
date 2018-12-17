@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { display, fontWeight, fontFamily, textAlign, letterSpacing, variant } from 'styled-system';
+import { display, fontWeight, textAlign, letterSpacing, variant } from 'styled-system';
 
 /** Style property */
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
-// import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 
 /** View */
@@ -22,17 +21,17 @@ const textVariant = variant({
  * @example ./Text.example.md
  */
 export const Text = styled(Box)`
+  ${FontFamilyProperty};
   ${textVariant};
   ${display};
   ${letterSpacing};
   ${LineHeightProperty};
   ${textAlign};
-  ${FontFamilyProperty};
-  /* ${FontFamileProperty}; */
   ${fontWeight};
   ${BackgroundColorProperty};
   ${FillSvgProperty};
 `;
+
 // TODO review:nik-z: добавь propTypes для варианта и для шрифта, использую перечисление PropTypes.oneOf и туда передай масив доступных в теме значений
 Text.propTypes = {
   /**  children React element  */
