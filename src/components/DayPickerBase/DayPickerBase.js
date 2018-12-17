@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import { ru } from 'date-fns/locale/ru';
-import 'react-datepicker/dist/react-datepicker.css';
 import { color } from 'styled-system';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ru } from 'date-fns/locale/ru';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
@@ -24,7 +24,7 @@ const DatePickerStyled = styled(DatePicker)`
     width: 100% !important;
   }
 
-  & .react-datepicker__header {
+  .react-datepicker__header {
     background-color: #007faf !important;
   }
 `;
@@ -56,19 +56,22 @@ export class DayPickerBase extends Component {
 
   render() {
     const { placeholder, input } = this.props;
+    const { startDate } = this.state;
+
     return (
-      <DatePickerStyled
-        selected={this.state.startDate}
-        onChange={this.handleChange}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        placeholderText={placeholder}
-        dateFormat="dd/MM/yyyy"
-        locale={'ru'}
-        input={input}
-      />
+      // <DatePickerStyled
+      //   selected={startDate}
+      //   onChange={this.handleChange}
+      //   peekNextMonth
+      //   showMonthDropdown
+      //   showYearDropdown
+      //   dropdownMode="select"
+      //   placeholderText={placeholder}
+      //   dateFormat="dd/MM/yyyy"
+      //   locale={'ru'}
+      //   input={input}
+      // />
+      <div>1</div>
     );
   }
 }
