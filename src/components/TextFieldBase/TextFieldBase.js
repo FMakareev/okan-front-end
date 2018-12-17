@@ -8,21 +8,19 @@ import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusPropert
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
 import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
-import FontFamileProperty from '../../styles/styleProperty/FontFamileProperty';
 import FontFamilyProperty from '../../styles/styleProperty/FontFamilyProperty';
 
 const TextField = styled.input`
   width: 100%;
   border: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => color({ ...props, color: 'color11' })};
   background-color: transparent;
   box-sizing: border-box;
   padding: 10px 10px;
-  ${props => color({ ...props, color: 'color11' })};
   background-color: #fff;
   ${FontSizeProperty};
   ${LineHeightProperty};
-  /* ${FontFamileProperty}; */
   ${FontFamilyProperty};
   ${BorderRadiusProperty};
   ${BorderColorProperty};
