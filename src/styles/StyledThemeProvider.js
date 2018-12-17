@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'rebass';
+
+/** Variants */
 import { ButtonVariant } from './variants/buttonVariant';
 import { ButtonSize } from './variants/buttonSize';
 import { TextVariant } from './variants/textVariant';
