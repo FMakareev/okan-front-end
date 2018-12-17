@@ -1,4 +1,4 @@
-# CompAero - create react app
+# OKAN
 
 ## Документация
 
