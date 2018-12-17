@@ -20,7 +20,7 @@ const buttonsSize = variant({
 
 /**
  * Компонента обычная кнопка
- * @example ./ButtonDefault.example.md
+ * @example ./ButtonBase.example.md
  */
 export const ButtonBase = styled.button`
   outline: none !important;
