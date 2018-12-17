@@ -11,6 +11,7 @@ import Text from '../../../../../components/Text/Text';
 import Box from '../../../../../components/Box/Box';
 import PictureUploadPreview from '../../../../../components/PictureUploadPreview/PictureUploadPreview';
 import DayPickerField from '../../../../../components/DayPickerField/DayPickerField';
+import MaskedInputField from '../../../../../components/MaskedInputField/MaskedInputField';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
@@ -100,6 +101,7 @@ export class ProfileCreateUser extends Component {
           validate={required}
           fontFamily={'secondary'}
         />
+
         <Field
           name="position"
           component={TextFieldWithTooltip}
@@ -113,7 +115,7 @@ export class ProfileCreateUser extends Component {
 
         <Field
           name="phone"
-          component={TextFieldWithTooltip}
+          component={MaskedInputField}
           placeholder={'Телефон'}
           type="text"
           fontSize={5}
@@ -156,6 +158,7 @@ export class ProfileCreateUser extends Component {
           width={'100%'}
           widthIcon={'10px'}
         />
+
         {/* TODO: //После этого пользователю на указанную электронную почту придёт письмо с ссылкой для
        // подтверждения регистрации. При клике по ссылке пользователь попадает в интерфейс авторизации пользователя*/}
       </Form>
