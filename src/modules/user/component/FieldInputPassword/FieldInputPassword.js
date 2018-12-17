@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
-import TextFieldWithMessage from '../../../../components/TextFieldWithMessage/TextFieldWithMessage';
 import Relative from '../../../../components/Relative/Relative';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 

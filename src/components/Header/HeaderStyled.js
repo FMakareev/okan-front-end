@@ -1,20 +1,22 @@
 import styled from 'styled-components';
-import {color} from 'styled-system';
+import { color } from 'styled-system';
 import { NavLink } from 'react-router-dom';
-import BackgroundColorProperty from "../../styles/styleProperty/BackgroundColorProperty";
-import BorderColorProperty from "../../styles/styleProperty/BorderColorProperty";
-import {FillSvgProperty} from "../../styles/styleProperty/FillSvgProperty";
-import {LineHeightProperty} from "../../styles/styleProperty/LineHeightProperty";
-import {FontSizeProperty} from "../../styles/styleProperty/FontSizeProperty";
-import {BoxShadowProperty} from "../../styles/styleProperty/BoxShadowProperty";
+
+/** Styles property */
+import BackgroundColorProperty from '../../styles/styleProperty/BackgroundColorProperty';
+import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
+import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
+import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
+import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
+import { BoxShadowProperty } from '../../styles/styleProperty/BoxShadowProperty';
 
 const Wrapper = styled.header`
   width: 100%;
   min-width: 1024px;
   height: 40px;
   display: flex;
-  ${props => BackgroundColorProperty({...props, backgroundColor:'color5'})}
-  ${props => BoxShadowProperty({...props, boxShadow: 2})}
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
+  ${props => BoxShadowProperty({ ...props, boxShadow: 2 })};
 `;
 
 const LineWrapper = styled.div`
@@ -22,12 +24,12 @@ const LineWrapper = styled.div`
   height: 40px;
   position: relative;
   overflow: hidden;
+
   &:before {
     content: '';
     width: inherit;
     border-bottom: 1px solid;
-      ${props => BorderColorProperty({...props, borderColor:'color0'})}
-
+    ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
     position: absolute;
     z-index: 1;
     top: 20px;
@@ -40,8 +42,7 @@ const LeftLineWrapper = styled(LineWrapper)`
 
 const LogoWrapper = styled.img`
   margin-bottom: 5px;
-    ${props => BackgroundColorProperty({...props, backgroundColor:'color5'})}
-
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
 `;
 
 const ControlsWrapper = styled.div`
@@ -58,12 +59,11 @@ const Title = styled.div`
   padding-left: 7px;
   padding-right: 10px;
   font-family: 'Circe Bold';
-  ${props => FontSizeProperty({...props,fontSize: 9})}
-  ${props => LineHeightProperty({...props,lineHeight: 9})}
-  ${props => color({...props, color: 'color0'})}
+  ${props => FontSizeProperty({ ...props, fontSize: 9 })};
+  ${props => LineHeightProperty({ ...props, lineHeight: 9 })};
+  ${props => color({ ...props, color: 'color0' })};
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor:'color0'})}
-
+  ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
   border-radius: 5px;
 
   &:before {
@@ -75,11 +75,9 @@ const Title = styled.div`
     position: absolute;
     z-index: 1;
     border: 1px solid;
-      ${props => BorderColorProperty({...props, borderColor:'color0'})}
-
     border-radius: 2px;
-      ${props => BackgroundColorProperty({...props, backgroundColor:'color5'})}
-
+    ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
+    ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
   }
 `;
 
@@ -89,12 +87,11 @@ const ProfileLink = styled(NavLink)`
   margin-bottom: auto;
 
   & > svg {
-      ${props => FillSvgProperty({...props, color: 'color0'})}
-
+    ${props => FillSvgProperty({ ...props, color: 'color0' })}
   }
 
   &.active > svg {
-      ${props => FillSvgProperty({...props, color: 'color10'})}
+    ${props => FillSvgProperty({ ...props, color: 'color10' })}
   }
 `;
 

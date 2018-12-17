@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import { ru } from 'date-fns/locale/ru';
 import 'react-datepicker/dist/react-datepicker.css';
+import { color } from 'styled-system';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
-import {FontFamilyProperty} from "../../styles/styleProperty/FontFamilyProperty";
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 
 const DatePickerStyled = styled(DatePicker)`
   font-size: 16px !important;
@@ -15,9 +16,8 @@ const DatePickerStyled = styled(DatePicker)`
   border: 0 !important;
   padding: 10px !important;
   width: 100% !important;
-    ${props => FontFamilyProperty({...props, fontFamily: 'secondary'})}
-
-  color: #333333;
+  ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })};
+  ${props => color({ ...props, color: 'color11' })};
 
   .react-datepicker-wrapper,
   .react-datepicker__input-container {

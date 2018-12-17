@@ -168,4 +168,3 @@ export const ConfigRouter = [
 ];
 
 export default ConfigRouter;
-

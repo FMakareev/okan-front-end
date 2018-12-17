@@ -11,10 +11,14 @@ import { Box } from '../Box/Box';
 /** PropTypes */
 import { fieldInputPropTypes, fieldMetaPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
+/** Styles property */
+
+import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
+
 const MessageStyled = styled(Message)`
-  background-color: #fff;
   border: 1px solid #df4624;
   border-radius: 5px;
+  ${props => BackgroundColorProperty({ ...props, borderColor: 'color0' })};
 
   :before {
     border: 1px solid red;
@@ -29,7 +33,7 @@ const MessageStyled = styled(Message)`
     top: -7px;
     width: 15px;
     transform: rotate(45deg);
-    background-color: #fff;
+    ${props => BackgroundColorProperty({ ...props, borderColor: 'color0' })};
   }
 `;
 

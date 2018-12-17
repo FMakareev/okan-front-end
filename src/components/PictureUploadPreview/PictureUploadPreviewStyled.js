@@ -1,9 +1,12 @@
 import DropZoneDefault from 'react-dropzone';
 import Icon from 'react-icons-kit';
 import styled from 'styled-components';
-import { space } from 'styled-system';
+import { space, color } from 'styled-system';
 
+/** Styles */
 import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusProperty';
+import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 
 export const DropZoneStyled = styled(DropZoneDefault)`
   ${space};
@@ -16,17 +19,17 @@ export const DropZoneStyled = styled(DropZoneDefault)`
 `;
 
 export const DropZoneIconWrapper = styled.div`
-  font-family: ${props => props.theme.fontFamily.secondary} !important;
   position: relative;
   text-align: center;
   vertical-align: top;
   cursor: pointer;
   overflow: hidden;
-  color: #848484;
   border: 1px solid;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: #fff;
+  ${props => BackgroundColorProperty({ ...props, color: 'color0' })};
+  ${props => color({ ...props, color: 'color4' })};
+  ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })} !important;
   ${({ disabled }) => (disabled ? 'opacity: 0.25;' : '')};
 `;
 

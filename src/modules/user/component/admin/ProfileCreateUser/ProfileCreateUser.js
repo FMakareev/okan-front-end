@@ -54,6 +54,7 @@ export class ProfileCreateUser extends Component {
         <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Создать пользователя
         </Text>
+
         <BoxFirst>
           <Field
             name="firstName"
@@ -66,6 +67,7 @@ export class ProfileCreateUser extends Component {
             validate={required}
           />
         </BoxFirst>
+
         <Field
           name="lastName"
           component={TextFieldWithTooltip}
@@ -76,6 +78,7 @@ export class ProfileCreateUser extends Component {
           validate={required}
           fontFamily={'secondary'}
         />
+
         <Field
           name="patronymic"
           component={TextFieldWithTooltip}
@@ -86,6 +89,7 @@ export class ProfileCreateUser extends Component {
           validate={required}
           fontFamily={'secondary'}
         />
+
         <Field
           name="DateOfBirth"
           component={DayPickerField}
@@ -106,6 +110,7 @@ export class ProfileCreateUser extends Component {
           validate={required}
           fontFamily={'secondary'}
         />
+
         <Field
           name="phone"
           component={TextFieldWithTooltip}
@@ -116,6 +121,7 @@ export class ProfileCreateUser extends Component {
           validate={required}
           fontFamily={'secondary'}
         />
+
         <Field
           name="email"
           component={TextFieldWithTooltip}
@@ -126,6 +132,7 @@ export class ProfileCreateUser extends Component {
           validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
+
         <BoxSecond mb={11}>
           <Field
             name="signature"
@@ -137,6 +144,7 @@ export class ProfileCreateUser extends Component {
             validate={required}
           />
         </BoxSecond>
+
         <ButtonWithImage
           type="submit"
           variant={'large'}

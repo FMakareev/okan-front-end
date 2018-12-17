@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { Absolute, Relative } from 'rebass';
 import DeepEqual from 'fast-deep-equal';
+import { color } from 'styled-system';
 
 /** View */
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
@@ -17,7 +18,7 @@ import go from '../../assets/image/go.png';
 
 const SelectStyled = styled(Select)`
   .css-15k3avv {
-    border-bottom: '1px solid #333333';
+    border-bottom: '1px solid';
     position: static;
     padding: 0;
     margin: 0;
@@ -25,18 +26,12 @@ const SelectStyled = styled(Select)`
     border-top-left-radius: 0px;
     font-size: 18px;
     line-height: 24px;
-    ${props => FontFamilyProperty({ ...props, fontFamily: 'primary500' })}
+    ${props => FontFamilyProperty({ ...props, fontFamily: 'primary500' })};
+    ${props => color({ ...props, color: 'color11' })};
   }
 
   .css-vj8t7z {
     border: 0;
-
-    /* :hover,
-    :active {
-      border-bottom: 1px solid #848484;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-    } */
   }
 
   .css-1wy0on6 {
@@ -72,7 +67,7 @@ const SelectStyled = styled(Select)`
   .css-xp4uvy {
     text-align: center;
     left: 35%;
-    color: #333333;
+    ${props => color({ ...props, color: 'color11' })};
     font-size: 18px;
     line-height: 24px;
   }
@@ -91,7 +86,7 @@ const SelectStyled = styled(Select)`
   }
 
   .css-z5z6cw {
-    color: #333333;
+    ${props => color({ ...props, color: 'color11' })};
     background-color: #fff;
   }
 

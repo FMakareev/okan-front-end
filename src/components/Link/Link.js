@@ -7,15 +7,16 @@ import { space, width, display, color } from 'styled-system';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 
 export const Link = styled(DefaultLink)`
-  color: ${props => props.theme.colors.color2};
+  color: #dedede;
   ${space};
   ${width};
   ${FontSizeProperty};
   ${display};
   ${color};
+  ${({ textDecoration }) => `text-decoration: ${textDecoration};`};
 
-  ${({ textDecoration }) => `text-decoration: ${textDecoration};`} &:hover {
-    color: ${props => props.theme.colors.color3};
+  &:hover {
+    ${props => color({ ...props, color: 'color3' })};
   }
 `;
 

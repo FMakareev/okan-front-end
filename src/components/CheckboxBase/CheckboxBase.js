@@ -26,8 +26,8 @@ const Input = styled.input`
     position: absolute;
     left: 0px;
     top: 0px;
-    width: ${props => props.theme.space[10]}px;
-    height: ${props => props.theme.space[10]}px;
+    width: 32px;
+    height: 32px;
     background-image: url(${offCheckbox}) !important;
     background-repeat: no-repeat;
     box-sizing: border-box;
@@ -56,8 +56,8 @@ const Input = styled.input`
     position: absolute;
     left: 0px;
     top: -2px;
-    width: ${props => props.theme.space[10]}px;
-    height: ${props => props.theme.space[10]}px;
+    width: 32px;
+    height: 32px;
     background-image: url(${onCheckbox}) !important;
     background-repeat: no-repeat;
   }

@@ -5,7 +5,7 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /** Components */
 
-import ProjectEditorSideBar from './ProjectEditorSideBar';
+// import ProjectEditorSideBar from './ProjectEditorSideBar';
 
 /**View */
 import Box from '../../../../components/Box/Box';
@@ -28,11 +28,7 @@ export class ProjectEditor extends Component {
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
 
-    return (
-      <Form onSubmit={handleSubmit(this.submit)}>
-        <ProjectEditorSideBar />
-      </Form>
-    );
+    return <Form onSubmit={handleSubmit(this.submit)}>1</Form>;
   }
 }
 

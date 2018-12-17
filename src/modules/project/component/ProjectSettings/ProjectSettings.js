@@ -59,6 +59,7 @@ export class ProjectSettings extends Component {
             fontFamily={'secondary'}
           />
         </BoxStyled>
+
         <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
           Участники проекта
         </Text>

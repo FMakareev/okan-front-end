@@ -6,7 +6,7 @@ import { display, fontWeight, fontFamily, textAlign, letterSpacing, variant } fr
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
-import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
+// import { FontFamileProperty } from '../../styles/styleProperty/FontFamileProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 
 /** View */
@@ -28,7 +28,7 @@ export const Text = styled(Box)`
   ${LineHeightProperty};
   ${textAlign};
   ${FontFamilyProperty};
-  ${FontFamileProperty}
+  /* ${FontFamileProperty}; */
   ${fontWeight};
   ${BackgroundColorProperty};
   ${FillSvgProperty};
@@ -58,9 +58,9 @@ Text.propTypes = {
   ...textAlign.propTypes,
   ...letterSpacing.propTypes,
 };
-// TODO review:nik-z: забыл прописать пропсы по умолчанию
+
 Text.defaultProps = {
-  color: 'fontColor.color1',
+  color: 'color11',
 };
 
 export default Text;

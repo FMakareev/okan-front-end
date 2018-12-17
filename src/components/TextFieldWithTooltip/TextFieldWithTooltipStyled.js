@@ -11,12 +11,11 @@ export const Wrapper = styled.label`
 
 export const LabelStyled = styled.span`
   position: absolute;
-  top: ${props => props.theme.space[3]}px;
-  left: ${props => props.theme.space[0]}px;
-  font-size: ${props => props.theme.fontSizes[4]}px;
-  line-height: ${props => props.theme.space[5]}px;
-  color: ${props => props.theme.colors.fontColor.color12};
-  font-weight: ${props => props.theme.fontWeight[1]};
+  top: 8px;
+  left: 0px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
   transform-origin: 0 0;
   transition: all 0.2s ease;
   cursor: text;

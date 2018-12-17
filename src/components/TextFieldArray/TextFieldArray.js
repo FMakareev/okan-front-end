@@ -64,7 +64,7 @@ export const TextFieldArray = ({
         variant={'empty'}>
         <Flex alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
           <Box>{SvgAdd()}</Box>
-          <Text fontFamily={'primary300'} color={'color4'} fontSize={6} lineHeight={8} py={3}>
+          <Text color={'color4'} fontSize={6} lineHeight={8} py={3} fontFamily={'primary300'}>
             {button}
           </Text>
           <Box />
