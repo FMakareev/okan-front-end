@@ -1,33 +1,24 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import SortableTree from 'react-sortable-tree';
+import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
-/** Components */
-import ProjectEditorSideBarDrawing from './ProjectEditorSideBarDrawing';
-
-/** View */
-import Container from '../../../../components/Container/Container';
-
-/**Image */
-import { SvgTriangle } from '../../../../components/Icons/SvgTriangle';
-
-const ContainerStyled = styled(Container)`
-  margin: 10px 0 0 0;
-`;
-
-export class ProjectEditorSideBar extends Component {
+export default class ProjectEditorSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      treeData: [{ title: 'Chicken', children: [{ title: 'Egg' }] }],
+    };
   }
+
   render() {
     return (
-      <ContainerStyled maxWidth={'320px'} width={'100%'}>
-        <ProjectEditorSideBarDrawing nameSection={'I. ТЗ - RK-186-344'} />
-        <ProjectEditorSideBarDrawing nameSection={'II. ПМ ПИ'} />
-        <ProjectEditorSideBarDrawing nameSection={'III. ПМ ПCИ'} />
-      </ContainerStyled>
+      <div style={{ height: 400 }}>
+        <SortableTree
+          treeData={this.state.treeData}
+          onChange={treeData => this.setState({ treeData })}
+        />
+      </div>
     );
   }
 }
-
-export default ProjectEditorSideBar;
