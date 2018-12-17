@@ -100,7 +100,7 @@ export class ProjectCreate extends Component {
           type="submit"
           variant={'large'}
           size={'medium'}
-          children={'Создать проект'}
+          children={'Создать'}
           rightIcon={SvgPlay()}
           ml={9}
           disabled={pristine || submitting || invalid}
