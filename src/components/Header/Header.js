@@ -16,6 +16,7 @@ import {
 
 /** Image */
 import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
+
 import { ProfileLogo, ProjectListLogo } from './Logos';
 
 export class Header extends Component {
