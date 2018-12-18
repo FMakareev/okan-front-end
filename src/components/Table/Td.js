@@ -5,7 +5,7 @@ import { space, width, color } from 'styled-system';
 /** Style property */
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { FontFamilyProperty } from '../../styles/FontFamilyProperty';
 import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';
 
 /**
@@ -24,7 +24,7 @@ export const Td = styled.td`
 
 Td.defaultProps = {
   color: '#333333',
-  fontSize: '16px',
+  fontSize: '18px',
   lineHeight: '24px',
 };
 
