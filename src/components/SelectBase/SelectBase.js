@@ -35,8 +35,8 @@ const SelectStyled = styled(Select)`
   }
 
   .css-1wy0on6 {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
   }
 
   .css-1ep9fjw {
