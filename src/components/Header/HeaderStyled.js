@@ -59,8 +59,8 @@ const Title = styled.div`
   padding-left: 7px;
   padding-right: 10px;
   font-family: 'Circe Bold';
-  ${props => FontSizeProperty({ ...props, fontSize: 9 })};
-  ${props => LineHeightProperty({ ...props, lineHeight: 9 })};
+  ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+  ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
   ${props => color({ ...props, color: 'color0' })};
   border: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
