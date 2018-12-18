@@ -39,7 +39,8 @@ export class ProfilePage extends Component {
 
             <Flex width={'35%'} flexDirection={'column'}>
               <ProfileCreateUser />
-              {/* <PersonData />*/}
+
+              {/*  <PersonData />*/}
             </Flex>
           </Flex>
 
@@ -50,7 +51,7 @@ export class ProfilePage extends Component {
 
             <Flex width={'35%'} flexDirection={'column'}>
               <ProfileRecoveryEmail />
-              {/*<ChangePassword />*/}
+              {/* <ChangePassword />*/}
             </Flex>
           </Flex>
         </Flex>
