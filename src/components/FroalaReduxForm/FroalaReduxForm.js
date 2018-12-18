@@ -1,5 +1,6 @@
 // FroalaReduxForm
 import React, { Component } from 'react';
+import dynamic from 'next/dynamic';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -10,7 +11,10 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
 
-// import FroalaEditor from 'react-froala-wysiwyg';
+// That's where the magic happens
+const FroalaEditor = dynamic(import('react-froala-wysiwyg'), {
+  ssr: false,
+});
 
 export class FroalaReduxForm extends Component {
   constructor(props) {
@@ -21,14 +25,10 @@ export class FroalaReduxForm extends Component {
 
   get initialState() {
     try {
-      return {
-        model: this.props.input.value,
-      };
+      return { model: this.props.input.value };
     } catch (error) {
       console.error(error);
-      return {
-        model: null,
-      };
+      return { model: null };
     }
   }
 
@@ -59,14 +59,7 @@ export class FroalaReduxForm extends Component {
     const { input } = this.props;
 
     return (
-      <div>
-        {/*<FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />*/}
-        1
-      </div>
+      <FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />
     );
   }
 }
-
-// return isBrowser ? (
-//   <FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />
-// ) : null;
