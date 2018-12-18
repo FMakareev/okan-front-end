@@ -151,15 +151,15 @@ class FormPasswordRecovery extends Component {
               component={FieldInputPassword}
             />
           </BoxSecond>
-          {/*TODO: переделать тултип должен оборачивать кнопку отправки как в инпутах */}
-          {error && <TooltipBase position="bottom">Невеврный пароль</TooltipBase>}
         </Box>
 
-        <FormButton
-          disabled={pristine || submitting || invalid}
-          children={'Сменить пароль'}
-          ml={9}
-        />
+        <TooltipBase isActive={error} warning={error}>
+          <FormButton
+            disabled={pristine || submitting || invalid}
+            children={'Сменить пароль'}
+            ml={9}
+          />
+        </TooltipBase>
       </Form>
     );
   }
