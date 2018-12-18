@@ -36,16 +36,22 @@ export class ProfileApproval extends Component {
   render() {
     return (
       <Fragment>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={13}
+          fontFamily={'primary500'}>
           На согласование
         </Text>
         <Tbody>
           <Flex justifyContent={'space-around'}>
-            <Text fz={5} lh={6} fontFamily={'primary500'}>
+            <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
               Номер документа
             </Text>
 
-            <Text fz={5} lh={6} fontFamily={'primary500'}>
+            <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
               Название документа
             </Text>
           </Flex>
