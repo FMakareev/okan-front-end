@@ -1,5 +1,5 @@
 // FroalaReduxForm
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -10,11 +10,9 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
 
-import FroalaEditor from 'react-froala-wysiwyg';
+// import FroalaEditor from 'react-froala-wysiwyg';
 
 export class FroalaReduxForm extends Component {
-
-
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -61,11 +59,14 @@ export class FroalaReduxForm extends Component {
     const { input } = this.props;
 
     return (
-      <FroalaEditor
-        onModelChange={this.handleModelChange}
-        model={input.value}
-        tag={'textarea'}
-      />
+      <div>
+        {/*<FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />*/}
+        1
+      </div>
     );
   }
 }
+
+// return isBrowser ? (
+//   <FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />
+// ) : null;
