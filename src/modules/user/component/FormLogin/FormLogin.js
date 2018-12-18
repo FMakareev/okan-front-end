@@ -94,7 +94,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
-        throw new SubmissionError({ _error: 'Ошибка!' });
+        throw new SubmissionError({ _error: 'Неверный логин или пароль!' });
 
         if (status === 401) {
           throw new SubmissionError({ _error: translate('user_login_error_message_401') });
@@ -214,11 +214,12 @@ export class FormLogin extends Component {
               component={FieldInputPassword}
             />
           </BoxSecond>
-          {/*TODO: переделать тултип должен оборачивать кнопку отправки как в инпутах */}
-          {error && <TooltipBase position="bottom">Неверный логин или пароль</TooltipBase>}
         </Box>
 
-        <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
+        <TooltipBase isActive={error} warning={error}>
+          <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
+        </TooltipBase>
+
         {/* if succes => to={'/app/project-list'}  ----- USER*/}
         {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
       </Form>
