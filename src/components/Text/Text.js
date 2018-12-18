@@ -5,7 +5,7 @@ import { display, fontWeight, textAlign, letterSpacing, variant } from 'styled-s
 /** Style property */
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { FontFamilyProperty } from '../../styles/FontFamilyProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 
 /** View */
