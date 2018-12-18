@@ -35,7 +35,7 @@ export class ProjectList extends Component {
           pl={'50px'}
           py={3}
           mb={4}>
-          <Text color={'color11'} fontFamily={'secondaryBold'} fz={6} lh={7}>
+          <Text color={'color11'} fontFamily={'secondaryBold'} fontSize={6} lineHeight={8}>
             055 - ЛАЭС - КШ
           </Text>
           <Box>
@@ -50,7 +50,7 @@ export class ProjectList extends Component {
           pl={'50px'}
           py={3}
           mb={'180px'}>
-          <Text color={'color11'} fontFamily={'secondaryBold'} fz={6} lh={7}>
+          <Text color={'color11'} fontFamily={'secondaryBold'} fontSize={6} lineHeight={8}>
             055 - ЛАЭС - КШ
           </Text>
           <Box>
