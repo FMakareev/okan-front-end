@@ -8,17 +8,17 @@ import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusPropert
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
 import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
-import FontFamilyProperty from '../../styles/styleProperty/FontFamilyProperty';
+import FontFamilyProperty from '../../styles/FontFamilyProperty';
+import BackgroundColorProperty from '../../styles/styleProperty/BackgroundColorProperty';
 
 const TextField = styled.input`
   width: 100%;
   border: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
   ${props => color({ ...props, color: 'color11' })};
-  background-color: transparent;
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
   box-sizing: border-box;
   padding: 10px 10px;
-  background-color: #fff;
   ${FontSizeProperty};
   ${LineHeightProperty};
   ${FontFamilyProperty};
@@ -76,7 +76,7 @@ export class TextFieldBase extends Component {
       fontSize,
       meta,
       color,
-      value,
+      values,
     } = this.props;
 
     return (
@@ -90,7 +90,7 @@ export class TextFieldBase extends Component {
         aria-required={required || false}
         disabled={disabled}
         meta={meta}
-        value={value}
+        value={values}
       />
     );
   }
