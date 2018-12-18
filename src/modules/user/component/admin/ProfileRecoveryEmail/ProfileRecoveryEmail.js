@@ -12,9 +12,12 @@ import Box from '../../../../../components/Box/Box';
 /**PropTypes */
 import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 
+/** Styles property */
+import BorderRadiusProperty from '../../../../../styles/styleProperty/BorderRadiusProperty';
+
 const BoxStyled = styled(Box)`
   input:first-child {
-    border-radius: 5px;
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
   }
 `;
 
@@ -42,7 +45,7 @@ export class ProfileRecoveryEmail extends Component {
             placeholder={'email@mail.ru'}
             type="text"
             fontSize={5}
-            lineHeight={6}
+            lineHeight={7}
             fontFamily={'secondary'}
           />
         </BoxStyled>
