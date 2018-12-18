@@ -17,17 +17,24 @@ import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
+/** Styles property */
+import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
+import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
+import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
+import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
+
 const BoxStyled = styled(Box)`
   input {
-    border-radius: 5px;
-    text-align: center;
-    font-size: 18px;
-    line-height: 24px;
-    padding: 7px;
+    padding: 3px 7px;
     border: 0;
+    text-align: center;
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
   }
-  border-radius: 5px;
-  border: 1px solid #848484;
+  border: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
 const options = [
@@ -62,7 +69,7 @@ export class ProjectCreate extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+        <Text fontSize={6} lineHeight={8} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
           Номер проекта
         </Text>
 
@@ -78,7 +85,7 @@ export class ProjectCreate extends Component {
           />
         </BoxStyled>
 
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+        <Text fontSize={6} lineHeight={8} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
           Список шаблонов
         </Text>
 
