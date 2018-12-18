@@ -8,27 +8,33 @@ import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
-import SelectBase from '../../../../components/SelectBase/SelectBase';
 import TextFieldArray from '../../../../components/TextFieldArray/TextFieldArray';
 
 /**Image */
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
+import { SvgSave } from '../../../../components/Icons/SvgSave';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
+/** Styles property */
+import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
+import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
+import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
+import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
+
 const BoxStyled = styled(Box)`
   input {
-    border-radius: 5px;
-    text-align: center;
-    font-size: 18px;
-    line-height: 24px;
-    padding: 7px;
+    padding: 3px 7px;
     border: 0;
+    text-align: center;
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
   }
-  border-radius: 5px;
-  border: 1px solid #848484;
+
+  border: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
 export class ProjectSettings extends Component {
@@ -54,13 +60,19 @@ export class ProjectSettings extends Component {
             component={TextFieldBase}
             placeholder={'Название документа'}
             type="text"
-            fontSize={5}
-            lineHeight={6}
+            fontSize={6}
+            lineHeight={8}
             fontFamily={'secondary'}
           />
         </BoxStyled>
 
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={4}
+          fontFamily={'primary500'}>
           Участники проекта
         </Text>
 
@@ -78,11 +90,11 @@ export class ProjectSettings extends Component {
           variant={'large'}
           size={'medium'}
           children={'Сохранить настройки'}
-          rightIcon={SvgPlay()}
-          ml={9}
+          leftIcon={SvgSave()}
+          mr={9}
           disabled={pristine || submitting || invalid}
           width={'100%'}
-          widthIcon={'10px'}
+          widthIcon={'16px'}
         />
       </Form>
     );
