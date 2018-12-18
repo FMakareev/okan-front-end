@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 /**View */
 import Flex from '../../../../components/Flex/Flex';
 import Table from '../../../../components/Table/Table';
-import Thead from '../../../../components/Table/Thead';
 import Tbody from '../../../../components/Table/Tbody';
 import Td from '../../../../components/Table/Td';
 import Th from '../../../../components/Table/Th';
@@ -16,13 +15,19 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import { SvgExport } from '../../../../components/Icons/SvgExport';
 import { SvgFolder } from '../../../../components/Icons/SvgFolder';
 
+/** Styles property */
+import { BorderColorProperty } from '../../../../styles/styleProperty/BorderColorProperty';
+
+
 const TableStyled = styled(Table)`
   border-collapse: collapse;
   table-layout: fixed;
 `;
 
 const TdStyled = styled(Td)`
-  border-top: 2px solid #00649c;
+  border-top: 2px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color7' })}
+
 `;
 
 class RevisionList extends Component {
@@ -36,19 +41,19 @@ class RevisionList extends Component {
     return (
       <TableStyled width={'100%'}>
         <Tr>
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} textAlign={'left'} width={'100px'}>
+          <Th fontSize={6} lineHeight={8} fontFamily={'primary500'} py={4} textAlign={'left'} width={'100px'} color={'color11'}>
             № Ревизии
           </Th>
 
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} width={'500px'}>
+          <Th fontSize={6} lineHeight={8} fontFamily={'primary500'} color={'color11'} py={4} width={'500px'}>
             Ф. И. О.
           </Th>
 
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4}>
+          <Th fontSize={6} lineHeight={8} fontFamily={'primary500'} color={'color11'} py={4}>
             Дата
           </Th>
 
-          <Th fz={5} lh={6} fontFamily={'primary500'} py={4} />
+          <Th fontSize={6} lineHeight={8} fontFamily={'primary500'} color={'color11'} py={4} />
         </Tr>
         <Tbody>
           <Tr>
@@ -80,6 +85,7 @@ class RevisionList extends Component {
             <TdStyled fontFamily={'primary300'} py={4} textAlign={'center'}>
               12.11.2018
             </TdStyled>
+            
             <TdStyled fontFamily={'primary300'} py={4}>
               <Flex justifyContent={'center'}>
                 <ButtonBase variant={'empty'}>{SvgFolder()}</ButtonBase>
