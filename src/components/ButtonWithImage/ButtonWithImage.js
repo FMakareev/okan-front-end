@@ -20,7 +20,7 @@ export const ButtonWithImage = ({
     <ButtonBase variant={variant} size={size} width={width}>
       <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
         {leftIcon && (
-          <Flex mr={mr} justifyContent={'center'} alignItems={'center'}>
+          <Flex mr={mr} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
             {leftIcon}
           </Flex>
         )}

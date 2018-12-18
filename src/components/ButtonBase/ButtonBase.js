@@ -28,7 +28,7 @@ export const ButtonBase = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+  border-radius: 5px;
   ${buttonsVariant};
   ${buttonsSize};
   ${space};
