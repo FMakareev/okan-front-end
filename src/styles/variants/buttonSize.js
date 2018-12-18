@@ -15,7 +15,7 @@ export const ButtonSize = {
   },
   medium: {
     minWidth: '250px',
-    fontSize: '16px',
+    fontSize: '18px',
     lineHeight: '24px',
     padding: '8px 0',
     fontFamily: 'Circe Bold',
