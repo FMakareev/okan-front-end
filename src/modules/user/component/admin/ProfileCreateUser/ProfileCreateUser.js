@@ -52,7 +52,13 @@ export class ProfileCreateUser extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={7}
+          color={'color7'}
+          textAlign={'center'}
+          mb={13}
+          fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 
@@ -63,7 +69,7 @@ export class ProfileCreateUser extends Component {
             placeholder={'Фамилия'}
             type="text"
             fontSize={5}
-            lineHeight={6}
+            lineHeight={7}
             fontFamily={'secondary'}
             validate={required}
           />
@@ -75,7 +81,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Имя'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -86,7 +92,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Отчество'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -97,7 +103,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Дата рождения'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -108,7 +114,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Должность'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -119,7 +125,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Телефон'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -130,7 +136,7 @@ export class ProfileCreateUser extends Component {
           placeholder={'Электронная почта'}
           type="text"
           fontSize={5}
-          lineHeight={6}
+          lineHeight={7}
           validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
@@ -142,7 +148,7 @@ export class ProfileCreateUser extends Component {
             placeholder={'Загрузить подпись'}
             type="text"
             fontSize={5}
-            lineHeight={6}
+            lineHeight={7}
             validate={required}
           />
         </BoxSecond>
