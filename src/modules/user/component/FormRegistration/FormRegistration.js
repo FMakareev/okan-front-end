@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm, SubmissionError, Form} from 'redux-form';
+import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import styled from 'styled-components';
 
 /** View */
@@ -8,14 +8,13 @@ import Box from '../../../../components/Box/Box';
 import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 
-
 /** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
 import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 const validate = values => {
   const errors = {};
@@ -114,11 +113,11 @@ class FormRegistration extends Component {
   };
 
   render() {
-    const {handleSubmit, pristine, submitting, invalid, error} = this.props;
+    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <FormLogo/>
+        <FormLogo />
 
         <Box mb={'100px'}>
           <BoxFirst>
@@ -148,14 +147,9 @@ class FormRegistration extends Component {
               component={FieldInputPassword}
             />
           </BoxSecond>
-
         </Box>
-        <TooltipBase
-          isActive={error}
-          warning={error}
-        >
-          <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9}/>
-
+        <TooltipBase isActive={error} warning={error}>
+          <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
         </TooltipBase>
       </Form>
     );
