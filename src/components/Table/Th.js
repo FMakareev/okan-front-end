@@ -6,7 +6,7 @@ import { space, color, width } from 'styled-system';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty';
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import { FontFamilyProperty } from '../../styles/FontFamilyProperty';
 
 /**
  *  Компонент одной ячейки таблицы, которая обозначается как заголовочная.
