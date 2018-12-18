@@ -5,7 +5,6 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /**View */
 import Flex from '../../../../components/Flex/Flex';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
 import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
