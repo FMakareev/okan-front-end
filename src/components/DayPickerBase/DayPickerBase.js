@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ru } from 'date-fns/locale/ru';
+import dynamic from 'next/dynamic';
+
+const DatePicker = dynamic(import('react-datepicker'), {
+  ssr: false,
+});
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
@@ -59,19 +64,22 @@ export class DayPickerBase extends Component {
     const { startDate } = this.state;
 
     return (
-      // <DatePickerStyled
-      //   selected={startDate}
-      //   onChange={this.handleChange}
-      //   peekNextMonth
-      //   showMonthDropdown
-      //   showYearDropdown
-      //   dropdownMode="select"
-      //   placeholderText={placeholder}
-      //   dateFormat="dd/MM/yyyy"
-      //   locale={'ru'}
-      //   input={input}
-      // />
-      <div>1</div>
+      <DatePickerStyled
+        selected={startDate}
+        onChange={this.handleChange}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        placeholderText={placeholder}
+        dateFormat="dd/MM/yyyy"
+        input={input}
+        locale={'ru'}
+        popperPlacement="top-end"
+        popperModifiers={{
+          offset: { enabled: true, offset: '35px, 0px' },
+        }}
+      />
     );
   }
 }
