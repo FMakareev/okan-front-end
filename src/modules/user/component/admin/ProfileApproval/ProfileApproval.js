@@ -41,7 +41,7 @@ export class ProfileApproval extends Component {
           lineHeight={8}
           color={'color7'}
           textAlign={'center'}
-          mb={13}
+          mb={[13]}
           fontFamily={'primary500'}>
           На согласование
         </Text>
