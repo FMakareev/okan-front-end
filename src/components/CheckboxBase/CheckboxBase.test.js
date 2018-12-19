@@ -1,17 +1,29 @@
 import React from 'react';
 import 'jest-styled-components';
-import CheckboxBase from './CheckboxBase';
-import RenderWithTheme from '../../utils/helpers/RenderWithTheme';
+import renderer from 'react-test-renderer';
+import { CheckboxBase } from './CheckboxBase';
+import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
 
 test('Disabled checkbox', () => {
-  const tree = RenderWithTheme(<CheckboxBase index={1}>CheckboxBase</CheckboxBase>).toJSON();
+  const tree = renderer
+    .create(
+      <StyledThemeProvider>
+        <CheckboxBase index={1}>CheckboxBase</CheckboxBase>
+      </StyledThemeProvider>,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
+
 test('Enabled checkbox', () => {
-  const tree = RenderWithTheme(
-    <CheckboxBase checked index={1}>
-      CheckboxBase
-    </CheckboxBase>,
-  ).toJSON();
+  const tree = renderer
+    .create(
+      <StyledThemeProvider>
+        <CheckboxBase checked index={1}>
+          CheckboxBase
+        </CheckboxBase>
+      </StyledThemeProvider>,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
