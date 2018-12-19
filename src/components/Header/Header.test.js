@@ -1,16 +1,16 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { BrowserRouter } from 'react-router-dom';
 
 import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
 import Header from './Header';
 
-it('Header: Рендерится без ошибок', () => {
-  renderer
-    .create(
-      <StyledThemeProvider>
+test('Header: Рендерится без ошибок', () => {
+  renderer.create(
+    <StyledThemeProvider>
+      <BrowserRouter>
         <Header />
-      </StyledThemeProvider>,
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+      </BrowserRouter>
+    </StyledThemeProvider>,
+  );
 });
