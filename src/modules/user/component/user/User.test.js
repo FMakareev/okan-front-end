@@ -3,11 +3,14 @@ import renderer from 'react-test-renderer';
 import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
 import { ChangePassword } from './ChangePassword/ChangePassword';
 import { PersonData } from './PersonData/PersonData';
+import { BrowserRouter } from 'react-router-dom';
 
 it('ChangePassword: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
-      <ChangePassword />
+      <BrowserRouter>
+        <ChangePassword />
+      </BrowserRouter>
     </StyledThemeProvider>,
   );
 });
