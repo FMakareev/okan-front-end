@@ -14,7 +14,7 @@ import required from '../../../../utils/validation/required';
 /** Image */
 import { SvgEye } from '../../../../components/Icons/SvgEye';
 
-class FieldInputPassword extends Component {
+export class FieldInputPassword extends Component {
   constructor(props) {
     super(props);
 
