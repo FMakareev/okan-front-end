@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ru } from 'date-fns/locale/ru';
+import dynamic from 'next/dynamic';
+
+const DatePicker = dynamic(import('react-datepicker'), {
+  ssr: false,
+});
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
@@ -24,7 +29,7 @@ const DatePickerStyled = styled(DatePicker)`
     width: 100% !important;
   }
 
-  & .react-datepicker__header {
+  .react-datepicker__header {
     background-color: #007faf !important;
   }
 `;
@@ -32,31 +37,37 @@ const DatePickerStyled = styled(DatePicker)`
 export class DayPickerBase extends Component {
   static propTypes = {
     /**placeholder */
-    placeholder: PropTypes.string,
-    /**input */
+    placeholder: PropTypes.string /**input */,
     ...fieldInputPropTypes,
   };
 
   constructor(props) {
     super(props);
-    this.state = { startDate: null };
+    this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  get initialState() {
+    return { startDate: this.props.input.value ? new Date(this.props.input.value) : new Date() };
   }
 
   handleChange(date) {
     this.setState({ startDate: date });
 
-    // const {
-    //   input: { onChange },
-    // } = this.props;
-    // const dateString = date && date.format('YYYY.MM.DD');
-    // console.log(dateString);
-    // onChange(dateString);
+    const {
+      input: { onChange },
+    } = this.props;
+
+    onChange(date.toString());
   }
 
   render() {
-    const { placeholder, input } = this.props;
+    const { placeholder, input, ...rest } = this.props;
     const { startDate } = this.state;
+
+    // if (this.props.getReferenceRef) {
+    //   return null;
+    // }
 
     return (
       <DatePickerStyled
@@ -68,8 +79,9 @@ export class DayPickerBase extends Component {
         dropdownMode="select"
         placeholderText={placeholder}
         dateFormat="dd/MM/yyyy"
-        locale={'ru'}
         input={input}
+        locale={'ru'}
+        {...rest}
       />
     );
   }
