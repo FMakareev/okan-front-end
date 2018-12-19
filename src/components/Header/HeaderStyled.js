@@ -70,7 +70,7 @@ const Title = styled.div`
     content: '';
     width: 6px;
     height: 6px;
-    top: 12px;
+    top: 10px;
     left: -4px;
     position: absolute;
     z-index: 1;
