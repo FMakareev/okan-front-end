@@ -70,41 +70,28 @@ const Input = styled.input`
 export class CheckboxBase extends Component {
   static propTypes = {
     // input: inputPropTypes,
-    /** The name attribute specifies the name of an <input> element. */
-    name: PropTypes.string,
     /** The disabled attribute specifies that the input field is disabled. */
     disabled: PropTypes.bool,
     /** Text field form with a pre-selected checkbox. */
     checked: PropTypes.bool,
-    /** Children = label. */
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    /** Event callback */
-    onChange: PropTypes.func,
     /** . */
     index: PropTypes.number,
-    /** CSS: margin-bottom */
-    mb: PropTypes.string,
-    /** CSS: padding left and right */
-    py: PropTypes.string,
-    /** CSS: padding top and bottom */
-    px: PropTypes.string,
   };
 
   static defaultProps = {};
 
   render() {
-    const { children, input, index, checked, disabled } = this.props;
+    const { input, index, checked, disabled } = this.props;
 
     return (
       <Wrapper>
         <Input
           id={`styled-checkbox-${index || input.name}`}
           type="checkbox"
-          checked={input.value}
+          checked={input ? input.value : false}
           disabled={disabled}
           {...input}
         />
-        <label htmlFor={`styled-checkbox-${index || input.name}`}>{children}</label>
       </Wrapper>
     );
   }
