@@ -24,9 +24,9 @@ const DatePickerStyled = styled(DatePicker)`
   ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })};
   ${props => color({ ...props, color: 'color11' })};
 
-  .react-datepicker-wrapper,
-  .react-datepicker__input-container {
-    width: 100% !important;
+  .react-datepicker__input-container,
+  .react-datepicker-wrapper {
+    width: 100%;
   }
 
   .react-datepicker__header {

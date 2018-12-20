@@ -11,7 +11,7 @@ import FormRegistration from '../../component/FormRegistration/FormRegistration'
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
-class Login extends Component {
+export class Registration extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   static defaultProps = {};
@@ -36,4 +36,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Registration;

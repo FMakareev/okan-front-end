@@ -11,7 +11,7 @@ import FormLogin from '../../component/FormLogin/FormLogin';
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
-class Login extends Component {
+export class Login extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   static defaultProps = {};

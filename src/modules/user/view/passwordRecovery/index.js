@@ -11,7 +11,7 @@ import FormPasswordRecovery from '../../component/FormPasswordRecovery/FormPassw
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
-class PasswordRecovery extends Component {
+export class PasswordRecovery extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   static defaultProps = {};
