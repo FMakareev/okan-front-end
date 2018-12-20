@@ -1,0 +1,13 @@
+query ($email: String!) {
+  useremailitem(email: $email) {
+    id
+    firstName
+    lastName
+    patronymic
+    birthdate
+    email
+    phone
+    signature
+    role
+  }
+}

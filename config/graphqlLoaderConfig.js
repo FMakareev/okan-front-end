@@ -1,5 +1,5 @@
 export const graphqlLoaderConfig = {
-  test: /\.(graphql|gql)$/,
+  test: /\.(graphql|graphqls|gql)$/,
   exclude: /node_modules/,
   loader: 'graphql-tag/loader',
 };

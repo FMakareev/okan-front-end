@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withApollo } from 'react-apollo';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -23,6 +26,12 @@ import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+
+/** ac */
+import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
+
+/** query */
+import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 
 const validate = values => {
   const errors = {};
@@ -63,20 +72,22 @@ const BoxSecond = styled(Box)`
 `;
 
 export class FormLogin extends Component {
-  static propTypes = {
-    ...formPropTypes,
-  };
+  static propTypes = { ...formPropTypes };
 
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = this.initialState;
 
     this.submit = this.submit.bind(this);
   }
 
+  get initialState() {
+    return { submitting: false };
+  }
+
   submit(value) {
-    return fetch(`${ENDPOINT_CLIENT}/auth/login`, {
+    return fetch(`${ENDPOINT_CLIENT}/login`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
@@ -97,12 +108,38 @@ export class FormLogin extends Component {
         throw new SubmissionError({ _error: 'Неверный логин или пароль!' });
 
         if (status === 401) {
-          throw new SubmissionError({ _error: translate('user_login_error_message_401') });
+          throw new SubmissionError({ _error: 'Ошибка 401' });
         } else {
-          throw new SubmissionError({ _error: translate('user_login_error_message_500') });
+          throw new SubmissionError({ _error: 'Ошибка 500' });
         }
       });
   }
+
+  getUser = email => {
+    const { client, history } = this.props;
+
+    return client
+      .query({ query: UserEmailItemQuery, variables: { email: email } })
+      .then(result => {
+        console.log(result);
+        if (result.errors || result.data.useremailitem === null) {
+          // TO DO change this
+          throw result;
+        } else {
+          this.setState(() => ({ submitting: false }));
+          this.setUser(result);
+          history.push(`app/profile`);
+          return Promise.resolve(result);
+        }
+      })
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        this.setState(() => ({ submitting: false }));
+      });
+  };
 
   /**
    * @param {object} props - apollo response
@@ -120,73 +157,28 @@ export class FormLogin extends Component {
    * */
   setUser = props => {
     console.log('setUser: ', props);
-    // const {
-    //   data: { usernameitem },
-    // } = props;
-    // const { addUser } = this.props;
-    // let resolvers = [];
+    const {
+      data: { useremailitem },
+    } = props;
+    const { addUser } = this.props;
 
-    // usernameitem.group.forEach(item => {
-    //   item.roles.forEach(roleItem => {
-    //     resolvers = [...resolvers, ...roleItem.resolvers.map(resolverItem => resolverItem.name)];
-    //   });
-    // });
-
-    // addUser({
-    //   ...usernameitem,
-    //   resolvers,
-    // });
-    // localStorage.setItem(
-    //   'user',
-    //   JSON.stringify({
-    //     ...usernameitem,
-    //     resolvers,
-    //   }),
-    // );
+    addUser(useremailitem);
+    localStorage.setItem('user', JSON.stringify(useremailitem));
   };
 
-  getUser = uname => {
-    // const { translate, client, history } = this.props;
-    // return client
-    //   .query({
-    //     query: userItem,
-    //     variables: {
-    //       username: uname,
-    //     },
-    //   })
-    //   .then(result => {
-    //     console.log(result);
-    //     if (result.errors) {
-    //       throw result;
-    //     } else {
-    //       this.setState(() => ({
-    //         submitting: false,
-    //         apolloError: null,
-    //       }));
-    //       this.setUser(result);
-    //       history.push(`/app/users/profile/${uname}`);
-    //       return Promise.resolve(result);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log('getUser error:', error);
-    //     //
-    //     if (error.errors[0].message === 'User Model matching query does not exist.') {
-    //       this.setState(() => ({
-    //         submitting: false,
-    //         apolloError: 'user_login_error_message_login_not_found',
-    //       }));
-    //     } else {
-    //       this.setState(() => ({
-    //         submitting: false,
-    //         apolloError: 'user_login_error_message_500',
-    //       }));
-    //     }
-    //   });
+  mockSubmit = value => {
+    this.setState(({ submitting }) => ({ submitting: !submitting }));
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.getUser(value.email);
+        resolve(true);
+      }, 2000);
+    });
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
+    const { handleSubmit, pristine, submitFailed, invalid, error } = this.props;
+    const { submitting } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -226,6 +218,17 @@ export class FormLogin extends Component {
     );
   }
 }
+
+FormLogin = withRouter(FormLogin);
+
+FormLogin = withApollo(FormLogin);
+
+FormLogin = connect(
+  null,
+  dispatch => ({
+    addUser: user => dispatch({ type: USER_ADD, user }),
+  }),
+)(FormLogin);
 
 FormLogin = reduxForm({
   form: 'FormLogin',

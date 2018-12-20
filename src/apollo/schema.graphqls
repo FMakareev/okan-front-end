@@ -1,0 +1,45 @@
+type User {
+  id: String
+  firstName: String
+  lastName: String
+  patronymic: String
+  birthdate: String
+  phone: String
+  email: String
+  signature: String
+  role: String
+}
+
+type Query {
+  userlist: [User],
+  useritem(id: String): User,
+  useremailitem(email: String): User,
+}
+
+type Mutation {
+
+  createuser(
+    id: String
+    firstName: String
+    lastName: String
+    patronymic: String
+    birthdate: String
+    phone: String
+    email: String
+    signature: String
+    role: String!
+  ): User,
+
+  updateuser(
+    id: String
+    firstName: String
+    lastName: String
+    patronymic: String
+    birthdate: String
+    phone: String
+    email: String
+    signature: String
+    role: String
+  ): User,
+
+}
