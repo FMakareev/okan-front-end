@@ -51,12 +51,11 @@ export class DayPickerBase extends Component {
   handleChange(date) {
     this.setState({ startDate: date });
 
-    // const {
-    //   input: { onChange },
-    // } = this.props;
-    // const dateString = date && date.format('YYYY.MM.DD');
-    // console.log(dateString);
-    // onChange(dateString);
+    const {
+      input: { onChange },
+    } = this.props;
+
+    onChange(date.toString());
   }
 
   render() {

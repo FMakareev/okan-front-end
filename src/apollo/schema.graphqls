@@ -19,27 +19,29 @@ type Query {
 type Mutation {
 
   createuser(
-    id: String
-    firstName: String
-    lastName: String
-    patronymic: String
-    birthdate: String
-    phone: String
-    email: String
-    signature: String
-    role: String!
+    id: String,
+    firstName: String,
+    lastName: String,
+    patronymic: String,
+    birthdate: String,
+    phone: String,
+    email: String,
+    signature: String,
+    post:String,
+    role: String!,
   ): User,
 
   updateuser(
-    id: String
-    firstName: String
-    lastName: String
-    patronymic: String
-    birthdate: String
-    phone: String
-    email: String
-    signature: String
-    role: String
+    id: String,
+    firstName: String,
+    lastName: String,
+    patronymic: String,
+    birthdate: String,
+    phone: String,
+    email: String,
+    signature: String,
+    post:String,
+    role: String,
   ): User,
 
 }

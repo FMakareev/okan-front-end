@@ -11,8 +11,8 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import { mocksClient } from '../../../apollo/mocksClient';
-// import { client } from '../../../apollo/index.client';
+// import { mocksClient } from '../../../apollo/mocksClient';
+import { client } from '../../../apollo/index.client';
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 
 /**
@@ -26,15 +26,18 @@ export const userInit = () => dispatch => {
           type: USER_INIT_LOADING_START,
         });
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log(user);
+        console.log('user', user);
+
         if (user) {
           /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
           // setTimeout(()=>{
-          mocksClient
+          return client
             .query({ query: UserEmailItemQuery, variables: { email: user.email } })
             .then(({ data }) => {
               const { useremailitem } = data;
+
               localStorage.setItem('user', JSON.stringify(useremailitem));
+
               dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...useremailitem } });
               resolve(useremailitem);
             })
@@ -103,7 +106,7 @@ export const userUpdate = () => dispatch => {
         if (user) {
           /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
           // setTimeout(()=>{
-          mocksClient
+          client
             .query({ query: UserEmailItemQuery, variables: { email: user.email } })
             .then(({ data }) => {
               const { useremailitem } = data;

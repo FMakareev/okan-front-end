@@ -17,27 +17,19 @@ const defaultMocks = {
     useremailitem: (query, { email }) => {
       console.log(query, email);
       switch (email) {
-        case 'client@test.com': {
+        case 'client@okan.su': {
           return {
             ...useritem(),
-            email: 'client@test.com',
-            role: ROLE_CLIENT,
+            email: 'client@okan.su',
           };
         }
-        case 'bank@test.com': {
+        case 'admin@okan.su': {
           return {
             ...useritem(),
-            email: 'bank@test.com',
-            role: ROLE_BANK,
+            email: 'admin@okan.su',
           };
         }
-        case 'bureau@test.com': {
-          return {
-            ...useritem(),
-            email: 'bureau@test.com',
-            role: ROLE_BUREAU,
-          };
-        }
+
         default: {
           // throw new GraphQLError('user not found');
           throw Error(
@@ -54,20 +46,20 @@ const defaultMocks = {
       }
     },
   }),
+
   Mutation: () => ({
     /**
      * @params {func} mutation - этот же запрос
      * @params {object} props - аргументы которые были переданы
      * */
     createuser: (mutation, props) => {
-      if (props.email === 'error@test.com') {
+      if (props.email === 'error@okan.su') {
         throw new GraphQLError('already registered');
-      } else if (props.bankName && props.bankName !== 'KnownBank') {
-        throw new GraphQLError('unknown bank');
       } else {
         return props;
       }
     },
+
     updateuser: (mutation, props) =>
       // для имитации запроса к серверу с рандомной задержкой и результатом.
       new Promise((resolve, reject) => {
@@ -85,7 +77,6 @@ const defaultMocks = {
               );
         }, faker.random.number(2000));
       }),
-
   }),
 };
 

@@ -1,0 +1,26 @@
+mutation(
+  $firstName: String!,
+  $lastName: String!,
+  $patronymic: String!,
+  $birthdate: String!,
+  $post: Strng!,
+  $phone: String!,
+  $email: String!,
+  $signature: String
+) {
+  createuser(
+    firstName:$firstName,
+    lastName:$lastName,
+    patronymic:$patronymic,
+    birthdate:$birthdate,
+    post:$post,
+    phone:$phone,
+    email:$email,
+    signature:$signature
+  ){
+    User{
+      id
+      email
+    }
+  }
+}

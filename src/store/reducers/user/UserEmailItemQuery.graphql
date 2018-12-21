@@ -1,14 +1,13 @@
 query ($email: String!) {
   useremailitem(email: $email) {
     id
-    bankName
     firstName
     lastName
     patronymic
     birthdate
-    gender
     email
     phone
+    signature
     role
   }
 }

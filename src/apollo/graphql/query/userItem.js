@@ -1,5 +1,5 @@
-import faker from "faker";
-import {ROLE_ADMIN, ROLE_USER} from "../../../shared/roles";
+import faker from 'faker';
+import { ROLE_ADMIN, ROLE_USER } from '../../../shared/roles';
 
 export const useritem = () => {
   const password = faker.internet.password();
@@ -13,6 +13,6 @@ export const useritem = () => {
     phone: faker.phone.phoneNumber(),
     password: password,
     confirmPassword: password,
-    role: bankName ? ROLE_ADMIN : ROLE_USER,
-  }
+    role: ROLE_USER,
+  };
 };

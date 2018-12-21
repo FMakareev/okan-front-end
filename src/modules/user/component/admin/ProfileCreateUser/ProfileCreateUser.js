@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
 
 /** View */
 import TextFieldWithTooltip from '../../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -19,6 +21,9 @@ import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 /** Validation */
 import required from '../../../../../utils/validation/required';
 import isEmail from '../../../../../utils/validation/isEmail';
+
+/** Schema */
+import CreateUserMutation from './CreateUserMutation.graphql';
 
 const BoxFirst = styled(Box)`
   input:first-child {
@@ -45,10 +50,28 @@ export class ProfileCreateUser extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {}
+  submit(value) {
+    console.log('value', value);
+    const data = { variables: Object.assign({}, value) };
+
+    return this.props['@apollo/create'](data)
+      .then(response => response)
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        if (graphQLErrors) {
+          // throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
+          return 1;
+        } else {
+          throw new SubmissionError({ _error: message });
+        }
+      });
+  }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, values } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -160,7 +183,7 @@ export class ProfileCreateUser extends Component {
           children={'Создать пользователя'}
           rightIcon={SvgPlay()}
           ml={9}
-          disabled={pristine || submitting || invalid}
+          disabled={pristine || submitting}
           width={'100%'}
           widthIcon={'10px'}
         />
@@ -171,6 +194,14 @@ export class ProfileCreateUser extends Component {
     );
   }
 }
+
+ProfileCreateUser = graphql(CreateUserMutation, {
+  name: '@apollo/create',
+})(ProfileCreateUser);
+
+ProfileCreateUser = connect(state => ({
+  values: getFormValues('ProfileCreateUser')(state),
+}))(ProfileCreateUser);
 
 ProfileCreateUser = reduxForm({
   form: 'ProfileCreateUser',

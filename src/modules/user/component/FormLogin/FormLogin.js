@@ -181,13 +181,13 @@ export class FormLogin extends Component {
     const { submitting } = this.state;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
+      <Form onSubmit={handleSubmit(this.mockSubmit)}>
         <FormLogo />
 
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="uname"
+              name="email"
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
@@ -200,7 +200,7 @@ export class FormLogin extends Component {
 
           <BoxSecond>
             <Field
-              name={'ups'}
+              name={'password'}
               placeholder={'Пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}

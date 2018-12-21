@@ -1,4 +1,4 @@
-query ($email: String!) {
+query ($email: String) {
   useremailitem(email: $email) {
     id
     firstName
