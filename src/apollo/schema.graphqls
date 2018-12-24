@@ -20,15 +20,14 @@ type Mutation {
 
   createuser(
     id: String,
-    firstName: String,
-    lastName: String,
-    patronymic: String,
-    birthdate: String,
-    phone: String,
-    email: String,
-    signature: String,
-    post:String,
-    role: String!,
+    firstName: String!,
+    lastName: String!,
+    patronymic: String!,
+    birthdate: String!,
+    position:String!,
+    phone: String!,
+    email: String!,
+    signature: String!,
   ): User,
 
   updateuser(
@@ -40,8 +39,7 @@ type Mutation {
     phone: String,
     email: String,
     signature: String,
-    post:String,
-    role: String,
+    position:String,
   ): User,
 
 }

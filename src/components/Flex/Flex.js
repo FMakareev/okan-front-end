@@ -6,15 +6,15 @@ import {
   flexBasis,
   flexDirection,
   flexWrap,
-  display,
+  display
 } from 'styled-system';
 import styled from 'styled-components';
 
 /**View */
 import { Box } from '../Box/Box';
 
-/**Style Property */
-import { OrderProperty } from '../../styles/styleProperty/OrderProperty';
+/** Style property */
+import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 
 export const Flex = styled(Box)`
   display: flex;
@@ -26,7 +26,7 @@ export const Flex = styled(Box)`
   ${flexDirection};
   ${flexWrap};
   ${display};
-  ${OrderProperty};
+  ${BackgroundColorProperty};
 `;
 
 Flex.propTypes = {
@@ -37,7 +37,7 @@ Flex.propTypes = {
   ...flexBasis.propTypes,
   ...flexDirection.propTypes,
   ...flexWrap.propTypes,
-  ...display.propTypes,
+  ...display.propTypes
 };
 
 export default Flex;

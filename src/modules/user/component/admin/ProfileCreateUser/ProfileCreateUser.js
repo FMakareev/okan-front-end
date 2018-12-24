@@ -51,8 +51,8 @@ export class ProfileCreateUser extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
     const data = { variables: Object.assign({}, value) };
+    console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => response)
@@ -62,8 +62,7 @@ export class ProfileCreateUser extends Component {
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
         if (graphQLErrors) {
-          // throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
-          return 1;
+          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
         } else {
           throw new SubmissionError({ _error: message });
         }
@@ -121,7 +120,7 @@ export class ProfileCreateUser extends Component {
         />
 
         <Field
-          name="DateOfBirth"
+          name="birthdate"
           component={DayPickerField}
           placeholder={'Дата рождения'}
           type="text"
@@ -183,7 +182,7 @@ export class ProfileCreateUser extends Component {
           children={'Создать пользователя'}
           rightIcon={SvgPlay()}
           ml={9}
-          disabled={pristine || submitting}
+          disabled={pristine || submitting || invalid}
           width={'100%'}
           widthIcon={'10px'}
         />

@@ -3,17 +3,17 @@ mutation(
   $lastName: String!,
   $patronymic: String!,
   $birthdate: String!,
-  $post: Strng!,
+  $position: String!,
   $phone: String!,
   $email: String!,
-  $signature: String
+  $signature: String!
 ) {
   createuser(
     firstName:$firstName,
     lastName:$lastName,
     patronymic:$patronymic,
     birthdate:$birthdate,
-    post:$post,
+    position:$position,
     phone:$phone,
     email:$email,
     signature:$signature
