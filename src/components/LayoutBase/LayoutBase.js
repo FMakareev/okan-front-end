@@ -1,10 +1,11 @@
 import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import Notifications from 'react-notification-system-redux';
 
 import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
-import {getUserFromStore} from "../../store/reducers/user/selectors";
-import {Text} from "../Text/Text";
-import {PreloaderWrapper, SpeedingWheel} from "../SmallPreloader/SmallPreloader";
+import { getUserFromStore } from '../../store/reducers/user/selectors';
+import { Text } from '../Text/Text';
+import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
@@ -69,20 +70,25 @@ export class LayoutBase extends PureComponent {
   };
   render() {
     const { Layout, routes } = this.state;
-    const { user } = this.props;
-    return <Fragment>
-      {user && user.initLoading && (
-        <PreloaderWrapper>
-          <Text fontSize={12}>
-            <SpeedingWheel />
-          </Text>
-        </PreloaderWrapper>
-      )}
-      {user && !user.initLoading && Layout && <Layout {...this.props} route={routes} />}
-    </Fragment>;
+    const { user, notifications } = this.props;
+    return (
+      <Fragment>
+        {user && user.initLoading && (
+          <PreloaderWrapper>
+            <Text fontSize={12}>
+              <SpeedingWheel />
+            </Text>
+          </PreloaderWrapper>
+        )}
+        {user && !user.initLoading && Layout && <Layout {...this.props} route={routes} />}
+
+        <Notifications notifications={notifications} />
+      </Fragment>
+    );
   }
 }
 LayoutBase = connect(state => ({
   user: getUserFromStore(state),
+  notifications: state.notifications,
 }))(LayoutBase);
 export default LayoutBase;
