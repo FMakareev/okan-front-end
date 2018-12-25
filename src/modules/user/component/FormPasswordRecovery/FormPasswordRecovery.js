@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -80,6 +81,21 @@ const BoxSecond = styled(Box)`
   }
 `;
 
+const notificationOpts = () => ({
+  success: {
+    title: 'its okqy',
+    message: 'its okay',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'problems',
+    message: 'problems',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 class FormPasswordRecovery extends Component {
   static propTypes = {
     ...formPropTypes,
@@ -104,28 +120,16 @@ class FormPasswordRecovery extends Component {
           throw response;
         } else {
           this.props.reset();
+          this.props.setNotificationSuccess(notificationOpts().success);
           this.props.history.push(`/app/profile`);
           return Promise.resolve(response);
         }
       })
       .catch(({ errors, message }) => {
         throw new SubmissionError({ _error: message || errors[0].message });
+        this.props.setNotificationError(notificationOpts().error);
       });
   }
-
-  // submit = value => {
-  //   return new Promise((resolve, reject) => {
-  //     setTimeout(() => {
-  //       Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
-  //     }, 1000);
-  //   }).then(() => {
-  //     console.log('here');
-  //     throw new SubmissionError({
-  //       email: 'тут ошибка которая появится в инпуте с именем email',
-  //       _error: 'Connection error!',
-  //     });
-  //   });
-  // };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
@@ -173,15 +177,22 @@ class FormPasswordRecovery extends Component {
   }
 }
 
+FormPasswordRecovery = withRouter(FormPasswordRecovery);
+
 FormPasswordRecovery = graphql(UserPasswordRecoveryMutation, {
   name: '@apollo/update',
 })(FormPasswordRecovery);
 
-// FormPasswordRecovery = connect(state => ({
-//   values: getFormValues('FormPasswordRecovery')(state),
-// }))(FormPasswordRecovery);
-
-FormPasswordRecovery = withRouter(FormPasswordRecovery);
+FormPasswordRecovery = connect(
+  // state => ({
+  //   values: getFormValues('FormPasswordRecovery')(state),
+  // }),
+  null,
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(FormPasswordRecovery);
 
 FormPasswordRecovery = reduxForm({
   form: 'FormPasswordRecovery',
