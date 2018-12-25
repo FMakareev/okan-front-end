@@ -26,7 +26,6 @@ export const userInit = () => dispatch => {
           type: USER_INIT_LOADING_START,
         });
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log('user', user);
 
         if (user) {
           /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
