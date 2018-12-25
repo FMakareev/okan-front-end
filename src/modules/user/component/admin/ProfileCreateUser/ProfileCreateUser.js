@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
 import TextFieldWithTooltip from '../../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -39,6 +40,21 @@ const BoxSecond = styled(Box)`
   }
 `;
 
+const notificationOpts = () => ({
+  success: {
+    title: 'its okqy',
+    message: 'its okay',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'problems',
+    message: 'problems',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 export class ProfileCreateUser extends Component {
   static propTypes = { ...formPropTypes };
 
@@ -51,15 +67,26 @@ export class ProfileCreateUser extends Component {
   }
 
   submit(value) {
+    console.log('value', value);
+
     const data = { variables: Object.assign({}, value) };
+    console.log('data', data);
 
     return this.props['@apollo/create'](data)
-      .then(response => response)
+      .then(response => {
+        // this.props.setNotificationSuccess(success(notificationOpts.success));
+        this.props.setNotificationSuccess(notificationOpts().success);
+
+        return response;
+      })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
         console.log('graphQLErrors: ', graphQLErrors);
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
+        // this.props.setNotificationError(error(notificationOpts.error));
+        this.props.setNotificationError(notificationOpts().error);
+
         if (graphQLErrors) {
           throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
         } else {
@@ -197,9 +224,16 @@ ProfileCreateUser = graphql(CreateUserMutation, {
   name: '@apollo/create',
 })(ProfileCreateUser);
 
-ProfileCreateUser = connect(state => ({
-  values: getFormValues('ProfileCreateUser')(state),
-}))(ProfileCreateUser);
+ProfileCreateUser = connect(
+  state => ({
+    values: getFormValues('ProfileCreateUser')(state),
+  }),
+  dispatch => ({
+    addUser: user => dispatch({ type: USER_ADD, user }),
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(ProfileCreateUser);
 
 ProfileCreateUser = reduxForm({
   form: 'ProfileCreateUser',
