@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 // import { localeReducer as locale } from 'react-localize-redux';
 // import { ReducerFormLogin } from './form/reducers';
-// import { reducer as notifications } from 'react-notification-system-redux';
+import { reducer as notifications } from 'react-notification-system-redux';
 import { ReducerUser } from './user/reducers';
 
 export const rootReducer = combineReducers({
@@ -10,8 +10,8 @@ export const rootReducer = combineReducers({
     // FormLogin: ReducerFormLogin,
   }),
   // locale,
-  // notifications,
   user: ReducerUser,
+  notifications,
 });
 
 export default rootReducer;
