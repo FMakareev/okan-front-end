@@ -22,7 +22,7 @@ import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 import required from '../../../../../utils/validation/required';
 import isEmail from '../../../../../utils/validation/isEmail';
 
-/** Schema */
+/** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
 
 const BoxFirst = styled(Box)`
@@ -52,7 +52,6 @@ export class ProfileCreateUser extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => response)
@@ -70,7 +69,7 @@ export class ProfileCreateUser extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, values } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
