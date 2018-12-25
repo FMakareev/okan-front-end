@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 import styled from 'styled-components';
+import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -15,6 +18,9 @@ import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+
+/** GraphQL schema */
+import CreateUserMutation from './CreateUserMutation.graphql';
 
 const validate = values => {
   const errors = {};
@@ -75,42 +81,39 @@ class FormRegistration extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  // submit(value) {
-  //   const { history, successRedirect } = this.props;
-  //   const data = { variables: Object.assign({}, value) };
-  //   // data.variables.role = data.variables.role.map(item => item.name);
-  //   return this.props['@apollo/create'](data)
-  //     .then(response => {
-  //       console.log(response);
-  //       if (response.errors) {
-  //         throw response;
-  //       } else {
-  //         if (typeof successRedirect === 'string') {
-  //           history.push(successRedirect);
-  //         } else if (typeof successRedirect === 'function') {
-  //           successRedirect();
-  //         }
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       throw new SubmissionError({ _error: 'Ошибка!' });
-  //     });
-  // }
+  submit(value) {
+    const data = { variables: Object.assign({}, value) };
+    console.log(1, this.props);
 
-  submit = value => {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
-      }, 1000);
-    }).then(() => {
-      throw new SubmissionError({
-        email: 'тут ошибка которая появится в инпуте с именем email',
-        _error: 'Connection error!',
+    return this.props['@apollo/create'](data)
+      .then(response => {
+        console.log(response);
+        if (response.errors) {
+          throw response;
+        } else {
+          this.props.history.push(`/app/project-list`);
+          return Promise.resolve(response);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        throw new SubmissionError({ _error: 'Ошибка!' });
       });
-    });
-    return promise;
-  };
+  }
+
+  // submit = value => {
+  //   const promise = new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
+  //     }, 1000);
+  //   }).then(() => {
+  //     throw new SubmissionError({
+  //       email: 'тут ошибка которая появится в инпуте с именем email',
+  //       _error: 'Connection error!',
+  //     });
+  //   });
+  //   return promise;
+  // };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
@@ -122,7 +125,7 @@ class FormRegistration extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="log"
+              name="email"
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
@@ -155,6 +158,16 @@ class FormRegistration extends Component {
     );
   }
 }
+
+FormRegistration = withRouter(FormRegistration);
+
+FormRegistration = graphql(CreateUserMutation, {
+  name: '@apollo/create',
+})(FormRegistration);
+
+FormRegistration = connect(state => ({
+  values: getFormValues('FormRegistration')(state),
+}))(FormRegistration);
 
 FormRegistration = reduxForm({
   form: 'FormRegistration',
