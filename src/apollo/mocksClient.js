@@ -15,7 +15,6 @@ const defaultMocks = {
     userlist,
     useritem,
     useremailitem: (query, { email }) => {
-      console.log(query, email);
       switch (email) {
         case 'client@okan.su': {
           return {
