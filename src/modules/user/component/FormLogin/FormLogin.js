@@ -121,7 +121,7 @@ export class FormLogin extends Component {
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
-        console.log(result);
+        console.log(2, result);
         if (result.errors || result.data.useremailitem === null) {
           // TO DO change this
           throw result;
