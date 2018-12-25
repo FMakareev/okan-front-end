@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Field, reduxForm, Form, SubmissionError } from 'redux-form';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+// import { connect } from 'react-redux';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -18,6 +21,9 @@ import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+
+/** GraphQl schema */
+import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql';
 
 const validate = values => {
   const errors = {};
@@ -89,35 +95,37 @@ class FormPasswordRecovery extends Component {
 
   // {/* В случае успешной или не успешной смены пароля выводится notification*/}
 
-  // submit(value) {
-  //   const data = { variables: Object.assign({}, value) };
-  //   return this.props['@apollo/update'](data)
-  //     .then(response => {
-  //       if (response.errors) {
-  //         throw response;
-  //       } else {
-  //         this.props.reset();
-  //         return Promise.resolve(response);
-  //       }
-  //     })
-  //     .catch(({ errors, message }) => {
-  //       throw new SubmissionError({ _error: message || errors[0].message });
-  //     });
-  // }
+  submit(value) {
+    const data = { variables: Object.assign({}, value) };
 
-  submit = value => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
-      }, 1000);
-    }).then(() => {
-      console.log('here');
-      throw new SubmissionError({
-        email: 'тут ошибка которая появится в инпуте с именем email',
-        _error: 'Connection error!',
+    return this.props['@apollo/update'](data)
+      .then(response => {
+        if (response.errors) {
+          throw response;
+        } else {
+          this.props.reset();
+          this.props.history.push(`/app/profile`);
+          return Promise.resolve(response);
+        }
+      })
+      .catch(({ errors, message }) => {
+        throw new SubmissionError({ _error: message || errors[0].message });
       });
-    });
-  };
+  }
+
+  // submit = value => {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       Math.random() > 0.5 ? resolve(true) : reject('Ошибка регистрации');
+  //     }, 1000);
+  //   }).then(() => {
+  //     console.log('here');
+  //     throw new SubmissionError({
+  //       email: 'тут ошибка которая появится в инпуте с именем email',
+  //       _error: 'Connection error!',
+  //     });
+  //   });
+  // };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, error } = this.props;
@@ -129,7 +137,7 @@ class FormPasswordRecovery extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name={'oldPassword'}
+              name={'password'}
               placeholder={'Старый пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
@@ -145,7 +153,7 @@ class FormPasswordRecovery extends Component {
 
           <BoxSecond>
             <Field
-              name={'retypePassword'}
+              name={'confirmNewPassword'}
               placeholder={'Потвердите новый пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
@@ -164,6 +172,16 @@ class FormPasswordRecovery extends Component {
     );
   }
 }
+
+FormPasswordRecovery = graphql(UserPasswordRecoveryMutation, {
+  name: '@apollo/update',
+})(FormPasswordRecovery);
+
+// FormPasswordRecovery = connect(state => ({
+//   values: getFormValues('FormPasswordRecovery')(state),
+// }))(FormPasswordRecovery);
+
+FormPasswordRecovery = withRouter(FormPasswordRecovery);
 
 FormPasswordRecovery = reduxForm({
   form: 'FormPasswordRecovery',
