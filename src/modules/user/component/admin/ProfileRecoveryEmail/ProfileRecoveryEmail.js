@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /**View */
-import TextFieldBase from '../../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithTooltip from '../../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import ButtonWithImage from '../../../../../components/ButtonWithImage/ButtonWithImage';
 import { SvgPlay } from '../../../../../components/Icons/SvgPlay';
 import Box from '../../../../../components/Box/Box';
@@ -15,8 +15,11 @@ import { formPropTypes } from '../../../../../propTypes/Forms/FormPropTypes';
 /** Styles property */
 import BorderRadiusProperty from '../../../../../styles/styleProperty/BorderRadiusProperty';
 
+/** Validation */
+import isEmail from '../../../../../utils/validation/isEmail';
+
 const BoxStyled = styled(Box)`
-  input:first-child {
+  input {
     ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
   }
 `;
@@ -41,12 +44,13 @@ export class ProfileRecoveryEmail extends Component {
         <BoxStyled mb={4}>
           <Field
             name="emailRecovery"
-            component={TextFieldBase}
+            component={TextFieldWithTooltip}
             placeholder={'email@mail.ru'}
             type="text"
             fontSize={5}
             lineHeight={7}
             fontFamily={'secondary'}
+            validate={isEmail}
           />
         </BoxStyled>
 
