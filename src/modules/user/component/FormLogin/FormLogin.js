@@ -5,6 +5,7 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -71,6 +72,21 @@ const BoxSecond = styled(Box)`
   }
 `;
 
+const notificationOpts = () => ({
+  success: {
+    title: 'its okqy',
+    message: 'its okay',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'problems',
+    message: 'problems',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 export class FormLogin extends Component {
   static propTypes = { ...formPropTypes };
 
@@ -116,18 +132,19 @@ export class FormLogin extends Component {
   }
 
   getUser = email => {
-    const { client, history } = this.props;
+    const { client, history, setNotificationSuccess, setNotificationError } = this.props;
 
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
-        console.log(2, result);
         if (result.errors || result.data.useremailitem === null) {
           // TO DO change this
           throw result;
         } else {
           this.setState(() => ({ submitting: false }));
           this.setUser(result);
+          setNotificationSuccess(notificationOpts().success);
+
           history.push(`app/profile`);
           return Promise.resolve(result);
         }
@@ -137,6 +154,7 @@ export class FormLogin extends Component {
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
+        setNotificationError(notificationOpts().error);
         this.setState(() => ({ submitting: false }));
       });
   };
@@ -227,6 +245,8 @@ FormLogin = connect(
   null,
   dispatch => ({
     addUser: user => dispatch({ type: USER_ADD, user }),
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
   }),
 )(FormLogin);
 
