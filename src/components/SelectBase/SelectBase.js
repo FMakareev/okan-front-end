@@ -228,6 +228,7 @@ export class SelectBase extends Component {
   render() {
     const { input, options, disabled, labelKey, valueKey, placeholder, isLoading } = this.props;
     const { selectedOption } = this.state;
+
     return (
       <Relative>
         <SelectStyled
@@ -240,7 +241,7 @@ export class SelectBase extends Component {
           }
           onChange={this.onChange}
           disabled={disabled}
-          placeholder={placeholder}
+          placeholder={options[0].value}
           blurInputOnSelect={true}
           labelKey={labelKey}
           valueKey={valueKey}
