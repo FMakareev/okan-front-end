@@ -54,6 +54,7 @@
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.2.2",
     "react-select": "^2.1.1",
+    "react-treebeard": "^3.1.0",
     "rebass": "^2.0.0-10",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
