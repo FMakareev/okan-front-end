@@ -110,6 +110,7 @@ class FormRegistration extends Component {
         if (response.errors) {
           throw response;
         } else {
+          // TODO review: редиректим в профиль если в тз не сказано обратного
           this.props.history.push(`/app/project-list`);
           this.props.setNotificationSuccess(notificationOpts().success);
           return Promise.resolve(response);
@@ -118,6 +119,7 @@ class FormRegistration extends Component {
       .catch(error => {
         console.log(error);
         throw new SubmissionError({ _error: 'Ошибка!' });
+        // TODO review: это не выполнится т.к. throw равносилен return
         this.props.setNotificationError(notificationOpts().error);
       });
   }

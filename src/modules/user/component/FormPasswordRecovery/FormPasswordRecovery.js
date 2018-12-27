@@ -127,6 +127,7 @@ class FormPasswordRecovery extends Component {
       })
       .catch(({ errors, message }) => {
         throw new SubmissionError({ _error: message || errors[0].message });
+        // TODO review: оно тут не сработает и не нужно, ошибки отпарвик данных мы показываем возле кнопки
         this.props.setNotificationError(notificationOpts().error);
       });
   }
