@@ -7,11 +7,16 @@ module.exports = {
   "setupTestFrameworkScriptFile": "<rootDir>/config/setupTests.js",
   transform: {
     '^.+\\.js?$': "<rootDir>/config/jest/transformer.js",
+    "\\.(gql|graphql|graphqls)$": "jest-transform-graphql",
     '\\.(css|less)$': '<rootDir>/node_modules/jest-css-modules',
-    "^.+\\.svg$": "jest-svg-transformer"
+    "^.+\\.svg$": "<rootDir>/config/jest/inlineSvg"
   },
   moduleNameMapper: {
-    '\\.(css|less)$': 'identity-obj-proxy',
+    "/\.(css|less)$/": "identity-obj-proxy",
+    "^@lib/ui(.*)$":  "<rootDir>/src/components$1",
+    "^@lib/styles(.*)$":  "<rootDir>/src/styles$1",
+    "^@lib/utils(.*)$":  "<rootDir>/src/utils$1",
+    "^@lib/shared(.*)$":  "<rootDir>/src/shared$1",
   },
   "globals": {
     "ENDPOINT_CLIENT": 'http://localhost:5001',
