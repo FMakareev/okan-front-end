@@ -3,11 +3,16 @@
 import path from 'path';
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+
 import WriteFileWebpackPlugin from 'write-file-webpack-plugin';
-import { fileLoaderConfig } from './fileLoaderConfig';
-import { graphqlLoaderConfig } from './graphqlLoaderConfig';
-import { styleLoaderConfig } from './styleLoaderConfig';
-import { scriptsLoaderConfig } from './scriptsLoaderConfig';
+import {fileLoaderConfig} from './fileLoaderConfig';
+import {graphqlLoaderConfig} from './graphqlLoaderConfig';
+import {styleLoaderConfig} from './styleLoaderConfig';
+import {scriptsLoaderConfig} from './scriptsLoaderConfig';
+import webpackResolve from '../webpack.config';
+
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 export const browserConfigGenerator = () => {
@@ -15,7 +20,7 @@ export const browserConfigGenerator = () => {
     mode: process.env.NODE_ENV || 'development',
     watch: process.env.WATCH === 'true',
     name: 'client',
-    entry: [process.env.CLIENT_ENTRY || './src/client/index.js'],
+    entry: ['@babel/polyfill', process.env.CLIENT_ENTRY || './src/client/index.js'],
     output: {
       path: path.resolve(__dirname, process.env.PUBLIC_URL || '../public'),
       publicPath: '/',
@@ -54,9 +59,7 @@ export const browserConfigGenerator = () => {
     },
     plugins: [
       new WriteFileWebpackPlugin(),
-      // new BundleAnalyzerPlugin({
-      // 	openAnalyzer: false
-      // }),
+
       new webpack.DefinePlugin({
         isBrowser: 'true',
         DEV: process.env.NODE_ENV === 'development',
@@ -66,18 +69,45 @@ export const browserConfigGenerator = () => {
         ENDPOINT_SERVER: process.env.ENDPOINT_SERVER || "'http://localhost:5001'",
       }),
       // new CleanWebpackPlugin([ process.env.PUBLIC_URL || '../../public']),
+
       new webpack.HotModuleReplacementPlugin(),
+
       new ManifestPlugin({
         fileName: 'asset-manifest.json',
       }),
+
       new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery"
-      })
+      }),
+
+      ...(process.env.ANALYSE ? [new BundleAnalyzerPlugin()] : []),
+
     ],
-    resolve: {
-      modules: ['node_modules']
-    },
+    ...webpackResolve,
+    ...(process.env.NODE_ENV === 'production' ?
+      {
+        optimization: {
+          minimizer: [
+            new UglifyJsPlugin({
+              uglifyOptions: {
+                compress: {
+                  unsafe: true,
+                  inline: true,
+                  passes: 2,
+                  drop_console: true,
+                  keep_fargs: false,
+                },
+                output: {
+                  beautify: false,
+                  comments: false,
+                },
+                mangle: true,
+              },
+            }),
+          ]
+        }
+      } : {}),
     stats: {
       cached: false,
       cachedAssets: false,
