@@ -5,7 +5,7 @@ exports[`ProjectEditorPage: рендер без ошибок 1`] = `
   className="sc-bxivhb dUiVDW"
 >
   <div
-    className="sc-1jxwge6-0 dgupjs-0 r6fvyg-0 ikrwPj"
+    className="sc-1jxwge6-0 dgupjs-0 r6fvyg-0 dWhMtQ"
   >
     <div
       className="r6fvyg-1 gSGCQb"
@@ -35,14 +35,14 @@ exports[`ProjectEditorPage: рендер без ошибок 1`] = `
       </svg>
     </div>
     <div
-      className="sc-1jxwge6-0 sc-18ch56c-0 bmaBrd"
+      className="sc-1jxwge6-0 sc-18ch56c-0 bmfzBt"
       color="color11"
       fontSize={7}
     >
       Error
     </div>
     <div
-      className="sc-1jxwge6-0 sc-18ch56c-0 hHqwJk"
+      className="sc-1jxwge6-0 sc-18ch56c-0 frtWYC"
       color="#000"
       fontSize={5}
     >

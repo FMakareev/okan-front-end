@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Treebeard } from 'react-treebeard';
+// import { Treebeard as Tree } from 'react-treebeard';
+
+import dynamic from 'next/dynamic';
+
+const Treebeard = dynamic(import('react-treebeard'), {
+  ssr: false,
+});
 
 const data = {
   name: 'root',
@@ -27,27 +33,29 @@ const data = {
   ],
 };
 
-const styles = {};
+// const styles = {};
 
 class ProjectEditorSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // this.onToggle = this.onToggle.bind(this);
+    this.onToggle = this.onToggle.bind(this);
   }
-  // onToggle(node, toggled) {
-  //   if (this.state.cursor) {
-  //     this.state.cursor.active = false;
-  //   }
-  //   node.active = true;
-  //   if (node.children) {
-  //     node.toggled = toggled;
-  //   }
-  //   this.setState({ cursor: node });
-  // }
+
+  onToggle(node, toggled) {
+    if (this.state.cursor) {
+      this.state.cursor.active = false;
+    }
+    node.active = true;
+    if (node.children) {
+      node.toggled = toggled;
+    }
+    this.setState({ cursor: node });
+  }
+
   render() {
-    // return <Treebeard data={data} onToggle={this.onToggle} style={styles} />;
-    return <div>1</div>;
+    return <Treebeard data={data} onToggle={this.onToggle} />;
+    // return <div>1</div>;
   }
 }
 

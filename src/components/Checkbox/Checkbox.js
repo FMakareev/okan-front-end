@@ -33,23 +33,21 @@ export class Checkbox extends Component {
 
   static defaultProps = {};
 
-  componentDidMount() {
-    if (this.props.input.value === '') {
-      this.props.input.onChange(false);
-    } else {
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.input.value === '') {
+  //     this.props.input.onChange(false);
+  //   } else {
+  //   }
+  // }
 
   render() {
-    const { input, label, meta } = this.props;
+    const { input } = this.props;
 
     return (
       <Box>
         <Flex alignItems={'center'}>
-          {label && <Text mr={5}>{label}</Text>}
           <CheckboxBase input={input} />
         </Flex>
-        {meta && <Message meta={meta} />}
       </Box>
     );
   }

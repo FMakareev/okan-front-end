@@ -42,7 +42,6 @@ const BoxStyled = styled(Box)`
 `;
 
 export class DocumentSettings extends Component {
- 
   constructor(props) {
     super(props);
     this.state = {};
@@ -53,7 +52,6 @@ export class DocumentSettings extends Component {
   submit(value) {}
 
   render() {
-
     const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
@@ -70,7 +68,7 @@ export class DocumentSettings extends Component {
           </Text>
 
           <FlexStyled pt={3}>
-            <Field name="documentSetting" component={CheckboxBase} type="text" />
+            <Field name="documentSetting" component={CheckboxBase} />
 
             <Text fontFamily={'primary300'} fontSize={6} lineHeight={8} color={'color11'} ml={20}>
               Циалковский Святослав Валентинович
@@ -78,7 +76,7 @@ export class DocumentSettings extends Component {
           </FlexStyled>
 
           <FlexStyled pt={3}>
-            <Field name="documentSetting1" component={CheckboxBase} type="text" />
+            <Field name="documentSetting1" component={CheckboxBase} />
 
             <Text fontFamily={'primary300'} fontSize={6} lineHeight={8} color={'color11'} ml={20}>
               Циалковский Святослав Валентинович
@@ -103,7 +101,7 @@ export class DocumentSettings extends Component {
               component={TextFieldBase}
               type="text"
               values={'ТЗ - RK-186-344'}
-              fontFamily={'secondary'} 
+              fontFamily={'secondary'}
             />
           </BoxStyled>
           <BoxStyled mb={4}>
@@ -112,7 +110,7 @@ export class DocumentSettings extends Component {
               component={TextFieldBase}
               type="text"
               placeholder={'Код документа ОКАН'}
-              fontFamily={'secondary'} 
+              fontFamily={'secondary'}
             />
           </BoxStyled>
           <BoxStyled mb={'180px'}>
@@ -121,7 +119,7 @@ export class DocumentSettings extends Component {
               component={TextFieldBase}
               type="text"
               placeholder={'Код документа заказчика'}
-              fontFamily={'secondary'} 
+              fontFamily={'secondary'}
             />
           </BoxStyled>
         </Box>

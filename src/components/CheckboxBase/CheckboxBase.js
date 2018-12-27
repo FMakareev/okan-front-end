@@ -7,20 +7,22 @@ import { space } from 'styled-system';
 import onCheckbox from '../../assets/icons/monocolor/onCheckbox.monocolor.svg';
 import offCheckbox from '../../assets/icons/monocolor/offCheckbox.monocolor.svg';
 
+import { SvgOffCheckbox } from '../../components/Icons/SvgOffCheckbox';
+
 const Wrapper = styled.div`
   ${space};
 `;
 
 const Input = styled.input`
-  position: absolute; // take it out of document flow
-  opacity: 0; // hide it
+  position: absolute;
+  opacity: 0;
+
   & + label {
     position: relative;
     cursor: pointer;
     padding: 0;
   }
 
-  // Box.
   & + label:before {
     content: '';
     position: absolute;
@@ -33,24 +35,20 @@ const Input = styled.input`
     box-sizing: border-box;
   }
 
-  // Box checked
   &:checked + label:before {
     display: none;
   }
 
-  // Disabled state label.
   &:disabled + label {
     color: #b8b8b8;
     cursor: auto;
   }
 
-  // Disabled box.
   &:disabled + label:before {
     box-shadow: none;
     background-color: #ddd;
   }
 
-  // Checkmark. Could be replaced with an image
   &:checked + label:after {
     content: '';
     position: absolute;
@@ -81,7 +79,7 @@ export class CheckboxBase extends Component {
   static defaultProps = {};
 
   render() {
-    const { input, index, checked, disabled } = this.props;
+    const { input, index, checked, disabled, children } = this.props;
 
     return (
       <Wrapper>
@@ -92,6 +90,8 @@ export class CheckboxBase extends Component {
           disabled={disabled}
           {...input}
         />
+
+        <label htmlFor={`styled-checkbox-${index || input.name}`}>{children}</label>
       </Wrapper>
     );
   }
