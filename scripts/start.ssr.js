@@ -105,6 +105,8 @@ const start = async () => {
   }
 
   const script = nodemon({
+    "verbose": true,
+    nodeArgs: ['--inspect'],
     script: `public/server.js`,
     ignore: ['src', 'scripts', 'config', './*.*', 'build/client'],
   });
