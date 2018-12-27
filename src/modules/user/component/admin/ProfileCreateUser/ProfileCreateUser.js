@@ -229,7 +229,7 @@ ProfileCreateUser = connect(
     values: getFormValues('ProfileCreateUser')(state),
   }),
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, user }),
+    addUser: user => dispatch({ type: USER_ADD, user }), // TODO review: не забываем импортировать, и addUser тут не нужно
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
