@@ -29,12 +29,12 @@ import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql
 const validate = values => {
   const errors = {};
 
-  const oldPassword = values.oldPassword;
+  const oldPassword = values.password;
   const newPassword = values.newPassword;
-  const retypePassword = values.retypePassword;
+  const retypePassword = values.confirmNewPassword;
 
   if (!oldPassword) {
-    errors.oldPassword = 'Required';
+    errors.password = 'Required';
   }
 
   if (!newPassword) {
@@ -42,7 +42,7 @@ const validate = values => {
   }
 
   if (!retypePassword) {
-    errors.retypePassword = 'Required';
+    errors.confirmNewPassword = 'Required';
   }
 
   if (newPassword !== undefined && newPassword.length <= 8) {
@@ -57,14 +57,18 @@ const validate = values => {
     errors.retypePassword = 'Пароли не совпадают';
   }
 
-  if (oldPassword === newPassword || oldPassword === retypePassword) {
-    errors.retypePassword = 'Старый паполь и новый пароль, не должны совпадать';
+  if (oldPassword === newPassword) {
+    errors.newPassword = 'Старый пароль и новый пароль, не должны совпадать';
+  }
+
+  if (retypePassword !== newPassword) {
+    errors.confirmNewPassword = 'Старый пароль и новый пароль, должны совпадать';
   }
   return errors;
 };
 
 const BoxFirst = styled(Box)`
-  input:first-child {
+  input {
     border-top-left-radius: 5px !important;
     border-top-right-radius: 5px !important;
     border-bottom-left-radius: 0px !important;
@@ -73,7 +77,7 @@ const BoxFirst = styled(Box)`
 `;
 
 const BoxSecond = styled(Box)`
-  input:first-child {
+  input {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
     border-bottom-left-radius: 5px !important;

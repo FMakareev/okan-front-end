@@ -76,6 +76,8 @@ const defaultMocks = {
               );
         }, faker.random.number(2000));
       }),
+
+    recoverypass: (mutation, props) => props,
   }),
 };
 

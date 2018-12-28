@@ -15,9 +15,10 @@ export const ButtonWithImage = ({
   ml,
   width,
   widthIcon,
+  ...props
 }) => {
   return (
-    <ButtonBase variant={variant} size={size} width={width}>
+    <ButtonBase variant={variant} size={size} width={width} {...props}>
       <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
         {leftIcon && (
           <Flex mr={mr} justifyContent={'center'} alignItems={'center'} width={widthIcon}>

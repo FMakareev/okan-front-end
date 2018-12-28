@@ -21,6 +21,7 @@ import FormButton from '../FormButton/FormButton';
 /** Validation */
 import required from '../../../../utils/validation/required';
 import isEmail from '../../../../utils/validation/isEmail';
+import minLength from '../../../../utils/validation/minLength';
 
 /** json method */
 import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
@@ -37,36 +38,39 @@ import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 const validate = values => {
   const errors = {};
 
-  const uname = values.uname;
-  const ups = values.ups;
+  const uname = values.email;
+  const ups = values.password;
 
   if (uname === undefined) {
-    errors.uname = 'Обязательно для заполнения';
+    errors.email = 'Обязательно для заполнения';
   }
 
   if (ups === undefined) {
-    errors.ups = 'Обязательно для заполнения';
+    errors.password = 'Обязательно для заполнения';
   }
 
   if (ups !== undefined && ups.length <= 8) {
-    errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
+    errors.password = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
   if (ups !== undefined && ups.length > 30) {
-    errors.ups = 'Пароль должен состоять не больше 30 цифр ';
+    errors.password = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
 };
 
 const BoxFirst = styled(Box)`
-  input:first-child {
+  input {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
+
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 `;
 
 const BoxSecond = styled(Box)`
-  input:first-child {
+  input {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
@@ -74,14 +78,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'its okqy',
-    message: 'its okay',
+    title: 'Вход выполнен',
+    message: 'Вход выполнен',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'problems',
-    message: 'problems',
+    title: 'Вход не выполнен',
+    message: 'Вход не выполнен',
     position: 'tr',
     autoDismiss: 2,
   },
@@ -103,6 +107,8 @@ export class FormLogin extends Component {
   }
 
   submit(value) {
+    this.setState(() => ({ submitting: true }));
+
     return fetch(`${ENDPOINT_CLIENT}/login`, {
       method: 'POST',
       credentials: 'include',
@@ -117,7 +123,7 @@ export class FormLogin extends Component {
         if (response.status >= 400) {
           throw response;
         } else {
-          return this.getUser(value.uname);
+          return this.getUser(value.email);
         }
       })
       .catch(({ status, statusText }) => {
@@ -141,7 +147,6 @@ export class FormLogin extends Component {
           // TO DO change this
           throw result;
         } else {
-          this.setState(() => ({ submitting: false }));
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
@@ -149,12 +154,15 @@ export class FormLogin extends Component {
           return Promise.resolve(result);
         }
       })
-      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+      .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
         console.log('graphQLErrors: ', graphQLErrors);
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
+        console.log('error: ', error);
+
         setNotificationError(notificationOpts().error);
+
         this.setState(() => ({ submitting: false }));
       });
   };
@@ -185,7 +193,10 @@ export class FormLogin extends Component {
   };
 
   mockSubmit = value => {
-    this.setState(({ submitting }) => ({ submitting: !submitting }));
+    this.setState(({ submitting }) => {
+      return { submitting: !submitting };
+    });
+
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.getUser(value.email);

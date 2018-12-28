@@ -32,6 +32,7 @@ const SelectStyled = styled(Select)`
 
   .css-vj8t7z {
     border: 0;
+    min-height: 30px;
   }
 
   .css-1wy0on6 {

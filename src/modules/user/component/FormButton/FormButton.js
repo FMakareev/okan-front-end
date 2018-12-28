@@ -8,7 +8,7 @@ import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithIm
 /** Image */
 import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 
-export const FormButton = ({ disabled, children, ml }) => {
+export const FormButton = ({ disabled, children, ml }, props) => {
   return (
     <Flex justifyContent={'center'}>
       <ButtonWithImage
