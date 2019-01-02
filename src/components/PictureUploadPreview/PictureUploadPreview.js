@@ -98,8 +98,8 @@ export class PictureUploadPreview extends Component {
         onDrop={this.handleDrop}
         accept="image/*"
         multiple={false}>
-        {preview && <img src={preview} alt="image preview" />}
-        {!preview && value && <Image src={value} alt="logo" className={styles && styles.img} />}
+        {preview && <Img src={preview} alt="image preview" />}
+        {!preview && value && <Img src={value} alt="logo" className={styles && styles.img} />}
         {!preview && !value && (
           <DropZoneIconWrapper disabled={disabled}>
             <div> {placeholder}</div>
