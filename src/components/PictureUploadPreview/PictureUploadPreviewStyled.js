@@ -37,6 +37,9 @@ export const Img = styled.img`
   position: absolute;
   left: 0;
   cursor: pointer;
+  max-width: 400px;
+  max-height: 58px;
+  width: 100%;
 `;
 
 export const IconStyled = styled(Icon)`
