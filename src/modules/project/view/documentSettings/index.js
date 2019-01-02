@@ -6,12 +6,9 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Container from '../../../../components/Container/Container';
 
 /** Components */
-import DocumentSettings from '../../component/DocumentSettings/DocumentSettings';
-import TitlePage from '../../component/DocumentSettings/TitlePage';
+import DocumentSettings from '../../component/DocumentSettings/';
 
 class DocumentSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
@@ -23,15 +20,7 @@ class DocumentSettingsPage extends Component {
   render() {
     return (
       <ErrorCatch>
-        <Flex mt={9} justifyContent={'space-around'}>
-          <Container maxWidth={'500px'} width={'100%'}>
-            <DocumentSettings />
-          </Container>
-
-          <Container maxWidth={'400px'} width={'100%'}>
-            <TitlePage />
-          </Container>
-        </Flex>
+        <DocumentSettings />
       </ErrorCatch>
     );
   }
