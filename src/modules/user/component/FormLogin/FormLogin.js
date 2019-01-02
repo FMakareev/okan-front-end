@@ -103,7 +103,7 @@ export class FormLogin extends Component {
   }
 
   get initialState() {
-    return { submitting: false };
+    return { submitting: false, apolloError: null };
   }
 
   submit(value) {
@@ -127,6 +127,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
+        this.setState(() => ({ apolloError: null }));
         throw new SubmissionError({ _error: 'Неверный логин или пароль!' });
 
         if (status === 401) {
@@ -147,6 +148,7 @@ export class FormLogin extends Component {
           // TO DO change this
           throw result;
         } else {
+          this.setState(() => ({ apolloError: null }));
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
@@ -163,7 +165,10 @@ export class FormLogin extends Component {
 
         setNotificationError(notificationOpts().error);
 
-        this.setState(() => ({ submitting: false }));
+        this.setState(() => ({
+          submitting: false, // apolloError: graphQLErrors[0].message,
+          apolloError: 'Ошибка входа',
+        }));
       });
   };
 
@@ -207,7 +212,7 @@ export class FormLogin extends Component {
 
   render() {
     const { handleSubmit, pristine, submitFailed, invalid, error } = this.props;
-    const { submitting } = this.state;
+    const { apolloError, submitting } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.mockSubmit)}>
@@ -238,7 +243,12 @@ export class FormLogin extends Component {
         </Box>
 
         <TooltipBase isActive={error} warning={error}>
-          <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
+          <FormButton
+            disabled={pristine || submitting || invalid}
+            children={'Войти'}
+            ml={9}
+            error={error || apolloError}
+          />
         </TooltipBase>
 
         {/* if succes => to={'/app/project-list'}  ----- USER*/}

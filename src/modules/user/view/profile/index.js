@@ -8,20 +8,20 @@ import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 
 /**Components Admin*/
-import ProfileApproval from '../../component/admin/ProfileApproval/ProfileApproval';
-import ProfileCreateUser from '../../component/admin/ProfileCreateUser/ProfileCreateUser';
-import ProfileNotification from '../../component/admin/ProfileNotification/ProfileNotification';
-import ProfileRecoveryEmail from '../../component/admin/ProfileRecoveryEmail/ProfileRecoveryEmail';
+import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
+import ProfileCreateUser from '../../component/ProfileCreateUser/ProfileCreateUser';
+import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
+import ProfileRecoveryEmail from '../../component/ProfileRecoveryEmail/ProfileRecoveryEmail';
 
 /** Components User*/
-import PersonData from '../../component/user/PersonData/PersonData';
-import ChangePassword from '../../component/user/ChangePassword/ChangePassword';
+import PersonData from '../../component/PersonData/PersonData';
+import ChangePassword from '../../component/ChangePassword/ChangePassword';
 
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 const FlexStyled = styled(Flex)`
-  width: calc(100% - 490px);
+  width: calc(100% - 630px);
 `;
 
 export class ProfilePage extends Component {
@@ -29,24 +29,34 @@ export class ProfilePage extends Component {
 
   state = {};
   render() {
-    return (
-      <ErrorCatch>
+    return <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <FlexStyled flexDirection={'column'}>
-              <ProfileApproval />
+              <ProfileApproval data={{name:'23415', number:'ТЗ - RK-186-344'}}/>
             </FlexStyled>
 
             <Flex width={'35%'} flexDirection={'column'}>
-              <ProfileCreateUser />
-
-              {/*  <PersonData />*/}
+             <ProfileCreateUser />
+               
+              {/*   <PersonData 
+                lastName={'Колесников'} 
+                firstName={'Александр'} 
+                patronymic={'Владиславович'} 
+                birthdate={'12.12.1984'} 
+                position={'Специалист по технической документации'} 
+                phone={'8-999-888-77-66'} 
+                email={'email@okan.su'} 
+              />
+              */}
             </Flex>
           </Flex>
 
           <Flex justifyContent={'space-between'}>
             <FlexStyled flexDirection={'column'}>
-              <ProfileNotification />
+              <ProfileNotification data={{
+                id:'23415', 
+                message:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'}} />
             </FlexStyled>
 
             <Flex width={'35%'} flexDirection={'column'}>
@@ -55,8 +65,7 @@ export class ProfilePage extends Component {
             </Flex>
           </Flex>
         </Flex>
-      </ErrorCatch>
-    );
+      </ErrorCatch>;
   }
 }
 
