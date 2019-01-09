@@ -11,11 +11,11 @@ import Notifications, { success, error } from 'react-notification-system-redux';
 import Box from '../../../../components/Box/Box';
 import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
+import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
 
 /** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
-import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -110,9 +110,11 @@ class FormRegistration extends Component {
         if (response.errors) {
           throw response;
         } else {
-          this.props.history.push(`/app/project-list`);
-          this.props.setNotificationSuccess(notificationOpts().success);
-          return Promise.resolve(response);
+          setTimeout(() => {
+            this.props.history.push(`/app/project-list`);
+            this.props.setNotificationSuccess(notificationOpts().success);
+            return Promise.resolve(response);
+          }, 2000);
         }
       })
       .catch(error => {
@@ -161,7 +163,11 @@ class FormRegistration extends Component {
           </BoxSecond>
         </Box>
         <TooltipBase isActive={error} warning={error}>
-          <FormButton disabled={pristine || submitting || invalid} children={'Войти'} ml={9} />
+          <FormButtonSubmit
+            disabled={pristine || submitting || invalid}
+            children={'Войти'}
+            ml={9}
+          />
         </TooltipBase>
       </Form>
     );
