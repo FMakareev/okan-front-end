@@ -1,4 +1,5 @@
 import { LAYOUT_APP } from '../../shared/layout';
+import { ROLE_ADMIN, ROLE_USER } from '../../shared/roles';
 
 export const routes = [
   {
@@ -9,7 +10,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -19,7 +20,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectList'  */ './view/projectList'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -29,7 +30,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectCreate'  */ './view/projectCreate'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -39,7 +40,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -49,7 +50,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -60,6 +61,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
 ];
