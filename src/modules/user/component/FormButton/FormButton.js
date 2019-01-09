@@ -16,10 +16,12 @@ import { LineHeightProperty } from '../../../../styles/styleProperty/LineHeightP
 import { FontFamilyProperty } from '../../../../styles/styleProperty/FontFamilyProperty';
 import { FontSizeProperty } from '../../../../styles/styleProperty/FontSizeProperty';
 
+// TODO review: позиционарование абсолютное не нужно, можно просто над кнопкой положить сообщение, сравни изменения в коммите
 const Error = styled.span`
-  position: absolute;
-  top: -16px;
-  left: 0;
+  //
+  // position: absolute;
+  // top: -16px;
+  // left: 0;
   ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })};
   ${props => FontSizeProperty({ ...props, fontSize: '16px' })};
   ${props => LineHeightProperty({ ...props, lineHeight: '18px' })};
@@ -28,7 +30,8 @@ const Error = styled.span`
 
 export const FormButton = ({ disabled, children, ml, error }) => {
   return (
-    <Flex justifyContent={'center'}>
+    <Flex flexDirection={'column'} justifyContent={'center'}>
+      {error && <Error>{error}</Error>}
       <ButtonWithImage
         type="submit"
         disabled={disabled}
@@ -37,12 +40,13 @@ export const FormButton = ({ disabled, children, ml, error }) => {
         children={children}
         rightIcon={SvgPlay()}
         ml={ml}>
-        {error && <Error>{error}</Error>}
         {children}
       </ButtonWithImage>
     </Flex>
   );
 };
+
+// TODO review: не все в пропсах описано, допиши
 
 FormButton.propTypes = {
   /** disabled input */
