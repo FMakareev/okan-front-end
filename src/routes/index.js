@@ -5,10 +5,13 @@ import LayoutBase from '../components/LayoutBase/LayoutBase';
 import LayoutApp from '../components/LayoutApp/LayoutApp';
 
 import ErrorCatch from '../components/ErrorCatch/ErrorCatch';
+import CheckAuthorization from '../components/CheckAuthorization/CheckAuthorization';
+
 import { Store } from '../store';
 import { LayoutAuth } from '../components/LayoutAuth/layoutAuth';
 import { GetPageTitle } from '../components/GetPageTitle/GetPageTitle';
 import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../shared/layout';
+import { ROLE_ADMIN, ROLE_USER } from '../shared/roles';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -46,7 +49,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
             ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
           }),
         ),
-        resolvers: modulesRoutes[i].resolvers || [],
+        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
         hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
@@ -65,7 +68,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         name: modulesRoutes[i].name || modulesRoutes[i].title,
         path: modulesRoutes[i].path,
         component: modulesRoutes[i].component,
-        resolvers: modulesRoutes[i].resolvers || [],
+        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
         hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
@@ -78,7 +81,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         name: modulesRoutes[i].name || modulesRoutes[i].title,
         path: modulesRoutes[i].path,
         routes: [...createRoutes(modulesRoutes[i].routes, [], moduleName)],
-        resolvers: modulesRoutes[i].resolvers || [],
+        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
         hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
       });
     } else {
@@ -142,8 +145,14 @@ const layoutSorting = routes => {
         return item;
       }
       case LAYOUT_APP: {
-        newRoutes[1].routes.push({ ...item, path: `${newRoutes[1].path}${item.path}` });
-        return item;
+        newRoutes[1].routes.push({
+          ...item,
+          path: `${newRoutes[1].path}${item.path}`,
+        });
+        // return ((item.resolvers) => <CheckAuthorization>item</CheckAuthorization>)();
+        // return item;
+
+        return CheckAuthorization(item.resolvers);
       }
       default: {
         console.log(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
