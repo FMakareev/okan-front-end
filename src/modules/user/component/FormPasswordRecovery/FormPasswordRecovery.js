@@ -11,11 +11,11 @@ import Notifications, { success, error } from 'react-notification-system-redux';
 import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
 
 /** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
-import FormButton from '../FormButton/FormButton';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -168,7 +168,7 @@ class FormPasswordRecovery extends Component {
         </Box>
 
         <TooltipBase isActive={error} warning={error}>
-          <FormButton
+          <FormButtonSubmit
             disabled={pristine || submitting || invalid}
             children={'Сменить пароль'}
             ml={9}
