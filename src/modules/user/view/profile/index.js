@@ -20,8 +20,20 @@ import ChangePassword from '../../component/ChangePassword/ChangePassword';
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
-const FlexStyled = styled(Flex)`
-  width: calc(100% - 630px);
+const LeftColumn = styled(Flex)`
+  width: calc(100% - 400px);
+  
+  @media(min-width: 1200px){
+    width: calc(100% - 480px);
+  }
+`;
+
+const RightColumn = styled(Flex)`
+  width: 360px;
+  
+  @media(min-width: 1200px){
+    width: 400px;
+  }
 `;
 
 export class ProfilePage extends Component {
@@ -32,37 +44,37 @@ export class ProfilePage extends Component {
     return <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
-            <FlexStyled flexDirection={'column'}>
+            <LeftColumn flexDirection={'column'}>
               <ProfileApproval data={{name:'23415', number:'ТЗ - RK-186-344'}}/>
-            </FlexStyled>
+            </LeftColumn>
 
-            <Flex width={'35%'} flexDirection={'column'}>
+            <RightColumn flexDirection={'column'}>
              <ProfileCreateUser />
-               
-              {/*   <PersonData 
-                lastName={'Колесников'} 
-                firstName={'Александр'} 
-                patronymic={'Владиславович'} 
-                birthdate={'12.12.1984'} 
-                position={'Специалист по технической документации'} 
-                phone={'8-999-888-77-66'} 
-                email={'email@okan.su'} 
+
+              {/*   <PersonData
+                lastName={'Колесников'}
+                firstName={'Александр'}
+                patronymic={'Владиславович'}
+                birthdate={'12.12.1984'}
+                position={'Специалист по технической документации'}
+                phone={'8-999-888-77-66'}
+                email={'email@okan.su'}
               />
               */}
-            </Flex>
+            </RightColumn>
           </Flex>
 
           <Flex justifyContent={'space-between'}>
-            <FlexStyled flexDirection={'column'}>
+            <LeftColumn flexDirection={'column'}>
               <ProfileNotification data={{
-                id:'23415', 
+                id:'23415',
                 message:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'}} />
-            </FlexStyled>
+            </LeftColumn>
 
-            <Flex width={'35%'} flexDirection={'column'}>
+            <RightColumn flexDirection={'column'}>
               <ProfileRecoveryEmail />
               {/* <ChangePassword />*/}
-            </Flex>
+            </RightColumn>
           </Flex>
         </Flex>
       </ErrorCatch>;
