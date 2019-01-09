@@ -12,9 +12,6 @@ import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
-/** validation */
-import required from '../../../../utils/validation/required';
-
 /** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
@@ -34,15 +31,15 @@ const validate = values => {
   const retypePassword = values.confirmNewPassword;
 
   if (!oldPassword) {
-    errors.password = 'Required';
+    errors.password = 'Обязательно для заполнения';
   }
 
   if (!newPassword) {
-    errors.newPassword = 'Required';
+    errors.newPassword = 'Обязательно для заполнения';
   }
 
   if (!retypePassword) {
-    errors.confirmNewPassword = 'Required';
+    errors.confirmNewPassword = 'Обязательно для заполнения';
   }
 
   if (newPassword !== undefined && newPassword.length <= 8) {
