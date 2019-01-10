@@ -17,16 +17,10 @@ const defaultMocks = {
     useremailitem: (query, { email }) => {
       switch (email) {
         case 'client@okan.su': {
-          return {
-            ...useritem(),
-            email: 'client@okan.su',
-          };
+          return { ...useritem(), email: 'client@okan.su', role: ROLE_USER };
         }
         case 'admin@okan.su': {
-          return {
-            ...useritem(),
-            email: 'admin@okan.su',
-          };
+          return { ...useritem(), email: 'admin@okan.su', role: ROLE_ADMIN };
         }
 
         default: {
