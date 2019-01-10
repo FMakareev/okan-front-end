@@ -6,12 +6,12 @@ import { color } from 'styled-system';
 /** View */
 import Flex from '../Flex/Flex';
 import ButtonWithImage from '../ButtonWithImage/ButtonWithImage';
+import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
 /** Image */
 import { SvgPlay } from '../Icons/SvgPlay';
 
 /** style property */
-
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
@@ -28,7 +28,10 @@ const Error = styled.span`
   ${props => color({ ...props, color: 'color12' })};
 `;
 
-export const FormButtonSubmit = ({ disabled, children, ml, error }) => {
+export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) => {
+
+  const buttonIconRender = isLoading ? < SmallPreloader/> : SvgPlay();
+
   return (
     <Flex flexDirection={'column'} justifyContent={'center'}>
       {error && <Error>{error}</Error>}
@@ -37,7 +40,7 @@ export const FormButtonSubmit = ({ disabled, children, ml, error }) => {
         disabled={disabled}
         variant={'large'}
         size={'large'}
-        rightIcon={SvgPlay()}
+        rightIcon={buttonIconRender}
         ml={ml}>
         {children}
       </ButtonWithImage>
