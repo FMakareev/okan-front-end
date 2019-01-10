@@ -98,11 +98,19 @@ class FormRegistration extends Component {
   constructor(props) {
     super(props);
 
+    this.state = this.initialState;
+
     this.submit = this.submit.bind(this);
+  }
+
+  get initialState() {
+    return { submitting: false, apolloError: null, isLoading: false };
   }
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
+
+    this.setState(() => ({ isLoading: true, submitting: true }));
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -118,15 +126,18 @@ class FormRegistration extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
         this.props.setNotificationError(notificationOpts().error);
-
-        throw new SubmissionError({ _error: 'Ошибка!' });
+        this.setState(() => ({
+          submitting: false,
+          apolloError: 'Ошибка регистрации пользователя',
+          isLoading: false,
+        }));
       });
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
+    const { handleSubmit, pristine, invalid, error } = this.props;
+    const { isLoading, apolloError, submitting } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -167,6 +178,8 @@ class FormRegistration extends Component {
             disabled={pristine || submitting || invalid}
             children={'Войти'}
             ml={9}
+            isLoading={isLoading}
+            error={error || apolloError}
           />
         </TooltipBase>
       </Form>
