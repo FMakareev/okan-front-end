@@ -17,6 +17,10 @@ import back from '../../assets/image/back.png';
 import go from '../../assets/image/go.png';
 
 const SelectStyled = styled(Select)`
+  .css-1hwfws3 {
+    padding: 0px 8px;
+  }
+
   .css-15k3avv {
     border-bottom: '1px solid';
     position: static;
@@ -105,6 +109,10 @@ const SelectStyled = styled(Select)`
     :hover {
       background-color: #deebff;
     }
+  }
+
+  .css-2o5izw {
+    min-height: 30px;
   }
 `;
 

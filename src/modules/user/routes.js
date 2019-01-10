@@ -1,4 +1,5 @@
 import { LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
+import { ROLE_ADMIN, ROLE_USER } from '../../shared/roles';
 
 export const routes = [
   {
@@ -49,6 +50,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile'),
-    resolvers: [],
+    resolvers: [ROLE_ADMIN, ROLE_USER],
   },
 ];

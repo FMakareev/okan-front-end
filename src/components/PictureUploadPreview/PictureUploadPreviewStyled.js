@@ -16,6 +16,8 @@ export const DropZoneStyled = styled(DropZoneDefault)`
   height: 58px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  border: 1px solid;
+  ${props => color({ ...props, color: 'color4' })};
 `;
 
 export const DropZoneIconWrapper = styled.div`
@@ -24,11 +26,9 @@ export const DropZoneIconWrapper = styled.div`
   vertical-align: top;
   cursor: pointer;
   overflow: hidden;
-  border: 1px solid;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   ${props => BackgroundColorProperty({ ...props, color: 'color0' })};
-  ${props => color({ ...props, color: 'color4' })};
   ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })} !important;
   ${({ disabled }) => (disabled ? 'opacity: 0.25;' : '')};
 `;

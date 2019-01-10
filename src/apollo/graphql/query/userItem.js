@@ -13,6 +13,6 @@ export const useritem = () => {
     phone: faker.phone.phoneNumber(),
     password: password,
     confirmPassword: password,
-    role: ROLE_ADMIN,
+    role: ROLE_USER,
   };
 };

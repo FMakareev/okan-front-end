@@ -12,11 +12,11 @@ import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
 import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
 
 /**Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
-import FormButton from '../FormButton/FormButton';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
@@ -191,10 +191,13 @@ export class FormLogin extends Component {
     const {
       data: { useremailitem },
     } = props;
+
     const { addUser } = this.props;
 
-    addUser(useremailitem);
-    localStorage.setItem('user', JSON.stringify(useremailitem));
+    const resolvers = useremailitem.role;
+
+    addUser({ ...useremailitem, resolvers });
+    localStorage.setItem('user', JSON.stringify({ ...useremailitem, resolvers }));
   };
 
   mockSubmit = value => {
@@ -243,7 +246,7 @@ export class FormLogin extends Component {
         </Box>
 
         <TooltipBase isActive={error} warning={error}>
-          <FormButton
+          <FormButtonSubmit
             disabled={pristine || submitting || invalid}
             children={'Войти'}
             ml={9}
@@ -265,7 +268,7 @@ FormLogin = withApollo(FormLogin);
 FormLogin = connect(
   null,
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, user }),
+    addUser: user => dispatch({ type: USER_ADD, payload: user }),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
