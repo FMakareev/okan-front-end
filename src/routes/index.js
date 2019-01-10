@@ -1,6 +1,6 @@
 import React from 'react';
 import { asyncComponent } from 'react-async-component';
-import * as modules from '../modules/index';
+import * as modules from '../modules/index.client';
 import LayoutBase from '../components/LayoutBase/LayoutBase';
 import LayoutApp from '../components/LayoutApp/LayoutApp';
 
@@ -32,7 +32,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       }
 
       routes.push({
-        moduleName: moduleName,
+        moduleName,
         exact: modulesRoutes[i].exact,
         layout: modulesRoutes[i].layout,
         order: modulesRoutes[i].order,
@@ -58,7 +58,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         );
       }
       routes.push({
-        moduleName: moduleName,
+        moduleName,
         exact: modulesRoutes[i].exact,
         layout: modulesRoutes[i].layout,
         order: modulesRoutes[i].order,
@@ -72,7 +72,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       });
     } else if (has.call(modulesRoutes[i], 'routes')) {
       routes.push({
-        moduleName: moduleName,
+        moduleName,
         layout: modulesRoutes[i].layout,
         exact: modulesRoutes[i].exact,
         name: modulesRoutes[i].name || modulesRoutes[i].title,

@@ -19,9 +19,9 @@ const getCliParams = () => {
 
 /**
  * @param {string} src - путь к целевой дирректории
- * @desc создание списка дирректорий которые имеют свой index.js */
+ * @desc создание списка (массива 3-ех массивов) дирректорий которые имеют свой index.js и/или index.client.js и index.server.js */
 const getModulesList = src => {
-  const modulesList = [];
+  const modulesList = [[], [], []];
   return new Promise((resolve, reject) => {
     try {
       fs.readdir(src, (err, data) => {
@@ -32,11 +32,15 @@ const getModulesList = src => {
           if (fs.statSync(src + moduleName).isDirectory()) {
             const dirContent = fs.readdirSync(src + moduleName);
             if (dirContent.filter(dirItem => dirItem === 'index.js').length) {
-              modulesList.push(moduleName);
+              modulesList[0].push(moduleName);
+            } else if (dirContent.filter(dirItem => dirItem === 'index.client.js').length) {
+              modulesList[1].push(moduleName);
+            } else if (dirContent.filter(dirItem => dirItem === 'index.server.js').length) {
+              modulesList[2].push(moduleName);
             } else {
               console.warn(`WARNING!: folder ${moduleName} is empty.`);
             }
-          } else if (moduleName === 'index.js') {
+          } else if (moduleName === 'index.client.js' || 'index.server.js') {
             fs.unlinkSync(src + moduleName);
           }
         });
@@ -50,18 +54,29 @@ const getModulesList = src => {
 };
 
 /**
- * @param {array} modulesList - массив с названиями модулей
+ * @param {array} modulesList - массив массивов с названиями модулей [[имеющий index.js],[имеющий index.client.js],[имеющий index.server.js]]
  * @param {string} src - путь к целевой дирректории
  * @desc создание списка дирректорий которые имеют свой index.js */
 const createIndex = async (modulesList, src) => {
-  let indexJS = '';
+  let indexClientJS = '';
+  let indexServerJS = '';
   console.log('createIndex', modulesList, src);
-  modulesList.map(module => {
-    indexJS += `export {default as ${module}} from './${module}';`;
+  modulesList[0].map(module => {
+    indexClientJS += `export {default as ${module}} from './${module}';`;
     return null;
   });
-  console.log(indexJS);
-  fs.appendFileSync(`${src}index.js`, indexJS);
+  modulesList[1].map(module => {
+    indexClientJS += `export {default as ${module}} from './${module}/index.client';`;
+    return null;
+  });
+  modulesList[2].map(module => {
+    indexServerJS += `export {default as ${module}} from './${module}/index.server'`;
+    return null;
+  });
+  console.log(indexClientJS);
+  console.log(indexServerJS);
+  fs.appendFileSync(`${src}index.client.js`, indexClientJS);
+  fs.appendFileSync(`${src}index.server.js`, indexServerJS);
 };
 
 /** @desc */
@@ -117,5 +132,7 @@ export const init = async () => {
 
   await createIndex(modulesList, src);
 };
+
+init();
 
 export default init;
