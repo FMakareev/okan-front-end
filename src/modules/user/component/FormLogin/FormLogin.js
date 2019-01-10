@@ -103,11 +103,11 @@ export class FormLogin extends Component {
   }
 
   get initialState() {
-    return { submitting: false, apolloError: null };
+    return { submitting: false, apolloError: null, isLoading: false };
   }
 
   submit(value) {
-    this.setState(() => ({ submitting: true }));
+    this.setState(() => ({ submitting: true, isLoading: true }));
 
     return fetch(`${ENDPOINT_CLIENT}/login`, {
       method: 'POST',
@@ -148,7 +148,7 @@ export class FormLogin extends Component {
           // TO DO change this
           throw result;
         } else {
-          this.setState(() => ({ apolloError: null }));
+          this.setState(() => ({ apolloError: null, isLoading: false }));
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
@@ -166,8 +166,9 @@ export class FormLogin extends Component {
         setNotificationError(notificationOpts().error);
 
         this.setState(() => ({
-          submitting: false, // apolloError: graphQLErrors[0].message,
+          submitting: false,
           apolloError: 'Ошибка входа',
+          isLoading: false,
         }));
       });
   };
@@ -201,8 +202,8 @@ export class FormLogin extends Component {
   };
 
   mockSubmit = value => {
-    this.setState(({ submitting }) => {
-      return { submitting: !submitting };
+    this.setState(({ submitting, isLoading }) => {
+      return { submitting: !submitting, isLoading: !isLoading };
     });
 
     return new Promise((resolve, reject) => {
@@ -214,8 +215,8 @@ export class FormLogin extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitFailed, invalid, error } = this.props;
-    const { apolloError, submitting } = this.state;
+    const { handleSubmit, pristine, invalid, error } = this.props;
+    const { apolloError, submitting, isLoading } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.mockSubmit)}>
@@ -250,6 +251,7 @@ export class FormLogin extends Component {
             disabled={pristine || submitting || invalid}
             children={'Войти'}
             ml={9}
+            isLoading={isLoading}
             error={error || apolloError}
           />
         </TooltipBase>
