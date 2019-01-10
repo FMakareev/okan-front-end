@@ -118,11 +118,9 @@ class FormRegistration extends Component {
         if (response.errors) {
           throw response;
         } else {
-          setTimeout(() => {
-            this.props.history.push(`/app/project-list`);
-            this.props.setNotificationSuccess(notificationOpts().success);
-            return Promise.resolve(response);
-          }, 2000);
+          this.props.history.push(`/app/project-list`);
+          this.props.setNotificationSuccess(notificationOpts().success);
+          return Promise.resolve(response);
         }
       })
       .catch(error => {
