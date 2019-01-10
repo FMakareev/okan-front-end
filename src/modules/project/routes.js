@@ -10,7 +10,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -20,7 +20,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectList'  */ './view/projectList'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -30,7 +30,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectCreate'  */ './view/projectCreate'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -40,7 +40,7 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -50,17 +50,16 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
     exact: true,
-    name: 'Проект',
-    // path: '/project/:projectid',
+    name: 'Проект', // path: '/project/:projectid',
     path: '/project',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    resolvers: [ROLE_ADMIN, ROLE_USER],
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
 ];
