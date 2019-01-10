@@ -75,8 +75,8 @@ const createIndex = async (modulesList, src) => {
   });
   console.log(indexClientJS);
   console.log(indexServerJS);
-  fs.appendFileSync(`${src}index.client.js`, indexClientJS);
-  fs.appendFileSync(`${src}index.server.js`, indexServerJS);
+  if (indexClientJS) fs.appendFileSync(`${src}index.client.js`, indexClientJS);
+  if (indexServerJS) fs.appendFileSync(`${src}index.server.js`, indexServerJS);
 };
 
 /** @desc */
@@ -133,6 +133,6 @@ export const init = async () => {
   await createIndex(modulesList, src);
 };
 
-init();
+// init();
 
 export default init;
