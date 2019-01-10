@@ -46,11 +46,14 @@ const defaultMocks = {
      * @params {object} props - аргументы которые были переданы
      * */
     createuser: (mutation, props) => {
-      if (props.email === 'error@okan.su') {
-        throw new GraphQLError('already registered');
-      } else {
-        return props;
-      }
+      console.log(1, mutation, props);
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 10000);
     },
 
     updateuser: (mutation, props) =>
