@@ -1,17 +1,23 @@
 import React from 'react';
 import { asyncComponent } from 'react-async-component';
 import * as modules from '../modules/index';
+import { connect } from 'react-redux';
+
+/** View */
+import ErrorCatch from '../components/ErrorCatch/ErrorCatch';
+import CheckAuthorization from '../components/CheckAuthorization/CheckAuthorization';
+import { LayoutAuth } from '../components/LayoutAuth/layoutAuth';
+import { GetPageTitle } from '../components/GetPageTitle/GetPageTitle';
 import LayoutBase from '../components/LayoutBase/LayoutBase';
 import LayoutApp from '../components/LayoutApp/LayoutApp';
 
-import ErrorCatch from '../components/ErrorCatch/ErrorCatch';
-import CheckAuthorization from '../components/CheckAuthorization/CheckAuthorization';
-
-import { Store } from '../store';
-import { LayoutAuth } from '../components/LayoutAuth/layoutAuth';
-import { GetPageTitle } from '../components/GetPageTitle/GetPageTitle';
+/** Global constants */
 import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../shared/layout';
 import { ROLE_ADMIN, ROLE_USER } from '../shared/roles';
+
+/** redux */
+import { getUserFromStore } from '../store/reducers/user/selectors';
+import { Store } from '../store';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -27,6 +33,17 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
   if (!modulesRoutes) return null;
 
   for (let i = 0; i < modulesRoutes.length; i += 1) {
+    const somePropertyRoutes = {
+      moduleName: moduleName,
+      exact: modulesRoutes[i].exact,
+      layout: modulesRoutes[i].layout,
+      name: modulesRoutes[i].name || modulesRoutes[i].title,
+      path: modulesRoutes[i].path,
+      roles: [ROLE_ADMIN, ROLE_USER],
+      resolvers: modulesRoutes[i].resolvers || [],
+      hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
+    };
+
     if (has.call(modulesRoutes[i], 'load')) {
       if (!modulesRoutes[i].path) {
         console.error(
@@ -35,13 +52,8 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       }
 
       routes.push({
-        moduleName: moduleName,
-        exact: modulesRoutes[i].exact,
-        layout: modulesRoutes[i].layout,
+        ...somePropertyRoutes,
         order: modulesRoutes[i].order,
-        name: modulesRoutes[i].name || modulesRoutes[i].title,
-        // path: `/${moduleName}${modulesRoutes[i].path}`,
-        path: modulesRoutes[i].path,
         component: GetPageTitle({ Store })(
           asyncComponent({
             resolve: modulesRoutes[i].load,
@@ -49,10 +61,8 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
             ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
           }),
         ),
-        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
-        hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
       });
     } else if (has.call(modulesRoutes[i], 'component')) {
       if (!modulesRoutes[i].path) {
@@ -61,28 +71,16 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         );
       }
       routes.push({
-        moduleName: moduleName,
-        exact: modulesRoutes[i].exact,
-        layout: modulesRoutes[i].layout,
+        ...somePropertyRoutes,
         order: modulesRoutes[i].order,
-        name: modulesRoutes[i].name || modulesRoutes[i].title,
-        path: modulesRoutes[i].path,
         component: modulesRoutes[i].component,
-        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
-        hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
       });
     } else if (has.call(modulesRoutes[i], 'routes')) {
       routes.push({
-        moduleName: moduleName,
-        layout: modulesRoutes[i].layout,
-        exact: modulesRoutes[i].exact,
-        name: modulesRoutes[i].name || modulesRoutes[i].title,
-        path: modulesRoutes[i].path,
+        ...somePropertyRoutes,
         routes: [...createRoutes(modulesRoutes[i].routes, [], moduleName)],
-        resolvers: modulesRoutes[i].resolvers || [ROLE_ADMIN, ROLE_USER],
-        hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
       });
     } else {
       console.error(
@@ -142,17 +140,19 @@ const layoutSorting = routes => {
     switch (item.layout) {
       case LAYOUT_AUTH: {
         newRoutes[0].routes.push(item);
-        return item;
+        break;
       }
       case LAYOUT_APP: {
+        const connectCheckAuthorization = connect(state => {
+          return { user: getUserFromStore(state) };
+        })(CheckAuthorization(item.roles)(item.component));
+
         newRoutes[1].routes.push({
           ...item,
           path: `${newRoutes[1].path}${item.path}`,
+          component: connectCheckAuthorization,
         });
-        // return ((item.resolvers) => <CheckAuthorization>item</CheckAuthorization>)();
-        // return item;
-
-        return CheckAuthorization(item.resolvers);
+        break;
       }
       default: {
         console.log(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
