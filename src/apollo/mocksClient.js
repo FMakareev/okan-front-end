@@ -23,11 +23,7 @@ const defaultMocks = {
           };
         }
         case 'admin@okan.su': {
-          return {
-            ...useritem(),
-            role: 'admin',
-            email: 'admin@okan.su',
-          };
+          return { ...useritem(), email: 'admin@okan.su', role: ROLE_ADMIN };
         }
 
         default: {
@@ -53,11 +49,14 @@ const defaultMocks = {
      * @params {object} props - аргументы которые были переданы
      * */
     createuser: (mutation, props) => {
-      if (props.email === 'error@okan.su') {
-        throw new GraphQLError('already registered');
-      } else {
-        return props;
-      }
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 10000);
     },
 
     updateuser: (mutation, props) =>

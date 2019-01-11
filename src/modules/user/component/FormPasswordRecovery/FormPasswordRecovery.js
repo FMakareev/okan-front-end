@@ -105,15 +105,19 @@ class FormPasswordRecovery extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = this.initialState;
 
     this.submit = this.submit.bind(this);
   }
 
-  // {/* В случае успешной или не успешной смены пароля выводится notification*/}
+  get initialState() {
+    return { submitting: false, apolloError: null, isLoading: false };
+  }
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
+
+    this.setState(() => ({ isLoading: true, submitting: true }));
 
     return this.props['@apollo/update'](data)
       .then(response => {
@@ -127,14 +131,18 @@ class FormPasswordRecovery extends Component {
         }
       })
       .catch(({ errors, message }) => {
-        throw new SubmissionError({ _error: message || errors[0].message });
-        // TODO review: оно тут не сработает и не нужно, ошибки отпарвик данных мы показываем возле кнопки
         this.props.setNotificationError(notificationOpts().error);
+        this.setState(() => ({
+          submitting: false,
+          apolloError: 'Ошибка смена пароля',
+          isLoading: false,
+        }));
       });
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, error } = this.props;
+    const { handleSubmit, pristine, invalid, error } = this.props;
+    const { isLoading, apolloError, submitting } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -172,6 +180,8 @@ class FormPasswordRecovery extends Component {
             disabled={pristine || submitting || invalid}
             children={'Сменить пароль'}
             ml={9}
+            isLoading={isLoading}
+            error={error || apolloError}
           />
         </TooltipBase>
       </Form>

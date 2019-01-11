@@ -20,7 +20,7 @@ export const SpeedingWheel = styled.div`
   width: 24px;
   height: 24px;
   margin: 0 auto;
-  border: 2px solid #aeaeae;
+  border: 2px solid #00649C;
   border-radius: 50%;
   border-left-color: transparent;
   border-right-color: transparent;
