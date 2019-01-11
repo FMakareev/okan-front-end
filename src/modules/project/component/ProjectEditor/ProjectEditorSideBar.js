@@ -1,52 +1,52 @@
-'use strict';
-
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Treebeard } from 'react-treebeard';
+import tree from '../../../../../test';
 
-const data = {
-  name: 'root',
-  toggled: true,
-  children: [
-    {
-      name: 'parent',
-      children: [{ name: 'child1' }, { name: 'child2' }],
-    },
-    {
-      name: 'loading parent',
-      loading: true,
-      children: [],
-    },
-    {
-      name: 'parent',
-      children: [
-        {
-          name: 'nested parent',
-          children: [{ name: 'nested child 1' }, { name: 'nested child 2' }],
-        },
-      ],
-    },
-  ],
-};
 
-class ProjectEditorSideBar extends React.Component {
+export class ProjectEditorSideBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.onToggle = this.onToggle.bind(this);
+    let newTree = {
+      name: 'ROOT',
+      children: [],
+    };
+    const rootCell = this.findRootCell(tree)[0];
+    console.table(rootCell);
+
+    this.createTree(tree, newTree);
   }
-  onToggle(node, toggled) {
-    if (this.state.cursor) {
-      this.state.cursor.active = false;
+
+  get initialState() {
+    return {
+      tree: tree,
     }
-    node.active = true;
-    if (node.children) {
-      node.toggled = toggled;
-    }
-    this.setState({ cursor: node });
   }
+
+  createTree = (tree, newTree) => {
+
+    if (!item.prevCell && !item.parent) {
+      if (item.childCell)
+        newTree.children.push({
+          ...item,
+          children: tree.find(childItem => childItem.parent === item.id),
+        });
+      // item.childCell
+    }
+    console.table(newTree);
+  };
+
+  findRootCell = (tree) => {
+    return tree.filter(item => {
+      if (item.prevCell === null && item.parent === null) {
+        return item
+      } else {
+        return false;
+      }
+    })
+  };
+
   render() {
-    return <Treebeard data={data} onToggle={this.onToggle} />;
+    return null
   }
 }
 

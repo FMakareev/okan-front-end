@@ -5,14 +5,14 @@ export const useritem = () => {
   const password = faker.internet.password();
   return {
     id: faker.random.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    firstname: faker.name.firstName(),
+    lastname: faker.name.lastName(),
     patronymic: faker.name.lastName(),
     birthdate: faker.date.past().toUTCString(),
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
     password: password,
-    confirmPassword: password,
+    // confirmpassword: password,
     role: ROLE_USER,
   };
 };

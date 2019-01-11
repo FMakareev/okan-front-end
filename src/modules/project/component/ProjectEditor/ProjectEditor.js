@@ -12,9 +12,25 @@ import Box from '../../../../components/Box/Box';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+import {Flex} from "@lib/ui/Flex/Flex";
+import { DragDropContext } from 'react-dnd'
+
+import HTML5Backend from 'react-dnd-html5-backend'
+
+// ProjectEditorSideBarDragDropContext = DragDropContext(HTML5Backend)(ProjectEditorSideBar);
+
+let defaultManager;
+function getDefaultManager() {
+  if (!defaultManager) {
+    defaultManager = new DragDropManager(HTML5Backend);
+  }
+  return defaultManager;
+}
 
 export class ProjectEditor extends Component {
   static propTypes = { ...formPropTypes };
+
+
 
   constructor(props) {
     super(props);
@@ -26,18 +42,15 @@ export class ProjectEditor extends Component {
   submit(value) {}
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
-        <ProjectEditorSideBar />
-      </Form>
+      <Flex flexDirection={'column'}>
+        <Box width={'320px'}>
+          <ProjectEditorSideBar />
+        </Box>
+      </Flex>
     );
   }
 }
 
-ProjectEditor = reduxForm({
-  form: 'ProjectEditor',
-})(ProjectEditor);
-
-export default ProjectEditor;
+export default DragDropContext(HTML5Backend)(ProjectEditor);

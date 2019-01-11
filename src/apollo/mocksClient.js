@@ -25,6 +25,7 @@ const defaultMocks = {
         case 'admin@okan.su': {
           return {
             ...useritem(),
+            role: 'admin',
             email: 'admin@okan.su',
           };
         }
@@ -77,7 +78,7 @@ const defaultMocks = {
         }, faker.random.number(2000));
       }),
 
-    recoverypass: (mutation, props) => props,
+    changepassword: (mutation, props) => props,
   }),
 };
 

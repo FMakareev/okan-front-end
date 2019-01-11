@@ -1,8 +1,8 @@
 query ($email: String) {
   useremailitem(email: $email) {
     id
-    firstName
-    lastName
+    firstname
+    lastname
     patronymic
     birthdate
     email
