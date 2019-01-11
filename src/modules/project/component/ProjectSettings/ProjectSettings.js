@@ -38,7 +38,7 @@ const BoxStyled = styled(Box)`
 `;
 
 export class ProjectSettings extends Component {
-  static propTypes = { ...formPropTypes };
+  static propTypes = { ...formPropTypes, mb: PropTypes.string };
 
   constructor(props) {
     super(props);
@@ -47,7 +47,9 @@ export class ProjectSettings extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {}
+  submit(value) {
+    return value;
+  }
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;

@@ -4,6 +4,9 @@ import renderer from 'react-test-renderer';
 import { CheckboxBase } from './CheckboxBase';
 import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
 
+import onCheckbox from '../../assets/image/onCheckbox.png';
+import offCheckbox from '../../assets/image/offCheckbox.png';
+
 test('Disabled checkbox', () => {
   const tree = renderer
     .create(

@@ -1,12 +1,25 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import FieldInputPassword from './FieldInputPassword';
+import { shallow } from 'enzyme';
 
-it('FieldInputPassword: Рендерится без ошибок', () => {
-  renderer.create(
+import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
+import { FieldInputPassword } from './FieldInputPassword';
+
+describe('News container initial', () => {
+  const props = {
+    name: 'bu',
+    placeholder: 'bu',
+    isOpen: true,
+    type: 'text',
+  };
+
+  const newsContainer = shallow(
     <StyledThemeProvider>
-      <FieldInputPassword name={'bu'} placeholder={'bu'} />
+      <FieldInputPassword {...props} />
     </StyledThemeProvider>,
-  );
+  ); // передали props
+
+  it('renders properly', () => {
+    expect(newsContainer).toMatchSnapshot();
+  });
 });

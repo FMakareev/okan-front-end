@@ -12,7 +12,7 @@ import Container from '../../../../components/Container/Container';
 /**  Components*/
 import RevisionList from '../../component/RevisionList/RevisionList';
 
-class RevisionListPage extends Component {
+export class RevisionListPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   constructor(props) {

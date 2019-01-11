@@ -12,7 +12,7 @@ import Container from '../../../../components/Container/Container';
 /** Components */
 import ProjectSettings from '../../component/ProjectSettings/ProjectSettings';
 
-class ProjectSettingsPage extends Component {
+export class ProjectSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   constructor(props) {

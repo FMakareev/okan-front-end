@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { space } from 'styled-system';
 
 /** Image */
-import onCheckbox from '../../assets/icons/monocolor/onCheckbox.monocolor.svg';
-import offCheckbox from '../../assets/icons/monocolor/offCheckbox.monocolor.svg';
-
-import { SvgOffCheckbox } from '../../components/Icons/SvgOffCheckbox';
+import onCheckbox from '../../assets/image/onCheckbox.png';
+import offCheckbox from '../../assets/image/offCheckbox.png';
 
 const Wrapper = styled.div`
   ${space};

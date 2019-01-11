@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfilePage: рендер без ошибок 1`] = `
+<div
+  className="sc-bxivhb dUiVDW"
+>
+  <div
+    className="sc-1jxwge6-0 wterhv-0 hDVSSF"
+  >
+    <div
+      className="sc-1jxwge6-0 wterhv-0 gZRpMZ"
+    >
+      <div
+        className="sc-1jxwge6-0 wterhv-0 y44knq-0 fZsyTP"
+      >
+        <div
+          className="sc-1jxwge6-0 sc-18ch56c-0 cfzSSs"
+          color="color7"
+          fontFamily="primary500"
+          fontSize={6}
+        >
+          На согласование
+        </div>
+        <tbody
+          className="obix2s-0 XmuzM"
+        >
+          <div
+            className="sc-1jxwge6-0 wterhv-0 shCyQ"
+          >
+            <div
+              className="sc-1jxwge6-0 sc-18ch56c-0 dXbZnM"
+              color="color11"
+              fontFamily="primary500"
+              fontSize={6}
+            >
+              Номер документа
+            </div>
+            <div
+              className="sc-1jxwge6-0 sc-18ch56c-0 dXbZnM"
+              color="color11"
+              fontFamily="primary500"
+              fontSize={6}
+            >
+              Название документа
+            </div>
+          </div>
+        </tbody>
+        <tbody
+          className="obix2s-0 sc-1eogwe1-1 cdJJct"
+        >
+          <tr
+            className="sc-1cxzlk0-0 sc-1eogwe1-0 eHxsCS"
+          >
+            <td
+              className="ivgi64-0 gbcbca"
+              color="#333333"
+              fontFamily="primary500"
+              fontSize="18px"
+            >
+              23415
+            </td>
+            <td
+              className="ivgi64-0 KGbJu"
+              color="#333333"
+              fontFamily="secondaryBold"
+              fontSize="18px"
+            >
+              ТЗ - RK-186-344
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          className="obix2s-0 sc-1eogwe1-1 cdJJct"
+        >
+          <tr
+            className="sc-1cxzlk0-0 sc-1eogwe1-0 eHxsCS"
+          >
+            <td
+              className="ivgi64-0 gbcbca"
+              color="#333333"
+              fontFamily="primary500"
+              fontSize="18px"
+            >
+              23415
+            </td>
+            <td
+              className="ivgi64-0 KGbJu"
+              color="#333333"
+              fontFamily="secondaryBold"
+              fontSize="18px"
+            >
+              ТЗ - RK-186-344
+            </td>
+          </tr>
+        </tbody>
+      </div>
+      <div
+        className="sc-1jxwge6-0 wterhv-0 y44knq-1 gXqVMg"
+      />
+    </div>
+    <div
+      className="sc-1jxwge6-0 wterhv-0 jLxsDH"
+    >
+      <div
+        className="sc-1jxwge6-0 wterhv-0 y44knq-0 fZsyTP"
+      >
+        <div
+          className="sc-1jxwge6-0 sc-18ch56c-0 fNohKK"
+          color="color7"
+          fontFamily="primary500"
+          fontSize={6}
+        >
+          Оповещения
+        </div>
+        <div
+          className="sc-1jxwge6-0 sc-18ch56c-0 nokpo5-0 chxlbu"
+          color="color11"
+          fontFamily="secondary"
+          fontSize={6}
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        </div>
+        <div
+          className="sc-1jxwge6-0 sc-18ch56c-0 nokpo5-0 chxlbu"
+          color="color11"
+          fontFamily="secondary"
+          fontSize={6}
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        </div>
+      </div>
+      <div
+        className="sc-1jxwge6-0 wterhv-0 y44knq-1 gXqVMg"
+      />
+    </div>
+  </div>
+</div>
+`;

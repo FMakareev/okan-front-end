@@ -9,14 +9,14 @@ import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 
 /**Components Admin*/
-import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
+import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
 import FormProfileCreateUser from '../../component/FormProfileCreateUser/FormProfileCreateUser';
-import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
-import ProfileRecoveryEmail from '../../component/ProfileRecoveryEmail/ProfileRecoveryEmail';
+import FormProfileNotification from '../../component/FormProfileNotification/FormProfileNotification';
+import FormProfileRecoveryEmail from '../../component/FormProfileRecoveryEmail/FormProfileRecoveryEmail';
 
 /** Components User*/
-import PersonData from '../../component/PersonData/PersonData';
-import ChangePassword from '../../component/ChangePassword/ChangePassword';
+import FormPersonData from '../../component/FormPersonData/FormPersonData';
+import FormChangePassword from '../../component/FormChangePassword/FormChangePassword';
 
 /**PropTypes*/
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -44,7 +44,7 @@ const RightColumn = styled(Flex)`
 `;
 
 export class ProfilePage extends Component {
-  static propTypes = { ...ReactRoutePropTypes };
+  static propTypes = { ...ReactRoutePropTypes, mb: PropTypes.string };
 
   state = {};
   render() {
@@ -57,14 +57,14 @@ export class ProfilePage extends Component {
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              <ProfileApproval data={{ name: '23415', number: 'ТЗ - RK-186-344' }} />
+              <FormProfileApproval data={{ name: '23415', number: 'ТЗ - RK-186-344' }} />
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
               {role === ROLE_ADMIN && <FormProfileCreateUser />}
 
               {role === ROLE_USER && (
-                <PersonData
+                <FormPersonData
                   lastName={'Колесников'}
                   firstName={'Александр'}
                   patronymic={'Владиславович'}
@@ -79,7 +79,7 @@ export class ProfilePage extends Component {
 
           <Flex justifyContent={'space-between'}>
             <LeftColumn flexDirection={'column'}>
-              <ProfileNotification
+              <FormProfileNotification
                 data={{
                   id: '23415',
                   message:
@@ -89,8 +89,8 @@ export class ProfilePage extends Component {
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {role === ROLE_ADMIN && <ProfileRecoveryEmail />}
-              {role === ROLE_USER && <ChangePassword />}
+              {role === ROLE_ADMIN && <FormProfileRecoveryEmail />}
+              {role === ROLE_USER && <FormChangePassword />}
             </RightColumn>
           </Flex>
         </Flex>

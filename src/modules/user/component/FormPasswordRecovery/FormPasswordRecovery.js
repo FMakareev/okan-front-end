@@ -196,9 +196,6 @@ FormPasswordRecovery = graphql(UserPasswordRecoveryMutation, {
 })(FormPasswordRecovery);
 
 FormPasswordRecovery = connect(
-  // state => ({
-  //   values: getFormValues('FormPasswordRecovery')(state),
-  // }),
   null,
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),

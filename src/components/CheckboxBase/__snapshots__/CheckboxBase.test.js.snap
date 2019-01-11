@@ -14,27 +14,16 @@ exports[`Disabled checkbox 1`] = `
 
 .c1 + label:before {
   content: '';
-  margin-right: 12px;
-  display: inline-block;
-  vertical-align: text-top;
-  width: 20px;
-  height: 20px;
-  background-color: #FFFFFF;
-  border: 2px solid #1F414B;
-  border-radius: 4px;
-  box-sizing: border-box;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 32px;
+  height: 32px;
+  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
 }
 
-.c1:hover + label:before {
-  background-color: #44BB55;
-}
-
-.c1:focus + label:before {
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
-}
-
-.c1:checked + label:before {
-  background-color: #44BB55;
+;) !important;background-repeat:no-repeat;box-sizing:border-box;} .c1:checked + label:before {
+  display: none;
 }
 
 .c1:disabled + label {
@@ -50,16 +39,20 @@ exports[`Disabled checkbox 1`] = `
 .c1:checked + label:after {
   content: '';
   position: absolute;
-  left: 5px;
-  top: 9px;
-  background-color: #FFFFFF;
-  width: 2px;
-  height: 2px;
-  box-shadow: 2px 0 0 white,4px 0 0 white,4px -2px 0 white,4px -4px 0 white,4px -6px 0 white,4px -8px 0 white;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  left: 0px;
+  top: -2px;
+  width: 32px;
+  height: 32px;
+  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
 }
+
+;) !important;background-repeat:no-repeat;}
+
+
+
+
+
+
 
 .c0 {
   font-family: system-ui,sans-serif;
@@ -76,6 +69,7 @@ exports[`Disabled checkbox 1`] = `
     className=""
   >
     <input
+      checked={false}
       className="c1"
       id="styled-checkbox-1"
       type="checkbox"
@@ -103,27 +97,16 @@ exports[`Enabled checkbox 1`] = `
 
 .c1 + label:before {
   content: '';
-  margin-right: 12px;
-  display: inline-block;
-  vertical-align: text-top;
-  width: 20px;
-  height: 20px;
-  background-color: #FFFFFF;
-  border: 2px solid #1F414B;
-  border-radius: 4px;
-  box-sizing: border-box;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 32px;
+  height: 32px;
+  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
 }
 
-.c1:hover + label:before {
-  background-color: #44BB55;
-}
-
-.c1:focus + label:before {
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
-}
-
-.c1:checked + label:before {
-  background-color: #44BB55;
+;) !important;background-repeat:no-repeat;box-sizing:border-box;} .c1:checked + label:before {
+  display: none;
 }
 
 .c1:disabled + label {
@@ -139,16 +122,20 @@ exports[`Enabled checkbox 1`] = `
 .c1:checked + label:after {
   content: '';
   position: absolute;
-  left: 5px;
-  top: 9px;
-  background-color: #FFFFFF;
-  width: 2px;
-  height: 2px;
-  box-shadow: 2px 0 0 white,4px 0 0 white,4px -2px 0 white,4px -4px 0 white,4px -6px 0 white,4px -8px 0 white;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  left: 0px;
+  top: -2px;
+  width: 32px;
+  height: 32px;
+  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
 }
+
+;) !important;background-repeat:no-repeat;}
+
+
+
+
+
+
 
 .c0 {
   font-family: system-ui,sans-serif;
@@ -165,7 +152,7 @@ exports[`Enabled checkbox 1`] = `
     className=""
   >
     <input
-      checked={true}
+      checked={false}
       className="c1"
       id="styled-checkbox-1"
       type="checkbox"

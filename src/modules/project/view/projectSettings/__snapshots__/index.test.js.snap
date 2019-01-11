@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectSettingsPage: рендер без ошибок 1`] = `
+<div
+  className="sc-EHOje lfHghn"
+>
+  <div
+    className="sc-1jxwge6-0 wterhv-0 clExyh"
+  >
+    <div
+      className="sc-1jxwge6-0 sc-14k9gvj-0 fJCvKp"
+      width="100%"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="sc-1jxwge6-0 sc-1vxld5h-0 flvubh"
+        >
+          <input
+            aria-required={false}
+            className="wsrc07-0 jDMjBx"
+            fontFamily="secondary"
+            fontSize={6}
+            name="projectName"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            placeholder="Название документа"
+            type="text"
+          />
+        </div>
+        <div
+          className="sc-1jxwge6-0 sc-18ch56c-0 fNohKK"
+          color="color7"
+          fontFamily="primary500"
+          fontSize={6}
+        >
+          Участники проекта
+        </div>
+        <div
+          className="sc-1jxwge6-0 dRohso"
+        >
+          <div
+            className="sc-bdVaJa gRrvFh"
+          >
+            <button
+              className="mxzgdr-0 sc-19425i0-0 CnFzF"
+              onClick={[Function]}
+              type="button"
+              width="100%"
+            >
+              <div
+                className="sc-1jxwge6-0 wterhv-0 llWwdq"
+                width="100%"
+              >
+                <div
+                  className="sc-bdVaJa iHZvIS"
+                >
+                  <svg
+                    fill="none"
+                    height="30"
+                    viewBox="0 0 30 30"
+                    width="30"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      fill="white"
+                      height="28"
+                      rx="4"
+                      stroke="#848484"
+                      stroke-width="2"
+                      width="28"
+                      x="1"
+                      y="1"
+                    />
+                    <path
+                      d="M22.8516 13.25H16.75V7.12498C16.75 6.69337 16.4501 6.34636 16.1243 6.12322C15.7923 5.89594 15.369 5.75 15 5.75C14.6311 5.75 14.2077 5.89594 13.8758 6.12321C13.5499 6.34635 13.25 6.69336 13.25 7.12498V13.25H7.1251C6.69349 13.25 6.34645 13.5499 6.12328 13.8758C5.89598 14.2077 5.75 14.6311 5.75 15C5.75 15.3689 5.89598 15.7923 6.12328 16.1242C6.34645 16.4501 6.69349 16.75 7.1251 16.75H13.25V22.875C13.25 23.3066 13.5499 23.6537 13.8758 23.8768C14.2077 24.1041 14.6311 24.25 15 24.25C15.369 24.25 15.7923 24.1041 16.1243 23.8768C16.4501 23.6536 16.75 23.3066 16.75 22.875V16.75H22.8516C23.2815 16.75 23.6342 16.452 23.8632 16.1269C24.0963 15.7959 24.25 15.3716 24.25 15C24.25 14.6284 24.0964 14.2041 23.8632 13.8731C23.6342 13.548 23.2815 13.25 22.8516 13.25Z"
+                      fill="#848484"
+                      stroke="#848484"
+                      stroke-width="0.5"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="sc-1jxwge6-0 sc-18ch56c-0 hMzkGD"
+                  color="color4"
+                  fontFamily="primary300"
+                  fontSize={6}
+                >
+                  Добавить нового участника
+                </div>
+                <div
+                  className="sc-bdVaJa iHZvIS"
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+        <button
+          className="mxzgdr-0 djJjuu"
+          disabled={true}
+          size="medium"
+          type="submit"
+          width="100%"
+        >
+          <div
+            className="sc-1jxwge6-0 wterhv-0 lePFiI"
+            width="100%"
+          >
+            <div
+              className="sc-1jxwge6-0 wterhv-0 kAyOne"
+              width="16px"
+            >
+              <svg
+                fill="inherit"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M8.00007 5.33333H12.3077V2.37038H8.00007V5.33333ZM3.69235 16H12.3077V8.88893H3.69235V16ZM16 4.88869V0V2.6667L13.3333 0H1.77782V0.001523C1.6381 0.000595955 1.4908 6.62172e-05 1.33333 6.62172e-05C0.597009 6.62172e-05 0 0.597014 0 1.33342V14.6667C0 15.4031 0.597009 16 1.33333 16C1.50579 16 1.65267 15.9981 1.77782 15.9928V15.9999H2.46161V15.6824C2.49847 15.5058 2.46161 15.2345 2.46161 14.8148V8.88887C2.46161 7.97202 2.79759 7.70371 3.69235 7.70371H12.3077C13.2217 7.70371 13.5385 8.00911 13.5385 8.88887V15.9999H14.2222V15.9921C14.3486 16.0002 14.4954 15.9999 14.6666 15.9999C15.4031 15.9999 16 15.4029 16 14.6667V4.88888C16 4.88882 16 4.88875 16 4.88869ZM13.5385 4.74076C13.5385 5.63906 13.2218 5.92591 12.3078 5.92591H4.30772C3.39378 5.92591 3.07705 5.60204 3.07705 4.74076V2.96302C3.07705 2.06465 3.39371 1.77787 4.30772 1.77787H12.3077C13.241 1.77787 13.5385 2.06472 13.5385 2.96302V4.74076H13.5385Z"
+                  fill="inherit"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              className="sc-1jxwge6-0 wterhv-0 BIsEB"
+            >
+              Сохранить настройки
+            </div>
+          </div>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
