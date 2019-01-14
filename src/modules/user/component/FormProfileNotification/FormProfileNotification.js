@@ -21,9 +21,9 @@ const TextStyled = styled(Text)`
 export class FormProfileNotification extends Component {
   static propTypes = {
     /** id user */
-    id:PropTypes.string,
+    // id:PropTypes.string,
     /** message user*/
-    message:PropTypes.string,
+    message: PropTypes.string,
   };
 
   constructor(props) {
@@ -32,10 +32,12 @@ export class FormProfileNotification extends Component {
   }
 
   render() {
-
-    const { data : {
-      id, message
-    }} = this.props;
+    const {
+      data: {
+        // id,
+        message,
+      },
+    } = this.props;
 
     return (
       <Fragment>

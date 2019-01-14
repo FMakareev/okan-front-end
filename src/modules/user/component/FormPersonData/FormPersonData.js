@@ -29,19 +29,14 @@ const TextStyled = styled(Text)`
 export class FormPersonData extends Component {
   static propTypes = {
     /** last name user*/
-    lastName:PropTypes.string,
-    /** first name user*/
-    firstName:PropTypes.string,
-    /** patronymic user*/
-    patronymic:PropTypes.string,
-    /** birth date user*/
-    birthdate:PropTypes.string,
-    /** position user*/
-    position:PropTypes.string,
-    /** phone user*/
-    phone:PropTypes.string,
-    /** email user*/
-    email:PropTypes.string,
+    lastName: PropTypes.string /** first name user*/,
+    firstName: PropTypes.string /** patronymic user*/,
+    patronymic: PropTypes.string /** birth date user*/,
+    birthdate: PropTypes.string /** position user*/,
+    position: PropTypes.string /** phone user*/,
+    phone: PropTypes.string /** email user*/,
+    email: PropTypes.string,
+    mb: PropTypes.string,
   };
 
   constructor(props) {
@@ -49,15 +44,7 @@ export class FormPersonData extends Component {
     this.state = {};
   }
   render() {
-    const {
-      lastName,
-      firstName,
-      patronymic,
-      birthdate,
-      position,
-      phone,
-      email,
-    } = this.props;
+    const { lastName, firstName, patronymic, birthdate, position, phone, email } = this.props;
 
     return (
       <Fragment>
@@ -81,7 +68,7 @@ export class FormPersonData extends Component {
             {patronymic}
           </TextStyled>
           <TextStyled fontSize={5} lineHeight={7} pl={4}>
-           {birthdate}
+            {birthdate}
           </TextStyled>
           <TextStyled fontSize={5} lineHeight={7} pl={4}>
             {position}

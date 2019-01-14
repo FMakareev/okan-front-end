@@ -1,25 +1,21 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider as ProviderRedux } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
+import { Provider as ProviderRedux } from 'react-redux';
 
 import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import { PasswordRecovery } from './index';
-import { Store } from '../../../../store';
+import { FormProfileRecoveryEmail } from './FormProfileRecoveryEmail';
 import mocksClient from '../../../../apollo/mocksClient';
+import { Store } from '../../../../store';
 
-test('PasswordRecovery: рендер без ошибок', () => {
-  const output = renderer.create(
+it('FormProfileRecoveryEmail: Рендерится без ошибок', () => {
+  renderer.create(
     <StyledThemeProvider>
       <ProviderRedux store={Store}>
         <ApolloProvider client={mocksClient}>
-          <BrowserRouter>
-            <PasswordRecovery />
-          </BrowserRouter>
+          <FormProfileRecoveryEmail />
         </ApolloProvider>
       </ProviderRedux>
     </StyledThemeProvider>,
   );
-  expect(output).toMatchSnapshot();
 });

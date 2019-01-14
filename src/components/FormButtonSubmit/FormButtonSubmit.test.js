@@ -1,20 +1,35 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import { FormButton } from './FormButton';
+// import 'jest-styled-components'; // этот импорт нужен чтобы в снэпшоты попали css стили которые генерируются при рендере компонента
 
-it('FormButton: Рендерится без ошибок', () => {
-  renderer.create(
-    <StyledThemeProvider>
-      <FormButton />
-    </StyledThemeProvider>,
-  );
+import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
+import { FormButtonSubmit } from './FormButtonSubmit';
+
+test('FormButtonSubmit: Рендерится без ошибок', () => {
+  const output = renderer
+    .create(
+      <StyledThemeProvider>
+        <FormButtonSubmit children={'Button'} />
+      </StyledThemeProvider>,
+    )
+    .toJSON();
+  expect(output).toMatchSnapshot();
 });
 
-it('FormButton: Рендерится без ошибок с свойствами', () => {
-  renderer.create(
+test('FormButtonSubmit: Рендерится прелоадер если isLoading true', () => {
+  const output = renderer.create(
     <StyledThemeProvider>
-      <FormButton children={'button'} disabled={false} ml={9} />
+      <FormButtonSubmit children={'Button'} isLoading />
     </StyledThemeProvider>,
   );
+  expect(output).toMatchSnapshot();
 });
+
+// test('FormButtonSubmit: Рендерится с иконкой слева', () => {
+//   const output = renderer.create(
+//     <StyledThemeProvider>
+//       <FormButtonSubmit children={'Button'} variant={'large'} size={'large'} />
+//     </StyledThemeProvider>,
+//   );
+//   expect(output).toMatchSnapshot();
+// });

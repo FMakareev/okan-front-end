@@ -1,14 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import { ChangePassword } from './ChangePassword/ChangePassword';
 import { BrowserRouter } from 'react-router-dom';
 
-it('ChangePassword: Рендерится без ошибок', () => {
+import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
+import { FormChangePassword } from './FormChangePassword';
+
+it('FormChangePassword: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
       <BrowserRouter>
-        <ChangePassword />
+        <FormChangePassword />
       </BrowserRouter>
     </StyledThemeProvider>,
   );

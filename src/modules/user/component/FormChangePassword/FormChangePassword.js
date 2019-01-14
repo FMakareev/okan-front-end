@@ -24,21 +24,21 @@ export const FormChangePassword = () => {
   );
 };
 
-FormChangePassword.PropTypes = {
+FormChangePassword.propTypes = {
   /** to*/
-    to : PropTypes.string,
-    /** variant button*/
-    variant:PropTypes.string,
-    /** size button*/
-    size:PropTypes.string,
-    /** children */
-    children:PropTypes.string,
-    /** icon for button */
-    rightIcon:PropTypes.func,
-    /** width*/
-    width:PropTypes.string,
-    /** width icon*/
-    widthIcon:PropTypes.string,
+  to: PropTypes.string,
+  /** variant button*/
+  variant: PropTypes.string,
+  /** size button*/
+  size: PropTypes.string,
+  /** children */
+  children: PropTypes.string,
+  /** icon for button */
+  rightIcon: PropTypes.func,
+  /** width*/
+  width: PropTypes.string,
+  /** width icon*/
+  widthIcon: PropTypes.string,
 };
 
 export default FormChangePassword;

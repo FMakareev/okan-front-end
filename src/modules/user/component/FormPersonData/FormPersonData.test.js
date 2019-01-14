@@ -1,12 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import { ProfileApproval } from './ProfileApproval/ProfileApproval';
+import { BrowserRouter } from 'react-router-dom';
 
-it('ProfileApproval: Рендерится без ошибок', () => {
+import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
+import { FormPersonData } from './FormPersonData';
+
+it('FormPersonData: Рендерится без ошибок', () => {
   renderer.create(
     <StyledThemeProvider>
-      <ProfileApproval />
+      <FormPersonData />
     </StyledThemeProvider>,
   );
 });

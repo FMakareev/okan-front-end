@@ -35,12 +35,14 @@ export class FormProfileRecoveryEmail extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {}
+  submit(value) {
+    return value;
+  }
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
-      <Form>
+      <Form onSubmit={handleSubmit(this.submit)}>
         <BoxStyled mb={4}>
           <Field
             name="emailRecovery"
