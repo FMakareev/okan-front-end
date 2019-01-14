@@ -11,9 +11,9 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-// import { mocksClient } from '../../../apollo/mocksClient';
 import { client } from '../../../apollo/index.client';
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
+import { Redirect } from 'react-router-dom';
 
 /**
  * @desc метод инициализации пользователя в системе
@@ -30,10 +30,15 @@ export const userInit = () => dispatch => {
         if (user) {
           /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
           // setTimeout(()=>{
+
           return client
             .query({ query: UserEmailItemQuery, variables: { email: user.email } })
             .then(({ data }) => {
               const { useremailitem } = data;
+
+              // if (!useremailitem.hasOwnProperty) {
+              //   return <Redirect to={'/'} />;
+              // }
 
               localStorage.setItem('user', JSON.stringify(useremailitem));
 
