@@ -85,29 +85,29 @@ export const browserConfigGenerator = () => {
 
     ],
     ...webpackResolve,
-    ...(process.env.NODE_ENV === 'production' ?
-      {
-        optimization: {
-          minimizer: [
-            new UglifyJsPlugin({
-              uglifyOptions: {
-                compress: {
-                  unsafe: true,
-                  inline: true,
-                  passes: 2,
-                  drop_console: true,
-                  keep_fargs: false,
-                },
-                output: {
-                  beautify: false,
-                  comments: false,
-                },
-                mangle: true,
-              },
-            }),
-          ]
-        }
-      } : {}),
+    // ...(process.env.NODE_ENV === 'production' ?
+    //   {
+    //     optimization: {
+    //       minimizer: [
+    //         new UglifyJsPlugin({
+    //           uglifyOptions: {
+    //             compress: {
+    //               unsafe: true,
+    //               inline: true,
+    //               passes: 2,
+    //               drop_console: true,
+    //               keep_fargs: false,
+    //             },
+    //             output: {
+    //               beautify: false,
+    //               comments: false,
+    //             },
+    //             mangle: true,
+    //           },
+    //         }),
+    //       ]
+    //     }
+    //   } : {}),
     stats: {
       cached: false,
       cachedAssets: false,
