@@ -140,10 +140,10 @@ export class FormLogin extends Component {
 
   getUser = email => {
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
-
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
+        console.log('result', result);
         if (result.errors || result.data.useremailitem === null) {
           // TO DO change this
           throw result;
