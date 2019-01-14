@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { color, display, width, space, fontWeight, variant } from 'styled-system';
+import { color, display, width, space, fontWeight, variant, position } from 'styled-system';
 
 /** Style property */
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
-import { LineHeightRemProperty } from '../../styles/styleProperty/LineHeightRemProperty';
+import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { BorderRadiusProperty } from '../../styles/styleProperty/BorderRadiusProperty';
 
@@ -16,6 +16,10 @@ const buttonsVariant = variant({
 const buttonsSize = variant({
   key: 'variant.buttonSize',
   prop: 'size',
+});
+const buttonComment = variant({
+  key: 'variant.buttonComment',
+  prop: 'btnComment',
 });
 
 /**
@@ -29,15 +33,20 @@ export const ButtonBase = styled.button`
   align-items: center;
   justify-content: center;
   padding: 0;
-  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+  /* ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+   */
+
+  ${BorderRadiusProperty};
   ${buttonsVariant};
   ${buttonsSize};
+  ${buttonComment};
   ${space};
+  ${position};
   ${width};
   ${color};
   ${display};
   ${fontWeight};
-  ${LineHeightRemProperty};
+  ${LineHeightProperty};
   ${FontSizeProperty};
   ${BackgroundColorProperty};
   ${BorderRadiusProperty};
@@ -62,6 +71,6 @@ ButtonBase.propTypes = {
   active: PropTypes.bool,
 };
 
-ButtonBase.defaultProps = {};
+ButtonBase.defaultProps = { borderRadius: '5px' };
 
 export default ButtonBase;
