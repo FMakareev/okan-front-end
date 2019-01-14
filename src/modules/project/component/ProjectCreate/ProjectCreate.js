@@ -8,7 +8,6 @@ import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
 import SelectBase from '../../../../components/SelectBase/SelectBase';
 
 /**Image */
@@ -69,7 +68,13 @@ export class ProjectCreate extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text fontSize={6} lineHeight={8} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={6}
+          fontFamily={'primary500'}>
           Номер проекта
         </Text>
 
@@ -85,7 +90,13 @@ export class ProjectCreate extends Component {
           />
         </BoxStyled>
 
-        <Text fontSize={6} lineHeight={8} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={6}
+          fontFamily={'primary500'}>
           Список шаблонов
         </Text>
 
