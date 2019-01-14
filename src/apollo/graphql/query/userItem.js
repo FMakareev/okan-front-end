@@ -1,5 +1,4 @@
 import faker from 'faker';
-import { ROLE_ADMIN, ROLE_USER } from '../../../shared/roles';
 
 export const useritem = () => {
   const password = faker.internet.password();
@@ -9,10 +8,10 @@ export const useritem = () => {
     lastname: faker.name.lastName(),
     patronymic: faker.name.lastName(),
     birthdate: faker.date.past().toUTCString(),
-    email: faker.internet.email(),
+    // email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
-    password: password,
+    // password: password,
     // confirmpassword: password,
-    role: ROLE_USER,
+    // role: ROLE_USER,
   };
 };
