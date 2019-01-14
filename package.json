@@ -4,6 +4,8 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "@emotion/core": "^10.0.6",
+    "@emotion/styled": "^10.0.6",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link-http": "^1.5.4",
@@ -64,7 +66,8 @@
     "serve-favicon": "^2.5.0",
     "styled-components": "^4.1.1",
     "styled-system": "^3.1.11",
-    "unfetch": "^4.0.1"
+    "unfetch": "^4.0.1",
+    "velocity-react": "^1.4.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

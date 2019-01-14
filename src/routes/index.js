@@ -39,7 +39,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       layout: modulesRoutes[i].layout,
       name: modulesRoutes[i].name || modulesRoutes[i].title,
       path: modulesRoutes[i].path,
-      roles: [ROLE_ADMIN, ROLE_USER],
+      roles: [],
       resolvers: modulesRoutes[i].resolvers || [],
       hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
     };
@@ -52,8 +52,8 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       }
 
       routes.push({
-        ...somePropertyRoutes,
-        order: modulesRoutes[i].order,
+        ...modulesRoutes[i],
+        hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
         component: GetPageTitle({ Store })(
           asyncComponent({
             resolve: modulesRoutes[i].load,
@@ -71,15 +71,14 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         );
       }
       routes.push({
-        ...somePropertyRoutes,
-        order: modulesRoutes[i].order,
-        component: modulesRoutes[i].component,
+        ...modulesRoutes[i],
+        hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
       });
     } else if (has.call(modulesRoutes[i], 'routes')) {
       routes.push({
-        ...somePropertyRoutes,
+        ...modulesRoutes[i],
         routes: [...createRoutes(modulesRoutes[i].routes, [], moduleName)],
       });
     } else {

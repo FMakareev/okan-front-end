@@ -1,52 +1,63 @@
-import React from 'react';
+import React, {Component} from 'react';
 import tree from '../../../../../test';
+import {Treebeard } from '../../../../components/ReactTreeBeard';
 
+const data = {
+  name: 'root',
+  toggled: true,
+  children: [
+    {
+      name: 'parent',
+      children: [
+        { name: 'child1' },
+        { name: 'child2' }
+      ]
+    },
+    {
+      name: 'loading parent',
+      loading: true,
+      children: []
+    },
+    {
+      name: 'parent',
+      children: [
+        {
+          name: 'nested parent',
+          children: [
+            { name: 'nested child 1' },
+            { name: 'nested child 2' }
+          ]
+        }
+      ]
+    }
+  ]
+};
 
-export class ProjectEditorSideBar extends React.Component {
+export class ProjectEditorSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    let newTree = {
-      name: 'ROOT',
-      children: [],
-    };
-    const rootCell = this.findRootCell(tree)[0];
-    console.table(rootCell);
-
-    this.createTree(tree, newTree);
+    this.state = this.initialState;
+    this.onToggle = this.onToggle.bind(this);
   }
 
-  get initialState() {
-    return {
-      tree: tree,
-    }
+  get initialState(){
+    return {};
   }
 
-  createTree = (tree, newTree) => {
-
-    if (!item.prevCell && !item.parent) {
-      if (item.childCell)
-        newTree.children.push({
-          ...item,
-          children: tree.find(childItem => childItem.parent === item.id),
-        });
-      // item.childCell
-    }
-    console.table(newTree);
-  };
-
-  findRootCell = (tree) => {
-    return tree.filter(item => {
-      if (item.prevCell === null && item.parent === null) {
-        return item
-      } else {
-        return false;
-      }
-    })
-  };
+  onToggle(node, toggled){
+    if(this.state.cursor){this.state.cursor.active = false;}
+    node.active = true;
+    if(node.children){ node.toggled = toggled; }
+    this.setState({ cursor: node });
+  }
 
   render() {
-    return null
+    return <div>
+      <Treebeard
+        data={data}
+        onToggle={this.onToggle}
+      />
+    </div>
   }
 }
 
