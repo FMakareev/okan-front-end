@@ -47,13 +47,15 @@ export class ProfilePage extends Component {
   static propTypes = { ...ReactRoutePropTypes, mb: PropTypes.string };
 
   state = {};
+
   render() {
     const {
       user: { role },
+      route: { moduleName },
     } = this.props;
 
-    return (
-      <ErrorCatch>
+
+    return <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
@@ -61,41 +63,24 @@ export class ProfilePage extends Component {
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {role === ROLE_ADMIN && <FormProfileCreateUser />}
+              {moduleName === ROLE_ADMIN && <FormProfileCreateUser />}
 
-              {role === ROLE_USER && (
-                <FormPersonData
-                  lastName={'Колесников'}
-                  firstName={'Александр'}
-                  patronymic={'Владиславович'}
-                  birthdate={'12.12.1984'}
-                  position={'Специалист по технической документации'}
-                  phone={'8-999-888-77-66'}
-                  email={'email@okan.su'}
-                />
-              )}
+              {moduleName === ROLE_USER && <FormPersonData lastname={'Колесников'} firstname={'Александр'} patronymic={'Владиславович'} birthdate={'12.12.1984'} position={'Специалист по технической документации'} phone={'8-999-888-77-66'} email={'email@okan.su'} />}
             </RightColumn>
           </Flex>
 
           <Flex justifyContent={'space-between'}>
             <LeftColumn flexDirection={'column'}>
-              <FormProfileNotification
-                data={{
-                  id: '23415',
-                  message:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                }}
-              />
+              <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {role === ROLE_ADMIN && <FormProfileRecoveryEmail />}
-              {role === ROLE_USER && <FormChangePassword />}
+              {moduleName === ROLE_ADMIN && <FormProfileRecoveryEmail />}
+              {moduleName === ROLE_USER && <FormChangePassword />}
             </RightColumn>
           </Flex>
         </Flex>
-      </ErrorCatch>
-    );
+      </ErrorCatch>;
   }
 }
 
