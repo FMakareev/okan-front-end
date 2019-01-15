@@ -31,7 +31,6 @@ export class Container extends Component {
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
-
     return (
       <div
         onClick={onClick}
@@ -46,6 +45,7 @@ export class Container extends Component {
 
 Container.propTypes = {
   decorators: PropTypes.object.isRequired,
+  /** @desc есть ли дочерние ноды */
   terminal: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   animations: PropTypes.oneOfType([

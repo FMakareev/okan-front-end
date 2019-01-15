@@ -7,49 +7,52 @@ import deepEqual from 'deep-equal';
 
 class NodeHeader extends React.Component {
 
-    shouldComponentUpdate(nextProps) {
-        const props = this.props;
-        const nextPropKeys = Object.keys(nextProps);
+  shouldComponentUpdate(nextProps) {
+    const props = this.props;
+    const nextPropKeys = Object.keys(nextProps);
 
-        for (let i = 0; i < nextPropKeys.length; i++) {
-            const key = nextPropKeys[i];
-            if (key === 'animations') {
-                continue;
-            }
+    for (let i = 0; i < nextPropKeys.length; i++) {
+      const key = nextPropKeys[i];
+      if (key === 'animations') {
+        continue;
+      }
 
-            const isEqual = shallowEqual(props[key], nextProps[key]);
-            if (!isEqual) {
-                return true;
-            }
-        }
-
-        return !deepEqual(props.animations, nextProps.animations, {strict: true});
+      const isEqual = shallowEqual(props[key], nextProps[key]);
+      if (!isEqual) {
+        return true;
+      }
     }
 
-    render() {
-        const {animations, decorators, node, onClick} = this.props;
-        const {active, children} = node;
-        const terminal = !children;
+    return !deepEqual(props.animations, nextProps.animations, {strict: true});
+  }
 
-        return (
-            <decorators.Container animations={animations}
-                                  decorators={decorators}
-                                  node={node}
-                                  onClick={onClick}
-                                  terminal={terminal}/>
-        );
-    }
+  render() {
+    const {animations, decorators, node, onClick} = this.props;
+    const {children} = node;
+    const terminal = !children;
+
+    return (
+      <decorators.Container
+        className="decorators.Container "
+        animations={animations}
+        decorators={decorators}
+        node={node}
+        onClick={onClick}
+        terminal={terminal}
+      />
+    );
+  }
 
 }
 
 NodeHeader.propTypes = {
-    decorators: PropTypes.object.isRequired,
-    animations: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.bool
-    ]).isRequired,
-    node: PropTypes.object.isRequired,
-    onClick: PropTypes.func
+  decorators: PropTypes.object.isRequired,
+  animations: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool
+  ]).isRequired,
+  node: PropTypes.object.isRequired,
+  onClick: PropTypes.func
 };
 
 export default NodeHeader;

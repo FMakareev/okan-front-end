@@ -1,21 +1,17 @@
 'use strict';
 
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {VelocityTransitionGroup} from 'velocity-react';
 import styled from 'styled-components';
 
 import NodeHeader from './header';
 
-const Li = styled.li`
-  position: relative;
-`;
-
 const Ul = styled.ul`
   position: relative;
 `;
 
-export class TreeNode extends React.Component {
+export class TreeNode extends Component {
   constructor() {
     super();
 
@@ -101,7 +97,7 @@ export class TreeNode extends React.Component {
     }
 
     return (
-      <Ul
+      <propDecorators.TreeNodeList
         ref={ref => this.subtreeRef = ref}>
         {
           children.map((child, index) => (<TreeNode
@@ -112,7 +108,7 @@ export class TreeNode extends React.Component {
               node={child}
             />)
           )}
-      </Ul>
+      </propDecorators.TreeNodeList>
     );
   }
 
@@ -139,11 +135,11 @@ export class TreeNode extends React.Component {
     const animations = this.animations();
 
     return (
-      <Li>
+      <decorators.TreeNodeContainer>
         {this.renderHeader(decorators, animations)}
 
         {this.renderDrawer(decorators, animations)}
-      </Li>
+      </decorators.TreeNodeContainer>
     );
   }
 

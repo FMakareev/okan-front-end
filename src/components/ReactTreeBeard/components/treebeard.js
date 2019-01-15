@@ -10,6 +10,13 @@ import defaultAnimations from '../themes/animations';
 
 
 export class TreeBeard extends Component {
+
+  constructor(props){
+    super(props);
+
+
+  }
+
   render() {
     const {animations, decorators, data: propsData, onToggle, style} = this.props;
     let data = propsData;
