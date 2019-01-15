@@ -54,7 +54,7 @@ export class ProjectEditorSideBar extends Component {
   render() {
     return <div>
       <Treebeard
-        data={data}
+        data={[data,data]}
         onToggle={this.onToggle}
       />
     </div>
