@@ -15,3 +15,5 @@ export const SvgEye = () => {
     </svg>
   );
 };
+
+export default SvgEye;
