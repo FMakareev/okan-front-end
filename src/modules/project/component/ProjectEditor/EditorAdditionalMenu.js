@@ -32,6 +32,14 @@ const EditorAdditionalMenuButton = (
 );
 
 export class EditorAdditionalMenu extends Component {
+  static propTypes = {
+    /** func submit for Form */
+    handleClick: PropTypes.func /** Children element */,
+    children: PropTypes.element,
+  };
+
+  static defaultProps = { handleClick: () => {} };
+
   state = { isOpen: false };
 
   handleClick = () => {
@@ -42,7 +50,6 @@ export class EditorAdditionalMenu extends Component {
 
   render() {
     const { isOpen } = this.state;
-
     return (
       <Box position={'relative'}>
         <ButtonBase variant={'empty'} onClick={this.handleClick}>

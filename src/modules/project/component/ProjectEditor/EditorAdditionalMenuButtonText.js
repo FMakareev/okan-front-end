@@ -23,4 +23,8 @@ export const EditorAdditionalMenuButtonText = () => {
   );
 };
 
+EditorAdditionalMenuButtonText.propTypes = {};
+
+EditorAdditionalMenuButtonText.defaultProps = {};
+
 export default EditorAdditionalMenuButtonText;

@@ -25,4 +25,8 @@ export const EditorAdditionalMenuButtonImage = () => {
   );
 };
 
+EditorAdditionalMenuButtonImage.propTypes = {};
+
+EditorAdditionalMenuButtonImage.defaultProps = {};
+
 export default EditorAdditionalMenuButtonImage;
