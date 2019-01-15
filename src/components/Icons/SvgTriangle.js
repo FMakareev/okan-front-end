@@ -12,3 +12,5 @@ export const SvgTriangle = fill => {
     </svg>
   );
 };
+
+export default SvgTriangle;
