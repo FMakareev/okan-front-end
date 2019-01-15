@@ -5,6 +5,7 @@ import { Provider } from 'rebass';
 /** Variants */
 import { ButtonVariant } from './variants/buttonVariant';
 import { ButtonSize } from './variants/buttonSize';
+import { ButtonComment } from './variants/buttonComment';
 import { TextVariant } from './variants/textVariant';
 
 export const ColorPallet = {
@@ -77,6 +78,7 @@ export const StyledThemeProvider = ({ children }) => (
       variant: {
         buttons: ButtonVariant,
         buttonSize: ButtonSize,
+        buttonComment: ButtonComment,
         text: TextVariant,
       },
       fontFamily: {

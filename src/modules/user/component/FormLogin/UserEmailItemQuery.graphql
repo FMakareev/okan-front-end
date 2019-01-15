@@ -1,13 +1,15 @@
-query ($email: String) {
+query ($email: String!) {
   useremailitem(email: $email) {
     id
     firstname
     lastname
     patronymic
     birthdate
-    email
     phone
+    email
     signature
-    role
+    role {
+      name
+    }
   }
 }

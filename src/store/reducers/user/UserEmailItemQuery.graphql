@@ -8,8 +8,6 @@ query ($email: String!) {
     phone
     email
     signature
-    role{
-      name
-    }
+    role
   }
 }

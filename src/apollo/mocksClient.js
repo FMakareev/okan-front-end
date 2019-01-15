@@ -6,7 +6,7 @@ import setupClient from './helpers/apolloClientMock';
 import schema from './schema.graphqls';
 
 import { userlist } from './graphql/query/userlist';
-import { useritem } from './graphql/query/userItem';
+import { useritem } from './graphql/query/useritem';
 
 import { ROLE_ADMIN, ROLE_USER } from '../shared/roles';
 
@@ -17,10 +17,7 @@ const defaultMocks = {
     useremailitem: (query, { email }) => {
       switch (email) {
         case 'client@okan.su': {
-          return {
-            ...useritem(),
-            email: 'client@okan.su',
-          };
+          return { ...useritem(), email: 'client@okan.su', role: ROLE_USER };
         }
         case 'admin@okan.su': {
           return { ...useritem(), email: 'admin@okan.su', role: ROLE_ADMIN };

@@ -135,30 +135,48 @@ const layoutSorting = routes => {
       routes: [],
     },
   ];
+  // routes.forEach(item => {
+  //   switch (item.layout) {
+  //     case LAYOUT_AUTH: {
+  //       newRoutes[0].routes.push(item);
+  //       break;
+  //     }
+  //     case LAYOUT_APP: {
+  //       const connectCheckAuthorization = connect(state => {
+  //         return { user: getUserFromStore(state) };
+  //       })(CheckAuthorization(item.roles)(item.component));
+
+  //       newRoutes[1].routes.push({
+  //         ...item,
+  //         path: `${newRoutes[1].path}${item.path}`,
+  //         component: connectCheckAuthorization,
+  //       });
+  //       break;
+  //     }
+  //     default: {
+  //       console.error(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
+  //       break;
+  //     }
+  //   }
+  // });
+
   routes.forEach(item => {
     switch (item.layout) {
       case LAYOUT_AUTH: {
         newRoutes[0].routes.push(item);
-        break;
+        return item;
       }
       case LAYOUT_APP: {
-        const connectCheckAuthorization = connect(state => {
-          return { user: getUserFromStore(state) };
-        })(CheckAuthorization(item.roles)(item.component));
-
-        newRoutes[1].routes.push({
-          ...item,
-          path: `${newRoutes[1].path}${item.path}`,
-          component: connectCheckAuthorization,
-        });
-        break;
+        newRoutes[1].routes.push({ ...item, path: `${newRoutes[1].path}${item.path}` });
+        return item;
       }
       default: {
-        console.log(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
+        console.error(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
         break;
       }
     }
   });
+
   newRoutes = newRoutes.map(item => {
     item.routes.push(Page404);
     return item;

@@ -1,37 +1,16 @@
-import React, {Component} from 'react';
-import tree from '../../../../../test';
+import React, { Component, Fragment } from 'react';
+// import tree from '../../../../../test';
 import {Treebeard } from '../../../../components/ReactTreeBeard';
 
-const data = {
-  name: 'root',
-  toggled: true,
-  children: [
-    {
-      name: 'parent',
-      children: [
-        { name: 'child1' },
-        { name: 'child2' }
-      ]
-    },
-    {
-      name: 'loading parent',
-      loading: true,
-      children: []
-    },
-    {
-      name: 'parent',
-      children: [
-        {
-          name: 'nested parent',
-          children: [
-            { name: 'nested child 1' },
-            { name: 'nested child 2' }
-          ]
-        }
-      ]
-    }
-  ]
-};
+/** View */
+import Box from '../../../../components/Box/Box';
+
+/** Components */
+import SidebarCellRoot from './SidebarCellRoot';
+import EditorCellCommentButton from './EditorCellCommentButton';
+import EditorCellController from './EditorCellController';
+import EditorCellCommentController from './EditorCellCommentController';
+import SidebarCellNode from './SidebarCellNode';
 
 export class ProjectEditorSideBar extends Component {
   constructor(props) {
@@ -57,6 +36,16 @@ export class ProjectEditorSideBar extends Component {
         data={[data,data]}
         onToggle={this.onToggle}
       />
+      <Box pl={3} my={4}>
+        <SidebarCellRoot nameSection={'I. ТЗ - RK-186-344'} />
+      </Box>
+      <Box pl={3} my={9}>
+        <SidebarCellNode />
+      </Box>
+
+      <EditorCellController />
+
+      <EditorCellCommentController />
     </div>
   }
 }
