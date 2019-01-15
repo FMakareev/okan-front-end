@@ -23,3 +23,5 @@ export const SvgLogo = () => {
     </svg>
   );
 };
+
+export default SvgLogo;
