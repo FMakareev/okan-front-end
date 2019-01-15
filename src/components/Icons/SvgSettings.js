@@ -16,3 +16,5 @@ export const SvgSettings = () => {
     </svg>
   );
 };
+
+export default SvgSettings;

@@ -5,6 +5,8 @@ import styled from 'styled-components';
 /**Components*/
 import Link from '../../../../components/Link/Link';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+
+/** Image */
 import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 
 export const FormChangePassword = () => {

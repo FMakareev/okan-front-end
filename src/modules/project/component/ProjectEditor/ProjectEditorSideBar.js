@@ -11,6 +11,7 @@ import EditorCellCommentButton from './EditorCellCommentButton';
 import EditorCellController from './EditorCellController';
 import EditorCellCommentController from './EditorCellCommentController';
 import SidebarCellNode from './SidebarCellNode';
+import EditorAdditionalMenu from './EditorAdditionalMenu';
 
 export class ProjectEditorSideBar extends Component {
   constructor(props) {
@@ -32,6 +33,8 @@ export class ProjectEditorSideBar extends Component {
 
   render() {
     return <div>
+      <EditorAdditionalMenu />
+
       <Treebeard
         data={[data,data]}
         onToggle={this.onToggle}

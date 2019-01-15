@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { color } from 'styled-system';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -18,9 +19,12 @@ import SidebarRevisionList from './SidebarRevisionList';
 import SidebarСreateRevision from './SidebarСreateRevision';
 import SidebarProjectExport from './SidebarProjectExport';
 
+/** Styles property */
+import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
+
 const FlexStyled = styled(Flex)`
-  color: #ffffff;
-  background-color: #4f4f4f;
+  ${props => color({ ...props, color: 'color0' })};
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color3' })};
   cursor: pointer;
 `;
 

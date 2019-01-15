@@ -16,12 +16,7 @@ import { LineHeightProperty } from '../../styles/styleProperty/LineHeightPropert
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 
-// TODO review: позиционарование абсолютное не нужно, можно просто над кнопкой положить сообщение, сравни изменения в коммите
 const Error = styled.span`
-  /* //
-  // position: absolute;
-  // top: -16px;
-  // left: 0; */
   ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })};
   ${props => FontSizeProperty({ ...props, fontSize: '16px' })};
   ${props => LineHeightProperty({ ...props, lineHeight: '18px' })};
@@ -29,8 +24,7 @@ const Error = styled.span`
 `;
 
 export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) => {
-
-  const buttonIconRender = isLoading ? < SmallPreloader/> : SvgPlay();
+  const buttonIconRender = isLoading ? <SmallPreloader /> : SvgPlay();
 
   return (
     <Flex flexDirection={'column'} justifyContent={'center'}>

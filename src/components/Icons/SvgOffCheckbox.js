@@ -6,16 +6,18 @@ export const SvgOffCheckbox = () => {
       <path
         d="M1 1L29 1V29H1L1 1Z"
         stroke="#00649C"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2.5 1.5C1.94771 1.5 1.5 1.94772 1.5 2.5V27.5C1.5 28.0523 1.94772 28.5 2.5 28.5H27.5C28.0523 28.5 28.5 28.0523 28.5 27.5V2.5C28.5 1.94771 28.0523 1.5 27.5 1.5H2.5Z"
         stroke="#00649C"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
 };
+
+export default SvgOffCheckbox;

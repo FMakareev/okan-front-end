@@ -53,7 +53,7 @@ const BoxStyle = styled(Box)`
 
 export const SidebarCreateCell = ({ handleClickCreateCell, isOpen }) => {
   const Modal = (
-    <AbsoluteStyled top={'24%'} left={'25%'}>
+    <AbsoluteStyled top={'28%'} left={'22%'}>
       <BoxStyled>Раздел</BoxStyled>
       <BoxStyle>Подраздел</BoxStyle>
     </AbsoluteStyled>
