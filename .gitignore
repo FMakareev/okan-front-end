@@ -35,3 +35,5 @@ public/
 
 src/modules/index.js
 
+*.exe
+*.stackdump
