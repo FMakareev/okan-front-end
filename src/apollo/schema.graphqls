@@ -197,8 +197,9 @@ type Mutation {
   # создание ячейки,
   # name
   # prevcell - id предыдущей ячейки
+  # parent - id родительской ячейки
   # content - содержимое ячейки
-  createcell(name:String!,prevcell:ID, content: Block): Cell
+  createcell(name:String!,prevcell:ID, parent: ID, content: Block): Cell
 
   # обновление ячейки
   # id - mongoid ячейки
