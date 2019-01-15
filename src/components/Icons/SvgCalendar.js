@@ -10,3 +10,5 @@ export const SvgCalendar = () => {
     </svg>
   );
 };
+
+export default SvgCalendar;
