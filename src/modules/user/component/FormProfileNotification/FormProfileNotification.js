@@ -5,18 +5,8 @@ import PropTypes from 'prop-types';
 /**View */
 import Text from '../../../../components/Text/Text';
 
-/** Styles property */
-import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
-import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
-import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
-
-const TextStyled = styled(Text)`
-  padding: 5px;
-  border: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
-  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color13' })};
-`;
+/** Components */
+import FormProfileNotificationItem from '../FormProfileNotificationItem/FormProfileNotificationItem';
 
 export class FormProfileNotification extends Component {
   static propTypes = {
@@ -51,13 +41,7 @@ export class FormProfileNotification extends Component {
           Оповещения
         </Text>
 
-        <TextStyled fontSize={6} lineHeight={8} color={'color11'} mb={[4]} fontFamily={'secondary'}>
-          {message}
-        </TextStyled>
-
-        <TextStyled fontSize={6} lineHeight={8} color={'color11'} mb={[4]} fontFamily={'secondary'}>
-          {message}
-        </TextStyled>
+        <FormProfileNotificationItem message={message} name={'Фамилия Имя'} time={'Время'} />
       </Fragment>
     );
   }
