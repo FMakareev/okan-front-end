@@ -10,6 +10,7 @@ import EditorCellCommentButton from './EditorCellCommentButton';
 import EditorCellController from './EditorCellController';
 import EditorCellCommentController from './EditorCellCommentController';
 import SidebarCellNode from './SidebarCellNode';
+import EditorAdditionalMenu from './EditorAdditionalMenu';
 
 export class ProjectEditorSideBar extends React.Component {
   constructor(props) {
@@ -57,6 +58,8 @@ export class ProjectEditorSideBar extends React.Component {
   render() {
     return (
       <Fragment>
+        <EditorAdditionalMenu />
+
         <Box pl={3} my={4}>
           <SidebarCellRoot nameSection={'I. ТЗ - RK-186-344'} />
         </Box>
