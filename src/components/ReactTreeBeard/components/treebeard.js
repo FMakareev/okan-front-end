@@ -1,46 +1,42 @@
 'use strict';
 
-import React from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import styled from '@emotion/styled';
-
-import TreeNode from './node';
-import defaultDecorators from './decorators';
-import defaultTheme from '../themes/default';
+import TreeNode from './TreeNode';
+import defaultDecorators from '../decorators';
 import defaultAnimations from '../themes/animations';
 
-const Ul = styled('ul', {
-  shouldForwardProp: prop => ['className', 'children'].indexOf(prop) !== -1
-})((({style}) => style));
 
-class TreeBeard extends React.Component {
+
+export class TreeBeard extends Component {
   render() {
     const {animations, decorators, data: propsData, onToggle, style} = this.props;
     let data = propsData;
 
-    // Support Multiple Root Nodes. Its not formally a tree, but its a use-case.
+    /**
+     * @desc Поддержка нескольких корневых узлов. Формально это не дерево, а сценарий использования.
+     * */
     if (!Array.isArray(data)) {
       data = [data];
     }
     return (
-      <Ul style={style.tree.base}
-          ref={ref => this.treeBaseRef = ref}>
+      <decorators.TreeBeardWrapper>
         {data.map((node, index) =>
-          <TreeNode animations={animations}
-                    decorators={decorators}
-                    key={node.id || index}
-                    node={node}
-                    onToggle={onToggle}
-                    style={style.tree.node}/>
+          <TreeNode
+            animations={animations}
+            decorators={decorators}
+            key={node.id || index}
+            node={node}
+            onToggle={onToggle}
+          />
         )}
-      </Ul>
+      </decorators.TreeBeardWrapper>
     );
   }
 }
 
 TreeBeard.propTypes = {
-  style: PropTypes.object,
   data: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array
@@ -54,7 +50,6 @@ TreeBeard.propTypes = {
 };
 
 TreeBeard.defaultProps = {
-  style: defaultTheme,
   animations: defaultAnimations,
   decorators: defaultDecorators
 };
