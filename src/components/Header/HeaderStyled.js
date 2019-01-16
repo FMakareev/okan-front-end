@@ -1,14 +1,20 @@
 import styled from 'styled-components';
 import { color } from 'styled-system';
 import { NavLink } from 'react-router-dom';
+import { Absolute } from 'rebass';
+
+/** View */
+import Box from '../Box/Box';
+import ButtonBase from '../ButtonBase/ButtonBase';
 
 /** Styles property */
 import BackgroundColorProperty from '../../styles/styleProperty/BackgroundColorProperty';
 import BorderColorProperty from '../../styles/styleProperty/BorderColorProperty';
 import { FillSvgProperty } from '../../styles/styleProperty/FillSvgProperty';
-import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
-import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { BoxShadowProperty } from '../../styles/styleProperty/BoxShadowProperty';
+import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusProperty';
+import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
+import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
 
 const Wrapper = styled.header`
   width: 100%;
@@ -41,7 +47,8 @@ const LeftLineWrapper = styled(LineWrapper)`
 `;
 
 const LogoWrapper = styled.img`
-  margin-bottom: 5px;
+  margin-top: 6px;
+  height: 24px;
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
 `;
 
@@ -65,6 +72,7 @@ const Title = styled.div`
   border: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
   border-radius: 5px;
+  margin-right: 17px;
 
   &:before {
     content: '';
@@ -82,9 +90,9 @@ const Title = styled.div`
 `;
 
 const ProfileLink = styled(NavLink)`
-  margin-left: 17px;
   margin-top: auto;
   margin-bottom: auto;
+  text-decoration: none;
 
   & > svg {
     ${props => FillSvgProperty({ ...props, color: 'color0' })}
@@ -101,6 +109,57 @@ const ProjectListLink = styled(ProfileLink)`
   margin-right: 32px;
 `;
 
+const AbsoluteStyled = styled(Absolute)`
+  border: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+`;
+
+const BoxTop = styled(Box)`
+  ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+  ${props => LineHeightProperty({ ...props, lineHeight: 7 })};
+  ${props => color({ ...props, color: 'color11' })};
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  min-width: 150px;
+  padding: 5px 0;
+
+  :hover {
+    background-color: #007faf21;
+  }
+`;
+
+const BoxBottom = styled(Box)`
+  ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+  ${props => LineHeightProperty({ ...props, lineHeight: 7 })};
+  ${props => color({ ...props, color: 'color11' })};
+  border-top: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color7' })};
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  min-width: 150px;
+  padding: 5px 0;
+
+  :hover {
+    background-color: #007faf21;
+  }
+`;
+
+const ButtonBaseStyled = styled(ButtonBase)`
+  fill: #fff;
+  background-color: #007faf;
+
+  & :focus {
+    fill: #00649c;
+  }
+`;
+
 export {
   Wrapper,
   LineWrapper,
@@ -110,4 +169,8 @@ export {
   Title,
   ProfileLink,
   ProjectListLink,
+  AbsoluteStyled,
+  BoxTop,
+  BoxBottom,
+  ButtonBaseStyled,
 };
