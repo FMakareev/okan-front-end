@@ -8,8 +8,8 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 
 /** Components */
-import {Box} from "@lib/ui/Box/Box";
-import {ProjectEditorSideBar} from "../../component/ProjectEditorSideBar/ProjectEditorSideBar";
+import { Box } from '@lib/ui/Box/Box';
+import { ProjectEditorSideBar } from '../../component/ProjectEditorSideBar/ProjectEditorSideBar';
 
 export class ProjectEditorPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
