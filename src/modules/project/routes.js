@@ -60,6 +60,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    roles: [ROLE_ADMIN, ROLE_USER],
+    // roles: [ROLE_ADMIN, ROLE_USER],
   },
 ];

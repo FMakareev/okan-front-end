@@ -1,12 +1,33 @@
 type Comment {
-  id: ID!                     # mongoid
-  message: String             # тест комментария
-  sender: User                # отправитель
-  parent: String              # id сущности к которой привязан комментарий
-  createdat: String         # дата создания комментария, в формате ISO
-  updatedat: String         # дата обновления комментария, в формате ISO
-  isdelete: Boolean            # удален ли комментарий (?)
+  # mongoid
+  id: ID!
+  # тест комментария
+  message: String
+  # отправитель
+  sender: User
+  # id сущности к которой привязан комментарий
+  parent: String
+  # дата создания комментария, в формате ISO
+  createdat: String
+  # дата обновления комментария, в формате ISO
+  updatedat: String
+  # удален ли комментарий (?)
+  isdelete: Boolean
 }
+
+type Block {
+  # mongoid
+  id: ID!
+  # заголовок
+  name: String
+  # html контент фроалы
+  content: String
+  # номер ячейки в документе
+  number: String
+  # тип контента: таблица, картинка, текст
+  contenttype: String
+}
+
 type Cell {
   # mongoid
   id: ID!
@@ -25,50 +46,84 @@ type Cell {
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
   is_head: Boolean
-  # контент раздела, по сути html строка
-  content: String
+  # контент раздела
+  content: Block
   # массив комментариев ячейки
   comments: [Comment]
   # массив связанных объектов
   pull: [Cell]
 }
 
-type Document{
-  id: ID                      # mongoid
-  name: String                # название шаблона
-  cell: String                # id корневого элемента от которого строится граф разделов
+type Document {
+  # mongoid
+  id: ID
+  # название шаблона
+  name: String
+  # id корневого элемента от которого строится граф разделов
+  cell: String
+  # null, на согласовании, согласован, не согласован
+  approvalstatus: String
 }
 
 type Project {
-  id: ID                      # mongoid
-  name: String                # название проекта
-  author: User                # пользователь создавший проект
-  partners: [User]            # список участников
-  okancode: String            # код документа ОКАН
-  customercode: String        # код документа заказчика
-  documents: [String]         # mongoid документа проекта
-  createdate: String        # дата создания
-  updatedate: String        # дата обновления
-  revisions: [Project]        # массив ревизий проекта
-  status: String              # archive or working
-  approvalstatus: String      # null, на согласовании, согласован, не согласован
-}
-
-type Role {
-  id: ID                      # mongoid
-  name: String!               # название роли
+  # mongoid
+  id: ID
+  # название проекта
+  name: String
+  # пользователь создавший проект
+  author: User
+  # список участников
+  partners: [User]
+  # код документа ОКАН
+  okancode: String
+  # код документа заказчика
+  customercode: String
+  # mongoid документа проекта
+  documents: [String]
+  # дата создания
+  createdate: String
+  # дата обновления
+  updatedate: String
+  # массив ревизий проекта
+  revisions: [Project]
+  # archive or working
+  status: String
 }
 
 type User {
-  id: String                      # mongoid
-  firstname: String           # имя пользователя
-  lastname: String            # фамилия пользователя
-  patronymic: String          # отчество пользователя
-  birthdate: String           # дата рождения пользователя
-  phone: String               # номер телефона пользователя
-  email: String               # адрес ел.почты пользователя
-  signature: String           # подпись пользователя
-  role: Role                  # роль пользователя
+  # mongoid
+  id: String
+  # имя пользователя
+  firstname: String
+  # фамилия пользователя
+  lastname: String
+  # отчество пользователя
+  patronymic: String
+  # дата рождения пользователя
+  birthdate: String
+  # номер телефона пользователя
+  phone: String
+  # адрес ел.почты пользователя
+  email: String
+  # подпись пользователя
+  signature: String
+  # роль пользователя
+  role: String
+}
+
+type Notification {
+  # mongoid
+  id: String,
+  # комментарий, содержит объект комментариф к ячейке
+  comment: Comment,
+  # сообщение уведомления
+  message: String
+  # отправитель
+  sender: User
+  # получатель
+  recipient: User
+  # дата создания в ISO
+  createat: String
 }
 
 type Query {
@@ -101,6 +156,8 @@ type Query {
   # получит ревизию проекта по id
   revisionitem(id: ID!): Project
 
+  # получить список уведомлений по id пользователя получателя
+  notificationlist(user:String): [Notification]
 }
 
 type Mutation {
@@ -138,16 +195,18 @@ type Mutation {
   userregistration(email: String!, password: String!, retryPas: String): User,
 
   # создание ячейки,
+  # name
   # prevcell - id предыдущей ячейки
+  # parent - id родительской ячейки
   # content - содержимое ячейки
-  createcell(name:String!,prevcell:ID, content: String): Cell
+  createcell(name:String!,prevcell:ID, parent: ID, content: Block): Cell
 
   # обновление ячейки
   # id - mongoid ячейки
   # content - html содержимое ячейки
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
-  updatecell(id: String!, content: String, prevcell: ID, nextcell: String): Cell
+  updatecell(id: String!, content: Block, prevcell: ID, nextcell: String): Cell
 
   # создание комментария
   # sender - id отправителя комментария
@@ -161,8 +220,10 @@ type Mutation {
   # isdelete - удален ли комментарий из ячейки
   updatecomment(id: ID!,isdelete: Boolean, message: String): Comment
 
-
+  # создание документа
   createdocument(name: String, cell: String!): Document
+
+  # обновление документа
   updatedocument(name: String, cell: String!): Document
 
   # создание проекта
@@ -172,6 +233,10 @@ type Mutation {
 
   updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
 
+  # создание ревизии документа
+  # id - id документа для которого должна быть создана ревизия
+  createrevision(id: String!): Document
+
   # метод для связывания ячеек
   # target - id ячейки с которой нужно создать связь, по сути дочерняя ячейка
   # parent - id ячейки которая образует связь, ячейка родитель
@@ -180,6 +245,9 @@ type Mutation {
   # освобождает ячейки из пулла, не менняя из значения.
   unbindingcell(cell: [ID]!): Cell
 
+  # Активация пользователя, на вход получаем логин пользователя и пароль
+  activateuser(user:String, password: String): User
 
-
+  # user - принимает login пользователя
+  recoverypass(user:String): User
 }

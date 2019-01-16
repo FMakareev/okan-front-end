@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /** Components */
 
@@ -11,24 +8,37 @@ import ProjectEditorSideBar from './ProjectEditorSideBar';
 import Box from '../../../../components/Box/Box';
 
 /**PropTypes */
-import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 import {Flex} from "@lib/ui/Flex/Flex";
 import { DragDropContext } from 'react-dnd'
 
 import HTML5Backend from 'react-dnd-html5-backend'
+import EditorCellController from "./EditorCellController";
+import SidebarCellNode from "./SidebarCellNode";
+import SidebarCellRoot from "./SidebarCellRoot";
+import EditorAdditionalMenu from "./EditorAdditionalMenu";
+import EditorCellComment from "./EditorCellComment";
+import {EditorCellCommentButton} from "./EditorCellCommentButton";
+import EditorAdditionalMenuButtonImage from "./EditorAdditionalMenuButtonImage";
+import {EditorAdditionalMenuButtonTable} from "./EditorAdditionalMenuButtonTable";
+import {EditorAdditionalMenuButtonText} from "./EditorAdditionalMenuButtonText";
+import EditorCellCommentController from "./EditorCellCommentController";
+import EditorCellCommentForm from "./EditorCellCommentForm";
+import {EditorCellCommentList} from "./EditorCellCommentList";
+import EditorCellContent from "./EditorCellContent";
+import EditorCellForm from "./EditorCellForm";
+import {SidebarApprovalStatus} from "./SidebarApprovalStatus";
+import SidebarChangeCell from "./SidebarChangeCell";
+import {SidebarCreateCell} from "./SidebarCreateCell";
+import SidebarProjectExport from "./SidebarProjectExport";
+import SidebarProjectSettings from "./SidebarProjectSettings";
+import SidebarRevisionList from "./SidebarRevisionList";
+import SidebarSaveChanges from "./SidebarSaveChanges";
+import SidebarСreateRevision from "./SidebarСreateRevision";
 
-// ProjectEditorSideBarDragDropContext = DragDropContext(HTML5Backend)(ProjectEditorSideBar);
 
-let defaultManager;
-function getDefaultManager() {
-  if (!defaultManager) {
-    defaultManager = new DragDropManager(HTML5Backend);
-  }
-  return defaultManager;
-}
 
 export class ProjectEditor extends Component {
-  static propTypes = { ...formPropTypes };
+  static propTypes = {  };
 
 
 
@@ -44,9 +54,98 @@ export class ProjectEditor extends Component {
   render() {
 
     return (
-      <Flex flexDirection={'column'}>
+      <Flex flexDirection={'row'}>
         <Box width={'320px'}>
-          <ProjectEditorSideBar />
+          {/*<ProjectEditorSideBar />*/}
+        </Box>
+        <Box>
+          EditorAdditionalMenu
+          <EditorAdditionalMenu/>
+          <br/>
+
+          EditorAdditionalMenuButtonImage
+          <EditorAdditionalMenuButtonImage/>
+          <br/>
+
+          EditorAdditionalMenuButtonTable
+          <EditorAdditionalMenuButtonTable/>
+          <br/>
+
+          EditorAdditionalMenuButtonText
+          <EditorAdditionalMenuButtonText/>
+          <br/>
+
+          EditorCellComment
+          <EditorCellComment/>
+          <br/>
+
+          EditorCellCommentButton
+          <EditorCellCommentButton/>
+          <br/>
+
+          EditorCellCommentController
+          <EditorCellCommentController/>
+          <br/>
+
+          EditorCellCommentForm
+          <EditorCellCommentForm/>
+          <br/>
+
+          EditorCellCommentList
+          <EditorCellCommentList/>
+          <br/>
+
+          EditorCellContent
+          <EditorCellContent/>
+          <br/>
+
+          EditorCellForm
+          <EditorCellForm/>
+          <br/>
+
+          EditorCellController
+          <EditorCellController/>
+          <br/>
+
+          SidebarApprovalStatus
+          <SidebarApprovalStatus/>
+          <br/>
+
+          SidebarCellNode
+          <SidebarCellNode/>
+          <br/>
+
+          SidebarCellRoot
+          <SidebarCellRoot/>
+          <br/>
+
+          SidebarChangeCell
+          <SidebarChangeCell/>
+          <br/>
+
+          SidebarCreateCell
+          <SidebarCreateCell/>
+          <br/>
+
+          SidebarProjectExport
+          <SidebarProjectExport/>
+          <br/>
+
+          SidebarProjectSettings
+          <SidebarProjectSettings/>
+          <br/>
+
+          SidebarRevisionList
+          <SidebarRevisionList/>
+          <br/>
+
+          SidebarSaveChanges
+          <SidebarSaveChanges/>
+          <br/>
+
+          SidebarСreateRevision
+          <SidebarСreateRevision/>
+          <br/>
         </Box>
       </Flex>
     );

@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 // import tree from '../../../../../test';
+import {Treebeard } from '../../../../components/ReactTreeBeard';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -12,66 +13,75 @@ import EditorCellCommentController from './EditorCellCommentController';
 import SidebarCellNode from './SidebarCellNode';
 import EditorAdditionalMenu from './EditorAdditionalMenu';
 
-export class ProjectEditorSideBar extends React.Component {
+const data = {
+  name: 'root',
+  toggled: true,
+  children: [
+    {
+      name: 'parent',
+      children: [
+        { name: 'child1' },
+        { name: 'child2' }
+      ]
+    },
+    {
+      name: 'loading parent',
+      loading: true,
+      children: []
+    },
+    {
+      name: 'parent',
+      children: [
+        {
+          name: 'nested parent',
+          children: [
+            { name: 'nested child 1' },
+            { name: 'nested child 2' }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+
+export class ProjectEditorSideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    // let newTree = {
-    //   name: 'ROOT',
-    //   children: [],
-    // };
-    // const rootCell = this.findRootCell(tree)[0];
-    // console.table(rootCell);
-
-    // this.createTree(tree, newTree);
+    this.state = this.initialState;
+    this.onToggle = this.onToggle.bind(this);
   }
 
-  get initialState() {
-    // return {
-    //   tree: tree,
-    // }
+  get initialState(){
+    return {};
   }
 
-  // createTree = (tree, newTree) => {
-
-  //   if (!item.prevCell && !item.parent) {
-  //     if (item.childCell)
-  //       newTree.children.push({
-  //         ...item,
-  //         children: tree.find(childItem => childItem.parent === item.id),
-  //       });
-  //     // item.childCell
-  //   }
-  //   console.table(newTree);
-  // };
-
-  // findRootCell = (tree) => {
-  //   return tree.filter(item => {
-  //     if (item.prevCell === null && item.parent === null) {
-  //       return item
-  //     } else {
-  //       return false;
-  //     }
-  //   })
-  // };
+  onToggle(node, toggled){
+    if(this.state.cursor){this.state.cursor.active = false;}
+    node.active = true;
+    if(node.children){ node.toggled = toggled; }
+    this.setState({ cursor: node });
+  }
 
   render() {
-    return (
-      <Fragment>
-        <EditorAdditionalMenu />
+    return <div>
+      <EditorAdditionalMenu />
 
-        <Box pl={3} my={4}>
-          <SidebarCellRoot nameSection={'I. ТЗ - RK-186-344'} />
-        </Box>
-        <Box pl={3} my={9}>
-          <SidebarCellNode />
-        </Box>
+      <Treebeard
+        data={[data,data]}
+        onToggle={this.onToggle}
+      />
+      <Box pl={3} my={4}>
+        <SidebarCellRoot nameSection={'I. ТЗ - RK-186-344'} />
+      </Box>
+      <Box pl={3} my={9}>
+        <SidebarCellNode />
+      </Box>
 
-        <EditorCellController />
+      <EditorCellController />
 
-        <EditorCellCommentController />
-      </Fragment>
-    );
+      <EditorCellCommentController />
+    </div>
   }
 }
 

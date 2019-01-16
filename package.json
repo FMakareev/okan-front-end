@@ -4,6 +4,8 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "@emotion/core": "^10.0.6",
+    "@emotion/styled": "^10.0.6",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link-http": "^1.5.4",
@@ -13,6 +15,7 @@
     "create-index": "^2.3.0",
     "css-loader": "^1.0.1",
     "date-fns": "^1.29.0",
+    "deep-equal": "^1.0.1",
     "express": "^4.16.3",
     "express-request-language": "^1.1.15",
     "faker": "^4.1.0",
@@ -62,9 +65,11 @@
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.2.0",
     "serve-favicon": "^2.5.0",
+    "shallowequal": "^1.1.0",
     "styled-components": "^4.1.1",
     "styled-system": "^3.1.11",
-    "unfetch": "^4.0.1"
+    "unfetch": "^4.0.1",
+    "velocity-react": "^1.4.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
