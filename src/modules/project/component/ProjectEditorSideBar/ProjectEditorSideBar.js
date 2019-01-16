@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Treebeard, decorators } from '../../../../components/ReactTreeBeard/index';
-import {Box} from "@lib/ui/Box/Box";
-import SidebarCellRoot from "../ProjectEditor/SidebarCellRoot";
-import SidebarCellNode from "../ProjectEditor/SidebarCellNode";
+import { Treebeard, decorators } from '../../../../components/ReactTreeBeard/index';
+import { Box } from '@lib/ui/Box/Box';
+import SidebarCellRoot from '../ProjectEditor/SidebarCellRoot';
+import SidebarCellNode from '../ProjectEditor/SidebarCellNode';
+import EditorFormMainContent from '../ProjectEditor/EditorFormMainContent';
 
 const data = {
   name: 'I. ТЗ - RK-186-344',
@@ -10,7 +11,7 @@ const data = {
   id: 0,
   decorators: {
     ...decorators,
-    Container: (props)=><SidebarCellRoot {...props}/>,
+    Container: props => <SidebarCellRoot {...props} />,
   },
   children: [
     {
@@ -24,9 +25,10 @@ const data = {
           content: {
             number: '1.1',
           },
-        }
-      ]
-    }, {
+        },
+      ],
+    },
+    {
       name: 'Технические требования',
       content: {
         number: '2',
@@ -37,55 +39,45 @@ const data = {
           content: {
             number: '2.1',
           },
-          children: [
-            { name: 'nested child 1' },
-            { name: 'nested child 2' }
-          ],
-
-        },{
+          children: [{ name: 'nested child 1' }, { name: 'nested child 2' }],
+        },
+        {
           name: 'Требования к сырью, материалам, покупным изделиям',
           content: {
             number: '2.2',
           },
-          children: [
-            { name: 'nested child 1' },
-            { name: 'nested child 2' }
-          ],
-        },{
+          children: [{ name: 'nested child 1' }, { name: 'nested child 2' }],
+        },
+        {
           name: 'Комплектность',
           content: {
             number: '2.3',
           },
           children: null,
         },
-      ]
+      ],
     },
-
-
 
     {
       name: 'loading parent',
       loading: true,
-      children: []
+      children: [],
     },
     {
       name: 'parent',
       children: [
         {
           name: 'nested parent',
-          children: [
-            { name: 'nested child 1' },
-            { name: 'nested child 2' }
-          ]
-        }
-      ]
-    }
-  ]
+          children: [{ name: 'nested child 1' }, { name: 'nested child 2' }],
+        },
+      ],
+    },
+  ],
 };
 
-decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
+decorators.TreeBeardWrapper = props => <Box {...props} />;
 
-decorators.Container = (props) => <SidebarCellNode {...props}/>;
+decorators.Container = props => <SidebarCellNode {...props} />;
 
 export class ProjectEditorSideBar extends Component {
   constructor(props) {
@@ -94,24 +86,29 @@ export class ProjectEditorSideBar extends Component {
     this.onToggle = this.onToggle.bind(this);
   }
 
-  get initialState(){
+  get initialState() {
     return {};
   }
 
-  onToggle(node, toggled){
-    if(this.state.cursor){this.state.cursor.active = false;}
+  onToggle(node, toggled) {
+    if (this.state.cursor) {
+      this.state.cursor.active = false;
+    }
     node.active = true;
-    if(node.children){ node.toggled = toggled; }
+    if (node.children) {
+      node.toggled = toggled;
+    }
     this.setState({ cursor: node });
   }
 
   render() {
-    return <div>
-      <Treebeard
-        data={[data,data]}
-        onToggle={this.onToggle}
-      />
-    </div>
+    return (
+      <div>
+        <Treebeard data={[data, data]} onToggle={this.onToggle} />
+
+        <EditorFormMainContent />
+      </div>
+    );
   }
 }
 
