@@ -7,9 +7,9 @@
 * {moduleName}
   * [view](#view)
         * {pageName}
-            * index.js
+            * index.client.js
   * [reducers](#reducers)
-  * [index.js](#indexjs) 
+  * [index.client.js](#indexjs) 
   * [package.json](#packagejson)
   * [routes.js](#routesjs)
   * [translate.xml](#translatexml)
@@ -17,7 +17,7 @@
 ### view 
 
 This directory stores the module page. 
-Each page is in its directory. The entry point for a page is a file `index.js`.
+Each page is in its directory. The entry point for a page is a file `index.client.js`.
 The page code must be `export default`.
 
 Example page:
@@ -42,7 +42,7 @@ export default PageName;
 in developing
 
 
-### index.js
+### index.client.js
 
 Entry point to the module.
 
@@ -73,7 +73,7 @@ Required for each module file, without it the module will not be included in the
   "name": "moduleName",
   "version": "0.0.1",
   "private": true,
-  "main": "./index.js",
+  "main": "./index.client.js",
   "translate": [
     {
       "ISO Code": "en",
