@@ -21,10 +21,4 @@ export const ButtonVariant = {
     '&:hover': { backgroundColor: '#00649C', color: '#ffffff', fill: '#ffffff' },
   },
   empty: { backgroundColor: '#ffffff', border: 0 },
-  disabled: {
-    color: '#fff',
-    backgroundColor: '##e5e5e54f',
-    fill: '#fff',
-    border: '1px solid',
-  },
 };
