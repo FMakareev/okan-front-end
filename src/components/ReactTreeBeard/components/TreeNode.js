@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {VelocityTransitionGroup} from 'velocity-react';
 import styled from 'styled-components';
 
-import NodeHeader from './header';
+import NodeHeader from './NodeHeader';
 
 const Ul = styled.ul`
   position: relative;

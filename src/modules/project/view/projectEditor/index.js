@@ -8,7 +8,8 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 
 /** Components */
-import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
+import {Box} from "@lib/ui/Box/Box";
+import {ProjectEditorSideBar} from "../../component/ProjectEditorSideBar/ProjectEditorSideBar";
 
 export class ProjectEditorPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
@@ -20,7 +21,9 @@ export class ProjectEditorPage extends Component {
   render() {
     return (
       <ErrorCatch>
-        <ProjectEditor />
+        <Box width={'320px'}>
+          <ProjectEditorSideBar />
+        </Box>
       </ErrorCatch>
     );
   }

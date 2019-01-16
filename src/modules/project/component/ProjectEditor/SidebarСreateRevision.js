@@ -8,7 +8,7 @@ import Link from '../../../../components/Link/Link';
 /**Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
-export const SidebarСreateRevision = () => {
+export const SidebarCreateRevision = () => {
   return (
     <Link to={`/revision-list/${1}`}>
       <ButtonBase variant={'empty'}>{SvgSidebarComment()}</ButtonBase>
@@ -16,8 +16,8 @@ export const SidebarСreateRevision = () => {
   );
 };
 
-SidebarСreateRevision.propTypes = {};
+SidebarCreateRevision.propTypes = {};
 
-SidebarСreateRevision.defaultProps = {};
+SidebarCreateRevision.defaultProps = {};
 
-export default SidebarСreateRevision;
+export default SidebarCreateRevision;

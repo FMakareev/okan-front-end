@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 /** View */
@@ -10,46 +10,57 @@ import Text from '../../../../components/Text/Text';
 import SidebarCreateCell from './SidebarCreateCell';
 import SidebarApprovalStatus from './SidebarApprovalStatus';
 import SidebarChangeCell from './SidebarChangeCell';
+import {SvgTriangle} from "@lib/ui/Icons/SvgTriangle";
+import NodeToggle from "../NodeToggle/NodeToggle";
 
 export class SidebarCellNode extends Component {
   static propTypes = {
-    /** func method for component */
-    handleClickCreateCell: PropTypes.func,
+    decorators: PropTypes.shape({
+      Container: PropTypes.func.isRequire,
+      Header: PropTypes.func.isRequire,
+      Loading: PropTypes.func.isRequire,
+      Toggle: PropTypes.func.isRequire,
+      TreeBeardWrapper: PropTypes.func.isRequire,
+      TreeNodeContainer: PropTypes.func.isRequire,
+      TreeNodeList: PropTypes.func.isRequire,
+    }),
+    onClick: PropTypes.func.isRequire,
+    terminal: PropTypes.bool.isRequire,
+    children: PropTypes.any,
+    node: PropTypes.shape({
+      children: PropTypes.array,
+      name: PropTypes.string.isRequire,
+      toggled: PropTypes.bool.isRequire,
+    })
   };
 
-  static defaultProps = { handleClickCreateCell: () => {} };
+  static defaultProps = {};
 
-  state = { isOpen: false };
-
-  handleClickCreateCell = () => {
-    return this.setState(({ isOpen }) => {
-      return { isOpen: !isOpen };
-    });
-  };
 
   render() {
-    const { isOpen } = this.state;
-
+    const {decorators, terminal, onClick, node} = this.props;
+    console.log('SidebarCellNode: ', this.props);
     return (
-      <Fragment>
-        <Flex pl={15} pr={3} py={3} alignItems={'center'}>
-          <Flex width={'77%'}>
-            <Text color={'color11'} ml={3}>
-              2.1.1. Требования к конструкции
-            </Text>
-          </Flex>
-
-          <Box pr={2}>
-            <SidebarChangeCell />
+      <Flex onClick={onClick} p={3} alignItems={'center'}>
+        <Flex width={'77%'}>
+          <Box mx={2}>
+            <NodeToggle toggled={node.toggled}/>
           </Box>
-          <Box pr={2}>
-            <SidebarCreateCell handleClickCreateCell={this.handleClickCreateCell} isOpen={isOpen} />
-          </Box>
-          <Box>
-            <SidebarApprovalStatus />
-          </Box>
+          <Text color={'color11'} ml={3}>
+            {node.name}
+          </Text>
         </Flex>
-      </Fragment>
+
+        <Box pr={2}>
+          <SidebarChangeCell/>
+        </Box>
+        <Box pr={2}>
+          <SidebarCreateCell/>
+        </Box>
+        <Box>
+          <SidebarApprovalStatus/>
+        </Box>
+      </Flex>
     );
   }
 }

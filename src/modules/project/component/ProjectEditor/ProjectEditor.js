@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 /** Components */
 
-import ProjectEditorSideBar from './ProjectEditorSideBar';
+import ProjectEditorSideBar from '../ProjectEditorSideBar/ProjectEditorSideBar';
 
 /**View */
 import Box from '../../../../components/Box/Box';
@@ -56,97 +56,97 @@ export class ProjectEditor extends Component {
     return (
       <Flex flexDirection={'row'}>
         <Box width={'320px'}>
-          {/*<ProjectEditorSideBar />*/}
+          <ProjectEditorSideBar />
         </Box>
-        <Box>
-          EditorAdditionalMenu
-          <EditorAdditionalMenu/>
-          <br/>
+        {/*<Box>*/}
+          {/*EditorAdditionalMenu*/}
+          {/*<EditorAdditionalMenu/>*/}
+          {/*<br/>*/}
 
-          EditorAdditionalMenuButtonImage
-          <EditorAdditionalMenuButtonImage/>
-          <br/>
+          {/*EditorAdditionalMenuButtonImage*/}
+          {/*<EditorAdditionalMenuButtonImage/>*/}
+          {/*<br/>*/}
 
-          EditorAdditionalMenuButtonTable
-          <EditorAdditionalMenuButtonTable/>
-          <br/>
+          {/*EditorAdditionalMenuButtonTable*/}
+          {/*<EditorAdditionalMenuButtonTable/>*/}
+          {/*<br/>*/}
 
-          EditorAdditionalMenuButtonText
-          <EditorAdditionalMenuButtonText/>
-          <br/>
+          {/*EditorAdditionalMenuButtonText*/}
+          {/*<EditorAdditionalMenuButtonText/>*/}
+          {/*<br/>*/}
 
-          EditorCellComment
-          <EditorCellComment/>
-          <br/>
+          {/*EditorCellComment*/}
+          {/*<EditorCellComment/>*/}
+          {/*<br/>*/}
 
-          EditorCellCommentButton
-          <EditorCellCommentButton/>
-          <br/>
+          {/*EditorCellCommentButton*/}
+          {/*<EditorCellCommentButton/>*/}
+          {/*<br/>*/}
 
-          EditorCellCommentController
-          <EditorCellCommentController/>
-          <br/>
+          {/*EditorCellCommentController*/}
+          {/*<EditorCellCommentController/>*/}
+          {/*<br/>*/}
 
-          EditorCellCommentForm
-          <EditorCellCommentForm/>
-          <br/>
+          {/*EditorCellCommentForm*/}
+          {/*<EditorCellCommentForm/>*/}
+          {/*<br/>*/}
 
-          EditorCellCommentList
-          <EditorCellCommentList/>
-          <br/>
+          {/*EditorCellCommentList*/}
+          {/*<EditorCellCommentList/>*/}
+          {/*<br/>*/}
 
-          EditorCellContent
-          <EditorCellContent/>
-          <br/>
+          {/*EditorCellContent*/}
+          {/*<EditorCellContent/>*/}
+          {/*<br/>*/}
 
-          EditorCellForm
-          <EditorCellForm/>
-          <br/>
+          {/*EditorCellForm*/}
+          {/*<EditorCellForm/>*/}
+          {/*<br/>*/}
 
-          EditorCellController
-          <EditorCellController/>
-          <br/>
+          {/*EditorCellController*/}
+          {/*<EditorCellController/>*/}
+          {/*<br/>*/}
 
-          SidebarApprovalStatus
-          <SidebarApprovalStatus/>
-          <br/>
+          {/*SidebarApprovalStatus*/}
+          {/*<SidebarApprovalStatus/>*/}
+          {/*<br/>*/}
 
-          SidebarCellNode
-          <SidebarCellNode/>
-          <br/>
+          {/*SidebarCellNode*/}
+          {/*<SidebarCellNode/>*/}
+          {/*<br/>*/}
 
-          SidebarCellRoot
-          <SidebarCellRoot/>
-          <br/>
+          {/*SidebarCellRoot*/}
+          {/*<SidebarCellRoot/>*/}
+          {/*<br/>*/}
 
-          SidebarChangeCell
-          <SidebarChangeCell/>
-          <br/>
+          {/*SidebarChangeCell*/}
+          {/*<SidebarChangeCell/>*/}
+          {/*<br/>*/}
 
-          SidebarCreateCell
-          <SidebarCreateCell/>
-          <br/>
+          {/*SidebarCreateCell*/}
+          {/*<SidebarCreateCell/>*/}
+          {/*<br/>*/}
 
-          SidebarProjectExport
-          <SidebarProjectExport/>
-          <br/>
+          {/*SidebarProjectExport*/}
+          {/*<SidebarProjectExport/>*/}
+          {/*<br/>*/}
 
-          SidebarProjectSettings
-          <SidebarProjectSettings/>
-          <br/>
+          {/*SidebarProjectSettings*/}
+          {/*<SidebarProjectSettings/>*/}
+          {/*<br/>*/}
 
-          SidebarRevisionList
-          <SidebarRevisionList/>
-          <br/>
+          {/*SidebarRevisionList*/}
+          {/*<SidebarRevisionList/>*/}
+          {/*<br/>*/}
 
-          SidebarSaveChanges
-          <SidebarSaveChanges/>
-          <br/>
+          {/*SidebarSaveChanges*/}
+          {/*<SidebarSaveChanges/>*/}
+          {/*<br/>*/}
 
-          SidebarСreateRevision
-          <SidebarСreateRevision/>
-          <br/>
-        </Box>
+          {/*SidebarСreateRevision*/}
+          {/*<SidebarСreateRevision/>*/}
+          {/*<br/>*/}
+        {/*</Box>*/}
       </Flex>
     );
   }
