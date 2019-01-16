@@ -31,6 +31,7 @@ export class Container extends Component {
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
+    console.log(this.props);
     return (
       <div
         onClick={onClick}

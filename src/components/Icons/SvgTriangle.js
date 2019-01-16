@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const SvgTriangle = fill => {
+export const SvgTriangle = ({fill}) => {
   return (
     <svg width="8" height="10" viewBox="0 0 8 10" fill={fill} xmlns="http://www.w3.org/2000/svg">
       <path

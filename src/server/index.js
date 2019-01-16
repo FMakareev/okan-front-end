@@ -45,6 +45,6 @@ app.listen(PORT, () => {
 // -----------------------------------------------------------------------------
 if (module.hot) {
   app.hot = module.hot;
-  module.hot.accept('../modules');
+  module.hot.accept('../modules/index.client.js');
 }
 export default app;

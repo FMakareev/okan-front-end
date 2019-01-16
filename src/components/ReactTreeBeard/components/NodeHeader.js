@@ -30,10 +30,9 @@ class NodeHeader extends React.Component {
     const {animations, decorators, node, onClick} = this.props;
     const {children} = node;
     const terminal = !children;
-
+    // console.table(this.props);
     return (
       <decorators.Container
-        className="decorators.Container "
         animations={animations}
         decorators={decorators}
         node={node}
