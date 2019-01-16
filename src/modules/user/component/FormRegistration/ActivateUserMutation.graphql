@@ -1,0 +1,15 @@
+mutation ($user:String, $password: String) {
+  activateuser(user: $user, password: $password) {
+     User{
+      id
+      firstname
+      lastname
+      patronymic
+      birthdate
+      phone
+      email
+      signature
+      role 
+    }
+  }
+}
