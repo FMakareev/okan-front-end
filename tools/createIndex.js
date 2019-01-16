@@ -2,6 +2,9 @@
 import fs from 'fs';
 import findIndex from 'lodash/findIndex';
 
+const has = Object.prototype.hasOwnProperty;
+
+
 const getCliParams = () => {
   const env = {};
 
@@ -17,11 +20,15 @@ const getCliParams = () => {
   return env;
 };
 
+
 /**
  * @param {string} src - путь к целевой дирректории
  * @desc создание списка (массива 3-ех массивов) дирректорий которые имеют свой index.js и/или index.client.js и index.server.js */
 const getModulesList = src => {
-  const modulesList = [[], [], []];
+  const modulesList = {
+    // client: [],
+    // server: [],
+  };
   return new Promise((resolve, reject) => {
     try {
       fs.readdir(src, (err, data) => {
@@ -31,15 +38,31 @@ const getModulesList = src => {
         data.forEach(moduleName => {
           if (fs.statSync(src + moduleName).isDirectory()) {
             const dirContent = fs.readdirSync(src + moduleName);
-            if (dirContent.filter(dirItem => dirItem === 'index.js').length) {
-              modulesList[0].push(moduleName);
-            } else if (dirContent.filter(dirItem => dirItem === 'index.client.js').length) {
-              modulesList[1].push(moduleName);
-            } else if (dirContent.filter(dirItem => dirItem === 'index.server.js').length) {
-              modulesList[2].push(moduleName);
+
+            if (dirContent.filter(dirItem => dirItem === 'index.server.js').length) {
+              modulesList[moduleName] = {
+                ...modulesList[moduleName],
+                name: moduleName,
+                server: 'index.server.js'
+              };
+            }
+
+            if (dirContent.filter(dirItem => dirItem === 'index.client.js').length) {
+              modulesList[moduleName] = {
+                ...modulesList[moduleName],
+                name: moduleName,
+                client: 'index.client.js'
+              };
+            } else if (dirContent.filter(dirItem => dirItem === 'index.js').length) {
+              modulesList[moduleName] = {
+                ...modulesList[moduleName],
+                name: moduleName,
+                client: 'index.js'
+              };
             } else {
               console.warn(`WARNING!: folder ${moduleName} is empty.`);
             }
+
           } else if (moduleName === 'index.client.js' || 'index.server.js') {
             fs.unlinkSync(src + moduleName);
           }
@@ -54,27 +77,24 @@ const getModulesList = src => {
 };
 
 /**
- * @param {array} modulesList - массив массивов с названиями модулей [[имеющий index.js],[имеющий index.client.js],[имеющий index.server.js]]
+ * @param {object} modulesList - объект с данными о экспортах модуля, ключами объекта являются названия модулей
  * @param {string} src - путь к целевой дирректории
  * @desc создание списка дирректорий которые имеют свой index.js */
 const createIndex = async (modulesList, src) => {
   let indexClientJS = '';
   let indexServerJS = '';
-  console.log('createIndex', modulesList, src);
-  modulesList[0].map(module => {
-    indexClientJS += `export {default as ${module}} from './${module}';`;
-    return null;
+
+  Object.entries(modulesList).forEach(([key, value]) => {
+    if (has.call(value, 'server')) {
+      indexServerJS += `export {default as ${value.name}} from './${value.name}/${value.server}';`;
+    }
+    if (has.call(value, 'client')) {
+      indexClientJS += `export {default as ${value.name}} from './${value.name}/${value.client}';`;
+    }
+
   });
-  modulesList[1].map(module => {
-    indexClientJS += `export {default as ${module}} from './${module}/index.client';`;
-    return null;
-  });
-  modulesList[2].map(module => {
-    indexServerJS += `export {default as ${module}} from './${module}/index.server'`;
-    return null;
-  });
-  console.log(indexClientJS);
-  console.log(indexServerJS);
+
+
   if (indexClientJS) fs.appendFileSync(`${src}index.client.js`, indexClientJS);
   if (indexServerJS) fs.appendFileSync(`${src}index.server.js`, indexServerJS);
 };
@@ -95,8 +115,9 @@ export const init = async () => {
         console.log('exclude');
         const excludeModules = value.split(',');
         for (let i = 0; i < excludeModules.length; i += 1) {
-          if (findIndex(modulesList, module => module === excludeModules[i]) !== -1) {
-            modulesList.splice(findIndex(modulesList, module => module === excludeModules[i]), 1);
+          if (findIndex(Object.entries(modulesList), ([module]) => module === excludeModules[i]) !== -1) {
+            console.log('excludeModules[i]: ', excludeModules[i]);
+            delete modulesList[excludeModules[i]];
           } else {
             console.warn(`WARNING: module with name '${excludeModules[i]}' does not exist.`);
           }
@@ -107,16 +128,13 @@ export const init = async () => {
       case 'include': {
         console.log('include');
         const includeModules = value.split(',');
-        let newModulesList = [];
+        let newModulesList = {};
         for (let i = 0; i < includeModules.length; i += 1) {
-          if (findIndex(modulesList, module => module === includeModules[i]) !== -1) {
-            newModulesList = [
+          if (findIndex(Object.entries(modulesList), ([module]) => module === includeModules[i]) !== -1) {
+            newModulesList = {
               ...newModulesList,
-              ...modulesList.splice(
-                findIndex(modulesList, module => module === includeModules[i]),
-                1,
-              ),
-            ];
+              [includeModules[i]]: modulesList[includeModules[i]]
+            };
           } else {
             console.warn(`WARNING: module with name '${includeModules[i]}' does not exist.`);
           }
@@ -129,10 +147,10 @@ export const init = async () => {
       }
     }
   });
-
+  console.log('modulesList: ', modulesList);
   await createIndex(modulesList, src);
 };
 
-// init();
+init();
 
 export default init;
