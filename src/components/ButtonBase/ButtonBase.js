@@ -50,6 +50,7 @@ export const ButtonBase = styled.button`
   ${FontSizeProperty};
   ${BackgroundColorProperty};
   ${BorderRadiusProperty};
+
 `;
 
 ButtonBase.propTypes = {

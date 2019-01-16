@@ -218,6 +218,8 @@ export class FormLogin extends Component {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { apolloError, submitting, isLoading } = this.state;
 
+    console.log(1, this.props);
+
     return (
       <Form onSubmit={handleSubmit(this.mockSubmit)}>
         <FormLogo />

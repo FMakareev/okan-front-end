@@ -54,3 +54,10 @@ FormButtonSubmit.propTypes = {
 };
 
 export default FormButtonSubmit;
+
+// &:disabled {
+//   cursor: default;
+//   border-color: ${props => CreateColor(color(props).borderColor)
+//       .darken(0.7)
+//       .hex()};
+// }
