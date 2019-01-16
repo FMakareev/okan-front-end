@@ -1,6 +1,6 @@
 import React from 'react';
 import { asyncComponent } from 'react-async-component';
-import * as modules from '../modules/index';
+import * as modules from '../modules/index.client';
 import { connect } from 'react-redux';
 
 /** View */
@@ -135,40 +135,23 @@ const layoutSorting = routes => {
       routes: [],
     },
   ];
-  // routes.forEach(item => {
-  //   switch (item.layout) {
-  //     case LAYOUT_AUTH: {
-  //       newRoutes[0].routes.push(item);
-  //       break;
-  //     }
-  //     case LAYOUT_APP: {
-  //       const connectCheckAuthorization = connect(state => {
-  //         return { user: getUserFromStore(state) };
-  //       })(CheckAuthorization(item.roles)(item.component));
-
-  //       newRoutes[1].routes.push({
-  //         ...item,
-  //         path: `${newRoutes[1].path}${item.path}`,
-  //         component: connectCheckAuthorization,
-  //       });
-  //       break;
-  //     }
-  //     default: {
-  //       console.error(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);
-  //       break;
-  //     }
-  //   }
-  // });
-
   routes.forEach(item => {
     switch (item.layout) {
       case LAYOUT_AUTH: {
         newRoutes[0].routes.push(item);
-        return item;
+        break;
       }
       case LAYOUT_APP: {
-        newRoutes[1].routes.push({ ...item, path: `${newRoutes[1].path}${item.path}` });
-        return item;
+        const connectCheckAuthorization = connect(state => {
+          return { user: getUserFromStore(state) };
+        })(CheckAuthorization(item.roles)(item.component));
+
+        newRoutes[1].routes.push({
+          ...item,
+          path: `${newRoutes[1].path}${item.path}`,
+          component: connectCheckAuthorization,
+        });
+        break;
       }
       default: {
         console.error(`Warning: для маршрута ${item.path} не задан layout либо задан неверно.`);

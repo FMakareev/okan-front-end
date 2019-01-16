@@ -3,7 +3,8 @@ const del = require('del');
 export const Clear = async () => {
   console.info('run: Clear');
   const remove = [
-    './src/modules/index.js',
+    './src/modules/index.client.js',
+    './src/modules/index.server.js',
     './src/store/localization/localization.json',
     './src/store/localization/messages',
     './public',
