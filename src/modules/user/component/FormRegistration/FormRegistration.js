@@ -22,6 +22,7 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
+import ActivateUserMutation from './ActivateUserMutation.graphql';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
@@ -77,14 +78,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'its okqy',
-    message: 'its okay',
+    title: 'Все хорошо',
+    message: 'Все хорошо',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'problems',
-    message: 'problems',
+    title: 'Ошибка регистрации',
+    message: 'Ошибка регистрации',
     position: 'tr',
     autoDismiss: 2,
   },
