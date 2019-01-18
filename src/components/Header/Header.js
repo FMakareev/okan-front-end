@@ -35,7 +35,7 @@ const OpenMenu = (
     <ProfileLink to="/app/profile" activeClassName="active">
       <BoxTop>Профиль</BoxTop>
     </ProfileLink>
-    <ProfileLink to="/" activeClassName="active">
+    <ProfileLink to="/logout" activeClassName="active">
       <BoxBottom>Выйти</BoxBottom>
     </ProfileLink>
   </AbsoluteStyled>

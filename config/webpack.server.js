@@ -3,11 +3,10 @@ import path from 'path';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import WriteFileWebpackPlugin from 'write-file-webpack-plugin';
-import {fileLoaderConfig} from './fileLoaderConfig';
-import {graphqlLoaderConfig} from './graphqlLoaderConfig';
-import {scriptsLoaderConfig} from './scriptsLoaderConfig';
-import webpackResolve from "../webpack.config";
-
+import { fileLoaderConfig } from './fileLoaderConfig';
+import { graphqlLoaderConfig } from './graphqlLoaderConfig';
+import { scriptsLoaderConfig } from './scriptsLoaderConfig';
+import webpackResolve from '../webpack.config';
 
 export const serverConfigGenerator = () => {
   const reStyle = /\.(css|less|styl|scss|sass|sss|svg)$/;
@@ -63,8 +62,8 @@ export const serverConfigGenerator = () => {
       new webpack.HotModuleReplacementPlugin(),
 
       // ...(process.env.NODE_ENV === 'development' &&  process.env.ANALYSE ? [] : [new BundleAnalyzerPlugin()]),
-
     ],
+    devtool: 'eval-source-map',
   };
 };
 

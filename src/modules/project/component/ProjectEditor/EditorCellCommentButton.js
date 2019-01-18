@@ -72,8 +72,9 @@ export let EditorCellCommentButton = props => {
       <FormStyled onSubmit={handleSubmit}>
         <Field name={'EditorCellCommentButton'} component={TextAreaBase} />
       </FormStyled>
-
-      <ButtonBaseComment variant={'empty'}>{SvgDeleteComment()}</ButtonBaseComment>
+      <Flex justifyContent={'flex-end'}>
+        <ButtonBaseComment variant={'empty'}>{SvgDeleteComment()}</ButtonBaseComment>
+      </Flex>
     </Absolute>
   );
 

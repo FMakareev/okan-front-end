@@ -6,14 +6,13 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 import WriteFileWebpackPlugin from 'write-file-webpack-plugin';
-import {fileLoaderConfig} from './fileLoaderConfig';
-import {graphqlLoaderConfig} from './graphqlLoaderConfig';
-import {styleLoaderConfig} from './styleLoaderConfig';
-import {scriptsLoaderConfig} from './scriptsLoaderConfig';
+import { fileLoaderConfig } from './fileLoaderConfig';
+import { graphqlLoaderConfig } from './graphqlLoaderConfig';
+import { styleLoaderConfig } from './styleLoaderConfig';
+import { scriptsLoaderConfig } from './scriptsLoaderConfig';
 import webpackResolve from '../webpack.config';
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 
 export const browserConfigGenerator = () => {
   return {
@@ -41,19 +40,23 @@ export const browserConfigGenerator = () => {
         styleLoaderConfig,
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          use: "url-loader?limit=10000&mimetype=application/font-woff"
-        }, {
+          use: 'url-loader?limit=10000&mimetype=application/font-woff',
+        },
+        {
           test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          use: "url-loader?limit=10000&mimetype=application/font-woff"
-        }, {
+          use: 'url-loader?limit=10000&mimetype=application/font-woff',
+        },
+        {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          use: "url-loader?limit=10000&mimetype=application/octet-stream"
-        }, {
+          use: 'url-loader?limit=10000&mimetype=application/octet-stream',
+        },
+        {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: "file-loader"
-        }, {
+          use: 'file-loader',
+        },
+        {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "url-loader?limit=10000&mimetype=image/svg+xml"
+          loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
         },
       ],
     },
@@ -77,12 +80,11 @@ export const browserConfigGenerator = () => {
       }),
 
       new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
       }),
 
       ...(process.env.ANALYSE ? [new BundleAnalyzerPlugin()] : []),
-
     ],
     ...webpackResolve,
     // ...(process.env.NODE_ENV === 'production' ?
@@ -108,6 +110,7 @@ export const browserConfigGenerator = () => {
     //       ]
     //     }
     //   } : {}),
+    devtool: 'eval-source-map',
     stats: {
       cached: false,
       cachedAssets: false,

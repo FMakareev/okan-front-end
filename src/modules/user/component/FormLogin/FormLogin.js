@@ -232,7 +232,7 @@ export class FormLogin extends Component {
               fontSize={9}
               lineHeight={11}
               left={'45%'}
-              validate={[required, isEmail]}
+              // validate={[required, isEmail]}
             />
           </BoxFirst>
 
@@ -278,7 +278,7 @@ FormLogin = connect(
 
 FormLogin = reduxForm({
   form: 'FormLogin',
-  validate,
+  // validate,
 })(FormLogin);
 
 export default FormLogin;

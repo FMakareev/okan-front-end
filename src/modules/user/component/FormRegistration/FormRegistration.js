@@ -91,7 +91,7 @@ const notificationOpts = () => ({
   },
 });
 
-class FormRegistration extends Component {
+export class FormRegistration extends Component {
   static propTypes = {
     ...formPropTypes,
   };
@@ -112,6 +112,7 @@ class FormRegistration extends Component {
     const data = { variables: Object.assign({}, value) };
 
     this.setState(() => ({ isLoading: true, submitting: true }));
+    console.log(1, this.props['@apollo/create'](data));
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -145,7 +146,7 @@ class FormRegistration extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="email"
+              name={'user'}
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
@@ -165,7 +166,7 @@ class FormRegistration extends Component {
 
           <BoxSecond>
             <Field
-              name={'retryPas'}
+              name={'key'}
               placeholder={'Потвердите пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
@@ -188,7 +189,7 @@ class FormRegistration extends Component {
 
 FormRegistration = withRouter(FormRegistration);
 
-FormRegistration = graphql(CreateUserMutation, {
+FormRegistration = graphql(ActivateUserMutation, {
   name: '@apollo/create',
 })(FormRegistration);
 

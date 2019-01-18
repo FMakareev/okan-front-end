@@ -1,15 +1,8 @@
-mutation ($user:String, $password: String) {
-  activateuser(user: $user, password: $password) {
-     User{
+mutation ($email: String!, $key: String!, $password: String!) {
+  confirmeduser(email: $email, key: $key,  password: $password) {
+    user{
       id
-      firstname
-      lastname
-      patronymic
-      birthdate
-      phone
       email
-      signature
-      role 
     }
   }
 }
