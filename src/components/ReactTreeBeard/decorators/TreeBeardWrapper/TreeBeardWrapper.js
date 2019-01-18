@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 
-export const TreeBeardWrapper = styled.ul`
+export const TreeBeardWrapper = styled.div`
   list-style: none;
   background-color: #21252B;
   margin: 0;

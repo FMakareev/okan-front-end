@@ -12,14 +12,15 @@ export const NodeToggle = ({toggled, fill}) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      transform: `rotate(${toggled ? '0deg' : '90deg'})`,
+      transform: `rotate(${toggled ? '90deg' : '0deg'})`,
     }}>
     <SvgTriangle fill={fill}/>
   </Box>)
 };
 
 NodeToggle.propTypes = {
-  toggle: PropTypes.bool,
+  toggle: PropTypes.bool.isRequired,
+  fill: PropTypes.string,
 };
 
 NodeToggle.defaultProps = {

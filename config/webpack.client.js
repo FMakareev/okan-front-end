@@ -108,6 +108,7 @@ export const browserConfigGenerator = () => {
     //       ]
     //     }
     //   } : {}),
+    devtool: 'eval-source-map',
     stats: {
       cached: false,
       cachedAssets: false,

@@ -6,17 +6,21 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Link from '../../../../components/Link/Link';
 
 /**Image */
-import { SvgSidebarList } from '../../../../components/Icons/SvgSidebarList';
+import {SvgSidebarList} from '../../../../components/Icons/SvgSidebarList';
 
-export const SidebarRevisionList = () => {
-  return (
-    <Link to={`/revision-list/${1}`}>
-      <ButtonBase variant={'empty'}>{SvgSidebarList()}</ButtonBase>
-    </Link>
-  );
+export const SidebarRevisionList = ({id}) => (
+  <Link
+    onClick={(event) => event.stopPropagation()}
+    to={`/revision-list/${id}`}>
+    <ButtonBase variant={'empty'}>
+      <SvgSidebarList/>
+    </ButtonBase>
+  </Link>
+);
+
+SidebarRevisionList.propTypes = {
+  id: PropTypes.string.isRequired,
 };
-
-SidebarRevisionList.propTypes = {};
 
 SidebarRevisionList.defaultProps = {};
 

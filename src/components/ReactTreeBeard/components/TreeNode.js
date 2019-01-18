@@ -114,11 +114,9 @@ export class TreeNode extends Component {
 
   renderLoading(decorators) {
     return (
-      <Ul>
-        <li>
-          <decorators.Loading/>
-        </li>
-      </Ul>
+      <decorators.TreeNodeList>
+        <decorators.Loading/>
+      </decorators.TreeNodeList>
     );
   }
 

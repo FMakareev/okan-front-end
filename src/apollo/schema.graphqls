@@ -52,6 +52,8 @@ type Cell {
   comments: [Comment]
   # массив связанных объектов
   pull: [Cell]
+  # null, на согласовании, согласован, не согласован
+  approvalstatus: String
 }
 
 type Document {
@@ -199,14 +201,15 @@ type Mutation {
   # prevcell - id предыдущей ячейки
   # parent - id родительской ячейки
   # content - содержимое ячейки
-  createcell(name:String!,prevcell:ID, parent: ID, content: Block): Cell
+  createcell(name:String,prevcell:ID, parent: ID, content: String): Cell
 
   # обновление ячейки
   # id - mongoid ячейки
+  # name - имя ячейки
   # content - html содержимое ячейки
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
-  updatecell(id: String!, content: Block, prevcell: ID, nextcell: String): Cell
+  updatecell(id: String!, name: String, content: String, prevcell: ID, nextcell: String): Cell
 
   # создание комментария
   # sender - id отправителя комментария

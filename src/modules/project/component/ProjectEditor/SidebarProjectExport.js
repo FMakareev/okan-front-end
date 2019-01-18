@@ -7,9 +7,11 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 /**Image */
 import { SvgSidebarExport } from '../../../../components/Icons/SvgSidebarExport';
 
-export const SidebarProjectExport = () => {
-  return <ButtonBase variant={'empty'}>{SvgSidebarExport()}</ButtonBase>;
-};
+export const SidebarProjectExport = () => (<ButtonBase
+  onClick={(event) => event.stopPropagation()}
+  variant={'empty'}>
+  <SvgSidebarExport/>
+</ButtonBase>);
 
 SidebarProjectExport.propTypes = {};
 

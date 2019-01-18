@@ -1,0 +1,16 @@
+query($id: ID!, ){
+  cellitem(id: $id){
+    id
+    name
+    verify
+    prevcell
+    nextcell
+    parent
+    childcell
+    is_head
+    content{
+      number
+    }
+    approvalstatus
+  }
+}

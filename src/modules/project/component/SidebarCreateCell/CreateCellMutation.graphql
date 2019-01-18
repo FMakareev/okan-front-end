@@ -1,0 +1,20 @@
+mutation($prevcell: String,$parent: String,) {
+  createcell(prevcell: $prevcell,parent: $parent){
+    # mongoid
+    id
+    # имя раздела
+    name
+    # статус проверки ячейки
+    verify
+    # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
+    prevcell
+    # id следующей ячейки
+    nextcell
+    # id родительской ячейки
+    parent
+    # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
+    childcell
+    # null, на согласовании, согласован, не согласован
+    approvalstatus
+  }
+}

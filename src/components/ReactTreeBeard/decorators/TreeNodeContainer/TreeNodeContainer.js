@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TreeNodeContainer = styled.li`
+export const TreeNodeContainer = styled.div`
   list-style: none;
 `;
 

@@ -13,7 +13,7 @@ import { DragDropContext } from 'react-dnd'
 
 import HTML5Backend from 'react-dnd-html5-backend'
 import EditorCellController from "./EditorCellController";
-import SidebarCellNode from "./SidebarCellNode";
+import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
 import SidebarCellRoot from "./SidebarCellRoot";
 import EditorAdditionalMenu from "./EditorAdditionalMenu";
 import EditorCellComment from "./EditorCellComment";
@@ -28,7 +28,7 @@ import EditorCellContent from "./EditorCellContent";
 import EditorCellForm from "./EditorCellForm";
 import {SidebarApprovalStatus} from "./SidebarApprovalStatus";
 import SidebarChangeCell from "./SidebarChangeCell";
-import {SidebarCreateCell} from "./SidebarCreateCell";
+import {SidebarCreateCell} from "../SidebarCreateCell/SidebarCreateCell";
 import SidebarProjectExport from "./SidebarProjectExport";
 import SidebarProjectSettings from "./SidebarProjectSettings";
 import SidebarRevisionList from "./SidebarRevisionList";

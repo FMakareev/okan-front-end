@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const SvgTriangle = ({fill}) => {
   return (
@@ -12,5 +13,7 @@ export const SvgTriangle = ({fill}) => {
     </svg>
   );
 };
-
+SvgTriangle.propTypes = {
+  fill: PropTypes.string,
+};
 export default SvgTriangle;

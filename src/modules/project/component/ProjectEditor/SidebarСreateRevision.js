@@ -8,15 +8,15 @@ import Link from '../../../../components/Link/Link';
 /**Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
-export const SidebarCreateRevision = () => {
-  return (
-    <Link to={`/revision-list/${1}`}>
-      <ButtonBase variant={'empty'}>{SvgSidebarComment()}</ButtonBase>
-    </Link>
-  );
-};
+export const SidebarCreateRevision = () => (<ButtonBase
+  onClick={(event) => event.stopPropagation()}
+  variant={'empty'}>
+  <SvgSidebarComment/>
+</ButtonBase>);
 
-SidebarCreateRevision.propTypes = {};
+SidebarCreateRevision.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 SidebarCreateRevision.defaultProps = {};
 
