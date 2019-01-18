@@ -23,13 +23,22 @@ const Error = styled.span`
   ${props => color({ ...props, color: 'color12' })};
 `;
 
+const ButtonWithImageStyled = styled(ButtonWithImage)`
+  &:disabled {
+    cursor: default;
+    color: #fff;
+    fill: #fff;
+    background-color: #d4d1d1;
+  }
+`;
+
 export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) => {
   const buttonIconRender = isLoading ? <SmallPreloader /> : SvgPlay();
 
   return (
     <Flex flexDirection={'column'} justifyContent={'center'}>
       {error && <Error>{error}</Error>}
-      <ButtonWithImage
+      <ButtonWithImageStyled
         type="submit"
         disabled={disabled}
         variant={'large'}
@@ -37,7 +46,7 @@ export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) =
         rightIcon={buttonIconRender}
         ml={ml}>
         {children}
-      </ButtonWithImage>
+      </ButtonWithImageStyled>
     </Flex>
   );
 };

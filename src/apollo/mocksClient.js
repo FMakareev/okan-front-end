@@ -69,6 +69,17 @@ const defaultMocks = {
       }, 10000);
     },
 
+    activateuser: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
     updateuser: (mutation, props) =>
       // для имитации запроса к серверу с рандомной задержкой и результатом.
       new Promise((resolve, reject) => {

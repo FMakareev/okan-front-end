@@ -22,6 +22,7 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
+import ActivateUserMutation from './ActivateUserMutation.graphql';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
@@ -77,20 +78,20 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'its okqy',
-    message: 'its okay',
+    title: 'Все хорошо',
+    message: 'Все хорошо',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'problems',
-    message: 'problems',
+    title: 'Ошибка регистрации',
+    message: 'Ошибка регистрации',
     position: 'tr',
     autoDismiss: 2,
   },
 });
 
-class FormRegistration extends Component {
+export class FormRegistration extends Component {
   static propTypes = {
     ...formPropTypes,
   };
@@ -111,6 +112,7 @@ class FormRegistration extends Component {
     const data = { variables: Object.assign({}, value) };
 
     this.setState(() => ({ isLoading: true, submitting: true }));
+    console.log(1, this.props['@apollo/create'](data));
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -144,7 +146,7 @@ class FormRegistration extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="email"
+              name={'user'}
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
@@ -164,7 +166,7 @@ class FormRegistration extends Component {
 
           <BoxSecond>
             <Field
-              name={'retryPas'}
+              name={'key'}
               placeholder={'Потвердите пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
@@ -187,7 +189,7 @@ class FormRegistration extends Component {
 
 FormRegistration = withRouter(FormRegistration);
 
-FormRegistration = graphql(CreateUserMutation, {
+FormRegistration = graphql(ActivateUserMutation, {
   name: '@apollo/create',
 })(FormRegistration);
 

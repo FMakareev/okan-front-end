@@ -15,8 +15,11 @@ import EditorAdditionalMenuButtonTable from './EditorAdditionalMenuButtonTable';
 import EditorAdditionalMenuButtonImage from './EditorAdditionalMenuButtonImage';
 import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 
+/** HOC */
+import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
+
 const EditorAdditionalMenuButton = (
-  <Absolute left={'10%'} top={'0%'}>
+  <Absolute left={'30px'} top={'0%'}>
     <Flex>
       <Flex mr={4}>
         <EditorAdditionalMenuButtonTable />
@@ -32,20 +35,21 @@ const EditorAdditionalMenuButton = (
 );
 
 export class EditorAdditionalMenu extends Component {
-  state = { isOpen: false };
-
-  handleClick = () => {
-    return this.setState(({ isOpen }) => {
-      return { isOpen: !isOpen };
-    });
+  static propTypes = {
+    /** func submit for Form */
+    handleClick: PropTypes.func,
+    /** open window */
+    isOpen: PropTypes.bool,
   };
 
+  static defaultProps = { handleClick: () => {}, isOpen: false };
+
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, handleClick } = this.props;
 
     return (
       <Box position={'relative'}>
-        <ButtonBase variant={'empty'} onClick={this.handleClick}>
+        <ButtonBase variant={'empty'} onClick={handleClick}>
           {SvgSidebarAdd()}
         </ButtonBase>
         {isOpen && EditorAdditionalMenuButton}
@@ -54,4 +58,4 @@ export class EditorAdditionalMenu extends Component {
   }
 }
 
-export default EditorAdditionalMenu;
+export default RenderOpenWindow(EditorAdditionalMenu);

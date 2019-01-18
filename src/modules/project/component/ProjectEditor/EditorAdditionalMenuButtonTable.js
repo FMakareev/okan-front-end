@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
 
-/** Image */
-import tableIcon from '../../../../assets/image/tableIcon.png';
-
 /** View */
 import Text from '../../../../components/Text/Text';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -24,5 +21,9 @@ export const EditorAdditionalMenuButtonTable = () => {
     </Button>
   );
 };
+
+EditorAdditionalMenuButtonTable.propTypes = {};
+
+EditorAdditionalMenuButtonTable.defaultProps = {};
 
 export default EditorAdditionalMenuButtonTable;

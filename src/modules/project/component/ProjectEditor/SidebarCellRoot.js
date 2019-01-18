@@ -7,18 +7,17 @@ import {color} from 'styled-system';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /** Components */
 import SidebarProjectSettings from './SidebarProjectSettings';
 import SidebarSaveChanges from './SidebarSaveChanges';
 import SidebarRevisionList from './SidebarRevisionList';
-import SidebarСreateRevision from './SidebarСreateRevision';
+import {SidebarСreateRevision} from './SidebarCreateRevision';
 import SidebarProjectExport from './SidebarProjectExport';
 
 /** Styles property */
 import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
-import {NodeToggle} from "../NodeToggle/NodeToggle";
+import { NodeToggle } from '../NodeToggle/NodeToggle';
 
 const FlexStyled = styled(Flex)`
   ${props => color({...props, color: 'color0'})};
@@ -32,7 +31,9 @@ export const SidebarCellRoot = (props) => {
   return (
     <FlexStyled pr={'10px'} mb={'10px'} onClick={onClick} alignItems={'center'} justifyContent={'space-between'}>
       <Flex alignItems={'center'}>
-        {!terminal && <NodeToggle toggled={node.toggled} fill={'#fff'}/>}
+        <Box mx={2}>
+          <NodeToggle toggled={node.toggled} fill={'#fff'}/>
+        </Box>
         <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'color0'}>
           {node.name}
         </Text>

@@ -1,0 +1,8 @@
+mutation ($email: String!, $key: String!, $password: String!) {
+  confirmeduser(email: $email, key: $key,  password: $password) {
+    user{
+      id
+      email
+    }
+  }
+}

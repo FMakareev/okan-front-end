@@ -9,6 +9,7 @@ import { FroalaReduxForm } from '../FroalaReduxForm/FroalaReduxForm';
 
 const Wrapper = styled.div`
   ${space};
+  width: 100%;
 `;
 
 /**
@@ -50,10 +51,10 @@ export class RichTextEditor extends Component {
   }
 
   render() {
-    const { className, mb, meta } = this.props;
+    const { className, meta } = this.props;
 
     return (
-      <Wrapper mb={mb} className={className}>
+      <Wrapper className={className}>
         <FroalaReduxForm {...this.props} />
         <Message meta={meta} />
       </Wrapper>

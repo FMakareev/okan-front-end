@@ -13,21 +13,14 @@ import Box from '../../../../components/Box/Box';
 export class EditorCellCommentController extends Component {
   state = {};
 
-  static propTypes = {
-    /**function for compoennts */
-    handleClickCommentButton: PropTypes.func,
-  };
+  static propTypes = {};
 
-  static defaultProps = { handleClickCommentButton: () => {} };
-
-  handleClickCommentButton = () => {
-    alert('hello');
-  };
+  static defaultProps = {};
 
   render() {
     return (
       <Absolute mb={4} mt={4} px={3}>
-        <EditorCellCommentButton handleClickCommentButton={this.handleClickCommentButton} />
+        <EditorCellCommentButton />
 
         <EditorCellCommentList />
 

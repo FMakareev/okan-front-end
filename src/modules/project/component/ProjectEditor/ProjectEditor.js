@@ -33,7 +33,6 @@ import SidebarProjectExport from "./SidebarProjectExport";
 import SidebarProjectSettings from "./SidebarProjectSettings";
 import SidebarRevisionList from "./SidebarRevisionList";
 import SidebarSaveChanges from "./SidebarSaveChanges";
-import SidebarСreateRevision from "./SidebarСreateRevision";
 
 
 
