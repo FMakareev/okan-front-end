@@ -52,4 +52,14 @@ export const routes = [
     load: () => import(/* webpackChunkName: 'userProfile'  */ './view/profile'),
     roles: [ROLE_ADMIN, ROLE_USER],
   },
+  {
+    layout: LAYOUT_AUTH,
+    exact: true,
+    name: 'Выход',
+    path: '/logout',
+    order: 0,
+    hidden: false,
+    load: () => import(/* webpackChunkName: 'userLogin' */ './view/logout'),
+    resolvers: [],
+  },
 ];

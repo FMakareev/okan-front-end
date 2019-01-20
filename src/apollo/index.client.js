@@ -6,7 +6,6 @@ import fetch from 'unfetch';
 
 import mocksClient from './mocksClient';
 
-
 export const client = () => {
   // return mocksClient;
   return new ApolloClient({
@@ -14,11 +13,10 @@ export const client = () => {
     link: createHttpLink({
       uri: `${ENDPOINT_CLIENT}/graphql`,
       credentials: 'same-origin',
-      fetch
+      fetch,
     }),
     ssrForceFetchDelay: 100,
   });
 };
 
 export default client;
-
