@@ -4,8 +4,8 @@ import {
   CELL_STATUS_NOT_CHECKED,
   CELL_STATUS_CHANGED
 } from '../../../shared/approvalStatus';
+import {getRandomMongoID} from "../../helpers/getRandomMongoid";
 
-const getRandomMongoid = () => faker.random.uuid().replace(/-/g, '').substring(0, 24)
 
 export const celItem = ({
                           id,
@@ -15,7 +15,7 @@ export const celItem = ({
                         }) => {
   return {
     // # mongoid
-    id: id || getRandomMongoid(),
+    id: id || getRandomMongoID(),
     // # имя раздела
     name: faker.company.companyName(),
     // # статус проверки ячейки

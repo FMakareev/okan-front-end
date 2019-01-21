@@ -1,9 +1,10 @@
 import faker from 'faker';
+import {getRandomMongoID} from "../../helpers/getRandomMongoid";
 
 export const useritem = () => {
   const password = faker.internet.password();
   return {
-    id: faker.random.uuid(),
+    id: getRandomMongoID(),
     firstname: faker.name.firstName(),
     lastname: faker.name.lastName(),
     patronymic: faker.name.lastName(),

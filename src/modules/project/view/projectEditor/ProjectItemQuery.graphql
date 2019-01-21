@@ -1,0 +1,24 @@
+query($id: String!){
+  projectitem(id: $id){
+    # mongoid
+    id
+    # название проекта
+    name
+    # пользователь создавший проект
+    author
+    # код документа ОКАН
+    okancode
+    # код документа заказчика
+    customercode
+    # mongoid документа проекта
+    documents
+    # дата создания
+    createdate
+    # дата обновления
+    updatedate
+    # массив ревизий проекта
+    revisions
+    # archive or working
+    status
+  }
+}

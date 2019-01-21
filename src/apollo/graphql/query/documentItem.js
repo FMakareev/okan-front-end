@@ -1,12 +1,13 @@
 import faker from 'faker';
+import {getRandomMongoID} from "../../helpers/getRandomMongoid";
 
-export const documentItem = {
+export const documentitem = () => ({
   // mongoid
-  id: faker.random.uuid(),
+  id: getRandomMongoID(),
   // название шаблона
   name: faker.commerce.productName(),
   // id корневого элемента от которого строится граф разделов
-  cell: 1,
+  childcell: '37cea22b074140c6ac32a660',
   // null, на согласовании, согласован, не согласован
   approvalstatus: null,
-};
+});

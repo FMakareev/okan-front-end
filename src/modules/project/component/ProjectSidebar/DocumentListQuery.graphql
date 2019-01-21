@@ -1,0 +1,12 @@
+query($projectid: String){
+  documentlist(projectid: $projectid){
+    # mongoid
+    id
+    # название шаблона
+    name
+    # id корневого элемента от которого строится граф разделов
+    childcell
+    # null, на согласовании, согласован, не согласован
+    approvalstatus
+  }
+}

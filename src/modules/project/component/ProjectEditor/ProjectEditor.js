@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 /** Components */
 
-import ProjectEditorSideBar from '../ProjectEditorSideBar/ProjectEditorSideBar';
+import DocumentTree from '../DocumentTree/DocumentTree';
 
 /**View */
 import Box from '../../../../components/Box/Box';
@@ -55,7 +55,7 @@ export class ProjectEditor extends Component {
     return (
       <Flex flexDirection={'row'}>
         <Box width={'320px'}>
-          <ProjectEditorSideBar />
+          <DocumentTree />
         </Box>
         {/*<Box>*/}
           {/*EditorAdditionalMenu*/}
