@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+import {withRouter} from 'react-router-dom';
 /** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
@@ -58,7 +58,7 @@ export class SidebarCellNode extends Component {
     try {
       return {
         name: this.props.node.name,
-        disabled: !this.props.node.focused,
+        focused: this.props.node.focused,
       }
     } catch (e) {
       console.error(e);
@@ -70,30 +70,39 @@ export class SidebarCellNode extends Component {
   };
 
   onToggleEditable = () => {
-    console.log(this.contentEditable);
-    if (!this.state.disabled) {
+    const {changeNodeFocus, node} = this.props;
+
+    if (node.focused) {
       this.contentEditable.current.focus();
     }
-    this.setState(() => ({disabled: !this.state.disabled}))
+    changeNodeFocus(node.id, !node.focused);
+    this.setState(() => ({focused: !node.focused}));
   };
 
   getNumberFromContent = (node) => has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
   getIsHeadStatus = (node) => node.is_head && node.childcell;
 
+  handleClick = () => {
+    const {onClick, node, history} = this.props;
+    const isHead = this.getIsHeadStatus(node);
+
+    if (isHead) {
+      onClick()
+    } else {
+      // history.push('')
+    }
+  };
+
   render() {
     const {decorators, terminal, onClick, node} = this.props;
 
     const isHead = this.getIsHeadStatus(node);
     return (
-      <Wrapper mb={'10px'} px={'10px'} onClick={()=>{
-        if(isHead){
-          onClick()
-        }
-      }} justifyContent={'flex-start'} alignItems={'center'}>
+      <Wrapper mb={'10px'} px={'10px'} onClick={this.handleClick} justifyContent={'flex-start'} alignItems={'center'}>
         <Flex width={'calc(100% - 72px)'}>
           {isHead && <NodeToggle toggled={node.toggled}/>}
-          <Flex ml={isHead ?'':'20px'} color={'color11'} width={'calc(100% - 28px)'}>
+          <Flex ml={isHead ? '' : '20px'} color={'color11'} width={'calc(100% - 28px)'}>
             <Text fontWeight={isHead ? 500 : 300} color={'color11'}>
               {node.number}
             </Text>
@@ -103,7 +112,7 @@ export class SidebarCellNode extends Component {
                 onToggle={this.onToggleEditable}
                 ref={this.contentEditable}
                 html={this.state.name} // innerHTML of the editable div
-                disabled={this.state.disabled} // use true to disable edition
+                focused={node.focused} // use true to disable edition
                 onChange={this.handleChange} // handle innerHTML change
               />
             </Text>
@@ -118,6 +127,7 @@ export class SidebarCellNode extends Component {
               prevcell={node.id}
               parent={node.parent}
               addNodeInTree={this.props.addNodeInTree}
+              changeNodeFocus={this.props.changeNodeFocus}
             />
           </Box>
           <Box px={1}>
@@ -128,5 +138,5 @@ export class SidebarCellNode extends Component {
     );
   }
 }
-
+SidebarCellNode = withRouter(SidebarCellNode);
 export default SidebarCellNode;
