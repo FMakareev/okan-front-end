@@ -63,7 +63,6 @@ export class SidebarCreateCell extends Component {
   render(){
     const {prevcell, parent} = this.props;
     const {toggle} = this.state;
-    console.log('SidebarCreateCell: ',this);
     return (<Box position={'relative'}>
       <ButtonBase
         title={'Добавить подраздел или раздел.'}
