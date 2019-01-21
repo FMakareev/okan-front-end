@@ -7,6 +7,7 @@ import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
 import CellItemQuery from './CellItemQuery.graphql';
 import objectPath from "object-path";
 import Flex from "@lib/ui/Flex/Flex";
+import queryString from 'query-string';
 
 decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
 decorators.TreeNodeList = (props) => <Box pl={'10px'} {...props}/>;
@@ -16,12 +17,17 @@ decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-
   Загрузка...
 </Flex>);
 
+
+// ?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c
+
 export class ProjectEditorSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
-    decorators.Container = (props) => <SidebarCellNode addNodeInTree={this.addNodeInTree} {...props}/>;
+    decorators.Container = (props) => <SidebarCellNode changeNodeFocus={this.changeNodeFocus} addNodeInTree={this.addNodeInTree} {...props}/>;
+    console.log(queryString.parse('?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c'));
+
   }
 
   get initialState() {
@@ -76,7 +82,7 @@ export class ProjectEditorSideBar extends Component {
       this.branchDownload(node.childcell, childList)
         .then(response => {
           this.addNodeListInBranch(childList, node.number);
-          this.changeStatusLoadingsNode(node.name, false);
+          this.changeStatusLoadingsNode(node.id, false);
         })
         .catch(error => {
           console.error(`Error onToggle/branchDownload, node=${node.name}: `, error);
@@ -115,31 +121,49 @@ export class ProjectEditorSideBar extends Component {
    * @params {boolean} status - значение статуса на которое следует поменять
    * @desc метод ищет по имени ноду в дереве и меняет статус загрузки
    * */
-  changeStatusLoadingsNode = (name, status = false) => {
+  changeStatusLoadingsNode = (id, status = false) => {
     try {
       const {tree, cursor} = this.state;
       // нашли путь к  ноде
-      let pathToNode = this.findNodeByProp(tree, name, '', 'name');
+      let pathToNode = this.getPathToNode(tree, id) + '.loading';
 
-      // проверили что у нас массив
-      if (Array.isArray(pathToNode)) {
-        // сгенерировали строку с полным путем
-        pathToNode = pathToNode[0] + '.loading';
+      // по пути обновили значение статуса
+      objectPath.set([tree], pathToNode, status);
 
-        // по пути обновили значение статуса
-        objectPath.set([tree], pathToNode, status);
-
-        this.updateTree({
-          tree, cursor: cursor.name === name ? {
-            ...cursor,
-            loading: status,
-          } : cursor,
-        });
-      } else {
-        console.log(`Error changeStatusLoadingsNode name=${name}: pathToNode is undefined `);
-      }
+      this.updateTree({
+        tree, cursor: cursor.id === id ? {
+          ...cursor,
+          loading: status,
+        } : cursor,
+      });
     } catch (error) {
       console.log(`Error changeStatusLoadingsNode name=${name}:`, error);
+    }
+  };
+
+
+  /**
+   * @param {string} id
+   * @param {boolean} focused
+   * @desc метод изменяет состояния фокуса заданой ноде
+   * */
+  changeNodeFocus = (id, focused = false) => {
+    try {
+      const {tree, cursor} = this.state;
+      // нашли путь к  ноде
+      let pathToNode = this.getPathToNode(tree, id) + '.focused';
+
+      // по пути обновили значение статуса
+      objectPath.set([tree], pathToNode, focused);
+      this.updateTree({
+        tree,
+        cursor: cursor.id === id ? {
+          ...cursor,
+          focused: focused,
+        } : cursor,
+      });
+    } catch (error) {
+      console.error(`Error changeNodeFocus, id=${id}: `, error);
     }
   };
 
@@ -181,7 +205,7 @@ export class ProjectEditorSideBar extends Component {
   addNodeListInBranch = (cellList, numberParent) => {
     try {
       const tree = Object.assign({}, this.state.tree);
-      let pathToParent = this.getPathToParent(tree, cellList[0].parent) + '.children';
+      let pathToParent = this.getPathToNode(tree, cellList[0].parent) + '.children';
 
       let newChildren = cellList.map((cell) => (this.createCellNode(cell)));
 
@@ -203,7 +227,7 @@ export class ProjectEditorSideBar extends Component {
   addNodeInTree = (cell) => {
     const tree = Object.assign({}, this.state.tree);
 
-    let pathToParent = this.getPathToParent(tree, cell.parent);
+    let pathToParent = this.getPathToNode(tree, cell.parent);
     // путь до парента в дереве
     let pathToParentChildren = pathToParent + '.children';
     let pathToNumberParent = pathToParent + '.number';
@@ -244,7 +268,7 @@ export class ProjectEditorSideBar extends Component {
    * @param {string} parentId - id родителя
    * @desc метод возвращает путь в дереве к родителю
    * */
-  getPathToParent = (tree, parentId) => {
+  getPathToNode = (tree, parentId) => {
     try {
       let pathToParent = this.findNodeByProp(tree, parentId, '', 'id');
       if (Array.isArray(pathToParent) && pathToParent.length) {
@@ -253,7 +277,7 @@ export class ProjectEditorSideBar extends Component {
         return ['0'];
       }
     } catch (error) {
-      console.log(`Error getPathToParent, parentId=${parentId}:`, error);
+      console.log(`Error getPathToNode, parentId=${parentId}:`, error);
       return ['0'];
     }
   };
