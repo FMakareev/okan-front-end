@@ -8,6 +8,7 @@ import CellItemQuery from './CellItemQuery.graphql';
 import objectPath from "object-path";
 import Flex from "@lib/ui/Flex/Flex";
 import queryString from 'query-string';
+import {withRouter} from "react-router-dom";
 
 decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
 decorators.TreeNodeList = (props) => <Box pl={'10px'} {...props}/>;
@@ -20,28 +21,33 @@ decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-
 
 // ?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c
 
-export class ProjectEditorSideBar extends Component {
+export class DocumentTree extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
-    decorators.Container = (props) => <SidebarCellNode changeNodeFocus={this.changeNodeFocus} addNodeInTree={this.addNodeInTree} {...props}/>;
-    console.log(queryString.parse('?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c'));
 
+    decorators.Container = (props) => (
+      <SidebarCellNode params={this.props.params} document={this.props.data} changeNodeFocus={this.changeNodeFocus}
+                       addNodeInTree={this.addNodeInTree} {...props}/>);
+    console.log(queryString.parse('?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c'));
+    this.treeTestInit()
   }
 
   get initialState() {
+    console.log(this.props);
+    const {data} = this.props;
     return {
       cursor: null,
       tree: {
         number: '',
-        name: 'I. ТЗ - RK-186-344',
         toggled: false,
         loading: false,
         active: false,
         focused: false,
         id: 'ROOT',
         childcell: "37cea22b074140c6ac32a660",
+        ...data,
         decorators: {
           ...decorators,
           Container: (props) => <SidebarCellRoot {...props}/>,
@@ -50,6 +56,34 @@ export class ProjectEditorSideBar extends Component {
       }
     }
   }
+
+
+  treeTestInit = () => {
+    const {params} = this.props;
+    let nodes = [];
+    this.testRequest(params.cellid, nodes)
+      .then(response => {
+        console.log('treeTestInit: response ', response);
+        console.log('treeTestInit: nodes ', nodes);
+      })
+  };
+
+  testRequest = (id, nodes, prevcell) => {
+    return this.getNode(id)
+      .then(request => {
+        console.log('testRequest: ', request);
+        const {data} = request;
+        nodes.push(data.cellitem);
+        if (data.cellitem.nextcell && data.cellitem.nextcell !== prevcell) {
+          this.testRequest(data.cellitem.nextcell, nodes, data.cellitem.id)
+        }
+        if (data.cellitem.prevcell && data.cellitem.prevcell !== prevcell) {
+          this.testRequest(data.cellitem.prevcell, nodes, data.cellitem.id)
+        }
+        return request;
+      })
+  };
+
 
   /**
    * @param {object} props принимает объект который будет писатя в стейт и перезаписывать его свойства
@@ -81,7 +115,9 @@ export class ProjectEditorSideBar extends Component {
       // Запрашиваем данные для открывшейся ветки
       this.branchDownload(node.childcell, childList)
         .then(response => {
-          this.addNodeListInBranch(childList, node.number);
+          if (childList.length) {
+            this.addNodeListInBranch(childList, node.number);
+          }
           this.changeStatusLoadingsNode(node.id, false);
         })
         .catch(error => {
@@ -103,13 +139,17 @@ export class ProjectEditorSideBar extends Component {
     return this.getNode(id)
       .then(response => {
         const {data} = response;
-        childList.push(data.cellitem);
-
-        if (data.cellitem.nextcell) {
-          return this.branchDownload(data.cellitem.nextcell, childList);
+        if (data.cellitem) {
+          childList.push(data.cellitem);
+          if (data.cellitem.nextcell) {
+            return this.branchDownload(data.cellitem.nextcell, childList);
+          } else {
+            return data.cellitem;
+          }
         } else {
-          return data.cellitem;
+          return null;
         }
+
       }).catch(error => {
         console.error(`Error branchDownload, id=${id},parent=${parent}: `, error);
         return null;
@@ -355,6 +395,6 @@ export class ProjectEditorSideBar extends Component {
   }
 }
 
-ProjectEditorSideBar = withApollo(ProjectEditorSideBar);
+DocumentTree = withApollo(DocumentTree);
 
-export default ProjectEditorSideBar;
+export default DocumentTree;
