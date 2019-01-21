@@ -14,6 +14,36 @@ type Comment {
   # удален ли комментарий (?)
   isdelete: Boolean
 }
+#  comment {
+#      cell
+#      createdat
+#      id
+#      isdelete
+#      message
+#      sender {
+#        birthdate
+#        email
+#        firstname
+#        id
+#        lastname
+#        patronymic
+#        phone
+#        position
+#        role {
+#          description
+#          id
+#          name
+#          resolvers {
+#            id
+#            module
+#            name
+#          }
+#        }
+#        signature
+#      }
+#      updatedat
+#    }
+#  }
 
 type Block {
   # mongoid
@@ -27,6 +57,15 @@ type Block {
   # тип контента: таблица, картинка, текст
   contenttype: String
 }
+# block {
+#   content
+#   contenttype
+#   id
+#   name
+#   number
+# }
+
+
 
 type Cell {
   # mongoid
@@ -55,6 +94,67 @@ type Cell {
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
+#  cell {
+#       children{
+#        	cell
+#       }
+#       comments{
+#         cell
+#         createdat
+#         id
+#         isdelete
+#         message
+#         sender{
+#           birthdate
+#           email
+#           firstname
+#         id
+#           lastname
+#           patronymic
+#           phone
+#           position
+#           role{
+#             description
+#             id
+#             name
+#             resolvers{
+#               id
+#               module
+#               name
+#             }
+            
+#           }
+#           signature
+#         }
+#         updatedat
+        
+#       }
+#       content{
+#         content
+#         contenttype
+#         id
+#         name
+#         number
+#       }
+#       id
+#       isHead
+#       name
+#       nextcell{
+#         cell
+#       }
+#       parent{
+#         cell
+#       }
+#       prevcell{
+#         cell
+#       }
+#       verify
+#       pull {
+#         cell
+#       }
+#     }
+#   }
+
 
 type Document {
   # mongoid
@@ -66,6 +166,69 @@ type Document {
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
+# document{
+#       approvalstatus
+#       cell{
+#         children{
+#           cell
+#         }
+#         comments{
+#           cell
+#           createdat
+#           id
+#           isdelete
+#           message
+#           sender{
+#             birthdate
+#             email
+#             firstname
+#             id
+#             lastname
+#             patronymic
+#             phone
+#             position
+#             role{
+#               description
+#               id
+#               name
+#               resolvers{
+#                 id
+#                 module
+#                 name
+#               }
+#             }
+#             signature
+#           }
+#           updatedat
+#         }
+#         content{
+#           content
+#           contenttype
+#           id
+#           name
+#           number
+#         }
+#         id
+#         isHead
+#         name
+#         nextcell{
+#           cell
+#         }
+#         parent{
+#           cell
+#         }
+#         prevcell{
+#           cell
+#         }
+#         verify
+#         pull{
+#           cell
+#         }
+#       }
+#       id
+#       name
+#     }
+
 
 type Project {
   # mongoid
@@ -112,6 +275,20 @@ type User {
   # роль пользователя
   role: String
 }
+# user {
+#       birthdate
+#       email
+#       firstname
+#       id
+#       lastname
+#       patronymic
+#       phone
+#       position
+#       role {
+#         id
+#       }
+#       signature
+#     }
 
 type Notification {
   # mongoid
@@ -132,15 +309,40 @@ type Query {
 
   # список пользователей
   userlist: [User],
+#   query{
+#   userlist{
+#     user
+#   }
+# }
 
   # получить пользователя по id
   useritem(id: ID!): User,
+#   query ($id: String) {
+#   useritem(id: $id) {
+#     birthdate
+#   }
+# }
+
 
   # получить пользователя по адресу эл.почты
   useremailitem(email: String!): User,
 
+#  Тут наверно Он должен быть
+#   query ($name: String!) {
+#   usernameitem(name: $name) {
+#     birthdate
+#   }
+# }
+
+
   # запросить ячейку по id
   cellitem(id: ID!): Cell
+
+#   query ($id: String) {
+#   cellitem(id: $id) {
+#     cell
+#   }
+# }
 
   # получить список документов
   documentlist: [Document]
@@ -148,8 +350,15 @@ type Query {
   # получить документ по id
   documentitem(id: ID!) : Document
 
+#   query ($id: String) {
+#   documentitem(id: $id) {
+#     document
+#   }
+# }
+
   # получит список проектов пользователя
   projectlist(user: ID!): [Project]
+
   # получит проект по id
   projectitem(id: ID!): Project
 
@@ -176,6 +385,10 @@ type Mutation {
   email: String!,
   signature: String!,
 ): User,
+# mutation ($firstname: String, $lastname: String, $patronymic: String, $birthdate: String, $position: String, $phone: String, $email: String, $signature: String) {
+#   createuser(firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthdate: $birthdate, position: $position, phone: $phone, email: $email, signature: $signature) {
+#     User
+# }
 
   # обновление пользователя
   updateuser(
@@ -189,12 +402,28 @@ type Mutation {
   signature: String,
   position:String,
 ): User,
+# mutation ($id: String!, $firstname: String, $lastname: String, $patronymic: String, $birthdate: String, $position: String, $phone: String, $email: String, $signature: String, $role: String) {
+#   updateuser(id: $id, role: $role, firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthdate: $birthdate, position: $position, phone: $phone, email: $email, signature: $signature) {
+#     User
+# }
+
 
   # смена пароля пользователя
   changepassword(user: ID!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
+# mutation($email: String!){
+#   changepassword(email:$email){
+#     User
+#   }
+# }
+
 
   # смена пароля пользователя
   userregistration(email: String!, password: String!, retryPas: String): User,
+#   mutation ($email: String!, $key: String!, $password: String!) {
+#   confirmeduser(email: $email, key: $key, password: $password) {
+#     User
+# }
+
 
   # создание ячейки,
   # name
@@ -202,6 +431,13 @@ type Mutation {
   # parent - id родительской ячейки
   # content - содержимое ячейки
   createcell(name:String,prevcell:ID, parent: ID, content: String): Cell
+# mutation ($children: String, $comments: [String], $content: String!, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String) {
+#   createcell(children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
+#     cell
+#   }
+# }
+
+
 
   # обновление ячейки
   # id - mongoid ячейки
@@ -210,24 +446,56 @@ type Mutation {
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
   updatecell(id: String!, name: String, content: String, prevcell: ID, nextcell: String): Cell
+# mutation ($children: String, $comments: [String], $content: String, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String, $id: String!) {
+#   updatecell(id: $id, children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
+#     cell 
+#   }
+# }
+
+
+
 
   # создание комментария
   # sender - id отправителя комментария
   # message - сообщение комментария
   # cell - id комментаруемой ячейки
   createcomment(sender: ID!, message: String!, cell: ID!): Comment
+#   mutation ($sender: String!, $message: String!, $cell: String!) {
+#   createcomment(sender: $sender, message: $message, cell: $cell) {
+#     comment
+# }
+# }
+
 
   # обновление комментария
   # id - mongoid комментария
   # message - сообщение комментария
   # isdelete - удален ли комментарий из ячейки
   updatecomment(id: ID!,isdelete: Boolean, message: String): Comment
+#   mutation ($sender: String, $id: String!, $isdelete: Boolean, $message: String, $cell: String) {
+#   updatecomment(sender: $sender, id: $id, message: $message, isdelete: $isdelete, cell: $cell) {
+#     comment
+# }
+# }
+
 
   # создание документа
   createdocument(name: String, cell: String!): Document
+#   mutation ($approvalstatus: String, $name: String!, $cell: String!) {
+#   createdocument(approvalstatus: $approvalstatus, name: $name, cell: $cell) {
+#     document
+#   }
+# }
+
 
   # обновление документа
   updatedocument(name: String, cell: String!): Document
+#   mutation ($approvalstatus: String, $cell: String, $id: String!, $name: String) {
+#   updatedocument(approvalstatus: $approvalstatus, cell: $cell, id: $id, name: $name) {
+#     document 
+#   }
+# }
+
 
   # создание проекта
   # name - название проекта
@@ -235,7 +503,6 @@ type Mutation {
   createproject(name:String!, document: ID!): Project
 
   updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
-
   # создание ревизии документа
   # id - id документа для которого должна быть создана ревизия
   createrevision(id: String!): Document
@@ -244,12 +511,32 @@ type Mutation {
   # target - id ячейки с которой нужно создать связь, по сути дочерняя ячейка
   # parent - id ячейки которая образует связь, ячейка родитель
   bindingcell(target: [ID]!, parent: ID!): Cell
+# mutation ($target: [String]!, $parent: String!) {
+#   bindingcell(target: $target, parent: $parent) {
+#     cell {
+#       id
+#     }
+#   }
+# }
 
   # освобождает ячейки из пулла, не менняя из значения.
   unbindingcell(cell: [ID]!): Cell
+# mutation ($cell: String!) {
+#   unbindingcell(cell: $cell) {
+#     cell {
+#       id
+#     }
+#   }
+# }
+
 
   # Активация пользователя, на вход получаем логин пользователя и пароль
   activateuser(user:String, password: String): User
+# mutation ($email: String!, $key: String!, $password: String!) {
+#   confirmeduser(email: $email, key: $key, password: $password) {
+#     user
+#   }
+# }
 
   # user - принимает login пользователя
   recoverypass(user:String): User
