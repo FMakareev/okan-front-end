@@ -1,4 +1,4 @@
-query($id: ID!, ){
+query($id: String!, ){
   cellitem(id: $id){
     id
     name

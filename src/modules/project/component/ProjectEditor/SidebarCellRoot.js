@@ -1,7 +1,6 @@
-import React, {Component, Fragment} from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {color} from 'styled-system';
+import styled from 'styled-components';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -16,25 +15,24 @@ import {SidebarСreateRevision} from './SidebarCreateRevision';
 import SidebarProjectExport from './SidebarProjectExport';
 
 /** Styles property */
-import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
 import { NodeToggle } from '../NodeToggle/NodeToggle';
 
+
 const FlexStyled = styled(Flex)`
-  ${props => color({...props, color: 'color0'})};
-  ${props => BackgroundColorProperty({...props, backgroundColor: 'color3'})};
   cursor: pointer;
 `;
 
 export const SidebarCellRoot = (props) => {
   const {decorators, terminal, onClick, node} = props;
+  const theme = node.active ? {fill: 'color0',color: 'color0',backgroundColor: 'color3'}:{fill: 'color3',color: 'color3',backgroundColor: 'color0'};
 
   return (
-    <FlexStyled pr={'10px'} mb={'10px'} onClick={onClick} alignItems={'center'} justifyContent={'space-between'}>
+    <FlexStyled {...theme} pr={'10px'} mb={'10px'} onClick={onClick} alignItems={'center'} justifyContent={'space-between'}>
       <Flex alignItems={'center'}>
         <Box mx={2}>
-          <NodeToggle toggled={node.toggled} fill={'#fff'}/>
+          <NodeToggle toggled={node.toggled} fill={'inherit'}/>
         </Box>
-        <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'color0'}>
+        <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'inherit'}>
           {node.name}
         </Text>
       </Flex>

@@ -1,6 +1,6 @@
 type Comment {
   # mongoid
-  id: ID!
+  id: String!
   # тест комментария
   message: String
   # отправитель
@@ -17,7 +17,7 @@ type Comment {
 
 type Block {
   # mongoid
-  id: ID!
+  id: String!
   # заголовок
   name: String
   # html контент фроалы
@@ -30,7 +30,7 @@ type Block {
 
 type Cell {
   # mongoid
-  id: ID!
+  id: String!
   # имя раздела
   name: String!
   # статус проверки ячейки
@@ -58,18 +58,18 @@ type Cell {
 
 type Document {
   # mongoid
-  id: ID
+  id: String
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  cell: String
+  childcell: String
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
 
 type Project {
   # mongoid
-  id: ID
+  id: String
   # название проекта
   name: String
   # пользователь создавший проект
@@ -87,7 +87,7 @@ type Project {
   # дата обновления
   updatedate: String
   # массив ревизий проекта
-  revisions: [Project]
+  revisions: [String]
   # archive or working
   status: String
 }
@@ -134,29 +134,30 @@ type Query {
   userlist: [User],
 
   # получить пользователя по id
-  useritem(id: ID!): User,
+  useritem(id: String!): User,
 
   # получить пользователя по адресу эл.почты
   useremailitem(email: String!): User,
 
   # запросить ячейку по id
-  cellitem(id: ID!): Cell
+  cellitem(id: String!): Cell
 
   # получить список документов
-  documentlist: [Document]
+  # projectid - id проекта по которому запрашиваются документы
+  documentlist(projectid: String): [Document]
 
   # получить документ по id
-  documentitem(id: ID!) : Document
+  documentitem(id: String!) : Document
 
   # получит список проектов пользователя
-  projectlist(user: ID!): [Project]
+  projectlist(user: String!): [Project]
   # получит проект по id
-  projectitem(id: ID!): Project
+  projectitem(id: String!): Project
 
   # получит список ревизий проекта
-  revisionlist(id: ID!): [Project]
+  revisionlist(id: String!): [Project]
   # получит ревизию проекта по id
-  revisionitem(id: ID!): Project
+  revisionitem(id: String!): Project
 
   # получить список уведомлений по id пользователя получателя
   notificationlist(user:String): [Notification]
@@ -191,7 +192,7 @@ type Mutation {
 ): User,
 
   # смена пароля пользователя
-  changepassword(user: ID!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
+  changepassword(user: String!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
 
   # смена пароля пользователя
   userregistration(email: String!, password: String!, retryPas: String): User,
@@ -201,7 +202,7 @@ type Mutation {
   # prevcell - id предыдущей ячейки
   # parent - id родительской ячейки
   # content - содержимое ячейки
-  createcell(name:String,prevcell:ID, parent: ID, content: String): Cell
+  createcell(name:String,prevcell:String, parent: String, content: String): Cell
 
   # обновление ячейки
   # id - mongoid ячейки
@@ -209,19 +210,19 @@ type Mutation {
   # content - html содержимое ячейки
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
-  updatecell(id: String!, name: String, content: String, prevcell: ID, nextcell: String): Cell
+  updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
 
   # создание комментария
   # sender - id отправителя комментария
   # message - сообщение комментария
   # cell - id комментаруемой ячейки
-  createcomment(sender: ID!, message: String!, cell: ID!): Comment
+  createcomment(sender: String!, message: String!, cell: String!): Comment
 
   # обновление комментария
   # id - mongoid комментария
   # message - сообщение комментария
   # isdelete - удален ли комментарий из ячейки
-  updatecomment(id: ID!,isdelete: Boolean, message: String): Comment
+  updatecomment(id: String!,isdelete: Boolean, message: String): Comment
 
   # создание документа
   createdocument(name: String, cell: String!): Document
@@ -232,7 +233,7 @@ type Mutation {
   # создание проекта
   # name - название проекта
   # document - id документа проекта, это (шаблон)(хз под вопросом)
-  createproject(name:String!, document: ID!): Project
+  createproject(name:String!, document: String!): Project
 
   updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
 
@@ -243,10 +244,10 @@ type Mutation {
   # метод для связывания ячеек
   # target - id ячейки с которой нужно создать связь, по сути дочерняя ячейка
   # parent - id ячейки которая образует связь, ячейка родитель
-  bindingcell(target: [ID]!, parent: ID!): Cell
+  bindingcell(target: [String]!, parent: String!): Cell
 
   # освобождает ячейки из пулла, не менняя из значения.
-  unbindingcell(cell: [ID]!): Cell
+  unbindingcell(cell: [String]!): Cell
 
   # Активация пользователя, на вход получаем логин пользователя и пароль
   activateuser(user:String, password: String): User

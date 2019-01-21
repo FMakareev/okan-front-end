@@ -34,6 +34,7 @@ export class SidebarCellNode extends Component {
     }),
     onClick: PropTypes.func.isRequired,
     terminal: PropTypes.bool.isRequired,
+    document: PropTypes.object.isRequired,
     children: PropTypes.any,
     node: PropTypes.shape({
       children: PropTypes.array,
@@ -84,19 +85,21 @@ export class SidebarCellNode extends Component {
   getIsHeadStatus = (node) => node.is_head && node.childcell;
 
   handleClick = () => {
-    const {onClick, node, history} = this.props;
+    const {onClick, node, history,params} = this.props;
     const isHead = this.getIsHeadStatus(node);
 
     if (isHead) {
       onClick()
     } else {
-      // history.push('')
+      console.log('handleClick: ',this.props);
+      const {location, document} = this.props;
+      history.push(`/app/project/${params.projectid}/${document.id}/${node.id}`);
     }
   };
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
-
+    console.log(this.props);
     const isHead = this.getIsHeadStatus(node);
     return (
       <Wrapper mb={'10px'} px={'10px'} onClick={this.handleClick} justifyContent={'flex-start'} alignItems={'center'}>

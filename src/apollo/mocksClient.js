@@ -11,20 +11,41 @@ import {useritem} from './graphql/query/useritem';
 import {ROLE_ADMIN, ROLE_USER} from '../shared/roles';
 import {celItem} from "./graphql/query/celItem";
 import cellTree from './graphql/query/cellTree';
+import {documentitem} from "./graphql/query/documentItem";
+import {documentlist} from "./graphql/query/documentlist";
+import {projectitem} from "./graphql/query/projectitem";
 
 const defaultMocks = {
   Query: () => ({
-    userlist,
+    userlist: () => userlist(faker.random.number(5)),
     useritem,
+    documentitem:()=>documentitem(),
+    projectitem:(query, {id})=>{
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(projectitem({id}));
+        }, faker.random.number(0))
+      })
+    },
+    documentlist:()=>{
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(documentlist(1));
+        }, faker.random.number(0))
+      })
+    },
     cellitem: (query, props) => {
 
-      console.log('cellitem: ',props);
+      console.log('cellitem: ', props);
       const {id, prevcell, nextcell, parent} = props;
       return new Promise((resolve, reject) => {
 
         setTimeout(() => {
-          resolve(cellTree.find(item => item.id === id));
-        }, faker.random.number(2000))
+          const result = cellTree.find(item => item.id === id);
+
+          console.log('cellitem result: ', result);
+          resolve(result);
+        }, faker.random.number(0))
       })
     },
     useremailitem: (query, {email}) => {
@@ -102,7 +123,7 @@ const defaultMocks = {
 
     createcell: (mutation, props) => {
 
-      console.log('cellitem: ',props);
+      console.log('cellitem: ', props);
       const {prevcell, parent} = props;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
