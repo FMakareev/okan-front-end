@@ -6,6 +6,7 @@ import { color } from 'styled-system';
 /**View */
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
+import Flex from '../../../../components/Flex/Flex';
 
 /** Styles property */
 import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
@@ -24,7 +25,7 @@ const TextStyled = styled(Text)`
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color13' })};
 `;
 
-const BoxStyle = styled(Box)`
+const FlexStyled = styled(Flex)`
   padding: 5px;
   border-left: 1px solid;
   border-bottom: 1px solid;
@@ -37,6 +38,16 @@ const BoxStyle = styled(Box)`
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color13' })};
   ${props => FontSizeProperty({ ...props, fontSize: 5 })};
   ${props => LineHeightProperty({ ...props, lineHeight: 7 })};
+  min-width: 160px;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+
+  @media (min-width: 1300px) {
+    display: flex;
+  }
 `;
 
 export const FormProfileNotificationItem = ({ message, name, time }) => {
@@ -46,9 +57,10 @@ export const FormProfileNotificationItem = ({ message, name, time }) => {
         {message}
       </TextStyled>
 
-      <BoxStyle width={'25%'}>
-        {name}/{time}
-      </BoxStyle>
+      <FlexStyled width={'25%'}>
+        <Text>{name} /</Text>
+        <Text>{time}</Text>
+      </FlexStyled>
     </Box>
   );
 };

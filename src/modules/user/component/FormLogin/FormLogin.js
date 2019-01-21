@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
-import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
+import { Link, withRouter } from 'react-router-dom';
+import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
+import Flex from '../../../../components/Flex/Flex';
 import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /**Components */
-import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
+import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 
 /** Validation */
-import required from '../../../../utils/validation/required';
 import isEmail from '../../../../utils/validation/isEmail';
+import required from '../../../../utils/validation/required';
 import minLength from '../../../../utils/validation/minLength';
 
 /** json method */
@@ -107,9 +107,12 @@ export class FormLogin extends Component {
   }
 
   submit(value) {
-    this.setState(() => ({ submitting: true, isLoading: true }));
+    this.setState(({ submitting, isLoading }) => {
+      return { submitting: !submitting, isLoading: !isLoading };
+    });
+    console.log(0);
 
-    return fetch(`${ENDPOINT_CLIENT}/login`, {
+    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
@@ -120,20 +123,24 @@ export class FormLogin extends Component {
       body: jsonToUrlEncoded(value),
     })
       .then(response => {
-        if (response.status >= 400) {
+        console.log(1.1, response);
+        if (response.status >= 400 || !document.cookie) {
+          console.log(1);
           throw response;
         } else {
+          console.log(2);
           return this.getUser(value.email);
         }
       })
       .catch(({ status, statusText }) => {
-        this.setState(() => ({ apolloError: null }));
-        throw new SubmissionError({ _error: 'Неверный логин или пароль!' });
+        this.setState(() => ({ submitting: false, apolloError: null }));
 
-        if (status === 401) {
-          throw new SubmissionError({ _error: 'Ошибка 401' });
+        if (status === 401 || status === 403) {
+          console.log(3);
+          throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
         } else {
-          throw new SubmissionError({ _error: 'Ошибка 500' });
+          console.log(4);
+          throw new SubmissionError({ _error: 'Пользователь не найден' });
         }
       });
   }
@@ -201,25 +208,25 @@ export class FormLogin extends Component {
     localStorage.setItem('user', JSON.stringify({ ...useremailitem, resolvers }));
   };
 
-  mockSubmit = value => {
-    this.setState(({ submitting, isLoading }) => {
-      return { submitting: !submitting, isLoading: !isLoading };
-    });
+  // mockSubmit = value => {
+  //   this.setState(({ submitting, isLoading }) => {
+  //     return { submitting: !submitting, isLoading: !isLoading };
+  //   });
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.getUser(value.email);
-        resolve(true);
-      }, 2000);
-    });
-  };
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       this.getUser(value.email);
+  //       resolve(true);
+  //     }, 2000);
+  //   });
+  // };
 
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { apolloError, submitting, isLoading } = this.state;
 
     return (
-      <Form onSubmit={handleSubmit(this.mockSubmit)}>
+      <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
 
         <Box mb={'100px'}>

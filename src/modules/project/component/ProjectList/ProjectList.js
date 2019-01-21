@@ -7,6 +7,7 @@ import ProjectItem from './ProjectItem';
 /** View */
 import Box from '../../../../components/Box/Box';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+import Link from '../../../../components/Link/Link';
 
 /** Image */
 import settings from '../../../../assets/image/settings.png';
@@ -39,16 +40,18 @@ export class ProjectList extends Component {
 
         <ProjectItem />
 
-        <ButtonWithImage
-          type="submit"
-          variant={'large'}
-          size={'medium'}
-          children={'Создать проект'}
-          rightIcon={SvgPlay()}
-          ml={9}
-          width={'100%'}
-          widthIcon={'10px'}
-        />
+        <Link mr={6} to={`/app/project-create`} textDecoration={'none'}>
+          <ButtonWithImage
+            type="submit"
+            variant={'large'}
+            size={'medium'}
+            children={'Создать проект'}
+            rightIcon={SvgPlay()}
+            ml={9}
+            width={'100%'}
+            widthIcon={'10px'}
+          />
+        </Link>
       </Box>
     );
   }
