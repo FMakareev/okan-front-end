@@ -23,14 +23,10 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 /** GraphQl schema */
 import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql';
 
-const validate = values => {
+const validate = ({ password, newPassword, confirmNewPassword }) => {
   const errors = {};
 
-  const oldPassword = values.password;
-  const newPassword = values.newPassword;
-  const retypePassword = values.confirmNewPassword;
-
-  if (!oldPassword) {
+  if (!password) {
     errors.password = 'Обязательно для заполнения';
   }
 
@@ -38,7 +34,7 @@ const validate = values => {
     errors.newPassword = 'Обязательно для заполнения';
   }
 
-  if (!retypePassword) {
+  if (!confirmNewPassword) {
     errors.confirmNewPassword = 'Обязательно для заполнения';
   }
 
@@ -50,15 +46,11 @@ const validate = values => {
     errors.newPassword = 'Пароль должен состоять не больше 32 цифр';
   }
 
-  if (newPassword !== retypePassword) {
-    errors.retypePassword = 'Пароли не совпадают';
-  }
-
-  if (oldPassword === newPassword) {
+  if (password === newPassword) {
     errors.newPassword = 'Старый пароль и новый пароль, не должны совпадать';
   }
 
-  if (retypePassword !== newPassword) {
+  if (confirmNewPassword !== newPassword) {
     errors.confirmNewPassword = 'Старый пароль и новый пароль, должны совпадать';
   }
   return errors;

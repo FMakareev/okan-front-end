@@ -325,18 +325,11 @@ type Query {
 
   # получить пользователя по адресу эл.почты
   useremailitem(email: String!): User,
-
-#  Тут наверно Он должен быть
-#   query ($name: String!) {
-#   usernameitem(name: $name) {
-#     birthdate
-#   }
-# }
+# ВОТ ЭТО КВЕРИ НАДО РЕАЛТЗОВАТЬ, ДЛЯ ВХОДА. НЕ МОГУ ЗАЙТИ ДАЖЕ АДМИНОМ (
 
 
   # запросить ячейку по id
   cellitem(id: String!): Cell
-
 #   query ($id: String) {
 #   cellitem(id: $id) {
 #     cell
@@ -349,7 +342,6 @@ type Query {
 
   # получить документ по id
   documentitem(id: String!) : Document
-
 #   query ($id: String) {
 #   documentitem(id: $id) {
 #     document

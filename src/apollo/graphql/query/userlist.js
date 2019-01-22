@@ -1,4 +1,4 @@
 import { range } from '../../helpers/range';
-import { useritem } from './useritem';
+import { useritem } from './userItem';
 
-export const userlist = (max) => range(max).map(d => useritem());
+export const userlist = max => range(max).map(d => useritem());

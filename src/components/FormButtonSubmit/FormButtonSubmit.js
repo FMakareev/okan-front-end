@@ -52,7 +52,7 @@ export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) =
 };
 
 FormButtonSubmit.propTypes = {
-  /** disabled input */
+  /** disabled button */
   disabled: PropTypes.bool,
   /** name button */
   children: PropTypes.string,
