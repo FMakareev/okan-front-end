@@ -6,7 +6,9 @@ type Comment {
   # отправитель
   sender: User
   # id сущности к которой привязан комментарий
-  parent: String
+  cell: String
+  # id документа, при создании комментария id документа добавляется автоматически
+  document: String
   # дата создания комментария, в формате ISO
   createdat: String
   # дата обновления комментария, в формате ISO
@@ -122,12 +124,12 @@ type Cell {
 #               module
 #               name
 #             }
-            
+
 #           }
 #           signature
 #         }
 #         updatedat
-        
+
 #       }
 #       content{
 #         content
@@ -436,7 +438,7 @@ type Mutation {
   updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
   # mutation ($children: String, $comments: [String], $content: String, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String, $id: String!) {
 #   updatecell(id: $id, children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
-#     cell 
+#     cell
 #   }
 # }
 
@@ -475,7 +477,7 @@ type Mutation {
   updatedocument(name: String, cell: String!): Document
 #   mutation ($approvalstatus: String, $cell: String, $id: String!, $name: String) {
 #   updatedocument(approvalstatus: $approvalstatus, cell: $cell, id: $id, name: $name) {
-#     document 
+#     document
 #   }
 # }
 
