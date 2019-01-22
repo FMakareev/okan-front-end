@@ -51,9 +51,7 @@ export class ProfilePage extends Component {
   render() {
     const {
       user: { role },
-      route: { moduleName },
     } = this.props;
-
 
     return <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
@@ -63,9 +61,9 @@ export class ProfilePage extends Component {
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {moduleName === ROLE_ADMIN && <FormProfileCreateUser />}
+              { ROLE_ADMIN && <FormProfileCreateUser />}
 
-              {moduleName === ROLE_USER && <FormPersonData lastname={'Колесников'} firstname={'Александр'} patronymic={'Владиславович'} birthdate={'12.12.1984'} position={'Специалист по технической документации'} phone={'8-999-888-77-66'} email={'email@okan.su'} />}
+              {role ===  ROLE_USER && <FormPersonData lastname={'Колесников'} firstname={'Александр'} patronymic={'Владиславович'} birthdate={'12.12.1984'} position={'Специалист по технической документации'} phone={'8-999-888-77-66'} email={'email@okan.su'} />}
             </RightColumn>
           </Flex>
 
@@ -75,8 +73,8 @@ export class ProfilePage extends Component {
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {moduleName === ROLE_ADMIN && <FormProfileRecoveryEmail />}
-              {moduleName === ROLE_USER && <FormChangePassword />}
+              { role ===  ROLE_ADMIN && <FormProfileRecoveryEmail />}
+              { role ===  ROLE_USER && <FormChangePassword />}
             </RightColumn>
           </Flex>
         </Flex>
