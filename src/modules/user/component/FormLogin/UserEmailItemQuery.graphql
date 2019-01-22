@@ -1,5 +1,5 @@
-query ($email: String!) {
-  useremailitem(email: $email) {
+query ($id: String) {
+  useritem(id: $id) {
     id
     firstname
     lastname

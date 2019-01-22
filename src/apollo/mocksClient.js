@@ -44,7 +44,7 @@ const defaultMocks = {
         }, faker.random.number(0))
       })
     },
-    useremailitem: (query, {email}) => {
+    useremailitem: (query, { email }) => {
       switch (email) {
         case 'client@okan.su': {
           return {...useritem(), email: 'client@okan.su', role: ROLE_USER};

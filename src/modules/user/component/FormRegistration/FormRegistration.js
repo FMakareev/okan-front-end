@@ -28,34 +28,30 @@ import ActivateUserMutation from './ActivateUserMutation.graphql';
 import required from '../../../../utils/validation/required';
 import isEmail from '../../../../utils/validation/isEmail';
 
-const validate = values => {
+const validate = ({ log, password, retryPas }) => {
   const errors = {};
 
-  const logins = values.log;
-  const passwords = values.password;
-  const retypePasswords = values.retryPas;
-
-  if (!logins) {
-    errors.log = 'Required';
+  if (!log) {
+    errors.log = 'Обязательно для заполнения';
   }
 
-  if (!passwords) {
-    errors.password = 'Required';
+  if (!password) {
+    errors.password = 'Обязательно для заполнения';
   }
 
-  if (!retypePasswords) {
-    errors.retryPas = 'Required';
+  if (!retryPas) {
+    errors.retryPas = 'Обязательно для заполнения';
   }
 
-  if (passwords !== undefined && passwords.length <= 8) {
+  if (password !== undefined && password.length <= 8) {
     errors.password = 'Пароль должен состоять минимум из 8 цифр';
   }
 
-  if (passwords !== undefined && passwords.length > 64) {
+  if (password !== undefined && password.length > 64) {
     errors.password = 'Пароль должен состоять не больше 32 цифр';
   }
 
-  if (passwords !== retypePasswords) {
+  if (password !== retryPas) {
     errors.retryPas = 'Пароли не совпадают';
   }
 
@@ -166,7 +162,7 @@ export class FormRegistration extends Component {
 
           <BoxSecond>
             <Field
-              name={'key'}
+              name={'retryPas'}
               placeholder={'Потвердите пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}

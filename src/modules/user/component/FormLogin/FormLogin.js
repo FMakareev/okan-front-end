@@ -35,25 +35,22 @@ import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 
-const validate = values => {
+const validate = ({ email, password }) => {
   const errors = {};
 
-  const uname = values.email;
-  const ups = values.password;
-
-  if (uname === undefined) {
+  if (email === undefined) {
     errors.email = 'Обязательно для заполнения';
   }
 
-  if (ups === undefined) {
+  if (password === undefined) {
     errors.password = 'Обязательно для заполнения';
   }
 
-  if (ups !== undefined && ups.length <= 8) {
+  if (password !== undefined && password.length <= 8) {
     errors.password = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
-  if (ups !== undefined && ups.length > 30) {
+  if (password !== undefined && password.length > 30) {
     errors.password = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
@@ -110,9 +107,8 @@ export class FormLogin extends Component {
     this.setState(({ submitting, isLoading }) => {
       return { submitting: !submitting, isLoading: !isLoading };
     });
-    console.log(0);
 
-    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
+    return fetch(`https://okan.code-artel.com/user/auth`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
@@ -123,12 +119,9 @@ export class FormLogin extends Component {
       body: jsonToUrlEncoded(value),
     })
       .then(response => {
-        console.log(1.1, response);
         if (response.status >= 400 || !document.cookie) {
-          console.log(1);
           throw response;
         } else {
-          console.log(2);
           return this.getUser(value.email);
         }
       })
@@ -136,10 +129,8 @@ export class FormLogin extends Component {
         this.setState(() => ({ submitting: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
-          console.log(3);
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
         } else {
-          console.log(4);
           throw new SubmissionError({ _error: 'Пользователь не найден' });
         }
       });
@@ -147,6 +138,7 @@ export class FormLogin extends Component {
 
   getUser = email => {
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
+    console.log(1, client);
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
