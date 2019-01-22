@@ -67,14 +67,10 @@ export class FormProfileCreateUser extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
-
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts().success);
 
         return response;
@@ -84,7 +80,6 @@ export class FormProfileCreateUser extends Component {
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
-        // this.props.setNotificationError(error(notificationOpts.error));
         this.props.setNotificationError(notificationOpts().error);
 
         if (graphQLErrors) {
@@ -112,7 +107,7 @@ export class FormProfileCreateUser extends Component {
 
         <BoxFirst>
           <Field
-            name="firstName"
+            name="firstname"
             component={TextFieldWithTooltip}
             placeholder={'Фамилия'}
             type="text"
@@ -124,7 +119,7 @@ export class FormProfileCreateUser extends Component {
         </BoxFirst>
 
         <Field
-          name="lastName"
+          name="lastname"
           component={TextFieldWithTooltip}
           placeholder={'Имя'}
           type="text"
@@ -185,7 +180,7 @@ export class FormProfileCreateUser extends Component {
           type="text"
           fontSize={5}
           lineHeight={7}
-          validate={[required, isEmail]}
+          // validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
 
@@ -212,9 +207,6 @@ export class FormProfileCreateUser extends Component {
           width={'100%'}
           widthIcon={'10px'}
         />
-
-        {/* TODO: //После этого пользователю на указанную электронную почту придёт письмо с ссылкой для
-       // подтверждения регистрации. При клике по ссылке пользователь попадает в интерфейс авторизации пользователя*/}
       </Form>
     );
   }
