@@ -26,8 +26,7 @@ export class Login extends Component {
   }
 
   render() {
-    // const {key} = this.props;
-    // initialValues={key}
+    
     return (
       <ErrorCatch>
         <Container maxWidth={'500px'}>
