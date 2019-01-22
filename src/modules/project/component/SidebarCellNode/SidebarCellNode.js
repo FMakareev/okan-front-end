@@ -23,6 +23,13 @@ const Wrapper = styled(Flex)`
 
 export class SidebarCellNode extends Component {
   static propTypes = {
+    addNodeInTree: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      cellid: PropTypes.string,
+      documentid: PropTypes.string,
+      projectid: PropTypes.string,
+    }),
+    changeNodeFocus: PropTypes.func.isRequired,
     decorators: PropTypes.shape({
       Container: PropTypes.func.isRequired,
       Header: PropTypes.func.isRequired,
@@ -72,7 +79,7 @@ export class SidebarCellNode extends Component {
 
   onToggleEditable = () => {
     const {changeNodeFocus, node} = this.props;
-
+    console.log('onToggleEditable: ',this.props);
     if (node.focused) {
       this.contentEditable.current.focus();
     }
@@ -85,21 +92,24 @@ export class SidebarCellNode extends Component {
   getIsHeadStatus = (node) => node.is_head && node.childcell;
 
   handleClick = () => {
-    const {onClick, node, history,params} = this.props;
-    const isHead = this.getIsHeadStatus(node);
+    try {
+      const {onClick, node, history, params, document} = this.props;
+      const isHead = this.getIsHeadStatus(node);
 
-    if (isHead) {
-      onClick()
-    } else {
-      console.log('handleClick: ',this.props);
-      const {location, document} = this.props;
-      history.push(`/app/project/${params.projectid}/${document.id}/${node.id}`);
+      if (isHead) {
+        onClick()
+      } else {
+        const {projectid} = params;
+        history.push(`/app/project/${projectid}/${document.id}/${node.id}`);
+      }
+    } catch (error) {
+      console.log(`Error node=${node.id}: `, error);
     }
   };
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
-    console.log(this.props);
+
     const isHead = this.getIsHeadStatus(node);
     return (
       <Wrapper mb={'10px'} px={'10px'} onClick={this.handleClick} justifyContent={'flex-start'} alignItems={'center'}>
@@ -141,5 +151,6 @@ export class SidebarCellNode extends Component {
     );
   }
 }
+
 SidebarCellNode = withRouter(SidebarCellNode);
 export default SidebarCellNode;

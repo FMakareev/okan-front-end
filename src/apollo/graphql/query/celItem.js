@@ -23,11 +23,11 @@ export const celItem = ({
     // # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
     prevcell: prevcell || null,
     // # id следующей ячейки
-    nextcell: faker.random.arrayElement([getRandomMongoid(), null]),
+    nextcell: faker.random.arrayElement([getRandomMongoID(), null]),
     // # id родительской ячейки
     parent: parent || null,
     // # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-    childcell: faker.random.arrayElement([getRandomMongoid(), null]),
+    childcell: faker.random.arrayElement([getRandomMongoID(), null]),
     // # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
     //   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
     is_head: true,

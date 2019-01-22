@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
+import PropTypes from 'prop-types';
 import {Treebeard, decorators} from '../../../../components/ReactTreeBeard/index';
 import {Box} from "@lib/ui/Box/Box";
 import SidebarCellRoot from "../ProjectEditor/SidebarCellRoot";
@@ -7,8 +8,7 @@ import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
 import CellItemQuery from './CellItemQuery.graphql';
 import objectPath from "object-path";
 import Flex from "@lib/ui/Flex/Flex";
-import queryString from 'query-string';
-import {withRouter} from "react-router-dom";
+
 
 decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
 decorators.TreeNodeList = (props) => <Box pl={'10px'} {...props}/>;
@@ -18,25 +18,43 @@ decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-
   Загрузка...
 </Flex>);
 
+const has = Object.prototype.hasOwnProperty;
 
-// ?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c
 
 export class DocumentTree extends Component {
+
+  static propTypes = {
+    /** @desc объект с информацией о дкументе */
+    data: PropTypes.shape({
+      approvalstatus: PropTypes.string,
+      childcell: PropTypes.string,
+      id: PropTypes.string,
+      name:  PropTypes.string,
+      __typename: PropTypes.string,
+    }),
+    /** @desc объект с параметрами адресной строки */
+    params: PropTypes.shape({
+      cellid: PropTypes.string,
+      documentid: PropTypes.string,
+      projectid: PropTypes.string,
+    }),
+  };
+
   constructor(props) {
     super(props);
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
-
     decorators.Container = (props) => (
-      <SidebarCellNode params={this.props.params} document={this.props.data} changeNodeFocus={this.changeNodeFocus}
+      <SidebarCellNode document={this.props.data} params={this.props.params} changeNodeFocus={this.changeNodeFocus}
                        addNodeInTree={this.addNodeInTree} {...props}/>);
-    console.log(queryString.parse('?node1=37cea22b074140c6ac32a660&node2=81bef0ceadbb48a98b42da8e&node3=dd58382a6bec4624b69ec18c'));
-    this.treeTestInit()
+
+    this.initTree(this.props.params.cellid);
   }
 
   get initialState() {
     console.log(this.props);
     const {data} = this.props;
+
     return {
       cursor: null,
       tree: {
@@ -57,30 +75,81 @@ export class DocumentTree extends Component {
     }
   }
 
-
-  treeTestInit = () => {
-    const {params} = this.props;
-    let nodes = [];
-    this.testRequest(params.cellid, nodes)
-      .then(response => {
-        console.log('treeTestInit: response ', response);
-        console.log('treeTestInit: nodes ', nodes);
-      })
+  /**
+   * @param {string} id искомой ноды
+   * @param {array} nodes пул всех доступных нод (формируется в initTree)
+   * @param {array} newNodes пустой массив для формирования списка
+   * @desc метод для формирования массива ветки дерева
+   * */
+  createBranch = (id, nodes, newNodes) => {
+    return nodes.forEach((item, index) => {
+      if (item.id === id) {
+        newNodes.push({
+          ...this.createCellNode(item),
+          active: true,
+          toggled: true,
+        });
+        return this.createBranch(item.nextcell, nodes, newNodes);
+      }
+    });
   };
 
-  testRequest = (id, nodes, prevcell) => {
-    return this.getNode(id)
-      .then(request => {
-        console.log('testRequest: ', request);
-        const {data} = request;
-        nodes.push(data.cellitem);
-        if (data.cellitem.nextcell && data.cellitem.nextcell !== prevcell) {
-          this.testRequest(data.cellitem.nextcell, nodes, data.cellitem.id)
+  /**
+   * @param {array} newNodes массив новых нод
+   * @param {array} nodes пул всех доступных нод, формируется в initTree
+   * @desc метод для построения дерева каталога, используется при инициализации
+   * */
+  createTree = (newNodes, nodes) => {
+    try {
+      newNodes.forEach((item) => {
+        if (item.childcell) {
+          if (nodes.findIndex(childitem => childitem.id === item.childcell) >= 0) {
+            let childNodesList = [];
+            this.createBranch(item.childcell, nodes, childNodesList);
+
+            childNodesList  = this.cellNumbering(childNodesList, item.number);
+
+            this.createTree(childNodesList, nodes);
+            item.children = childNodesList;
+          }
         }
-        if (data.cellitem.prevcell && data.cellitem.prevcell !== prevcell) {
-          this.testRequest(data.cellitem.prevcell, nodes, data.cellitem.id)
+      });
+    } catch (error) {
+      console.error(`Error: `, error);
+    }
+  };
+
+  /**
+   * @params {string} cellid ячейки от которой будет строится дерево к корню
+   * @desc метод для инициализации дерева разделов если был передан id ячейки от которой оно будет строится
+   * мы формируем массив объектов ячеек в который входят ячейки всех выше стоящих узлов до корня
+   * */
+  initTree = (cellid) => {
+    if (!cellid) return;
+    let nodes = [];
+    this.branchDownload(cellid, nodes, '')
+      .then(response => {
+
+        if (nodes.length) {
+          let newNodes = [];
+
+          this.createBranch(this.state.tree.childcell, nodes, newNodes);
+          newNodes = this.cellNumbering(newNodes, '');
+          this.createTree(newNodes, nodes);
+
+          this.updateTree({
+            tree: {
+              ...this.state.tree,
+              active: true,
+              toggled: true,
+              children: newNodes,
+            }
+          })
         }
-        return request;
+        return response;
+      })
+      .catch(error => {
+        console.error(`Error initTree cellid=${cellid}:`, error);
       })
   };
 
@@ -132,20 +201,33 @@ export class DocumentTree extends Component {
 
   /**
    * @param {string} id ячейки
-   * @param {array} childList - массив ячеек, передается в каждый вызов рекурсивно и по завершению этот массив пишется в state.tree.*
+   * @param {array} nodes - массив ячеек, передается в каждый вызов рекурсивно и по завершению этот массив пишется в state.tree.*
+   * @param {string} prevcell  [somebody]  - id предыдущей ячейки, нужен в том случае когда обходим дерево в обе стороны
    * @desc метод выполняет загрузку ячеек по id
    * */
-  branchDownload = (id, childList) => {
+  branchDownload = (id, nodes, prevcell) => {
     return this.getNode(id)
-      .then(response => {
+      .then(async response => {
         const {data} = response;
         if (data.cellitem) {
-          childList.push(data.cellitem);
-          if (data.cellitem.nextcell) {
-            return this.branchDownload(data.cellitem.nextcell, childList);
+          nodes.push(data.cellitem);
+
+          // Это перегрузка метода
+          if (typeof prevcell !== 'undefined') {
+            if (data.cellitem.prevcell && data.cellitem.prevcell !== prevcell) {
+              await this.branchDownload(data.cellitem.prevcell, nodes, data.cellitem.id);
+            }
+            if (data.cellitem.nextcell && data.cellitem.nextcell !== prevcell) {
+              return await this.branchDownload(data.cellitem.nextcell, nodes, data.cellitem.id);
+            }
           } else {
-            return data.cellitem;
+
+            if (data.cellitem.nextcell) {
+              return this.branchDownload(data.cellitem.nextcell, nodes, data.cellitem.id);
+            }
+            return response;
           }
+
         } else {
           return null;
         }
@@ -155,6 +237,7 @@ export class DocumentTree extends Component {
         return null;
       })
   };
+
 
   /**
    * @params {string} name - название искомой ноды
@@ -183,8 +266,8 @@ export class DocumentTree extends Component {
 
 
   /**
-   * @param {string} id
-   * @param {boolean} focused
+   * @param {string} id ноды
+   * @param {boolean} focused состояние фокуса
    * @desc метод изменяет состояния фокуса заданой ноде
    * */
   changeNodeFocus = (id, focused = false) => {
@@ -197,7 +280,7 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToNode, focused);
       this.updateTree({
         tree,
-        cursor: cursor.id === id ? {
+        cursor: cursor && cursor.id === id ? {
           ...cursor,
           focused: focused,
         } : cursor,

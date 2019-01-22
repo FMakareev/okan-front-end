@@ -36,14 +36,10 @@ const defaultMocks = {
     },
     cellitem: (query, props) => {
 
-      console.log('cellitem: ', props);
-      const {id, prevcell, nextcell, parent} = props;
-      return new Promise((resolve, reject) => {
-
+      const {id} = props;
+      return new Promise((resolve) => {
         setTimeout(() => {
           const result = cellTree.find(item => item.id === id);
-
-          console.log('cellitem result: ', result);
           resolve(result);
         }, faker.random.number(0))
       })
