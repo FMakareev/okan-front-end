@@ -1,8 +1,23 @@
 mutation ($email: String!, $key: String!, $password: String!) {
-  confirmeduser(email: $email, key: $key,  password: $password) {
-    user{
+  confirmeduser(email: $email, key: $key, password: $password) {
+    user {
+      birthdate
+      firstname
+      lastname
+      patronymic
+      phone
+      position
       id
       email
+      role {
+        id
+        name
+        resolvers {
+          id
+          name
+        }
+      }
+      signature
     }
   }
 }
