@@ -32,11 +32,8 @@ export const browserConfigGenerator = () => {
     module: {
       rules: [
         scriptsLoaderConfig(['@babel/plugin-syntax-dynamic-import']),
-        // Rules for GraphQL
         graphqlLoaderConfig,
-        // Rules for image
         fileLoaderConfig,
-        // Rules for style
         styleLoaderConfig,
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -50,10 +47,7 @@ export const browserConfigGenerator = () => {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
           use: 'url-loader?limit=10000&mimetype=application/octet-stream',
         },
-        {
-          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: 'file-loader',
-        },
+        { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
           loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
@@ -62,8 +56,8 @@ export const browserConfigGenerator = () => {
     },
     plugins: [
       new WriteFileWebpackPlugin(),
-
       new webpack.DefinePlugin({
+        // Rules for GraphQL // Rules for image // Rules for style
         isBrowser: 'true',
         DEV: process.env.NODE_ENV === 'development',
         SSR_FETCH: true,
@@ -72,24 +66,18 @@ export const browserConfigGenerator = () => {
         ENDPOINT_CLIENT: process.env.ENDPOINT_CLIENT || '" "',
         ENDPOINT_SERVER: process.env.ENDPOINT_SERVER || '" "',
       }),
-      // new CleanWebpackPlugin([ process.env.PUBLIC_URL || '../../public']),
-
       new webpack.HotModuleReplacementPlugin(),
-
       new ManifestPlugin({
+        // new CleanWebpackPlugin([ process.env.PUBLIC_URL || '../../public']),
         fileName: 'asset-manifest.json',
       }),
-
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
       }),
-
       ...(process.env.ANALYSE ? [new BundleAnalyzerPlugin()] : []),
     ],
-    ...webpackResolve,
-    // ...(process.env.NODE_ENV === 'production' ?
-    //   {
+    ...webpackResolve, //   { // ...(process.env.NODE_ENV === 'production' ?
     //     optimization: {
     //       minimizer: [
     //         new UglifyJsPlugin({
