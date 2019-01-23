@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DocumentListQuery from './DocumentListQuery.graphql'
 import {Query} from 'react-apollo';
 import {DocumentTree} from "../DocumentTree/DocumentTree";
+import FormCreateDocument from "../FormCreateDocument/FormCreateDocument";
 
 export class ProjectSidebar extends Component {
 
@@ -34,7 +35,7 @@ export class ProjectSidebar extends Component {
                 data.documentlist &&
                 data.documentlist.map((item, index) => <DocumentTree params={params} data={item} key={`DocumentTree=${index}`}/>)
               }
-
+              <FormCreateDocument projectid={projectid}/>
             </Fragment>
           }
         }
