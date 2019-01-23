@@ -35,23 +35,23 @@ import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 
-const validate = ({ email, password }) => {
+const validate = ({ uname, ups }) => {
   const errors = {};
 
-  if (email === undefined) {
-    errors.email = 'Обязательно для заполнения';
+  if (uname === undefined) {
+    errors.uname = 'Обязательно для заполнения';
   }
 
-  if (password === undefined) {
-    errors.password = 'Обязательно для заполнения';
+  if (ups === undefined) {
+    errors.ups = 'Обязательно для заполнения';
   }
 
-  if (password !== undefined && password.length <= 8) {
-    errors.password = 'Пароль должен состоять минимум из 8 цифр ';
+  if (ups !== undefined && ups.length <= 8) {
+    errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
   }
 
-  if (password !== undefined && password.length > 30) {
-    errors.password = 'Пароль должен состоять не больше 30 цифр ';
+  if (ups !== undefined && ups.length > 30) {
+    errors.ups = 'Пароль должен состоять не больше 30 цифр ';
   }
   return errors;
 };
@@ -108,7 +108,7 @@ export class FormLogin extends Component {
       return { submitting: !submitting, isLoading: !isLoading };
     });
 
-    return fetch(`https://okan.code-artel.com/user/auth`, {
+    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
@@ -138,12 +138,11 @@ export class FormLogin extends Component {
 
   getUser = email => {
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
-    console.log(1, client);
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
         console.log('result', result);
-        if (result.errors || result.data.useremailitem === null) {
+        if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
         } else {
@@ -189,15 +188,15 @@ export class FormLogin extends Component {
   setUser = props => {
     console.log('setUser: ', props);
     const {
-      data: { useremailitem },
+      data: { currentuseritem },
     } = props;
 
     const { addUser } = this.props;
 
-    const resolvers = useremailitem.role;
+    const resolvers = currentuseritem.role;
 
-    addUser({ ...useremailitem, resolvers });
-    localStorage.setItem('user', JSON.stringify({ ...useremailitem, resolvers }));
+    addUser({ ...currentuseritem, resolvers });
+    localStorage.setItem('user', JSON.stringify({ ...currentuseritem, resolvers }));
   };
 
   // mockSubmit = value => {
@@ -224,7 +223,7 @@ export class FormLogin extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name="email"
+              name="uname"
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
@@ -235,7 +234,7 @@ export class FormLogin extends Component {
 
           <BoxSecond>
             <Field
-              name={'password'}
+              name={'ups'}
               placeholder={'Пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}

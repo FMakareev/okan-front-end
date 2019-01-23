@@ -31,19 +31,19 @@ export const userInit = () => dispatch => {
           /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
           // setTimeout(()=>{
 
-          return client
+          return client()
             .query({ query: UserEmailItemQuery, variables: { email: user.email } })
             .then(({ data }) => {
-              const { useremailitem } = data;
+              const { currentuseritem } = data;
 
-              // if (!useremailitem.hasOwnProperty) {
+              // if (!currentuseritem.hasOwnProperty) {
               //   return <Redirect to={'/'} />;
               // }
 
-              localStorage.setItem('user', JSON.stringify(useremailitem));
+              localStorage.setItem('user', JSON.stringify(currentuseritem));
 
-              dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...useremailitem } });
-              resolve(useremailitem);
+              dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...currentuseritem } });
+              resolve(currentuseritem);
             })
             .catch(error => {
               localStorage.clear();

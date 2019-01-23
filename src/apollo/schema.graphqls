@@ -403,9 +403,9 @@ type Mutation {
 
   # смена пароля пользователя
   changepassword(user: String!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
-  # mutation($email: String!){
-#   changepassword(email:$email){
-#     User
+#   mutation ($newpassword: String!, $password: String!, $user: String) {
+#   changepassword(newpassword: $newpassword, password: $password, user: $user) {
+#     user 
 #   }
 # }
 

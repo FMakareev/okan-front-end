@@ -23,35 +23,35 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 /** GraphQl schema */
 import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql';
 
-const validate = ({ password, newPassword, confirmNewPassword }) => {
+const validate = ({ password, newpassword, confirmnewpassword }) => {
   const errors = {};
 
   if (!password) {
     errors.password = 'Обязательно для заполнения';
   }
 
-  if (!newPassword) {
-    errors.newPassword = 'Обязательно для заполнения';
+  if (!newpassword) {
+    errors.newpassword = 'Обязательно для заполнения';
   }
 
-  if (!confirmNewPassword) {
-    errors.confirmNewPassword = 'Обязательно для заполнения';
+  if (!confirmnewpassword) {
+    errors.confirmnewpassword = 'Обязательно для заполнения';
   }
 
-  if (newPassword !== undefined && newPassword.length <= 8) {
-    errors.newPassword = 'Пароль должен состоять минимум из 8 цифр';
+  if (newpassword !== undefined && newpassword.length <= 8) {
+    errors.newpassword = 'Пароль должен состоять минимум из 8 цифр';
   }
 
-  if (newPassword !== undefined && newPassword.length > 64) {
-    errors.newPassword = 'Пароль должен состоять не больше 32 цифр';
+  if (newpassword !== undefined && newpassword.length > 64) {
+    errors.newpassword = 'Пароль должен состоять не больше 32 цифр';
   }
 
-  if (password === newPassword) {
-    errors.newPassword = 'Старый пароль и новый пароль, не должны совпадать';
+  if (password === newpassword) {
+    errors.newpassword = 'Старый пароль и новый пароль, не должны совпадать';
   }
 
-  if (confirmNewPassword !== newPassword) {
-    errors.confirmNewPassword = 'Старый пароль и новый пароль, должны совпадать';
+  if (confirmnewpassword !== newpassword) {
+    errors.confirmnewpassword = 'Старый пароль и новый пароль, должны совпадать';
   }
   return errors;
 };
@@ -76,14 +76,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'its okqy',
-    message: 'its okay',
+    title: 'Пароль успешно изменён',
+    message: 'Пароль успешно изменён',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'problems',
-    message: 'problems',
+    title: 'Пароль не изменён',
+    message: 'Пароль не изменён',
     position: 'tr',
     autoDismiss: 2,
   },
@@ -151,7 +151,7 @@ class FormPasswordRecovery extends Component {
           </BoxFirst>
 
           <Field
-            name={'newPassword'}
+            name={'newpassword'}
             placeholder={'Новый пароль'}
             TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
@@ -159,7 +159,7 @@ class FormPasswordRecovery extends Component {
 
           <BoxSecond>
             <Field
-              name={'confirmNewPassword'}
+              name={'confirmnewpassword'}
               placeholder={'Потвердите новый пароль'}
               TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}

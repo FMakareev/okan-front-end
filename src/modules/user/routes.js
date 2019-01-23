@@ -26,7 +26,7 @@ export const routes = [
     layout: LAYOUT_AUTH,
     exact: true,
     name: 'Регистрация',
-    path: '/registration',
+    path: '/registration/:key',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'userRegistration' */ './view/registration'),

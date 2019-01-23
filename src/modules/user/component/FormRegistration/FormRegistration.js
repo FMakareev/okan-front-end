@@ -106,9 +106,10 @@ export class FormRegistration extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
+    console.log(1, data)
 
     this.setState(() => ({ isLoading: true, submitting: true }));
-    console.log(1, this.props['@apollo/create'](data));
+    console.log('this ', this.props['@apollo/create'](data));
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -125,7 +126,7 @@ export class FormRegistration extends Component {
         this.props.setNotificationError(notificationOpts().error);
         this.setState(() => ({
           submitting: false,
-          apolloError: 'Ошибка регистрации пользователя',
+          apolloError: 'Ошибка авторизации пользователя',
           isLoading: false,
         }));
       });
@@ -142,12 +143,12 @@ export class FormRegistration extends Component {
         <Box mb={'100px'}>
           <BoxFirst>
             <Field
-              name={'user'}
+              name={'email'}
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
               left={'40%'}
-              validate={[required, isEmail]}
+              // validate={[required, isEmail]}
             />
           </BoxFirst>
 

@@ -110,7 +110,7 @@ export class FormProfileCreateUser extends Component {
 
         <BoxFirst>
           <Field
-            name="firstName"
+            name="firstname"
             component={TextFieldWithTooltip}
             placeholder={'Фамилия'}
             type="text"
@@ -121,7 +121,7 @@ export class FormProfileCreateUser extends Component {
         </BoxFirst>
 
         <Field
-          name="lastName"
+          name="lastname"
           component={TextFieldWithTooltip}
           placeholder={'Имя'}
           type="text"
@@ -174,7 +174,7 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Электронная почта'}
           type="text"
           size={'md'}
-          validate={[required, isEmail]}
+          // validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
 
@@ -199,9 +199,6 @@ export class FormProfileCreateUser extends Component {
           width={'100%'}
           widthIcon={'10px'}
         />
-
-        {/* TODO: //После этого пользователю на указанную электронную почту придёт письмо с ссылкой для
-       // подтверждения регистрации. При клике по ссылке пользователь попадает в интерфейс авторизации пользователя*/}
       </Form>
     );
   }

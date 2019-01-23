@@ -1,15 +1,17 @@
-query ($id: String) {
-  useritem(id: $id) {
+{
+  currentuseritem {
     id
+    email
+    birthdate
     firstname
     lastname
     patronymic
-    birthdate
     phone
-    email
-    signature
+    position
     role {
+      id
       name
     }
+    signature
   }
 }

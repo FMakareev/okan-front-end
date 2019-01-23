@@ -1,26 +1,25 @@
-mutation(
-  $firstName: String!,
-  $lastName: String!,
-  $patronymic: String!,
-  $birthdate: String!,
-  $position: String!,
-  $phone: String!,
-  $email: String!,
-  $signature: String!
-) {
-  createuser(
-    firstName:$firstName,
-    lastName:$lastName,
-    patronymic:$patronymic,
-    birthdate:$birthdate,
-    position:$position,
-    phone:$phone,
-    email:$email,
-    signature:$signature
-  ){
-    User{
-      id
+mutation ($firstname: String, $lastname: String, $patronymic: String, $birthdate: String, $position: String, $phone: String, $email: String, $signature: String) {
+  createuser(firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthdate: $birthdate, position: $position, phone: $phone, email: $email, signature: $signature) {
+    user {
+      birthdate
       email
+      firstname
+      id
+      lastname
+      patronymic
+      phone
+      position
+      role {
+        id
+        name
+        description
+        resolvers {
+          id
+          module
+          name
+        }
+      }
+      signature
     }
   }
 }
