@@ -45,7 +45,7 @@ export class FieldInputPassword extends Component {
 
     return (
       <Relative width={'100%'}>
-        <TextFieldInput fontSize={9} lineHeight={11} left={'40%'} {...this.props} type={type} />
+        <TextFieldInput left={'40%'} {...this.props} type={type} />
 
         <Absolute top={'33%'} right={'4%'}>
           <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
