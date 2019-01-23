@@ -465,7 +465,7 @@ type Mutation {
 # }
 
   # создание документа
-  createdocument(name: String, cell: String!): Document
+  createdocument(name: String, cell: String): Document
 #   mutation ($approvalstatus: String, $name: String!, $cell: String!) {
 #   createdocument(approvalstatus: $approvalstatus, name: $name, cell: $cell) {
 #     document
