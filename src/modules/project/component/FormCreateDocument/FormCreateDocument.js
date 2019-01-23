@@ -48,7 +48,7 @@ export class FormCreateDocument extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Flex pl={'10px'} pr={'12px'} alignItems={'center'}>
+        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
           <Box
             height={'20px'}
             width={'100%'}

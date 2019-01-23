@@ -9,9 +9,8 @@ import Text from '../../../../components/Text/Text';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
-import SidebarApprovalStatus from '../ProjectEditor/SidebarApprovalStatus';
-import SidebarChangeCell from '../ProjectEditor/SidebarChangeCell';
-import {SvgTriangle} from "@lib/ui/Icons/SvgTriangle";
+import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatus';
+import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from "../NodeToggle/NodeToggle";
 import {SidebarCellNodeEditable} from "../SidebarCellNodeEditable/SidebarCellNodeEditable";
 
@@ -20,6 +19,9 @@ const has = Object.prototype.hasOwnProperty;
 const Wrapper = styled(Flex)`
  cursor: pointer;
 `;
+
+// TODO: добавить авто сохранение каждые 30 секунд если поле с именем в фокусе
+// TODO: добавить вывод актуального статуса
 
 export class SidebarCellNode extends Component {
   static propTypes = {

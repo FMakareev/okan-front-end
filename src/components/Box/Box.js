@@ -1,4 +1,4 @@
-import { space, width, color, fontSize, height, position, zIndex } from 'styled-system';
+import { space, width, color, fontSize, height, position, zIndex, border } from 'styled-system';
 import styled from 'styled-components';
 
 /** Style property */
@@ -12,6 +12,7 @@ export const Box = styled.div`
   ${width};
   ${height};
   ${fontSize};
+  ${border};
   ${color};
   ${BackgroundColorProperty};
   ${TextAlignProperty}
@@ -22,6 +23,7 @@ Box.propTypes = {
   ...position.propTypes,
   ...width.propTypes,
   ...fontSize.propTypes,
+  ...border.propTypes,
   ...color.propTypes,
 };
 

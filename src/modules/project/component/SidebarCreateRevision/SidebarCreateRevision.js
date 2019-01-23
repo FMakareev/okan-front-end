@@ -8,6 +8,8 @@ import Link from '../../../../components/Link/Link';
 /**Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
+// TODO: добавить мутацию для создания ревизии документа
+
 export const SidebarCreateRevision = () => (<ButtonBase
   onClick={(event) => event.stopPropagation()}
   variant={'empty'}>

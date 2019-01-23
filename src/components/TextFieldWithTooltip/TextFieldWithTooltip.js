@@ -31,15 +31,8 @@ export class TextFieldWithTooltip extends PureComponent {
 
   render() {
     const {
-      input,
-      type,
       meta,
-      placeholder,
-      required,
-      disabled,
-      loading,
-      fontSize,
-      lineHeight,
+      input
     } = this.props;
 
     return (
@@ -48,16 +41,8 @@ export class TextFieldWithTooltip extends PureComponent {
         warning={meta.error}
       >
         <TextFieldBase
-          required={required}
-          input={input}
-          placeholder={placeholder}
-          disabled={disabled}
-          loading={loading}
-          lineHeight={lineHeight}
-          fontSize={fontSize}
-          type={type}
-          meta={meta}
-          fontFamily={'secondary'}
+          {...this.props}
+          {...input}
         />
       </TooltipBase>
     );

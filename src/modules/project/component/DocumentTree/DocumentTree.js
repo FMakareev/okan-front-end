@@ -3,7 +3,7 @@ import {withApollo} from 'react-apollo';
 import PropTypes from 'prop-types';
 import {Treebeard, decorators} from '../../../../components/ReactTreeBeard/index';
 import {Box} from "@lib/ui/Box/Box";
-import SidebarCellRoot from "../ProjectEditor/SidebarCellRoot";
+import SidebarCellRoot from "../SidebarCellRoot/SidebarCellRoot";
 import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
 import CellItemQuery from './CellItemQuery.graphql';
 import objectPath from "object-path";
@@ -53,7 +53,7 @@ export class DocumentTree extends Component {
 
   get initialState() {
     console.log(this.props);
-    const {data} = this.props;
+    const {data,params} = this.props;
 
     return {
       cursor: null,
@@ -64,11 +64,10 @@ export class DocumentTree extends Component {
         active: false,
         focused: false,
         id: 'ROOT',
-        childcell: "37cea22b074140c6ac32a660",
         ...data,
         decorators: {
           ...decorators,
-          Container: (props) => <SidebarCellRoot {...props}/>,
+          Container: (props) => <SidebarCellRoot projectid={params.projectid} {...props}/>,
         },
         children: [],
       }
@@ -468,13 +467,16 @@ export class DocumentTree extends Component {
   render() {
     console.log(this.state);
 
-    return <div>
+    return (<Box style={{
+      borderBottom: '1px solid #848484',
+      marginBottom: '4px'
+    }}>
       <Treebeard
         decorators={decorators}
         data={this.state.tree}
         onToggle={this.onToggle}
       />
-    </div>
+    </Box>)
   }
 }
 

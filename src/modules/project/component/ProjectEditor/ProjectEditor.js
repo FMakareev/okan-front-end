@@ -14,7 +14,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import EditorCellController from "./EditorCellController";
 import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
-import SidebarCellRoot from "./SidebarCellRoot";
+import SidebarCellRoot from "../SidebarCellRoot/SidebarCellRoot";
 import EditorAdditionalMenu from "./EditorAdditionalMenu";
 import EditorCellComment from "./EditorCellComment";
 import {EditorCellCommentButton} from "./EditorCellCommentButton";
@@ -26,13 +26,13 @@ import EditorCellCommentForm from "./EditorCellCommentForm";
 import {EditorCellCommentList} from "./EditorCellCommentList";
 import EditorCellContent from "./EditorCellContent";
 import EditorCellForm from "./EditorCellForm";
-import {SidebarApprovalStatus} from "./SidebarApprovalStatus";
-import SidebarChangeCell from "./SidebarChangeCell";
+import {SidebarApprovalStatus} from "../SidebarApprovalStatus/SidebarApprovalStatus";
+import SidebarChangeCell from "../SidebarChangeCell/SidebarChangeCell";
 import {SidebarCreateCell} from "../SidebarCreateCell/SidebarCreateCell";
-import SidebarProjectExport from "./SidebarProjectExport";
-import SidebarProjectSettings from "./SidebarProjectSettings";
-import SidebarRevisionList from "./SidebarRevisionList";
-import SidebarSaveChanges from "./SidebarSaveChanges";
+import SidebarProjectExport from "../SidebarProjectExport/SidebarProjectExport";
+import SidebarProjectSettings from "../SidebarProjectSettings/SidebarProjectSettings";
+import SidebarRevisionList from "../SidebarRevisionList/SidebarRevisionList";
+import SidebarSaveChanges from "../SidebarSaveChanges/SidebarSaveChanges";
 
 
 

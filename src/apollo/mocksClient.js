@@ -30,7 +30,7 @@ const defaultMocks = {
     documentlist:()=>{
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(documentlist(3));
+          resolve(documentlist(1));
         }, faker.random.number(0))
       })
     },
@@ -121,7 +121,7 @@ const defaultMocks = {
       console.log('createdocument: ',props);
       return  new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve({...documentitem(), name: props.name});
+          resolve({...documentitem(),childcell: null, name: props.name});
         }, faker.random.number(2000));
       })
     },
