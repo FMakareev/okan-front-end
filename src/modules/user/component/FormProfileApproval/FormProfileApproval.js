@@ -29,9 +29,9 @@ const TbodyStyled = styled(Tbody)`
 export class FormProfileApproval extends Component {
   static propTypes = {
     /** name document */
-    name:PropTypes.string,
+    name: PropTypes.string,
     /** number document*/
-    number:PropTypes.string,
+    number: PropTypes.string,
   };
 
   constructor(props) {
@@ -39,10 +39,9 @@ export class FormProfileApproval extends Component {
     this.state = {};
   }
   render() {
-    const { data: { 
-      name, 
-      number
-    }} = this.props;
+    const {
+      data: { name, number },
+    } = this.props;
 
     return (
       <Fragment>
