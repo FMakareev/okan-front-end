@@ -228,8 +228,6 @@ export class FormLogin extends Component {
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
-              fontSize={9}
-              lineHeight={11}
               left={'45%'}
               // validate={[required, isEmail]}
             />
