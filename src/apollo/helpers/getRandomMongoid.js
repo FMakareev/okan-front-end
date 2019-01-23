@@ -1,3 +1,7 @@
-import faker from "faker";
+import faker from 'faker';
 
-export const getRandomMongoID = () => faker.random.uuid().replace(/-/g, '').substring(0, 24)
+export const getRandomMongoID = () =>
+  faker.random
+    .uuid()
+    .replace(/-/g, '')
+    .substring(0, 24);
