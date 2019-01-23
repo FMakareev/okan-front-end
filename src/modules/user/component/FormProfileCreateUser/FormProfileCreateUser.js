@@ -101,8 +101,6 @@ export class FormProfileCreateUser extends Component {
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Text
-          fontSize={6}
-          lineHeight={7}
           color={'color7'}
           textAlign={'center'}
           mb={13}
@@ -116,8 +114,7 @@ export class FormProfileCreateUser extends Component {
             component={TextFieldWithTooltip}
             placeholder={'Фамилия'}
             type="text"
-            fontSize={5}
-            lineHeight={7}
+            size={'md'}
             fontFamily={'secondary'}
             validate={required}
           />
@@ -128,8 +125,7 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Имя'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
+          size={'md'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -139,8 +135,7 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Отчество'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
+          size={'md'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -150,8 +145,6 @@ export class FormProfileCreateUser extends Component {
           component={DayPickerField}
           placeholder={'Дата рождения'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -161,8 +154,7 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Должность'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
+          size={'md'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -172,8 +164,6 @@ export class FormProfileCreateUser extends Component {
           component={MaskedInputField}
           placeholder={'Телефон'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -183,8 +173,7 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Электронная почта'}
           type="text"
-          fontSize={5}
-          lineHeight={7}
+          size={'md'}
           validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
@@ -195,8 +184,6 @@ export class FormProfileCreateUser extends Component {
             component={PictureUploadPreview}
             placeholder={'Загрузить подпись'}
             type="text"
-            fontSize={5}
-            lineHeight={7}
             validate={required}
           />
         </BoxSecond>
