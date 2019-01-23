@@ -146,8 +146,6 @@ export class FormRegistration extends Component {
               component={TextFieldWithTooltip}
               placeholder={'Логин'}
               type="text"
-              fontSize={9}
-              lineHeight={11}
               left={'40%'}
               validate={[required, isEmail]}
             />
