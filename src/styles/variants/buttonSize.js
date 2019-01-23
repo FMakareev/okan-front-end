@@ -7,7 +7,7 @@ export const ButtonSize = {
     padding: '2px 0',
   },
   small: {
-    minWidth: '200px',
+    // minWidth: '200px',
     fontSize: ' 16px',
     lineHeight: '16px',
     padding: '2px 0',
@@ -24,7 +24,6 @@ export const ButtonSize = {
     minWidth: '500px',
     fontSize: ' 32px',
     lineHeight: '40px',
-    padding: '10px 0',
     fontFamily: 'Circe Bold',
     padding: '8px 60px',
   },
