@@ -49,8 +49,7 @@ export class FormProfileRecoveryEmail extends Component {
             component={TextFieldWithTooltip}
             placeholder={'email@okan.su'}
             type="text"
-            fontSize={5}
-            lineHeight={7}
+            size={'md'}
             fontFamily={'secondary'}
             validate={isEmail}
           />
