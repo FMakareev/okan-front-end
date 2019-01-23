@@ -193,6 +193,23 @@ ShallowWrapper {
           "right",
         ],
         "variant": Object {
+          "buttonComment": Object {
+            "comment": Object {
+              "backgroundColor": "#006699",
+              "border": 0,
+              "minWidth": "20px",
+            },
+            "emptyComment": Object {
+              "backgroundColor": "#848484",
+              "border": 0,
+              "minWidth": "20px",
+            },
+            "newComment": Object {
+              "backgroundColor": "#df4624",
+              "border": 0,
+              "minWidth": "20px",
+            },
+          },
           "buttonSize": Object {
             "large": Object {
               "fontFamily": "Circe Bold",
@@ -212,7 +229,6 @@ ShallowWrapper {
               "fontFamily": "Circe Regular",
               "fontSize": " 16px",
               "lineHeight": "16px",
-              "minWidth": "200px",
               "padding": "2px 0",
             },
             "xsmall": Object {
@@ -234,7 +250,7 @@ ShallowWrapper {
                 "color": "#ffffff",
                 "fill": "#ffffff",
               },
-              "backgroundColor": "#ffffff",
+              "backgroundColor": "transparent",
               "border": "2px solid",
               "color": "#00649C",
               "fill": "#00649C",
@@ -260,6 +276,28 @@ ShallowWrapper {
               "border": "1px solid #00649C",
               "color": "#fff",
               "fill": "#fff",
+            },
+          },
+          "inputSize": Object {
+            "lg": Object {
+              "fontSize": "28px",
+              "lineHeight": "36px",
+              "padding": "10px 10px",
+            },
+            "md": Object {
+              "fontSize": "16px",
+              "lineHeight": "20px",
+              "padding": "10px 10px",
+            },
+            "sm": Object {
+              "fontSize": "16px",
+              "lineHeight": "20px",
+              "padding": "4px 10px",
+            },
+            "xs": Object {
+              "fontSize": "16px",
+              "lineHeight": "18px",
+              "padding": "0 10px",
             },
           },
           "text": Object {
@@ -484,6 +522,23 @@ ShallowWrapper {
             "right",
           ],
           "variant": Object {
+            "buttonComment": Object {
+              "comment": Object {
+                "backgroundColor": "#006699",
+                "border": 0,
+                "minWidth": "20px",
+              },
+              "emptyComment": Object {
+                "backgroundColor": "#848484",
+                "border": 0,
+                "minWidth": "20px",
+              },
+              "newComment": Object {
+                "backgroundColor": "#df4624",
+                "border": 0,
+                "minWidth": "20px",
+              },
+            },
             "buttonSize": Object {
               "large": Object {
                 "fontFamily": "Circe Bold",
@@ -503,7 +558,6 @@ ShallowWrapper {
                 "fontFamily": "Circe Regular",
                 "fontSize": " 16px",
                 "lineHeight": "16px",
-                "minWidth": "200px",
                 "padding": "2px 0",
               },
               "xsmall": Object {
@@ -525,7 +579,7 @@ ShallowWrapper {
                   "color": "#ffffff",
                   "fill": "#ffffff",
                 },
-                "backgroundColor": "#ffffff",
+                "backgroundColor": "transparent",
                 "border": "2px solid",
                 "color": "#00649C",
                 "fill": "#00649C",
@@ -551,6 +605,28 @@ ShallowWrapper {
                 "border": "1px solid #00649C",
                 "color": "#fff",
                 "fill": "#fff",
+              },
+            },
+            "inputSize": Object {
+              "lg": Object {
+                "fontSize": "28px",
+                "lineHeight": "36px",
+                "padding": "10px 10px",
+              },
+              "md": Object {
+                "fontSize": "16px",
+                "lineHeight": "20px",
+                "padding": "10px 10px",
+              },
+              "sm": Object {
+                "fontSize": "16px",
+                "lineHeight": "20px",
+                "padding": "4px 10px",
+              },
+              "xs": Object {
+                "fontSize": "16px",
+                "lineHeight": "18px",
+                "padding": "0 10px",
               },
             },
             "text": Object {
