@@ -5,17 +5,11 @@ exports[`LogOut: рендер без ошибок 1`] = `
   className="sc-bxivhb dUiVDW"
 >
   <div
-    className="sc-1jxwge6-0 d5w2g7-0 kiLyUB"
+    className="sc-181m7t4-2 fFFOLc"
   >
     <div
-      className="sc-1jxwge6-0 sc-18ch56c-0 fzRVpo"
-      color="color1"
-      fontSize={12}
-    >
-      <div
-        className="sc-181m7t4-0 ckrlTX"
-      />
-    </div>
+      className="sc-181m7t4-1 cVJEPN"
+    />
   </div>
 </div>
 `;
