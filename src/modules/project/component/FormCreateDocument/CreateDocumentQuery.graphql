@@ -1,0 +1,8 @@
+mutation($name: String) {
+  createdocument(name:$name){
+    id
+    name
+    childcell
+    approvalstatus
+  }
+}
