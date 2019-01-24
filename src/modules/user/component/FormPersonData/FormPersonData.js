@@ -44,7 +44,9 @@ export class FormPersonData extends Component {
     this.state = {};
   }
   render() {
-    const { lastname, firstname, patronymic, birthdate, position, phone, email } = this.props;
+    const {
+      initialValues: { lastname, firstname, patronymic, birthdate, position, phone, email },
+    } = this.props;
 
     return (
       <Fragment>
@@ -57,28 +59,49 @@ export class FormPersonData extends Component {
           fontFamily={'primary500'}>
           Личные данные
         </Text>
+
         <BoxStyled>
-          <Text fontSize={5} lineHeight={7} pl={4} pt={0} pb={2} fontFamily={'secondary'}>
-            {lastname}
-          </Text>
-          <TextStyled fontSize={5} lineHeight={7} pl={4}>
-            {firstname}
-          </TextStyled>
-          <TextStyled fontSize={5} lineHeight={7} pl={4}>
-            {patronymic}
-          </TextStyled>
-          <TextStyled fontSize={5} lineHeight={7} pl={4}>
-            {birthdate}
-          </TextStyled>
-          <TextStyled fontSize={5} lineHeight={7} pl={4}>
-            {position}
-          </TextStyled>
-          <TextStyled fontSize={5} lineHeight={7} pl={4}>
-            {phone}
-          </TextStyled>
-          <TextStyled fontSize={5} lineHeight={7} pl={4} mb={-2}>
-            {email}
-          </TextStyled>
+          {lastname && (
+            <Text fontSize={5} lineHeight={7} pl={4} pt={0} pb={2} fontFamily={'secondary'}>
+              {lastname}
+            </Text>
+          )}
+
+          {firstname && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4}>
+              {firstname}
+            </TextStyled>
+          )}
+
+          {patronymic && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4}>
+              {patronymic}
+            </TextStyled>
+          )}
+
+          {birthdate && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4}>
+              {birthdate}
+            </TextStyled>
+          )}
+
+          {position && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4}>
+              {position}
+            </TextStyled>
+          )}
+
+          {phone && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4}>
+              {phone}
+            </TextStyled>
+          )}
+
+          {email && (
+            <TextStyled fontSize={5} lineHeight={7} pl={4} mb={-2}>
+              {email}
+            </TextStyled>
+          )}
         </BoxStyled>
       </Fragment>
     );
