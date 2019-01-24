@@ -19,15 +19,15 @@ const defaultMocks = {
   Query: () => ({
     userlist: () => userlist(faker.random.number(5)),
     useritem,
-    documentitem:()=>documentitem(),
-    projectitem:(query, {id})=>{
+    documentitem: () => documentitem(),
+    projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(projectitem({id}));
         }, faker.random.number(0))
       })
     },
-    documentlist:()=>{
+    documentlist: () => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(documentlist(1));
@@ -44,7 +44,7 @@ const defaultMocks = {
         }, faker.random.number(0))
       })
     },
-    useremailitem: (query, { email }) => {
+    useremailitem: (query, {email}) => {
       switch (email) {
         case 'client@okan.su': {
           return {...useritem(), email: 'client@okan.su', role: ROLE_USER};
@@ -118,10 +118,47 @@ const defaultMocks = {
     changepassword: (mutation, props) => props,
 
     createdocument: (mutation, props) => {
-      console.log('createdocument: ',props);
-      return  new Promise((resolve, reject) => {
+      console.log('createdocument: ', props);
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve({...documentitem(),childcell: null, name: props.name});
+
+          faker.random.number(1) ?
+            resolve({
+              ...documentitem(),
+              childcell: null,
+              name: props.name
+            }) :
+            reject(
+              JSON.stringify({
+                errors: [
+                  {
+                    message: 'error!',
+                  },
+                ],
+              }));
+
+        }, faker.random.number(2000));
+      })
+    },
+
+    createrevision: (mutation, props) => {
+      console.log('createrevision: ', props);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          faker.random.number(1) ?
+            resolve({
+              ...documentitem(),
+              childcell: null,
+              name: props.name
+            }) :
+            reject(
+              JSON.stringify({
+                errors: [
+                  {
+                    message: 'error!',
+                  },
+                ],
+              }));
         }, faker.random.number(2000));
       })
     },
