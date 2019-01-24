@@ -69,6 +69,7 @@ export class SidebarCellNode extends Component {
       return {
         name: this.props.node.name,
         focused: this.props.node.focused,
+        hover: false,
       }
     } catch (e) {
       console.error(e);
@@ -81,7 +82,7 @@ export class SidebarCellNode extends Component {
 
   onToggleEditable = () => {
     const {changeNodeFocus, node} = this.props;
-    console.log('onToggleEditable: ',this.props);
+    console.log('onToggleEditable: ', this.props);
     if (node.focused) {
       this.contentEditable.current.focus();
     }
@@ -109,12 +110,27 @@ export class SidebarCellNode extends Component {
     }
   };
 
+  onHover = (hover) => {
+    this.setState((state) => ({
+      ...state,
+      hover: hover
+    }))
+  };
+
   render() {
     const {decorators, terminal, onClick, node} = this.props;
-
+    const {hover, name} = this.state;
     const isHead = this.getIsHeadStatus(node);
     return (
-      <Wrapper mb={'10px'} px={'10px'} onClick={this.handleClick} justifyContent={'flex-start'} alignItems={'center'}>
+      <Wrapper
+        onMouseEnter={() => this.onHover(true)}
+        onMouseLeave={() => this.onHover(false)}
+        mb={'10px'}
+        px={'10px'}
+        onClick={this.handleClick}
+        justifyContent={'flex-start'}
+        alignItems={'center'}
+      >
         <Flex width={'calc(100% - 72px)'}>
           {isHead && <NodeToggle toggled={node.toggled}/>}
           <Flex ml={isHead ? '' : '20px'} color={'color11'} width={'calc(100% - 28px)'}>
@@ -126,18 +142,18 @@ export class SidebarCellNode extends Component {
                 id={node.id}
                 onToggle={this.onToggleEditable}
                 ref={this.contentEditable}
-                html={this.state.name} // innerHTML of the editable div
-                focused={node.focused} // use true to disable edition
-                onChange={this.handleChange} // handle innerHTML change
+                html={name}
+                focused={node.focused}
+                onChange={this.handleChange}
               />
             </Text>
           </Flex>
         </Flex>
         <Flex>
-          <Box px={1}>
+          <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarChangeCell onClick={this.onToggleEditable}/>
           </Box>
-          <Box px={1}>
+          <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
               prevcell={node.id}
               parent={node.parent}
