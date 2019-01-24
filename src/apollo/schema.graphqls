@@ -77,13 +77,13 @@ type Cell {
   # статус проверки ячейки
   verify: String!
   # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
-  prevcell: String
+  prevcell: Cell
   # id следующей ячейки
-  nextcell: String
+  nextcell: Cell
   # id родительской ячейки
-  parent: String
+  parent: Cell
   # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-  childcell: String
+  childcell: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
   is_head: Boolean
@@ -164,7 +164,7 @@ type Document {
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  childcell: String
+  childcell: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
