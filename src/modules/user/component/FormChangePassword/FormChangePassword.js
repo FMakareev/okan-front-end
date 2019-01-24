@@ -11,7 +11,7 @@ import { SvgPlay } from '../../../../components/Icons/SvgPlay';
 
 export const FormChangePassword = () => {
   return (
-    <Link to={'/auth/password-recovery'}>
+    <Link to={'/password-recovery'}>
       <ButtonWithImage
         type="submit"
         variant={'large'}

@@ -1,0 +1,21 @@
+{
+  userlist {
+    birthdate
+    email
+    firstname
+    id
+    lastname
+    patronymic
+    phone
+    position
+    role {
+      id
+      name
+      resolvers {
+        id
+        name
+      }
+    }
+    signature
+  }
+}
