@@ -1,35 +1,51 @@
 import faker from 'faker';
-import { GraphQLError } from 'graphql';
+import {GraphQLError} from 'graphql';
 
 /** Apollo Client Mock */
 import setupClient from './helpers/apolloClientMock';
 
 /** Constants */
-import { ROLE_ADMIN, ROLE_USER } from '../shared/roles';
+import {ROLE_ADMIN, ROLE_USER} from '../shared/roles';
 
 /** Schema */
 import schema from './schema.graphqls';
 
 /** Mock query */
-import { userlist } from './graphql/query/userlist';
-import { useritem } from './graphql/query/useritem';
-import { celItem } from './graphql/query/celItem';
+import {userlist} from './graphql/query/userlist';
+import {useritem} from './graphql/query/useritem';
+import {celItem} from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
-import { documentitem } from './graphql/query/documentItem';
-import { documentlist } from './graphql/query/documentlist';
-import { projectitem } from './graphql/query/projectitem';
-import { notificationList } from './graphql/query/notificationList';
-import { notificationItem } from './graphql/query/notificationItem';
+import {documentitem} from './graphql/query/documentItem';
+import {documentlist} from './graphql/query/documentlist';
+import {projectitem} from './graphql/query/projectitem';
+import {notificationList} from './graphql/query/notificationList';
+import {notificationItem} from './graphql/query/notificationItem';
+import {projectlist} from "./graphql/query/projectlist";
 
 const defaultMocks = {
   Query: () => ({
     userlist: () => userlist(faker.random.number(5)),
     useritem,
-    documentitem:()=>documentitem(),
-    projectitem:(query, {id})=>{
+    documentitem: () => documentitem(),
+    currentuseritem: () => {
+      const result = useritem();
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(projectitem({ id }));
+          resolve(result);
+        }, faker.random.number(0));
+      });
+    },
+    projectitem: (query, {id}) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(projectitem({id}));
+        }, faker.random.number(0));
+      });
+    },
+    projectlist: (query, {id}) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(projectlist(4));
         }, faker.random.number(0));
       });
     },
@@ -59,30 +75,6 @@ const defaultMocks = {
           resolve(result);
         }, faker.random.number(0))
       })
-    },
-    useremailitem: (query, { email }) => {
-      switch (email) {
-        case 'client@okan.su': {
-          return {...useritem(), email: 'client@okan.su', role: ROLE_USER};
-        }
-        case 'admin@okan.su': {
-          return {...useritem(), email: 'admin@okan.su', role: ROLE_ADMIN};
-        }
-
-        default: {
-          // throw new GraphQLError('user not found');
-          throw Error(
-            JSON.stringify({
-              useremailitem: null,
-              errors: [
-                {
-                  message: 'GraphQL error: user not found',
-                },
-              ],
-            }),
-          );
-        }
-      }
     },
   }),
 
