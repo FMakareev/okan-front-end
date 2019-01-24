@@ -1,7 +1,6 @@
 /* global isBrowser */
 
 import {
-  USER_ADD,
   USER_INIT_LOADING_ERROR,
   USER_INIT_LOADING_START,
   USER_INIT_LOADING_SUCCESS,
@@ -11,9 +10,8 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import { client } from '../../../apollo/index.client';
-import UserEmailItemQuery from './UserEmailItemQuery.graphql';
-import { Redirect } from 'react-router-dom';
+import {client} from '../../../apollo/index.client';
+import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
 
 /**
  * @desc метод инициализации пользователя в системе
@@ -28,22 +26,18 @@ export const userInit = () => dispatch => {
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
-          /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
-          // setTimeout(()=>{
-
           return client()
-            .query({ query: UserEmailItemQuery, variables: { email: user.email } })
-            .then(({ data }) => {
-              const { currentuseritem } = data;
+            .query({query: CurrentUserItemQuery})
+            .then((response) => {
+              console.log('response:', response);
 
-              // if (!currentuseritem.hasOwnProperty) {
-              //   return <Redirect to={'/'} />;
-              // }
+              const {data} = response;
 
-              localStorage.setItem('user', JSON.stringify(currentuseritem));
+              localStorage.setItem('user', JSON.stringify(data.currentuseritem));
 
-              dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...currentuseritem } });
-              resolve(currentuseritem);
+              dispatch({type: USER_INIT_LOADING_SUCCESS, user: {...data.currentuseritem}});
+              resolve(data.currentuseritem);
+
             })
             .catch(error => {
               localStorage.clear();
@@ -57,7 +51,6 @@ export const userInit = () => dispatch => {
               });
               reject(error);
             });
-          // }, 500)
         } else {
           localStorage.clear();
           dispatch({
@@ -108,24 +101,20 @@ export const userUpdate = () => dispatch => {
         });
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-          /** TODO : Заменить mocksClient на обычный client и убрать setTimeout */
-          // setTimeout(()=>{
-          client
-            .query({ query: UserEmailItemQuery, variables: { email: user.email } })
-            .then(({ data }) => {
-              const { useremailitem } = data;
-              localStorage.setItem('user', JSON.stringify(useremailitem));
-              dispatch({ type: USER_UPDATE_LOADING_SUCCESS, user: { ...useremailitem } });
-              resolve(useremailitem);
+          client()
+            .query({query: CurrentUserItemQuery, variables: {email: user.email}})
+            .then((response) => {
+              const {data} = response;
+              localStorage.setItem('user', JSON.stringify(data.currentuseritem));
+              dispatch({type: USER_UPDATE_LOADING_SUCCESS, user: {...data.currentuseritem}});
+              resolve(data.currentuseritem);
             })
             .catch(error => {
               console.log(error);
               localStorage.clear();
-              /** */
-              dispatch({ type: USER_UPDATE_LOADING_ERROR, user: { error: error } });
+              dispatch({type: USER_UPDATE_LOADING_ERROR, user: {error: error}});
               reject(error);
             });
-          // }, 500)
         } else {
           localStorage.clear();
           dispatch({
