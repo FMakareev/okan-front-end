@@ -67,7 +67,7 @@ export class DocumentTree extends Component {
         ...data,
         decorators: {
           ...decorators,
-          Container: (props) => <SidebarCellRoot projectid={params.projectid} {...props}/>,
+          Container: (props) => <SidebarCellRoot document={this.props.data}   projectid={params.projectid} {...props}/>,
         },
         children: [],
       }
