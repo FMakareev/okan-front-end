@@ -25,7 +25,7 @@ const rehydrateState = window.ASYNC_COMPONENTS_STATE;
 export const ROOT = (
   <AsyncComponentProvider rehydrateState={rehydrateState}>
     <StyledThemeProvider>
-      <ApolloProvider client={client()}>
+      <ApolloProvider client={client}>
         <ProviderRedux store={Store}>
           <Fragment>
             <GlobalStyle />
