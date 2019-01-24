@@ -6,7 +6,7 @@ export const routes = [
     layout: LAYOUT_APP,
     exact: true,
     name: 'Настройки проекта',
-    path: '/project-settings',
+    path: '/project-settings/:id',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
