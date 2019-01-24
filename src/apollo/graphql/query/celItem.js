@@ -19,11 +19,20 @@ export const celItem = ({ id, prevcell, nextcell, parent }) => {
       CELL_STATUS_CHANGED,
     ]),
     // # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
-    prevcell: prevcell || null,
+    prevcell: prevcell? {
+      ...celItem({id: prevcell,}),
+
+    } : null,
     // # id следующей ячейки
-    nextcell: faker.random.arrayElement([getRandomMongoID(), null]),
+    nextcell: nextcell ? {
+      ...celItem({id: nextcell}),
+
+    } : null,
     // # id родительской ячейки
-    parent: parent || null,
+    parent:  parent ? {
+      ...celItem({id: parent}),
+
+    } : null,
     // # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
     childcell: faker.random.arrayElement([getRandomMongoID(), null]),
     // # говорит нам является ли ячейка названием раздела, а не блоком с контентом,

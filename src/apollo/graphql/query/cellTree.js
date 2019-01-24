@@ -3,9 +3,13 @@ export default [{
   "name": "Satterfield - Hilpert",
   "verify": "changed",
   "prevcell": null,
-  "nextcell": "b77e3cdb49504975ae13e7d9",
+  "nextcell": {
+    id: "b77e3cdb49504975ae13e7d9"
+  },
   "parent": null,
-  "childcell": "81bef0ceadbb48a98b42da8e",
+  "childcell": {
+    id: "81bef0ceadbb48a98b42da8e",
+  },
   "is_head": true,
   "content": {"number": "27604", "__typename": "Block"},
   "approvalstatus": "",
@@ -13,10 +17,16 @@ export default [{
   "id": "81bef0ceadbb48a98b42da8e",
   "name": "Reilly - Mitchell",
   "verify": "changed",
-  "prevcell": "37cea22b074140c6ac32a660",
+  "prevcell": {
+    id: "37cea22b074140c6ac32a660"
+  },
   "nextcell": null,
-  "parent": "37cea22b074140c6ac32a660",
-  "childcell": "dd58382a6bec4624b69ec18c",
+  "parent": {
+    id: "37cea22b074140c6ac32a660"
+  },
+  "childcell": {
+    id: "dd58382a6bec4624b69ec18c"
+  },
   "is_head": true,
   "content": {"number": "20958", "__typename": "Block"},
   "approvalstatus": ""
@@ -24,8 +34,12 @@ export default [{
   "id": "b77e3cdb49504975ae13e7d9",
   "name": "Quitzon, Doyle and Beer",
   "verify": "changed",
-  "prevcell": "37cea22b074140c6ac32a660",
-  "nextcell": "1116fa7e57fc4082944d57c1",
+  "prevcell": {
+    id: "37cea22b074140c6ac32a660"
+  },
+  "nextcell": {
+    id: "1116fa7e57fc4082944d57c1"
+  },
   "parent": null,
   "childcell": null,
   "is_head": true,
@@ -35,7 +49,9 @@ export default [{
   "id": "1116fa7e57fc4082944d57c1",
   "name": "Lind Inc",
   "verify": "changed",
-  "prevcell": "b77e3cdb49504975ae13e7d9",
+  "prevcell": {
+    id: "b77e3cdb49504975ae13e7d9"
+  },
   "nextcell": null,
   "parent": null,
   "childcell": null,
@@ -47,9 +63,15 @@ export default [{
     "id": "dd58382a6bec4624b69ec18c",
     "name": "Nolan - Cummings",
     "verify": "checked",
-    "prevcell": "81bef0ceadbb48a98b42da8e",
-    "nextcell": "7852bdb372b7428f8c956f7b",
-    "parent": "81bef0ceadbb48a98b42da8e",
+    "prevcell": {
+      id: "81bef0ceadbb48a98b42da8e"
+    },
+    "nextcell": {
+      id: "7852bdb372b7428f8c956f7b"
+    },
+    "parent": {
+      id: "81bef0ceadbb48a98b42da8e"
+    },
     "childcell": null,
     "is_head": true,
     "content": {"number": "95666", "__typename": "Block"},
@@ -58,10 +80,18 @@ export default [{
     "id": "7852bdb372b7428f8c956f7b",
     "name": "DuBuque, Daniel and Gibson",
     "verify": "changed",
-    "prevcell": "dd58382a6bec4624b69ec18c",
-    "nextcell": "4577e9e553b1489eb0cd6d0a",
-    "parent": "81bef0ceadbb48a98b42da8e",
-    "childcell": "fd8f0e3008464c0094527fad",
+    "prevcell": {
+      id: "dd58382a6bec4624b69ec18c"
+    },
+    "nextcell": {
+      id: "4577e9e553b1489eb0cd6d0a"
+    },
+    "parent": {
+      id: "81bef0ceadbb48a98b42da8e"
+    },
+    "childcell": {
+      id: "fd8f0e3008464c0094527fad"
+    },
     "is_head": false,
     "content": {"number": "47343", "__typename": "Block"},
     "approvalstatus": "",
@@ -70,9 +100,15 @@ export default [{
     "id": "4577e9e553b1489eb0cd6d0a",
     "name": "Rutherford, Hirthe and Huel",
     "verify": "changed",
-    "prevcell": "7852bdb372b7428f8c956f7b",
-    "nextcell": "d8fb772853a8490db09c9796",
-    "parent": "81bef0ceadbb48a98b42da8e",
+    "prevcell": {
+      id: "7852bdb372b7428f8c956f7b"
+    },
+    "nextcell": {
+      id: "d8fb772853a8490db09c9796",
+    },
+    "parent": {
+      id: "81bef0ceadbb48a98b42da8e"
+    },
     "childcell": null,
     "is_head": false,
     "content": {"number": "79656", "__typename": "Block"},
@@ -81,9 +117,13 @@ export default [{
     "id": "d8fb772853a8490db09c9796",
     "name": "Renner, Adams and Hoeger",
     "verify": "checked",
-    "prevcell": "4577e9e553b1489eb0cd6d0a",
+    "prevcell": {
+      id: "4577e9e553b1489eb0cd6d0a",
+    },
     "nextcell": null,
-    "parent": "81bef0ceadbb48a98b42da8e",
+    "parent": {
+      id: "81bef0ceadbb48a98b42da8e"
+    },
     "childcell": null,
     "is_head": false,
     "content": {"number": "71421", "__typename": "Block"},
