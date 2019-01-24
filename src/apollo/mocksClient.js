@@ -12,7 +12,7 @@ import schema from './schema.graphqls';
 
 /** Mock query */
 import { userlist } from './graphql/query/userlist';
-import { useritem } from './graphql/query/useritem';
+import { useritem } from './graphql/query/userItem';
 import { celItem } from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
 import { documentitem } from './graphql/query/documentItem';
