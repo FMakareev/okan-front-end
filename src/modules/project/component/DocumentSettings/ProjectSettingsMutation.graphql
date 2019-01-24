@@ -1,0 +1,10 @@
+mutation ($name: String, $cell: String) {
+  createproject(name: $name, cell: $cell) {
+    document {
+      id
+      name
+      childcell
+      approvalstatus
+    }
+  }
+}
