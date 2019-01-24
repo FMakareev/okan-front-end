@@ -58,7 +58,7 @@ export class ProjectSettings extends Component {
       <Form onSubmit={handleSubmit(this.submit)}>
         <BoxStyled mb={16}>
           <Field
-            name="projectName"
+            name="name"
             component={TextFieldBase}
             placeholder={'Название документа'}
             type="text"
@@ -80,7 +80,7 @@ export class ProjectSettings extends Component {
 
         <Box mb={'180px'}>
           <FieldArray
-            name={'userProject'}
+            name={'cell'}
             component={TextFieldArray}
             type={'text'}
             button={'Добавить нового участника'}
