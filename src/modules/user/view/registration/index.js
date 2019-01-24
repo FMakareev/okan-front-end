@@ -30,17 +30,17 @@ export class Registration extends Component {
     return {};
   }
 
-
   render() {
-    const { match :{
-        params :{ key }
-      }
+    const {
+      match: {
+        params: { key },
+      },
     } = this.props;
 
     return (
       <ErrorCatch>
         <Container maxWidth={'500px'}>
-          <FormRegistration initialValues = {{ key }}/>
+          <FormRegistration initialValues={{ key }} />
         </Container>
       </ErrorCatch>
     );

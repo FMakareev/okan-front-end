@@ -15,7 +15,9 @@ test('Registration: рендер без ошибок', () => {
       <ProviderRedux store={Store}>
         <ApolloProvider client={mocksClient}>
           <BrowserRouter>
-            <Registration />
+            <Registration
+              key={'3c64e11c68c5159fb2a87b89ed719ae900e90ff77e2e0b19426b950b4fe8ff33'}
+            />
           </BrowserRouter>
         </ApolloProvider>
       </ProviderRedux>

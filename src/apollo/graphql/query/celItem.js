@@ -2,24 +2,22 @@ import faker from 'faker';
 import {
   CELL_STATUS_CHECKED,
   CELL_STATUS_NOT_CHECKED,
-  CELL_STATUS_CHANGED
+  CELL_STATUS_CHANGED,
 } from '../../../shared/approvalStatus';
-import {getRandomMongoID} from "../../helpers/getRandomMongoid";
+import { getRandomMongoID } from '../../helpers/getRandomMongoid';
 
-
-export const celItem = ({
-                          id,
-                          prevcell,
-                          nextcell,
-                          parent
-                        }) => {
+export const celItem = ({ id, prevcell, nextcell, parent }) => {
   return {
     // # mongoid
     id: id || getRandomMongoID(),
     // # имя раздела
     name: faker.company.companyName(),
     // # статус проверки ячейки
-    verify: faker.random.arrayElement([CELL_STATUS_CHECKED, CELL_STATUS_NOT_CHECKED, CELL_STATUS_CHANGED]),
+    verify: faker.random.arrayElement([
+      CELL_STATUS_CHECKED,
+      CELL_STATUS_NOT_CHECKED,
+      CELL_STATUS_CHANGED,
+    ]),
     // # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
     prevcell: prevcell || null,
     // # id следующей ячейки
@@ -33,7 +31,7 @@ export const celItem = ({
     is_head: true,
     // # контент раздела
     content: {
-      number: faker.random.number()
+      number: faker.random.number(),
     },
     // # массив комментариев ячейки
     comments: [],
@@ -41,5 +39,5 @@ export const celItem = ({
     pull: [],
     // # null, на согласовании, согласован, не согласован
     approvalstatus: '',
-  }
+  };
 };

@@ -5,14 +5,14 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
   className="sc-bxivhb dUiVDW"
 >
   <div
-    className="sc-1jxwge6-0 wterhv-0 clExyh"
+    className="sc-1jxwge6-0 wterhv-0 huzleF"
   >
     <div
-      className="sc-1jxwge6-0 sc-14k9gvj-0 bfeFrq"
+      className="sc-1jxwge6-0 sc-14k9gvj-0 jaDZBy"
       width="100%"
     >
       <table
-        className="cqxezr-0 xj0wna-0 gjgxNz"
+        className="cqxezr-0 pgdb7-0 kqZcLl"
         width="100%"
       >
         <tr
@@ -58,7 +58,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
             className="sc-1cxzlk0-0 imvHLU"
           >
             <td
-              className="ivgi64-0 xj0wna-1 kUjLEN"
+              className="ivgi64-0 pgdb7-1 cjVhKQ"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -66,7 +66,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               1
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 cruUmi"
+              className="ivgi64-0 pgdb7-1 jxsqpP"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -74,7 +74,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               Циалковский Святослав Валентинович
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 cruUmi"
+              className="ivgi64-0 pgdb7-1 jxsqpP"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -82,16 +82,16 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               12.11.2018
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 hwlvCK"
+              className="ivgi64-0 pgdb7-1 cuDIqc"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
             >
               <div
-                className="sc-1jxwge6-0 wterhv-0 dPBtpW"
+                className="sc-1jxwge6-0 wterhv-0 gKHLdi"
               >
                 <button
-                  className="mxzgdr-0 fLHGuY"
+                  className="mxzgdr-0 laZtVT"
                 >
                   <svg
                     fill="none"
@@ -105,7 +105,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       height="29.5"
                       rx="4.75"
                       stroke="#848484"
-                      stroke-width="0.5"
+                      strokeWidth="0.5"
                       width="29.5"
                       x="0.25"
                       y="0.25"
@@ -121,7 +121,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                   </svg>
                 </button>
                 <button
-                  className="mxzgdr-0 fLHGuY"
+                  className="mxzgdr-0 laZtVT"
                 >
                   <svg
                     fill="none"
@@ -135,7 +135,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       height="29.5"
                       rx="4.75"
                       stroke="#848484"
-                      stroke-width="0.5"
+                      strokeWidth="0.5"
                       width="29.5"
                       x="0.25"
                       y="0.25"
@@ -144,13 +144,13 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       d="M7.40039 11.9998H11.1004C11.3766 11.9998 11.6004 12.2236 11.6004 12.4998V19.1362C11.6004 19.4124 11.8243 19.6362 12.1004 19.6362H16.7005C16.9767 19.6362 17.2005 19.4124 17.2005 19.1362V12.4998C17.2005 12.2236 17.4244 11.9998 17.7005 11.9998H21.4006L14.4005 5.99969L7.40039 11.9998Z"
                       fill="#848484"
                       stroke="#848484"
-                      stroke-width="0.25"
+                      strokeWidth="0.25"
                     />
                     <path
                       d="M22.3002 21H6.5C6.22386 21 6 21.2239 6 21.5V23.5C6 23.7762 6.22386 24 6.5 24H22.3002C22.5764 24 22.8002 23.7762 22.8002 23.5V21.5C22.8002 21.2239 22.5764 21 22.3002 21Z"
                       fill="#848484"
                       stroke="#848484"
-                      stroke-width="0.25"
+                      strokeWidth="0.25"
                     />
                   </svg>
                 </button>
@@ -161,7 +161,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
             className="sc-1cxzlk0-0 imvHLU"
           >
             <td
-              className="ivgi64-0 xj0wna-1 kUjLEN"
+              className="ivgi64-0 pgdb7-1 cjVhKQ"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -169,7 +169,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               1
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 cruUmi"
+              className="ivgi64-0 pgdb7-1 jxsqpP"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -177,7 +177,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               Циалковский Святослав Валентинович
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 cruUmi"
+              className="ivgi64-0 pgdb7-1 jxsqpP"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
@@ -185,16 +185,16 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
               12.11.2018
             </td>
             <td
-              className="ivgi64-0 xj0wna-1 eLdBSp"
+              className="ivgi64-0 pgdb7-1 gVHgiV"
               color="#333333"
               fontFamily="primary300"
               fontSize="18px"
             >
               <div
-                className="sc-1jxwge6-0 wterhv-0 dPBtpW"
+                className="sc-1jxwge6-0 wterhv-0 gKHLdi"
               >
                 <button
-                  className="mxzgdr-0 fLHGuY"
+                  className="mxzgdr-0 laZtVT"
                 >
                   <svg
                     fill="none"
@@ -208,7 +208,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       height="29.5"
                       rx="4.75"
                       stroke="#848484"
-                      stroke-width="0.5"
+                      strokeWidth="0.5"
                       width="29.5"
                       x="0.25"
                       y="0.25"
@@ -224,7 +224,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                   </svg>
                 </button>
                 <button
-                  className="mxzgdr-0 fLHGuY"
+                  className="mxzgdr-0 laZtVT"
                 >
                   <svg
                     fill="none"
@@ -238,7 +238,7 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       height="29.5"
                       rx="4.75"
                       stroke="#848484"
-                      stroke-width="0.5"
+                      strokeWidth="0.5"
                       width="29.5"
                       x="0.25"
                       y="0.25"
@@ -247,13 +247,13 @@ exports[`RevisionListPage: рендер без ошибок 1`] = `
                       d="M7.40039 11.9998H11.1004C11.3766 11.9998 11.6004 12.2236 11.6004 12.4998V19.1362C11.6004 19.4124 11.8243 19.6362 12.1004 19.6362H16.7005C16.9767 19.6362 17.2005 19.4124 17.2005 19.1362V12.4998C17.2005 12.2236 17.4244 11.9998 17.7005 11.9998H21.4006L14.4005 5.99969L7.40039 11.9998Z"
                       fill="#848484"
                       stroke="#848484"
-                      stroke-width="0.25"
+                      strokeWidth="0.25"
                     />
                     <path
                       d="M22.3002 21H6.5C6.22386 21 6 21.2239 6 21.5V23.5C6 23.7762 6.22386 24 6.5 24H22.3002C22.5764 24 22.8002 23.7762 22.8002 23.5V21.5C22.8002 21.2239 22.5764 21 22.3002 21Z"
                       fill="#848484"
                       stroke="#848484"
-                      stroke-width="0.25"
+                      strokeWidth="0.25"
                     />
                   </svg>
                 </button>
