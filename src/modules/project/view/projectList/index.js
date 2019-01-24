@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Query } from 'react-apollo';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -21,13 +22,16 @@ class ProjectListPage extends Component {
     this.state = {};
   }
   render() {
+    console.log(1, this.props);
     return (
       <ErrorCatch>
-        <Flex mt={9} justifyContent={'center'}>
-          <Container maxWidth={'500px'} width={'100%'}>
-            <ProjectList />
-          </Container>
-        </Flex>
+        <Query query={RevisionListQuery}>
+          <Flex mt={9} justifyContent={'center'}>
+            <Container maxWidth={'500px'} width={'100%'}>
+              <ProjectList />
+            </Container>
+          </Flex>
+        </Query>
       </ErrorCatch>
     );
   }
