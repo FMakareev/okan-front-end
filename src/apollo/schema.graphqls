@@ -485,7 +485,7 @@ type Mutation {
   # создание проекта
   # name - название проекта
   # document - id документа проекта, это (шаблон)(хз под вопросом)
-  createproject(name:String!, document: String!): Project
+  createproject(projectname:String!, document: String!): Project
 
   updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
   # создание ревизии документа
