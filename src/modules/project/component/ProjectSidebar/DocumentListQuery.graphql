@@ -5,7 +5,9 @@ query($projectid: String){
     # название шаблона
     name
     # id корневого элемента от которого строится граф разделов
-    childcell
+    childcell{
+      id
+    }
     # null, на согласовании, согласован, не согласован
     approvalstatus
   }
