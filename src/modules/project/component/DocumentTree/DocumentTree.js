@@ -29,7 +29,7 @@ export class DocumentTree extends Component {
       approvalstatus: PropTypes.string,
       childcell: PropTypes.string,
       id: PropTypes.string,
-      name:  PropTypes.string,
+      name: PropTypes.string,
       __typename: PropTypes.string,
     }),
     /** @desc объект с параметрами адресной строки */
@@ -53,7 +53,7 @@ export class DocumentTree extends Component {
 
   get initialState() {
     console.log(this.props);
-    const {data,params} = this.props;
+    const {data, params} = this.props;
 
     return {
       cursor: null,
@@ -67,7 +67,7 @@ export class DocumentTree extends Component {
         ...data,
         decorators: {
           ...decorators,
-          Container: (props) => <SidebarCellRoot document={this.props.data}   projectid={params.projectid} {...props}/>,
+          Container: (props) => <SidebarCellRoot document={this.props.data} projectid={params.projectid} {...props}/>,
         },
         children: [],
       }
@@ -88,7 +88,7 @@ export class DocumentTree extends Component {
           active: true,
           toggled: true,
         });
-        return this.createBranch(item.nextcell, nodes, newNodes);
+        return this.createBranch(item.nextcell.id, nodes, newNodes);
       }
     });
   };
@@ -106,7 +106,7 @@ export class DocumentTree extends Component {
             let childNodesList = [];
             this.createBranch(item.childcell, nodes, childNodesList);
 
-            childNodesList  = this.cellNumbering(childNodesList, item.number);
+            childNodesList = this.cellNumbering(childNodesList, item.number);
 
             this.createTree(childNodesList, nodes);
             item.children = childNodesList;
@@ -181,7 +181,7 @@ export class DocumentTree extends Component {
       node.loading = true;
       let childList = [];
       // Запрашиваем данные для открывшейся ветки
-      this.branchDownload(node.childcell, childList)
+      this.branchDownload(node.childcell.id, childList)
         .then(response => {
           if (childList.length) {
             this.addNodeListInBranch(childList, node.number);
@@ -205,24 +205,26 @@ export class DocumentTree extends Component {
    * @desc метод выполняет загрузку ячеек по id
    * */
   branchDownload = (id, nodes, prevcell) => {
+    console.log('id, nodes, prevcell', id, nodes, prevcell);
+    if(!id) return;
     return this.getNode(id)
       .then(async response => {
         const {data} = response;
-        if (data.cellitem) {
+        if (data && data.cellitem) {
           nodes.push(data.cellitem);
 
           // Это перегрузка метода
           if (typeof prevcell !== 'undefined') {
-            if (data.cellitem.prevcell && data.cellitem.prevcell !== prevcell) {
-              await this.branchDownload(data.cellitem.prevcell, nodes, data.cellitem.id);
+            if (data.cellitem.prevcell && has.call(data.cellitem.prevcell, 'id') && data.cellitem.prevcell.id !== prevcell) {
+              await this.branchDownload(data.cellitem.prevcell.id, nodes, data.cellitem.id);
             }
-            if (data.cellitem.nextcell && data.cellitem.nextcell !== prevcell) {
-              return await this.branchDownload(data.cellitem.nextcell, nodes, data.cellitem.id);
+            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id') && data.cellitem.nextcell.id !== prevcell) {
+              return await this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
             }
           } else {
 
-            if (data.cellitem.nextcell) {
-              return this.branchDownload(data.cellitem.nextcell, nodes, data.cellitem.id);
+            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id') ) {
+              return this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
             }
             return response;
           }
@@ -232,7 +234,9 @@ export class DocumentTree extends Component {
         }
 
       }).catch(error => {
-        console.error(`Error branchDownload, id=${id},parent=${parent}: `, error);
+        console.log(prevcell);
+        console.log(id);
+        console.error(`Error branchDownload, id=${id},prevcell=${prevcell}: `, error);
         return null;
       })
   };
@@ -327,7 +331,7 @@ export class DocumentTree extends Component {
   addNodeListInBranch = (cellList, numberParent) => {
     try {
       const tree = Object.assign({}, this.state.tree);
-      let pathToParent = this.getPathToNode(tree, cellList[0].parent) + '.children';
+      let pathToParent = this.getPathToNode(tree, cellList[0].parent && cellList[0].parent.id) + '.children';
 
       let newChildren = cellList.map((cell) => (this.createCellNode(cell)));
 
@@ -357,7 +361,7 @@ export class DocumentTree extends Component {
     let parentChildren = objectPath.get([tree], pathToParentChildren);
     let numberParent = objectPath.get([tree], pathToNumberParent);
 
-    let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell);
+    let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
 
     // Добавить в массив новую ячейку после предыдущей
     parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
@@ -451,6 +455,7 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = (id) => {
+    console.log('getNode',id);
     const {client} = this.props;
 
     return client.query({
