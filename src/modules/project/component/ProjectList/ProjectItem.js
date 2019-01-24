@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+import {withRouter} from 'react-router-dom';
 /** View */
 import Flex from '../../../../components/Flex/Flex';
 import Text from '../../../../components/Text/Text';
@@ -20,9 +20,9 @@ const FlexStyled = styled(Flex)`
 //`/app/document-settings/${id}`
 // `/app/project/${id}`
 
-export const ProjectItem = () => {
+export let ProjectItem = ({id, name,history}) => {
   return (
-    <Link mr={6} to={`/app/project/${1}`} textDecoration={'none'}>
+    <Link mr={6} to={`/app/project/${id}`} textDecoration={'none'}>
       <FlexStyled
         alignItems={'center'}
         justifyContent={'space-between'}
@@ -31,14 +31,21 @@ export const ProjectItem = () => {
         py={3}
         mb={4}>
         <Text color={'color11'} fontFamily={'secondaryBold'} fontSize={6} lineHeight={8}>
-          055 - ЛАЭС - КШ
+          {name}
         </Text>
-
-        <Link mr={6} to={`/app/document-settings/${1}`}>
-          <ButtonWithImage type="submit" variant={'empty'}>
-            <Image src={settings} />
-          </ButtonWithImage>
-        </Link>
+        <ButtonWithImage
+          onClick={(event) => {
+            try {
+              event.stopPropagation();
+              event.preventDefault();
+              history.push(`/app/project-settings/${id}`)
+            } catch (error) {
+              console.error(`Error ProjectItem id=${id}:`, error);
+            }
+          }}
+          type="button" variant={'empty'}>
+          <Image src={settings}/>
+        </ButtonWithImage>
       </FlexStyled>
     </Link>
   );
@@ -46,4 +53,6 @@ export const ProjectItem = () => {
 
 ProjectItem.propTypes = {};
 
-export default ProjectItem;
+ProjectItem = withRouter(ProjectItem);
+
+export default ProjectItem
