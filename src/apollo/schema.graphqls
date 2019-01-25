@@ -77,13 +77,13 @@ type Cell {
   # статус проверки ячейки
   verify: String!
   # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
-  prevcell: String
+  prevcell: Cell
   # id следующей ячейки
-  nextcell: String
+  nextcell: Cell
   # id родительской ячейки
-  parent: String
+  parent: Cell
   # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-  childcell: String
+  childcell: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
   is_head: Boolean
@@ -164,7 +164,7 @@ type Document {
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  childcell: String
+  childcell: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
@@ -257,9 +257,21 @@ type Project {
   status: String
 }
 
+type Resolver {
+  id: ID
+  module: String
+  name: String
+}
+type Role {
+  description: String
+  id: ID
+  name: String
+  resolvers: [Resolver]
+}
+
 type User {
   # mongoid
-  id: String
+  id: ID
   # имя пользователя
   firstname: String
   # фамилия пользователя
@@ -268,6 +280,8 @@ type User {
   patronymic: String
   # дата рождения пользователя
   birthdate: String
+
+  position: String
   # номер телефона пользователя
   phone: String
   # адрес ел.почты пользователя
@@ -275,7 +289,7 @@ type User {
   # подпись пользователя
   signature: String
   # роль пользователя
-  role: String
+  role: Role
 }
 # user {
 #       birthdate
@@ -324,6 +338,9 @@ type Query {
 #     birthdate
 #   }
 # }
+
+  # Получить текущего авторизованного пользователя
+  currentuseritem: User,
 
   # получить пользователя по адресу эл.почты
   useremailitem(email: String!): User,
@@ -405,7 +422,7 @@ type Mutation {
   changepassword(user: String!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
 #   mutation ($newpassword: String!, $password: String!, $user: String) {
 #   changepassword(newpassword: $newpassword, password: $password, user: $user) {
-#     user 
+#     user
 #   }
 # }
 

@@ -3,10 +3,18 @@ query($id: String!, ){
     id
     name
     verify
-    prevcell
-    nextcell
-    parent
-    childcell
+    prevcell{
+      id
+    }
+    nextcell{
+      id
+    }
+    parent{
+      id
+    }
+    childcell{
+      id
+    }
     is_head
     content{
       number

@@ -4,10 +4,10 @@ import {useritem} from "./userItem";
 import {userlist} from "./userlist";
 
 
-export const projectitem = ({id}) => {
+export const projectitem = () => {
   return {
   // # mongoid
-  id: id || getRandomMongoID(),
+  id:getRandomMongoID(),
     // # название проекта
   name:  faker.company.companyName(),
   // # пользователь создавший проект

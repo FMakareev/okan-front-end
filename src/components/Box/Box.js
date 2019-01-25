@@ -1,4 +1,4 @@
-import { space, width, color, fontSize, height, position, zIndex, border } from 'styled-system';
+import { space, width, color, fontSize, height, position, zIndex, border,opacity } from 'styled-system';
 import styled from 'styled-components';
 
 /** Style property */
@@ -7,6 +7,7 @@ import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty'
 
 export const Box = styled.div`
   ${space};
+  ${opacity};
   ${position};
   ${zIndex};
   ${width};

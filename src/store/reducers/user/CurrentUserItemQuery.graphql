@@ -1,0 +1,11 @@
+query{
+  currentuseritem{
+    id
+    lastname
+    firstname
+    phone
+    position
+    patronymic
+    email
+  }
+}

@@ -274,7 +274,6 @@ FormLogin = connect(
 
 FormLogin = reduxForm({
   form: 'FormLogin',
-  // validate,
 })(FormLogin);
 
 export default FormLogin;

@@ -51,7 +51,7 @@ const FlexStyled = styled(Flex)`
 
 
 export const SidebarCellRoot = (props) => {
-  const {decorators, terminal,projectid, onClick, node} = props;
+  const {decorators, terminal,document,projectid, onClick, node} = props;
 
   return (
     <FlexStyled active={node.active} pr={'10px'} mb={'10px'} onClick={onClick} alignItems={'center'}
@@ -76,7 +76,7 @@ export const SidebarCellRoot = (props) => {
           <SidebarRevisionList  projectid={projectid}/>
         </Box>
         <Box px={1}>
-          <SidebarCreateRevision/>
+          <SidebarCreateRevision document={document}/>
         </Box>
         <Box px={1}>
           <SidebarProjectExport/>
