@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import ProjectListQuery from './ProjectListQuery.graphql';
 import { Query } from 'react-apollo';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -11,13 +12,18 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 import Flex from '../../../../components/Flex/Flex';
 import Container from '../../../../components/Container/Container';
+import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** components */
 import ProjectList from '../../component/ProjectList/ProjectList';
+
+/** Image */
 import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
-import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+
+/** Graphql schema */
+import ProjectListQuery from './ProjectListQuery.graphql';
+
+/** Redux reducers*/
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const has = Object.prototype.hasOwnProperty;
