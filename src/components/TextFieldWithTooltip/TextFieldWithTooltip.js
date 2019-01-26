@@ -30,20 +30,11 @@ export class TextFieldWithTooltip extends PureComponent {
   static defaultProps = {};
 
   render() {
-    const {
-      meta,
-      input
-    } = this.props;
+    const { meta, input } = this.props;
 
     return (
-      <TooltipBase
-        isActive={meta.touched && meta.error}
-        warning={meta.error}
-      >
-        <TextFieldBase
-          {...this.props}
-          {...input}
-        />
+      <TooltipBase isActive={meta.touched && meta.error} warning={meta.error}>
+        <TextFieldBase {...this.props} {...input} />
       </TooltipBase>
     );
   }
