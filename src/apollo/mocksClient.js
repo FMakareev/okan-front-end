@@ -12,7 +12,7 @@ import schema from './schema.graphqls';
 
 /** Mock query */
 import { userlist } from './graphql/query/userlist';
-import { useritem } from './graphql/query/useritem';
+import { useritem } from './graphql/query/userItem';
 import { celItem } from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
 import { documentitem } from './graphql/query/documentItem';
@@ -204,6 +204,28 @@ const defaultMocks = {
     },
 
     createproject: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
+    updateproject: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
+    updatedocument: (mutation, props) => {
       // TODO review: добавить рандомную задержку от 500 до 3000
       return setTimeout(() => {
         if (props.email === 'error@okan.su') {
