@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
 import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form, FieldArray } from 'redux-form';
+import Notifications, { success, error } from 'react-notification-system-redux';
+import { Field, reduxForm, SubmissionError, Form, FieldArray, getFormValues } from 'redux-form';
 
 /**View */
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
@@ -22,6 +25,9 @@ import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusP
 import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
 
+/** Graphql schema */
+import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
+
 const BoxStyled = styled(Box)`
   input {
     padding: 3px 7px;
@@ -37,19 +43,50 @@ const BoxStyled = styled(Box)`
   ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
+const notificationOpts = () => ({
+  success: {
+    title: 'Настройки проекта успешно обновлены',
+    message: 'Настройки проекта успешно обновлены',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Настройки проекта не обновлены',
+    message: 'Настройки проекта не обновлены',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 export class ProjectSettings extends Component {
   static propTypes = { ...formPropTypes, mb: PropTypes.string };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
+  state = {};
 
-    this.submit = this.submit.bind(this);
-  }
+  submit = value => {
+    const data = { variables: Object.assign({}, value) };
+    console.log('data', data);
 
-  submit(value) {
-    return value;
-  }
+    return this.props['@apollo/update'](data)
+      .then(response => {
+        this.props.setNotificationSuccess(notificationOpts().success);
+
+        return response;
+      })
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        this.props.setNotificationError(notificationOpts().error);
+
+        if (graphQLErrors) {
+          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
+        } else {
+          throw new SubmissionError({ _error: message });
+        }
+      });
+  };
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
@@ -59,7 +96,7 @@ export class ProjectSettings extends Component {
         <BoxStyled mb={16}>
           <Field
             name="name"
-            component={TextFieldBase}
+            component={TextFieldWithTooltip}
             placeholder={'Название документа'}
             type="text"
             fontSize={6}
@@ -80,7 +117,7 @@ export class ProjectSettings extends Component {
 
         <Box mb={'180px'}>
           <FieldArray
-            name={'cell'}
+            name={'partners'}
             component={TextFieldArray}
             type={'text'}
             button={'Добавить нового участника'}
@@ -102,6 +139,20 @@ export class ProjectSettings extends Component {
     );
   }
 }
+
+ProjectSettings = graphql(ProjectSettingsMutation, {
+  name: '@apollo/update',
+})(ProjectSettings);
+
+ProjectSettings = connect(
+  state => ({
+    values: getFormValues('ProjectSettings')(state),
+  }),
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(ProjectSettings);
 
 ProjectSettings = reduxForm({
   form: 'ProjectSettings',
