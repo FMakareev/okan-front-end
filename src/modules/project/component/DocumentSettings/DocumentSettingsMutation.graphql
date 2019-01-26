@@ -1,0 +1,8 @@
+mutation ($name: String, $cell: String!) {
+  updatedocument(name: $name, cell: $cell) {
+    document {
+      id
+      name
+    }
+  }
+}
