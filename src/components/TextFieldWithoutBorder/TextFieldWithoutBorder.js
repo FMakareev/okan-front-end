@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 /** View */
-import TextFieldBase from '../TextFieldBase/TextFieldBase';
-import ButtonBase from '../ButtonBase/ButtonBase';
-import { Box } from '../Box/Box';
+import { TextFieldBase } from '../TextFieldBase/TextFieldBase';
 
 /** PropTypes */
 import { fieldInputPropTypes, fieldMetaPropTypes } from '../../propTypes/Forms/FormPropTypes';
@@ -19,7 +17,7 @@ const TextFieldStyled = styled(TextFieldBase)`
  * @example ./TextField.example.md
  */
 
-export class TextFieldWithourBorder extends Component {
+export class TextFieldWithoutBorder extends PureComponent {
   static propTypes = {
     /** input */
     ...fieldInputPropTypes,
@@ -57,38 +55,10 @@ export class TextFieldWithourBorder extends Component {
   }
 
   render() {
-    const {
-      className,
-      mb,
-      input,
-      type,
-      meta,
-      placeholder,
-      required,
-      disabled,
-      loading,
-      fontSize,
-      lineHeight,
-      fontFamily,
-    } = this.props;
+    const { input } = this.props;
 
-    return (
-      <Box mb={mb} className={className} width={'100%'}>
-        <TextFieldStyled
-          required={required}
-          input={input}
-          placeholder={placeholder}
-          disabled={disabled}
-          loading={loading}
-          lineHeight={lineHeight}
-          fontSize={fontSize}
-          type={type}
-          fontFamily={fontFamily}
-          meta={meta}
-        />
-      </Box>
-    );
+    return <TextFieldStyled {...this.props} {...input} />;
   }
 }
 
-export default TextFieldWithourBorder;
+export default TextFieldWithoutBorder;
