@@ -5,6 +5,7 @@ import {
   CELL_STATUS_CHANGED,
 } from '../../../shared/approvalStatus';
 import { getRandomMongoID } from '../../helpers/getRandomMongoid';
+import {commentitem} from "./commentitem";
 
 export const celItem = ({ id, prevcell, nextcell, parent }) => {
   return {
@@ -43,7 +44,7 @@ export const celItem = ({ id, prevcell, nextcell, parent }) => {
       number: faker.random.number(),
     },
     // # массив комментариев ячейки
-    comments: [],
+    comment: commentitem(),
     // # массив связанных объектов
     pull: [],
     // # null, на согласовании, согласован, не согласован
