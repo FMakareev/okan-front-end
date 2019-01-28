@@ -11,9 +11,11 @@ import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
 
 /** Components */
-import {Box} from '@lib/ui/Box/Box';
 import ProjectSidebar from "../../component/ProjectSidebar/ProjectSidebar";
+import {Flex} from "@lib/ui/Flex/Flex";
+import ProjectEditor from "../../component/ProjectEditor/ProjectEditor";
 
+import {ProjectContext} from '../../component/ProjectContext/ProjectContext';
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
   width: 320px;  
@@ -21,6 +23,17 @@ const SideBarWrapper = styled.div`
   padding-top: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
+
+const Wrapper = styled(Flex)`
+  width: 100%;  
+  min-height: calc(100vh - 40px);
+  background-color: #E8E8E8;
+`;
+const EditorWrapper = styled.div`
+  width: calc(100% - 360px);  
+  min-height: calc(100vh - 40px);
+`;
+
 
 export class ProjectEditorPage extends Component {
   static propTypes = {...ReactRoutePropTypes};
@@ -31,26 +44,39 @@ export class ProjectEditorPage extends Component {
   }
 
   render() {
-    console.log('ProjectEditorPage: ', this.props);
+    // console.log('ProjectEditorPage: ', this.props);
     const {match: {params}} = this.props;
     // match.params.projectid
     return (<Query
         query={ProjectItemQuery}
-        variables={{id:params.projectid}}
+        variables={{id: params.projectid}}
       >
         {
-          ({loading, data,error}) => {
-            if(loading){
+          ({loading, data, error}) => {
+            if (loading) {
               return 'Загрузка...';
             }
-            if(error){
+            if (error) {
               console.error('Error:', error);
               return 'Ошибка...';
             }
             return (<ErrorCatch>
-              <SideBarWrapper width={'320px'}>
-                <ProjectSidebar params={params} projectid={params.projectid}/>
-              </SideBarWrapper>
+              <Wrapper flexDirection={'row'}>
+                <ProjectContext.Provider value={{
+                  position: params,
+                  project: data.projectitem,
+                }}>
+                  <SideBarWrapper width={'320px'}>
+                    <ProjectSidebar
+                      project={data.projectitem}
+                      projectid={params.projectid}
+                    />
+                  </SideBarWrapper>
+                  <EditorWrapper>
+                    <ProjectEditor/>
+                  </EditorWrapper>
+                </ProjectContext.Provider>
+              </Wrapper>
             </ErrorCatch>)
           }
         }

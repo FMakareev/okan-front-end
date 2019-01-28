@@ -44,7 +44,6 @@ export class FormCreateDocument extends Component {
 
   render() {
     const {submitting, handleSubmit} = this.props;
-    console.log(this.props);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>

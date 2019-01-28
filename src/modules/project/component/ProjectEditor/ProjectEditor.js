@@ -1,44 +1,34 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 /** Components */
 
-import DocumentTree from '../DocumentTree/DocumentTree';
-
 /**View */
-import Box from '../../../../components/Box/Box';
 
 /**PropTypes */
 import {Flex} from "@lib/ui/Flex/Flex";
-import { DragDropContext } from 'react-dnd'
-
-import HTML5Backend from 'react-dnd-html5-backend'
+import styled from "styled-components";
 import EditorCellController from "./EditorCellController";
-import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
-import SidebarCellRoot from "../SidebarCellRoot/SidebarCellRoot";
-import EditorAdditionalMenu from "./EditorAdditionalMenu";
-import EditorCellComment from "./EditorCellComment";
-import {EditorCellCommentButton} from "./EditorCellCommentButton";
-import EditorAdditionalMenuButtonImage from "./EditorAdditionalMenuButtonImage";
-import {EditorAdditionalMenuButtonTable} from "./EditorAdditionalMenuButtonTable";
-import {EditorAdditionalMenuButtonText} from "./EditorAdditionalMenuButtonText";
-import EditorCellCommentController from "./EditorCellCommentController";
-import EditorCellCommentForm from "./EditorCellCommentForm";
-import {EditorCellCommentList} from "./EditorCellCommentList";
-import EditorCellContent from "./EditorCellContent";
-import EditorCellForm from "./EditorCellForm";
-import {SidebarApprovalStatus} from "../SidebarApprovalStatus/SidebarApprovalStatus";
-import SidebarChangeCell from "../SidebarChangeCell/SidebarChangeCell";
-import {SidebarCreateCell} from "../SidebarCreateCell/SidebarCreateCell";
-import SidebarProjectExport from "../SidebarProjectExport/SidebarProjectExport";
-import SidebarProjectSettings from "../SidebarProjectSettings/SidebarProjectSettings";
-import SidebarRevisionList from "../SidebarRevisionList/SidebarRevisionList";
-import SidebarSaveChanges from "../SidebarSaveChanges/SidebarSaveChanges";
+import {commentitem} from "../../../../apollo/graphql/query/commentitem";
+import {celItem} from "../../../../apollo/graphql/query/celItem";
+import {withProject} from "../ProjectContext/ProjectContext";
+import {EditorAdditionalMenu} from "./EditorAdditionalMenu";
+
+const ContentWrapper = styled.div`
+  background-color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;  
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`;
 
 
+
+const EditorCellControllerWithProject =  withProject((props) => (<EditorCellController {...props}/>));
 
 export class ProjectEditor extends Component {
-  static propTypes = {  };
-
+  static propTypes = {};
 
 
   constructor(props) {
@@ -48,107 +38,30 @@ export class ProjectEditor extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {}
+  submit(value) {
+  }
 
   render() {
+    // TODO: есть проблема с z-index карточка комментария налезает поверх иконки ниже стоящего блока, решается во время итерациионного вывода блоков,
+    // берем длнну массива блоков и начиная с первого задачем в порядке убывания z-index блокам
 
     return (
-      <Flex flexDirection={'row'}>
-        <Box width={'320px'}>
-          <DocumentTree />
-        </Box>
-        {/*<Box>*/}
-          {/*EditorAdditionalMenu*/}
-          {/*<EditorAdditionalMenu/>*/}
-          {/*<br/>*/}
-
-          {/*EditorAdditionalMenuButtonImage*/}
-          {/*<EditorAdditionalMenuButtonImage/>*/}
-          {/*<br/>*/}
-
-          {/*EditorAdditionalMenuButtonTable*/}
-          {/*<EditorAdditionalMenuButtonTable/>*/}
-          {/*<br/>*/}
-
-          {/*EditorAdditionalMenuButtonText*/}
-          {/*<EditorAdditionalMenuButtonText/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellComment*/}
-          {/*<EditorCellComment/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellCommentButton*/}
-          {/*<EditorCellCommentButton/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellCommentController*/}
-          {/*<EditorCellCommentController/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellCommentForm*/}
-          {/*<EditorCellCommentForm/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellCommentList*/}
-          {/*<EditorCellCommentList/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellContent*/}
-          {/*<EditorCellContent/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellForm*/}
-          {/*<EditorCellForm/>*/}
-          {/*<br/>*/}
-
-          {/*EditorCellController*/}
-          {/*<EditorCellController/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarApprovalStatus*/}
-          {/*<SidebarApprovalStatus/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarCellNode*/}
-          {/*<SidebarCellNode/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarCellRoot*/}
-          {/*<SidebarCellRoot/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarChangeCell*/}
-          {/*<SidebarChangeCell/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarCreateCell*/}
-          {/*<SidebarCreateCell/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarProjectExport*/}
-          {/*<SidebarProjectExport/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarProjectSettings*/}
-          {/*<SidebarProjectSettings/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarRevisionList*/}
-          {/*<SidebarRevisionList/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarSaveChanges*/}
-          {/*<SidebarSaveChanges/>*/}
-          {/*<br/>*/}
-
-          {/*SidebarСreateRevision*/}
-          {/*<SidebarСreateRevision/>*/}
-          {/*<br/>*/}
-        {/*</Box>*/}
+      <Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
+        <ContentWrapper>
+          <EditorCellControllerWithProject
+            data={{
+            ...celItem({ id:'', prevcell:'', nextcell:'', parent:'' }),
+            comment: commentitem()
+          }}/>
+          <EditorCellControllerWithProject data={{
+            ...celItem({ id:'', prevcell:'', nextcell:'', parent:'' }),
+            comment: null
+          }}/>
+        </ContentWrapper>
+        <EditorAdditionalMenu/>
       </Flex>
     );
   }
 }
 
-export default DragDropContext(HTML5Backend)(ProjectEditor);
+export default ProjectEditor;
