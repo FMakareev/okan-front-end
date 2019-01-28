@@ -1,0 +1,6 @@
+mutation ($id: String!, $isdelete: Boolean){
+  updatecomment(id: $id,isdelete: $isdelete){
+    id
+    isDelete
+  }
+}
