@@ -1,24 +1,23 @@
-query($id: String!, ){
-  cellitem(id: $id){
+query ($id: String!) {
+  cellitem(id: $id) {
     id
     name
     verify
-    prevcell{
+    prevcell {
       id
     }
-    nextcell{
+    nextcell {
       id
     }
-    parent{
+    parent {
       id
     }
-    childcell{
+    childcell {
       id
     }
-    is_head
-    content{
+    isHead
+    content {
       number
     }
-    approvalstatus
   }
 }
