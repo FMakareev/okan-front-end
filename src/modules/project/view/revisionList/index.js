@@ -23,11 +23,9 @@ export class RevisionListPage extends Component {
   state = {};
 
   render() {
-    // const {
-    //   user: { role, id },
-    // } = this.props;
-
-    const id = '5c49c6ae9adb493e7ba5dca1';
+    const {
+      user: { id },
+    } = this.props;
 
     return (
       <ErrorCatch>
@@ -42,12 +40,12 @@ export class RevisionListPage extends Component {
                 if (error) {
                   throw error;
                 }
-                if (id && data && !data.revisionlist) {
+                if (id && data && !data.revisionList) {
                   throw { message: `GraphQL error: not found` };
                 }
                 return (
                   <RevisionList
-                    initialValues={data && Object.assign({}, { ...data.revisionlist })}
+                    initialValues={data && Object.assign({}, { ...data.revisionList })}
                   />
                 );
               }}
