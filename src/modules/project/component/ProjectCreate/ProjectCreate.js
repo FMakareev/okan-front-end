@@ -124,7 +124,7 @@ export class ProjectCreate extends Component {
 
         <BoxStyled mb={16}>
           <Field
-            name={'projectname'}
+            name={'name'}
             component={TextFieldWithTooltip}
             placeholder={'Название документа'}
             type={'text'}
@@ -146,7 +146,7 @@ export class ProjectCreate extends Component {
 
         <BoxStyled mb={'180px'}>
           <Field
-            name={'document'}
+            name={'customercode'}
             component={SelectBase}
             placeholder={'Название документа'}
             type={'text'}
