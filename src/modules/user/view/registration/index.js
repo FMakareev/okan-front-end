@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Query, graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
 /**View*/
