@@ -56,7 +56,7 @@ export class ProjectEditorPage extends Component {
         variables={{id: params.projectid}}
       >
         {
-          ({loading, data, error}) => {
+          ({loading, data, error, ...rest}) => {
             if (loading) {
               return 'Загрузка...';
             }
@@ -67,7 +67,9 @@ export class ProjectEditorPage extends Component {
             return (<ErrorCatch>
               <Wrapper flexDirection={'row'}>
                 <ProjectContext.Provider value={{
+                  // объект с параметрами роутера
                   position: params,
+                  // объект с данными о проекте
                   project: data.projectitem,
                 }}>
                   <SideBarWrapper width={'320px'}>
