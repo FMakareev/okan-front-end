@@ -39,9 +39,8 @@ export class FormProfileApproval extends Component {
     this.state = {};
   }
   render() {
-    const {
-      initialValues
-    } = this.props;
+    const { initialValues } = this.props;
+    console.log(1, this.props);
 
     return (
       <Fragment>
