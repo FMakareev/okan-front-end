@@ -10,9 +10,9 @@ type Comment {
   # id документа, при создании комментария id документа добавляется автоматически
   document: String
   # дата создания комментария, в формате ISO
-  createdat: String
+  createdate: String
   # дата обновления комментария, в формате ISO
-  updatedat: String
+  updatedate: String
   # удален ли комментарий (?)
   isdelete: Boolean
 }
@@ -90,7 +90,7 @@ type Cell {
   # контент раздела
   content: Block
   # массив комментариев ячейки
-  comments: [Comment]
+  comment: Comment
   # массив связанных объектов
   pull: [Cell]
   # null, на согласовании, согласован, не согласован
@@ -168,68 +168,6 @@ type Document {
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
-# document{
-#       approvalstatus
-#       cell{
-#         children{
-#           cell
-#         }
-#         comments{
-#           cell
-#           createdat
-#           id
-#           isdelete
-#           message
-#           sender{
-#             birthdate
-#             email
-#             firstname
-#             id
-#             lastname
-#             patronymic
-#             phone
-#             position
-#             role{
-#               description
-#               id
-#               name
-#               resolvers{
-#                 id
-#                 module
-#                 name
-#               }
-#             }
-#             signature
-#           }
-#           updatedat
-#         }
-#         content{
-#           content
-#           contenttype
-#           id
-#           name
-#           number
-#         }
-#         id
-#         isHead
-#         name
-#         nextcell{
-#           cell
-#         }
-#         parent{
-#           cell
-#         }
-#         prevcell{
-#           cell
-#         }
-#         verify
-#         pull{
-#           cell
-#         }
-#       }
-#       id
-#       name
-#     }
 
 
 type Project {
@@ -354,6 +292,9 @@ type Query {
 #     cell
 #   }
 # }
+
+  # метод возвращает тру если хотябы у одной дочки были изменения
+  cell_marker(cell: String): Boolean
 
   # получить список документов
   # projectid - id проекта по которому запрашиваются документы

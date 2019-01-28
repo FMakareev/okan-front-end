@@ -23,6 +23,17 @@
 
 import mocksClient from './mocksClient';
 
-export const client = mocksClient;
+export const client = () => {
+  return mocksClient;
+  // return new ApolloClient({
+  //   cache: new InMemoryCache().restore(window.APOLLO_STATE),
+  //   link: createHttpLink({
+  //     uri: `${ENDPOINT_CLIENT}/graphql`,
+  //     credentials: 'same-origin',
+  //     fetch,
+  //   }),
+  //   ssrForceFetchDelay: 100,
+  // });
+};
 
 export default client;

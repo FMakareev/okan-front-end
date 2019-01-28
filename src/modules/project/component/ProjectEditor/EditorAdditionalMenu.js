@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { Absolute } from 'rebass';
+import React, {Component, Fragment} from 'react';
+import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
 
 /** Image */
-import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
+import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -18,22 +18,27 @@ import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
-const EditorAdditionalMenuButton = (
-  <Absolute left={'30px'} top={'0%'}>
-    <Flex>
-      <Flex mr={4}>
-        <EditorAdditionalMenuButtonTable />
-      </Flex>
-      <Flex mr={4}>
-        <EditorAdditionalMenuButtonImage />
-      </Flex>
-      <Flex>
-        <EditorAdditionalMenuButtonText />
-      </Flex>
+const EditorAdditionalMenuButton = () => (
+  <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
+    <Flex mx={-2}>
+      <Box mx={2}>
+        <EditorAdditionalMenuButtonTable/>
+      </Box>
+      <Box mx={2}>
+        <EditorAdditionalMenuButtonImage/>
+      </Box>
+      <Box mx={2}>
+        <EditorAdditionalMenuButtonText/>
+      </Box>
     </Flex>
   </Absolute>
 );
 
+
+
+/**
+ * @desc Компонент контроллер для добавления новых блоков в документ
+ * */
 export class EditorAdditionalMenu extends Component {
   static propTypes = {
     /** func submit for Form */
@@ -42,17 +47,82 @@ export class EditorAdditionalMenu extends Component {
     isOpen: PropTypes.bool,
   };
 
-  static defaultProps = { handleClick: () => {}, isOpen: false };
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+    if (isBrowser) {
+      this.app = document.getElementById('app');
+    }
+  }
+
+  get initialState() {
+    return {
+      active: false,
+    }
+  }
+
+  componentWillUnmount() {
+    if (isBrowser) {
+      document.removeEventListener('click', this.eventHandle, false);
+    }
+  }
+
+  componentWillMount() {
+    if (isBrowser) {
+      document.addEventListener('click', this.eventHandle, false);
+    }
+  }
+
+  /**
+   * @param {array} path - массив объекто дом элементов начиная от того на котором сработало событие и до корня документа
+   * @param {string} className - название класса который
+   * @desc метод ищет в массиве класс и возвращает его индекс.
+   * */
+  findClassInPath = (path, className) => {
+    try {
+      return path.findIndex(item => item.className && item.className.indexOf(className) >= 0)
+    } catch (error) {
+      return null;
+    }
+  };
+
+  /**
+   * @desc метод является callback обработчиком для прослушивания дом
+   * */
+  eventHandle = (event) => {
+    try {
+      if (Array.isArray(event.path)) {
+        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >=0 ) {
+          return null
+        } else {
+          return this.toggleMenu();
+        }
+      }
+    } catch (error) {
+      console.log('Error eventHandle: ', error);
+    }
+  };
+
+  /**
+   * @desc переключатель состояния списка вкл/выкл
+   * */
+  toggleMenu = () => {
+    this.setState((state) => ({
+      ...state,
+      active: !state.active,
+    }))
+  };
 
   render() {
-    const { isOpen, handleClick } = this.props;
+
+    const {active} = this.state;
 
     return (
       <Box position={'relative'}>
-        <ButtonBase variant={'empty'} onClick={handleClick}>
-          {SvgSidebarAdd()}
+        <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
+          <SvgSidebarAdd/>
         </ButtonBase>
-        {isOpen && EditorAdditionalMenuButton}
+        {active && <EditorAdditionalMenuButton/>}
       </Box>
     );
   }

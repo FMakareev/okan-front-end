@@ -4,27 +4,44 @@ import DocumentListQuery from './DocumentListQuery.graphql'
 import {Query} from 'react-apollo';
 import {DocumentTree} from "../DocumentTree/DocumentTree";
 import FormCreateDocument from "../FormCreateDocument/FormCreateDocument";
+import {ProjectPropTypes} from "../../../../propTypes/ProjectPropTypes";
+import {withProject} from "../ProjectContext/ProjectContext";
+
+
+const DocumentTreeWithProject =  withProject((props) => {
+  // console.log('DocumentTreeWithProject: ',props);
+  return (<DocumentTree {...props}/>)
+});
+
 
 export class ProjectSidebar extends Component {
 
   static propTypes = {
     projectid: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      projectid: PropTypes.string.isRequired,
+    }),
+    project: ProjectPropTypes,
   };
 
-  render(){
-    const {projectid,params} = this.props;
-
-    return(
+  render() {
+    const {
+      projectid,
+      params,
+      project
+    } = this.props;
+    // console.log('ProjectSidebar: ',this.props);
+    return (
       <Query
         query={DocumentListQuery}
         variables={{projectid}}
       >
         {
-          ({loading, data,error})=>{
-            if(loading){
+          ({loading, data, error}) => {
+            if (loading) {
               return 'Список документов загружается...';
             }
-            if(error){
+            if (error) {
               console.error('Error:', error);
               return 'Ошибка...';
             }
@@ -33,7 +50,9 @@ export class ProjectSidebar extends Component {
               {
                 data &&
                 data.documentlist &&
-                data.documentlist.map((item, index) => <DocumentTree params={params} data={item} key={`DocumentTree=${index}`}/>)
+                data.documentlist.map((item, index) => (<DocumentTreeWithProject
+                  data={item}
+                  key={`DocumentTree=${index}`}/>))
               }
               <FormCreateDocument projectid={projectid}/>
             </Fragment>

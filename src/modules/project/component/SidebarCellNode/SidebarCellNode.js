@@ -13,6 +13,7 @@ import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatu
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from "../NodeToggle/NodeToggle";
 import {SidebarCellNodeEditable} from "../SidebarCellNodeEditable/SidebarCellNodeEditable";
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -26,8 +27,9 @@ const Wrapper = styled(Flex)`
 export class SidebarCellNode extends Component {
   static propTypes = {
     addNodeInTree: PropTypes.func.isRequired,
-    params: PropTypes.shape({
+    position: PropTypes.shape({
       cellid: PropTypes.string,
+      sectionid: PropTypes.string,
       documentid: PropTypes.string,
       projectid: PropTypes.string,
     }),
@@ -96,14 +98,13 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const {onClick, node, history, params, document} = this.props;
+      const {onClick, node, history, project, document} = this.props;
       const isHead = this.getIsHeadStatus(node);
 
       if (isHead) {
         onClick()
       } else {
-        const {projectid} = params;
-        history.push(`/app/project/${projectid}/${document.id}/${node.id}`);
+        history.push(`/app/project/${getPosition(project,'projectid')}/${document.id}/${node.id}`);
       }
     } catch (error) {
       console.log(`Error node=${node.id}: `, error);

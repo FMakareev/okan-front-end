@@ -8,6 +8,9 @@ import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
 import CellItemQuery from './CellItemQuery.graphql';
 import objectPath from "object-path";
 import Flex from "@lib/ui/Flex/Flex";
+import {ProjectPropTypes} from "../../../../propTypes/ProjectPropTypes";
+import {withProject} from "../ProjectContext/ProjectContext";
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
 
 decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
@@ -19,6 +22,11 @@ decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-
 </Flex>);
 
 const has = Object.prototype.hasOwnProperty;
+
+
+
+const SidebarCellNodeWithProject =  withProject((props) => (<SidebarCellNode {...props}/>));
+
 
 
 export class DocumentTree extends Component {
@@ -33,27 +41,34 @@ export class DocumentTree extends Component {
       __typename: PropTypes.string,
     }),
     /** @desc объект с параметрами адресной строки */
-    params: PropTypes.shape({
+    position: PropTypes.shape({
       cellid: PropTypes.string,
+      sectionid: PropTypes.string,
       documentid: PropTypes.string,
       projectid: PropTypes.string,
     }),
+    project: ProjectPropTypes,
   };
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
-    decorators.Container = (props) => (
-      <SidebarCellNode document={this.props.data} params={this.props.params} changeNodeFocus={this.changeNodeFocus}
-                       addNodeInTree={this.addNodeInTree} {...props}/>);
 
-    this.initTree(this.props.params.cellid);
+    decorators.Container = (props) => (
+      <SidebarCellNodeWithProject
+        document={this.props.data}
+        changeNodeFocus={this.changeNodeFocus}
+        addNodeInTree={this.addNodeInTree}
+        {...props}
+      />);
+
+
+    this.initTree(getPosition(this.props.project, 'sectionid'));
   }
 
   get initialState() {
-    console.log(this.props);
-    const {data, params} = this.props;
+    const {data, project} = this.props;
 
     return {
       cursor: null,
@@ -67,12 +82,17 @@ export class DocumentTree extends Component {
         ...data,
         decorators: {
           ...decorators,
-          Container: (props) => <SidebarCellRoot document={this.props.data} projectid={params.projectid} {...props}/>,
+          Container: (props) => (<SidebarCellRoot
+            document={this.props.data}
+            projectid={getPosition(project, 'projectid')}
+            {...props}
+          />),
         },
         children: [],
       }
     }
   }
+
 
   /**
    * @param {string} id искомой ноды
@@ -81,16 +101,23 @@ export class DocumentTree extends Component {
    * @desc метод для формирования массива ветки дерева
    * */
   createBranch = (id, nodes, newNodes) => {
-    return nodes.forEach((item, index) => {
-      if (item.id === id) {
-        newNodes.push({
-          ...this.createCellNode(item),
-          active: true,
-          toggled: true,
-        });
-        return this.createBranch(item.nextcell.id, nodes, newNodes);
-      }
-    });
+    try {
+      return nodes.forEach((item, index) => {
+        if (item.id === id) {
+          newNodes.push({
+            ...this.createCellNode(item),
+            active: true,
+            toggled: true,
+          });
+          if (item.nextcell && has.call(item.nextcell, 'id')) {
+            return this.createBranch(item.nextcell.id, nodes, newNodes);
+          }
+        }
+        return newNodes;
+      });
+    } catch (error) {
+      console.error(`Error createBranch id=${id}`, error);
+    }
   };
 
   /**
@@ -101,10 +128,10 @@ export class DocumentTree extends Component {
   createTree = (newNodes, nodes) => {
     try {
       newNodes.forEach((item) => {
-        if (item.childcell) {
-          if (nodes.findIndex(childitem => childitem.id === item.childcell) >= 0) {
+        if (item.childcell && item.childcell.id) {
+          if (nodes.findIndex(childitem => childitem.id === item.childcell.id) >= 0) {
             let childNodesList = [];
-            this.createBranch(item.childcell, nodes, childNodesList);
+            this.createBranch(item.childcell.id, nodes, childNodesList);
 
             childNodesList = this.cellNumbering(childNodesList, item.number);
 
@@ -131,8 +158,8 @@ export class DocumentTree extends Component {
 
         if (nodes.length) {
           let newNodes = [];
-
-          this.createBranch(this.state.tree.childcell, nodes, newNodes);
+          console.log(this.state.tree);
+          this.createBranch(this.state.tree.childcell.id, nodes, newNodes);
           newNodes = this.cellNumbering(newNodes, '');
           this.createTree(newNodes, nodes);
 
@@ -170,7 +197,6 @@ export class DocumentTree extends Component {
    * @desc метод для включения/выключения ноды дерева
    * */
   onToggle = (node, toggled) => {
-    console.log(node, toggled);
     node.active = toggled;
     if (node.loading) {
       return
@@ -205,8 +231,7 @@ export class DocumentTree extends Component {
    * @desc метод выполняет загрузку ячеек по id
    * */
   branchDownload = (id, nodes, prevcell) => {
-    console.log('id, nodes, prevcell', id, nodes, prevcell);
-    if(!id) return;
+    if (!id) return;
     return this.getNode(id)
       .then(async response => {
         const {data} = response;
@@ -223,7 +248,7 @@ export class DocumentTree extends Component {
             }
           } else {
 
-            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id') ) {
+            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
               return this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
             }
             return response;
@@ -455,7 +480,6 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = (id) => {
-    console.log('getNode',id);
     const {client} = this.props;
 
     return client.query({
@@ -470,8 +494,9 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log(this.state);
 
+    console.log('DocumentTree:', this.state);
+    console.log('DocumentTree:', this.props);
     return (<Box style={{
       borderBottom: '1px solid #848484',
       marginBottom: '4px'

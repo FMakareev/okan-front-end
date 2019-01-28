@@ -1,8 +1,8 @@
 const somePropertyButton = { border: 0, minWidth: '20px' };
 
 export const ButtonComment = {
-  newComment: { backgroundColor: '#df4624', ...somePropertyButton },
-  emptyComment: { backgroundColor: '#848484', ...somePropertyButton },
-  comment: { backgroundColor: '#006699', ...somePropertyButton },
+  newComment: { fill: '#df4624', ...somePropertyButton },
+  emptyComment: { fill: '#848484', ...somePropertyButton },
+  comment: { fill: '#006699', ...somePropertyButton },
 };
 

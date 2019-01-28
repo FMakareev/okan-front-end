@@ -5,7 +5,7 @@ import { space } from 'styled-system';
 
 /**View */
 import Message from '../Message/Message';
-import { FroalaReduxForm } from '../FroalaReduxForm/FroalaReduxForm';
+// import { FroalaReduxForm } from '../FroalaReduxForm/FroalaReduxForm';
 
 const Wrapper = styled.div`
   ${space};
@@ -55,7 +55,7 @@ export class RichTextEditor extends Component {
 
     return (
       <Wrapper className={className}>
-        <FroalaReduxForm {...this.props} />
+        {/*<FroalaReduxForm {...this.props} />*/}
         <Message meta={meta} />
       </Wrapper>
     );
