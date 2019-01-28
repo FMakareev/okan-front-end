@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
@@ -9,7 +9,7 @@ import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
-export class EditorCellForm extends React.Component {
+export class EditorCellForm extends Component {
   state = {};
 
   static propTypes = {
@@ -37,8 +37,7 @@ export class EditorCellForm extends React.Component {
   }
 }
 
-EditorCellForm = reduxForm({
+
+export default reduxForm({
   form: 'EditorCellForm',
 })(EditorCellForm);
-
-export default EditorCellForm;
