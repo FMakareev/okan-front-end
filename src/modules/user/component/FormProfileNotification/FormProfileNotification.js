@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -8,28 +8,8 @@ import Text from '../../../../components/Text/Text';
 /** Components */
 import FormProfileNotificationItem from '../FormProfileNotificationItem/FormProfileNotificationItem';
 
-export class FormProfileNotification extends Component {
-  static propTypes = {
-    /** id user */
-    // id:PropTypes.string,
-    /** message user*/
-    message: PropTypes.string,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const {
-      data: {
-        // id,
-        message,
-      },
-    } = this.props;
-
-    return (
+export const FormProfileNotification = ({ initialValues}) => {
+  return (
       <Fragment>
         <Text
           fontSize={6}
@@ -41,10 +21,15 @@ export class FormProfileNotification extends Component {
           Оповещения
         </Text>
 
-        <FormProfileNotificationItem message={message} name={'Фамилия Имя'} time={'Время'} />
+        <FormProfileNotificationItem message={'1'} name={'Фамилия Имя'} time={'Время'} />
       </Fragment>
     );
-  }
 }
+
+FormProfileNotification.propTypes = {
+    /** message user*/
+    message: PropTypes.string,
+  };
+    
 
 export default FormProfileNotification;

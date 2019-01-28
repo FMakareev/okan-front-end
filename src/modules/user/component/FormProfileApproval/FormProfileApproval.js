@@ -40,7 +40,7 @@ export class FormProfileApproval extends Component {
   }
   render() {
     const {
-      data: { name, number },
+      initialValues
     } = this.props;
 
     return (
@@ -65,16 +65,18 @@ export class FormProfileApproval extends Component {
             </Text>
           </Flex>
         </Tbody>
+        {/*initialValues.map(item=>item.name)*/}
         <TbodyStyled>
           <TrStyled>
-            <Td fontFamily={'primary500'}>{name}</Td>
-            <Td fontFamily={'secondaryBold'}>{number}</Td>
+            <Td fontFamily={'primary500'}>{'1'}</Td>
+            <Td fontFamily={'secondaryBold'}>{'2'}</Td>
           </TrStyled>
         </TbodyStyled>
+
         <TbodyStyled>
           <TrStyled>
-            <Td fontFamily={'primary500'}>{name}</Td>
-            <Td fontFamily={'secondaryBold'}>{number}</Td>
+            <Td fontFamily={'primary500'}>{'1'}</Td>
+            <Td fontFamily={'secondaryBold'}>{'2'}</Td>
           </TrStyled>
         </TbodyStyled>
       </Fragment>

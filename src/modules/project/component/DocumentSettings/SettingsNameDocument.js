@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field } from 'redux-form';
@@ -31,47 +31,45 @@ const BoxStyled = styled(Box)`
 
 export const SettingsNameDocument = () => {
   return (
-    <Fragment>
-      <Box>
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={6}
-          fontFamily={'primary500'}>
-          Название документа
-        </Text>
+    <Box>
+      <Text
+        fontSize={6}
+        lineHeight={8}
+        color={'color7'}
+        textAlign={'center'}
+        mb={6}
+        fontFamily={'primary500'}>
+        Название документа
+      </Text>
 
-        <BoxStyled mb={4}>
-          <Field
-            name="documentSetting2"
-            component={TextFieldBase}
-            type="text"
-            values={'ТЗ - RK-186-344'}
-            fontFamily={'secondary'}
-          />
-        </BoxStyled>
-        <BoxStyled mb={4}>
-          <Field
-            name="documentSetting3"
-            component={TextFieldBase}
-            type="text"
-            placeholder={'Код документа ОКАН'}
-            fontFamily={'secondary'}
-          />
-        </BoxStyled>
-        <BoxStyled mb={'180px'}>
-          <Field
-            name="documentSetting4"
-            component={TextFieldBase}
-            type="text"
-            placeholder={'Код документа заказчика'}
-            fontFamily={'secondary'}
-          />
-        </BoxStyled>
-      </Box>
-    </Fragment>
+      <BoxStyled mb={4}>
+        <Field
+          name="documentSetting2"
+          component={TextFieldBase}
+          type="text"
+          values={'ТЗ - RK-186-344'}
+          fontFamily={'secondary'}
+        />
+      </BoxStyled>
+      <BoxStyled mb={4}>
+        <Field
+          name="documentSetting3"
+          component={TextFieldBase}
+          type="text"
+          placeholder={'Код документа ОКАН'}
+          fontFamily={'secondary'}
+        />
+      </BoxStyled>
+      <BoxStyled mb={'180px'}>
+        <Field
+          name="documentSetting4"
+          component={TextFieldBase}
+          type="text"
+          placeholder={'Код документа заказчика'}
+          fontFamily={'secondary'}
+        />
+      </BoxStyled>
+    </Box>
   );
 };
 

@@ -1,0 +1,8 @@
+query ($projectid: String) {
+  documentlist(projectid: $projectid) {
+    id
+    name
+    childcell
+    approvalstatus
+  }
+}
