@@ -59,6 +59,7 @@ export class EditorCellController extends Component {
           }
           {
             editable && (<EditorCellForm
+              form={'EditorCellForm-'+data.name}
               initialValues={{
                 content: data.content.content,
                 contenttype: data.content.contenttype,
