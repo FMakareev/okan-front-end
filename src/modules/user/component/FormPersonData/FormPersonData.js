@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { reduxForm, Form, getFormValues } from 'redux-form';
 
 /**Components*/
 import Box from '../../../../components/Box/Box';
@@ -39,17 +41,19 @@ export class FormPersonData extends Component {
     mb: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
+  submit = value => {
+    console.log('value', value);
+  };
   render() {
     const {
+      handleSubmit,
       initialValues: { lastname, firstname, patronymic, birthdate, position, phone, email },
     } = this.props;
 
     return (
-      <Fragment>
+      <Form onSubmit={handleSubmit(this.submit)}>
         <Text
           fontSize={6}
           lineHeight={8}
@@ -103,9 +107,20 @@ export class FormPersonData extends Component {
             </TextStyled>
           )}
         </BoxStyled>
-      </Fragment>
+      </Form>
     );
   }
 }
+
+FormPersonData = connect(
+  state => {
+    ({ values: getFormValues('FormPersonData')(state) });
+  },
+  null,
+)(FormPersonData);
+
+FormPersonData = reduxForm({
+  form: 'FormPersonData',
+})(FormPersonData);
 
 export default FormPersonData;

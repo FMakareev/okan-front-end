@@ -1,0 +1,23 @@
+mutation ($projectname: String!, $document: String!) {
+  createproject(projectname: $projectname, document: $document) {
+    project {
+      id
+      name 
+      author {
+        id
+        name
+      }
+      partners{
+        id 
+        name
+      }
+      okancode 
+      customercode 
+      documents 
+      createdate 
+      updatedate 
+      revisions 
+      status 
+    }
+  }
+}

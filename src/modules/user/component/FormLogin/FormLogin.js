@@ -187,16 +187,16 @@ export class FormLogin extends Component {
    * */
   setUser = props => {
     console.log('setUser: ', props);
+
     const {
       data: { currentuseritem },
     } = props;
 
     const { addUser } = this.props;
 
-    const resolvers = currentuseritem.role;
+    addUser({ ...currentuseritem });
 
-    addUser({ ...currentuseritem, resolvers });
-    localStorage.setItem('user', JSON.stringify({ ...currentuseritem, resolvers }));
+    localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
 
   // mockSubmit = value => {

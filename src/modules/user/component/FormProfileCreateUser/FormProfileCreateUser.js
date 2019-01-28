@@ -100,11 +100,7 @@ export class FormProfileCreateUser extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text
-          color={'color7'}
-          textAlign={'center'}
-          mb={13}
-          fontFamily={'primary500'}>
+        <Text color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 
@@ -213,7 +209,7 @@ FormProfileCreateUser = connect(
     values: getFormValues('FormProfileCreateUser')(state),
   }),
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, user }), // TODO review: не забываем импортировать, и addUser тут не нужно
+    // addUser: user => dispatch({ type: USER_ADD, user }), // TODO review: не забываем импортировать, и addUser тут не нужно
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

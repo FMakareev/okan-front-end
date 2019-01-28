@@ -1,0 +1,9 @@
+mutation ($approvalstatus: String, $cell: String, $id: String!, $name: String) {
+  updatedocument(approvalstatus: $approvalstatus, cell: $cell, id: $id, name: $name) {
+    document {
+      id
+      name
+      approvalstatus
+    }
+  }
+}

@@ -16,7 +16,6 @@ const inputSize = variant({
   prop: 'size',
 });
 
-
 /**
  * Text Field Base
  * @example ./TextFieldBase.example.md
@@ -51,9 +50,7 @@ TextFieldBase.propTypes = {
   /** Description of prop "px: padding-top and padding-bottom". */
   py: PropTypes.number,
   lineHeight: PropTypes.number,
-
   size: PropTypes.string,
-
   fontSize: PropTypes.number,
   /**input */
   input: PropTypes.object,
@@ -66,6 +63,7 @@ TextFieldBase.propTypes = {
   /**input */
   required: PropTypes.string,
 };
+
 TextFieldBase.defaultProps = {
   size: 'lg',
   fontFamily: 'secondary',

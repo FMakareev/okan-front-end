@@ -1,0 +1,21 @@
+query($id: String!){
+  revisionlist(id: $id){
+    id
+    name 
+    # author {
+    #   id
+    #   name
+    # }
+    # partners{
+    #   id 
+    #   name
+    # }
+    # okancode 
+    # customercode 
+    # documents 
+    # createdate 
+    # updatedate 
+    # revisions 
+    # status 
+  }
+}
