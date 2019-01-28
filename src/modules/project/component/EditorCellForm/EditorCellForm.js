@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 
 /** View */
-// import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
+import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -29,7 +29,9 @@ export class EditorCellForm extends React.Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        {/*<Field component={RichTextEditor} />*/}
+        <Field
+          name={'content'}
+          component={RichTextEditor} />
       </Form>
     );
   }

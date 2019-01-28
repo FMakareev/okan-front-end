@@ -15,7 +15,7 @@ import ProjectSidebar from "../../component/ProjectSidebar/ProjectSidebar";
 import {Flex} from "@lib/ui/Flex/Flex";
 import ProjectEditor from "../../component/ProjectEditor/ProjectEditor";
 
-import {ProjectContext} from '../../component/ProjectContext/ProjectContext';
+import {ProjectContext, withProject} from '../../component/ProjectContext/ProjectContext';
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
   width: 320px;  
@@ -35,6 +35,9 @@ const EditorWrapper = styled.div`
 `;
 
 
+const ProjectEditorWithProject =  withProject((props) => (<ProjectEditor {...props}/>));
+
+
 export class ProjectEditorPage extends Component {
   static propTypes = {...ReactRoutePropTypes};
 
@@ -44,9 +47,10 @@ export class ProjectEditorPage extends Component {
   }
 
   render() {
-    // console.log('ProjectEditorPage: ', this.props);
+    console.log('ProjectEditorPage: ', this.props);
     const {match: {params}} = this.props;
     // match.params.projectid
+    // match.params.sectionid
     return (<Query
         query={ProjectItemQuery}
         variables={{id: params.projectid}}
@@ -73,7 +77,9 @@ export class ProjectEditorPage extends Component {
                     />
                   </SideBarWrapper>
                   <EditorWrapper>
-                    <ProjectEditor/>
+                    <ProjectEditor
+                      sectionid={params.sectionid}
+                    />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>

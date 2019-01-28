@@ -15,7 +15,7 @@ query($id: String!, ){
     childcell{
       id
     }
-    is_head
+    isHead
     content{
       number
     }

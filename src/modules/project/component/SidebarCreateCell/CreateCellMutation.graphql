@@ -13,7 +13,7 @@ mutation($prevcell: String,$parent: String,) {
     # id родительской ячейки
     parent
     # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-    childcell
+    children
     # null, на согласовании, согласован, не согласован
     approvalstatus
   }

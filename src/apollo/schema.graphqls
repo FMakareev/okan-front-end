@@ -55,7 +55,7 @@ type Block {
   # html контент фроалы
   content: String
   # номер ячейки в документе
-  number: String
+  number: Int
   # тип контента: таблица, картинка, текст
   contenttype: String
 }
@@ -75,7 +75,7 @@ type Cell {
   # имя раздела
   name: String!
   # статус проверки ячейки
-  verify: String!
+  verify: String
   # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
   prevcell: Cell
   # id следующей ячейки
@@ -86,11 +86,11 @@ type Cell {
   childcell: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
-  is_head: Boolean
+  isHead: Boolean
   # контент раздела
   content: Block
   # массив комментариев ячейки
-  comment: Comment
+  comments: [Comment]
   # массив связанных объектов
   pull: [Cell]
   # null, на согласовании, согласован, не согласован
@@ -167,6 +167,10 @@ type Document {
   childcell: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
+  partners: [User]
+  okancode: String
+  # код документа заказчика
+  customercode: String
 }
 
 
@@ -287,11 +291,8 @@ type Query {
 
   # запросить ячейку по id
   cellitem(id: String!): Cell
-#   query ($id: String) {
-#   cellitem(id: $id) {
-#     cell
-#   }
-# }
+  celllist(parent: String): [Cell]
+
 
   # метод возвращает тру если хотябы у одной дочки были изменения
   cell_marker(cell: String): Boolean
@@ -394,11 +395,6 @@ type Mutation {
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
   updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
-  # mutation ($children: String, $comments: [String], $content: String, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String, $id: String!) {
-#   updatecell(id: $id, children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
-#     cell
-#   }
-# }
 
   # создание комментария
   # sender - id отправителя комментария
@@ -455,12 +451,12 @@ type Mutation {
   # parent - id ячейки которая образует связь, ячейка родитель
   bindingcell(target: [String]!, parent: String!): Cell
   # mutation ($target: [String]!, $parent: String!) {
-#   bindingcell(target: $target, parent: $parent) {
-#     cell {
-#       id
-#     }
-#   }
-# }
+  #   bindingcell(target: $target, parent: $parent) {
+  #     cell {
+  #       id
+  #     }
+  #   }
+  # }
 
   # освобождает ячейки из пулла, не менняя из значения.
   unbindingcell(cell: [String]!): Cell

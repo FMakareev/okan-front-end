@@ -21,6 +21,7 @@ import {projectitem} from './graphql/query/projectitem';
 import {notificationList} from './graphql/query/notificationList';
 import {notificationItem} from './graphql/query/notificationItem';
 import {projectlist} from "./graphql/query/projectlist";
+import {celllist} from "./graphql/query/celllist";
 
 const defaultMocks = {
   Query: () => ({
@@ -66,6 +67,13 @@ const defaultMocks = {
       });
     },
 
+    celllist: (query, props) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(celllist());
+        }, faker.random.number(0));
+      });
+    },
     cellitem: (query, props) => {
 
       const {id} = props;

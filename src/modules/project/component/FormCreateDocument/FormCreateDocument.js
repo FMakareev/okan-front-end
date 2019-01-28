@@ -16,7 +16,7 @@ export class FormCreateDocument extends Component {
       variables: value,
       /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
       update: (store, {data: {createdocument}}) => {
-        // Read the data from our cache for this query.
+        // считываем из локального кеша аполо по запросу данные
         const data = store.readQuery({
           query: DocumentListQuery,
           variables: {
@@ -24,9 +24,10 @@ export class FormCreateDocument extends Component {
           }
         });
 
-        // Add our comment from the mutation to the end.
+        // пушим наш только что созданный документ в список всех документов
         data.documentlist.push(createdocument);
-        // // Write our data back to the cache.
+
+        // записываем в кеш обновленный список документов
         store.writeQuery({
           query: DocumentListQuery,
           variables: {projectid: this.props.projectid},
