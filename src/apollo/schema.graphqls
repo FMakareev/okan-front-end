@@ -188,7 +188,7 @@ type Project {
   # код документа заказчика
   customercode: String
   # mongoid документа проекта
-  documents: [String]
+  documents: [Document]
   # дата создания
   createdate: String
   # дата обновления
