@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { color } from 'styled-system';
 
 /**View */
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import Flex from '../../../../components/Flex/Flex';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
 
 /** Styles property */
 import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
