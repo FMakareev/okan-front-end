@@ -11,13 +11,13 @@ import { Fields, Field, reduxForm, SubmissionError, Form, getFormValues } from '
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import Flex from '../../../../components/Flex/Flex';
-import Box from '../../../../components/Box/Box';
-import Container from '../../../../components/Container/Container';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+import Box from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
+import Container from '@lib/ui/Container/Container';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /**Image */
-import { SvgSave } from '../../../../components/Icons/SvgSave';
+import { SvgSave } from '@lib/ui/Icons/SvgSave';
 
 /** Components */
 import SettingsUser from './SettingsUser';
@@ -25,8 +25,8 @@ import SettingsNameDocument from './SettingsNameDocument';
 import TitlePage from './TitlePage';
 
 /** Graphql schema */
-import DocumentSettingsMutation from './DocumentSettingsMutation.graphql';
 import UserListQuery from './UserListQuery.graphql';
+import DocumentSettingsMutation from './DocumentSettingsMutation.graphql';
 
 /** Redux reducers*/
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
@@ -65,7 +65,6 @@ const has = Object.prototype.hasOwnProperty;
 
 const sleep = ms =>
   new Promise(resolve => {
-    console.log(1);
     return setInterval(resolve, ms);
   });
 
@@ -76,7 +75,7 @@ export class DocumentSettings extends Component {
 
   submit = value => {
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
+    console.log('DocumentSettings', data);
 
     return this.props['@apollo/update'](data)
       .then(response => {
