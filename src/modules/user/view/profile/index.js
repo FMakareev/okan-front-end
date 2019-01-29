@@ -13,7 +13,7 @@ import Box from '@lib/ui/Box/Box';
 /**Components Admin*/
 import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
 import FormProfileCreateUser from '../../component/FormProfileCreateUser/FormProfileCreateUser';
-import FormProfileNotification from '../../component/FormProfileNotification/FormProfileNotification';
+import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
 import FormProfileRecoveryEmail from '../../component/FormProfileRecoveryEmail/FormProfileRecoveryEmail';
 
 /** Components User*/
@@ -140,7 +140,7 @@ export class ProfilePage extends Component {
                       throw { message: `GraphQL error: not found` };
                     }
                     return (
-                      <FormProfileNotification
+                      <ProfileNotification
                         initialValues={data && Object.assign({}, { ...data.notificationslist })}
                       />
                     );
@@ -162,4 +162,4 @@ export class ProfilePage extends Component {
 
 export default ProfilePage;
 
-// <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;
+// <ProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;
