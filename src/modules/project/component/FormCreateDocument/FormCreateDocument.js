@@ -23,11 +23,8 @@ export class FormCreateDocument extends Component {
           variables: {
             id: this.props.project.project.id
           }
-        });
-        console.log('data: ', data);
-
-        // пушим наш только что созданный документ в список всех документов
-        data.projectitem.documents.push(createdocument);
+        });        // пушим наш только что созданный документ в список всех документов
+        data.projectitem.documents.push(createdocument.document);
 
         // записываем в кеш обновленный список документов
         store.writeQuery({
@@ -41,6 +38,7 @@ export class FormCreateDocument extends Component {
     })
       .then(response => {
         console.log(response);
+        this.props.reset();
       })
       .catch(error => {
         console.log(error);
