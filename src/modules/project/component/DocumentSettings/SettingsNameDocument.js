@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Field } from 'redux-form';
 
 /**View */
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
