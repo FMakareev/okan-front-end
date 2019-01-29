@@ -5,20 +5,18 @@ import PropTypes from 'prop-types';
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Container from '../../../../components/Container/Container';
+import Flex from '@lib/ui/Flex/Flex';
+import Container from '@lib/ui/Container/Container';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
 import ProjectCreate from '../../component/ProjectCreate/ProjectCreate';
 
-class ProjectCreatePage extends Component {
+export class ProjectCreatePage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
   render() {
     return (
       <ErrorCatch>
