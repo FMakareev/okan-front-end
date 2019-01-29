@@ -20,10 +20,6 @@ query($id: String!){
       # null, на согласовании, согласован, не согласован
       approvalstatus
     }
-    # код документа ОКАН
-    okancode
-    # код документа заказчика
-    customercode
     # дата создания
     createdate
     # дата обновления
