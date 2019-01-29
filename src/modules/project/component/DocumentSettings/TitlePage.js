@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 
 /**View */
-import Flex from '../../../../components/Flex/Flex';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
+import Flex from '@lib/ui/Flex/Flex';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import RichTextEditor from '@lib/ui/RichTextEditor/RichTextEditor';
 
 export const TitlePage = () => {
   return (
