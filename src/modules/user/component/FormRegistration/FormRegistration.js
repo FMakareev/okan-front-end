@@ -8,14 +8,14 @@ import { withRouter } from 'react-router-dom';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import Box from '../../../../components/Box/Box';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
+import Box from '@lib/ui/Box/Box';
+import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
+import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** Components */
-import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 import FormLogo from '../FormLogo/FormLogo';
+import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -105,7 +105,6 @@ export class FormRegistration extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    console.log(1, data);
 
     this.setState(() => ({ isLoading: true, submitting: true }));
     console.log('this ', this.props['@apollo/create'](data));
