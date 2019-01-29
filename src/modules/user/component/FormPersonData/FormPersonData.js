@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { reduxForm, Form, getFormValues } from 'redux-form';
 
 /**Components*/
-import Box from '../../../../components/Box/Box';
-import Text from '../../../../components/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import Text from '@lib/ui/Text/Text';
 
 /** Styles property */
 import { FontFamilyProperty } from '../../../../styles/styleProperty/FontFamilyProperty';
