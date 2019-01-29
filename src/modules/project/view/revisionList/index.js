@@ -6,10 +6,10 @@ import { Query } from 'react-apollo';
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Container from '../../../../components/Container/Container';
-import SmallPreloader from '../../../../components/SmallPreloader/SmallPreloader';
+import Flex from '@lib/ui/Flex/Flex';
+import Container from '@lib/ui/Container/Container';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 
 /**  Components*/
 import RevisionList from '../../component/RevisionList/RevisionList';
@@ -33,7 +33,7 @@ export class RevisionListPage extends Component {
           <Container maxWidth={'800px'} width={'100%'}>
             <Query query={RevisionListQuery} variables={{ ...(id ? { id } : null) }}>
               {({ loading, error, data }) => {
-                console.log('data', data);
+                console.log('RevisionListQuery', data);
                 if (id && loading) {
                   return <SmallPreloader />;
                 }
