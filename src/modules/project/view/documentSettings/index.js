@@ -9,7 +9,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
 import DocumentSettings from '../../component/DocumentSettings/';
@@ -17,10 +17,8 @@ import DocumentSettings from '../../component/DocumentSettings/';
 class DocumentSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
   render() {
     // const {
     //   user: { id },
