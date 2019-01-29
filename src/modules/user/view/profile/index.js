@@ -66,7 +66,7 @@ export class ProfilePage extends Component {
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              {/*ROLE_USER && (
+              {ROLE_USER && (
                 <Query query={DocumentListQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
                     console.log('documentlist', data);
@@ -88,9 +88,8 @@ export class ProfilePage extends Component {
                     );
                   }}
                 </Query>
-                )*/}
+                )}
 
-              <FormProfileApproval />
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
