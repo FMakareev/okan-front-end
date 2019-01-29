@@ -1,18 +1,22 @@
 import React, {Component} from 'react';
+import {Query} from "react-apollo";
 
 /** Components */
+import EditorCellController from "../EditorCellController/EditorCellController";
 
 /**View */
 
 /**PropTypes */
 import {Flex} from "@lib/ui/Flex/Flex";
 import styled from "styled-components";
-import EditorCellController from "./EditorCellController";
-import {commentitem} from "../../../../apollo/graphql/query/commentitem";
-import {celItem} from "../../../../apollo/graphql/query/celItem";
 import {withProject} from "../ProjectContext/ProjectContext";
-import {EditorAdditionalMenu} from "./EditorAdditionalMenu";
+
+import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
 import {EditorFormMainContent} from "./EditorFormMainContent";
+
+/** Graphql */
+import CellListQuery from './CellListQuery.graphql';
+import {Box} from "@lib/ui/Box/Box";
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -25,8 +29,7 @@ const ContentWrapper = styled.div`
 `;
 
 
-
-const EditorCellControllerWithProject =  withProject((props) => (<EditorCellController {...props}/>));
+const EditorCellControllerWithProject = withProject((props) => (<EditorCellController {...props}/>));
 
 export class ProjectEditor extends Component {
   static propTypes = {};
@@ -45,19 +48,46 @@ export class ProjectEditor extends Component {
   render() {
     // TODO: есть проблема с z-index карточка комментария налезает поверх иконки ниже стоящего блока, решается во время итерациионного вывода блоков,
     // берем длнну массива блоков и начиная с первого задачем в порядке убывания z-index блокам
+    console.log('ProjectEditor', this.props);
+
+    const {sectionid} = this.props;
 
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
         <ContentWrapper>
-          <EditorCellControllerWithProject
-            data={{
-            ...celItem({ id:'', prevcell:'', nextcell:'', parent:'' }),
-            comment: commentitem()
-          }}/>
-          <EditorCellControllerWithProject data={{
-            ...celItem({ id:'', prevcell:'', nextcell:'', parent:'' }),
-            comment: null
-          }}/>
+          <Query
+            skip={!sectionid}
+            query={CellListQuery}
+            variables={{
+              parent: sectionid
+            }}
+          >
+            {
+              ({data, loading, error}) => {
+                console.log(data, loading, error);
+                if (loading) {
+                  return `Загрузка`;
+                }
+
+                if (error) {
+                  return `Ошибка`;
+                }
+
+                if (data && data.celllist) {
+                  return data.celllist.map((item, index) =>
+                    (<Box
+                      position={'relative'}
+                      zIndex={data.celllist.length - index}
+                    >
+                      <EditorCellControllerWithProject
+                        key={`EditorCellControllerWithProject-${index}`}
+                        data={item}/>
+                    </Box>));
+                }
+                return null;
+              }
+            }
+          </Query>
         </ContentWrapper>
         <EditorAdditionalMenu/>
         <EditorFormMainContent />

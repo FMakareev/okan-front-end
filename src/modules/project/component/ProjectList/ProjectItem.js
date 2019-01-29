@@ -1,26 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+
 /** View */
-import Flex from '../../../../components/Flex/Flex';
-import Text from '../../../../components/Text/Text';
-import Image from '../../../../components/Image/Image';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import Link from '../../../../components/Link/Link';
+import Flex from '@lib/ui/Flex/Flex';
+import Text from '@lib/ui/Text/Text';
+import Image from '@lib/ui/Image/Image';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import Link from '@lib/ui/Link/Link';
 
 /** Image */
 import settings from '../../../../assets/image/settings.png';
 
+/** Styles property */
+import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
+import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
+
 const FlexStyled = styled(Flex)`
-  border: 1px solid #333333;
-  border-radius: 5px;
+  border: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color11' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
 //`/app/document-settings/${id}`
 // `/app/project/${id}`
 
-export let ProjectItem = ({id, name,history}) => {
+export let ProjectItem = ({ id, name, history }) => {
+  console.log(1, history);
   return (
     <Link mr={6} to={`/app/project/${id}`} textDecoration={'none'}>
       <FlexStyled
@@ -34,25 +41,33 @@ export let ProjectItem = ({id, name,history}) => {
           {name}
         </Text>
         <ButtonWithImage
-          onClick={(event) => {
+          onClick={event => {
             try {
               event.stopPropagation();
               event.preventDefault();
-              history.push(`/app/project-settings/${id}`)
+              history.push(`/app/project-settings/${id}`);
             } catch (error) {
               console.error(`Error ProjectItem id=${id}:`, error);
             }
           }}
-          type="button" variant={'empty'}>
-          <Image src={settings}/>
+          type="button"
+          variant={'empty'}>
+          <Image src={settings} />
         </ButtonWithImage>
       </FlexStyled>
     </Link>
   );
 };
 
-ProjectItem.propTypes = {};
+ProjectItem.propTypes = {
+  /** id project */
+  id: PropTypes.string,
+  /** name project */
+  name: PropTypes.string,
+  /** history route */
+  history: PropTypes.object,
+};
 
 ProjectItem = withRouter(ProjectItem);
 
-export default ProjectItem
+export default ProjectItem;

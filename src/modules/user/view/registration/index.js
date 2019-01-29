@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Query, graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
 /**View*/
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Container from '../../../../components/Container/Container';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import Container from '@lib/ui/Container/Container';
 
 /**Components*/
 import FormRegistration from '../../component/FormRegistration/FormRegistration';

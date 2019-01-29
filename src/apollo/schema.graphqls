@@ -16,36 +16,16 @@ type Comment {
   # удален ли комментарий (?)
   isdelete: Boolean
 }
-#  comment {
-#      cell
-#      createdat
-#      id
-#      isdelete
-#      message
-#      sender {
-#        birthdate
-#        email
-#        firstname
-#        id
-#        lastname
-#        patronymic
-#        phone
-#        position
-#        role {
-#          description
-#          id
-#          name
-#          resolvers {
-#            id
-#            module
-#            name
-#          }
-#        }
-#        signature
-#      }
-#      updatedat
-#    }
-#  }
+# https://okan.code-artel.com/graphql :
+# comment {
+  # cell: ID
+  # createdat: DateTime
+  # id: ID
+  # isdelete: Boolean
+  # message: String
+  # sender: User
+  # updatedat: DateTime
+# }
 
 type Block {
   # mongoid
@@ -55,19 +35,18 @@ type Block {
   # html контент фроалы
   content: String
   # номер ячейки в документе
-  number: String
+  number: Int
   # тип контента: таблица, картинка, текст
   contenttype: String
 }
-# block {
-#   content
-#   contenttype
-#   id
-#   name
-#   number
+# https://okan.code-artel.com/graphql :
+# Block{
+#   content: String
+#   contenttype: String
+#   id: ID
+#   name: String
+#   number: Int
 # }
-
-
 
 type Cell {
   # mongoid
@@ -75,7 +54,7 @@ type Cell {
   # имя раздела
   name: String!
   # статус проверки ячейки
-  verify: String!
+  verify: String
   # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
   prevcell: Cell
   # id следующей ячейки
@@ -83,79 +62,32 @@ type Cell {
   # id родительской ячейки
   parent: Cell
   # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-  childcell: Cell
+  children: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
-  is_head: Boolean
+  isHead: Boolean
   # контент раздела
   content: Block
   # массив комментариев ячейки
-  comment: Comment
+  comments: [Comment]
   # массив связанных объектов
   pull: [Cell]
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
 }
-#  cell {
-#       children{
-#        	cell
-#       }
-#       comments{
-#         cell
-#         createdat
-#         id
-#         isdelete
-#         message
-#         sender{
-#           birthdate
-#           email
-#           firstname
-#         id
-#           lastname
-#           patronymic
-#           phone
-#           position
-#           role{
-#             description
-#             id
-#             name
-#             resolvers{
-#               id
-#               module
-#               name
-#             }
-
-#           }
-#           signature
-#         }
-#         updatedat
-
-#       }
-#       content{
-#         content
-#         contenttype
-#         id
-#         name
-#         number
-#       }
-#       id
-#       isHead
-#       name
-#       nextcell{
-#         cell
-#       }
-#       parent{
-#         cell
-#       }
-#       prevcell{
-#         cell
-#       }
-#       verify
-#       pull {
-#         cell
-#       }
-#     }
-#   }
+# https://okan.code-artel.com/graphql :
+# cell {
+#   comments: [Comment]
+#   content: Block
+#   id: ID
+#   isHead: Boolean
+#   name: String
+#   nextcell: Cell
+#   parent: Cell
+#   prevcell: Cell
+#   verify: String
+#   pull: [Cell]
+# }
 
 
 type Document {
@@ -164,11 +96,26 @@ type Document {
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  childcell: Cell
+  children: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
+  partners: [User]
+  okancode: String
+  # код документа заказчика
+  customercode: String
 }
-
+# https://okan.code-artel.com/graphql :
+# Document{
+#   approvalstatus: String
+#   cell: Cell
+#   childcell: Cell
+#   customercode: String
+#   documentnumber: String
+#   id: ID
+#   name: String
+#   okancode: String
+#   partners: [User]
+# }
 
 type Project {
   # mongoid
@@ -184,7 +131,7 @@ type Project {
   # код документа заказчика
   customercode: String
   # mongoid документа проекта
-  documents: [String]
+  documents: [Document]
   # дата создания
   createdate: String
   # дата обновления
@@ -194,17 +141,39 @@ type Project {
   # archive or working
   status: String
 }
+# https://okan.code-artel.com/graphql :
+# Project{
+#   author: User
+#   createdate: DateTime
+#   customercode: String
+#   documents: [Document]
+#   id: ID
+#   name: String
+#   okancode: String
+#   partners: [User]
+#   status: String
+#   updatedate: DateTime
+#   revisions: [Project]
+# }
 
 type Resolver {
   id: ID
   module: String
   name: String
 }
+# https://okan.code-artel.com/graphql :  Также
+
 type Role {
   description: String
   id: ID
   name: String
   resolvers: [Resolver]
+}
+# https://okan.code-artel.com/graphql : Также
+
+type Marker {
+  answer: Boolean
+  id: ID
 }
 
 type User {
@@ -218,7 +187,7 @@ type User {
   patronymic: String
   # дата рождения пользователя
   birthdate: String
-
+  # Должность
   position: String
   # номер телефона пользователя
   phone: String
@@ -229,20 +198,19 @@ type User {
   # роль пользователя
   role: Role
 }
-# user {
-#       birthdate
-#       email
-#       firstname
-#       id
-#       lastname
-#       patronymic
-#       phone
-#       position
-#       role {
-#         id
-#       }
-#       signature
-#     }
+# https://okan.code-artel.com/graphql :
+# User{
+#   birthdate: String
+#   email: String
+#   firstname: String
+#   id: ID
+#   lastname: String
+#   patronymic: String
+#   phone: String
+#   position: String
+#   role: Role
+#   signature: String
+# }
 
 type Notification {
   # mongoid
@@ -258,228 +226,341 @@ type Notification {
   # дата создания в ISO
   createat: String
 }
+# https://okan.code-artel.com/graphql :
+# Notification{
+#   cell: Cell
+#   comment: Comment
+#   createat: DateTime
+#   id: ID
+#   message: String
+#   recipient: User
+#   sender: User
+# }
+
+
+
 
 type Query {
 
-  # список пользователей
+# список пользователей
+# https://okan.code-artel.com/graphql :
   userlist: [User],
-#   query{
-#   userlist{
-#     user
-#   }
-# }
+  # query{
+  #   userlist{
+  #     user
+  #   }
+  # }
 
-  # получить пользователя по id
-  useritem(id: String!): User,
-#   query ($id: String) {
-#   useritem(id: $id) {
-#     birthdate
-#   }
-# }
+# получить пользователя по id
+  # useritem(id: String!): User,
+  # https://okan.code-artel.com/graphql :
+  useritem(id: String): User,
+  # query ($id: String) {
+  #   useritem(id: $id) {
+  #     id
+  #   }
+  # }
 
-  # Получить текущего авторизованного пользователя
+# Получить текущего авторизованного пользователя
+# https://okan.code-artel.com/graphql :
   currentuseritem: User,
+  # {
+  #   currentuseritem {
+  #     id
+  #   }
+  # }
 
-  # получить пользователя по адресу эл.почты
+# получить пользователя по адресу эл.почты
+# https://okan.code-artel.com/graphql :
   useremailitem(email: String!): User,
-# ВОТ ЭТО КВЕРИ НАДО РЕАЛТЗОВАТЬ, ДЛЯ ВХОДА. НЕ МОГУ ЗАЙТИ ДАЖЕ АДМИНОМ (
+  # Такого квери нет
+
+# запросить ячейку по id
+  # cellitem(id: String!): Cell
+  # https://okan.code-artel.com/graphql :
+  cellitem(id: String): Cell,
+  # query ($id: String) {
+  #   cellitem(id: $id) {
+  #     id
+  #   }
+  # }
+  celllist(parent: String): [Cell]
 
 
-  # запросить ячейку по id
-  cellitem(id: String!): Cell
-#   query ($id: String) {
-#   cellitem(id: $id) {
-#     cell
-#   }
-# }
+# метод возвращает тру если хотябы у одной дочки были изменения
+  # cell_marker(cell: String): Boolean
+  # https://okan.code-artel.com/graphql :
+  cellMarker(id: String): Marker,
+  # query ($id: String) {
+  #   cellMarker(id: $id) {
+  #     id
+  #   }
+  # }
 
-  # метод возвращает тру если хотябы у одной дочки были изменения
-  cell_marker(cell: String): Boolean
-
-  # получить список документов
+# получить список документов
   # projectid - id проекта по которому запрашиваются документы
-  documentlist(projectid: String): [Document]
+  # documentlist(projectid: String): [Document]
+  # https://okan.code-artel.com/graphql :
+  documentlist(approvalstatus: String, author: String!): [Document],
+  # query ($approvalstatus: String, $author: String!) {
+  #   documentlist(approvalstatus: $approvalstatus, author: $author) {
+  #     id
+  #   }
+  # }
 
-  # получить документ по id
-  documentitem(id: String!) : Document
-#   query ($id: String) {
-#   documentitem(id: $id) {
-#     document
-#   }
-# }
+# получить документ по id
+  # documentitem(id: String!) : Document
+  # https://okan.code-artel.com/graphql :
+  documentitem(id: String) : Document,
+  # query ($id: String) {
+  #   documentitem(id: $id) {
+  #     id
+  #   }
+  # }
 
-  # получит список проектов пользователя
-  projectlist(user: String!): [Project]
-  # получит проект по id
-  projectitem(id: String!): Project
+# получить список проектов пользователя
+  # projectlist(user: String!): [Project]
+  # https://okan.code-artel.com/graphql :
+  projectList: [Project],
+  # {
+  #   projectList {
+  #     id
+  #   }
+  # }
 
-  # получит список ревизий проекта
-  revisionlist(id: String!): [Project]
-  # получит ревизию проекта по id
-  revisionitem(id: String!): Project
+# получить проект по id
+# https://okan.code-artel.com/graphql :
+  projectitem(id: String!): Project,
+  # query ($id: String!) {
+  #   projectitem(id: $id) {
+  #     id
+  #   }
+  # }
 
-  # получить список уведомлений по id пользователя получателя
-  notificationlist(user:String): [Notification]
+
+# получить список ревизий проекта
+  # revisionlist(id: String!): [Project]
+  # https://okan.code-artel.com/graphql :
+  revisionList(id: String!): [Project],
+  # query ($id: String!) {
+  #   revisionList(id: $id) {
+  #     id
+  #   }
+  # }
+
+# получить ревизию проекта по id
+  # revisionitem(id: String!): Project
+  # https://okan.code-artel.com/graphql :
+  revisionItem(id: String!): Project,
+  # query ($id: String!) {
+  #   revisionItem(id: $id) {
+  #     id
+  #   }
+  # }
+
+# получить список уведомлений по id пользователя получателя
+  # notificationlist(user:String): [Notification]
+  # https://okan.code-artel.com/graphql :
+  notificationslist(user:String): [Notification],
+  # query ($user: String) {
+  #   notificationslist(user: $user) {
+  #   id
+  # }
 }
 
 type Mutation {
 
-  # создание пользователя
-  createuser(
-  id: String,
-  firstName: String!,
-  lastName: String!,
-  patronymic: String!,
-  birthdate: String!,
-  position:String!,
-  phone: String!,
-  email: String!,
-  signature: String!,
-): User,
-# mutation ($firstname: String, $lastname: String, $patronymic: String, $birthdate: String, $position: String, $phone: String, $email: String, $signature: String) {
-#   createuser(firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthdate: $birthdate, position: $position, phone: $phone, email: $email, signature: $signature) {
-#     User
-# }
-
-  # обновление пользователя
-  updateuser(
-  id: String,
-  firstName: String,
-  lastName: String,
-  patronymic: String,
-  birthdate: String,
-  phone: String,
-  email: String,
-  signature: String,
-  position:String,
-): User,
-# mutation ($id: String!, $firstname: String, $lastname: String, $patronymic: String, $birthdate: String, $position: String, $phone: String, $email: String, $signature: String, $role: String) {
-#   updateuser(id: $id, role: $role, firstname: $firstname, lastname: $lastname, patronymic: $patronymic, birthdate: $birthdate, position: $position, phone: $phone, email: $email, signature: $signature) {
-#     User
-# }
+# создание пользователя
+  # createuser(
+  #   id: String,
+  #   firstName: String!,
+  #   lastName: String!,
+  #   patronymic: String!,
+  #   birthdate: String!,
+  #   position:String!,
+  #   phone: String!,
+  #   email: String!,
+  #   signature: String!,
+  # ): User,
+  # https://okan.code-artel.com/graphql :
+  createuser (
+    birthdate: String,
+    email: String,
+    firstname: String,
+    lastname: String,
+    patronymic: String,
+    phone: String,
+    position: String,
+    signature: String) : User,
 
 
-  # смена пароля пользователя
-  changepassword(user: String!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
-#   mutation ($newpassword: String!, $password: String!, $user: String) {
-#   changepassword(newpassword: $newpassword, password: $password, user: $user) {
-#     user
-#   }
-# }
+# обновление пользователя
+  # updateuser(
+  #   id: String,
+  #   firstName: String,
+  #   lastName: String,
+  #   patronymic: String,
+  #   birthdate: String,
+  #   phone: String,
+  #   email: String,
+  #   signature: String,
+  #   position:String,
+  # ): User,
+# https://okan.code-artel.com/graphql :
+  updateuser (
+    birthdate: String,
+    email: String,
+    firstname: String,
+    id: String!,
+    lastname: String,
+    patronymic: String,
+    phone: String,
+    position: String,
+    role: String,
+    signature: String) : User,
 
-  # смена пароля пользователя
-  userregistration(email: String!, password: String!, retryPas: String): User,
-#   mutation ($email: String!, $key: String!, $password: String!) {
-#   confirmeduser(email: $email, key: $key, password: $password) {
-#     User
-# }
+# смена пароля пользователя
+  # changepassword(user: String!, password: String!, newPassword: String!, confirmNewPassword: String!): User,
+  # https://okan.code-artel.com/graphql :
+  changepassword(newpassword: String!, password: String!, user: String) : User,
 
+# # смена пароля пользователя
+#   # userregistration(email: String!, password: String!, retryPas: String): User,
+#   # https://okan.code-artel.com/graphql :
+#   confirmeduser (email: String!, key: String!, password: String!) : User,
 
-  # создание ячейки,
+# создание ячейки,
   # name
   # prevcell - id предыдущей ячейки
   # parent - id родительской ячейки
   # content - содержимое ячейки
-  createcell(name:String,prevcell:String, parent: String, content: String): Cell
-  # mutation ($children: String, $comments: [String], $content: String!, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String) {
-#   createcell(children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
-#     cell
-#   }
-# }
+  # createcell(name:String,prevcell:String, parent: String, content: String): Cell
+  # https://okan.code-artel.com/graphql :
+  createcell (
+    children: String,
+    comments: [String],
+    content: String!,
+    isHead: Boolean,
+    name: String,
+    nextcell: String,
+    parent: String,
+    prevcell: String,
+    verify: String) : Cell,
 
-  # обновление ячейки
+# обновление ячейки
   # id - mongoid ячейки
   # name - имя ячейки
   # content - html содержимое ячейки
   # prevcell - id предыдущей ячейки
   # nextcell - id следующей ячейки
-  updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
-  # mutation ($children: String, $comments: [String], $content: String, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String, $id: String!) {
-#   updatecell(id: $id, children: $children, comments: $comments, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, content: $content) {
-#     cell
-#   }
-# }
+  # updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
+  # https://okan.code-artel.com/graphql :
+  updatecell (
+    children: String,
+    comments: [String],
+    content: String,
+    contentname: String,
+    contenttype: String,
+    id: String!,
+    isHead: Boolean,
+    name: String,
+    nextcell: String,
+    parent: String,
+    prevcell: String,
+    verify: String) : Cell,
 
-  # создание комментария
+# создание комментария
   # sender - id отправителя комментария
   # message - сообщение комментария
   # cell - id комментаруемой ячейки
-  createcomment(sender: String!, message: String!, cell: String!): Comment
-  #   mutation ($sender: String!, $message: String!, $cell: String!) {
-#   createcomment(sender: $sender, message: $message, cell: $cell) {
-#     comment
-# }
-# }
+  # createcomment(sender: String!, message: String!, cell: String!): Comment
+  # https://okan.code-artel.com/graphql :
+  createcomment (sender: String!, message: String!, cell: String!) : Comment,
 
-  # обновление комментария
+# обновление комментария
   # id - mongoid комментария
   # message - сообщение комментария
   # isdelete - удален ли комментарий из ячейки
-  updatecomment(id: String!,isdelete: Boolean, message: String): Comment
-  #   mutation ($sender: String, $id: String!, $isdelete: Boolean, $message: String, $cell: String) {
-#   updatecomment(sender: $sender, id: $id, message: $message, isdelete: $isdelete, cell: $cell) {
-#     comment
-# }
-# }
+  # updatecomment(id: String!,isdelete: Boolean, message: String): Comment
+  # https://okan.code-artel.com/graphql :
+  updatecomment (sender: String, id: String!, isdelete: Boolean, message: String) : Comment,
 
-  # создание документа
-  createdocument(name: String, cell: String): Document
-#   mutation ($approvalstatus: String, $name: String!, $cell: String!) {
-#   createdocument(approvalstatus: $approvalstatus, name: $name, cell: $cell) {
-#     document
-#   }
-# }
+# создание документа
+  # createdocument(name: String, cell: String): Document
+  # https://okan.code-artel.com/graphql :
+  createdocument(
+    approvalstatus: String,
+    childcell: String,
+    customercode: String,
+    documentnumber: String,
+    name: String!,
+    okancode: String,
+    partners: [String]): Document,
 
+# обновление документа
+  # updatedocument(name: String, cell: String!): Document
+  # https://okan.code-artel.com/graphql :
+  updatedocument (
+    approvalstatus: String,
+    childcell: String,
+    customercode: String,
+    documentnumber: String,
+    id: String!,
+    name: String!,
+    okancode: String,
+    partners: [String]) : Document,
 
-  # обновление документа
-  updatedocument(name: String, cell: String!): Document
-#   mutation ($approvalstatus: String, $cell: String, $id: String!, $name: String) {
-#   updatedocument(approvalstatus: $approvalstatus, cell: $cell, id: $id, name: $name) {
-#     document
-#   }
-# }
-
-
-  # создание проекта
+# создание проекта
   # name - название проекта
   # document - id документа проекта, это (шаблон)(хз под вопросом)
-  createproject(name:String!, document: String!): Project
+  # createproject(projectname:String!, document: String!): Project
+  # https://okan.code-artel.com/graphql :
+  createproject (
+    author: String,
+    customercode: String,
+    documents: [String],
+    name: String!,
+    okancode: String,
+    partners: [String],
+    revisions: [String],
+    status: String) : Project,
 
-  updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
-  # создание ревизии документа
+# Обновление проекта
+  # updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
+  # https://okan.code-artel.com/graphql :
+  updateproject (
+    author: String,
+    customercode: String,
+    documents: [String],
+    id: String!, name: String!,
+    okancode: String,
+    partners: [String],
+    revisions: [String],
+    status: String) : Project,
+
+# создание ревизии документа
   # id - id документа для которого должна быть создана ревизия
-  createrevision(id: String!): Document
+  # https://okan.code-artel.com/graphql :
+  createrevision(id: String!): Document,
 
-  # метод для связывания ячеек
+# метод для связывания ячеек
   # target - id ячейки с которой нужно создать связь, по сути дочерняя ячейка
   # parent - id ячейки которая образует связь, ячейка родитель
-  bindingcell(target: [String]!, parent: String!): Cell
-  # mutation ($target: [String]!, $parent: String!) {
-#   bindingcell(target: $target, parent: $parent) {
-#     cell {
-#       id
-#     }
-#   }
-# }
+  # https://okan.code-artel.com/graphql :
+  bindingcell(target: [String]!, parent: String!): Cell,
 
-  # освобождает ячейки из пулла, не менняя из значения.
-  unbindingcell(cell: [String]!): Cell
-  # mutation ($cell: String!) {
-#   unbindingcell(cell: $cell) {
-#     cell {
-#       id
-#     }
-#   }
-# }
+# освобождает ячейки из пулла, не менняя из значения.
+  # unbindingcell(cell: String!): Cell
+  # https://okan.code-artel.com/graphql :
+  unbindingcell (cell: String!) : Cell,
 
-  # Активация пользователя, на вход получаем логин пользователя и пароль
-  activateuser(user:String, password: String): User
-# mutation ($email: String!, $key: String!, $password: String!) {
-#   confirmeduser(email: $email, key: $key, password: $password) {
-#     user
-#   }
-# }
+# Активация пользователя, на вход получаем логин пользователя и пароль
+  # activateuser(user:String, password: String): User
+  # https://okan.code-artel.com/graphql :
+  confirmeduser (email: String!, key: String!, password: String!) : User,
 
-  # user - принимает login пользователя
-  recoverypass(user:String): User
+# user - принимает login пользователя
+  # recoverypass(user:String): User
+  # https://okan.code-artel.com/graphql :
+  recoverypassword (email: String!) : User,
 }

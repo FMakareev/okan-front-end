@@ -5,7 +5,8 @@ import { space } from 'styled-system';
 
 /**View */
 import Message from '../Message/Message';
-import { FroalaReduxForm } from '../FroalaReduxForm/FroalaReduxForm';
+
+import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 
 const Wrapper = styled.div`
   ${space};

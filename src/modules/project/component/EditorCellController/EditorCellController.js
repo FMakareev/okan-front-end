@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import ReactHTMLParser from 'react-html-parser';
 /** Components */
-import EditorCellContent from './EditorCellContent';
-import EditorCellForm from './EditorCellForm';
+import EditorCellForm from '../EditorCellForm/EditorCellForm';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
 import {Flex} from "@lib/ui/Flex/Flex";
-import EditorCellCommentController from "./EditorCellCommentController";
+import EditorCellCommentController from "../EditorCellCommentController/EditorCellCommentController";
 
 export class EditorCellController extends Component {
 
@@ -31,29 +30,41 @@ export class EditorCellController extends Component {
     }
   }
 
+  /**
+   * @desc метод для переключения в режим редактирования ячейки
+   * */
+  onToggleForm = () => {
+    this.setState((state) => ({
+      ...state,
+      editable: !state.editable,
+    }))
+  };
+
 
   render() {
     const {editable} = this.state;
     const {data} = this.props;
-    console.log('EditorCellController: ',this.props);
+    console.log('EditorCellController: ', this.props);
     return (
       <Flex pl={'10px'} mt={12}>
         <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
-          2.1.
+          {data.content.number}
         </Text>
         <Box width={'calc(100% - 80px)'}>
           {
             !editable &&
-            <EditorCellContent>
-              orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </EditorCellContent>
+            <Text onClick={this.onToggleForm} fontSize={5} lineHeight={6} color={'color11'} fontFamily={'primary300'}>
+              {data.content && ReactHTMLParser(data.content.content)}
+            </Text>
           }
           {
-            editable && <EditorCellForm/>
+            editable && (<EditorCellForm
+              form={'EditorCellForm-'+data.name}
+              initialValues={{
+                content: data.content.content,
+                contenttype: data.content.contenttype,
+              }}
+            />)
           }
         </Box>
         <Box width={'20px'}>

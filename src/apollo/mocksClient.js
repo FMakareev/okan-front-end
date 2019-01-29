@@ -15,12 +15,17 @@ import {userlist} from './graphql/query/userlist';
 import {useritem} from './graphql/query/useritem';
 import {celItem} from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
-import {documentitem} from './graphql/query/documentItem';
-import {documentlist} from './graphql/query/documentlist';
-import {projectitem} from './graphql/query/projectitem';
-import {notificationList} from './graphql/query/notificationList';
-import {notificationItem} from './graphql/query/notificationItem';
-import {projectlist} from "./graphql/query/projectlist";
+import {celllist} from "./graphql/query/celllist";
+import { documentitem } from './graphql/query/documentItem';
+import { documentlist } from './graphql/query/documentlist';
+import { projectitem } from './graphql/query/projectitem';
+import { notificationList } from './graphql/query/notificationList';
+import { notificationItem } from './graphql/query/notificationItem';
+import { projectlist } from './graphql/query/projectlist';
+import { revisionitem } from './graphql/query/revisionitem';
+import { revisionlist } from './graphql/query/revisionlist';
+
+
 
 const defaultMocks = {
   Query: () => ({
@@ -38,7 +43,10 @@ const defaultMocks = {
     projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(projectitem({id}));
+          resolve({
+            ...projectitem(),
+            id,
+          });
         }, faker.random.number(0));
       });
     },
@@ -46,6 +54,22 @@ const defaultMocks = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(projectlist(4));
+        }, faker.random.number(0));
+      });
+    },
+
+    revisionitem: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(revisionItem());
+        }, faker.random.number(0));
+      });
+    },
+
+    revisionlist: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(revisionlist(2));
         }, faker.random.number(0));
       });
     },
@@ -66,6 +90,13 @@ const defaultMocks = {
       });
     },
 
+    celllist: (query, props) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(celllist());
+        }, faker.random.number(0));
+      });
+    },
     cellitem: (query, props) => {
 
       const {id} = props;
@@ -126,14 +157,13 @@ const defaultMocks = {
     changepassword: (mutation, props) => props,
 
     createdocument: (mutation, props) => {
-      console.log('createdocument: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
 
           faker.random.number(1) ?
             resolve({
               ...documentitem(),
-              childcell: null,
+              children: null,
               name: props.name
             }) :
             reject(
@@ -183,8 +213,52 @@ const defaultMocks = {
               parent
             }),
           });
-        }, faker.random.number(2000))
-      })
+        }, faker.random.number(2000));
+      });
+    },
+
+    createproject: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
+    updateproject: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
+    updatedocument: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
+    },
+
+    createdocument: (mutation, props) => {
+      // TODO review: добавить рандомную задержку от 500 до 3000
+      return setTimeout(() => {
+        if (props.email === 'error@okan.su') {
+          throw new GraphQLError('already registered');
+        } else {
+          return props;
+        }
+      }, 5000);
     },
   }),
 };

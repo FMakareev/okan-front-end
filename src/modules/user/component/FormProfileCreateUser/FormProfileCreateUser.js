@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
-import DayPickerField from '../../../../components/DayPickerField/DayPickerField';
-import MaskedInputField from '../../../../components/MaskedInputField/MaskedInputField';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import PictureUploadPreview from '@lib/ui/PictureUploadPreview/PictureUploadPreview';
+import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
+import MaskedInputField from '@lib/ui/MaskedInputField/MaskedInputField';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -100,11 +100,7 @@ export class FormProfileCreateUser extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text
-          color={'color7'}
-          textAlign={'center'}
-          mb={13}
-          fontFamily={'primary500'}>
+        <Text color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 
@@ -213,7 +209,7 @@ FormProfileCreateUser = connect(
     values: getFormValues('FormProfileCreateUser')(state),
   }),
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, user }), // TODO review: не забываем импортировать, и addUser тут не нужно
+    // addUser: user => dispatch({ type: USER_ADD, user }), // TODO review: не забываем импортировать, и addUser тут не нужно
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

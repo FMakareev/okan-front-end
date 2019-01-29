@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Query, graphql, compose } from 'react-apollo';
+import { Query } from 'react-apollo';
+import isEmpty from 'lodash/isEmpty';
 
 /**View*/
-import SmallPreloader from '../../../../components/SmallPreloader/SmallPreloader';
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Box from '../../../../components/Box/Box';
+import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import Flex from '@lib/ui/Flex/Flex';
+import Box from '@lib/ui/Box/Box';
 
 /**Components Admin*/
 import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
@@ -26,12 +26,10 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 /** Constants */
 import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
 
-/** Redux user */
-import { getUserFromStore } from '../../../../store/reducers/user/selectors';
-
 /** Graphql schema */
 import UserItemQuery from './UserItemQuery.graphql';
-import UserListQuery from './UserListQuery.graphql';
+import NotificationListQuery from './NotificationListQuery.graphql';
+import DocumentListQuery from './DocumentListQuery.graphql';
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -54,6 +52,10 @@ export class ProfilePage extends Component {
 
   state = {};
 
+  submit = value => {
+    console.log('value', value);
+  };
+
   render() {
     const {
       user: { role, id },
@@ -64,16 +66,11 @@ export class ProfilePage extends Component {
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              <FormProfileApproval data={{ name: '23415', number: 'ТЗ - RK-186-344' }} />
-            </LeftColumn>
-
-            <RightColumn flexDirection={'column'}>
-              {ROLE_ADMIN && <FormProfileCreateUser />}
-
-              {ROLE_USER && (
-                <Query query={UserListQuery}>
+              {/*ROLE_USER && (
+                <Query query={DocumentListQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
-                    console.log('dataList', data);
+                    console.log('documentlist', data);
+                    // const dataIsEmpty = isEmpty(data) ? null : data;
 
                     if (id && loading) {
                       return <SmallPreloader />;
@@ -81,30 +78,43 @@ export class ProfilePage extends Component {
                     if (error) {
                       throw error;
                     }
-                    if (id && data && !data.userlist) {
+                    if (id && data && !data.documentlist) {
                       throw { message: `GraphQL error: not found` };
                     }
-
                     return (
-                      <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
-                        {({ loading, error, data }) => {
-                          console.log('dataItem', data);
-                          if (id && loading) {
-                            return <SmallPreloader />;
-                          }
-                          if (error) {
-                            throw error;
-                          }
-                          if (id && data && !data.useritem) {
-                            throw { message: `GraphQL error: not found` };
-                          }
-                          return (
-                            <FormPersonData
-                              initialValues={data && Object.assign({}, { ...data.useritem })}
-                            />
-                          );
-                        }}
-                      </Query>
+                      <FormProfileApproval
+                        initialValues={data && Object.assign({}, { ...data.documentlist })}
+                      />
+                    );
+                  }}
+                </Query>
+                )*/}
+
+              <FormProfileApproval />
+            </LeftColumn>
+
+            <RightColumn flexDirection={'column'}>
+              {ROLE_ADMIN && <FormProfileCreateUser />}
+
+              {ROLE_USER && (
+                <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
+                  {({ loading, error, data }) => {
+                    console.log('useritem', data);
+                    // const dataIsEmpty = isEmpty(data) ? null : data;
+
+                    if (id && loading) {
+                      return <SmallPreloader />;
+                    }
+                    if (error) {
+                      throw error;
+                    }
+                    if (id && data && !data.useritem) {
+                      throw { message: `GraphQL error: not found` };
+                    }
+                    return (
+                      <FormPersonData
+                        initialValues={data && Object.assign({}, { ...data.useritem })}
+                      />
                     );
                   }}
                 </Query>
@@ -114,18 +124,34 @@ export class ProfilePage extends Component {
 
           <Flex justifyContent={'space-between'}>
             <LeftColumn flexDirection={'column'}>
-              <FormProfileNotification
-                data={{
-                  id: '23415',
-                  message:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                }}
-              />
+              {ROLE_USER && (
+                <Query query={NotificationListQuery}>
+                  {({ loading, error, data }) => {
+                    console.log('notificationslist', data);
+                    // const dataIsEmpty = isEmpty(data) ? null : data;
+
+                    if (id && loading) {
+                      return <SmallPreloader />;
+                    }
+                    if (error) {
+                      throw error;
+                    }
+                    if (id && data && !data.notificationslist) {
+                      throw { message: `GraphQL error: not found` };
+                    }
+                    return (
+                      <FormProfileNotification
+                        initialValues={data && Object.assign({}, { ...data.notificationslist })}
+                      />
+                    );
+                  }}
+                </Query>
+              )}
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
               {ROLE_ADMIN && <FormProfileRecoveryEmail />}
-              {role === ROLE_USER && <FormChangePassword />}
+              {ROLE_USER && <FormChangePassword />}
             </RightColumn>
           </Flex>
         </Flex>
@@ -134,8 +160,6 @@ export class ProfilePage extends Component {
   }
 }
 
-ProfilePage = connect(state => ({
-  user: getUserFromStore(state),
-}))(ProfilePage);
-
 export default ProfilePage;
+
+// <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;

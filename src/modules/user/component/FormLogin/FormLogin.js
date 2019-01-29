@@ -8,11 +8,11 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import Box from '../../../../components/Box/Box';
-import Flex from '../../../../components/Flex/Flex';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import Box from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
+import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
+import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';
@@ -187,37 +187,37 @@ export class FormLogin extends Component {
    * */
   setUser = props => {
     console.log('setUser: ', props);
+
     const {
       data: { currentuseritem },
     } = props;
 
     const { addUser } = this.props;
 
-    const resolvers = currentuseritem.role;
+    addUser({ ...currentuseritem });
 
-    addUser({ ...currentuseritem, resolvers });
-    localStorage.setItem('user', JSON.stringify({ ...currentuseritem, resolvers }));
+    localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
 
-  // mockSubmit = value => {
-  //   this.setState(({ submitting, isLoading }) => {
-  //     return { submitting: !submitting, isLoading: !isLoading };
-  //   });
+  mockSubmit = value => {
+    this.setState(({ submitting, isLoading }) => {
+      return { submitting: !submitting, isLoading: !isLoading };
+    });
 
-  //   return new Promise((resolve, reject) => {
-  //     setTimeout(() => {
-  //       this.getUser(value.email);
-  //       resolve(true);
-  //     }, 2000);
-  //   });
-  // };
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.getUser(value.email);
+        resolve(true);
+      }, 2000);
+    });
+  };
 
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { apolloError, submitting, isLoading } = this.state;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
+      <Form onSubmit={handleSubmit(this.mockSubmit)}>
         <FormLogo />
 
         <Box mb={'100px'}>

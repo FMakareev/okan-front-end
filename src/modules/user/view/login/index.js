@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Container from '../../../../components/Container/Container';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import Container from '@lib/ui/Container/Container';
 
 /**View */
 import FormLogin from '../../component/FormLogin/FormLogin';
@@ -26,7 +26,6 @@ export class Login extends Component {
   }
 
   render() {
-    
     return (
       <ErrorCatch>
         <Container maxWidth={'500px'}>

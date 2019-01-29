@@ -95,7 +95,10 @@ export class EditorAdditionalMenu extends Component {
         if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0 ) {
           return null;
         } else {
-          return this.toggleMenu();
+          if(this.state.active){
+            return this.toggleMenu();
+          }
+          return null
         }
       }
     } catch (error) {

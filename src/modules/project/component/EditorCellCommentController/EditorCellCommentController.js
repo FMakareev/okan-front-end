@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Absolute} from 'rebass';
 import {connect} from 'react-redux';
 /** Components */
-import EditorCellCommentButton from './EditorCellCommentButton';
+import EditorCellCommentButton from '../EditorCellCommentButton/EditorCellCommentButton';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -131,7 +131,7 @@ export class EditorCellCommentController extends Component {
 
   render() {
     const {isOpen, status} = this.state;
-    const {comment} = this.props;
+    const {comments} = this.props;
 
     return (
       <Relative>
@@ -144,7 +144,7 @@ export class EditorCellCommentController extends Component {
           <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
             <EditorCellCommentItem
               cell={this.props}
-              {...comment}
+              {...comments[0]}
               key={`FormCommentEditor`}/>
           </Absolute>
         }

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
 import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
+import Notifications, { success, error } from 'react-notification-system-redux';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 /**View */
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import SelectBase from '../../../../components/SelectBase/SelectBase';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import SelectBase from '@lib/ui/SelectBase/SelectBase';
 
 /**Image */
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -21,6 +24,9 @@ import BorderColorProperty from '../../../../styles/styleProperty/BorderColorPro
 import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
 import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
+
+/** Graphql schema */
+import CreateProjectMutation from './CreateProjectMutation.graphql';
 
 const BoxStyled = styled(Box)`
   input {
@@ -51,6 +57,21 @@ const options = [
   { value: 'ТЗ - RK-186-344', label: 'ТЗ - RK-186-344' },
 ];
 
+const notificationOpts = () => ({
+  success: {
+    title: 'Проект создан',
+    message: 'Проект создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Проект не создан',
+    message: 'Проект не создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 export class ProjectCreate extends Component {
   static propTypes = { ...formPropTypes };
 
@@ -61,7 +82,30 @@ export class ProjectCreate extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  submit(value) {}
+  submit(value) {
+    const data = { variables: Object.assign({}, value) };
+    console.log('data', data);
+
+    return this.props['@apollo/create'](data)
+      .then(response => {
+        this.props.setNotificationSuccess(notificationOpts().success);
+
+        return response;
+      })
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        this.props.setNotificationError(notificationOpts().error);
+
+        if (graphQLErrors) {
+          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
+        } else {
+          throw new SubmissionError({ _error: message });
+        }
+      });
+  }
 
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props;
@@ -80,10 +124,10 @@ export class ProjectCreate extends Component {
 
         <BoxStyled mb={16}>
           <Field
-            name="projectName"
-            component={TextFieldBase}
+            name={'name'}
+            component={TextFieldWithTooltip}
             placeholder={'Название документа'}
-            type="text"
+            type={'text'}
             fontSize={5}
             lineHeight={6}
             fontFamily={'secondary'}
@@ -102,10 +146,10 @@ export class ProjectCreate extends Component {
 
         <BoxStyled mb={'180px'}>
           <Field
-            name="selectProjectName"
+            name={'customercode'}
             component={SelectBase}
             placeholder={'Название документа'}
-            type="text"
+            type={'text'}
             fontSize={5}
             lineHeight={6}
             options={options}
@@ -129,6 +173,20 @@ export class ProjectCreate extends Component {
     );
   }
 }
+
+ProjectCreate = graphql(CreateProjectMutation, {
+  name: '@apollo/create',
+})(ProjectCreate);
+
+ProjectCreate = connect(
+  state => ({
+    values: getFormValues('ProjectCreate')(state),
+  }),
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(ProjectCreate);
 
 ProjectCreate = reduxForm({
   form: 'ProjectCreate',

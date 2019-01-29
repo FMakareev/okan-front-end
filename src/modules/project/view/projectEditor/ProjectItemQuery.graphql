@@ -7,21 +7,29 @@ query($id: String!){
     # пользователь создавший проект
     author {
       id
-
+    }
+    documents{
+      # mongoid
+      id
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
+      childcell:children{
+        id
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
     }
     # код документа ОКАН
     okancode
     # код документа заказчика
     customercode
-    # mongoid документа проекта
-    documents
     # дата создания
     createdate
     # дата обновления
     updatedate
-    # массив ревизий проекта
-    revisions
     # archive or working
     status
   }
 }
+

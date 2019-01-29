@@ -4,15 +4,15 @@ import { Absolute } from 'rebass';
 import styled from 'styled-components';
 
 /** View */
-import Flex from '../../../../components/Flex/Flex';
-import Relative from '../../../../components/Relative/Relative';
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import Flex from '@lib/ui/Flex/Flex';
+import Relative from '@lib/ui/Relative/Relative';
+import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
 
 /** validation */
 import required from '../../../../utils/validation/required';
 
 /** Image */
-import { SvgEye } from '../../../../components/Icons/SvgEye';
+import { SvgEye } from '@lib/ui/Icons/SvgEye';
 
 export class FieldInputPassword extends Component {
   constructor(props) {

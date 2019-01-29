@@ -1,34 +1,20 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 /** Components */
 import ProjectItem from './ProjectItem';
 
-/** View */
-import Box from '../../../../components/Box/Box';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import Link from '../../../../components/Link/Link';
+export const ProjectList = ({ data }) => {
+  return (
+    <Fragment>
+      {data && data.map((item, index) => <ProjectItem {...item} key={`ProjectItem-${index}`} />)}
+    </Fragment>
+  );
+};
 
-
-export class ProjectList extends Component {
-  static propTypes = {};
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const {data} = this.props;
-    return (
-      <Box>
-        {
-          data && data.map((item, index) => (<ProjectItem {...item} key={`ProjectItem-${index}`}/>))
-        }
-
-      </Box>
-    );
-  }
-}
+ProjectList.propTypes = {
+  /** Data */
+  data: PropTypes.objectOf(PropTypes.string),
+};
 
 export default ProjectList;

@@ -10,7 +10,7 @@ import {SvgDeleteComment} from "@lib/ui/Icons/SvgDeleteComment";
 import {graphql} from 'react-apollo';
 import UpdateCommentMutation from './UpdateCommentMutation.graphql';
 
-const Wrapper = styled(Text)`
+const Message = styled(Text)`
   width: 550px;
   border: 1px solid;
   ${props => BorderColorProperty({...props, borderColor: 'color4'})};
@@ -27,6 +27,27 @@ const ButtonBaseComment = styled(ButtonBase)`
     fill: #df4624;
   }
 `;
+
+const Wrapper = styled(Flex)`
+  position: relative;
+  overflow: hidden;
+  :before {
+    content: '';
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: -1;
+    filter: blur(10px);
+    display: block;
+    background-color: white;
+  }
+`;
+
+
+
+//
 
 export class EditorCellCommentItem extends Component {
 
@@ -63,13 +84,13 @@ export class EditorCellCommentItem extends Component {
 
   render() {
     const {message, sender, createdate, id} = this.props;
-    return (<Flex
+    return (<Wrapper
       flexDirection={'column'}
       alignItems={'flex-end'}
     >
-      <Wrapper px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
+      <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
         {message}
-      </Wrapper>
+      </Message>
       <Flex alignItems={'flex-end'}>
         <Text px={'10px'} fontFamily={'secondary'} fontSize={'14px'} lineHeight={'20px'} color={'color4'}>
           {sender.firstname} {sender.lastname} {sender.patronymic} / {createdate}
@@ -78,7 +99,7 @@ export class EditorCellCommentItem extends Component {
           <SvgDeleteComment/>
         </ButtonBaseComment>
       </Flex>
-    </Flex>)
+    </Wrapper>)
   }
 }
 

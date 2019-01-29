@@ -442,7 +442,7 @@ export class DocumentTree extends Component {
       return {
         active: false,
         focused: false,
-        ...(cell.childcell && cell.is_head ? {
+        ...(cell.childcell && cell.isHead ? {
           children: [],
           toggled: false,
           loading: false,

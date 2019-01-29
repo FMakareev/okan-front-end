@@ -1,5 +1,5 @@
-query($id: String!, ){
-  cellitem(id: $id){
+query ($id: String!) {
+  cellitem(id: $id) {
     id
     name
     verify
@@ -12,11 +12,11 @@ query($id: String!, ){
     parent{
       id
     }
-    childcell{
+    childcell:children{
       id
     }
-    is_head
-    content{
+    isHead
+    content {
       number
     }
     approvalstatus

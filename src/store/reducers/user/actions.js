@@ -10,7 +10,7 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import {client} from '../../../apollo/index.client';
+import { client } from '../../../apollo/index.client';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
 
 /**
@@ -27,17 +27,16 @@ export const userInit = () => dispatch => {
 
         if (user) {
           return client()
-            .query({query: CurrentUserItemQuery})
-            .then((response) => {
+            .query({ query: CurrentUserItemQuery })
+            .then(response => {
               console.log('response:', response);
 
-              const {data} = response;
+              const { data } = response;
 
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
 
-              dispatch({type: USER_INIT_LOADING_SUCCESS, user: {...data.currentuseritem}});
+              dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...data.currentuseritem } });
               resolve(data.currentuseritem);
-
             })
             .catch(error => {
               localStorage.clear();
@@ -102,17 +101,17 @@ export const userUpdate = () => dispatch => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
           client()
-            .query({query: CurrentUserItemQuery, variables: {email: user.email}})
-            .then((response) => {
-              const {data} = response;
+            .query({ query: CurrentUserItemQuery, variables: { email: user.email } })
+            .then(response => {
+              const { data } = response;
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
-              dispatch({type: USER_UPDATE_LOADING_SUCCESS, user: {...data.currentuseritem}});
+              dispatch({ type: USER_UPDATE_LOADING_SUCCESS, user: { ...data.currentuseritem } });
               resolve(data.currentuseritem);
             })
             .catch(error => {
               console.log(error);
               localStorage.clear();
-              dispatch({type: USER_UPDATE_LOADING_ERROR, user: {error: error}});
+              dispatch({ type: USER_UPDATE_LOADING_ERROR, user: { error: error } });
               reject(error);
             });
         } else {

@@ -1,0 +1,38 @@
+mutation ($author: String, $customercode: String, $documents: [String], $name: String!, $okancode: String, $partners: [String], $revisions: [String], $status: String) {
+  createproject(author: $author, customercode: $customercode, documents: $documents, name: $name, okancode: $okancode, partners: $partners, revisions: $revisions, status: $status) {
+    project {
+      author {
+        id
+        firstname
+        lastname
+      }
+      createdate
+      customercode
+      documents {
+        id
+        name
+        okancode
+        customercode
+        documentnumber
+      }
+      id
+      name
+      okancode
+      partners {
+        id
+        firstname
+        lastname
+      }
+      status
+      updatedate
+      revisions {
+        author {
+          id
+          firstname
+          lastname
+        }
+        createdate
+      }
+    }
+  }
+}

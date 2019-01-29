@@ -1,0 +1,6 @@
+query ($id: String!) {
+  revisionList(id: $id) {
+    id
+    name
+  }
+}

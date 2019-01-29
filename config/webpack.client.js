@@ -63,8 +63,8 @@ export const browserConfigGenerator = () => {
         SSR_FETCH: true,
         PORT: process.env.PORT || 3000,
         // ENDPOINT_CLIENT: process.env.ENDPOINT_CLIENT || "'http://localhost:5001'",
-        ENDPOINT_CLIENT: process.env.ENDPOINT_CLIENT || '" "',
-        ENDPOINT_SERVER: process.env.ENDPOINT_SERVER || '" "',
+        ENDPOINT_CLIENT: process.env.ENDPOINT_CLIENT || '""',
+        ENDPOINT_SERVER: process.env.ENDPOINT_SERVER || '""',
       }),
       new webpack.HotModuleReplacementPlugin(),
       new ManifestPlugin({
