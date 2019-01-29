@@ -1,20 +1,21 @@
 import faker from 'faker';
-import { GraphQLError } from 'graphql';
+import {GraphQLError} from 'graphql';
 
 /** Apollo Client Mock */
 import setupClient from './helpers/apolloClientMock';
 
 /** Constants */
-import { ROLE_ADMIN, ROLE_USER } from '../shared/roles';
+import {ROLE_ADMIN, ROLE_USER} from '../shared/roles';
 
 /** Schema */
 import schema from './schema.graphqls';
 
 /** Mock query */
-import { userlist } from './graphql/query/userlist';
-import { useritem } from './graphql/query/userItem';
-import { celItem } from './graphql/query/celItem';
+import {userlist} from './graphql/query/userlist';
+import {useritem} from './graphql/query/useritem';
+import {celItem} from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
+import {celllist} from "./graphql/query/celllist";
 import { documentitem } from './graphql/query/documentItem';
 import { documentlist } from './graphql/query/documentlist';
 import { projectitem } from './graphql/query/projectitem';
@@ -23,6 +24,8 @@ import { notificationItem } from './graphql/query/notificationItem';
 import { projectlist } from './graphql/query/projectlist';
 import { revisionitem } from './graphql/query/revisionitem';
 import { revisionlist } from './graphql/query/revisionlist';
+
+
 
 const defaultMocks = {
   Query: () => ({
@@ -37,14 +40,17 @@ const defaultMocks = {
         }, faker.random.number(0));
       });
     },
-    projectitem: (query, { id }) => {
+    projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(projectitem({ id }));
+          resolve({
+            ...projectitem(),
+            id,
+          });
         }, faker.random.number(0));
       });
     },
-    projectlist: (query, { id }) => {
+    projectlist: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(projectlist(4));
@@ -72,8 +78,8 @@ const defaultMocks = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(documentlist(1));
-        }, faker.random.number(0));
-      });
+        }, faker.random.number(0))
+      })
     },
 
     notificationList: () => {
@@ -84,14 +90,22 @@ const defaultMocks = {
       });
     },
 
+    celllist: (query, props) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(celllist());
+        }, faker.random.number(0));
+      });
+    },
     cellitem: (query, props) => {
-      const { id } = props;
-      return new Promise(resolve => {
+
+      const {id} = props;
+      return new Promise((resolve) => {
         setTimeout(() => {
           const result = cellTree.find(item => item.id === id);
           resolve(result);
-        }, faker.random.number(0));
-      });
+        }, faker.random.number(0))
+      })
     },
   }),
 
@@ -127,76 +141,76 @@ const defaultMocks = {
       new Promise((resolve, reject) => {
         setTimeout(() => {
           faker.random.number(1)
-            ? resolve({ ...useritem() })
+            ? resolve({...useritem()})
             : reject(
-                JSON.stringify({
-                  errors: [
-                    {
-                      message: 'error!',
-                    },
-                  ],
-                }),
-              );
+            JSON.stringify({
+              errors: [
+                {
+                  message: 'error!',
+                },
+              ],
+            }),
+            );
         }, faker.random.number(2000));
       }),
 
     changepassword: (mutation, props) => props,
 
     createdocument: (mutation, props) => {
-      console.log('createdocument: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          faker.random.number(1)
-            ? resolve({
-                ...documentitem(),
-                childcell: null,
-                name: props.name,
-              })
-            : reject(
-                JSON.stringify({
-                  errors: [
-                    {
-                      message: 'error!',
-                    },
-                  ],
-                }),
-              );
+
+          faker.random.number(1) ?
+            resolve({
+              ...documentitem(),
+              children: null,
+              name: props.name
+            }) :
+            reject(
+              JSON.stringify({
+                errors: [
+                  {
+                    message: 'error!',
+                  },
+                ],
+              }));
+
         }, faker.random.number(2000));
-      });
+      })
     },
 
     createrevision: (mutation, props) => {
       console.log('createrevision: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          faker.random.number(1)
-            ? resolve({
-                ...documentitem(),
-                childcell: null,
-                name: props.name,
-              })
-            : reject(
-                JSON.stringify({
-                  errors: [
-                    {
-                      message: 'error!',
-                    },
-                  ],
-                }),
-              );
+          faker.random.number(1) ?
+            resolve({
+              ...documentitem(),
+              childcell: null,
+              name: props.name
+            }) :
+            reject(
+              JSON.stringify({
+                errors: [
+                  {
+                    message: 'error!',
+                  },
+                ],
+              }));
         }, faker.random.number(2000));
-      });
+      })
     },
 
     createcell: (mutation, props) => {
+
       console.log('cellitem: ', props);
-      const { prevcell, parent } = props;
+      const {prevcell, parent} = props;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve({
             ...celItem({
               prevcell,
-              parent,
+              parent
             }),
           });
         }, faker.random.number(2000));

@@ -7,10 +7,10 @@ export default [{
     id: "b77e3cdb49504975ae13e7d9"
   },
   "parent": null,
-  "childcell": {
+  "children": {
     id: "81bef0ceadbb48a98b42da8e",
   },
-  "is_head": true,
+  "isHead": true,
   "content": {"number": "27604", "__typename": "Block"},
   "approvalstatus": "",
 }, {
@@ -24,10 +24,10 @@ export default [{
   "parent": {
     id: "37cea22b074140c6ac32a660"
   },
-  "childcell": {
+  "children": {
     id: "dd58382a6bec4624b69ec18c"
   },
-  "is_head": true,
+  "isHead": true,
   "content": {"number": "20958", "__typename": "Block"},
   "approvalstatus": ""
 }, {
@@ -41,8 +41,8 @@ export default [{
     id: "1116fa7e57fc4082944d57c1"
   },
   "parent": null,
-  "childcell": null,
-  "is_head": true,
+  "children": null,
+  "isHead": true,
   "content": {"number": "37134", "__typename": "Block"},
   "approvalstatus": "",
 }, {
@@ -54,8 +54,8 @@ export default [{
   },
   "nextcell": null,
   "parent": null,
-  "childcell": null,
-  "is_head": true,
+  "children": null,
+  "isHead": true,
   "content": {"number": "37134", "__typename": "Block"},
   "approvalstatus": "",
 },
@@ -72,8 +72,8 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "childcell": null,
-    "is_head": true,
+    "children": null,
+    "isHead": true,
     "content": {"number": "95666", "__typename": "Block"},
     "approvalstatus": "",
   }, {
@@ -89,10 +89,10 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "childcell": {
+    "children": {
       id: "fd8f0e3008464c0094527fad"
     },
-    "is_head": false,
+    "isHead": false,
     "content": {"number": "47343", "__typename": "Block"},
     "approvalstatus": "",
     "__typename": "Cell"
@@ -109,8 +109,8 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "childcell": null,
-    "is_head": false,
+    "children": null,
+    "isHead": false,
     "content": {"number": "79656", "__typename": "Block"},
     "approvalstatus": "",
   }, {
@@ -124,8 +124,8 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "childcell": null,
-    "is_head": false,
+    "children": null,
+    "isHead": false,
     "content": {"number": "71421", "__typename": "Block"},
     "approvalstatus": "",
   }

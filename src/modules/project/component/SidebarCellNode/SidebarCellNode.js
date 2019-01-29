@@ -94,7 +94,7 @@ export class SidebarCellNode extends Component {
 
   getNumberFromContent = (node) => has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
-  getIsHeadStatus = (node) => node.is_head && node.childcell;
+  getIsHeadStatus = (node) => node.isHead && node.childcell;
 
   handleClick = () => {
     try {

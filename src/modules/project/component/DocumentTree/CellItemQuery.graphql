@@ -3,21 +3,22 @@ query ($id: String!) {
     id
     name
     verify
-    prevcell {
+    prevcell{
       id
     }
-    nextcell {
+    nextcell{
       id
     }
-    parent {
+    parent{
       id
     }
-    childcell {
+    childcell:children{
       id
     }
     isHead
     content {
       number
     }
+    approvalstatus
   }
 }

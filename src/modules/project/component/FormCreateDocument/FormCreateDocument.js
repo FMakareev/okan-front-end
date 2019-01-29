@@ -7,7 +7,7 @@ import {Flex} from "@lib/ui/Flex/Flex";
 import {Field, reduxForm, Form} from 'redux-form';
 import TextFieldWithTooltip from "@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip";
 import {Box} from "@lib/ui/Box/Box";
-import DocumentListQuery from '../ProjectSidebar/DocumentListQuery.graphql';
+import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
 
 export class FormCreateDocument extends Component {
 
@@ -16,20 +16,25 @@ export class FormCreateDocument extends Component {
       variables: value,
       /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
       update: (store, {data: {createdocument}}) => {
-        // Read the data from our cache for this query.
+        // считываем из локального кеша аполо по запросу данные
+        // TODO: добавить вывод сообщений о ошбках через redux-notification
         const data = store.readQuery({
-          query: DocumentListQuery,
+          query: ProjectItemQuery,
           variables: {
-            projectid: this.props.projectid
+            id: this.props.project.project.id
           }
         });
+        console.log('data: ', data);
 
-        // Add our comment from the mutation to the end.
-        data.documentlist.push(createdocument);
-        // // Write our data back to the cache.
+        // пушим наш только что созданный документ в список всех документов
+        data.projectitem.documents.push(createdocument);
+
+        // записываем в кеш обновленный список документов
         store.writeQuery({
-          query: DocumentListQuery,
-          variables: {projectid: this.props.projectid},
+          query: ProjectItemQuery,
+          variables: {
+            id: this.props.project.project.id
+          },
           data
         });
       },
@@ -44,7 +49,7 @@ export class FormCreateDocument extends Component {
 
   render() {
     const {submitting, handleSubmit} = this.props;
-
+    console.log('this.props: ', this.props);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>

@@ -35,7 +35,7 @@ type Block {
   # html контент фроалы
   content: String
   # номер ячейки в документе
-  number: String
+  number: Int
   # тип контента: таблица, картинка, текст
   contenttype: String
 }
@@ -54,7 +54,7 @@ type Cell {
   # имя раздела
   name: String!
   # статус проверки ячейки
-  verify: String!
+  verify: String
   # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
   prevcell: Cell
   # id следующей ячейки
@@ -62,14 +62,14 @@ type Cell {
   # id родительской ячейки
   parent: Cell
   # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-  childcell: Cell
+  children: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
-  is_head: Boolean
+  isHead: Boolean
   # контент раздела
   content: Block
   # массив комментариев ячейки
-  comment: Comment
+  comments: [Comment]
   # массив связанных объектов
   pull: [Cell]
   # null, на согласовании, согласован, не согласован
@@ -96,9 +96,13 @@ type Document {
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  childcell: Cell
+  children: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
+  partners: [User]
+  okancode: String
+  # код документа заказчика
+  customercode: String
 }
 # https://okan.code-artel.com/graphql :
 # Document{
@@ -127,7 +131,7 @@ type Project {
   # код документа заказчика
   customercode: String
   # mongoid документа проекта
-  documents: [String]
+  documents: [Document]
   # дата создания
   createdate: String
   # дата обновления
@@ -157,7 +161,7 @@ type Resolver {
   module: String
   name: String
 }
-# https://okan.code-artel.com/graphql :  Также 
+# https://okan.code-artel.com/graphql :  Также
 
 type Role {
   description: String
@@ -280,6 +284,8 @@ type Query {
   #     id
   #   }
   # }
+  celllist(parent: String): [Cell]
+
 
 # метод возвращает тру если хотябы у одной дочки были изменения
   # cell_marker(cell: String): Boolean
@@ -362,8 +368,6 @@ type Query {
   # }
 }
 
-
-
 type Mutation {
 
 # создание пользователя
@@ -380,13 +384,13 @@ type Mutation {
   # ): User,
   # https://okan.code-artel.com/graphql :
   createuser (
-    birthdate: String, 
-    email: String, 
-    firstname: String, 
-    lastname: String, 
-    patronymic: String, 
+    birthdate: String,
+    email: String,
+    firstname: String,
+    lastname: String,
+    patronymic: String,
     phone: String,
-    position: String, 
+    position: String,
     signature: String) : User,
 
 
@@ -404,15 +408,15 @@ type Mutation {
   # ): User,
 # https://okan.code-artel.com/graphql :
   updateuser (
-    birthdate: String, 
-    email: String, 
-    firstname: String, 
+    birthdate: String,
+    email: String,
+    firstname: String,
     id: String!,
     lastname: String,
-    patronymic: String, 
-    phone: String, 
-    position: String, 
-    role: String, 
+    patronymic: String,
+    phone: String,
+    position: String,
+    role: String,
     signature: String) : User,
 
 # смена пароля пользователя
@@ -424,7 +428,7 @@ type Mutation {
 #   # userregistration(email: String!, password: String!, retryPas: String): User,
 #   # https://okan.code-artel.com/graphql :
 #   confirmeduser (email: String!, key: String!, password: String!) : User,
-    
+
 # создание ячейки,
   # name
   # prevcell - id предыдущей ячейки
@@ -433,14 +437,14 @@ type Mutation {
   # createcell(name:String,prevcell:String, parent: String, content: String): Cell
   # https://okan.code-artel.com/graphql :
   createcell (
-    children: String, 
-    comments: [String], 
-    content: String!, 
-    isHead: Boolean, 
-    name: String, 
+    children: String,
+    comments: [String],
+    content: String!,
+    isHead: Boolean,
+    name: String,
     nextcell: String,
     parent: String,
-    prevcell: String, 
+    prevcell: String,
     verify: String) : Cell,
 
 # обновление ячейки
@@ -452,17 +456,17 @@ type Mutation {
   # updatecell(id: String!, name: String, content: String, prevcell: String, nextcell: String): Cell
   # https://okan.code-artel.com/graphql :
   updatecell (
-    children: String, 
-    comments: [String], 
-    content: String, 
+    children: String,
+    comments: [String],
+    content: String,
     contentname: String,
-    contenttype: String, 
-    id: String!, 
+    contenttype: String,
+    id: String!,
     isHead: Boolean,
-    name: String, 
-    nextcell: String, 
-    parent: String, 
-    prevcell: String, 
+    name: String,
+    nextcell: String,
+    parent: String,
+    prevcell: String,
     verify: String) : Cell,
 
 # создание комментария
@@ -484,26 +488,26 @@ type Mutation {
 # создание документа
   # createdocument(name: String, cell: String): Document
   # https://okan.code-artel.com/graphql :
-  createdocument (
-    approvalstatus: String, 
-    childcell: String, 
+  createdocument(
+    approvalstatus: String,
+    childcell: String,
     customercode: String,
-    documentnumber: String, 
-    name: String!, 
-    okancode: String, 
-    partners: [String]!) : Document,
+    documentnumber: String,
+    name: String!,
+    okancode: String,
+    partners: [String]): Document,
 
 # обновление документа
   # updatedocument(name: String, cell: String!): Document
   # https://okan.code-artel.com/graphql :
   updatedocument (
-    approvalstatus: String, 
-    childcell: String, 
-    customercode: String, 
-    documentnumber: String, 
-    id: String!, 
-    name: String!, 
-    okancode: String, 
+    approvalstatus: String,
+    childcell: String,
+    customercode: String,
+    documentnumber: String,
+    id: String!,
+    name: String!,
+    okancode: String,
     partners: [String]) : Document,
 
 # создание проекта
@@ -512,26 +516,26 @@ type Mutation {
   # createproject(projectname:String!, document: String!): Project
   # https://okan.code-artel.com/graphql :
   createproject (
-    author: String, 
-    customercode: String, 
-    documents: [String], 
-    name: String!, 
+    author: String,
+    customercode: String,
+    documents: [String],
+    name: String!,
     okancode: String,
-    partners: [String], 
-    revisions: [String], 
+    partners: [String],
+    revisions: [String],
     status: String) : Project,
 
 # Обновление проекта
   # updateproject(id: String, name: String,partner: String, okancode: String, customercode: String, partners: [String]): Project
   # https://okan.code-artel.com/graphql :
   updateproject (
-    author: String, 
-    customercode: String, 
-    documents: [String], 
-    id: String!, name: String!, 
-    okancode: String, 
-    partners: [String], 
-    revisions: [String], 
+    author: String,
+    customercode: String,
+    documents: [String],
+    id: String!, name: String!,
+    okancode: String,
+    partners: [String],
+    revisions: [String],
     status: String) : Project,
 
 # создание ревизии документа
@@ -544,7 +548,7 @@ type Mutation {
   # parent - id ячейки которая образует связь, ячейка родитель
   # https://okan.code-artel.com/graphql :
   bindingcell(target: [String]!, parent: String!): Cell,
-  
+
 # освобождает ячейки из пулла, не менняя из значения.
   # unbindingcell(cell: String!): Cell
   # https://okan.code-artel.com/graphql :

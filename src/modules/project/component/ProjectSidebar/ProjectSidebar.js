@@ -12,6 +12,10 @@ const DocumentTreeWithProject =  withProject((props) => {
   // console.log('DocumentTreeWithProject: ',props);
   return (<DocumentTree {...props}/>)
 });
+const FormCreateDocumentWithProject =  withProject((props) => {
+  // console.log('DocumentTreeWithProject: ',props);
+  return (<FormCreateDocument {...props}/>)
+});
 
 
 export class ProjectSidebar extends Component {
@@ -26,39 +30,17 @@ export class ProjectSidebar extends Component {
 
   render() {
     const {
-      projectid,
-      params,
-      project
+      documents
     } = this.props;
-    // console.log('ProjectSidebar: ',this.props);
-    return (
-      <Query
-        query={DocumentListQuery}
-        variables={{projectid}}
-      >
-        {
-          ({loading, data, error}) => {
-            if (loading) {
-              return 'Список документов загружается...';
-            }
-            if (error) {
-              console.error('Error:', error);
-              return 'Ошибка...';
-            }
-            console.log(data);
-            return <Fragment>
-              {
-                data &&
-                data.documentlist &&
-                data.documentlist.map((item, index) => (<DocumentTreeWithProject
-                  data={item}
-                  key={`DocumentTree=${index}`}/>))
-              }
-              <FormCreateDocument projectid={projectid}/>
-            </Fragment>
-          }
-        }
-      </Query>)
+
+    return (<Fragment>
+      {
+        documents && documents.map((item, index) => (<DocumentTreeWithProject
+          data={item}
+          key={`DocumentTree=${index}`}/>))
+      }
+      <FormCreateDocumentWithProject />
+    </Fragment>)
   }
 }
 
