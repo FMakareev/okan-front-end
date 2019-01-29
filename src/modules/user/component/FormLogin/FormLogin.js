@@ -8,11 +8,11 @@ import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import Box from '../../../../components/Box/Box';
-import Flex from '../../../../components/Flex/Flex';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import Box from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
+import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
+import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';
