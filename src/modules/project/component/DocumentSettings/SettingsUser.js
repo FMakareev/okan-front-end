@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Field } from 'redux-form';
 
 /**View */
-import Flex from '../../../../components/Flex/Flex';
-import Box from '../../../../components/Box/Box';
-import Text from '../../../../components/Text/Text';
-import CheckboxBase from '../../../../components/CheckboxBase/CheckboxBase';
+import Flex from '@lib/ui/Flex/Flex';
+import Box from '@lib/ui/Box/Box';
+import Text from '@lib/ui/Text/Text';
+import CheckboxBase from '@lib/ui/CheckboxBase/CheckboxBase';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
@@ -18,8 +18,7 @@ const FlexStyled = styled(Flex)`
   padding-bottom: 12px;
 `;
 
-export const SettingsUser = props => {
-  const { data } = props;
+export const SettingsUser = ({ data }) => {
   return (
     <Fragment>
       <Box mb={'100px'}>

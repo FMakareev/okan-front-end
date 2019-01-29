@@ -7,14 +7,14 @@ import Notifications, { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 /**View */
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import SelectBase from '../../../../components/SelectBase/SelectBase';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import SelectBase from '@lib/ui/SelectBase/SelectBase';
 
 /**Image */
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';

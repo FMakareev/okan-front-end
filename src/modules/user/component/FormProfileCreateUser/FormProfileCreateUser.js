@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
-import { SvgPlay } from '../../../../components/Icons/SvgPlay';
-import Text from '../../../../components/Text/Text';
-import Box from '../../../../components/Box/Box';
-import PictureUploadPreview from '../../../../components/PictureUploadPreview/PictureUploadPreview';
-import DayPickerField from '../../../../components/DayPickerField/DayPickerField';
-import MaskedInputField from '../../../../components/MaskedInputField/MaskedInputField';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import Text from '@lib/ui/Text/Text';
+import Box from '@lib/ui/Box/Box';
+import PictureUploadPreview from '@lib/ui/PictureUploadPreview/PictureUploadPreview';
+import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
+import MaskedInputField from '@lib/ui/MaskedInputField/MaskedInputField';
 
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';

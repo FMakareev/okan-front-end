@@ -5,17 +5,17 @@ import styled from 'styled-components';
 import { reduxForm, Form, getFormValues } from 'redux-form';
 
 /**View */
-import Td from '../../../../components/Table/Td';
-import Th from '../../../../components/Table/Th';
-import Tr from '../../../../components/Table/Tr';
-import Flex from '../../../../components/Flex/Flex';
-import Table from '../../../../components/Table/Table';
-import Tbody from '../../../../components/Table/Tbody';
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import Td from '@lib/ui/Table/Td';
+import Th from '@lib/ui/Table/Th';
+import Tr from '@lib/ui/Table/Tr';
+import Flex from '@lib/ui/Flex/Flex';
+import Table from '@lib/ui/Table/Table';
+import Tbody from '@lib/ui/Table/Tbody';
+import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
 
 /** Image */
-import { SvgExport } from '../../../../components/Icons/SvgExport';
-import { SvgFolder } from '../../../../components/Icons/SvgFolder';
+import { SvgExport } from '@lib/ui/Icons/SvgExport';
+import { SvgFolder } from '@lib/ui/Icons/SvgFolder';
 
 /** Styles property */
 import { BorderColorProperty } from '../../../../styles/styleProperty/BorderColorProperty';
@@ -30,7 +30,7 @@ const TdStyled = styled(Td)`
   ${props => BorderColorProperty({ ...props, borderColor: 'color7' })}
 `;
 
-class RevisionList extends Component {
+export class RevisionList extends Component {
   static propTypes = {};
 
   state = {};

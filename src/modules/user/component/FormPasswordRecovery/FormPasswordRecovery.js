@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
-import Box from '../../../../components/Box/Box';
-import TooltipBase from '../../../../components/TooltipBase/TooltipBase';
-import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
-import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
+import Box from '@lib/ui/Box/Box';
+import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 
 /** Components */
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';

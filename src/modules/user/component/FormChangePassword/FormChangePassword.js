@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 /**Components*/
-import Link from '../../../../components/Link/Link';
-import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
+import Link from '@lib/ui/Link/Link';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Image */
 import { SvgPlay } from '../../../../components/Icons/SvgPlay';
