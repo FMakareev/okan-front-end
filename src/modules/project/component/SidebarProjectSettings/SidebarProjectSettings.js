@@ -9,7 +9,7 @@ import Link from '../../../../components/Link/Link';
 import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
 
 export const SidebarProjectSettings = ({projectid}) =>(
-  <Link title={'Открыть настройки проекта'} onClick={(event)=>event.stopPropagation()} to={`/app/project-settings/${projectid}`}>
+  <Link title={'Открыть настройки документа'} onClick={(event)=>event.stopPropagation()} to={`/app/document-settings/${projectid}`}>
     <ButtonBase variant={'empty'}>
       <img src={settingsSidebar} />
     </ButtonBase>
