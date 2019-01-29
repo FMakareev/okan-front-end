@@ -5,10 +5,10 @@ import { Query } from 'react-apollo';
 import isEmpty from 'lodash/isEmpty';
 
 /**View*/
-import SmallPreloader from '../../../../components/SmallPreloader/SmallPreloader';
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Box from '../../../../components/Box/Box';
+import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import Flex from '@lib/ui/Flex/Flex';
+import Box from '@lib/ui/Box/Box';
 
 /**Components Admin*/
 import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
