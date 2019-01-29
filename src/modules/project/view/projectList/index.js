@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
-import Flex from '../../../../components/Flex/Flex';
-import Container from '../../../../components/Container/Container';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import Flex from '@lib/ui/Flex/Flex';
+import Container from '@lib/ui/Container/Container';
 import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { Link } from '@lib/ui/Link/Link';
 
 /** components */
 import ProjectList from '../../component/ProjectList/ProjectList';
@@ -28,15 +28,14 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const has = Object.prototype.hasOwnProperty;
 
-class ProjectListPage extends Component {
+export class ProjectListPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
   render() {
     const { user } = this.props;
+
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
@@ -47,7 +46,7 @@ class ProjectListPage extends Component {
               }}
               query={ProjectListQuery}>
               {({ loading, error, data }) => {
-                console.log('data', data);
+                console.log('ProjectListQuery', data);
                 if (loading) {
                   return 'Загрузка...';
                 }
@@ -55,9 +54,9 @@ class ProjectListPage extends Component {
                   return 'Произошла ошибка.';
                 }
 
-                if (!data || (data && !has.call(data, 'projectlist'))) {
-                  return null;
-                }
+                // if (!data || (data && !has.call(data, 'projectlist'))) {
+                //   return null;
+                // }
                 return <ProjectList data={data && data.projectList} />;
               }}
             </Query>
