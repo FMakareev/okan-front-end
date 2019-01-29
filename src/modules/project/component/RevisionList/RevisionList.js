@@ -75,7 +75,7 @@ class RevisionList extends Component {
               1{/*initialValues[0]*/}
             </TdStyled>
             <TdStyled fontFamily={'primary300'} py={4} textAlign={'center'}>
-              {initialValues[0].name}
+              {'initialValues'}
             </TdStyled>
             <TdStyled fontFamily={'primary300'} py={4} textAlign={'center'}>
               12.11.2018

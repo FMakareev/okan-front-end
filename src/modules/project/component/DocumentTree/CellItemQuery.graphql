@@ -1,5 +1,5 @@
-query($id: String!, ){
-  cellitem(id: $id){
+query ($id: String!) {
+  cellitem(id: $id) {
     id
     name
     verify
@@ -16,7 +16,7 @@ query($id: String!, ){
       id
     }
     isHead
-    content{
+    content {
       number
     }
     approvalstatus

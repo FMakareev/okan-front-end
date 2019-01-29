@@ -61,11 +61,13 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
-    return <ErrorCatch>
+    return (
+      <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              {/*ROLE_USER && <Query query={DocumentListQuery} variables={{ ...(id ? { id } : null) }}>
+              {/*ROLE_USER && (
+                <Query query={DocumentListQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
                     console.log('documentlist', data);
                     // const dataIsEmpty = isEmpty(data) ? null : data;
@@ -79,17 +81,23 @@ export class ProfilePage extends Component {
                     if (id && data && !data.documentlist) {
                       throw { message: `GraphQL error: not found` };
                     }
-                    return <FormProfileApproval initialValues={data && Object.assign({}, { ...data.documentlist })} />;
+                    return (
+                      <FormProfileApproval
+                        initialValues={data && Object.assign({}, { ...data.documentlist })}
+                      />
+                    );
                   }}
                 </Query>
-                */}
-                 <FormProfileApproval />
+                )*/}
+
+              <FormProfileApproval />
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
               {ROLE_ADMIN && <FormProfileCreateUser />}
 
-              {ROLE_USER && <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
+              {ROLE_USER && (
+                <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
                     console.log('useritem', data);
                     // const dataIsEmpty = isEmpty(data) ? null : data;
@@ -103,15 +111,21 @@ export class ProfilePage extends Component {
                     if (id && data && !data.useritem) {
                       throw { message: `GraphQL error: not found` };
                     }
-                    return <FormPersonData initialValues={data && Object.assign({}, { ...data.useritem })} />;
+                    return (
+                      <FormPersonData
+                        initialValues={data && Object.assign({}, { ...data.useritem })}
+                      />
+                    );
                   }}
-                </Query>}
+                </Query>
+              )}
             </RightColumn>
           </Flex>
 
           <Flex justifyContent={'space-between'}>
             <LeftColumn flexDirection={'column'}>
-              {ROLE_USER && <Query query={NotificationListQuery} >
+              {ROLE_USER && (
+                <Query query={NotificationListQuery}>
                   {({ loading, error, data }) => {
                     console.log('notificationslist', data);
                     // const dataIsEmpty = isEmpty(data) ? null : data;
@@ -125,10 +139,14 @@ export class ProfilePage extends Component {
                     if (id && data && !data.notificationslist) {
                       throw { message: `GraphQL error: not found` };
                     }
-                    return <FormProfileNotification initialValues={data && Object.assign({}, { ...data.notificationslist })} />;
+                    return (
+                      <FormProfileNotification
+                        initialValues={data && Object.assign({}, { ...data.notificationslist })}
+                      />
+                    );
                   }}
-                </Query>}
-
+                </Query>
+              )}
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
@@ -137,11 +155,11 @@ export class ProfilePage extends Component {
             </RightColumn>
           </Flex>
         </Flex>
-      </ErrorCatch>;
+      </ErrorCatch>
+    );
   }
 }
 
 export default ProfilePage;
 
-  // <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;
-
+// <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;

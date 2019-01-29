@@ -21,7 +21,6 @@ import FormLogo from '../FormLogo/FormLogo';
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQL schema */
-import CreateUserMutation from './CreateUserMutation.graphql';
 import ActivateUserMutation from './ActivateUserMutation.graphql';
 
 /** Validation */
@@ -106,7 +105,7 @@ export class FormRegistration extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    console.log(1, data)
+    console.log(1, data);
 
     this.setState(() => ({ isLoading: true, submitting: true }));
     console.log('this ', this.props['@apollo/create'](data));

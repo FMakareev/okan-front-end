@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import styled from 'styled-components';
 import Notifications, { success, error } from 'react-notification-system-redux';
-import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { Fields, Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -28,6 +28,24 @@ import TitlePage from './TitlePage';
 import DocumentSettingsMutation from './DocumentSettingsMutation.graphql';
 import UserListQuery from './UserListQuery.graphql';
 
+/** Redux reducers*/
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+
+const BoxStyled = styled(Box)`
+  input {
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
+    padding: 3px 7px;
+    border: 0;
+    text-align: center;
+  }
+
+  border: 1px solid;
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+`;
+
 const notificationOpts = () => ({
   success: {
     title: 'Настройки проекта успешно обновлены',
@@ -45,6 +63,12 @@ const notificationOpts = () => ({
 
 const has = Object.prototype.hasOwnProperty;
 
+const sleep = ms =>
+  new Promise(resolve => {
+    console.log(1);
+    return setInterval(resolve, ms);
+  });
+
 export class DocumentSettings extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
@@ -57,8 +81,10 @@ export class DocumentSettings extends Component {
     return this.props['@apollo/update'](data)
       .then(response => {
         this.props.setNotificationSuccess(notificationOpts().success);
-
         return response;
+      })
+      .then(response => {
+        return sleep(1000);
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
         console.log('graphQLErrors: ', graphQLErrors);
@@ -66,7 +92,6 @@ export class DocumentSettings extends Component {
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
-
         if (graphQLErrors) {
           throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
         } else {
@@ -76,7 +101,7 @@ export class DocumentSettings extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, user } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -91,17 +116,19 @@ export class DocumentSettings extends Component {
                   if (error) {
                     return 'Произошла ошибка.';
                   }
-
-                  // if (!data || (data && !has.call(data, 'projectlist'))) {
-                  //   return null;
-                  // }
+                  if (!data || (data && !has.call(data, 'userlist'))) {
+                    return null;
+                  }
                   return <SettingsUser data={data.userlist} />;
                 }}
               </Query>
             </Container>
 
             <Container maxWidth={'500px'} width={'100%'}>
-              <SettingsNameDocument />
+              <Fields
+                names={['name', 'customercode', 'okancode']}
+                component={SettingsNameDocument}
+              />
             </Container>
           </Box>
 

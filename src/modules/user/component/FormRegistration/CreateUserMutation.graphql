@@ -1,8 +1,0 @@
-mutation( $email: String!, $password: String!, $retryPas: String ) {
-  userregistration(email:$email, password: $password, retryPas: $retryPas){
-    User{
-      id
-      email
-    }
-  }
-}

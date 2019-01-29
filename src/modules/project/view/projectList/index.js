@@ -47,6 +47,7 @@ class ProjectListPage extends Component {
               }}
               query={ProjectListQuery}>
               {({ loading, error, data }) => {
+                console.log('data', data);
                 if (loading) {
                   return 'Загрузка...';
                 }
@@ -57,7 +58,7 @@ class ProjectListPage extends Component {
                 if (!data || (data && !has.call(data, 'projectlist'))) {
                   return null;
                 }
-                return <ProjectList data={data.projectlist} />;
+                return <ProjectList data={data && data.projectList} />;
               }}
             </Query>
 

@@ -6,7 +6,7 @@ import { Field } from 'redux-form';
 /**View */
 import Text from '../../../../components/Text/Text';
 import Box from '../../../../components/Box/Box';
-import TextFieldBase from '../../../../components/TextFieldBase/TextFieldBase';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
@@ -29,7 +29,7 @@ const BoxStyled = styled(Box)`
   ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
-export const SettingsNameDocument = () => {
+export const SettingsNameDocument = props => {
   return (
     <Box>
       <Text
@@ -44,8 +44,8 @@ export const SettingsNameDocument = () => {
 
       <BoxStyled mb={4}>
         <Field
-          name="documentSetting2"
-          component={TextFieldBase}
+          {...props.name.input}
+          component={TextFieldWithTooltip}
           type="text"
           values={'ТЗ - RK-186-344'}
           fontFamily={'secondary'}
@@ -53,8 +53,8 @@ export const SettingsNameDocument = () => {
       </BoxStyled>
       <BoxStyled mb={4}>
         <Field
-          name="documentSetting3"
-          component={TextFieldBase}
+          {...props.customercode.input}
+          component={TextFieldWithTooltip}
           type="text"
           placeholder={'Код документа ОКАН'}
           fontFamily={'secondary'}
@@ -62,8 +62,8 @@ export const SettingsNameDocument = () => {
       </BoxStyled>
       <BoxStyled mb={'180px'}>
         <Field
-          name="documentSetting4"
-          component={TextFieldBase}
+          {...props.okancode.input}
+          component={TextFieldWithTooltip}
           type="text"
           placeholder={'Код документа заказчика'}
           fontFamily={'secondary'}

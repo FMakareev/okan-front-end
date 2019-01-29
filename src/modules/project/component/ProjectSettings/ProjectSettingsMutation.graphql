@@ -1,23 +1,34 @@
-mutation ($id: String, $name: String, $partner: String, $okancode: String, $customercode: String, $partners: [String]) {
-  updateproject (id: $id, name: $name, partner: $partner, okancode: $okancode, customercode: $customercode, partners: $partners) {
+mutation ($author: String, $customercode: String,  $id: String!, $name: String, $okancode: String, $partners: [String], $revisions: [String], $status: String) {
+  updateproject(id: $id, name: $name, partners: $partners, okancode: $okancode, customercode: $customercode, author: $author, revisions: $revisions, status: $status) {
     project {
-      id
-      name 
       author {
+        id
+        firstname
+        lastname
+      }
+      createdate
+      customercode
+      documents {
+        id
+        name
+        okancode
+        customercode
+        documentnumber
+      }
+      id
+      name
+      okancode
+      partners {
+        id
+        firstname
+        lastname
+      }
+      status
+      updatedate
+      revisions {
         id
         name
       }
-      partners{
-        id 
-        name
-      }
-      okancode 
-      customercode 
-      documents 
-      createdate 
-      updatedate 
-      revisions 
-      status 
     }
   }
 }

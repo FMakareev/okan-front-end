@@ -1,8 +1,11 @@
-query ($projectid: String) {
-  documentlist(projectid: $projectid) {
+query ($author: String!, $approvalstatus: String) {
+  documentlist(author: $author, approvalstatus: $approvalstatus) {
     id
     name
-    childcell
-    approvalstatus
+    partners {
+      id
+      firstname
+      lastname
+    }
   }
 }

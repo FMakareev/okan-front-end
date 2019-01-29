@@ -1,26 +1,19 @@
-query($id: String){
-  projectlist(user: $id){
-    # mongoid
+{
+  projectList {
     id
-    # название проекта
     name
-    # пользователь создавший проект
     author {
       id
+      firstname
+      lastname
     }
-    # код документа ОКАН
-    okancode
-    # код документа заказчика
-    customercode
-    # mongoid документа проекта
-    documents
-    # дата создания
     createdate
-    # дата обновления
+    okancode
+    partners {
+      id
+      firstname
+      lastname
+    }
     updatedate
-    # массив ревизий проекта
-    revisions
-    # archive or working
-    status
   }
 }

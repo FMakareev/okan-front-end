@@ -9,7 +9,6 @@ import Box from '../../../../components/Box/Box';
 import ButtonWithImage from '../../../../components/ButtonWithImage/ButtonWithImage';
 import Link from '../../../../components/Link/Link';
 
-
 export class ProjectList extends Component {
   static propTypes = {};
 
@@ -19,13 +18,12 @@ export class ProjectList extends Component {
   }
 
   render() {
-    const {data} = this.props;
+    const { data } = this.props;
+    console.log(1, data);
+
     return (
       <Box>
-        {
-          data && data.map((item, index) => (<ProjectItem {...item} key={`ProjectItem-${index}`}/>))
-        }
-
+        {data && data.map((item, index) => <ProjectItem {...item} key={`ProjectItem-${index}`} />)}
       </Box>
     );
   }
