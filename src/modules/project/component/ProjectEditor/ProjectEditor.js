@@ -12,6 +12,7 @@ import {commentitem} from "../../../../apollo/graphql/query/commentitem";
 import {celItem} from "../../../../apollo/graphql/query/celItem";
 import {withProject} from "../ProjectContext/ProjectContext";
 import {EditorAdditionalMenu} from "./EditorAdditionalMenu";
+import {EditorFormMainContent} from "./EditorFormMainContent";
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -59,6 +60,7 @@ export class ProjectEditor extends Component {
           }}/>
         </ContentWrapper>
         <EditorAdditionalMenu/>
+        <EditorFormMainContent />
       </Flex>
     );
   }
