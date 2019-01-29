@@ -35,7 +35,7 @@ export const celItem = ({id, prevcell, nextcell, childcell, parent}) => {
 
     } : null,
     // id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-    childcell: childcell ? {
+    children: childcell ? {
       ...celItem({id: childcell}),
     } : null,
     // говорит нам является ли ячейка названием раздела, а не блоком с контентом,

@@ -62,7 +62,7 @@ type Cell {
   # id родительской ячейки
   parent: Cell
   # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-  childcell: Cell
+  children: Cell
   # говорит нам является ли ячейка названием раздела, а не блоком с контентом,
   # если равно false то id в поле childCell указывает не на дочернюю категорию, а на дочерний блок с контентом
   isHead: Boolean
@@ -96,7 +96,7 @@ type Document {
   # название шаблона
   name: String
   # id корневого элемента от которого строится граф разделов
-  childcell: Cell
+  children: Cell
   # null, на согласовании, согласован, не согласован
   approvalstatus: String
   partners: [User]
@@ -488,14 +488,14 @@ type Mutation {
 # создание документа
   # createdocument(name: String, cell: String): Document
   # https://okan.code-artel.com/graphql :
-  createdocument (
+  createdocument(
     approvalstatus: String,
     childcell: String,
     customercode: String,
     documentnumber: String,
     name: String!,
     okancode: String,
-    partners: [String]!) : Document,
+    partners: [String]): Document,
 
 # обновление документа
   # updatedocument(name: String, cell: String!): Document

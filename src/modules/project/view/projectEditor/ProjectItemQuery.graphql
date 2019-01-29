@@ -8,6 +8,18 @@ query($id: String!){
     author {
       id
     }
+    documents{
+      # mongoid
+      id
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
+      childcell:children{
+        id
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
+    }
     # код документа ОКАН
     okancode
     # код документа заказчика
@@ -20,3 +32,4 @@ query($id: String!){
     status
   }
 }
+

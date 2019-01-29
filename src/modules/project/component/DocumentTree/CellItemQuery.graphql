@@ -12,7 +12,7 @@ query ($id: String!) {
     parent{
       id
     }
-    childcell{
+    childcell:children{
       id
     }
     isHead

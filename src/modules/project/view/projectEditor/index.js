@@ -74,8 +74,7 @@ export class ProjectEditorPage extends Component {
                 }}>
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar
-                      project={data.projectitem}
-                      projectid={params.projectid}
+                      {...data.projectitem}
                     />
                   </SideBarWrapper>
                   <EditorWrapper>

@@ -43,7 +43,10 @@ const defaultMocks = {
     projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(projectitem({id}));
+          resolve({
+            ...projectitem(),
+            id,
+          });
         }, faker.random.number(0));
       });
     },
@@ -154,14 +157,13 @@ const defaultMocks = {
     changepassword: (mutation, props) => props,
 
     createdocument: (mutation, props) => {
-      console.log('createdocument: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
 
           faker.random.number(1) ?
             resolve({
               ...documentitem(),
-              childcell: null,
+              children: null,
               name: props.name
             }) :
             reject(

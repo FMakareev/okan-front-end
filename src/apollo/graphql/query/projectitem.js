@@ -2,6 +2,7 @@ import {getRandomMongoID} from "../../helpers/getRandomMongoid";
 import faker from "faker";
 import {useritem} from "./userItem";
 import {userlist} from "./userlist";
+import {documentlist} from "./documentlist";
 
 
 export const projectitem = () => {
@@ -19,7 +20,7 @@ export const projectitem = () => {
   // # код документа заказчика
   customercode: getRandomMongoID(),
   // # mongoid документа проекта
-  documents: [getRandomMongoID()],
+  documents: documentlist(1),
   // # дата создания
   createdate: faker.date.past().toUTCString(),
   // # дата обновления

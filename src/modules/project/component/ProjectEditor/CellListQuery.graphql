@@ -1,6 +1,6 @@
 query($parent: String){
   celllist(parent: $parent){
-    childcell{
+    childcell:children{
       id
     }
     comments{
