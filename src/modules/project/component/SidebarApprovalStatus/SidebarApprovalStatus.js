@@ -35,6 +35,10 @@ const GetStatusColor = status => {
 };
 
 export class SidebarApprovalStatus extends Component {
+  static propTypes = {};
+
+  static defaultProps = {};
+
   state = { clickStatus: false };
 
   submit = (id, verify) => {
@@ -56,30 +60,22 @@ export class SidebarApprovalStatus extends Component {
 
     const { clickStatus } = this.state;
 
-    let status = answer
-      ? CELL_STATUS_CHANGED
-      : clickStatus
-      ? CELL_STATUS_CHECKED
-      : CELL_STATUS_NOT_CHECKED;
+    const statusRender = answer ? CELL_STATUS_CHANGED : CELL_STATUS_NOT_CHECKED;
+    const status = clickStatus ? CELL_STATUS_CHECKED : statusRender;
 
     return (
       <ButtonBase
         title={'Статус проверки блока'}
         variant={'empty'}
-        onClick={() => this.submit(id, CELL_STATUS_CHECKED)}>
+        onClick={event => {
+          event.stopPropagation();
+          return this.submit(id, CELL_STATUS_CHECKED);
+        }}>
         <SvgStatus fill={GetStatusColor(status)} stroke={'#fff'} />
       </ButtonBase>
     );
   }
 }
-
-// export let SidebarApprovalStatus = ({ status, data }, props) => {
-
-// };
-
-// SidebarApprovalStatus.propTypes = {};
-
-// SidebarApprovalStatus.defaultProps = {};
 
 SidebarApprovalStatus = withApollo(SidebarApprovalStatus);
 

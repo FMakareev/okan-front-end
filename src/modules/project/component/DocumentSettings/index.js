@@ -105,7 +105,7 @@ export class DocumentSettings extends Component {
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex mt={9} justifyContent={'space-around'}>
-          <Box>
+          <Box width={'55%'}>
             <Container maxWidth={'500px'} width={'100%'}>
               <Query query={UserListQuery}>
                 {({ loading, error, data }) => {

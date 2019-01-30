@@ -5,8 +5,7 @@ export const routes = [
   {
     layout: LAYOUT_APP,
     exact: true,
-    name: 'Настройки проекта',
-    // path: '/project-settings/:id',
+    name: 'Настройки проекта', // path: '/project-settings/:id',
     path: '/project-settings',
     order: 0,
     hidden: false,
@@ -47,6 +46,7 @@ export const routes = [
     layout: LAYOUT_APP,
     exact: true,
     name: 'Настройки документа',
+    // path: '/document-settings/:id',
     path: '/document-settings',
     order: 0,
     hidden: false,
@@ -61,7 +61,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    // roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -71,7 +70,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    // roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -81,7 +79,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    // roles: [ROLE_ADMIN, ROLE_USER],
   },
   {
     layout: LAYOUT_APP,
@@ -91,6 +88,9 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
-    // roles: [ROLE_ADMIN, ROLE_USER],
   },
 ];
+// roles: [ROLE_ADMIN, ROLE_USER],
+// roles: [ROLE_ADMIN, ROLE_USER],
+// roles: [ROLE_ADMIN, ROLE_USER],
+// roles: [ROLE_ADMIN, ROLE_USER],
