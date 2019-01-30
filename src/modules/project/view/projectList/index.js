@@ -54,9 +54,9 @@ export class ProjectListPage extends Component {
                   return 'Произошла ошибка.';
                 }
 
-                // if (!data || (data && !has.call(data, 'projectlist'))) {
-                //   return null;
-                // }
+                if (!data || (data && !has.call(data, 'projectList'))) {
+                  return null;
+                }
                 return <ProjectList data={data && data.projectList} />;
               }}
             </Query>

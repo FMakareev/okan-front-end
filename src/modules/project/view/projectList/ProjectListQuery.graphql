@@ -8,12 +8,6 @@
       lastname
     }
     createdate
-    okancode
-    partners {
-      id
-      firstname
-      lastname
-    }
     updatedate
   }
 }

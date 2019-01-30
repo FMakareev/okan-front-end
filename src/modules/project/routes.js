@@ -36,7 +36,7 @@ export const routes = [
     layout: LAYOUT_APP,
     exact: true,
     name: 'Список ревизий',
-    path: '/revision-list',
+    path: '/revision-list/:id',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),

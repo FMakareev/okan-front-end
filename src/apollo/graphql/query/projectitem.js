@@ -23,7 +23,7 @@ export const projectitem = (props) => {
       "__typename": "User"
     },
     // # список участников
-    partners: userlist(faker.random.number(5)),
+    partners: userlist().slice(0,2),
     // # mongoid документа проекта
     documents: documentlist(1),
     // # дата создания
