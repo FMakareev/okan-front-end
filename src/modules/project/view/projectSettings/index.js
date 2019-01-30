@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Query } from 'react-apollo';
+import ProjectItemQuery from './ProjectItemQuery.graphql';
 
 /** Redux user */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
@@ -14,7 +16,10 @@ import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
 
 /** Components */
-import ProjectSettings from '../../component/ProjectSettings/ProjectSettings';
+import ProjectSettings from '../../component/FormProjectSettings/FormProjectSettings';
+
+const has = Object.prototype.hasOwnProperty;
+
 
 export class ProjectSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
@@ -23,14 +28,49 @@ export class ProjectSettingsPage extends Component {
 
   render() {
     const {
-      user: { id },
+      match: {
+        params
+      },
+      user
     } = this.props;
-
+    console.log(this.props);
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'500px'} width={'100%'}>
-            <ProjectSettings initialValues={{ id: '5c49c6ae9adb493e7ba5dca1' }} />
+            <Query
+              query={ProjectItemQuery}
+              variables={{
+                id: params.id,
+              }}
+            >
+              {
+                ({data, error, loading})=>{
+                  console.log(data, error, loading);
+
+                  if(loading){
+                    console.error('loading:',loading);
+                    return 'Загрузка ...';
+                  }
+                  if(error){
+                    console.error('Error:',error);
+                    return 'Ошибка ...';
+                  }
+
+                  if (!data || (data && !has.call(data, 'projectitem'))) {
+                    return null;
+                  }
+
+
+                  return (<ProjectSettings
+                    initialValues={{
+                    ...data.projectitem,
+                      partners: data.projectitem ? data.projectitem.partners.map((item) => item.id):[]
+                  }} />)
+                }
+              }
+            </Query>
+
           </Container>
         </Flex>
       </ErrorCatch>
