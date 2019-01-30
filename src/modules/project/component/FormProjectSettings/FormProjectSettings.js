@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {graphql, Query} from 'react-apollo';
+import { connect } from 'react-redux';
+import { graphql, Query } from 'react-apollo';
 import styled from 'styled-components';
-import {success, error} from 'react-notification-system-redux';
-import {Field, reduxForm, SubmissionError, Form, FieldArray, getFormValues} from 'redux-form';
+import { success, error } from 'react-notification-system-redux';
+import { Field, reduxForm, SubmissionError, Form, FieldArray, getFormValues } from 'redux-form';
 import UserListQuery from './UserListQuery.graphql';
 
 /**View */
@@ -15,10 +15,10 @@ import Box from '@lib/ui/Box/Box';
 import TextFieldArray from '@lib/ui/TextFieldArray/TextFieldArray';
 
 /**Image */
-import {SvgSave} from '@lib/ui/Icons/SvgSave';
+import { SvgSave } from '@lib/ui/Icons/SvgSave';
 
 /**PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
@@ -34,14 +34,14 @@ const BoxStyled = styled(Box)`
     padding: 3px 7px;
     border: 0;
     text-align: center;
-    ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
-    ${props => FontSizeProperty({...props, fontSize: 6})};
-    ${props => LineHeightProperty({...props, lineHeight: 8})};
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
   }
 
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
-  ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
 const notificationOpts = () => ({
@@ -60,12 +60,12 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectSettings extends Component {
-  static propTypes = {...formPropTypes, mb: PropTypes.string};
+  static propTypes = { ...formPropTypes, mb: PropTypes.string };
 
   state = {};
 
   submit = value => {
-    const data = {variables: Object.assign({}, value)};
+    const data = { variables: Object.assign({}, value) };
     console.log('data', data);
 
     return this.props['@apollo/update'](data)
@@ -75,19 +75,19 @@ export class FormProjectSettings extends Component {
 
         return response;
       })
-      .catch(({graphQLErrors, message, networkError, ...rest}) => {
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
         console.log('graphQLErrors: ', graphQLErrors);
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
         // this.props.setNotificationError(notificationOpts().error);
 
-        throw new SubmissionError({_error: message});
+        throw new SubmissionError({ _error: message });
       });
   };
 
   render() {
-    const {handleSubmit, pristine, submitting, invalid} = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -114,28 +114,30 @@ export class FormProjectSettings extends Component {
         </Text>
 
         <Box mb={'180px'}>
-          <Query
-            query={UserListQuery}
-          >
-            {
-              ({loading, data}) => {
+          <Query query={UserListQuery}>
+            {({ loading, data }) => {
+              // console.log('FormProjectSettings', data);
 
-                return (<Field
+              return (
+                <Field
                   isLoading={loading}
                   name={'partners'}
                   component={TextFieldArray}
                   type={'text'}
                   labelKey={'name'}
                   valueKey={'id'}
-                  options={data && data.userlist && data.userlist.map(item => ({
-                    id: item.id,
-                    name: `${item.firstname} ${item.lastname} ${item.patronymic}`
-                  }))}
-                />)
-              }
-            }
+                  options={
+                    data &&
+                    data.userlist &&
+                    data.userlist.map(item => ({
+                      id: item.id,
+                      name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
+                    }))
+                  }
+                />
+              );
+            }}
           </Query>
-
         </Box>
 
         <ButtonWithImage
