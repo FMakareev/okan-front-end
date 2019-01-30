@@ -1,124 +1,110 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Select, {components} from 'react-select';
-import {Absolute, Relative} from 'rebass';
 import DeepEqual from 'fast-deep-equal';
-import {color} from 'styled-system';
-
-/** View */
-import SmallPreloader from '../SmallPreloader/SmallPreloader';
-
-/** Styles */
-import {FontFamilyProperty} from '../../styles/styleProperty/FontFamilyProperty';
-
-/** Image */
-import back from '../../assets/image/back.png';
-import go from '../../assets/image/go.png';
 
 
-// TODO: переделать, вторая версия селекта переехала на css-in-js у них есть описание стилизации селекта сделать по доке
-const SelectStyled = styled(Select)`
-  .css-1hwfws3 {
-    padding: 0px 8px;
-  }
 
-  .css-15k3avv {
-    border-bottom: '1px solid';
-    position: static;
-    padding: 0;
-    margin: 0;
-    border-top-left-radius: 0px;
-    border-top-left-radius: 0px;
-    font-size: 18px;
-    line-height: 24px;
-    ${props => FontFamilyProperty({...props, fontFamily: 'primary500'})};
-    ${props => color({...props, color: 'color11'})};
-  }
+import {SvgTriangle} from "@lib/ui/Icons/SvgTriangle";
+import {Text} from "@lib/ui/Text/Text";
 
-  .css-vj8t7z {
-    border: 1px solid transparent;
-    min-height: 30px;
-  }
 
-  .css-1wy0on6 {
-    width: 30px;
-    height: 30px;
-  }
+export const SelectStyles = {
+  control: (style, props) => {
+    console.info(style, props);
+    return {
+      ...style,
+      padding: "0 0 0 10px",
+      border: "1px solid #848484",
+      minHeight: "30px",
+      ':hover': {
 
-  .css-1ep9fjw {
-    background-image: url(${go});
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    padding: 10px;
-  }
+        border: "none",
+        boxShadow: "none"
+      },
+      ...(props.isFocused
+        ? {
+          border: "none",
+          boxShadow: "none"
+        }
+        : {}),
+      ...(props.menuIsOpen ? {
+        borderRadius: "5px 5px 0 0",
+        borderBottom: 'none',
+      } : {})
+    };
+  },
+  selectContainer: (style, props) => {
+    console.info(style, props);
+    return {
+      ...style,
+      padding: 0
+    };
+  },
+  valueContainer: style => {
+    return {
+      ...style,
+      padding: 0
+    };
+  },
+  dropdownIndicator: style => {
+    return {
+      ...style,
+      padding: "0 10px"
+    };
+  },
+  menu: style => {
+    return {
+      ...style,
+      margin: 0,
+      border: "1px solid #848484",
+      borderRadius: "0 0 5px 5px",
+    };
+  },
+  option: (style, props) => {
+    return {
+      ...style,
+      width: 'calc(100% - 20px)',
+      margin: '0 10px',
+      borderBottom: "1px solid #00649C",
+      textAlign: "center",
+      ...(props.isSelected
+        ? {
+          backgroundColor: "rgba(0,127,175,.2)",
+          color: "#333333"
+        }
+        : null)
+    };
+  },
+  indicatorSeparator: style => {
+    return {
+      ...style,
+      display: "none"
+    };
+  },
+  singleValue: style => {
+    return {
+      ...style,
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    };
+  },
+};
 
-  .css-1uq0kb5 {
-    background-image: url(${back});
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-  }
+// SvgTriangle
 
-  .css-19bqh2r,
-  .css-d8oujb {
-    display: none;
-  }
-
-  .css-1492t68 {
-    ${props => FontFamilyProperty({...props, fontFamily: 'secondary'})}
-    line-height: 24px;
-    font-size: 18px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-  }
-
-  .css-xp4uvy {
-    text-align: center;
-    left: 35%;
-    ${props => color({...props, color: 'color11'})};
-    font-size: 18px;
-    line-height: 24px;
-  }
-
-  .css-v73v8k,
-  .css-wqgs6e,
-  .css-z5z6cw {
-    border-bottom: 1px solid #00649c;
-    width: 95%;
-    margin: 0 auto;
-    text-align: center;
-
-    :last-child {
-      border-bottom: 0;
-    }
-  }
-
-  .css-z5z6cw {
-    ${props => color({...props, color: 'color11'})};
-    background-color: #fff;
-  }
-
-  .css-11unzgr {
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  .css-z5z6cw: active {
-    background-color: #deebff;
-  }
-
-  .css-z5z6cw {
-    :hover {
-      background-color: #deebff;
-    }
-  }
-
-  .css-2o5izw {
-    min-height: 30px;
-  }
-`;
+const DropdownIndicator = (props) => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <Text style={{
+        transform: props.isFocused ? 'rotate(90deg)' : 'rotate(0)',
+      }} fill={'#333333'}>
+        <SvgTriangle/>
+      </Text>
+    </components.DropdownIndicator>
+  );
+};
 
 /**
  * Компонент селекта (SelectBase)
@@ -128,7 +114,7 @@ const SelectStyled = styled(Select)`
 export class SelectBase extends Component {
   static propTypes = {
     /** input */
-    input: PropTypes.object.isRequired, // mods: PropTypes.oneOfType([ PropTypes.object, PropTypes.bool ]), // type: PropTypes.string.isRequired, // label: PropTypes.oneOfType([ PropTypes.object, PropTypes.string ]),
+    input: PropTypes.object.isRequired,
     options: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
     labelKey: PropTypes.string /**  value key input */,
     valueKey: PropTypes.string /** input value seelct */,
@@ -136,7 +122,7 @@ export class SelectBase extends Component {
     loading: PropTypes.bool,
     defaultOptions: PropTypes.object,
     placeholder: PropTypes.string,
-  }; // meta: PropTypes.object.isRequired
+  };
 
   static defaultProps = {mods: false, options: [], placeholder: ''}; // valueKey: 'id', // labelKey: 'name',
 
@@ -239,24 +225,25 @@ export class SelectBase extends Component {
   };
 
   render() {
-    const {input, options, disabled, labelKey, valueKey, placeholder, isLoading} = this.props;
+    const {input, options, components, disabled, labelKey, valueKey, placeholder, isLoading, ...rest} = this.props;
     const {selectedOption} = this.state;
 
     return (
-      <Relative>
-        <SelectStyled
-          value={selectedOption}
-          name={input.name}
-          options={options}
-          isLoading={isLoading}
-          onChange={this.onChange}
-          disabled={disabled}
-          placeholder={placeholder}
-          blurInputOnSelect={true}
-          getOptionLabel={(option) => option[labelKey]}
-          getOptionValue={(option) => option[valueKey]}
-        />
-      </Relative>
+      <Select
+        value={selectedOption}
+        name={input.name}
+        options={options}
+        isLoading={isLoading}
+        onChange={this.onChange}
+        disabled={disabled}
+        placeholder={placeholder}
+        blurInputOnSelect={true}
+        getOptionLabel={(option) => option[labelKey]}
+        getOptionValue={(option) => option[valueKey]}
+        styles={SelectStyles}
+        components={{DropdownIndicator, ...components}}
+        {...rest}
+      />
     );
   }
 }
