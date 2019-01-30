@@ -40,39 +40,18 @@ export class SidebarCreateCell extends Component {
   submit = (prevcell, parent) => {
     console.log(22, prevcell, parent);
     this.onToggle();
-<<<<<<< HEAD
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
         variables: { prevcell, parent },
-
-        update: (store, props) => {
-          console.log('update: ', store, props);
-          // // Read the data from our cache for this query.
-          // const data = store.readQuery({ query: CommentAppQuery });
-          // // Add our comment from the mutation to the end.
-          // data.comments.push(submitComment);
-          // // Write our data back to the cache.
-          // store.writeQuery({ query: CommentAppQuery, data });
-        },
       })
       .then(response => {
-        console.log('response: ', response);
-        this.props.addNodeInTree(response.data.createcell);
+        console.log('SidebarCreateCell response: ', response);
+        this.props.addNodeInTree(response.data.createcell.cell);
+      })
+      .catch(error => {
+        console.error('Error SidebarCreateCell: ', error);
       });
-    console.log(222, this.props.client);
-=======
-    this.props.client.mutate({
-      mutation:CreateCellMutation,
-      variables: { prevcell, parent },
-    }).then(response=>{
-      console.log('SidebarCreateCell response: ', response);
-      this.props.addNodeInTree(response.data.createcell.cell)
-    }).catch((error) => {
-      console.error('Error SidebarCreateCell: ',error);
-
-    })
->>>>>>> a9c4e1051cb13e2391e66f8a1d991e7258272317
   };
 
   render() {
