@@ -20,7 +20,6 @@ import ProjectSettings from '../../component/FormProjectSettings/FormProjectSett
 
 const has = Object.prototype.hasOwnProperty;
 
-
 export class ProjectSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
@@ -28,10 +27,8 @@ export class ProjectSettingsPage extends Component {
 
   render() {
     const {
-      match: {
-        params
-      },
-      user
+      match: { params },
+      user,
     } = this.props;
     console.log(this.props);
     return (
@@ -42,35 +39,35 @@ export class ProjectSettingsPage extends Component {
               query={ProjectItemQuery}
               variables={{
                 id: params.id,
-              }}
-            >
-              {
-                ({data, error, loading})=>{
-                  console.log(data, error, loading);
+              }}>
+              {({ data, error, loading }) => {
+                // console.log(data, error, loading);
 
-                  if(loading){
-                    console.error('loading:',loading);
-                    return 'Загрузка ...';
-                  }
-                  if(error){
-                    console.error('Error:',error);
-                    return 'Ошибка ...';
-                  }
-
-                  if (!data || (data && !has.call(data, 'projectitem'))) {
-                    return null;
-                  }
-
-
-                  return (<ProjectSettings
-                    initialValues={{
-                    ...data.projectitem,
-                      partners: data.projectitem ? data.projectitem.partners.map((item) => item.id):[]
-                  }} />)
+                if (loading) {
+                  console.error('loading:', loading);
+                  return 'Загрузка ...';
                 }
-              }
-            </Query>
+                if (error) {
+                  console.error('Error:', error);
+                  return 'Ошибка ...';
+                }
 
+                if (!data || (data && !has.call(data, 'projectitem'))) {
+                  return null;
+                }
+
+                return (
+                  <ProjectSettings
+                    initialValues={{
+                      ...data.projectitem,
+                      partners: data.projectitem
+                        ? data.projectitem.partners.map(item => item.id)
+                        : [],
+                    }}
+                  />
+                );
+              }}
+            </Query>
           </Container>
         </Flex>
       </ErrorCatch>
