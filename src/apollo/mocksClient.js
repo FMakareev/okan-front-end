@@ -40,6 +40,15 @@ const defaultMocks = {
         }, faker.random.number(0));
       });
     },
+    templatelist:()=>{
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(projectlist(10,{
+            isTemplate: true,
+          }));
+        }, faker.random.number(2000));
+      });
+    },
     projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -208,57 +217,72 @@ const defaultMocks = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve({
-            ...celItem({
-              prevcell,
-              parent
-            }),
+            cell: {
+              ...celItem({
+                prevcell,
+                parent
+              }),
+            }
           });
         }, faker.random.number(2000));
       });
     },
 
     createproject: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      console.log('createproject: ', props);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            project:{
+              ...projectitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     updateproject: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            project:{
+              ...projectitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     updatedocument: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            document:{
+              ...documentitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     createdocument: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const document = {
+            ...documentitem(),
+            ...props,
+          }
+          console.log('documentitem(): ', documentitem());
+          console.log('document: ', document);
+          console.log('document: ', props);
+          resolve({
+            document:document,
+          });
+        }, faker.random.number(2000));
+      });
     },
   }),
 };

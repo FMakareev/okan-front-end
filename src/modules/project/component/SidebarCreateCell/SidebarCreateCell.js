@@ -40,6 +40,7 @@ export class SidebarCreateCell extends Component {
   submit = (prevcell, parent) => {
     console.log(22, prevcell, parent);
     this.onToggle();
+<<<<<<< HEAD
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
@@ -60,6 +61,18 @@ export class SidebarCreateCell extends Component {
         this.props.addNodeInTree(response.data.createcell);
       });
     console.log(222, this.props.client);
+=======
+    this.props.client.mutate({
+      mutation:CreateCellMutation,
+      variables: { prevcell, parent },
+    }).then(response=>{
+      console.log('SidebarCreateCell response: ', response);
+      this.props.addNodeInTree(response.data.createcell.cell)
+    }).catch((error) => {
+      console.error('Error SidebarCreateCell: ',error);
+
+    })
+>>>>>>> a9c4e1051cb13e2391e66f8a1d991e7258272317
   };
 
   render() {

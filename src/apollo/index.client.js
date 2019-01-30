@@ -21,8 +21,3 @@ export const client = () => {
 
 export default client;
 
-// import mocksClient from './mocksClient';
-
-// export const client = mocksClient;
-
-// export default client;

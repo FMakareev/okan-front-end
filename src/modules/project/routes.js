@@ -5,8 +5,13 @@ export const routes = [
   {
     layout: LAYOUT_APP,
     exact: true,
+<<<<<<< HEAD
     name: 'Настройки проекта', // path: '/project-settings/:id',
     path: '/project-settings',
+=======
+    name: 'Настройки проекта',
+    path: '/project-settings/:id',
+>>>>>>> a9c4e1051cb13e2391e66f8a1d991e7258272317
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectSettings' */ './view/projectSettings'),
@@ -46,8 +51,12 @@ export const routes = [
     layout: LAYOUT_APP,
     exact: true,
     name: 'Настройки документа',
+<<<<<<< HEAD
     // path: '/document-settings/:id',
     path: '/document-settings',
+=======
+    path: '/document-settings/:id',
+>>>>>>> a9c4e1051cb13e2391e66f8a1d991e7258272317
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),

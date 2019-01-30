@@ -1,21 +1,23 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Select from 'react-select';
-import { Absolute, Relative } from 'rebass';
+import Select, {components} from 'react-select';
+import {Absolute, Relative} from 'rebass';
 import DeepEqual from 'fast-deep-equal';
-import { color } from 'styled-system';
+import {color} from 'styled-system';
 
 /** View */
 import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
 /** Styles */
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
+import {FontFamilyProperty} from '../../styles/styleProperty/FontFamilyProperty';
 
 /** Image */
 import back from '../../assets/image/back.png';
 import go from '../../assets/image/go.png';
 
+
+// TODO: переделать, вторая версия селекта переехала на css-in-js у них есть описание стилизации селекта сделать по доке
 const SelectStyled = styled(Select)`
   .css-1hwfws3 {
     padding: 0px 8px;
@@ -30,8 +32,8 @@ const SelectStyled = styled(Select)`
     border-top-left-radius: 0px;
     font-size: 18px;
     line-height: 24px;
-    ${props => FontFamilyProperty({ ...props, fontFamily: 'primary500' })};
-    ${props => color({ ...props, color: 'color11' })};
+    ${props => FontFamilyProperty({...props, fontFamily: 'primary500'})};
+    ${props => color({...props, color: 'color11'})};
   }
 
   .css-vj8t7z {
@@ -63,16 +65,18 @@ const SelectStyled = styled(Select)`
   }
 
   .css-1492t68 {
-    ${props => FontFamilyProperty({ ...props, fontFamily: 'secondary' })}
+    ${props => FontFamilyProperty({...props, fontFamily: 'secondary'})}
     line-height: 24px;
     font-size: 18px;
-    left: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
   }
 
   .css-xp4uvy {
     text-align: center;
     left: 35%;
-    ${props => color({ ...props, color: 'color11' })};
+    ${props => color({...props, color: 'color11'})};
     font-size: 18px;
     line-height: 24px;
   }
@@ -91,7 +95,7 @@ const SelectStyled = styled(Select)`
   }
 
   .css-z5z6cw {
-    ${props => color({ ...props, color: 'color11' })};
+    ${props => color({...props, color: 'color11'})};
     background-color: #fff;
   }
 
@@ -134,7 +138,7 @@ export class SelectBase extends Component {
     placeholder: PropTypes.string,
   }; // meta: PropTypes.object.isRequired
 
-  static defaultProps = { mods: false, options: [], placeholder: '' }; // valueKey: 'id', // labelKey: 'name',
+  static defaultProps = {mods: false, options: [], placeholder: ''}; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
     super(props);
@@ -144,11 +148,11 @@ export class SelectBase extends Component {
   //перестраиваются элементы в вирт.доме
   shouldComponentUpdate(nextProps, nextState) {
     const {
-      input: { value },
+      input: {value},
       isLoading,
       options,
     } = this.props;
-    const { selectedOption } = this.state;
+    const {selectedOption} = this.state;
 
     if (
       nextProps.input.value !== this.props.value ||
@@ -165,7 +169,7 @@ export class SelectBase extends Component {
   //Когда будет изменено вирт. дом (устаревший)
   componentWillReceiveProps = nextProps => {
     const {
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = nextProps;
@@ -184,7 +188,7 @@ export class SelectBase extends Component {
   componentDidUpdate(prevProps) {
     const {
       // then options is update - we must update selectedOption at state
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = this.props;
@@ -197,15 +201,15 @@ export class SelectBase extends Component {
 
   get initialState() {
     const {
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = this.props;
 
     if (value) {
-      return { selectedOption: this.getSelectedValueFromOptions(options, value, valueKey) };
+      return {selectedOption: this.getSelectedValueFromOptions(options, value, valueKey)};
     }
-    return { selectedOption: null };
+    return {selectedOption: null};
   }
 
   getSelectedValueFromOptions = (options, value, valueKey) => {
@@ -225,9 +229,9 @@ export class SelectBase extends Component {
   };
 
   onChange = selectedOption => {
-    const { input, valueKey } = this.props;
+    const {input, valueKey} = this.props;
     this.setState(
-      () => ({ selectedOption }),
+      () => ({selectedOption}),
       () => {
         input.onChange(this.state.selectedOption ? this.state.selectedOption[valueKey] : null);
       },
@@ -235,8 +239,8 @@ export class SelectBase extends Component {
   };
 
   render() {
-    const { input, options, disabled, labelKey, valueKey, placeholder, isLoading } = this.props;
-    const { selectedOption } = this.state;
+    const {input, options, disabled, labelKey, valueKey, placeholder, isLoading} = this.props;
+    const {selectedOption} = this.state;
 
     return (
       <Relative>
@@ -245,15 +249,12 @@ export class SelectBase extends Component {
           name={input.name}
           options={options}
           isLoading={isLoading}
-          getOptionValue={
-            option => option[valueKey] // getOptionLabel={option => option[labelKey]}
-          }
           onChange={this.onChange}
           disabled={disabled}
-          placeholder={options[0].value}
+          placeholder={placeholder}
           blurInputOnSelect={true}
-          labelKey={labelKey}
-          valueKey={valueKey}
+          getOptionLabel={(option) => option[labelKey]}
+          getOptionValue={(option) => option[valueKey]}
         />
       </Relative>
     );
