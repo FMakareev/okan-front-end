@@ -1,0 +1,13 @@
+mutation ($id: String!, $name: String!, $partners: [String]) {
+  updateproject(id: $id, name: $name, partners: $partners, ) {
+    project {
+      id
+      name
+      partners {
+        id
+        firstname
+        lastname
+      }
+    }
+  }
+}
