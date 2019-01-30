@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
-import {SvgDocumentComment} from "@lib/ui/Icons/SvgDocumentComment";
-
-
+import { SvgDocumentComment } from '@lib/ui/Icons/SvgDocumentComment';
 
 const ButtonBaseStyled = styled(ButtonBase)`
   padding: 0;
@@ -15,20 +13,21 @@ const ButtonBaseStyled = styled(ButtonBase)`
   z-index: 11;
 `;
 
-
 export const EditorCellCommentButton = props => {
-  const {onClick, status} = props;
+  const { onClick, status } = props;
 
-  return (<ButtonBaseStyled
-    btnComment={status}
-    color={'color0'}
-    fontSize={6}
-    lineHeight={5}
-    position={'relative'}
-    borderRadius={'4px'}
-    onClick={onClick}>
-    <SvgDocumentComment/>
-  </ButtonBaseStyled>);
+  return (
+    <ButtonBaseStyled
+      btnComment={status}
+      color={'color0'}
+      fontSize={6}
+      lineHeight={5}
+      position={'relative'}
+      borderRadius={'4px'}
+      onClick={onClick}>
+      <SvgDocumentComment />
+    </ButtonBaseStyled>
+  );
 };
 
 EditorCellCommentButton.propTypes = {
@@ -37,8 +36,7 @@ EditorCellCommentButton.propTypes = {
 
 EditorCellCommentButton.defaultProps = {
   status: 'emptyComment',
-  onClick: () => {
-  },
+  onClick: () => {},
 };
 
 export default EditorCellCommentButton;

@@ -100,7 +100,7 @@ export class DocumentSettings extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, user } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, initialValues } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -109,6 +109,7 @@ export class DocumentSettings extends Component {
             <Container maxWidth={'500px'} width={'100%'}>
               <Query query={UserListQuery}>
                 {({ loading, error, data }) => {
+                  console.log('data', data);
                   if (loading) {
                     return 'Загрузка...';
                   }
@@ -118,7 +119,9 @@ export class DocumentSettings extends Component {
                   if (!data || (data && !has.call(data, 'userlist'))) {
                     return null;
                   }
-                  return <SettingsUser data={data.userlist} />;
+                  return (
+                    <Field component={SettingsUser} options={data.userlist} name={'partners'} />
+                  );
                 }}
               </Query>
             </Container>
@@ -159,9 +162,9 @@ DocumentSettings = graphql(DocumentSettingsMutation, {
 })(DocumentSettings);
 
 DocumentSettings = connect(
-  state => ({
-    values: getFormValues('DocumentSettings')(state),
-  }),
+  state => {
+    return { values: getFormValues('DocumentSettings')(state) };
+  },
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

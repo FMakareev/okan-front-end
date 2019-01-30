@@ -125,7 +125,6 @@ type Project {
   author: User
   """ список участников """
   partners: [User]
-
   """ документы проекта"""
   documents: [Document]
   """дата создания"""

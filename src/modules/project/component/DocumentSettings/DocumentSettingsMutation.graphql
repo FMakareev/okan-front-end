@@ -4,9 +4,9 @@ mutation ($approvalstatus: String, $childcell: String, $customercode: String, $d
       id
       name
       okancode
+      approvalstatus
       customercode
       documentnumber
-      approvalstatus
     }
   }
 }

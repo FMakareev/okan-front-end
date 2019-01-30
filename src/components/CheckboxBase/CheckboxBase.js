@@ -77,7 +77,7 @@ export class CheckboxBase extends Component {
   static defaultProps = {};
 
   render() {
-    const { input, index, checked, disabled, children } = this.props;
+    const { input, index, checked, disabled, children, onClick } = this.props;
 
     return (
       <Wrapper>
@@ -86,6 +86,7 @@ export class CheckboxBase extends Component {
           type="checkbox"
           checked={input ? input.value : false}
           disabled={disabled}
+          onClick={onClick}
           {...input}
         />
 

@@ -20,13 +20,17 @@ class DocumentSettingsPage extends Component {
   state = {};
 
   render() {
-    // const {
-    //   user: { id },
-    // } = this.props;
+    const {
+      match: {
+        params: { id },
+      },
+      route: { name },
+      location: { key },
+    } = this.props;
 
     return (
       <ErrorCatch>
-        <DocumentSettings initialValues={{ id: '5c4f30739adb49779eb0bb1f' }} />
+        <DocumentSettings initialValues={{ id, name, key }} />
       </ErrorCatch>
     );
   }

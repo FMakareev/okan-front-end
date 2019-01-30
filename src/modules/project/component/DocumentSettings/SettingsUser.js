@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Field } from 'redux-form';
@@ -18,37 +18,57 @@ const FlexStyled = styled(Flex)`
   padding-bottom: 12px;
 `;
 
-export const SettingsUser = ({ data }) => {
-  return (
-    <Fragment>
-      <Box mb={'100px'}>
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={6}
-          fontFamily={'primary500'}>
-          Участники проекта
-        </Text>
+export class SettingsUser extends Component {
+  static propTypes = {
+    /** Data  */
+    data: PropTypes.element,
+  };
 
-        {data.map((item, index) => (
-          <FlexStyled pt={3}>
-            <Field name={`documentSetting${index}`} component={CheckboxBase} />
+  submit = id => {
+    return id;
+    this.onChange();
+  };
 
-            <Text fontFamily={'primary300'} fontSize={6} lineHeight={8} color={'color11'} ml={20}>
-              {item.firstname}
-            </Text>
-          </FlexStyled>
-        ))}
-      </Box>
-    </Fragment>
-  );
-};
+  render() {
+    const { options, fields } = this.props;
+    console.log(1, this.props);
+    return (
+      <Fragment>
+        <Box mb={'100px'}>
+          <Text
+            fontSize={6}
+            lineHeight={8}
+            color={'color7'}
+            textAlign={'center'}
+            mb={6}
+            fontFamily={'primary500'}>
+            Участники проекта
+          </Text>
 
-SettingsUser.propTypes = {
-  /** Data  */
-  data: PropTypes.element,
-};
+          {options.map((item, index) => {
+            const { id } = item;
+            return (
+              <FlexStyled pt={3}>
+                <CheckboxBase
+                  onClick={() => {
+                    this.props.input.onChange(id);
+                  }}
+                />
+                <Text
+                  fontFamily={'primary300'}
+                  fontSize={6}
+                  lineHeight={8}
+                  color={'color11'}
+                  ml={20}>
+                  {item.firstname}
+                </Text>
+              </FlexStyled>
+            );
+          })}
+        </Box>
+      </Fragment>
+    );
+  }
+}
 
 export default SettingsUser;
