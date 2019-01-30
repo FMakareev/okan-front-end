@@ -102,12 +102,18 @@ type Document {
   okancode: String
   """ код документа заказчика"""
   customercode: String
+  """ Версия документа """
+  version: String
+  """  дата создания ревизии """
+  createrevisiondate: String
+  """ Автори ревизии документа """
+  authorrrevision: User
 }
 # https://okan.code-artel.com/graphql :
 # Document{
 #   approvalstatus: String
 #   cell: Cell
-#   childcell: Cell
+#   children: Cell
 #   customercode: String
 #   documentnumber: String
 #   id: ID
@@ -336,17 +342,13 @@ type Query {
   # revisionlist(id: String!): [Project]
   # https://okan.code-artel.com/graphql :
   """ получить список ревизий проекта"""
-  revisionList(id: String!): [Project],
-  # query ($id: String!) {
-  #   revisionList(id: $id) {
-  #     id
-  #   }
-  # }
+  revisionList(id: String!): [Document],
+
 
   # revisionitem(id: String!): Project
   # https://okan.code-artel.com/graphql :
   """получить ревизию проекта по id """
-  revisionItem(id: String!): Project,
+  revisionItem(id: String!): Document,
   # query ($id: String!) {
   #   revisionItem(id: $id) {
   #     id
@@ -484,7 +486,7 @@ type Mutation {
   """ создание документа """
   createdocument(
     approvalstatus: String,
-    childcell: String,
+    children: String,
     customercode: String,
     documentnumber: String,
     name: String!,
@@ -496,7 +498,7 @@ type Mutation {
   """ обновление документа"""
   updatedocument (
     approvalstatus: String,
-    childcell: String,
+    children: String,
     customercode: String,
     documentnumber: String,
     id: String!,
@@ -527,7 +529,8 @@ type Mutation {
     author: String,
     customercode: String,
     documents: [String],
-    id: String!, name: String!,
+    id: String!,
+    name: String!,
     okancode: String,
     partners: [String],
     revisions: [String],

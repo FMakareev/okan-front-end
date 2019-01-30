@@ -23,7 +23,7 @@ import { notificationList } from './graphql/query/notificationList';
 import { notificationItem } from './graphql/query/notificationItem';
 import { projectlist } from './graphql/query/projectlist';
 import { revisionitem } from './graphql/query/revisionitem';
-import { revisionlist } from './graphql/query/revisionlist';
+import { revisionList } from './graphql/query/revisionList';
 
 
 
@@ -59,7 +59,7 @@ const defaultMocks = {
         }, faker.random.number(0));
       });
     },
-    projectlist: (query, {id}) => {
+    projectList: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(projectlist(4));
@@ -75,10 +75,10 @@ const defaultMocks = {
       });
     },
 
-    revisionlist: () => {
+    revisionList: () => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(revisionlist(2));
+          resolve(revisionList(2));
         }, faker.random.number(0));
       });
     },
