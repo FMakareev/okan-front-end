@@ -1,0 +1,35 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const has = Object.prototype.hasOwnProperty;
+
+
+/**
+ * @desc компонент сравнивает переданную роль с ролью пользоватея и принимает решение если совпадали рендерит компонент иначе не рендерит
+ * */
+export const CheckComponentAccessByRole = ({children, targetRole, userRole}) => {
+  if (userRole && has.call(userRole, 'name')) {
+    if(targetRole && Array.isArray(targetRole)){
+      if (targetRole.filter(item => item === userRole.name)) {
+        return children;
+      } else {
+        console.log(`Error CheckComponentAccessByRole: access denied`);
+      }
+    } else {
+      console.log(`Error CheckComponentAccessByRole: targetRole is undefined`);
+      return children;
+    }
+  }else {
+    console.log(`Error CheckComponentAccessByRole: userRole not found.`);
+  }
+  return null;
+};
+
+CheckComponentAccessByRole.propTypes = {
+  targetRole: PropTypes.array,
+  userRole: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+};
+
+export default CheckComponentAccessByRole;

@@ -1,11 +1,17 @@
-query{
-  currentuseritem{
+{
+  currentuseritem {
     id
-    lastname
+    email
+    birthdate
     firstname
+    lastname
+    patronymic
     phone
     position
-    patronymic
-    email
+    role {
+      id
+      name
+    }
+    signature
   }
 }
