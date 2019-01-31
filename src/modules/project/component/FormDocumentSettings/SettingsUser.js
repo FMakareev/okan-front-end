@@ -16,6 +16,7 @@ const FlexStyled = styled(Flex)`
   border-top: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color7' })};
   padding-bottom: 12px;
+  min-height: 45px;
 `;
 
 export class SettingsUser extends Component {
@@ -89,8 +90,10 @@ export class SettingsUser extends Component {
                     onChange={() => {
                       this.change(id);
                     }}
-                    checked={userIsFound}
+                    checked={checked}
+                    id={id}
                   />
+
                   <Text
                     fontFamily={'primary300'}
                     fontSize={6}
