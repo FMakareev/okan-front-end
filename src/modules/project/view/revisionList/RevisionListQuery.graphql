@@ -1,13 +1,23 @@
 query ($id: String!) {
   revisionList(id: $id) {
-    id
-    name
-    createrevisiondate
-    authorrrevision{
+    approvalstatus
+    authorrevision {
       id
       firstname
       lastname
       patronymic
     }
+    createrevisiondate
+    documentnumber
+    id
+    name
+    okancode
+    partners {
+      id
+      lastname
+      firstname
+      patronymic
+    }
+    version
   }
 }
