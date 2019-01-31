@@ -27,6 +27,7 @@ const TbodyStyled = styled(Tbody)`
 `;
 
 export const FormProfileApproval = ({ initialValues }) => {
+  const { name, documentnumber } = initialValues;
   return (
     <Fragment>
       <Text
@@ -49,20 +50,17 @@ export const FormProfileApproval = ({ initialValues }) => {
           </Text>
         </Flex>
       </Tbody>
-      {/*initialValues.map(item=>item.name)*/}
-      <TbodyStyled>
-        <TrStyled>
-          <Td fontFamily={'primary500'}>{'1'}</Td>
-          <Td fontFamily={'secondaryBold'}>{'2'}</Td>
-        </TrStyled>
-      </TbodyStyled>
-
-      <TbodyStyled>
-        <TrStyled>
-          <Td fontFamily={'primary500'}>{'1'}</Td>
-          <Td fontFamily={'secondaryBold'}>{'2'}</Td>
-        </TrStyled>
-      </TbodyStyled>
+      {initialValues &&
+        initialValues.map(item => {
+          return (
+            <TbodyStyled>
+              <TrStyled>
+                <Td fontFamily={'primary500'}>{item.name}</Td>
+                <Td fontFamily={'secondaryBold'}>{item.documentnumber}</Td>
+              </TrStyled>
+            </TbodyStyled>
+          );
+        })}
     </Fragment>
   );
 };
@@ -71,7 +69,7 @@ FormProfileApproval.propTypes = {
   /** name document */
   name: PropTypes.string,
   /** number document*/
-  number: PropTypes.string,
+  documentnumber: PropTypes.string,
 };
 
 export default FormProfileApproval;
