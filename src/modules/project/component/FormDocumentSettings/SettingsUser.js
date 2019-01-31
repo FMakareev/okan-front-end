@@ -62,7 +62,7 @@ export class SettingsUser extends Component {
     const { options, input } = this.props;
     const { userIsFound } = this.state;
 
-    const RenderUserList = this.props.input.value !== 0 ? null : {};
+    const RenderUserList = this.props.input.value === 0 ? null : {};
 
     // console.log(1, this.props);
     return (
@@ -90,7 +90,7 @@ export class SettingsUser extends Component {
                     onChange={() => {
                       this.change(id);
                     }}
-                    checked={checked}
+                    checked={userIsFound}
                     id={id}
                   />
 
