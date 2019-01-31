@@ -84,7 +84,7 @@ export class CheckboxBase extends Component {
         <Input
           id={`styled-checkbox-${id}`}
           type="checkbox"
-          checked={input ? input.value : false || checked}
+          checked={checked}
           disabled={disabled}
           {...input}
         />
