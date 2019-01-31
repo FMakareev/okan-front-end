@@ -31,7 +31,6 @@ export class SettingsUser extends Component {
     } = this.props;
 
     let indexCurrentId = this.findUserInValue(value, id); // Возвращаем индекс id
-    console.log(1, indexCurrentId);
     if (indexCurrentId !== -1) {
       // При повторном клике мы уже находим id и возвращается его index
       onChange(this.removeFromArrayById(value, indexCurrentId)); // передаем массив(не пустой) и индекс на удаление
@@ -55,7 +54,6 @@ export class SettingsUser extends Component {
     // arr - массив indexes - индекс по которому кликнули 2 раз arrayofIndex - Новый массив arg - id
     return arr.filter(function(item, index) {
       // И в итоге возращаем новый массив
-      // console.log(2, item, index);
       return arrayOfIndexes.indexOf(index) === -1; //Возвращает индекс id по которому был найден, иначе -1
     });
   }
