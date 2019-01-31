@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from "react-redux";
+import { connect } from 'react-redux';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import Flex from '@lib/ui/Flex/Flex';
@@ -12,15 +12,15 @@ import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
 import FormProjectCreate from '../../component/FormProjectCreate/FormProjectCreate';
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 export class ProjectCreatePage extends Component {
-  static propTypes = {...ReactRoutePropTypes};
+  static propTypes = { ...ReactRoutePropTypes };
 
   state = {};
 
   render() {
-    const {user}  = this.props;
+    const { user } = this.props;
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
@@ -37,6 +37,6 @@ export class ProjectCreatePage extends Component {
   }
 }
 
-ProjectCreatePage = connect(state => ({user: getUserFromStore(state)}))(ProjectCreatePage);
+ProjectCreatePage = connect(state => ({ user: getUserFromStore(state) }))(ProjectCreatePage);
 
 export default ProjectCreatePage;
