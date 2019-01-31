@@ -25,51 +25,38 @@ export class SettingsUser extends Component {
     data: PropTypes.element,
   };
 
-  submit = id => {
-    try {
-      const {
-        input: { value, onChange },
-      } = this.props;
-
-      const filterId = value.filter(item => item === id);
-
-      if (filterId.length !== 0) {
-        return onChange([...value]);
-      } else {
-        return onChange([...value, id]);
-      }
-    } catch (error) {
-      console.error('Error : ', error);
-    }
-  };
-
   onChange = id => {
     const {
       input: { value, onChange },
     } = this.props;
 
-    let indexCurrentId = this.findUserInValue(value, id);
-
+    let indexCurrentId = this.findUserInValue(value, id); // Возвращаем индекс id
+    console.log(1, indexCurrentId);
     if (indexCurrentId !== -1) {
-      onChange(this.removeFromArrayById(value, indexCurrentId));
+      // При повторном клике мы уже находим id и возвращается его index
+      onChange(this.removeFromArrayById(value, indexCurrentId)); // передаем массив(не пустой) и индекс на удаление
     } else {
-      onChange([...value, id]);
+      onChange([...value, id]); // Добавляем в редакс массив и id
     }
   };
 
   findUserInValue = (value, id) => {
     if (Array.isArray(value) && typeof id !== 'undefined') {
-      return value.findIndex(item => item === id);
+      return value.findIndex(item => item === id); // Возвращаем -1 или индекс id
     } else {
       return false;
     }
   };
 
   removeFromArrayById(arr, indexes) {
-    var slice = [].slice;
-    let arrayOfIndexes = slice.call(arguments, 0);
+    var slice = [].slice; // В переменную slice скопировали метод
+    let arrayOfIndexes = slice.call(arguments, 1); // В переменную arrayOfIndexes одалжили метод, который копирует массив от arg(id) на +1. И получили новый массив в котором вырезали id
+    // console.log(1, arr, indexes, arrayOfIndexes, arguments);
+    // arr - массив indexes - индекс по которому кликнули 2 раз arrayofIndex - Новый массив arg - id
     return arr.filter(function(item, index) {
-      return arrayOfIndexes.indexOf(index) === -1;
+      // И в итоге возращаем новый массив
+      // console.log(2, item, index);
+      return arrayOfIndexes.indexOf(index) === -1; //Возвращает индекс id по которому был найден, иначе -1
     });
   }
 
@@ -94,8 +81,9 @@ export class SettingsUser extends Component {
               const { id } = item;
               return (
                 <FlexStyled
-                  onClick={() => {
-                    this.onChange(id);
+                  onClick={event => {
+                    event.preventDefault();
+                    return this.onChange(id);
                   }}
                   pt={3}>
                   <CheckboxBase checked={this.findUserInValue(input.value, id) >= 0} />
