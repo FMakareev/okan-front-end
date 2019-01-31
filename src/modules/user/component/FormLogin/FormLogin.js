@@ -150,7 +150,7 @@ export class FormLogin extends Component {
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
-          history.push(`app/profile`);
+          history.push(`/app/profile`);
           return Promise.resolve(result);
         }
       })
@@ -215,7 +215,7 @@ export class FormLogin extends Component {
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { apolloError, submitting, isLoading } = this.state;
-
+    console.log(pristine, invalid, submitting, error);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
@@ -242,15 +242,13 @@ export class FormLogin extends Component {
           </BoxSecond>
         </Box>
 
-        <TooltipBase isActive={error} warning={error}>
-          <FormButtonSubmit
-            disabled={pristine || submitting || invalid}
-            children={'Войти'}
-            ml={9}
-            isLoading={isLoading}
-            error={error || apolloError}
-          />
-        </TooltipBase>
+        <FormButtonSubmit
+          disabled={pristine}
+          children={'Войти'}
+          ml={9}
+          isLoading={isLoading}
+          error={error || apolloError}
+        />
 
         {/* if succes => to={'/app/project-list'}  ----- USER*/}
         {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
