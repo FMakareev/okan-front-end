@@ -29,40 +29,53 @@ export class SettingsUser extends Component {
 
   submit = id => {
     try {
-      const { input } = this.props;
+      const {
+        input: { value, onChange },
+      } = this.props;
 
-      const filterId = input.value.filter(item => item === id);
+      const filterId = value.filter(item => item === id);
 
       if (filterId.length !== 0) {
-        return input.onChange([...input.value]);
+        return onChange([...value]);
       } else {
-        return input.onChange([...input.value, id]);
+        return onChange([...value, id]);
       }
     } catch (error) {
       console.error('Error : ', error);
     }
   };
 
-  change = id => {
+  onChange = id => {
     const {
       input: { value, onChange },
     } = this.props;
 
-    const checkedId = arr => arr === id;
-    const result = value.some(checkedId);
+    let indexCurrentId = this.findUserInValue(value, id);
 
-    if (result) {
-      this.setState(({ userIsFound }) => {
-        userIsFound: true;
-      });
+    if (indexCurrentId !== -1) {
+      onChange(this.removeFromArrayById(value, indexCurrentId));
+    } else {
+      onChange([...value, id]);
     }
   };
 
+  findUserInValue = (value, id) => {
+    if (Array.isArray(value) && typeof id !== 'undefined') {
+      return value.findIndex(item => item === id);
+    } else {
+      return false;
+    }
+  };
+
+  removeFromArrayById(arr, indexes) {
+    let arrayOfIndexes = [].slice.call(arguments, 1);
+    return arr.filter(function(item, index) {
+      return arrayOfIndexes.indexOf(index) === -1;
+    });
+  }
+
   render() {
     const { options, input } = this.props;
-    const { userIsFound } = this.state;
-
-    const RenderUserList = this.props.input.value === 0 ? null : {};
 
     return (
       <Fragment>
@@ -77,22 +90,16 @@ export class SettingsUser extends Component {
             Участники проекта
           </Text>
 
-          {RenderUserList &&
+          {options &&
             options.map(item => {
               const { id } = item;
               return (
-                <FlexStyled pt={3}>
-                  <CheckboxBase
-                    onClick={() => {
-                      this.submit(id);
-                    }}
-                    onChange={() => {
-                      this.change(id);
-                    }}
-                    checked={true}
-                    id={id}
-                    input={input}
-                  />
+                <FlexStyled
+                  onClick={() => {
+                    this.onChange(item.id);
+                  }}
+                  pt={3}>
+                  <CheckboxBase checked={this.findUserInValue(input.value, item.id) >= 0} />
 
                   <Text
                     fontFamily={'primary300'}
@@ -100,7 +107,7 @@ export class SettingsUser extends Component {
                     lineHeight={8}
                     color={'color11'}
                     ml={20}>
-                    {item.firstname}
+                    {item.name}
                   </Text>
                 </FlexStyled>
               );
