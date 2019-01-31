@@ -27,14 +27,16 @@ class DocumentSettingsPage extends Component {
 
   render() {
     const {
-      match: { params },
+      match: {
+        params: { id },
+      },
     } = this.props;
 
     return (
       <ErrorCatch>
-        <Query query={DocumentItemQuery} variables={{ id: params.id }}>
+        <Query query={DocumentItemQuery} variables={{ id: id }}>
           {({ data, error, loading }) => {
-            // console.log('DocumentItemQuery', data, error, loading);
+            // console.log('DocumentItemQuery', data);
 
             if (loading) {
               console.error('loading:', loading);
