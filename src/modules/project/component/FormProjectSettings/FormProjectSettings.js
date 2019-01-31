@@ -27,7 +27,7 @@ import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty'
 import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
 
 /** Graphql schema */
-import FormProjectSettingsMutation from './ProjectSettingsMutation.graphql';
+import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
 
 const BoxStyled = styled(Box)`
   input {
@@ -66,12 +66,12 @@ export class FormProjectSettings extends Component {
 
   submit = value => {
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
+    console.log('ProjectSettings', data);
 
     return this.props['@apollo/update'](data)
       .then(response => {
         console.log(response);
-        // this.props.setNotificationSuccess(notificationOpts().success);
+        this.props.setNotificationSuccess(notificationOpts().success);
 
         return response;
       })
@@ -80,7 +80,7 @@ export class FormProjectSettings extends Component {
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
-        // this.props.setNotificationError(notificationOpts().error);
+        this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });
       });
@@ -156,7 +156,7 @@ export class FormProjectSettings extends Component {
   }
 }
 
-FormProjectSettings = graphql(FormProjectSettingsMutation, {
+FormProjectSettings = graphql(ProjectSettingsMutation, {
   name: '@apollo/update',
 })(FormProjectSettings);
 
