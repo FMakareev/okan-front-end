@@ -126,7 +126,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
-        this.setState(() => ({ submitting: false, apolloError: null }));
+        this.setState(() => ({ submitting: false, isLoading: false , apolloError: null }));
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
