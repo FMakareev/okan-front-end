@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {graphql, Query} from 'react-apollo';
+import { connect } from 'react-redux';
+import { graphql, Query } from 'react-apollo';
 import styled from 'styled-components';
-import Notifications, {success, error} from 'react-notification-system-redux';
-import {Field, reduxForm, SubmissionError, Form, getFormValues} from 'redux-form';
+import Notifications, { success, error } from 'react-notification-system-redux';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 /**View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -16,10 +16,10 @@ import Box from '@lib/ui/Box/Box';
 import SelectBase from '@lib/ui/SelectBase/SelectBase';
 
 /**Image */
-import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
 /**PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
@@ -36,15 +36,14 @@ const BoxStyled = styled(Box)`
     padding: 3px 7px;
     border: 0;
     text-align: center;
-    ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
-    ${props => FontSizeProperty({...props, fontSize: 6})};
-    ${props => LineHeightProperty({...props, lineHeight: 8})};
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
   }
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
-  ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
-
 
 const notificationOpts = () => ({
   success: {
@@ -62,7 +61,7 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectCreate extends Component {
-  static propTypes = {...formPropTypes};
+  static propTypes = { ...formPropTypes };
 
   constructor(props) {
     super(props);
@@ -72,13 +71,13 @@ export class FormProjectCreate extends Component {
   }
 
   submit(value) {
-    const data = {variables: Object.assign({}, value)};
+    const data = { variables: Object.assign({}, value) };
     console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
         console.log('response: ', response);
-        const {data, error} = response;
+        const { data, error } = response;
         if (data && data.createproject && data.createproject.project) {
           this.props.setNotificationSuccess(notificationOpts().success);
           this.props.history.push(`/app/project-settings/${data.createproject.project.id}`);
@@ -87,7 +86,7 @@ export class FormProjectCreate extends Component {
           throw error;
         }
       })
-      .catch(({graphQLErrors, message, networkError, ...rest}) => {
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
         console.log('graphQLErrors: ', graphQLErrors);
         console.log('message: ', message);
         console.log('networkError: ', networkError);
@@ -95,16 +94,15 @@ export class FormProjectCreate extends Component {
         this.props.setNotificationError(notificationOpts().error);
 
         if (graphQLErrors) {
-          throw new SubmissionError({...this.getNetworkError(graphQLErrors)});
+          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
         } else {
-          throw new SubmissionError({_error: message});
+          throw new SubmissionError({ _error: message });
         }
       });
   }
 
   render() {
-    const {handleSubmit, pristine, submitting, invalid} = this.props;
-    console.log();
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Text
@@ -140,14 +138,12 @@ export class FormProjectCreate extends Component {
         </Text>
 
         <BoxStyled mb={'180px'}>
-          <Query
-            query={TemplateListQuery}
-          >
-            {
-              ({data, loading, error}) => {
-                console.log(data, loading, error);
+          <Query query={TemplateListQuery}>
+            {({ data, loading, error }) => {
+              // console.log(data, loading, error);
 
-                return (<Field
+              return (
+                <Field
                   name={'template'}
                   component={SelectBase}
                   disabled={loading}
@@ -158,11 +154,10 @@ export class FormProjectCreate extends Component {
                   options={data && data.templatelist}
                   labelKey={'name'}
                   valueKey={'id'}
-                />)
-              }
-            }
+                />
+              );
+            }}
           </Query>
-
         </BoxStyled>
 
         <ButtonWithImage
