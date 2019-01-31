@@ -1,5 +1,5 @@
-mutation ($approvalstatus: String, $childcell: String, $customercode: String, $documentnumber: String, $id: String!, $name: String!, $okancode: String, $partners: [String]) {
-  updatedocument(approvalstatus: $approvalstatus, childcell: $childcell, customercode: $customercode, documentnumber: $documentnumber, id: $id, name: $name, okancode: $okancode, partners: $partners) {
+mutation ($approvalstatus: String, $children: String, $customercode: String, $documentnumber: String, $id: String!, $name: String, $okancode: String, $partners: [String]) {
+  updatedocument(approvalstatus: $approvalstatus, children: $children, customercode: $customercode, documentnumber: $documentnumber, id: $id, name: $name, okancode: $okancode, partners: $partners) {
     document {
       id
       name
