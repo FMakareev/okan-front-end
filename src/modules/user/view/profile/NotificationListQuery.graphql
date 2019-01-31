@@ -3,5 +3,10 @@ query ($user: String) {
     createat
     id
     message
+    sender {
+      firstname
+      lastname
+      patronymic
+    }
   }
 }

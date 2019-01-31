@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
 
 /**View*/
 import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
+import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
 
 /**Components Admin*/
 import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
@@ -19,16 +20,15 @@ import FormPersonData from '../../component/FormPersonData/FormPersonData';
 import FormChangePassword from '../../component/FormChangePassword/FormChangePassword';
 
 /**PropTypes*/
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** Constants */
-import {ROLE_ADMIN, ROLE_USER} from '../../../../shared/roles';
+import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
 
 /** Graphql schema */
 import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
 import DocumentListQuery from './DocumentListQuery.graphql';
-import {CheckComponentAccessByRole} from "@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole";
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -46,44 +46,28 @@ const RightColumn = styled(Flex)`
   }
 `;
 
-
-
-
-
 export class ProfilePage extends Component {
-  static propTypes = {...ReactRoutePropTypes, mb: PropTypes.string};
-
-  state = {};
-
-  submit = value => {
-    console.log('value', value);
-  };
+  static propTypes = { ...ReactRoutePropTypes, mb: PropTypes.string };
 
   render() {
     const {
-      user: {role, id},
+      user: { role, id },
     } = this.props;
-    console.log('ProfilePage: ', this.props);
+
+    console.log(id);
+
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole
-                targetRole={[ROLE_USER, ROLE_ADMIN]}
-                userRole={role}
-              >
-                <Query
-                  skip={!id}
-                  query={DocumentListQuery}
-                  variables={{author:id}}
-                >
-                  {({loading, error, data}) => {
-                    console.log('documentlist', data);
-                    // const dataIsEmpty = isEmpty(data) ? null : data;
+              <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
+                <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
+                  {({ loading, error, data }) => {
+                    // console.log('documentlist', data);
 
                     if (id && loading) {
-                      return <SmallPreloader/>;
+                      return <SmallPreloader />;
                     }
                     if (error) {
                       console.error(`Error DocumentListQuery: `, error);
@@ -92,53 +76,40 @@ export class ProfilePage extends Component {
                     if (id && data && !data.documentlist) {
                       return null;
                     }
+                    return <FormProfileApproval initialValues={data && data.documentlist} />;
+                  }}
+                </Query>
+              </CheckComponentAccessByRole>
+            </LeftColumn>
+
+            <RightColumn flexDirection={'column'}>
+              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                <FormProfileCreateUser />
+              </CheckComponentAccessByRole>
+
+              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
+                <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
+                  {({ loading, error, data }) => {
+                    // console.log('useritem', data);
+
+                    if (id && loading) {
+                      return <SmallPreloader />;
+                    }
+                    if (error) {
+                      console.error(`Error UserItemQuery: `, error);
+                      return null;
+                    }
+                    if (id && data && !data.useritem) {
+                      return null;
+                    }
                     return (
-                      <FormProfileApproval
-                        initialValues={data && Object.assign({}, {...data.documentlist})}
+                      <FormPersonData
+                        initialValues={data && Object.assign({}, { ...data.useritem })}
                       />
                     );
                   }}
                 </Query>
               </CheckComponentAccessByRole>
-
-            </LeftColumn>
-
-            <RightColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole
-                targetRole={[ROLE_ADMIN]}
-                userRole={role}
-              >
-                <FormProfileCreateUser/>
-              </CheckComponentAccessByRole>
-
-              {/*<CheckComponentAccessByRole*/}
-                {/*targetRole={[ROLE_USER]}*/}
-                {/*userRole={role}*/}
-              {/*>*/}
-                {/*<Query query={UserItemQuery} variables={{...(id ? {id} : null)}}>*/}
-                  {/*{({loading, error, data}) => {*/}
-                    {/*console.log('useritem', data);*/}
-                    {/*// const dataIsEmpty = isEmpty(data) ? null : data;*/}
-
-                    {/*if (id && loading) {*/}
-                      {/*return <SmallPreloader/>;*/}
-                    {/*}*/}
-                    {/*if (error) {*/}
-                      {/*console.error(`Error UserItemQuery: `, error);*/}
-                      {/*return null;*/}
-                    {/*}*/}
-                    {/*if (id && data && !data.useritem) {*/}
-                      {/*return null;*/}
-                    {/*}*/}
-                    {/*return (*/}
-                      {/*<FormPersonData*/}
-                        {/*initialValues={data && Object.assign({}, {...data.useritem})}*/}
-                      {/*/>*/}
-                    {/*);*/}
-                  {/*}}*/}
-                {/*</Query>*/}
-              {/*</CheckComponentAccessByRole>*/}
-
             </RightColumn>
           </Flex>
 
@@ -146,15 +117,13 @@ export class ProfilePage extends Component {
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole
                 targetRole={[ROLE_USER, ROLE_ADMIN]}
-                userRole={role}
-              >
+                userRole={role && role}>
                 <Query query={NotificationListQuery}>
-                  {({loading, error, data}) => {
+                  {({ loading, error, data }) => {
                     console.log('notificationslist', data);
-                    // const dataIsEmpty = isEmpty(data) ? null : data;
 
                     if (id && loading) {
-                      return <SmallPreloader/>;
+                      return <SmallPreloader />;
                     }
 
                     if (error) {
@@ -166,7 +135,7 @@ export class ProfilePage extends Component {
                     }
                     return (
                       <ProfileNotification
-                        initialValues={data && Object.assign({}, {...data.notificationslist})}
+                        initialValues={data && Object.assign({}, { ...data.notificationslist })}
                       />
                     );
                   }}
@@ -175,15 +144,12 @@ export class ProfilePage extends Component {
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole
-                targetRole={[ROLE_ADMIN]}
-                userRole={role}
-              > <FormProfileRecoveryEmail/>
+              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                <FormProfileRecoveryEmail />
               </CheckComponentAccessByRole>
-              <CheckComponentAccessByRole
-                targetRole={[ROLE_USER, ROLE_ADMIN]}
-                userRole={role}
-              ><FormChangePassword/>
+
+              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
+                <FormChangePassword />
               </CheckComponentAccessByRole>
             </RightColumn>
           </Flex>
@@ -193,6 +159,4 @@ export class ProfilePage extends Component {
   }
 }
 
-
 export default ProfilePage;
-
