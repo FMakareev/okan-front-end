@@ -28,8 +28,6 @@ export class SettingsUser extends Component {
   state = { userIsFound: false };
 
   submit = id => {
-    console.log(11111, id);
-
     try {
       const { input } = this.props;
 
@@ -54,7 +52,6 @@ export class SettingsUser extends Component {
     const result = value.some(checkedId);
 
     if (result) {
-      onChange(result);
       this.setState(({ userIsFound }) => {
         userIsFound: true;
       });
@@ -92,7 +89,7 @@ export class SettingsUser extends Component {
                     onChange={() => {
                       this.change(id);
                     }}
-                    checked={userIsFound}
+                    checked={true}
                     id={id}
                     input={input}
                   />
