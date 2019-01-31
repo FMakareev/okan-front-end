@@ -74,6 +74,8 @@ export class FormDocumentSettings extends Component {
   state = {};
 
   submit = value => {
+    console.log('FormDocumentSettings', value);
+
     const data = { variables: Object.assign({}, value) };
     // console.log('FormDocumentSettings', data);
 
