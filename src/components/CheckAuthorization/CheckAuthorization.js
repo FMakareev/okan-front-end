@@ -16,7 +16,7 @@ export let CheckAuthorization = (role = [], AccessDeniedCallback = null) => Wrap
       if (user && user.initLoading) {
         return null;
       }
-      if (user && role.length && !role.filter(item => item === user.role).length) {
+      if (user && role.length && !role.filter(item => item === user.role.name).length) {
         return AccessDeniedCallback || <Redirect to={'/'} />;
       }
     } catch (error) {
