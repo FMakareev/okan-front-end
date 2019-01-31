@@ -28,6 +28,8 @@ export class SettingsUser extends Component {
   state = { userIsFound: false };
 
   submit = id => {
+    console.log(11111, id);
+
     try {
       const { input } = this.props;
 
@@ -45,13 +47,14 @@ export class SettingsUser extends Component {
 
   change = id => {
     const {
-      input: { value },
+      input: { value, onChange },
     } = this.props;
 
     const checkedId = arr => arr === id;
     const result = value.some(checkedId);
 
     if (result) {
+      onChange(result);
       this.setState(({ userIsFound }) => {
         userIsFound: true;
       });
@@ -64,7 +67,6 @@ export class SettingsUser extends Component {
 
     const RenderUserList = this.props.input.value === 0 ? null : {};
 
-    // console.log(1, this.props);
     return (
       <Fragment>
         <Box mb={'100px'}>
@@ -92,6 +94,7 @@ export class SettingsUser extends Component {
                     }}
                     checked={userIsFound}
                     id={id}
+                    input={input}
                   />
 
                   <Text
