@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 /**View */
 import Text from '@lib/ui/Text/Text';
@@ -8,6 +9,13 @@ import Text from '@lib/ui/Text/Text';
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
 export const ProfileNotification = ({ initialValues }) => {
+  // const {
+  //   message,
+  //   createat,
+  //   sender: { firstname, lastname },
+  // } = initialValues;
+  const isEmptyData = isEmpty(initialValues);
+
   return (
     <Fragment>
       <Text
@@ -20,7 +28,16 @@ export const ProfileNotification = ({ initialValues }) => {
         Оповещения
       </Text>
 
-      <ProfileNotificationItem message={'1'} name={'Фамилия Имя'} time={'Время'} />
+      {!isEmptyData && (
+        <ProfileNotificationItem
+          message={initialValues.message}
+          name={
+            initialValues.sender &&
+            `${initialValues.sender.firstname} ${initialValues.sender.lastname}`
+          }
+          time={initialValues.createat}
+        />
+      )}
     </Fragment>
   );
 };
