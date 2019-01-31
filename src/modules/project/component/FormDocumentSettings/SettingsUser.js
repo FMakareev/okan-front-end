@@ -25,8 +25,6 @@ export class SettingsUser extends Component {
     data: PropTypes.element,
   };
 
-  state = { userIsFound: false };
-
   submit = id => {
     try {
       const {
@@ -68,7 +66,8 @@ export class SettingsUser extends Component {
   };
 
   removeFromArrayById(arr, indexes) {
-    let arrayOfIndexes = [].slice.call(arguments, 1);
+    var slice = [].slice;
+    let arrayOfIndexes = slice.call(arguments, 0);
     return arr.filter(function(item, index) {
       return arrayOfIndexes.indexOf(index) === -1;
     });
@@ -96,10 +95,10 @@ export class SettingsUser extends Component {
               return (
                 <FlexStyled
                   onClick={() => {
-                    this.onChange(item.id);
+                    this.onChange(id);
                   }}
                   pt={3}>
-                  <CheckboxBase checked={this.findUserInValue(input.value, item.id) >= 0} />
+                  <CheckboxBase checked={this.findUserInValue(input.value, id) >= 0} />
 
                   <Text
                     fontFamily={'primary300'}
