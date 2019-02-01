@@ -432,14 +432,16 @@ type Mutation {
   # https://okan.code-artel.com/graphql :
   """ создание ячейки"""
   createcell (
-    children: String,
-    comments: [String],
-    content: String!,
-    isHead: Boolean,
-    name: String,
-    nextcell: String,
-    parent: String,
-    prevcell: String,
+    children: String
+    comments: [String]
+    content: String
+    contentname: String
+    contenttype: String
+    isHead: Boolean
+    name: String
+    nextcell: String
+    parent: String
+    prevcell: String
     verify: String) : document_resolve_cell_create,
 
   # id - mongoid ячейки
