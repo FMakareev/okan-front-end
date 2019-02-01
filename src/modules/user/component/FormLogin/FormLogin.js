@@ -171,20 +171,6 @@ export class FormLogin extends Component {
       });
   };
 
-  /**
-   * @param {object} props - apollo response
-   * @param {object} props.data - данные полученные от сервера
-   * @param {object} props.data.usernameitem - объект с даннными пользователя
-   * @param {string} props.data.usernameitem.id - id пользователя
-   * @param {string} props.data.usernameitem.name - имя пользователя
-   * @param {array} props.data.usernameitem.role -
-   * @param {string} props.data.usernameitem.username
-   * @param {string} props.data.usernameitem.__typename
-   * @param {bool} props.loading
-   * @param {number} props.networkStatus
-   * @param {bool} props.stale
-   * @desc запись данных пользователя в локальное хранилище
-   * */
   setUser = props => {
     console.log('setUser: ', props);
 
@@ -215,7 +201,7 @@ export class FormLogin extends Component {
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { apolloError, submitting, isLoading } = this.state;
-    console.log(pristine, invalid, submitting, error);
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
