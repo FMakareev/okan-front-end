@@ -54,7 +54,6 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
-    console.log(id);
 
     return (
       <ErrorCatch>
