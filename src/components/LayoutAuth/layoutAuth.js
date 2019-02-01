@@ -82,7 +82,6 @@ export class LayoutAuth extends Component {
 
   render() {
     const {Component, ...rest} = this.state;
-    console.log(this.state.route.name);
     return (
       <Fragment>
         <Head
