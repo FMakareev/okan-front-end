@@ -12,8 +12,12 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 export class FormCreateDocument extends Component {
 
   submit = (value) => {
+    const {project} = this.props;
     return this.props['@apollo/create']({
-      variables: value,
+      variables: {
+        ...value,
+        projectid: project.project.id,
+      },
       /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
       update: (store, {data: {createdocument}}) => {
         // считываем из локального кеша аполо по запросу данные
@@ -47,7 +51,7 @@ export class FormCreateDocument extends Component {
 
   render() {
     const {submitting, handleSubmit} = this.props;
-    console.log('this.props: ', this.props);
+    console.log('FormCreateDocument: ', this.props);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
