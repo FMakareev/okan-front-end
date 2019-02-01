@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -46,7 +45,6 @@ export class ProjectListPage extends Component {
               }}
               query={ProjectListQuery}>
               {({ loading, error, data }) => {
-                console.log('ProjectListQuery', data);
                 if (loading) {
                   return 'Загрузка...';
                 }
