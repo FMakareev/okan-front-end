@@ -16,7 +16,7 @@ import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
 
 /** Components */
-import ProjectSettings from '../../component/FormProjectSettings/FormProjectSettings';
+import FormProjectSettings from '../../component/FormProjectSettings/FormProjectSettings';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -57,7 +57,7 @@ export class ProjectSettingsPage extends Component {
                 }
 
                 return (
-                  <ProjectSettings
+                  <FormProjectSettings
                     initialValues={{
                       ...data.projectitem,
                       partners: data.projectitem
