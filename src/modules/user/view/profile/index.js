@@ -10,7 +10,7 @@ import Flex from '@lib/ui/Flex/Flex';
 import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
 
 /**Components Admin*/
-import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
+import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
 import FormProfileCreateUser from '../../component/FormProfileCreateUser/FormProfileCreateUser';
 import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
 import FormProfileRecoveryEmail from '../../component/FormProfileRecoveryEmail/FormProfileRecoveryEmail';
@@ -64,7 +64,6 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
                 <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
                   {({ loading, error, data }) => {
-                    // console.log('documentlist', data);
 
                     if (id && loading) {
                       return <SmallPreloader />;
@@ -76,7 +75,7 @@ export class ProfilePage extends Component {
                     if (id && data && !data.documentlist) {
                       return null;
                     }
-                    return <FormProfileApproval initialValues={data && data.documentlist} />;
+                    return <ProfileApproval data={data && data.documentlist} />;
                   }}
                 </Query>
               </CheckComponentAccessByRole>
