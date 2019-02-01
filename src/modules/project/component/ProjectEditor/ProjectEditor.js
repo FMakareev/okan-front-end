@@ -46,10 +46,6 @@ export class ProjectEditor extends Component {
   }
 
   render() {
-    // TODO: есть проблема с z-index карточка комментария налезает поверх иконки ниже стоящего блока, решается во время итерациионного вывода блоков,
-    // берем длнну массива блоков и начиная с первого задачем в порядке убывания z-index блокам
-    console.log('ProjectEditor', this.props);
-
     const {sectionid} = this.props;
 
     return (
@@ -64,7 +60,6 @@ export class ProjectEditor extends Component {
           >
             {
               ({data, loading, error}) => {
-                console.log(data, loading, error);
                 if (loading) {
                   return `Загрузка`;
                 }
