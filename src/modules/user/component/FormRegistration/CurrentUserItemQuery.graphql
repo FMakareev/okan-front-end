@@ -1,0 +1,17 @@
+{
+  currentuseritem {
+    id
+    email
+    birthdate
+    firstname
+    lastname
+    patronymic
+    phone
+    position
+    role {
+      id
+      name
+    }
+    signature
+  }
+}
