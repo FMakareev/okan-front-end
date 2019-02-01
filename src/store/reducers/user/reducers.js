@@ -31,7 +31,7 @@ export const ReducerUser = (prevState = initialState, {type, user, ...rest}) => 
         isAuth: false,
         ...user
       });
-      /** экшены обновления пользователя */
+    /** экшены обновления пользователя */
     case USER_UPDATE_LOADING_START:
       return Object.assign({}, prevState, {
         updateLoading: true,
