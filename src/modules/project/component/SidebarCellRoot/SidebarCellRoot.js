@@ -67,7 +67,7 @@ export const SidebarCellRoot = (props) => {
 
       <Flex height={'20px'}>
         <Box px={1}>
-          <SidebarProjectSettings projectid={projectid}/>
+          <SidebarProjectSettings projectid={projectid} documentid={document.id}/>
         </Box>
         <Box px={1}>
           <SidebarSaveChanges/>
