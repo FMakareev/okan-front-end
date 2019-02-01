@@ -92,9 +92,18 @@ SidebarCellRoot.propTypes = {
     Header: PropTypes.func.isRequired,
     Loading: PropTypes.func.isRequired,
     Toggle: PropTypes.func.isRequired,
-    TreeBeardWrapper: PropTypes.func.isRequired,
-    TreeNodeContainer: PropTypes.func.isRequired,
-    TreeNodeList: PropTypes.func.isRequired,
+    TreeBeardWrapper: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
+    ]).isRequired,
+    TreeNodeContainer:PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
+    ]).isRequired,
+    TreeNodeList: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
+    ]).isRequired,
   }),
   onClick: PropTypes.func.isRequired,
   terminal: PropTypes.bool.isRequired,
