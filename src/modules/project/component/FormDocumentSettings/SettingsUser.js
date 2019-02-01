@@ -75,16 +75,17 @@ export class SettingsUser extends Component {
           </Text>
 
           {options &&
-            options.map(item => {
+            options.map((item, index) => {
               const { id } = item;
               return (
                 <FlexStyled
+                  key={`SettingsUser-${index}`}
                   onClick={event => {
                     event.preventDefault();
                     return this.onChange(id);
                   }}
                   pt={3}>
-                  <CheckboxBase checked={this.findUserInValue(input.value, id) >= 0} />
+                  <CheckboxBase id={id} checked={this.findUserInValue(input.value, id) >= 0} />
 
                   <Text
                     fontFamily={'primary300'}
