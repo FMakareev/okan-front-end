@@ -28,6 +28,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
+import {CheckboxBase} from "@lib/ui/CheckboxBase/CheckboxBase";
 
 const BoxStyled = styled(Box)`
   input {
@@ -113,7 +114,7 @@ export class FormProjectSettings extends Component {
           Участники проекта
         </Text>
 
-        <Box mb={'180px'}>
+        <Box mb={'45px'}>
           <Query query={UserListQuery}>
             {({ loading, data }) => {
               // console.log('FormProjectSettings', data);
@@ -139,6 +140,23 @@ export class FormProjectSettings extends Component {
             }}
           </Query>
         </Box>
+
+        <Box mb={'90px'}>
+          <Field
+            component={CheckboxBase}
+            name={'isTemplate'}
+          >
+            <Text
+              fontFamily={'primary300'}
+              fontSize={6}
+              lineHeight={8}
+              color={'color11'}
+              ml={20}>
+              Сделать проект шаблоном
+            </Text>
+          </Field>
+        </Box>
+
 
         <ButtonWithImage
           type="submit"
