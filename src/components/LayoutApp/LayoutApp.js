@@ -43,7 +43,6 @@ export class LayoutApp extends Component {
       route: { routes },
       location,
     } = this.props;
-    console.log(this);
     return (
       <div>
         <Head
