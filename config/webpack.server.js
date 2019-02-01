@@ -21,7 +21,6 @@ export const serverConfigGenerator = () => {
     node: {
       __dirname: true,
     },
-    devtool: 'inline-source-map',
     output: {
       path: path.resolve(__dirname, process.env.PUBLIC_URL || '../public'),
       filename: 'server.js',
