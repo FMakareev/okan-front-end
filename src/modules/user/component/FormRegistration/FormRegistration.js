@@ -107,7 +107,7 @@ export class FormRegistration extends Component {
     const data = { variables: Object.assign({}, value) };
 
     this.setState(() => ({ isLoading: true, submitting: true }));
-    console.log('this ', this.props['@apollo/create'](data));
+    console.log('FormRegistration ', this.props['@apollo/create'](data));
 
     return this.props['@apollo/create'](data)
       .then(response => {
