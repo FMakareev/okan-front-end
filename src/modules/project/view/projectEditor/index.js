@@ -39,7 +39,17 @@ const ProjectEditorWithProject =  withProject((props) => (<ProjectEditor {...pro
 
 
 export class ProjectEditorPage extends Component {
-  static propTypes = {...ReactRoutePropTypes};
+  static propTypes = {
+    ...ReactRoutePropTypes,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        cellid: PropTypes.string,
+        sectionid: PropTypes.string,
+        documentid: PropTypes.string,
+        projectid: PropTypes.string,
+      })
+    })
+  };
 
   constructor(props) {
     super(props);
@@ -47,10 +57,8 @@ export class ProjectEditorPage extends Component {
   }
 
   render() {
-    console.log('ProjectEditorPage: ', this.props);
     const {match: {params}} = this.props;
-    // match.params.projectid
-    // match.params.sectionid
+
     return (<Query
         query={ProjectItemQuery}
         variables={{id: params.projectid}}
