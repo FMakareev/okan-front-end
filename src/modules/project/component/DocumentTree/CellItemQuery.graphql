@@ -14,11 +14,11 @@ query ($id: String!) {
     }
     childcell:children{
       id
+      isHead
     }
     isHead
     content {
       number
     }
-    approvalstatus
   }
 }
