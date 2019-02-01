@@ -1,5 +1,5 @@
-mutation($name: String!) {
-  createdocument(name:$name){
+mutation($name: String!, $projectid: String) {
+  createdocument(name:$name,projectid: $projectid){
     document{
       id
       name
