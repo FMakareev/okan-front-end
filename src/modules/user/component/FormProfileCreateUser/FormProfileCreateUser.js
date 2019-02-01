@@ -76,7 +76,7 @@ export class FormProfileCreateUser extends Component {
       .then(response => {
         // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts().success);
-
+        this.props.reset();
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
@@ -84,14 +84,9 @@ export class FormProfileCreateUser extends Component {
         console.log('message: ', message);
         console.log('networkError: ', networkError);
         console.log('rest: ', rest);
-        // this.props.setNotificationError(error(notificationOpts.error));
         this.props.setNotificationError(notificationOpts().error);
 
-        if (graphQLErrors) {
-          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
-        } else {
-          throw new SubmissionError({ _error: message });
-        }
+        throw new SubmissionError({ _error: message });
       });
   }
 
