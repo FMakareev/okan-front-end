@@ -2,16 +2,18 @@
 import React from 'react';
 import serialize from 'serialize-javascript';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet'
 
 const Html = ({ content, client: { cache }, reduxState, asyncState, lang }) => {
   const preLoadedReduxState = reduxState && JSON.stringify(reduxState);
+  const helmet = Helmet.renderStatic();
 
   return (
     <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>OKAH</title>
+        {helmet.title.toComponent()}
         <style />
       </head>
       <body>
