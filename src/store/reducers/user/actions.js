@@ -10,56 +10,95 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import { client } from '../../../apollo/index.client';
+import {client as browserClient} from '../../../apollo/index.client';
+import {client as serverClient} from '../../../apollo/index.server';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
+
 
 /**
  * @desc метод инициализации пользователя в системе
  * */
-export const userInit = () => dispatch => {
+export const userInit = (state, request) => dispatch => {
+  let client = null;
+  if (isBrowser) {
+    client = browserClient();
+  } else {
+    client = serverClient(request);
+  }
   return new Promise((resolve, reject) => {
     try {
-      if (isBrowser) {
+      if (!state.user.initLoading && !state.user.isAuth) {
         dispatch({
           type: USER_INIT_LOADING_START,
         });
-        const user = JSON.parse(localStorage.getItem('user'));
-
-        if (user) {
-          return client()
-            .query({ query: CurrentUserItemQuery })
-            .then(response => {
-              console.log('response:', response);
-
-              const { data } = response;
-
+        client
+          .query({query: CurrentUserItemQuery})
+          .then(response => {
+            console.log('response:', response);
+            const {data} = response;
+            if (isBrowser) {
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
-
-              dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...data.currentuseritem } });
-              resolve(data.currentuseritem);
-            })
-            .catch(error => {
+            }
+            dispatch({type: USER_INIT_LOADING_SUCCESS, user: {...data.currentuseritem}});
+            resolve(data.currentuseritem);
+          })
+          .catch(error => {
+            if (isBrowser) {
               localStorage.clear();
-              console.log(error);
-              /** */
-              dispatch({
-                type: USER_INIT_LOADING_ERROR,
-                user: {
-                  error: USER_NOT_AUTHORIZED,
-                },
-              });
-              reject(error);
+            }
+            console.log(error);
+            /** */
+            dispatch({
+              type: USER_INIT_LOADING_ERROR,
+              user: {
+                error: USER_NOT_AUTHORIZED,
+              },
             });
-        } else {
-          localStorage.clear();
-          dispatch({
-            type: USER_INIT_LOADING_ERROR,
-            user: {
-              error: USER_NOT_AUTHORIZED,
-            },
+            reject(error);
           });
-        }
+      } else {
+        resolve(true);
       }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const userUpdate = () => dispatch => {
+  let client = null;
+  if (isBrowser) {
+    client = browserClient;
+  } else {
+    client = serverClient;
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      dispatch({
+        type: USER_UPDATE_LOADING_START,
+        user: {
+          loading: true,
+        },
+      });
+
+      client()
+        .query({query: CurrentUserItemQuery})
+        .then(response => {
+          const {data} = response;
+          if (isBrowser) {
+            localStorage.setItem('user', JSON.stringify(data.currentuseritem));
+          }
+          dispatch({type: USER_UPDATE_LOADING_SUCCESS, user: {...data.currentuseritem}});
+          resolve(data.currentuseritem);
+        })
+        .catch(error => {
+          console.log(error);
+          if (isBrowser) {
+            localStorage.clear();
+          }
+          dispatch({type: USER_UPDATE_LOADING_ERROR, user: {error: error}});
+          reject(error);
+        });
     } catch (error) {
       reject(error);
     }
@@ -81,48 +120,6 @@ export const userRemove = () => dispatch => {
         }
         dispatch(USER_REMOVE);
         resolve(true);
-      }
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-export const userUpdate = () => dispatch => {
-  return new Promise((resolve, reject) => {
-    try {
-      if (isBrowser) {
-        dispatch({
-          type: USER_UPDATE_LOADING_START,
-          user: {
-            loading: true,
-          },
-        });
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
-          client()
-            .query({ query: CurrentUserItemQuery, variables: { email: user.email } })
-            .then(response => {
-              const { data } = response;
-              localStorage.setItem('user', JSON.stringify(data.currentuseritem));
-              dispatch({ type: USER_UPDATE_LOADING_SUCCESS, user: { ...data.currentuseritem } });
-              resolve(data.currentuseritem);
-            })
-            .catch(error => {
-              console.log(error);
-              localStorage.clear();
-              dispatch({ type: USER_UPDATE_LOADING_ERROR, user: { error: error } });
-              reject(error);
-            });
-        } else {
-          localStorage.clear();
-          dispatch({
-            type: USER_UPDATE_LOADING_ERROR,
-            user: {
-              error: 'User not logged',
-            },
-          });
-        }
       }
     } catch (error) {
       reject(error);
