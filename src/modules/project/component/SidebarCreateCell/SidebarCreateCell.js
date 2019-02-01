@@ -11,15 +11,16 @@ import Box from '../../../../components/Box/Box';
 /**Image */
 import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
 import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
+import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from "@lib/shared/blockType";
 
 /** Styles property */
 
 export class SidebarCreateCell extends Component {
   static propTypes = {
     /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
-    prevcell: PropTypes.string.isRequired,
+    prevcell: PropTypes.string,
     /** @desc id ячейки родетеля это общее для ячейки prevcell и той что будет создана следом */
-    parent: PropTypes.string.isRequired,
+    parent: PropTypes.string,
   };
 
   constructor(props) {
@@ -37,17 +38,18 @@ export class SidebarCreateCell extends Component {
     this.setState(state => ({ toggle: !state.toggle }));
   };
 
-  submit = (prevcell, parent) => {
-    console.log(22, prevcell, parent);
+  submit = (prevcell, parent, isHead, contenttype) => {
     this.onToggle();
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
-        variables: { prevcell, parent },
+        variables: { prevcell, parent, isHead, contenttype },
       })
       .then(response => {
         console.log('SidebarCreateCell response: ', response);
-        this.props.addNodeInTree(response.data.createcell.cell);
+        if(isHead){
+          this.props.addNodeInTree(response.data.createcell.cell);
+        }
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
@@ -75,15 +77,33 @@ export class SidebarCreateCell extends Component {
             right={'0'}>
             <BoxStyled
               onClick={() => {
-                this.submit(prevcell, parent);
+                this.submit(prevcell, parent, true);
               }}>
               Раздел
             </BoxStyled>
             <BoxStyled
               onClick={() => {
-                this.submit(null, parent);
+                this.submit(null, parent, true);
               }}>
               Подраздел
+            </BoxStyled>
+            <BoxStyled
+              onClick={() => {
+                this.submit(null, parent, false, BLOCK_TEXT);
+              }}>
+              Добавить текст
+            </BoxStyled>
+            <BoxStyled
+              onClick={() => {
+                this.submit(null, parent, false, BLOCK_IMAGE);
+              }}>
+              Добавить изображение
+            </BoxStyled>
+            <BoxStyled
+              onClick={() => {
+                this.submit(null, parent, false, BLOCK_TABLE);
+              }}>
+              Добавить таблица
             </BoxStyled>
           </AbsoluteStyled>
         )}
@@ -91,9 +111,6 @@ export class SidebarCreateCell extends Component {
     );
   }
 }
-// SidebarCreateCell = graphql(CreateCellMutation, {
-//   name: '@apollo/create',
-// })(SidebarCreateCell);
 
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
