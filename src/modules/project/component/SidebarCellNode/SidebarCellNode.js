@@ -59,7 +59,7 @@ export class SidebarCellNode extends Component {
       toggled: PropTypes.bool.isRequired,
       focused: PropTypes.bool.isRequired,
       active: PropTypes.bool.isRequired,
-      loading: PropTypes.bool.isRequired,
+      loading: PropTypes.bool,
     }),
   };
 
@@ -100,12 +100,28 @@ export class SidebarCellNode extends Component {
   getNumberFromContent = node =>
     has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
-  getIsHeadStatus = node => node.isHead && node.childcell;
+  static childcellIsCategory = (cell) => {
+    try{
+      if(has.call(cell, 'childcell')){
+        if(cell.childcell.isHead){
+          return true
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+
+    }catch(error){
+      console.error('Error cellIsHead: ',cell,error);
+      return false;
+    }
+  };
 
   handleClick = () => {
     try {
       const { onClick, node, history, project, document } = this.props;
-      const isHead = this.getIsHeadStatus(node);
+      const isHead = SidebarCellNode.childcellIsCategory(node);
 
       if (isHead) {
         onClick();
@@ -125,9 +141,9 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { decorators, terminal, onClick, node } = this.props;
+    const { node } = this.props;
     const { hover, name } = this.state;
-    const isHead = this.getIsHeadStatus(node);
+    const isHead = SidebarCellNode.childcellIsCategory(node);
     return (
       <Wrapper
         onMouseEnter={() => this.onHover(true)}
@@ -162,7 +178,7 @@ export class SidebarCellNode extends Component {
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
               prevcell={node.id}
-              parent={node.parent}
+              parent={node.parent? node.parent.id: null}
               addNodeInTree={this.props.addNodeInTree}
               changeNodeFocus={this.props.changeNodeFocus}
             />
