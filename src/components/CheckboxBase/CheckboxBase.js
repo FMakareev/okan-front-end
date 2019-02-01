@@ -17,8 +17,9 @@ const Input = styled.input`
 
   & + label {
     position: relative;
-    cursor: pointer;
+    display: block;
     padding: 0;
+    cursor: pointer;
   }
 
   & + label:before {
