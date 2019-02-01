@@ -40,7 +40,7 @@ export class Header extends Component {
   static propTypes = {
     /** route name */
     name: PropTypes.string /** window (Modal) */,
-    isOpen: PropTypes.string /** function for managments window(Modal) */,
+    isOpen: PropTypes.bool /** function for managments window(Modal) */,
     handleClick: PropTypes.func,
   };
 
