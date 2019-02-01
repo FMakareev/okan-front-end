@@ -7,8 +7,7 @@ import { rootReducer } from './reducers/index';
 import { userInit } from './reducers/user/actions';
 
 const createStoreMiddleware = applyMiddleware(thunkMiddleware)(createStore);
-const initialState = {};
-// const initialState = isBrowser ? window.PRELOADED_REDUX_STATE : {};
+const initialState = isBrowser ? window.PRELOADED_REDUX_STATE : {};
 
 const Store = createStoreMiddleware(rootReducer, initialState, composeWithDevTools());
 
