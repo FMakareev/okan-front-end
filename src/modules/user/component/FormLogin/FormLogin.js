@@ -194,7 +194,7 @@ export class FormLogin extends Component {
 
     const { addUser } = this.props;
 
-    addUser({ ...currentuseritem });
+    addUser(currentuseritem);
 
     localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
@@ -264,7 +264,7 @@ FormLogin = withApollo(FormLogin);
 FormLogin = connect(
   null,
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, payload: user }),
+    addUser: user => dispatch({ type: USER_ADD, user: user }),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
