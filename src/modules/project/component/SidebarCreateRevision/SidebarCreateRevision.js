@@ -10,7 +10,7 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 /**Image */
 import {SvgSidebarComment} from '../../../../components/Icons/SvgSidebarComment';
 import {error, success} from "react-notification-system-redux";
-import {USER_ADD} from "../../../../store/reducers/user/actionTypes";
+import {getUserFromStore} from "../../../../store/reducers/user/selectors";
 
 const notificationOpts = (name) => ({
   success: {
@@ -46,6 +46,8 @@ export class SidebarCreateRevision extends Component {
     return this.props[`@apollo/create`]({
       variables: {
         id: document.id,
+        authorrevision: this.props.user.id,
+        createrevisiondate: new Date().toISOString(),
       }
     })
       .then((response) => {
@@ -85,9 +87,8 @@ SidebarCreateRevision = graphql(CreateRevisionMutation, {
 })(SidebarCreateRevision);
 
 SidebarCreateRevision = connect(
-  null,
+  (state)=>({user: getUserFromStore(state)}),
   dispatch => ({
-    addUser: user => dispatch({type: USER_ADD, payload: user}),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
