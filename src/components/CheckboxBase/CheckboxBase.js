@@ -71,8 +71,6 @@ export class CheckboxBase extends Component {
     disabled: PropTypes.bool,
     /** Text field form with a pre-selected checkbox. */
     checked: PropTypes.bool,
-    /** . */
-    index: PropTypes.number,
   };
 
   static defaultProps = {};
@@ -84,7 +82,7 @@ export class CheckboxBase extends Component {
         <Input
           id={`styled-checkbox-${id}`}
           type="checkbox"
-          checked={checked}
+          defaultChecked={checked}
           disabled={disabled}
           {...input}
           name={`partners${id}`}
