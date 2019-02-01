@@ -52,6 +52,7 @@
     "react-dom": "next",
     "react-dropzone": "^7.0.1",
     "react-froala-wysiwyg": "^2.9.1",
+    "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.2.0",
     "react-html-parser": "^2.0.2",
     "react-icons-kit": "^1.2.1",
