@@ -24,9 +24,7 @@ decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-
 const has = Object.prototype.hasOwnProperty;
 
 
-
-const SidebarCellNodeWithProject =  withProject((props) => (<SidebarCellNode {...props}/>));
-
+const SidebarCellNodeWithProject = withProject((props) => (<SidebarCellNode {...props}/>));
 
 
 export class DocumentTree extends Component {
@@ -35,7 +33,12 @@ export class DocumentTree extends Component {
     /** @desc объект с информацией о дкументе */
     data: PropTypes.shape({
       approvalstatus: PropTypes.string,
-      childcell: PropTypes.string,
+      childcell: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        childcell: PropTypes.object,
+        approvalstatus: PropTypes.string,
+      }),
       id: PropTypes.string,
       name: PropTypes.string,
       __typename: PropTypes.string,
@@ -158,7 +161,6 @@ export class DocumentTree extends Component {
 
         if (nodes.length) {
           let newNodes = [];
-          console.log(this.state.tree);
           this.createBranch(this.state.tree.childcell.id, nodes, newNodes);
           newNodes = this.cellNumbering(newNodes, '');
           this.createTree(newNodes, nodes);
@@ -433,6 +435,7 @@ export class DocumentTree extends Component {
     }
   };
 
+
   /**
    * @param {object} cell объект ячейки
    * @desc метод добавляет параметры необходимые для дерева в данные ячейки полученные от сервера
@@ -442,12 +445,11 @@ export class DocumentTree extends Component {
       return {
         active: false,
         focused: false,
-        ...(cell.childcell && cell.isHead ? {
+        ...(SidebarCellNode.childcellIsCategory(cell) ? {
           children: [],
           toggled: false,
           loading: false,
         } : null),
-
         ...cell,
       }
     } catch (error) {
@@ -494,9 +496,7 @@ export class DocumentTree extends Component {
   };
 
   render() {
-
     console.log('DocumentTree:', this.state);
-    console.log('DocumentTree:', this.props);
     return (<Box style={{
       borderBottom: '1px solid #848484',
       marginBottom: '4px'

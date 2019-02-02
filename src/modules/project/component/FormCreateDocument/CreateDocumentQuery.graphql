@@ -1,10 +1,12 @@
-mutation($name: String!) {
-  createdocument(name:$name){
-    id
-    name
-    children{
+mutation($name: String!, $projectid: String) {
+  createdocument(name:$name,projectid: $projectid){
+    document{
       id
+      name
+      approvalstatus
+      childcell: children {
+        id
+      }
     }
-    approvalstatus
   }
 }

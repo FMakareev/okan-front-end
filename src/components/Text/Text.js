@@ -21,6 +21,7 @@ const textVariant = variant({
  * @example ./Text.example.md
  */
 export const Text = styled(Box)`
+  cursor: pointer;
   ${FontFamilyProperty};
   ${textVariant};
   ${display};

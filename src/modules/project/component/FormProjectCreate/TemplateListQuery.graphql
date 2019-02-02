@@ -1,0 +1,6 @@
+query{
+  templatelist{
+    id
+    name
+  }
+}

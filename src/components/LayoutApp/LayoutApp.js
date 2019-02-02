@@ -3,6 +3,7 @@ import { matchRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/Header';
+import {Head} from "@lib/ui/Head/Head";
 
 export class LayoutApp extends Component {
   static propTypes = {};
@@ -44,6 +45,10 @@ export class LayoutApp extends Component {
     } = this.props;
     return (
       <div>
+        <Head
+          name={this.state.name}
+        />
+
         <Header {...this.state} {...this.props} />
         {this.renderRoutes(routes, location.pathname)}
       </div>

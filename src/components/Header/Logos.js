@@ -4,7 +4,7 @@ const ProfileLogo = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="inherit" xmlns="http://www.w3.org/2000/svg">
     <mask
       id="mask0"
-      mask-type="alpha"
+      maskType="alpha"
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
@@ -14,7 +14,7 @@ const ProfileLogo = () => (
     </mask>
     <g mask="url(#mask0)">
       <ellipse cx="12" cy="23" rx="12" ry="9" fill="inherit" />
-      <circle cx="12" cy="8" r="6.5" fill="inherit" stroke="#007FAF" stroke-width="3" />
+      <circle cx="12" cy="8" r="6.5" fill="inherit" stroke="#007FAF" strokeWidth="3" />
     </g>
   </svg>
 );

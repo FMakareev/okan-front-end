@@ -54,13 +54,11 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
       routes.push({
         ...modulesRoutes[i],
         hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
-        component: GetPageTitle({ Store })(
-          asyncComponent({
-            resolve: modulesRoutes[i].load,
-            LoadingComponent: () => <div>Loading...</div>,
-            ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
-          }),
-        ),
+        component: asyncComponent({
+          resolve: modulesRoutes[i].load,
+          LoadingComponent: () => <div>Loading...</div>,
+          ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
+        }),
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,
       });

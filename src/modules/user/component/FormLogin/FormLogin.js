@@ -126,7 +126,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
-        this.setState(() => ({ submitting: false, apolloError: null }));
+        this.setState(() => ({ submitting: false, isLoading: false , apolloError: null }));
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
@@ -150,7 +150,7 @@ export class FormLogin extends Component {
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
-          history.push(`app/profile`);
+          history.push(`/app/profile`);
           return Promise.resolve(result);
         }
       })
@@ -171,20 +171,6 @@ export class FormLogin extends Component {
       });
   };
 
-  /**
-   * @param {object} props - apollo response
-   * @param {object} props.data - данные полученные от сервера
-   * @param {object} props.data.usernameitem - объект с даннными пользователя
-   * @param {string} props.data.usernameitem.id - id пользователя
-   * @param {string} props.data.usernameitem.name - имя пользователя
-   * @param {array} props.data.usernameitem.role -
-   * @param {string} props.data.usernameitem.username
-   * @param {string} props.data.usernameitem.__typename
-   * @param {bool} props.loading
-   * @param {number} props.networkStatus
-   * @param {bool} props.stale
-   * @desc запись данных пользователя в локальное хранилище
-   * */
   setUser = props => {
     console.log('setUser: ', props);
 
@@ -194,7 +180,7 @@ export class FormLogin extends Component {
 
     const { addUser } = this.props;
 
-    addUser({ ...currentuseritem });
+    addUser(currentuseritem);
 
     localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
@@ -242,15 +228,13 @@ export class FormLogin extends Component {
           </BoxSecond>
         </Box>
 
-        <TooltipBase isActive={error} warning={error}>
-          <FormButtonSubmit
-            disabled={pristine || submitting || invalid}
-            children={'Войти'}
-            ml={9}
-            isLoading={isLoading}
-            error={error || apolloError}
-          />
-        </TooltipBase>
+        <FormButtonSubmit
+          disabled={pristine}
+          children={'Войти'}
+          ml={9}
+          isLoading={isLoading}
+          error={error || apolloError}
+        />
 
         {/* if succes => to={'/app/project-list'}  ----- USER*/}
         {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
@@ -266,7 +250,7 @@ FormLogin = withApollo(FormLogin);
 FormLogin = connect(
   null,
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, payload: user }),
+    addUser: user => dispatch({ type: USER_ADD, user: user }),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

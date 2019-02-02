@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -10,7 +11,8 @@ import Container from '@lib/ui/Container/Container';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
-import ProjectCreate from '../../component/ProjectCreate/ProjectCreate';
+import FormProjectCreate from '../../component/FormProjectCreate/FormProjectCreate';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 export class ProjectCreatePage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
@@ -18,16 +20,23 @@ export class ProjectCreatePage extends Component {
   state = {};
 
   render() {
+    const { user } = this.props;
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'500px'} width={'100%'}>
-            <ProjectCreate />
+            <FormProjectCreate
+              initialValues={{
+                author: user.id,
+              }}
+            />
           </Container>
         </Flex>
       </ErrorCatch>
     );
   }
 }
+
+ProjectCreatePage = connect(state => ({ user: getUserFromStore(state) }))(ProjectCreatePage);
 
 export default ProjectCreatePage;

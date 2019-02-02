@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import {Query} from 'react-apollo';
 
 /**PropTypes */
-import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import Flex from '@lib/ui/Flex/Flex';
@@ -17,35 +17,45 @@ import RevisionList from '../../component/RevisionList/RevisionList';
 /** Graphql schema */
 import RevisionListQuery from './RevisionListQuery.graphql';
 
+const has = Object.prototype.hasOwnProperty;
+
+
 export class RevisionListPage extends Component {
-  static propTypes = { ...ReactRoutePropTypes };
+  static propTypes = {...ReactRoutePropTypes};
 
   state = {};
 
   render() {
     const {
-      user: { id },
+      match: {
+        params
+      },
     } = this.props;
-
+    console.log(this.props);
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'800px'} width={'100%'}>
-            <Query query={RevisionListQuery} variables={{ ...(id ? { id } : null) }}>
-              {({ loading, error, data }) => {
+            <Query
+              query={RevisionListQuery}
+              variables={{
+                id: params && params.id,
+              }}>
+              {({loading, error, data}) => {
                 console.log('RevisionListQuery', data);
-                if (id && loading) {
-                  return <SmallPreloader />;
+                if (loading) {
+                  return <SmallPreloader/>;
                 }
                 if (error) {
                   throw error;
                 }
-                if (id && data && !data.revisionList) {
-                  throw { message: `GraphQL error: not found` };
+                if (!data || (data && !has.call(data, 'revisionList'))) {
+                  return null;
                 }
+
                 return (
                   <RevisionList
-                    initialValues={data && Object.assign({}, { ...data.revisionList })}
+                    data={data.revisionList}
                   />
                 );
               }}

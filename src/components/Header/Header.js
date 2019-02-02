@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-/** View */
-import Box from '../Box/Box';
-import ButtonBase from '../ButtonBase/ButtonBase';
 
 /** Css value */
 import {
@@ -23,8 +20,6 @@ import {
 
 /** Image */
 import Logo from '../../assets/image/Logo.png';
-// import Logo from '../../assets/icons/monocolor/headerLogo.monocolor.svg';
-// HeaderLogo
 import { ProfileLogo, ProjectListLogo } from './Logos';
 
 /** HOC */
@@ -45,7 +40,7 @@ export class Header extends Component {
   static propTypes = {
     /** route name */
     name: PropTypes.string /** window (Modal) */,
-    isOpen: PropTypes.string /** function for managments window(Modal) */,
+    isOpen: PropTypes.bool /** function for managments window(Modal) */,
     handleClick: PropTypes.func,
   };
 

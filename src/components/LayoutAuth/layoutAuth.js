@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { matchRoutes } from 'react-router-config';
+import React, {Component, Fragment} from 'react';
+import {matchRoutes} from 'react-router-config';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Box } from '../Box/Box';
+import {connect} from 'react-redux';
+import {Box} from '../Box/Box';
 import {getUserFromStore} from "../../store/reducers/user/selectors";
+import {Head} from "@lib/ui/Head/Head";
 
 export class LayoutAuth extends Component {
   static propTypes = {};
@@ -81,11 +82,15 @@ export class LayoutAuth extends Component {
 
   render() {
     const {Component, ...rest} = this.state;
-
     return (
-      <Box backgroundColor={'color1'} height={'110vh'}>
-        {Component && <Component {...rest}/>}
-      </Box>
+      <Fragment>
+        <Head
+          name={this.state && this.state.route && this.state.route.name}
+        />
+        <Box backgroundColor={'color1'} height={'110vh'}>
+          {Component && <Component {...rest}/>}
+        </Box>
+      </Fragment>
     );
   }
 }

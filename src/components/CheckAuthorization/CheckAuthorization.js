@@ -8,20 +8,20 @@ import { Redirect } from 'react-router-dom';
  * */
 export let CheckAuthorization = (role = [], AccessDeniedCallback = null) => WrappedComponent => {
   return props => {
-    // try {
-    //   const { user } = props;
-    //   if (!user || (user && user.error)) {
-    //     return <Redirect to={'/'} />;
-    //   }
-    //   if (user && user.initLoading) {
-    //     return null;
-    //   }
-    //   if (user && role.length && !role.filter(item => item === user.role).length) {
-    //     return AccessDeniedCallback;
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      const { user } = props;
+      if (!user || (user && user.error)) {
+        return <Redirect to={'/'} />;
+      }
+      if (user && user.initLoading) {
+        return null;
+      }
+      if (user && user.role && user.role.name && role.length && !role.filter(item => item === user.role.name).length) {
+        return AccessDeniedCallback || <Redirect to={'/'} />;
+      }
+    } catch (error) {
+      console.error(error);
+    }
     return <WrappedComponent {...props} />;
   };
 };

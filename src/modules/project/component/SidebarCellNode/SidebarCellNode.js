@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import { graphql } from 'react-apollo';
+import { graphql, Query } from 'react-apollo';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -14,9 +14,12 @@ import Text from '../../../../components/Text/Text';
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
 import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatus';
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
-import NodeToggle from "../NodeToggle/NodeToggle";
-import {SidebarCellNodeEditable} from "../SidebarCellNodeEditable/SidebarCellNodeEditable";
-import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+import NodeToggle from '../NodeToggle/NodeToggle';
+import { SidebarCellNodeEditable } from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+
+/** Graphql schema */
+import CellMarkerQuery from './CellMarkerQuery.graphql';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
@@ -24,7 +27,7 @@ import BindingCellMutation from './BindingCellMutation.graphql';
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
- cursor: pointer;
+  cursor: pointer;
 `;
 
 // TODO: добавить авто сохранение каждые 30 секунд если поле с именем в фокусе
@@ -60,8 +63,8 @@ export class SidebarCellNode extends Component {
       toggled: PropTypes.bool.isRequired,
       focused: PropTypes.bool.isRequired,
       active: PropTypes.bool.isRequired,
-      loading: PropTypes.bool.isRequired,
-    })
+      loading: PropTypes.bool,
+    }),
   };
 
   static defaultProps = {};
@@ -78,7 +81,7 @@ export class SidebarCellNode extends Component {
         name: this.props.node.name,
         focused: this.props.node.focused,
         hover: false,
-      }
+      };
     } catch (e) {
       console.error(e);
     }
@@ -90,34 +93,53 @@ export class SidebarCellNode extends Component {
   }
 
   handleChange = evt => {
-    this.setState({name: evt.target.value});
+    this.setState({ name: evt.target.value });
   };
 
   onToggleEditable = () => {
-    const {changeNodeFocus, node} = this.props;
+    const { changeNodeFocus, node } = this.props;
     console.log('onToggleEditable: ', this.props);
     if (node.focused) {
       this.contentEditable.current.focus();
     }
     changeNodeFocus(node.id, !node.focused);
-    this.setState(() => ({focused: !node.focused}));
+    this.setState(() => ({ focused: !node.focused }));
   };
 
-  getNumberFromContent = (node) => has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
+  getNumberFromContent = node =>
+    has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
-  getIsHeadStatus = (node) => node.isHead && node.childcell;
+  static childcellIsCategory = (cell) => {
+    try{
+      if(has.call(cell, 'childcell')){
+        if(cell.childcell.isHead){
+          return true
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+
+    }catch(error){
+      console.error('Error cellIsHead: ',cell,error);
+      return false;
+    }
+  };
 
   handleClick = () => {
     try {
       const {onClick, node, history, project, document, bindingBlockId} = this.props;
-      const isHead = this.getIsHeadStatus(node);
+
+      const isHead = SidebarCellNode.childcellIsCategory(node);
+
       if (isHead) {
-        onClick()
+        onClick();
       } else {
         if(bindingBlockId) {
           this.bindBlock(node.id, bindingBlockId);
         } else {
-          history.push(`/app/project/${getPosition(project,'projectid')}/${document.id}/${node.id}`);
+          history.push(`/app/project/${getPosition(project, 'projectid')}/${document.id}/${node.id}`);
         }
       }
     } catch (error) {
@@ -125,16 +147,16 @@ export class SidebarCellNode extends Component {
     }
   };
 
-  onHover = (hover) => {
-    this.setState((state) => ({
+  onHover = hover => {
+    this.setState(state => ({
       ...state,
-      hover: hover
-    }))
+      hover: hover,
+    }));
   };
 
   bindBlock = (parent, target) => {
     this.props.mutate({
-      variables: { 
+      variables: {
         target: target,
         parent: parent
       }
@@ -148,8 +170,8 @@ export class SidebarCellNode extends Component {
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
-    const {hover, name} = this.state;
-    const isHead = this.getIsHeadStatus(node);
+    const { hover, name } = this.state;
+    const isHead = SidebarCellNode.childcellIsCategory(node);
     return (
       <Wrapper
         onMouseEnter={() => this.onHover(true)}
@@ -158,10 +180,9 @@ export class SidebarCellNode extends Component {
         px={'10px'}
         onClick={this.handleClick}
         justifyContent={'flex-start'}
-        alignItems={'center'}
-      >
+        alignItems={'center'}>
         <Flex width={'calc(100% - 72px)'}>
-          {isHead && <NodeToggle toggled={node.toggled}/>}
+          {isHead && <NodeToggle toggled={node.toggled} />}
           <Flex ml={isHead ? '' : '20px'} color={'color11'} width={'calc(100% - 28px)'}>
             <Text fontWeight={isHead ? 500 : 300} color={'color11'}>
               {node.number}
@@ -180,18 +201,31 @@ export class SidebarCellNode extends Component {
         </Flex>
         <Flex>
           <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarChangeCell onClick={this.onToggleEditable}/>
+            <SidebarChangeCell onClick={this.onToggleEditable} />
           </Box>
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
               prevcell={node.id}
-              parent={node.parent}
+              parent={node.parent? node.parent.id: null}
               addNodeInTree={this.props.addNodeInTree}
               changeNodeFocus={this.props.changeNodeFocus}
             />
           </Box>
           <Box px={1}>
-            <SidebarApprovalStatus/>
+            <Query query={CellMarkerQuery} variables={{ id: node && node.id }}>
+              {({ loading, error, data }) => {
+                if (loading) {
+                  return 'Загрузка...';
+                }
+                if (error) {
+                  return 'Произошла ошибка.';
+                }
+                // if (!data || (data && !has.call(data, 'cellMarker'))) {
+                //   return null;
+                // }
+                return <SidebarApprovalStatus data={data && data.cellMarker} />;
+              }}
+            </Query>
           </Box>
         </Flex>
       </Wrapper>

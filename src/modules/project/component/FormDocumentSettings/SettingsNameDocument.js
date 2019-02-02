@@ -47,7 +47,7 @@ export const SettingsNameDocument = props => {
           {...props.name.input}
           component={TextFieldWithTooltip}
           type="text"
-          values={'ТЗ - RK-186-344'}
+          placeholder={'ТЗ - RK-186-344'}
           fontFamily={'secondary'}
         />
       </BoxStyled>

@@ -1,5 +1,6 @@
 import faker from 'faker';
 import {getRandomMongoID} from "../../helpers/getRandomMongoid";
+import {useritem} from "./userItem";
 
 export const documentitem = () => ({
   // mongoid
@@ -12,4 +13,11 @@ export const documentitem = () => ({
   },
   // null, на согласовании, согласован, не согласован
   approvalstatus: null,
+
+  partners: [],
+  okancode: faker.commerce.productName(),
+  customercode: faker.commerce.productName(),
+  version: faker.commerce.productName(),
+  createrevisiondate: faker.date.past().toUTCString(),
+  authorrrevision: useritem()
 });

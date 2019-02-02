@@ -35,9 +35,8 @@ export class LogOut extends Component {
   }
   logOut() {
     if (isBrowser) {
-      this.props.removeUser();
       return new Promise((resolve, reject) => {
-        fetch(`${ENDPOINT_CLIENT}/logout}`, {
+        fetch(`${ENDPOINT_CLIENT}/user/logout`, {
           method: 'POST',
           credentials: 'include',
           mode: 'no-cors',
@@ -47,6 +46,7 @@ export class LogOut extends Component {
           },
         })
           .then(response => {
+            this.props.removeUser();
             this.setState(() => ({
               redirect: '/login',
             }));

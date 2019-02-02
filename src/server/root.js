@@ -1,22 +1,25 @@
 import React from 'react';
-import { renderToStringWithData } from 'react-apollo';
+import {renderToStringWithData} from 'react-apollo';
 import asyncBootstrapper from 'react-async-bootstrapper';
-import { ServerStyleSheet } from 'styled-components';
-import { createAsyncContext } from 'react-async-component';
-import { Store } from '../store';
-import { client } from '../apollo/index.server';
+import {ServerStyleSheet} from 'styled-components';
+import {createAsyncContext} from 'react-async-component';
+import {Store} from '../store';
+import {client} from '../apollo/index.server';
 
 import CreateRootComponent from './CreateRootComponent';
 // import { initLocalize } from '../store/reducers/localization/actions';
 import CreateRenderComponents from './CreateRenderComponents';
+import {userInit} from "../store/reducers/user/actions";
 
 export const Root = async (request, response) => {
+
   /**
    * @description Create the async context for our provider, this grants us the ability to tap into the state to send back to the client.
    * */
   const asyncContext = createAsyncContext();
   const STStyleRenderer = new ServerStyleSheet();
-  // await Store.dispatch(initLocalize(Store.getState(), request.language || 'EN'));
+
+  await Store.dispatch(userInit(Store.getState(),request));
 
   const RouterContext = {};
 
@@ -72,7 +75,7 @@ export const Root = async (request, response) => {
       response.end(
         `An error occurred. Please submit an issue to with the following stack trace:\n\n${
           e.stack
-        }`,
+          }`,
       );
     });
 };

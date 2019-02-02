@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import {Field, reduxForm, SubmissionError, Form, getFormValues} from 'redux-form';
 import styled from 'styled-components';
-import { graphql } from 'react-apollo';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import {graphql} from 'react-apollo';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import Notifications, {success, error} from 'react-notification-system-redux';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -18,16 +18,18 @@ import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 
 /** PropTypes */
-import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQL schema */
 import ActivateUserMutation from './ActivateUserMutation.graphql';
-
+import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
 /** Validation */
 import required from '../../../../utils/validation/required';
 import isEmail from '../../../../utils/validation/isEmail';
+import {jsonToUrlEncoded} from "@lib/utils/jsontools/jsonToUrlEncoded";
+import {USER_ADD} from "../../../../store/reducers/user/actionTypes";
 
-const validate = ({ log, password, retryPas }) => {
+const validate = ({log, password, retryPas}) => {
   const errors = {};
 
   if (!log) {
@@ -100,14 +102,97 @@ export class FormRegistration extends Component {
   }
 
   get initialState() {
-    return { submitting: false, apolloError: null, isLoading: false };
+    return {submitting: false, apolloError: null, isLoading: false};
   }
 
-  submit(value) {
-    const data = { variables: Object.assign({}, value) };
+  userAuth(value) {
+    console.log('userAuth: ', value);
+    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'text/html,application/xhtml+xml,application/xml',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: jsonToUrlEncoded(value),
+    })
+      .then(response => {
+        console.log(response);
+        if (response.status >= 400 || !document.cookie) {
+          throw response;
+        } else {
+          return this.getUser(value.uname);
+        }
+      })
+      .catch(({status, ...rest}) => {
+        console.log('Error userAuth:',rest);
+        this.setState(() => ({submitting: false, isLoading: false, apolloError: null}));
 
-    this.setState(() => ({ isLoading: true, submitting: true }));
-    console.log('this ', this.props['@apollo/create'](data));
+        if (status === 401 || status === 403) {
+          throw new SubmissionError({_error: 'Не верно введен логин или пароль'});
+        } else {
+          throw new SubmissionError({_error: 'Пользователь не найден'});
+        }
+      });
+  }
+
+  getUser = email => {
+    console.log('getUser: ', email);
+    const {client, history, setNotificationSuccess, setNotificationError} = this.props;
+    return client
+      .query({query: CurrentUserItemQuery, variables: {email: email}})
+      .then(result => {
+        console.log('result', result);
+        if (result.errors || result.data.currentuseritem === null) {
+          // TO DO change this
+          throw result;
+        } else {
+          this.setState(() => ({apolloError: null, isLoading: false}));
+          this.setUser(result);
+
+          history.push(`/app/project-list`);
+          setNotificationSuccess(notificationOpts().success);
+          return Promise.resolve(result);
+        }
+      })
+      .catch(({graphQLErrors, message, error, networkError, ...rest}) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        console.log('error: ', error);
+
+        setNotificationError(notificationOpts().error);
+
+        this.setState(() => ({
+          submitting: false,
+          apolloError: 'Ошибка входа',
+          isLoading: false,
+        }));
+      });
+  };
+
+  setUser = props => {
+    console.log('setUser: ', props);
+
+    const {
+      data: {currentuseritem},
+    } = props;
+
+    const {addUser} = this.props;
+
+    addUser(currentuseritem);
+
+    localStorage.setItem('user', JSON.stringify({...currentuseritem}));
+  };
+
+  submit(value) {
+    const data = {variables: Object.assign({}, value)};
+
+    this.setState(({submitting, isLoading}) => {
+      return {submitting: !submitting, isLoading: !isLoading};
+    });
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -115,12 +200,15 @@ export class FormRegistration extends Component {
         if (response.errors) {
           throw response;
         } else {
-          this.props.history.push(`/app/project-list`);
-          this.props.setNotificationSuccess(notificationOpts().success);
+          this.userAuth({
+            uname: value.email,
+            ups: value.password,
+          });
           return Promise.resolve(response);
         }
       })
       .catch(error => {
+        console.log(error);
         this.props.setNotificationError(notificationOpts().error);
         this.setState(() => ({
           submitting: false,
@@ -131,12 +219,12 @@ export class FormRegistration extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, invalid, error } = this.props;
-    const { isLoading, apolloError, submitting } = this.state;
+    const {handleSubmit, pristine, invalid, error} = this.props;
+    const {isLoading, apolloError, submitting} = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <FormLogo />
+        <FormLogo/>
 
         <Box mb={'100px'}>
           <BoxFirst>
@@ -191,6 +279,7 @@ FormRegistration = connect(
     values: getFormValues('FormRegistration')(state),
   }),
   dispatch => ({
+    addUser: user => dispatch({ type: USER_ADD, user: user }),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

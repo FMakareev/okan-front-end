@@ -1,0 +1,12 @@
+query($id: String!){
+  projectitem(id: $id) {
+    id
+    name
+    partners {
+      id
+      firstname
+      lastname
+      patronymic
+    }
+  }
+}

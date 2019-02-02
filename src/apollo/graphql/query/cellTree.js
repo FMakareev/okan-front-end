@@ -9,6 +9,7 @@ export default [{
   "parent": null,
   "children": {
     id: "81bef0ceadbb48a98b42da8e",
+    "isHead": true
   },
   "isHead": true,
   "content": {"number": "27604", "__typename": "Block"},
@@ -25,6 +26,7 @@ export default [{
     id: "37cea22b074140c6ac32a660"
   },
   "children": {
+    "isHead": true,
     id: "dd58382a6bec4624b69ec18c"
   },
   "isHead": true,
@@ -41,7 +43,10 @@ export default [{
     id: "1116fa7e57fc4082944d57c1"
   },
   "parent": null,
-  "children": null,
+  "children": {
+    "isHead": false,
+    id: "3b074220c614ac32a6607cea"
+  },
   "isHead": true,
   "content": {"number": "37134", "__typename": "Block"},
   "approvalstatus": "",
@@ -54,7 +59,10 @@ export default [{
   },
   "nextcell": null,
   "parent": null,
-  "children": null,
+  "children": {
+    "isHead": false,
+    id: "4975ad9b77ee13e73cdb4950"
+  },
   "isHead": true,
   "content": {"number": "37134", "__typename": "Block"},
   "approvalstatus": "",
@@ -72,7 +80,10 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "children": null,
+    "children": {
+      id: "81bef042da8edceaa98bbb48",
+      "isHead": false
+    },
     "isHead": true,
     "content": {"number": "95666", "__typename": "Block"},
     "approvalstatus": "",
@@ -90,9 +101,10 @@ export default [{
       id: "81bef0ceadbb48a98b42da8e"
     },
     "children": {
-      id: "fd8f0e3008464c0094527fad"
+      "isHead": false,
+      id: "f094d8f0e4c0523008467fad"
     },
-    "isHead": false,
+    "isHead": true,
     "content": {"number": "47343", "__typename": "Block"},
     "approvalstatus": "",
     "__typename": "Cell"
@@ -109,8 +121,11 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "children": null,
-    "isHead": false,
+    "children": {
+      "isHead": false,
+      id: "f094e23008d8f04c05467fad"
+    },
+    "isHead": true,
     "content": {"number": "79656", "__typename": "Block"},
     "approvalstatus": "",
   }, {
@@ -124,8 +139,11 @@ export default [{
     "parent": {
       id: "81bef0ceadbb48a98b42da8e"
     },
-    "children": null,
-    "isHead": false,
+    "children": {
+      "isHead": false,
+      id: "f094e23008d8f04c05467fad"
+    },
+    "isHead": true,
     "content": {"number": "71421", "__typename": "Block"},
     "approvalstatus": "",
   }

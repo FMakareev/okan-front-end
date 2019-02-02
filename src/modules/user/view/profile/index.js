@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import isEmpty from 'lodash/isEmpty';
 
 /**View*/
 import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
-import Box from '@lib/ui/Box/Box';
+import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
 
 /**Components Admin*/
-import FormProfileApproval from '../../component/FormProfileApproval/FormProfileApproval';
+import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
 import FormProfileCreateUser from '../../component/FormProfileCreateUser/FormProfileCreateUser';
-import FormProfileNotification from '../../component/FormProfileNotification/FormProfileNotification';
+import ProfileNotification from '../../component/ProfileNotification/ProfileNotification';
 import FormProfileRecoveryEmail from '../../component/FormProfileRecoveryEmail/FormProfileRecoveryEmail';
 
 /** Components User*/
@@ -50,66 +49,56 @@ const RightColumn = styled(Flex)`
 export class ProfilePage extends Component {
   static propTypes = { ...ReactRoutePropTypes, mb: PropTypes.string };
 
-  state = {};
-
-  submit = value => {
-    console.log('value', value);
-  };
-
   render() {
     const {
       user: { role, id },
     } = this.props;
+
 
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              {/*ROLE_USER && (
-                <Query query={DocumentListQuery} variables={{ ...(id ? { id } : null) }}>
+              <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
+                <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
                   {({ loading, error, data }) => {
-                    console.log('documentlist', data);
-                    // const dataIsEmpty = isEmpty(data) ? null : data;
 
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
                     if (error) {
-                      throw error;
+                      console.error(`Error DocumentListQuery: `, error);
+                      return null;
                     }
                     if (id && data && !data.documentlist) {
-                      throw { message: `GraphQL error: not found` };
+                      return null;
                     }
-                    return (
-                      <FormProfileApproval
-                        initialValues={data && Object.assign({}, { ...data.documentlist })}
-                      />
-                    );
+                    return <ProfileApproval data={data && data.documentlist} />;
                   }}
                 </Query>
-                )*/}
-
-              <FormProfileApproval />
+              </CheckComponentAccessByRole>
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {ROLE_ADMIN && <FormProfileCreateUser />}
+              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                <FormProfileCreateUser />
+              </CheckComponentAccessByRole>
 
-              {ROLE_USER && (
+              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
                 <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
-                    console.log('useritem', data);
-                    // const dataIsEmpty = isEmpty(data) ? null : data;
+                    // console.log('useritem', data);
 
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
                     if (error) {
-                      throw error;
+                      console.error(`Error UserItemQuery: `, error);
+                      return null;
                     }
                     if (id && data && !data.useritem) {
-                      throw { message: `GraphQL error: not found` };
+                      return null;
                     }
                     return (
                       <FormPersonData
@@ -118,40 +107,48 @@ export class ProfilePage extends Component {
                     );
                   }}
                 </Query>
-              )}
+              </CheckComponentAccessByRole>
             </RightColumn>
           </Flex>
 
           <Flex justifyContent={'space-between'}>
             <LeftColumn flexDirection={'column'}>
-              {ROLE_USER && (
+              <CheckComponentAccessByRole
+                targetRole={[ROLE_USER, ROLE_ADMIN]}
+                userRole={role && role}>
                 <Query query={NotificationListQuery}>
                   {({ loading, error, data }) => {
                     console.log('notificationslist', data);
-                    // const dataIsEmpty = isEmpty(data) ? null : data;
 
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
+
                     if (error) {
-                      throw error;
+                      console.error(`Error NotificationListQuery: `, error);
+                      return null;
                     }
                     if (id && data && !data.notificationslist) {
-                      throw { message: `GraphQL error: not found` };
+                      return null;
                     }
                     return (
-                      <FormProfileNotification
+                      <ProfileNotification
                         initialValues={data && Object.assign({}, { ...data.notificationslist })}
                       />
                     );
                   }}
                 </Query>
-              )}
+              </CheckComponentAccessByRole>
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              {ROLE_ADMIN && <FormProfileRecoveryEmail />}
-              {ROLE_USER && <FormChangePassword />}
+              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                <FormProfileRecoveryEmail />
+              </CheckComponentAccessByRole>
+
+              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
+                <FormChangePassword />
+              </CheckComponentAccessByRole>
             </RightColumn>
           </Flex>
         </Flex>
@@ -161,5 +158,3 @@ export class ProfilePage extends Component {
 }
 
 export default ProfilePage;
-
-// <FormProfileNotification data={{ id: '23415', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim' }} />;

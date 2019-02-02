@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Box } from 'grid-styled';
-import { Field } from 'redux-form';
-import { Icon } from 'react-icons-kit';
+import { components } from 'react-select';
 
 /** Image */
 
@@ -10,68 +9,197 @@ import { SvgAdd } from '../Icons/SvgAdd';
 import { SvgDelete } from '../Icons/SvgDelete';
 
 /** view */
-import TextFieldWithoutBorder from '../TextFieldWithoutBorder/TextFieldWithoutBorder';
 import ButtonBase from '../ButtonBase/ButtonBase';
 import Text from '../Text/Text';
 import Flex from '../Flex/Flex';
-
-const ButtonStyled = styled(ButtonBase)`
-  border-top: 1px solid #00649c;
-  border-radius: 0px;
-`;
+import { SelectBase, SelectStyles } from '@lib/ui/SelectBase/SelectBase';
+import DeepEqual from 'fast-deep-equal';
 
 const FlexStyled = styled(Flex)`
   border-top: 1px solid #00649c;
   border-radius: 0px;
 `;
 
+const NewSelectStyles = {
+  ...SelectStyles,
+  control: (style, props) => {
+    return {
+      ...style,
+      width: '100%',
+      padding: '0 0 0 10px',
+      border: 'none',
+      borderRadius: 0,
+      cursor: 'pointer',
+      ':hover': {
+        border: 'none',
+        boxShadow: 'none',
+      },
+      ...(props.isFocused
+        ? {
+            border: 'none',
+            boxShadow: 'none',
+          }
+        : {}),
+      ...(props.menuIsOpen
+        ? {
+            borderRadius: '0',
+            border: 'none',
+          }
+        : {}),
+    };
+  },
+  menu: style => {
+    return {
+      ...style,
+      margin: 0,
+      borderRadius: '5px',
+    };
+  },
+};
+
+const ControlComponent = props => (
+  <FlexStyled py={2} alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
+    <SvgAdd />
+    <components.Control {...props} />
+  </FlexStyled>
+);
+
 /**
  * Компонент инпута c доабвлением еще инпутов (Text Field Array)
  * @example ./TextFieldArray.example.md
  */
+export class TextFieldArray extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+  }
 
-export const TextFieldArray = ({
-  fields,
-  meta: { error, submitFailed },
-  input,
-  inputIcon,
-  button,
-  validateForm,
-}) => (
-  <Box width={'100%'}>
-    {fields.map((items, index) => (
-      <FlexStyled key={`TextFieldArray-${index}`} width={'100%'} alignItems={'center'}>
-        <ButtonBase type={'button'} onClick={() => fields.remove(index)} variant={'empty'}>
-          {SvgDelete()}
-        </ButtonBase>
+  get initialState() {
+    if (this.props.input.value.length) {
+      const { options, valueKey, input } = this.props;
 
-        <Field
-          name={`${items}`}
-          component={TextFieldWithoutBorder}
-          type="text"
-          fontSize={6}
-          lineHeight={8}
-          fontFamily={'primary300'}
-        />
-      </FlexStyled>
-    ))}
-
-    {
-      <ButtonStyled
-        width={'100%'}
-        type={'button'}
-        onClick={() => fields.push('')}
-        variant={'empty'}>
-        <Flex alignItems={'center'} justifyContent={'space-between'} width={'100%'}>
-          <Box>{SvgAdd()}</Box>
-          <Text color={'color4'} fontSize={6} lineHeight={8} py={3} fontFamily={'primary300'}>
-            {button}
-          </Text>
-          <Box />
-        </Flex>
-      </ButtonStyled>
+      return {
+        selectedOption:
+          options &&
+          options.filter(optionItem =>
+            input.value.find(valueItem => valueItem === optionItem[valueKey]),
+          ),
+      };
     }
-  </Box>
-);
+    return { selectedOption: [] };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      !DeepEqual(nextProps.options, this.props.options) ||
+      !DeepEqual(nextProps.input.value, this.props.input.value)
+    ) {
+      const { options, valueKey, input } = nextProps;
+      if (input.value && options) {
+        this.setState(() => ({
+          selectedOption:
+            options &&
+            options.filter(optionItem =>
+              input.value.find(valueItem => valueItem === optionItem[valueKey]),
+            ),
+        }));
+      }
+    }
+  }
+
+  onDelete = value => {
+    try {
+      const { input } = this.props;
+      input.onChange(this.compareOptions(input.value, [value]));
+    } catch (error) {
+      console.error('Error onDelete: ', error);
+    }
+  };
+
+  onChange = value => {
+    const { input, valueKey } = this.props;
+    input.onChange([...input.value, value[valueKey]]);
+  };
+
+  compareOptions = (options1 = [], options2 = [], valueKey) => {
+    try {
+      if (Array.isArray(options1) && Array.isArray(options2)) {
+        return options1.filter(item => {
+          let result = options2.find(child => {
+            if (valueKey && typeof valueKey === 'string') {
+              return item[valueKey] === child;
+            } else {
+              return item === child;
+            }
+          });
+          if (result) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      }
+      return [];
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+  getOptionName = (options, id) => {
+    try {
+      let result = options && Array.isArray(options) && options.find(item => item.id === id);
+      if (result) {
+        return result.name;
+      } else {
+        return id;
+      }
+    } catch (error) {
+      console.log(error);
+      return id;
+    }
+  };
+
+  render() {
+    const {
+      options,
+      input: { value },
+      valueKey,
+    } = this.props;
+    console.log(1, this.props);
+
+    return (
+      <Box width={'100%'}>
+        {value &&
+          Array.isArray(value) &&
+          value.map((item, index) => (
+            <FlexStyled py={3} key={`FlexStyled-${index}`} width={'100%'} alignItems={'center'}>
+              <ButtonBase onClick={() => this.onDelete(item)} type={'button'} variant={'empty'}>
+                <SvgDelete />
+              </ButtonBase>
+              <Text
+                textAlign={'center'}
+                width={'100%'}
+                fontSize={6}
+                lineHeight={8}
+                fontFamily={'primary300'}
+                color={'color3'}>
+                {this.getOptionName(options, item)}
+              </Text>
+            </FlexStyled>
+          ))}
+
+        <SelectBase
+          placeholder={'Добавить нового участника'}
+          {...this.props}
+          onChange={this.onChange}
+          options={this.compareOptions(options, value, valueKey)}
+          styles={NewSelectStyles}
+          components={{ Control: ControlComponent }}
+        />
+      </Box>
+    );
+  }
+}
 
 export default TextFieldArray;

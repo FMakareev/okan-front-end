@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Query } from 'react-apollo';
 
 /** Redux user */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
@@ -12,7 +13,12 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
-import DocumentSettings from '../../component/DocumentSettings/';
+import FormDocumentSettings from '../../component/FormDocumentSettings/FormDocumentSettings';
+
+/** Graphql schema */
+import DocumentItemQuery from './DocumentItemQuery.graphql';
+
+const has = Object.prototype.hasOwnProperty;
 
 class DocumentSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
@@ -20,13 +26,43 @@ class DocumentSettingsPage extends Component {
   state = {};
 
   render() {
-    // const {
-    //   user: { id },
-    // } = this.props;
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
 
     return (
       <ErrorCatch>
-        <DocumentSettings initialValues={{ id: '5c4f30739adb49779eb0bb1f' }} />
+        <Query query={DocumentItemQuery} variables={{ id: id }}>
+          {({ data, error, loading }) => {
+            // console.log('DocumentItemQuery', data);
+
+            if (loading) {
+              console.error('loading:', loading);
+              return 'Загрузка ...';
+            }
+            if (error) {
+              console.error('Error:', error);
+              return 'Ошибка ...';
+            }
+
+            if (!data || (data && !has.call(data, 'documentitem'))) {
+              return null;
+            }
+
+            return (
+              <FormDocumentSettings
+                initialValues={{
+                  ...data.documentitem,
+                  partners: data.documentitem
+                    ? data.documentitem.partners.map(item => item.id)
+                    : [],
+                }}
+              />
+            );
+          }}
+        </Query>
       </ErrorCatch>
     );
   }

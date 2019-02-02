@@ -12,7 +12,7 @@ import schema from './schema.graphqls';
 
 /** Mock query */
 import {userlist} from './graphql/query/userlist';
-import {useritem} from './graphql/query/useritem';
+import {useritem} from './graphql/query/userItem';
 import {celItem} from './graphql/query/celItem';
 import cellTree from './graphql/query/cellTree';
 import {celllist} from "./graphql/query/celllist";
@@ -23,7 +23,7 @@ import { notificationList } from './graphql/query/notificationList';
 import { notificationItem } from './graphql/query/notificationItem';
 import { projectlist } from './graphql/query/projectlist';
 import { revisionitem } from './graphql/query/revisionitem';
-import { revisionlist } from './graphql/query/revisionlist';
+import { revisionList } from './graphql/query/revisionList';
 
 
 
@@ -40,6 +40,15 @@ const defaultMocks = {
         }, faker.random.number(0));
       });
     },
+    templatelist:()=>{
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(projectlist(10,{
+            isTemplate: true,
+          }));
+        }, faker.random.number(2000));
+      });
+    },
     projectitem: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -50,7 +59,7 @@ const defaultMocks = {
         }, faker.random.number(0));
       });
     },
-    projectlist: (query, {id}) => {
+    projectList: (query, {id}) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve(projectlist(4));
@@ -66,10 +75,10 @@ const defaultMocks = {
       });
     },
 
-    revisionlist: () => {
+    revisionList: () => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(revisionlist(2));
+          resolve(revisionList(2));
         }, faker.random.number(0));
       });
     },
@@ -207,10 +216,12 @@ const defaultMocks = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve({
-            ...celItem({
-              prevcell,
-              parent
-            }),
+            cell: {
+              ...celItem({
+                prevcell,
+                parent
+              }),
+            }
           });
         }, faker.random.number(2000));
       });
@@ -220,67 +231,72 @@ const defaultMocks = {
       const {parent} = props;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          faker.random.number(1) ?
-            resolve({
+          resolve({
+            cell:{
               ...celItem({
                 parent
               }),
-            }) :
-            reject(
-              JSON.stringify({
-                errors: [
-                  {
-                    message: 'error!',
-                  },
-                ],
-              }));
-
+            },
+          })
         }, faker.random.number(2000));
       })
     },
 
     createproject: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      console.log('createproject: ', props);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            project:{
+              ...projectitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     updateproject: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            project:{
+              ...projectitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     updatedocument: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            document:{
+              ...documentitem(),
+              ...props,
+            },
+          });
+        }, faker.random.number(2000));
+      });
     },
 
     createdocument: (mutation, props) => {
-      // TODO review: добавить рандомную задержку от 500 до 3000
-      return setTimeout(() => {
-        if (props.email === 'error@okan.su') {
-          throw new GraphQLError('already registered');
-        } else {
-          return props;
-        }
-      }, 5000);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const document = {
+            ...documentitem(),
+            ...props,
+          }
+          console.log('documentitem(): ', documentitem());
+          console.log('document: ', document);
+          console.log('document: ', props);
+          resolve({
+            document:document,
+          });
+        }, faker.random.number(2000));
+      });
     },
   }),
 };

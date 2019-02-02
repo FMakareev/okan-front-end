@@ -30,18 +30,18 @@ const BoxStyled = styled(Box)`
   }
 `;
 
-const notificationOpts = () => ({
+const notificationOpts = (email) => ({
   success: {
-    title: 'Письмр отрпавлено на почту',
-    message: 'Письмр отрпавлено на почту',
+    title: 'Пароль сброшен',
+    message: `Письмо отправлено на почту ${email}`,
     position: 'tr',
-    autoDismiss: 2,
+    autoDismiss: 5,
   },
   error: {
     title: 'Произошла ошибка',
-    message: 'Произошла ошибка',
+    message: 'Сбросте кеш браузера и повторите попытку.',
     position: 'tr',
-    autoDismiss: 2,
+    autoDismiss: 5,
   },
 });
 
@@ -65,8 +65,8 @@ export class FormProfileRecoveryEmail extends Component {
     return this.props['@apollo/create'](data)
       .then(response => {
         // this.props.setNotificationSuccess(success(notificationOpts.success));
-        this.props.setNotificationSuccess(notificationOpts().success);
-
+        this.props.setNotificationSuccess(notificationOpts(value.email).success);
+        this.props.reset();
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
@@ -77,11 +77,7 @@ export class FormProfileRecoveryEmail extends Component {
         // this.props.setNotificationError(error(notificationOpts.error));
         this.props.setNotificationError(notificationOpts().error);
 
-        if (graphQLErrors) {
-          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
-        } else {
-          throw new SubmissionError({ _error: message });
-        }
+        throw new SubmissionError({ _error: message });
       });
   }
   render() {

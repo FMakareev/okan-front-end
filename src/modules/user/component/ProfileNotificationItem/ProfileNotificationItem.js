@@ -50,7 +50,7 @@ const FlexStyled = styled(Flex)`
   }
 `;
 
-export const FormProfileNotificationItem = ({ message, name, time }) => {
+export const ProfileNotificationItem = ({ message, name, time }) => {
   return (
     <Box mb={[4]}>
       <TextStyled fontSize={6} lineHeight={8} color={'color11'} fontFamily={'secondary'}>
@@ -65,4 +65,4 @@ export const FormProfileNotificationItem = ({ message, name, time }) => {
   );
 };
 
-export default FormProfileNotificationItem;
+export default ProfileNotificationItem;

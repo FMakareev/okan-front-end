@@ -21,10 +21,6 @@ const FormCreateDocumentWithProject =  withProject((props) => {
 export class ProjectSidebar extends Component {
 
   static propTypes = {
-    projectid: PropTypes.string.isRequired,
-    params: PropTypes.shape({
-      projectid: PropTypes.string.isRequired,
-    }),
     project: ProjectPropTypes,
   };
 

@@ -3,19 +3,18 @@ import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
 import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
-import { FormProfileApproval } from './FormProfileApproval';
+import { ProfileNotification } from './ProfileNotification/';
 
 describe('News container initial', () => {
   const props = {
     data: {
-      name: '1',
-      number: '2',
+      message: '1',
     },
   };
 
   const newsContainer = shallow(
     <StyledThemeProvider>
-      <FormProfileApproval {...props} />
+      <ProfileNotification {...props} />
     </StyledThemeProvider>,
   ); // передали props
 

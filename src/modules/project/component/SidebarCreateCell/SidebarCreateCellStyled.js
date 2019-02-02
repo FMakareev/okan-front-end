@@ -12,6 +12,7 @@ export const AbsoluteStyled = styled(Absolute)`
   z-index: 2;
   border: 1px solid;
   background-color: #ffffff;
+  width: 120px;
   ${props => BorderColorProperty({...props, borderColor: 'color4'})};
   ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
 `;

@@ -1,12 +1,22 @@
-mutation($id: String!){
-  createrevision(id:$id){
-    # mongoid
-    id
-    # название шаблона
-    name
-    # id корневого элемента от которого строится граф разделов
-    childcell
-    # null, на согласовании, согласован, не согласован
-    approvalstatus
+mutation($id: String!,
+$authorrevision: String,
+$createrevisiondate: String){
+  createrevision(
+    id:$id,
+    authorrevision: $authorrevision,
+    createrevisiondate: $createrevisiondate
+  ){
+    document {
+      # mongoid
+      id
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
+      childcell: children {
+        id
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
+    }
   }
 }

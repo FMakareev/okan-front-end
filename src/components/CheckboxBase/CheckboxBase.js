@@ -17,8 +17,9 @@ const Input = styled.input`
 
   & + label {
     position: relative;
-    cursor: pointer;
+    display: block;
     padding: 0;
+    cursor: pointer;
   }
 
   & + label:before {
@@ -70,26 +71,24 @@ export class CheckboxBase extends Component {
     disabled: PropTypes.bool,
     /** Text field form with a pre-selected checkbox. */
     checked: PropTypes.bool,
-    /** . */
-    index: PropTypes.number,
   };
 
   static defaultProps = {};
 
   render() {
-    const { input, index, checked, disabled, children } = this.props;
-
+    const { input, index, checked, disabled, children, id } = this.props;
     return (
       <Wrapper>
         <Input
-          id={`styled-checkbox-${index || input.name}`}
+          id={`styled-checkbox-${id}`}
           type="checkbox"
-          checked={input ? input.value : false}
+          defaultChecked={checked}
           disabled={disabled}
           {...input}
+          name={`partners${id}`}
         />
 
-        <label htmlFor={`styled-checkbox-${index || input.name}`}>{children}</label>
+        <label htmlFor={`styled-checkbox-${id}`}>{children}</label>
       </Wrapper>
     );
   }

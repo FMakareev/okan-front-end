@@ -26,7 +26,7 @@ import TitlePage from './TitlePage';
 
 /** Graphql schema */
 import UserListQuery from './UserListQuery.graphql';
-import DocumentSettingsMutation from './DocumentSettingsMutation.graphql';
+import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
 
 /** Redux reducers*/
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
@@ -68,14 +68,16 @@ const sleep = ms =>
     return setInterval(resolve, ms);
   });
 
-export class DocumentSettings extends Component {
+export class FormDocumentSettings extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   state = {};
 
   submit = value => {
+    console.log('FormDocumentSettings', value);
+
     const data = { variables: Object.assign({}, value) };
-    console.log('DocumentSettings', data);
+    // console.log('FormDocumentSettings', data);
 
     return this.props['@apollo/update'](data)
       .then(response => {
@@ -100,15 +102,16 @@ export class DocumentSettings extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, user } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, initialValues } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex mt={9} justifyContent={'space-around'}>
-          <Box>
+          <Box width={'55%'}>
             <Container maxWidth={'500px'} width={'100%'}>
               <Query query={UserListQuery}>
                 {({ loading, error, data }) => {
+                  // console.log('FormDocumentSettings', data);
                   if (loading) {
                     return 'Загрузка...';
                   }
@@ -118,7 +121,20 @@ export class DocumentSettings extends Component {
                   if (!data || (data && !has.call(data, 'userlist'))) {
                     return null;
                   }
-                  return <SettingsUser data={data.userlist} />;
+                  return (
+                    <Field
+                      component={SettingsUser}
+                      options={
+                        data &&
+                        data.userlist &&
+                        data.userlist.map(item => ({
+                          id: item.id,
+                          name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
+                        }))
+                      }
+                      name={'partners'}
+                    />
+                  );
                 }}
               </Query>
             </Container>
@@ -154,22 +170,22 @@ export class DocumentSettings extends Component {
   }
 }
 
-DocumentSettings = graphql(DocumentSettingsMutation, {
+FormDocumentSettings = graphql(FormDocumentSettingsMutation, {
   name: '@apollo/update',
-})(DocumentSettings);
+})(FormDocumentSettings);
 
-DocumentSettings = connect(
-  state => ({
-    values: getFormValues('DocumentSettings')(state),
-  }),
+FormDocumentSettings = connect(
+  state => {
+    return { values: getFormValues('FormDocumentSettings')(state) };
+  },
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
-)(DocumentSettings);
+)(FormDocumentSettings);
 
-DocumentSettings = reduxForm({
-  form: 'DocumentSettings',
-})(DocumentSettings);
+FormDocumentSettings = reduxForm({
+  form: 'FormDocumentSettings',
+})(FormDocumentSettings);
 
-export default DocumentSettings;
+export default FormDocumentSettings;
