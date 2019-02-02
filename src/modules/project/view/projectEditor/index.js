@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Query} from 'react-apollo';
 import styled from 'styled-components';
+import {connect} from "react-redux";
 
 import ProjectItemQuery from './ProjectItemQuery.graphql'
 /**PropTypes */
@@ -46,6 +47,12 @@ export class ProjectEditorPage extends Component {
     this.state = {};
   }
 
+  componentDidUpdate() {
+    if(this.props.bindingBlockId) {
+      console.log(this.props.bindingBlockId)
+    }
+  }
+
   render() {
     console.log('ProjectEditorPage: ', this.props);
     const {match: {params}} = this.props;
@@ -77,7 +84,9 @@ export class ProjectEditorPage extends Component {
                       {...data.projectitem}
                     />
                   </SideBarWrapper>
-                  <EditorWrapper>
+                  <EditorWrapper 
+                    style={this.props.bindingBlockId ? {opacity: "0.4"} : {}}
+                  >
                     <ProjectEditor
                       sectionid={params.sectionid}
                     />
@@ -93,4 +102,9 @@ export class ProjectEditorPage extends Component {
   }
 }
 
-export default ProjectEditorPage;
+// export default ProjectEditorPage;
+const mapStateToProps = state => {
+  return state.blocksBinding;
+};
+
+export default connect(mapStateToProps)(ProjectEditorPage);

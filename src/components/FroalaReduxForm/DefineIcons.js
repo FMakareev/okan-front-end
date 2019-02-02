@@ -4,40 +4,39 @@ import copyIcon from '../../assets/image/copyIcon.png';
 import bindIcon from '../../assets/image/bindIcon.png';
 import deleteIcon from '../../assets/image/deleteIcon.png';
 
-export function DefineIcons() {
+export function DefineIcons(props) {
     $.FroalaEditor.DefineIcon('copy', {SRC: copyIcon, ALT: 'Copy', template: 'image'});
     $.FroalaEditor.RegisterCommand('copy', {
         title: 'copy something',
         focus: true,
         undo: false,
         refreshAfterCallback: false,
-        callback: () => {
-            alert('Copied!')
+        callback: (command) => {
+            props.buttonClick(command);
         },
     });
 
     $.FroalaEditor.DefineIcon('bind', {SRC: bindIcon, ALT: 'Bind', template: 'image'});
     $.FroalaEditor.RegisterCommand('bind', {
-        title: 'bind something',
+        title: 'Bind block',
         focus: true,
         undo: false,
-        refreshAfterCallback: false,
-        callback: () => {
-            alert('Binded!')
-        },
-        hover: () => {
-            alert('hovered')
+        refreshAfterCallback: true,
+        callback: (command) => {
+            props.buttonClick(command);
         }
     });
 
-    $.FroalaEditor.DefineIcon('delete', {SRC: deleteIcon, ALT: 'Delete', template: 'image'});
-    $.FroalaEditor.RegisterCommand('delete', {
-        title: 'delete something',
+    $.FroalaEditor.DefineIcon('unbind', {SRC: deleteIcon, ALT: 'unbind', template: 'image'});
+    $.FroalaEditor.RegisterCommand('unbind', {
+        title: 'Unbind block',
         focus: true,
         undo: false,
         refreshAfterCallback: false,
-        callback: () => {
-            alert('Deleted!')
+        callback: (command) => {
+            props.buttonClick(command);
         },
     });
+
+    return null;
 }

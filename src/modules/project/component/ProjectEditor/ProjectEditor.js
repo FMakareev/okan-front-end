@@ -12,7 +12,6 @@ import styled from "styled-components";
 import {withProject} from "../ProjectContext/ProjectContext";
 
 import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
-import {EditorFormMainContent} from "./EditorFormMainContent";
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
@@ -90,7 +89,6 @@ export class ProjectEditor extends Component {
           </Query>
         </ContentWrapper>
         <EditorAdditionalMenu/>
-        <EditorFormMainContent />
       </Flex>
     );
   }

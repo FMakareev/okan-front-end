@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
+import { connect } from 'react-redux';
+import { saveBlockId } from '../../store/reducers/blocksBinding/actions';
 
 /**View */
 import Message from '../Message/Message';
@@ -51,16 +53,35 @@ export class RichTextEditor extends Component {
     return false;
   }
 
+  getButtonClick = (action) => {
+    switch(action){
+      case 'bind':
+        this.storeBlockId();
+        break;
+      case 'unbind':
+        break;
+      case 'copy':
+        break;
+    }
+  }
+
+  storeBlockId = () => {
+    this.props.saveBlockId(this.props.id);
+  }
+
   render() {
-    const { className, meta } = this.props;
+    const { className, meta, id } = this.props;
 
     return (
       <Wrapper className={className}>
-        <FroalaReduxForm {...this.props} />
+        <FroalaReduxForm {...this.props} handleButtonClick={(action) => {this.getButtonClick(action)}}/>
         <Message meta={meta} />
       </Wrapper>
     );
   }
 }
 
-export default RichTextEditor;
+export default connect(
+  null,
+  { saveBlockId }
+)(RichTextEditor)

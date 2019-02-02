@@ -794,14 +794,14 @@
 
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="copy"] img,
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="bind"] img,
-.froala-theme.fr-toolbar .fr-command.fr-btn[id|="delete"] img{
+.froala-theme.fr-toolbar .fr-command.fr-btn[id|="unbind"] img{
   width: 9px;
   margin: 0 5px auto;
 }
 
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="copy"],
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="bind"],
-.froala-theme.fr-toolbar .fr-command.fr-btn[id|="delete"]{
+.froala-theme.fr-toolbar .fr-command.fr-btn[id|="unbind"]{
   margin: 0;
 }
 

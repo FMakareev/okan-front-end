@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 // import { ReducerFormLogin } from './form/reducers';
 import { reducer as notifications } from 'react-notification-system-redux';
 import { ReducerUser } from './user/reducers';
+import { ReducerBlocksBinding } from './blocksBinding/reducers';
 
 export const rootReducer = combineReducers({
   form: formReducer.plugin({
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   }),
   // locale,
   user: ReducerUser,
+  blocksBinding: ReducerBlocksBinding,
   notifications,
 });
 

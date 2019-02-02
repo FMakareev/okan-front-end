@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {withRouter} from 'react-router-dom';
+import {connect} from "react-redux";
+import { graphql } from 'react-apollo';
+
 /** View */
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
@@ -14,6 +17,9 @@ import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from "../NodeToggle/NodeToggle";
 import {SidebarCellNodeEditable} from "../SidebarCellNodeEditable/SidebarCellNodeEditable";
 import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+
+/** Graphql schema */
+import BindingCellMutation from './BindingCellMutation.graphql';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -77,6 +83,11 @@ export class SidebarCellNode extends Component {
       console.error(e);
     }
   }
+  componentDidUpdate() {
+    if(this.props.bindingBlockId) {
+      console.log(this.props.bindingBlockId)
+    }
+  }
 
   handleChange = evt => {
     this.setState({name: evt.target.value});
@@ -98,13 +109,16 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const {onClick, node, history, project, document} = this.props;
+      const {onClick, node, history, project, document, bindingBlockId} = this.props;
       const isHead = this.getIsHeadStatus(node);
-
       if (isHead) {
         onClick()
       } else {
-        history.push(`/app/project/${getPosition(project,'projectid')}/${document.id}/${node.id}`);
+        if(bindingBlockId) {
+          this.bindBlock(node.id, bindingBlockId);
+        } else {
+          history.push(`/app/project/${getPosition(project,'projectid')}/${document.id}/${node.id}`);
+        }
       }
     } catch (error) {
       console.log(`Error node=${node.id}: `, error);
@@ -117,6 +131,20 @@ export class SidebarCellNode extends Component {
       hover: hover
     }))
   };
+
+  bindBlock = (parent, target) => {
+    this.props.mutate({
+      variables: { 
+        target: target,
+        parent: parent
+      }
+    })
+      .then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+  }
 
   render() {
     const {decorators, terminal, onClick, node} = this.props;
@@ -172,4 +200,11 @@ export class SidebarCellNode extends Component {
 }
 
 SidebarCellNode = withRouter(SidebarCellNode);
-export default SidebarCellNode;
+
+const mapStateToProps = state => {
+  return state.blocksBinding;
+};
+
+SidebarCellNode = graphql(BindingCellMutation)(SidebarCellNode);
+
+export default connect(mapStateToProps)(SidebarCellNode);
