@@ -231,21 +231,13 @@ const defaultMocks = {
       const {parent} = props;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          faker.random.number(1) ?
-            resolve({
+          resolve({
+            cell:{
               ...celItem({
                 parent
               }),
-            }) :
-            reject(
-              JSON.stringify({
-                errors: [
-                  {
-                    message: 'error!',
-                  },
-                ],
-              }));
-
+            },
+          })
         }, faker.random.number(2000));
       })
     },
