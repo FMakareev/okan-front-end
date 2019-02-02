@@ -168,7 +168,6 @@ const defaultMocks = {
     createdocument: (mutation, props) => {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-
           faker.random.number(1) ?
             resolve({
               ...documentitem(),
@@ -226,6 +225,29 @@ const defaultMocks = {
           });
         }, faker.random.number(2000));
       });
+    },
+
+    bindingcell: (mutation, props) => {
+      const {parent} = props;
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          faker.random.number(1) ?
+            resolve({
+              ...celItem({
+                parent
+              }),
+            }) :
+            reject(
+              JSON.stringify({
+                errors: [
+                  {
+                    message: 'error!',
+                  },
+                ],
+              }));
+
+        }, faker.random.number(2000));
+      })
     },
 
     createproject: (mutation, props) => {

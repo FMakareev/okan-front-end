@@ -27,6 +27,7 @@ export class EditorCellController extends Component {
   get initialState() {
     return {
       editable: false,
+      // draggable: false,
     }
   }
 
@@ -40,13 +41,57 @@ export class EditorCellController extends Component {
     }))
   };
 
+  // onHover() {
+  //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
+
+
+  //   if(bindingButton) {
+  //     bindingButton.onmouseenter = (e) => {
+  //       this.startBinding()
+  //     } 
+  //     bindingButton.onmouseleave = () => {
+  //       this.toggleDraggable()
+  //     }
+  //     bindingButton.onmousedown = () => {
+  //       this.onDragBlock
+  //     }
+  //   }
+  // }
+
+  // async startBinding() {
+  //   await this.toggleDraggable();
+  // }
+
+  // toggleDraggable = () => {
+  //   this.setState((state) => ({
+  //     ...state,
+  //     draggable: !state.draggable,
+  //   }))
+  //   // this.onDrag = () => {
+  //   //   console.log('dragging')
+  //   // }
+  // }
+
+  // onDragBlock = (event) => {
+  //   console.log(event)
+  // }
 
   render() {
     const {editable} = this.state;
     const {data} = this.props;
     console.log('EditorCellController: ', this.props);
     return (
-      <Flex pl={'10px'} mt={12}>
+      <Flex 
+        pl={'10px'} 
+        mt={12} 
+        // onMouseOver={()=>this.onHover()} 
+        // // draggable={this.state.draggable}
+        // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
+        // draggable="true"
+        // draggable
+        // onDrag={(event)=>this.onDragBlock(event)}
+        // ondragstart={(event)=>this.onDragBlock(event)}
+      >
         <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
           {data.content.number}
         </Text>
@@ -64,6 +109,7 @@ export class EditorCellController extends Component {
                 content: data.content.content,
                 contenttype: data.content.contenttype,
               }}
+              id={data.id}
             />)
           }
         </Box>

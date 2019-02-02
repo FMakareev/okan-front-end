@@ -92,8 +92,8 @@ export class EditorAdditionalMenu extends Component {
   eventHandle = (event) => {
     try {
       if (Array.isArray(event.path)) {
-        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >=0 ) {
-          return null
+        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0 ) {
+          return null;
         } else {
           if(this.state.active){
             return this.toggleMenu();
@@ -116,6 +116,11 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
+  createEditorInstance = (message) => {
+    console.log(message);
+    alert('here');
+  }
+
   render() {
 
     const {active} = this.state;
@@ -125,7 +130,7 @@ export class EditorAdditionalMenu extends Component {
         <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
           <SvgSidebarAdd/>
         </ButtonBase>
-        {active && <EditorAdditionalMenuButton/>}
+        {active && <EditorAdditionalMenuButton handleButtonPress={(msg)=>{this.createEditorInstance(msg)}}/>}
       </Box>
     );
   }

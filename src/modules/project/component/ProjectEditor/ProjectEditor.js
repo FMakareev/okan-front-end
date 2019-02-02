@@ -10,13 +10,12 @@ import EditorCellController from "../EditorCellController/EditorCellController";
 import {Flex} from "@lib/ui/Flex/Flex";
 import styled from "styled-components";
 import {withProject} from "../ProjectContext/ProjectContext";
-import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
 
+import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
 import {Box} from "@lib/ui/Box/Box";
-
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;

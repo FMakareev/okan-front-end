@@ -1,12 +1,14 @@
 // FroalaReduxForm
 import React, { Component } from 'react';
 import dynamic from 'next/dynamic';
+import { DefineIcons } from './DefineIcons';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
+import '../../assets/style/froala-theme.css';
 
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
@@ -31,6 +33,13 @@ export class FroalaReduxForm extends Component {
       return { model: null };
     }
   }
+
+  EditorConfig = {
+    placeholderText: 'Введите текст',
+    theme: 'froala',
+    charCounterCount: false,
+    toolbarButtons: ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontFamily', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'fullscreen', 'html', 'specialCharacters', 'emoticons', 'insertHR', 'print', 'help']
+  };
 
   shouldComponentUpdate(nextProps) {
     if (
@@ -59,7 +68,15 @@ export class FroalaReduxForm extends Component {
     const { input } = this.props;
 
     return (
-      <FroalaEditor onModelChange={this.handleModelChange} model={input.value} tag={'textarea'} />
+      <div>
+        <DefineIcons buttonClick={(action) => {this.props.handleButtonClick(action)}}/>
+        <FroalaEditor 
+          onModelChange={this.handleModelChange} 
+          model={input.value} 
+          tag={'textarea'} 
+          config={this.EditorConfig}
+        />
+      </div>
     );
   }
 }

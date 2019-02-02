@@ -25,13 +25,15 @@ export class EditorCellForm extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, id } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Field
           name={'content'}
-          component={RichTextEditor} />
+          component={RichTextEditor} 
+          id={id}
+          />
       </Form>
     );
   }
