@@ -10,6 +10,10 @@ import Message from '../Message/Message';
 
 import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 
+/** Graphql */
+import { graphql } from 'react-apollo';
+import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+
 const Wrapper = styled.div`
   ${space};
   width: 100%;
@@ -59,6 +63,7 @@ export class RichTextEditor extends Component {
         this.storeBlockId();
         break;
       case 'unbind':
+        this.unbindBlock();
         break;
       case 'copy':
         break;
@@ -67,6 +72,19 @@ export class RichTextEditor extends Component {
 
   storeBlockId = () => {
     this.props.saveBlockId(this.props.id);
+  }
+
+  unbindBlock = () => {
+    this.props.mutate({
+      variables: {
+        cell: this.props.id
+      }
+    })
+      .then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
 
   render() {
@@ -80,6 +98,8 @@ export class RichTextEditor extends Component {
     );
   }
 }
+
+RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 
 export default connect(
   null,

@@ -242,6 +242,21 @@ const defaultMocks = {
       })
     },
 
+    unbindingcell: (mutation, props) => {
+      const {cell} = props;
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            cell:{
+              ...celItem({
+                cell
+              }),
+            },
+          })
+        }, faker.random.number(2000));
+      })
+    },
+
     createproject: (mutation, props) => {
       console.log('createproject: ', props);
       return new Promise((resolve, reject) => {
