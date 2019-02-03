@@ -24,6 +24,9 @@ import CellMarkerQuery from './CellMarkerQuery.graphql';
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
 
+/** Redux action to remove BlockId from store */
+import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
@@ -87,9 +90,7 @@ export class SidebarCellNode extends Component {
     }
   }
   componentDidUpdate() {
-    if(this.props.bindingBlockId) {
-      console.log(this.props.bindingBlockId)
-    }
+    console.log('props after update', this.props)
   }
 
   handleChange = evt => {
@@ -163,9 +164,14 @@ export class SidebarCellNode extends Component {
     })
       .then(({ data }) => {
         console.log('got data', data);
+        this.removeIdFromStore();
       }).catch((error) => {
         console.log('there was an error sending the query', error);
       });
+  }
+
+  removeIdFromStore = () => {
+    this.props.removeBlockId();
   }
 
   render() {
@@ -241,4 +247,4 @@ const mapStateToProps = state => {
 
 SidebarCellNode = graphql(BindingCellMutation)(SidebarCellNode);
 
-export default connect(mapStateToProps)(SidebarCellNode);
+export default connect(mapStateToProps,{ removeBlockId })(SidebarCellNode);

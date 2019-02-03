@@ -1,4 +1,4 @@
-import { SAVE_BLOCK_ID } from './actionTypes';
+import { SAVE_BLOCK_ID, REMOVE_BLOCK_ID } from './actionTypes';
 
 const initialState = {
 
@@ -11,6 +11,8 @@ export const ReducerBlocksBinding = (state = initialState, action) => {
             ...state,
             bindingBlockId: action.blockId
         }
+    case REMOVE_BLOCK_ID: 
+        return initialState
     default:
         return state
   }
