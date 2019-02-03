@@ -10,10 +10,9 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import {client as browserClient} from '../../../apollo/index.client';
-import {client as serverClient} from '../../../apollo/index.server';
+import { client as browserClient } from '../../../apollo/index.client';
+import { client as serverClient } from '../../../apollo/index.server';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
-
 
 /**
  * @desc метод инициализации пользователя в системе
@@ -32,21 +31,21 @@ export const userInit = (state, request) => dispatch => {
           type: USER_INIT_LOADING_START,
         });
         client
-          .query({query: CurrentUserItemQuery})
+          .query({ query: CurrentUserItemQuery })
           .then(response => {
             console.log('response:', response);
-            const {data} = response;
+            const { data } = response;
             if (isBrowser) {
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
             }
-            dispatch({type: USER_INIT_LOADING_SUCCESS, user: {...data.currentuseritem}});
+            dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...data.currentuseritem } });
             resolve(data.currentuseritem);
           })
           .catch(error => {
             if (isBrowser) {
               localStorage.clear();
             }
-            console.log('Error userInit: ',error);
+            console.log('Error userInit: ', error);
             /** */
             dispatch({
               type: USER_INIT_LOADING_ERROR,
@@ -60,7 +59,7 @@ export const userInit = (state, request) => dispatch => {
         resolve(true);
       }
     } catch (error) {
-      console.log('Error userInit: ',error);
+      console.log('Error userInit: ', error);
       resolve(error);
     }
   });
@@ -83,13 +82,13 @@ export const userUpdate = () => dispatch => {
       });
 
       client()
-        .query({query: CurrentUserItemQuery})
+        .query({ query: CurrentUserItemQuery })
         .then(response => {
-          const {data} = response;
+          const { data } = response;
           if (isBrowser) {
             localStorage.setItem('user', JSON.stringify(data.currentuseritem));
           }
-          dispatch({type: USER_UPDATE_LOADING_SUCCESS, user: {...data.currentuseritem}});
+          dispatch({ type: USER_UPDATE_LOADING_SUCCESS, user: { ...data.currentuseritem } });
           resolve(data.currentuseritem);
         })
         .catch(error => {
@@ -97,7 +96,7 @@ export const userUpdate = () => dispatch => {
           if (isBrowser) {
             localStorage.clear();
           }
-          dispatch({type: USER_UPDATE_LOADING_ERROR, user: {error: error}});
+          dispatch({ type: USER_UPDATE_LOADING_ERROR, user: { error: error } });
           reject(error);
         });
     } catch (error) {
