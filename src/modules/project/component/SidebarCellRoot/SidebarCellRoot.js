@@ -73,7 +73,7 @@ export const SidebarCellRoot = (props) => {
           <SidebarSaveChanges/>
         </Box>
         <Box px={1}>
-          <SidebarRevisionList  projectid={projectid}/>
+          <SidebarRevisionList documentid={document.id} projectid={projectid}/>
         </Box>
         <Box px={1}>
           <SidebarCreateRevision document={document}/>
