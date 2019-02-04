@@ -4,6 +4,7 @@ query ($id: String) {
     name
     okancode
     customercode
+    project
     partners {
       id
       firstname
