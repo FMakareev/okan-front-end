@@ -11,6 +11,8 @@ query($id: String!){
     documents{
       # mongoid
       id
+      # id project
+      project
       # название шаблона
       name
       # id корневого элемента от которого строится граф разделов
