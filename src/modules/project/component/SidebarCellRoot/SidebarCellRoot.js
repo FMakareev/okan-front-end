@@ -13,15 +13,15 @@ import SidebarRevisionList from '../SidebarRevisionList/SidebarRevisionList';
 import SidebarProjectExport from '../SidebarProjectExport/SidebarProjectExport';
 
 /** Styles property */
-import {NodeToggle} from '../NodeToggle/NodeToggle';
-import SidebarCreateRevision from "../SidebarCreateRevision/SidebarCreateRevision";
-
+import { NodeToggle } from '../NodeToggle/NodeToggle';
+import SidebarCreateRevision from '../SidebarCreateRevision/SidebarCreateRevision';
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
-  transition: all .225s;
-  ${({active, ...rest}) => {
-  return active ? `
+  transition: all 0.225s;
+  ${({ active, ...rest }) => {
+    return active
+      ? `
     {
       fill: #FFFFFF;
       color: #FFFFFF;
@@ -33,7 +33,8 @@ const FlexStyled = styled(Flex)`
         background-color: #4F4F4F;
       }
     }
-  ` : `
+  `
+      : `
     {
       fill: #848484;
       color: #848484;
@@ -44,21 +45,24 @@ const FlexStyled = styled(Flex)`
         background-color: #4F4F4F;
       }
     }
-  `
-}}
-  
+  `;
+  }}
 `;
 
-
-export const SidebarCellRoot = (props) => {
-  const {decorators, terminal,document,projectid, onClick, node} = props;
+export const SidebarCellRoot = props => {
+  const { decorators, terminal, document, projectid, onClick, node } = props;
 
   return (
-    <FlexStyled active={node.active} pr={'10px'} mb={'10px'} onClick={onClick} alignItems={'center'}
-                justifyContent={'space-between'}>
+    <FlexStyled
+      active={node.active}
+      pr={'10px'}
+      mb={'10px'}
+      onClick={onClick}
+      alignItems={'center'}
+      justifyContent={'space-between'}>
       <Flex alignItems={'center'}>
         <Box mx={2}>
-          <NodeToggle toggled={node.toggled} fill={'inherit'}/>
+          <NodeToggle toggled={node.toggled} fill={'inherit'} />
         </Box>
         <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'inherit'}>
           {node.name}
@@ -67,19 +71,19 @@ export const SidebarCellRoot = (props) => {
 
       <Flex height={'20px'}>
         <Box px={1}>
-          <SidebarProjectSettings projectid={projectid} documentid={document.id}/>
+          <SidebarProjectSettings projectid={projectid} documentid={document.id} />
         </Box>
         <Box px={1}>
-          <SidebarSaveChanges/>
+          <SidebarSaveChanges />
         </Box>
         <Box px={1}>
-          <SidebarRevisionList  projectid={projectid}/>
+          <SidebarRevisionList projectid={projectid} />
         </Box>
         <Box px={1}>
-          <SidebarCreateRevision document={document}/>
+          <SidebarCreateRevision document={document} />
         </Box>
         <Box px={1}>
-          <SidebarProjectExport/>
+          <SidebarProjectExport />
         </Box>
       </Flex>
     </FlexStyled>
@@ -92,18 +96,9 @@ SidebarCellRoot.propTypes = {
     Header: PropTypes.func.isRequired,
     Loading: PropTypes.func.isRequired,
     Toggle: PropTypes.func.isRequired,
-    TreeBeardWrapper: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ]).isRequired,
-    TreeNodeContainer:PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ]).isRequired,
-    TreeNodeList: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-    ]).isRequired,
+    TreeBeardWrapper: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+    TreeNodeContainer: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+    TreeNodeList: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   }),
   onClick: PropTypes.func.isRequired,
   terminal: PropTypes.bool.isRequired,
@@ -112,7 +107,7 @@ SidebarCellRoot.propTypes = {
     children: PropTypes.array,
     name: PropTypes.string.isRequired,
     toggled: PropTypes.bool.isRequired,
-  })
+  }),
 };
 
 SidebarCellRoot.defaultProps = {};
