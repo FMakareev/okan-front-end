@@ -9,9 +9,13 @@ import { AsyncComponentProvider } from 'react-async-component';
 import asyncBootstrapper from 'react-async-bootstrapper';
 import { client } from '../apollo/index.client';
 import { ConfigRouter } from '../routes';
-import { Store } from '../store';
+import {CreateStore} from '../store';
 import { StyledThemeProvider } from '../styles/StyledThemeProvider';
 import { GlobalStyle } from '../styles/GlobalStyle';
+
+
+
+const Store = CreateStore();
 
 /**
  * @description https://github.com/ctrlplusb/react-async-component#server-side-rendering
