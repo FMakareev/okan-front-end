@@ -6,7 +6,8 @@ import {
   flexBasis,
   flexDirection,
   flexWrap,
-  display
+  display,
+  fontWeight
 } from 'styled-system';
 import styled from 'styled-components';
 
@@ -19,6 +20,7 @@ import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundCo
 export const Flex = styled(Box)`
   display: flex;
   ${justifyContent};
+  ${fontWeight};
   ${alignItems};
   ${alignContent};
   ${flex};
