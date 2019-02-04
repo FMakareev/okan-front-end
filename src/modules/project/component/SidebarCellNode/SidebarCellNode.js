@@ -128,7 +128,7 @@ export class SidebarCellNode extends Component {
 
   static childcellIsCategory = (cell) => {
     try{
-      if(has.call(cell, 'childcell')){
+      if(has.call(cell, 'childcell') && cell.childcell){
         if(cell.childcell.isHead){
           return true
         } else {
@@ -225,6 +225,7 @@ export class SidebarCellNode extends Component {
           </Box>
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
+              node={node}
               prevcell={node.id}
               parent={node.parent? node.parent.id: null}
               addNodeInTree={this.props.addNodeInTree}
@@ -262,8 +263,8 @@ const mapStateToProps = state => {
 SidebarCellNode = graphql(BindingCellMutation)(SidebarCellNode);
 
 export default connect(
-  mapStateToProps, 
-  dispatch => ({ 
+  mapStateToProps,
+  dispatch => ({
     removeBlockId: () => dispatch(removeBlockId()),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
