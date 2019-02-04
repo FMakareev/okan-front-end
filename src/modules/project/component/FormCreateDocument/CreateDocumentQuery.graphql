@@ -2,6 +2,7 @@ mutation($name: String!, $projectid: String) {
   createdocument(name:$name,projectid: $projectid){
     document{
       id
+      project
       name
       approvalstatus
       childcell: children {
