@@ -1,11 +1,5 @@
-mutation($id: String!,
-$authorrevision: String,
-$createrevisiondate: String){
-  createrevision(
-    id:$id,
-    authorrevision: $authorrevision,
-    createrevisiondate: $createrevisiondate
-  ){
+mutation ($id: String!, $authorrevision: String, $createrevisiondate: DateTime) {
+  createrevision(id: $id, authorrevision: $authorrevision, createrevisiondate: $createrevisiondate) {
     document {
       # mongoid
       id
