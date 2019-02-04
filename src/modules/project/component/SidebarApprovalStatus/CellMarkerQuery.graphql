@@ -1,0 +1,6 @@
+query ($id: String) {
+  cellMarker(id: $id) {
+    id
+    answer
+  }
+}
