@@ -1,6 +1,6 @@
-mutation($id: String!, $name: String) {
-  updatecell(id: $id, name: $name, ) {
-    cell{
+mutation ($id: String!, $name: String) {
+  updatecell(id: $id, name: $name) {
+    cell {
       id
       name
     }
