@@ -1,7 +1,7 @@
-import React, { useState, Component } from 'react';
+import React, {useState, Component} from 'react';
 
 import PropTypes from 'prop-types';
-import { Mutation, withApollo } from 'react-apollo';
+import {Mutation, withApollo} from 'react-apollo';
 
 import CreateCellMutation from './CreateCellMutation.graphql';
 /** View */
@@ -9,9 +9,59 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Box from '../../../../components/Box/Box';
 
 /**Image */
-import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
-import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
+import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
+import {AbsoluteStyled, BoxStyled} from './SidebarCreateCellStyled';
 import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from "@lib/shared/blockType";
+import {error, success} from "react-notification-system-redux";
+import {connect} from "react-redux";
+import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+
+const notificationOpts = ({prevcell, parent, isHead, contenttype}) => {
+
+  let title = '';
+
+  if(prevcell && isHead){
+    title = 'Раздел';
+  } else if(isHead && parent) {
+    title = 'Под раздел';
+  } else if(!isHead && contenttype) {
+   switch(contenttype){
+     case(BLOCK_TEXT):{
+       title = 'Текстовый блок';
+       break;
+     }
+     case(BLOCK_IMAGE):{
+       title = 'Блок с изображением';
+       break;
+     }
+     case(BLOCK_TABLE):{
+       title = 'Блок с таблицей';
+       break;
+     }
+     default:{
+       title = 'Текстовый блок';
+       break;
+     }
+
+   }
+  } else{
+    title = 'Блок'
+  }
+
+  return ({
+    success: {
+      title: `${title} создан.`,
+      position: 'tr',
+      autoDismiss: 6,
+    },
+    error: {
+      title: `Произошла ошибка.`,
+      message: `${title} не создан.`,
+      position: 'tr',
+      autoDismiss: 6,
+    },
+  });
+};
 
 /** Styles property */
 
@@ -27,6 +77,7 @@ export class SidebarCreateCell extends Component {
     super(props);
     this.state = this.initialState;
   }
+
   get initialState() {
     return {
       toggle: false,
@@ -35,37 +86,55 @@ export class SidebarCreateCell extends Component {
 
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({ toggle: !state.toggle }));
+    this.setState(state => ({toggle: !state.toggle}));
   };
 
   submit = (prevcell, parent, isHead, contenttype) => {
+    console.log(prevcell, parent, isHead, contenttype);
+    const { setNotificationSuccess, setNotificationError} = this.props;
+
+    const variables = {
+      ...(prevcell ? {prevcell} : null),
+      ...(parent ? {parent} : null),
+      ...(contenttype ? {contenttype} : {contenttype: ""}),
+      isHead
+    };
+
+
     this.onToggle();
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
-        variables: { prevcell, parent, isHead, contenttype },
+        variables,
       })
       .then(response => {
         console.log('SidebarCreateCell response: ', response);
-        if(isHead){
+        if (isHead) {
           this.props.addNodeInTree(response.data.createcell.cell);
         }
+        setNotificationSuccess(notificationOpts({prevcell, parent, isHead, contenttype}).success);
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
+
+        setNotificationError(notificationOpts({prevcell, parent, isHead, contenttype}).error);
       });
   };
 
+
+
+
   render() {
-    const { prevcell, parent } = this.props;
-    const { toggle } = this.state;
+    const {prevcell, parent} = this.props;
+    const {toggle} = this.state;
+    console.log('SidebarCreateCell: ', this.props);
     return (
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
           onClick={this.onToggle}>
-          <SvgSidebarAdd />
+          <SvgSidebarAdd/>
         </ButtonBase>
 
         {toggle && (
@@ -113,5 +182,13 @@ export class SidebarCreateCell extends Component {
 }
 
 SidebarCreateCell = withApollo(SidebarCreateCell);
+
+SidebarCreateCell = connect(
+  (state)=>({user: getUserFromStore(state)}),
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(SidebarCreateCell);
 
 export default SidebarCreateCell;
