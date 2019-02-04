@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import { graphql, Query } from 'react-apollo';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { graphql, } from 'react-apollo';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -19,8 +19,6 @@ import NodeToggle from '../NodeToggle/NodeToggle';
 import { SidebarCellNodeEditable } from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 
-/** Graphql schema */
-import CellMarkerQuery from './CellMarkerQuery.graphql';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
@@ -202,12 +200,12 @@ export class SidebarCellNode extends Component {
         justifyContent={'flex-start'}
         alignItems={'center'}>
         <Flex width={'calc(100% - 72px)'}>
-          {isHead && <NodeToggle toggled={node.toggled} />}
-          <Flex ml={isHead ? '' : '20px'} color={'color11'} width={'calc(100% - 28px)'}>
-            <Text fontWeight={isHead ? 500 : 300} color={'color11'}>
+          {isHead  && <NodeToggle toggled={node.toggled} />}
+          <Flex fontWeight={isHead ? 500 : 300}  ml={isHead ? '' : '20px'} color={'color11'} width={'calc(100% - 28px)'}>
+            <Text  fontWeight={'inherit'} color={'color11'}>
               {node.number}
             </Text>
-            <Text fontWeight={isHead ? 500 : 300} color={'color11'} mr={1}>
+            <Text fontWeight={'inherit'} color={'color11'} mr={1}>
               <SidebarCellNodeEditable
                 id={node.id}
                 onToggle={this.onToggleEditable}
@@ -233,20 +231,7 @@ export class SidebarCellNode extends Component {
             />
           </Box>
           <Box px={1}>
-            <Query query={CellMarkerQuery} variables={{ id: node && node.id }}>
-              {({ loading, error, data }) => {
-                if (loading) {
-                  return 'Загрузка...';
-                }
-                if (error) {
-                  return 'Произошла ошибка.';
-                }
-                // if (!data || (data && !has.call(data, 'cellMarker'))) {
-                //   return null;
-                // }
-                return <SidebarApprovalStatus data={data && data.cellMarker} />;
-              }}
-            </Query>
+            <SidebarApprovalStatus node={node}/>
           </Box>
         </Flex>
       </Wrapper>
