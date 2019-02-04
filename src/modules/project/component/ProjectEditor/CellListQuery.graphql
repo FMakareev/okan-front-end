@@ -5,7 +5,7 @@ query($parent: String){
     }
     comments{
       id
-      createdate
+      createdate:createdat
       isdelete
       message
       sender{
@@ -14,7 +14,7 @@ query($parent: String){
         lastname
         patronymic
       }
-      updatedate
+      updatedate:updatedat
     }
     content{
       id
