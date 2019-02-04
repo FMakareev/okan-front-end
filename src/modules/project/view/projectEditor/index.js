@@ -17,6 +17,10 @@ import {Flex} from "@lib/ui/Flex/Flex";
 import ProjectEditor from "../../component/ProjectEditor/ProjectEditor";
 
 import {ProjectContext, withProject} from '../../component/ProjectContext/ProjectContext';
+
+/** Redux action to remove BlockId from store */
+import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
   width: 320px;  
@@ -60,7 +64,19 @@ export class ProjectEditorPage extends Component {
   componentDidUpdate() {
     if(this.props.bindingBlockId) {
       console.log(this.props.bindingBlockId)
+      // EditorWrapper.addEventListener('click', function(){
+      //   alert('hi')
+      // });
+      // EditorWrapper.onClick = function() {
+      //   alert('hi');
+      // }
     }
+  }
+
+  handleClick() {
+    if(this.props.bindingBlockId) {
+      this.props.removeBlockId();      
+    } 
   }
 
   render() {
@@ -94,6 +110,7 @@ export class ProjectEditorPage extends Component {
                   </SideBarWrapper>
                   <EditorWrapper 
                     style={this.props.bindingBlockId ? {opacity: "0.4"} : {}}
+                    onClick={() => this.handleClick()}
                   >
                     <ProjectEditor
                       sectionid={params.sectionid}
@@ -115,4 +132,4 @@ const mapStateToProps = state => {
   return state.blocksBinding;
 };
 
-export default connect(mapStateToProps)(ProjectEditorPage);
+export default connect(mapStateToProps,{ removeBlockId })(ProjectEditorPage);

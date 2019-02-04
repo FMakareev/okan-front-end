@@ -4,16 +4,36 @@ import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
 import { saveBlockId } from '../../store/reducers/blocksBinding/actions';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /**View */
 import Message from '../Message/Message';
 
 import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 
+/** Graphql */
+import { graphql } from 'react-apollo';
+import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+
 const Wrapper = styled.div`
   ${space};
   width: 100%;
 `;
+
+const notificationOpts = () => ({
+  success: {
+    title: 'Блок отвязан',
+    message: 'Вы отвязали блок от всех разделов',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Ошибка',
+    message: 'Не удалось отвязать блок',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 /**
  * Компонент Rich Text Editor
@@ -59,6 +79,7 @@ export class RichTextEditor extends Component {
         this.storeBlockId();
         break;
       case 'unbind':
+        this.unbindBlock();
         break;
       case 'copy':
         break;
@@ -67,6 +88,21 @@ export class RichTextEditor extends Component {
 
   storeBlockId = () => {
     this.props.saveBlockId(this.props.id);
+  }
+
+  unbindBlock = () => {
+    this.props.mutate({
+      variables: {
+        cell: this.props.id
+      }
+    })
+      .then(({ data }) => {
+        console.log('got data', data);
+        this.props.setNotificationSuccess(notificationOpts().success);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+        this.props.setNotificationError(notificationOpts().error);
+      });
   }
 
   render() {
@@ -81,7 +117,13 @@ export class RichTextEditor extends Component {
   }
 }
 
+RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
+
 export default connect(
   null,
-  { saveBlockId }
+  dispatch => ({ 
+    saveBlockId: id => dispatch(saveBlockId(id)),
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  })
 )(RichTextEditor)

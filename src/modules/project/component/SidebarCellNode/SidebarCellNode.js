@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import { graphql, Query } from 'react-apollo';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -24,11 +25,29 @@ import CellMarkerQuery from './CellMarkerQuery.graphql';
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
 
+/** Redux action to remove BlockId from store */
+import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
 `;
+
+const notificationOpts = (cellText) => ({
+  success: {
+    title: 'Блок привязан',
+    message: 'Вы привязали блок к разделу ' + cellText,
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Ошибка',
+    message: 'Не удалось привязать блок',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 // TODO: добавить авто сохранение каждые 30 секунд если поле с именем в фокусе
 // TODO: добавить вывод актуального статуса
@@ -87,9 +106,7 @@ export class SidebarCellNode extends Component {
     }
   }
   componentDidUpdate() {
-    if(this.props.bindingBlockId) {
-      console.log(this.props.bindingBlockId)
-    }
+    console.log('props after update', this.props)
   }
 
   handleChange = evt => {
@@ -163,8 +180,11 @@ export class SidebarCellNode extends Component {
     })
       .then(({ data }) => {
         console.log('got data', data);
+        this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
+        this.props.removeBlockId();
       }).catch((error) => {
         console.log('there was an error sending the query', error);
+        this.props.setNotificationError(notificationOpts(null).error);
       });
   }
 
@@ -241,4 +261,11 @@ const mapStateToProps = state => {
 
 SidebarCellNode = graphql(BindingCellMutation)(SidebarCellNode);
 
-export default connect(mapStateToProps)(SidebarCellNode);
+export default connect(
+  mapStateToProps, 
+  dispatch => ({ 
+    removeBlockId: () => dispatch(removeBlockId()),
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  })
+)(SidebarCellNode);
