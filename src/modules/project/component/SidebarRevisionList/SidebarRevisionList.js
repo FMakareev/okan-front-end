@@ -8,10 +8,10 @@ import Link from '../../../../components/Link/Link';
 /**Image */
 import {SvgSidebarList} from '../../../../components/Icons/SvgSidebarList';
 
-export const SidebarRevisionList = ({projectid}) => (
+export const SidebarRevisionList = ({documentid}) => (
   <Link
     onClick={(event) => event.stopPropagation()}
-    to={`/app/revision-list/${projectid}`}>
+    to={`/app/revision-list/${documentid}`}>
     <ButtonBase variant={'empty'}>
       <SvgSidebarList/>
     </ButtonBase>
@@ -19,7 +19,7 @@ export const SidebarRevisionList = ({projectid}) => (
 );
 
 SidebarRevisionList.propTypes = {
-  projectid: PropTypes.string.isRequired,
+  documentid: PropTypes.string.isRequired,
 };
 
 SidebarRevisionList.defaultProps = {};
