@@ -1,8 +1,0 @@
-{
-  userlist {
-    id
-    firstname
-    lastname
-    patronymic
-  }
-}

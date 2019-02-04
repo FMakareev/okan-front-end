@@ -1,15 +1,13 @@
-query ($id: String) {
-  documentitem(id: $id) {
+query ($id: String!) {
+  projectitem(id: $id) {
     id
     name
-    okancode
-    customercode
-    project
     partners {
       id
       firstname
       lastname
       patronymic
     }
+    isTemplate
   }
 }

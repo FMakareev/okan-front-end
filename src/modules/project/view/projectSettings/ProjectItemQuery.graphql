@@ -1,4 +1,4 @@
-query($id: String!){
+query ($id: String!) {
   projectitem(id: $id) {
     id
     name
@@ -8,5 +8,6 @@ query($id: String!){
       lastname
       patronymic
     }
+    isTemplate
   }
 }

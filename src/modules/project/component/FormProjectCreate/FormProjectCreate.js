@@ -30,6 +30,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 /** Graphql schema */
 import TemplateListQuery from './TemplateListQuery.graphql';
 import CreateProjectMutation from './CreateProjectMutation.graphql';
+import ProjectListQuery from '../../view/projectList/ProjectListQuery.graphql';
 
 const BoxStyled = styled(Box)`
   input {
@@ -71,8 +72,26 @@ export class FormProjectCreate extends Component {
   }
 
   submit(value) {
-    const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
+    const data = {
+      variables: Object.assign({}, value),
+      update: (store, response) => {
+        try {
+          const {
+            data: { createproject },
+          } = response;
+
+          const data = store.readQuery({
+            query: ProjectListQuery,
+          });
+
+          data.projectList.push(createproject.project);
+
+          store.writeQuery({ query: ProjectListQuery, data });
+        } catch (e) {
+          console.error('Error in FormProjectCreate, method submit : ', e);
+        }
+      },
+    };
 
     return this.props['@apollo/create'](data)
       .then(response => {

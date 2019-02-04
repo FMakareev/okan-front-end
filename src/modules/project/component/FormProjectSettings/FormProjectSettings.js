@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, FieldArray, getFormValues } from 'redux-form';
 import UserListQuery from './UserListQuery.graphql';
+import { Redirect } from 'react-router-dom';
 
 /**View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -28,7 +29,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
-import {CheckboxBase} from "@lib/ui/CheckboxBase/CheckboxBase";
+import { CheckboxBase } from '@lib/ui/CheckboxBase/CheckboxBase';
 
 const BoxStyled = styled(Box)`
   input {
@@ -63,7 +64,11 @@ const notificationOpts = () => ({
 export class FormProjectSettings extends Component {
   static propTypes = { ...formPropTypes, mb: PropTypes.string };
 
-  state = {};
+  state = this.initialState;
+
+  get initialState() {
+    return { redirect: null };
+  }
 
   submit = value => {
     const data = { variables: Object.assign({}, value) };
@@ -73,6 +78,7 @@ export class FormProjectSettings extends Component {
       .then(response => {
         console.log(response);
         this.props.setNotificationSuccess(notificationOpts().success);
+        this.setState(() => ({ redirect: '/app/project-list' }));
 
         return response;
       })
@@ -88,7 +94,12 @@ export class FormProjectSettings extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, submitting, invalid } = this.props;
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to={redirect} />;
+    }
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -142,21 +153,12 @@ export class FormProjectSettings extends Component {
         </Box>
 
         <Box mb={'90px'}>
-          <Field
-            component={CheckboxBase}
-            name={'isTemplate'}
-          >
-            <Text
-              fontFamily={'primary300'}
-              fontSize={6}
-              lineHeight={8}
-              color={'color11'}
-              ml={20}>
+          <Field component={CheckboxBase} name={'isTemplate'}>
+            <Text fontFamily={'primary300'} fontSize={6} lineHeight={8} color={'color11'} ml={20}>
               Сделать проект шаблоном
             </Text>
           </Field>
         </Box>
-
 
         <ButtonWithImage
           type="submit"
@@ -165,7 +167,7 @@ export class FormProjectSettings extends Component {
           children={'Сохранить настройки'}
           leftIcon={SvgSave()}
           mr={9}
-          disabled={pristine || submitting || invalid}
+          disabled={submitting || invalid}
           width={'100%'}
           widthIcon={'16px'}
         />

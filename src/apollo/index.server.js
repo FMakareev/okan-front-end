@@ -26,4 +26,3 @@ export const client = req => {
 };
 
 export default client;
-
