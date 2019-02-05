@@ -442,7 +442,7 @@ export class DocumentTree extends Component {
   addNodeInTree = cell => {
     const tree = Object.assign({}, this.state.tree);
 
-    let pathToParent = this.getPathToNode(tree, cell.parent);
+    let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
     // путь до парента в дереве
     let pathToParentChildren = pathToParent + '.children';
     let pathToNumberParent = pathToParent + '.number';
