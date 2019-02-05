@@ -6,6 +6,7 @@ import { graphql } from 'react-apollo';
 import styled from 'styled-components';
 import Notifications, { success, error } from 'react-notification-system-redux';
 import { Fields, Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { Redirect } from 'react-router-dom';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -25,8 +26,9 @@ import SettingsNameDocument from './SettingsNameDocument';
 import TitlePage from './TitlePage';
 
 /** Graphql schema */
-import UserListQuery from './UserListQuery.graphql';
+import ProjectItemQuery from './ProjectItemQuery.graphql';
 import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
+import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
 
 /** Redux reducers*/
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
@@ -71,17 +73,39 @@ const sleep = ms =>
 export class FormDocumentSettings extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
-  state = {};
+  state = this.initialState;
+
+  get initialState() {
+    return { redirect: null };
+  }
 
   submit = value => {
-    console.log('FormDocumentSettings', value);
+    // console.log('FormDocumentSettings', value);
+    const data = {
+      variables: Object.assign({}, value),
+      update: (store, response) => {
+        try {
+          const {
+            data: { updatedocument },
+          } = response;
 
-    const data = { variables: Object.assign({}, value) };
-    // console.log('FormDocumentSettings', data);
+          const data = store.readQuery({ query: DocumentItemQuery });
+
+          data.documentitem.push(updatedocument.document);
+
+          store.writeQuery({ query: DocumentItemQuery, data });
+        } catch (e) {
+          console.error('Error in FormProjectCreate, method submit : ', e);
+        }
+      },
+    };
+    console.log('FormDocumentSettings', data);
 
     return this.props['@apollo/update'](data)
       .then(response => {
         this.props.setNotificationSuccess(notificationOpts().success);
+        this.setState(() => ({ redirect: `/app/project/${data.variables.project}` }));
+
         return response;
       })
       .then(response => {
@@ -102,32 +126,42 @@ export class FormDocumentSettings extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, initialValues } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      invalid,
+      initialValues: { project },
+    } = this.props;
+
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to={redirect} />;
+    }
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex mt={9} justifyContent={'space-around'}>
           <Box width={'55%'}>
             <Container maxWidth={'500px'} width={'100%'}>
-              <Query query={UserListQuery}>
+              <Query query={ProjectItemQuery} variables={{ id: project }}>
                 {({ loading, error, data }) => {
-                  // console.log('FormDocumentSettings', data);
+                  console.log('FormDocumentSettings', data.projectitem);
                   if (loading) {
                     return 'Загрузка...';
                   }
                   if (error) {
                     return 'Произошла ошибка.';
                   }
-                  if (!data || (data && !has.call(data, 'userlist'))) {
+                  if (!data || (data && !has.call(data, 'projectitem'))) {
                     return null;
                   }
                   return (
                     <Field
                       component={SettingsUser}
                       options={
-                        data &&
-                        data.userlist &&
-                        data.userlist.map(item => ({
+                        data.projectitem &&
+                        data.projectitem.partners.map(item => ({
                           id: item.id,
                           name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
                         }))
@@ -146,10 +180,10 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
           </Box>
-
+          {/*
           <Container maxWidth={'400px'} width={'100%'}>
             <TitlePage />
-          </Container>
+</Container>*/}
         </Flex>
 
         <Flex justifyContent={'center'}>
@@ -160,7 +194,7 @@ export class FormDocumentSettings extends Component {
             children={'Сохранить настройки'}
             leftIcon={SvgSave()}
             mr={9}
-            disabled={pristine || submitting || invalid}
+            disabled={submitting || invalid}
             width={'500px'}
             widthIcon={'16px'}
           />

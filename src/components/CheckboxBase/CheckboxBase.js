@@ -77,12 +77,13 @@ export class CheckboxBase extends Component {
 
   render() {
     const { input, index, checked, disabled, children, id } = this.props;
+    // console.log(1, checked);
     return (
       <Wrapper>
         <Input
           id={`styled-checkbox-${id}`}
           type="checkbox"
-          defaultChecked={checked}
+          checked={checked}
           disabled={disabled}
           {...input}
           name={`partners${id}`}

@@ -16,7 +16,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(process.cwd() + '/public/index.html'));
 });
 
-app.listen(3005, () => {
+app.listen(3006, () => {
   console.log(process.env.NODE_PORT);
-  console.log(`Server is listening on port:${3005}. !!!!!!!!`);
+  console.log(`Server is listening on port:${3006}. !!!!!!!!`);
 });

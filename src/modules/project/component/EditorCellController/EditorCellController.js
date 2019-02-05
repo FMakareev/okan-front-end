@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
 /** Components */
@@ -7,17 +7,16 @@ import EditorCellForm from '../EditorCellForm/EditorCellForm';
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import {Flex} from "@lib/ui/Flex/Flex";
-import EditorCellCommentController from "../EditorCellCommentController/EditorCellCommentController";
+import { Flex } from '@lib/ui/Flex/Flex';
+import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 
 export class EditorCellController extends Component {
-
   static propTypes = {
     /** data for components */
     data: PropTypes.string,
   };
 
-  static defaultProps = {data: ''};
+  static defaultProps = { data: '' };
 
   constructor(props) {
     super(props);
@@ -28,27 +27,26 @@ export class EditorCellController extends Component {
     return {
       editable: false,
       // draggable: false,
-    }
+    };
   }
 
   /**
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
-    this.setState((state) => ({
+    this.setState(state => ({
       ...state,
       editable: !state.editable,
-    }))
+    }));
   };
 
   // onHover() {
   //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
 
-
   //   if(bindingButton) {
   //     bindingButton.onmouseenter = (e) => {
   //       this.startBinding()
-  //     } 
+  //     }
   //     bindingButton.onmouseleave = () => {
   //       this.toggleDraggable()
   //     }
@@ -77,14 +75,14 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const {editable} = this.state;
-    const {data} = this.props;
-    console.log('EditorCellController: ', this.props);
+    const { editable } = this.state;
+    const { data } = this.props;
+    // console.log('EditorCellController: ', this.props);
     return (
-      <Flex 
-        pl={'10px'} 
-        mt={12} 
-        // onMouseOver={()=>this.onHover()} 
+      <Flex
+        pl={'10px'}
+        mt={12}
+        // onMouseOver={()=>this.onHover()}
         // // draggable={this.state.draggable}
         // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
         // draggable="true"
@@ -96,25 +94,29 @@ export class EditorCellController extends Component {
           {data.content.number}
         </Text>
         <Box width={'calc(100% - 80px)'}>
-          {
-            !editable &&
-            <Text onClick={this.onToggleForm} fontSize={5} lineHeight={6} color={'color11'} fontFamily={'primary300'}>
+          {!editable && (
+            <Text
+              onClick={this.onToggleForm}
+              fontSize={5}
+              lineHeight={6}
+              color={'color11'}
+              fontFamily={'primary300'}>
               {data.content && ReactHTMLParser(data.content.content)}
             </Text>
-          }
-          {
-            editable && (<EditorCellForm
-              form={'EditorCellForm-'+data.name}
+          )}
+          {editable && (
+            <EditorCellForm
+              form={'EditorCellForm-' + data.name}
               initialValues={{
                 content: data.content.content,
                 contenttype: data.content.contenttype,
               }}
               id={data.id}
-            />)
-          }
+            />
+          )}
         </Box>
         <Box width={'20px'}>
-          <EditorCellCommentController {...data}/>
+          <EditorCellCommentController {...data} />
         </Box>
       </Flex>
     );

@@ -3,7 +3,7 @@ import {renderToStringWithData} from 'react-apollo';
 import asyncBootstrapper from 'react-async-bootstrapper';
 import {ServerStyleSheet} from 'styled-components';
 import {createAsyncContext} from 'react-async-component';
-import {Store} from '../store';
+import {CreateStore} from '../store';
 import {client} from '../apollo/index.server';
 
 import CreateRootComponent from './CreateRootComponent';
@@ -13,6 +13,7 @@ import {userInit} from "../store/reducers/user/actions";
 
 export const Root = async (request, response) => {
 
+  const Store = CreateStore();
   /**
    * @description Create the async context for our provider, this grants us the ability to tap into the state to send back to the client.
    * */

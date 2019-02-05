@@ -2,33 +2,31 @@ import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import PropTypes from 'prop-types';
 import {Treebeard, decorators} from '../../../../components/ReactTreeBeard/index';
-import {Box} from "@lib/ui/Box/Box";
-import SidebarCellRoot from "../SidebarCellRoot/SidebarCellRoot";
-import SidebarCellNode from "../SidebarCellNode/SidebarCellNode";
+import {Box} from '@lib/ui/Box/Box';
+import SidebarCellRoot from '../SidebarCellRoot/SidebarCellRoot';
+import SidebarCellNode from '../SidebarCellNode/SidebarCellNode';
 import CellItemQuery from './CellItemQuery.graphql';
-import objectPath from "object-path";
-import Flex from "@lib/ui/Flex/Flex";
-import {ProjectPropTypes} from "../../../../propTypes/ProjectPropTypes";
-import {withProject} from "../ProjectContext/ProjectContext";
-import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+import objectPath from 'object-path';
+import Flex from '@lib/ui/Flex/Flex';
+import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
+import {withProject} from '../ProjectContext/ProjectContext';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
+import FormCreateFirstCell from "../FormCreateFirstCell/FormCreateFirstCell";
 
+decorators.TreeBeardWrapper = props => <Box {...props} />;
+decorators.TreeNodeList = props => <Box pl={'10px'} {...props} />;
 
-decorators.TreeBeardWrapper = (props) => <Box {...props}/>;
-decorators.TreeNodeList = (props) => <Box pl={'10px'} {...props}/>;
-
-
-decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-start'} alignItems={'center'}>
-  Загрузка...
-</Flex>);
+decorators.Loading = () => (
+  <Flex mb={'10px'} px={'20px'} justifyContent={'flex-start'} alignItems={'center'}>
+    Загрузка...
+  </Flex>
+);
 
 const has = Object.prototype.hasOwnProperty;
 
-
-const SidebarCellNodeWithProject = withProject((props) => (<SidebarCellNode {...props}/>));
-
+const SidebarCellNodeWithProject = withProject(props => <SidebarCellNode {...props} />);
 
 export class DocumentTree extends Component {
-
   static propTypes = {
     /** @desc объект с информацией о дкументе */
     data: PropTypes.shape({
@@ -58,20 +56,38 @@ export class DocumentTree extends Component {
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
 
-    decorators.Container = (props) => (
+    decorators.Container = props => (
       <SidebarCellNodeWithProject
         document={this.props.data}
         changeNodeFocus={this.changeNodeFocus}
         addNodeInTree={this.addNodeInTree}
         {...props}
-      />);
-
+      />
+    );
 
     this.initTree(getPosition(this.props.project, 'sectionid'));
   }
 
   get initialState() {
     const {data, project} = this.props;
+    const children = data && has.call(data, 'childcell') && data.childcell !== null ? [] : [
+      {
+        toggled: false,
+        loading: false,
+        active: false,
+        focused: false,
+        decorators: {
+          ...decorators,
+          Container: props => (
+            <FormCreateFirstCell
+              document={data}
+              project={project}
+              {...props}
+            />
+          )
+        }
+      }
+    ];
 
     return {
       cursor: null,
@@ -85,17 +101,47 @@ export class DocumentTree extends Component {
         ...data,
         decorators: {
           ...decorators,
-          Container: (props) => (<SidebarCellRoot
-            document={this.props.data}
-            projectid={getPosition(project, 'projectid')}
-            {...props}
-          />),
+          Container: props => (
+            <SidebarCellRoot
+              document={this.props.data}
+              projectid={getPosition(project, 'projectid')}
+              {...props}
+            />
+          ),
         },
-        children: [],
-      }
-    }
+        children: children
+      },
+    };
   }
 
+
+  componentWillUpdate(nextProps, nextState) {
+    const {data} = nextProps;
+
+    if ((data.childcell !== null && this.state.tree.childcell === null)) {
+
+      const newState = {
+        ...this.state,
+        tree: {
+          ...this.state.tree,
+          ...data,
+          number: '',
+          toggled: false,
+          loading: false,
+          active: false,
+          focused: false,
+          id: 'ROOT',
+          children: [],
+        },
+      };
+      this.setState(newState, (state) => {
+        console.log('New state after create first cell');
+        this.onToggle(newState.tree, true);
+      });
+    }
+
+
+  }
 
   /**
    * @param {string} id искомой ноды
@@ -130,7 +176,7 @@ export class DocumentTree extends Component {
    * */
   createTree = (newNodes, nodes) => {
     try {
-      newNodes.forEach((item) => {
+      newNodes.forEach(item => {
         if (item.childcell && item.childcell.id) {
           if (nodes.findIndex(childitem => childitem.id === item.childcell.id) >= 0) {
             let childNodesList = [];
@@ -153,12 +199,11 @@ export class DocumentTree extends Component {
    * @desc метод для инициализации дерева разделов если был передан id ячейки от которой оно будет строится
    * мы формируем массив объектов ячеек в который входят ячейки всех выше стоящих узлов до корня
    * */
-  initTree = (cellid) => {
+  initTree = cellid => {
     if (!cellid) return;
     let nodes = [];
     this.branchDownload(cellid, nodes, '')
       .then(response => {
-
         if (nodes.length) {
           let newNodes = [];
           this.createBranch(this.state.tree.childcell.id, nodes, newNodes);
@@ -171,37 +216,36 @@ export class DocumentTree extends Component {
               active: true,
               toggled: true,
               children: newNodes,
-            }
-          })
+            },
+          });
         }
         return response;
       })
       .catch(error => {
         console.error(`Error initTree cellid=${cellid}:`, error);
-      })
+      });
   };
-
 
   /**
    * @param {object} props принимает объект который будет писатя в стейт и перезаписывать его свойства
    * @desc метод для обновления стейта
    * */
-  updateTree = (props) => {
-    this.setState((state) => ({
+  updateTree = props => {
+    this.setState(state => ({
       ...state,
       ...props,
-    }))
+    }));
   };
 
   /**
    * @param {object} node объект ноды дерева
-   * @param {string} toggled - статус открытия ноду
+   * @param {boolean} toggled - статус открытия ноду
    * @desc метод для включения/выключения ноды дерева
    * */
   onToggle = (node, toggled) => {
     node.active = toggled;
     if (node.loading) {
-      return
+      return;
     }
     node.toggled = toggled;
 
@@ -242,32 +286,37 @@ export class DocumentTree extends Component {
 
           // Это перегрузка метода
           if (typeof prevcell !== 'undefined') {
-            if (data.cellitem.prevcell && has.call(data.cellitem.prevcell, 'id') && data.cellitem.prevcell.id !== prevcell) {
+            if (
+              data.cellitem.prevcell &&
+              has.call(data.cellitem.prevcell, 'id') &&
+              data.cellitem.prevcell.id !== prevcell
+            ) {
               await this.branchDownload(data.cellitem.prevcell.id, nodes, data.cellitem.id);
             }
-            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id') && data.cellitem.nextcell.id !== prevcell) {
+            if (
+              data.cellitem.nextcell &&
+              has.call(data.cellitem.nextcell, 'id') &&
+              data.cellitem.nextcell.id !== prevcell
+            ) {
               return await this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
             }
           } else {
-
             if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
               return this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
             }
             return response;
           }
-
         } else {
           return null;
         }
-
-      }).catch(error => {
+      })
+      .catch(error => {
         console.log(prevcell);
         console.log(id);
         console.error(`Error branchDownload, id=${id},prevcell=${prevcell}: `, error);
         return null;
-      })
+      });
   };
-
 
   /**
    * @params {string} name - название искомой ноды
@@ -284,16 +333,19 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToNode, status);
 
       this.updateTree({
-        tree, cursor: cursor.id === id ? {
-          ...cursor,
-          loading: status,
-        } : cursor,
+        tree,
+        cursor:
+          cursor.id === id
+            ? {
+              ...cursor,
+              loading: status,
+            }
+            : cursor,
       });
     } catch (error) {
       console.log(`Error changeStatusLoadingsNode name=${name}:`, error);
     }
   };
-
 
   /**
    * @param {string} id ноды
@@ -310,10 +362,13 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToNode, focused);
       this.updateTree({
         tree,
-        cursor: cursor && cursor.id === id ? {
-          ...cursor,
-          focused: focused,
-        } : cursor,
+        cursor:
+          cursor && cursor.id === id
+            ? {
+              ...cursor,
+              focused: focused,
+            }
+            : cursor,
       });
     } catch (error) {
       console.error(`Error changeNodeFocus, id=${id}: `, error);
@@ -334,20 +389,27 @@ export class DocumentTree extends Component {
     if (!data) {
       return path;
     }
-    return data.map((item, index) => {
-      if (item[prop] === target) {
-        if (path) {
-          return `${path}.${index}`;
+    return data
+      .map((item, index) => {
+        if (item[prop] === target) {
+          if (path) {
+            return `${path}.${index}`;
+          } else {
+            return `${index}`;
+          }
+        } else if (item.children) {
+          let result = this.findNodeByProp(
+            item.children,
+            target,
+            path ? `${path}.${index}.children` : `${index}.children`,
+            prop,
+          );
+          return Array.isArray(result) ? result[0] : path;
         } else {
-          return `${index}`;
+          return false;
         }
-      } else if (item.children) {
-        let result = this.findNodeByProp(item.children, target, path ? `${path}.${index}.children` : `${index}.children`, prop);
-        return Array.isArray(result) ? result[0] : path;
-      } else {
-        return false;
-      }
-    }).filter((item) => typeof item === 'string')
+      })
+      .filter(item => typeof item === 'string');
   };
 
   /**
@@ -358,16 +420,16 @@ export class DocumentTree extends Component {
   addNodeListInBranch = (cellList, numberParent) => {
     try {
       const tree = Object.assign({}, this.state.tree);
-      let pathToParent = this.getPathToNode(tree, cellList[0].parent && cellList[0].parent.id) + '.children';
+      let pathToParent =
+        this.getPathToNode(tree, cellList[0].parent && cellList[0].parent.id) + '.children';
 
-      let newChildren = cellList.map((cell) => (this.createCellNode(cell)));
+      let newChildren = cellList.map(cell => this.createCellNode(cell));
 
       newChildren = this.cellNumbering(newChildren, numberParent);
 
       objectPath.set([tree], pathToParent, newChildren);
 
       this.updateTree({tree});
-
     } catch (error) {
       console.log(`Error addNodeListInBranch, numberParent=${numberParent}`, error);
     }
@@ -377,10 +439,10 @@ export class DocumentTree extends Component {
    * @param {object} cell объект ячейки
    * @desc метод добавления одной ячейки в дерево
    * */
-  addNodeInTree = (cell) => {
+  addNodeInTree = cell => {
     const tree = Object.assign({}, this.state.tree);
 
-    let pathToParent = this.getPathToNode(tree, cell.parent);
+    let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
     // путь до парента в дереве
     let pathToParentChildren = pathToParent + '.children';
     let pathToNumberParent = pathToParent + '.number';
@@ -399,7 +461,6 @@ export class DocumentTree extends Component {
     objectPath.set([tree], pathToParentChildren, parentChildren);
 
     this.updateTree({tree});
-
   };
 
   /**
@@ -409,7 +470,7 @@ export class DocumentTree extends Component {
    * */
   getIndexPrevCell = (cellList, targetId) => {
     try {
-      return cellList.findIndex(item => item.id === targetId)
+      return cellList.findIndex(item => item.id === targetId);
     } catch (error) {
       console.error(`Error getIndexPrevCell`, error);
       return cellList.length - 1;
@@ -435,23 +496,24 @@ export class DocumentTree extends Component {
     }
   };
 
-
   /**
    * @param {object} cell объект ячейки
    * @desc метод добавляет параметры необходимые для дерева в данные ячейки полученные от сервера
    * */
-  createCellNode = (cell) => {
+  createCellNode = cell => {
     try {
       return {
         active: false,
         focused: false,
-        ...(SidebarCellNode.childcellIsCategory(cell) ? {
-          children: [],
-          toggled: false,
-          loading: false,
-        } : null),
+        ...(SidebarCellNode.childcellIsCategory(cell)
+          ? {
+            children: [],
+            toggled: false,
+            loading: false,
+          }
+          : null),
         ...cell,
-      }
+      };
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -481,32 +543,33 @@ export class DocumentTree extends Component {
   /**
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
-  getNode = (id) => {
+  getNode = id => {
     const {client} = this.props;
 
-    return client.query({
-      query: CellItemQuery,
-      variables: {
-        id,
-      }
-    }).catch(error => {
-      console.error(`Error getNode, id=${id}: `, error);
-      return error;
-    })
+    return client
+      .query({
+        query: CellItemQuery,
+        variables: {
+          id,
+        },
+      })
+      .catch(error => {
+        console.error(`Error getNode, id=${id}: `, error);
+        return error;
+      });
   };
 
   render() {
-    console.log('DocumentTree:', this.state);
-    return (<Box style={{
-      borderBottom: '1px solid #848484',
-      marginBottom: '4px'
-    }}>
-      <Treebeard
-        decorators={decorators}
-        data={this.state.tree}
-        onToggle={this.onToggle}
-      />
-    </Box>)
+    console.log('DocumentTree:', this);
+    return (
+      <Box
+        style={{
+          borderBottom: '1px solid #848484',
+          marginBottom: '4px',
+        }}>
+        <Treebeard decorators={decorators} data={this.state.tree} onToggle={this.onToggle}/>
+      </Box>
+    );
   }
 }
 

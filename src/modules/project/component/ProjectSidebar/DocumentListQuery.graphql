@@ -1,14 +1,11 @@
-query($projectid: String){
-  documentlist(projectid: $projectid){
-    # mongoid
+query ($author: String!) {
+  documentlist(author: $author) {
     id
-    # название шаблона
     name
-    # id корневого элемента от которого строится граф разделов
-    childcell{
+    childcell: children {
       id
+      name
     }
-    # null, на согласовании, согласован, не согласован
     approvalstatus
   }
 }

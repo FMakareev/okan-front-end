@@ -1,5 +1,5 @@
-mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: String) {
-  createcell(prevcell: $prevcell,parent: $parent, isHead: $isHead, contenttype: $contenttype){
+mutation($isHead: Boolean, $name: String) {
+  createcell(isHead: $isHead, name: $name){
     cell{
       # mongoid
       id
@@ -20,10 +20,9 @@ mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: Strin
         id
       }
       # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-      childcell: children{
+      children{
         id
       }
-      isHead
     }
   }
 }

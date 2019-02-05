@@ -1,7 +1,7 @@
 mutation ($target: [String]!, $parent: String!) {
   bindingcell(target: $target, parent: $parent) {
     cell {
-        id
+      id
     }
   }
 }

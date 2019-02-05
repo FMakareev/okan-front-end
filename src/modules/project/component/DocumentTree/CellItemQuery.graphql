@@ -3,16 +3,16 @@ query ($id: String!) {
     id
     name
     verify
-    prevcell{
+    prevcell {
       id
     }
-    nextcell{
+    nextcell {
       id
     }
-    parent{
+    parent {
       id
     }
-    childcell:children{
+    childcell: children {
       id
       isHead
     }

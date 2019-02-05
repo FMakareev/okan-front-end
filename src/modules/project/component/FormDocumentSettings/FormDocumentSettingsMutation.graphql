@@ -4,9 +4,14 @@ mutation ($approvalstatus: String, $children: String, $customercode: String, $do
       id
       name
       okancode
-      approvalstatus
       customercode
-      documentnumber
+      project
+      partners {
+        id
+        firstname
+        lastname
+        patronymic
+      }
     }
   }
 }

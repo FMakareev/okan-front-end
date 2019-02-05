@@ -1,22 +1,22 @@
-query($parent: String){
-  celllist(parent: $parent){
-    childcell:children{
+query ($parent: String) {
+  celllist(parent: $parent) {
+    childcell: children {
       id
     }
-    comments{
+    comments {
       id
-      createdate
+      createdate: createdat
       isdelete
       message
-      sender{
+      sender {
         id
         firstname
         lastname
         patronymic
       }
-      updatedate
+      updatedate: updatedat
     }
-    content{
+    content {
       id
       name
       content
@@ -26,13 +26,13 @@ query($parent: String){
     id
     isHead
     name
-    nextcell{
+    nextcell {
       id
     }
-    prevcell{
+    prevcell {
       id
     }
-    parent{
+    parent {
       id
     }
     verify
