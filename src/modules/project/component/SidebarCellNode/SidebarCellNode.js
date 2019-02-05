@@ -230,8 +230,6 @@ export class SidebarCellNode extends Component {
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
               node={node}
-              prevcell={node.id}
-              parent={node.parent ? node.parent.id : null}
               addNodeInTree={this.props.addNodeInTree}
               changeNodeFocus={this.props.changeNodeFocus}
             />
