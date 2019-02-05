@@ -9,13 +9,13 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Box from '../../../../components/Box/Box';
 
 /** Image */
-import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
+import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
 
 /** Style css */
-import {AbsoluteStyled, BoxStyled} from './SidebarCreateCellStyled';
+import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
 
 /** Store */
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
 import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
@@ -24,7 +24,7 @@ import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
 import CreateCellMutation from './CreateCellMutation.graphql';
 
 
-const notificationOpts = ({prevcell, parent, isHead, contenttype}) => {
+const notificationOpts = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
 
   if (prevcell && isHead) {
@@ -68,8 +68,6 @@ const notificationOpts = ({prevcell, parent, isHead, contenttype}) => {
     },
   };
 };
-
-/** Styles property */
 
 export class SidebarCreateCell extends Component {
   static propTypes = {

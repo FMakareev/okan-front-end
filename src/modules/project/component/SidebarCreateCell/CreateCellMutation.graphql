@@ -20,9 +20,10 @@ mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: Strin
         id
       }
       # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-      children{
+      childcell: children{
         id
       }
+      isHead
     }
   }
 }
