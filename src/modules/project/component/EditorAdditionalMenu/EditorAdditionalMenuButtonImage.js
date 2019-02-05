@@ -10,14 +10,16 @@ import pictureIcon from '../../../../assets/image/pictureIcon.png';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Text from '../../../../components/Text/Text';
 
+import {BLOCK_IMAGE} from '../../../../shared/blockType';
+
 const Button = styled(ButtonBase)`
   ${props => color({ ...props, color: 'color4' })};
   border: 1px solid;
 `;
 
-export const EditorAdditionalMenuButtonImage = () => {
+export const EditorAdditionalMenuButtonImage = (props) => {
   return (
-    <Button variant={'empty'} width={'100px'}>
+    <Button variant={'empty'} width={'100px'} onClick={()=>props.handleButtonPress(BLOCK_IMAGE)}>
       <Text color={'color4'} fontSize={5} lineHeight={6}>
         Рисунок
       </Text>

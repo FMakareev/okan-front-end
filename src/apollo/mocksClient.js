@@ -24,6 +24,7 @@ import { notificationItem } from './graphql/query/notificationItem';
 import { projectlist } from './graphql/query/projectlist';
 import { revisionitem } from './graphql/query/revisionitem';
 import { revisionList } from './graphql/query/revisionList';
+import { blockitem } from './graphql/query/blockitem';
 
 
 
@@ -113,6 +114,15 @@ const defaultMocks = {
         setTimeout(() => {
           const result = cellTree.find(item => item.id === id);
           resolve(result);
+        }, faker.random.number(0))
+      })
+    },
+
+    blockitem: (query, props) => {
+      const {id} = props;
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(blockitem());
         }, faker.random.number(0))
       })
     },
@@ -313,6 +323,18 @@ const defaultMocks = {
         }, faker.random.number(2000));
       });
     },
+
+    createblock: (mutation, props) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            block: {
+              ...blockitem(props)
+            },
+          });
+        }, faker.random.number(2000));
+      });
+    }
   }),
 };
 

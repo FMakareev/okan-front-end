@@ -337,6 +337,14 @@ type Query {
   #   }
   # }
 
+  # https://okan.code-artel.com/graphql :
+  """получить блок по id"""
+  blockitem(id: String): Block,
+  # query ($id: String) {
+  #   blockitem(id: $id) {
+  #     id
+  #   }
+  # }
 
   # revisionlist(id: String!): [Project]
   # https://okan.code-artel.com/graphql :
@@ -465,6 +473,18 @@ type Mutation {
     parent: String,
     prevcell: String,
     verify: String) : document_resolve_cell_update,
+
+  # content - содержимое блока
+  # contenttype - тип блока: table, image, text
+  # name - имя блока
+  # createblock(content: String, contenttype: String, name: String): Block
+  # https://okan.code-artel.com/graphql :
+  """ создание блока"""
+  createblock (
+    content: String,
+    contenttype: String,
+    name: String
+  ) : document_resolve_block_create,
 
   # sender - id отправителя комментария
   # message - сообщение комментария
@@ -619,4 +639,9 @@ type project_resolve_project_create {
 }
 type project_resolve_project_update {
   project: Project
+}
+
+
+type document_resolve_block_create {
+  block: Block
 }

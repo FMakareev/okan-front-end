@@ -1,0 +1,11 @@
+mutation($content: String, $contenttype: String, $name: String) {
+  createblock(content: $content, contenttype: $contenttype, name: $name){
+    block{
+      content,
+      contenttype,
+      id,
+      name,
+      number
+    }
+  }
+}

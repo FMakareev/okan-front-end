@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
+import { graphql, Query } from 'react-apollo';
 
 /** Image */
 import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
@@ -15,26 +16,33 @@ import EditorAdditionalMenuButtonTable from './EditorAdditionalMenuButtonTable';
 import EditorAdditionalMenuButtonImage from './EditorAdditionalMenuButtonImage';
 import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 
+/** Graphql schema */
+import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+
+/** New block types */
+import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType'
+
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
-const EditorAdditionalMenuButton = () => (
-  <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
-    <Flex mx={-2}>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonTable/>
-      </Box>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonImage/>
-      </Box>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonText/>
-      </Box>
-    </Flex>
-  </Absolute>
-);
-
-
+const EditorAdditionalMenuButton = (props) => {
+  return (
+    <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
+      <Flex mx={-2}>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonTable {...props}/>
+        </Box>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonImage/>
+        </Box>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonText/>
+        </Box>
+      </Flex>
+    </Absolute>
+  )
+};
 
 /**
  * @desc Компонент контроллер для добавления новых блоков в документ
@@ -53,6 +61,7 @@ export class EditorAdditionalMenu extends Component {
     if (isBrowser) {
       this.app = document.getElementById('app');
     }
+
   }
 
   get initialState() {
@@ -116,9 +125,30 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
-  createEditorInstance = (message) => {
-    console.log(message);
-    alert('here');
+  createEditorInstance = (blockType) => {
+    this.props.mutate({
+      // variables: {
+      //   content: '',
+      //   contenttype: blockType,
+      //   name: ''
+      // },
+      variables: { 
+        prevcell: '', 
+        parent: '', 
+        isHead: false, 
+        contenttype: blockType 
+      },
+      update: (store, { data: { CreateCellMutation } }) => {
+        const celllist = store.readQuery({ query: CellListQuery });
+        // console.log('store;', store)
+        console.log('celllist', celllist)
+      }
+    })
+      .then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
 
   render() {
@@ -130,10 +160,12 @@ export class EditorAdditionalMenu extends Component {
         <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
           <SvgSidebarAdd/>
         </ButtonBase>
-        {active && <EditorAdditionalMenuButton handleButtonPress={(msg)=>{this.createEditorInstance(msg)}}/>}
+        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType)=>{this.createEditorInstance(blockType)}}/>}
       </Box>
     );
   }
 }
+
+EditorAdditionalMenu = graphql(CreateCellMutation)(EditorAdditionalMenu);
 
 export default RenderOpenWindow(EditorAdditionalMenu);
