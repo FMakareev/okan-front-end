@@ -23,9 +23,9 @@ import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
 /** Graphql schema */
 import CreateCellMutation from './CreateCellMutation.graphql';
 
-
 const notificationOpts = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
+  // console.log(1, prevcell, parent, isHead, contenttype);
 
   if (prevcell && isHead) {
     title = 'Раздел';
@@ -69,8 +69,6 @@ const notificationOpts = ({ prevcell, parent, isHead, contenttype }) => {
   };
 };
 
-/** Styles property */
-
 export class SidebarCreateCell extends Component {
   static propTypes = {
     /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
@@ -96,7 +94,7 @@ export class SidebarCreateCell extends Component {
   };
 
   submit = (prevcell, parent, isHead, contenttype) => {
-    // console.log(prevcell, parent, isHead, contenttype);
+    console.log(1, prevcell, parent, isHead, contenttype);
     const { setNotificationSuccess, setNotificationError } = this.props;
 
     const variables = {
@@ -106,6 +104,9 @@ export class SidebarCreateCell extends Component {
       isHead,
     };
 
+    // console.log(2, isHead);
+    console.log(2, this.props.client.mutate({ mutation: CreateCellMutation, variables }));
+
     this.onToggle();
     this.props.client
       .mutate({
@@ -113,8 +114,9 @@ export class SidebarCreateCell extends Component {
         variables,
       })
       .then(response => {
-        // console.log('SidebarCreateCell response: ', response);
+        console.log('3: ', response.data.createcell.cell);
         if (isHead) {
+          console.log(4, this.props);
           this.props.addNodeInTree(response.data.createcell.cell);
         }
         setNotificationSuccess(notificationOpts({ prevcell, parent, isHead, contenttype }).success);
@@ -132,9 +134,11 @@ export class SidebarCreateCell extends Component {
       parent,
       node: { isHead, childcell },
     } = this.props;
+
     const { toggle } = this.state;
 
     // console.log('SidebarCreateCell: ', this.props);
+    // console.log('0: ', prevcell, parent, isHead, childcell);
 
     return (
       <Box position={'relative'}>
@@ -164,7 +168,7 @@ export class SidebarCreateCell extends Component {
             {((isHead && !childcell) || (!isHead && childcell)) && (
               <BoxStyled
                 onClick={() => {
-                  this.submit(null, parent, true);
+                  return this.submit(prevcell, prevcell, true);
                 }}>
                 Подраздел
               </BoxStyled>

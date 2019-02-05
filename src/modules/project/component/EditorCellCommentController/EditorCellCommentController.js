@@ -1,53 +1,49 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Absolute} from 'rebass';
-import {connect} from 'react-redux';
+import { Absolute } from 'rebass';
+import { connect } from 'react-redux';
 /** Components */
 import EditorCellCommentButton from '../EditorCellCommentButton/EditorCellCommentButton';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import {Relative} from "@lib/ui/Relative/Relative";
-import TextAreaBase from "@lib/ui/TextAreaBase/TextAreaBase";
-import {Flex} from "@lib/ui/Flex/Flex";
-import {Field, Form, reduxForm} from "redux-form";
-import styled from "styled-components";
-import BorderColorProperty from "@lib/styles/styleProperty/BorderColorProperty";
-import BackgroundColorProperty from "@lib/styles/styleProperty/BackgroundColorProperty";
-import {EditorCellCommentItem} from "../EditorCellCommentItem/EditorCellCommentItem";
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
-
+import { Relative } from '@lib/ui/Relative/Relative';
+import TextAreaBase from '@lib/ui/TextAreaBase/TextAreaBase';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { Field, Form, reduxForm } from 'redux-form';
+import styled from 'styled-components';
+import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
+import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
+import { EditorCellCommentItem } from '../EditorCellCommentItem/EditorCellCommentItem';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const FormStyled = styled(Form)`
   width: 250px;
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
-  ${props => BackgroundColorProperty({...props, backgroundColor: 'color0'})};
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 `;
 
-
 class FormCommentEditor extends Component {
   render() {
-    console.log('FormCommentEditor', this.props);
-    return (<Box zIndex={1} right={'10px'} top={'10px'}>
-      <FormStyled onSubmit={() => {
-      }}>
-        <Field name={'message'} component={TextAreaBase}/>
-      </FormStyled>
-      <Flex justifyContent={'flex-end'}>
-
-      </Flex>
-    </Box>)
+    // console.log('FormCommentEditor', this.props);
+    return (
+      <Box zIndex={1} right={'10px'} top={'10px'}>
+        <FormStyled onSubmit={() => {}}>
+          <Field name={'message'} component={TextAreaBase} />
+        </FormStyled>
+        <Flex justifyContent={'flex-end'} />
+      </Box>
+    );
   }
 }
 
 FormCommentEditor = reduxForm({
-  form: 'FormCommentEditor'
+  form: 'FormCommentEditor',
 })(FormCommentEditor);
-
 
 export class EditorCellCommentController extends Component {
   state = {};
@@ -68,13 +64,13 @@ export class EditorCellCommentController extends Component {
     return {
       isOpen: false,
       status: this.getCurrentStatus(),
-    }
+    };
   }
   /** @desc метод для получения статуса для кнопки комментария */
   getCurrentStatus = () => {
     try {
-      const {comment, user, id} = this.props;
-      console.log('EditorCellCommentController: ', this.props);
+      const { comment, user, id } = this.props;
+      // console.log('EditorCellCommentController: ', this.props);
       if (user && user.isAuth) {
         if (!comment) {
           return 'emptyComment';
@@ -82,7 +78,7 @@ export class EditorCellCommentController extends Component {
         if (user.id === comment.sender.id) {
           return 'comment';
         }
-        return 'newComment'
+        return 'newComment';
       } else {
         return 'emptyComment';
       }
@@ -93,35 +89,40 @@ export class EditorCellCommentController extends Component {
 
   /** @desc метод для вкл/выкл комментария */
   onToggle = () => {
-    this.setState((state) => ({
+    this.setState(state => ({
       ...state,
       isOpen: !state.isOpen,
-    }))
+    }));
   };
 
   /** @desc обработчик клика по кнопке открытия комментария*/
   onClick = () => {
     try {
-
       this.onToggle();
-      this.app && this.app.addEventListener('click', this.eventHandle)
+      this.app && this.app.addEventListener('click', this.eventHandle);
     } catch (error) {
       console.error('Error onClick: ', error);
     }
   };
 
   /** @desc метод необходим для реализации закрытия комменатрия при клике вне области коментария */
-  eventHandle = (event) => {
+  eventHandle = event => {
     try {
       const onToggleDetail = this.onToggle;
       const app = this.app;
 
       if (Array.isArray(event.path)) {
-        if (event.path.findIndex(item => {
-          return item.className && typeof item.className === 'string' && item.className.indexOf('EditorCellCommentWrapper') >= 0
-        }) === -1) {
+        if (
+          event.path.findIndex(item => {
+            return (
+              item.className &&
+              typeof item.className === 'string' &&
+              item.className.indexOf('EditorCellCommentWrapper') >= 0
+            );
+          }) === -1
+        ) {
           onToggleDetail();
-          app.removeEventListener('click', this.eventHandle)
+          app.removeEventListener('click', this.eventHandle);
         }
       }
     } catch (error) {
@@ -130,30 +131,23 @@ export class EditorCellCommentController extends Component {
   };
 
   render() {
-    const {isOpen, status} = this.state;
-    const {comments} = this.props;
+    const { isOpen, status } = this.state;
+    const { comments } = this.props;
 
     return (
       <Relative>
-        <EditorCellCommentButton
-          status={status}
-          onClick={this.onClick}
-        />
-        {
-          isOpen &&
+        <EditorCellCommentButton status={status} onClick={this.onClick} />
+        {isOpen && (
           <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
-            <EditorCellCommentItem
-              cell={this.props}
-              {...comments[0]}
-              key={`FormCommentEditor`}/>
+            <EditorCellCommentItem cell={this.props} {...comments[0]} key={`FormCommentEditor`} />
           </Absolute>
-        }
+        )}
       </Relative>
     );
   }
 }
 
-EditorCellCommentController = connect((store) => ({
-  user: getUserFromStore(store)
+EditorCellCommentController = connect(store => ({
+  user: getUserFromStore(store),
 }))(EditorCellCommentController);
 export default EditorCellCommentController;
