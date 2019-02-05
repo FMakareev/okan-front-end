@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 /**View */
@@ -8,8 +8,9 @@ import Th from '@lib/ui/Table/Th';
 import Tr from '@lib/ui/Table/Tr';
 import Table from '@lib/ui/Table/Table';
 import Tbody from '@lib/ui/Table/Tbody';
-import {RevisionItem} from "../RevisionItem/RevisionItem";
 
+/** Components */
+import { RevisionItem } from '../RevisionItem/RevisionItem';
 
 const TableStyled = styled(Table)`
   border-collapse: collapse;
@@ -22,7 +23,8 @@ export class RevisionList extends Component {
   state = {};
 
   render() {
-    const {data} = this.props;
+    const { data } = this.props;
+
     return (
       <TableStyled width={'100%'}>
         <Tr>
@@ -47,17 +49,29 @@ export class RevisionList extends Component {
             Ф. И. О.
           </Th>
 
-          <Th width={'175px'} fontSize={6} lineHeight={8} fontFamily={'primary500'} color={'color11'} py={4}>
+          <Th
+            width={'175px'}
+            fontSize={6}
+            lineHeight={8}
+            fontFamily={'primary500'}
+            color={'color11'}
+            py={4}>
             Дата
           </Th>
 
-          <Th width={'100px'} fontSize={6} lineHeight={8} fontFamily={'primary500'} color={'color11'} py={4}/>
+          <Th
+            width={'100px'}
+            fontSize={6}
+            lineHeight={8}
+            fontFamily={'primary500'}
+            color={'color11'}
+            py={4}
+          />
         </Tr>
         <Tbody>
-        {
-          data.map((item, index) => (<RevisionItem key={`RevisionItem-${index}`} {...item}/>))
-        }
-
+          {data.map((item, index) => {
+            return <RevisionItem key={`RevisionItem-${index}`} {...item} />;
+          })}
         </Tbody>
       </TableStyled>
     );

@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Mutation, withApollo} from 'react-apollo';
-import {error, success} from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { Mutation, withApollo } from 'react-apollo';
+import { error, success } from 'react-notification-system-redux';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -18,11 +18,10 @@ import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
+import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** Graphql schema */
 import CreateCellMutation from './CreateCellMutation.graphql';
-
 
 const notificationOpts = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
@@ -90,17 +89,17 @@ export class SidebarCreateCell extends Component {
 
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({toggle: !state.toggle}));
+    this.setState(state => ({ toggle: !state.toggle }));
   };
 
   submit = (prevcell, parent, isHead, contenttype) => {
     // console.log(prevcell, parent, isHead, contenttype);
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const { setNotificationSuccess, setNotificationError } = this.props;
 
     const variables = {
-      ...(prevcell ? {prevcell} : null),
-      ...(parent ? {parent} : null),
-      ...(contenttype ? {contenttype} : {contenttype: null}),
+      ...(prevcell ? { prevcell } : null),
+      ...(parent ? { parent } : null),
+      ...(contenttype ? { contenttype } : { contenttype: null }),
       isHead,
     };
 
@@ -115,22 +114,22 @@ export class SidebarCreateCell extends Component {
         if (isHead) {
           this.props.addNodeInTree(response.data.createcell.cell);
         }
-        setNotificationSuccess(notificationOpts({prevcell, parent, isHead, contenttype}).success);
+        setNotificationSuccess(notificationOpts({ prevcell, parent, isHead, contenttype }).success);
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationOpts({prevcell, parent, isHead, contenttype}).error);
+        setNotificationError(notificationOpts({ prevcell, parent, isHead, contenttype }).error);
       });
   };
 
   render() {
     const {
-      node: {isHead, childcell, id, parent},
+      node: { isHead, childcell, id, parent },
     } = this.props;
-    const {toggle} = this.state;
+    const { toggle } = this.state;
 
-    console.log('SidebarCreateCell: ', this.props);
+    // console.log('SidebarCreateCell: ', this.props);
 
     return (
       <Box position={'relative'}>
@@ -138,7 +137,7 @@ export class SidebarCreateCell extends Component {
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
           onClick={this.onToggle}>
-          <SvgSidebarAdd/>
+          <SvgSidebarAdd />
         </ButtonBase>
 
         {toggle && (
@@ -151,7 +150,11 @@ export class SidebarCreateCell extends Component {
             {((isHead && childcell) || (isHead && !childcell) || (!isHead && childcell)) && (
               <BoxStyled
                 onClick={() => {
-                  this.submit(this.props.node.id, this.props.node.parent !== null ? this.props.node.parent.id : null, true);
+                  this.submit(
+                    this.props.node.id,
+                    this.props.node.parent !== null ? this.props.node.parent.id : null,
+                    true,
+                  );
                 }}>
                 Раздел
               </BoxStyled>
@@ -202,7 +205,7 @@ export class SidebarCreateCell extends Component {
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
 SidebarCreateCell = connect(
-  state => ({user: getUserFromStore(state)}),
+  state => ({ user: getUserFromStore(state) }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

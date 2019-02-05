@@ -1,17 +1,25 @@
-import React, {Component} from 'react';
-import {withApollo} from 'react-apollo';
+import React, { Component } from 'react';
+import { withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
-import {Treebeard, decorators} from '../../../../components/ReactTreeBeard/index';
-import {Box} from '@lib/ui/Box/Box';
+import objectPath from 'object-path';
+
+/** View */
+import { Treebeard, decorators } from '../../../../components/ReactTreeBeard/index';
+import { Box } from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
+
+/** Component */
 import SidebarCellRoot from '../SidebarCellRoot/SidebarCellRoot';
 import SidebarCellNode from '../SidebarCellNode/SidebarCellNode';
+import { withProject } from '../ProjectContext/ProjectContext';
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
+
+/** Graphql schema */
 import CellItemQuery from './CellItemQuery.graphql';
-import objectPath from 'object-path';
-import Flex from '@lib/ui/Flex/Flex';
-import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
-import {withProject} from '../ProjectContext/ProjectContext';
-import {getPosition} from '../ProjectContext/ProjectContextSelectors';
-import FormCreateFirstCell from "../FormCreateFirstCell/FormCreateFirstCell";
+
+/** PropTypes  */
+import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
 
 decorators.TreeBeardWrapper = props => <Box {...props} />;
 decorators.TreeNodeList = props => <Box pl={'10px'} {...props} />;
@@ -69,25 +77,24 @@ export class DocumentTree extends Component {
   }
 
   get initialState() {
-    const {data, project} = this.props;
-    const children = data && has.call(data, 'childcell') && data.childcell !== null ? [] : [
-      {
-        toggled: false,
-        loading: false,
-        active: false,
-        focused: false,
-        decorators: {
-          ...decorators,
-          Container: props => (
-            <FormCreateFirstCell
-              document={data}
-              project={project}
-              {...props}
-            />
-          )
-        }
-      }
-    ];
+    const { data, project } = this.props;
+    const children =
+      data && has.call(data, 'childcell') && data.childcell !== null
+        ? []
+        : [
+            {
+              toggled: false,
+              loading: false,
+              active: false,
+              focused: false,
+              decorators: {
+                ...decorators,
+                Container: props => (
+                  <FormCreateFirstCell document={data} project={project} {...props} />
+                ),
+              },
+            },
+          ];
 
     return {
       cursor: null,
@@ -109,17 +116,15 @@ export class DocumentTree extends Component {
             />
           ),
         },
-        children: children
+        children: children,
       },
     };
   }
 
-
   componentWillUpdate(nextProps, nextState) {
-    const {data} = nextProps;
+    const { data } = nextProps;
 
-    if ((data.childcell !== null && this.state.tree.childcell === null)) {
-
+    if (data.childcell !== null && this.state.tree.childcell === null) {
       const newState = {
         ...this.state,
         tree: {
@@ -134,13 +139,11 @@ export class DocumentTree extends Component {
           children: [],
         },
       };
-      this.setState(newState, (state) => {
+      this.setState(newState, state => {
         console.log('New state after create first cell');
         this.onToggle(newState.tree, true);
       });
     }
-
-
   }
 
   /**
@@ -267,7 +270,7 @@ export class DocumentTree extends Component {
     } else {
       node.loading = false;
     }
-    this.updateTree({cursor: node});
+    this.updateTree({ cursor: node });
   };
 
   /**
@@ -280,7 +283,7 @@ export class DocumentTree extends Component {
     if (!id) return;
     return this.getNode(id)
       .then(async response => {
-        const {data} = response;
+        const { data } = response;
         if (data && data.cellitem) {
           nodes.push(data.cellitem);
 
@@ -325,7 +328,7 @@ export class DocumentTree extends Component {
    * */
   changeStatusLoadingsNode = (id, status = false) => {
     try {
-      const {tree, cursor} = this.state;
+      const { tree, cursor } = this.state;
       // нашли путь к  ноде
       let pathToNode = this.getPathToNode(tree, id) + '.loading';
 
@@ -337,9 +340,9 @@ export class DocumentTree extends Component {
         cursor:
           cursor.id === id
             ? {
-              ...cursor,
-              loading: status,
-            }
+                ...cursor,
+                loading: status,
+              }
             : cursor,
       });
     } catch (error) {
@@ -354,7 +357,7 @@ export class DocumentTree extends Component {
    * */
   changeNodeFocus = (id, focused = false) => {
     try {
-      const {tree, cursor} = this.state;
+      const { tree, cursor } = this.state;
       // нашли путь к  ноде
       let pathToNode = this.getPathToNode(tree, id) + '.focused';
 
@@ -365,9 +368,9 @@ export class DocumentTree extends Component {
         cursor:
           cursor && cursor.id === id
             ? {
-              ...cursor,
-              focused: focused,
-            }
+                ...cursor,
+                focused: focused,
+              }
             : cursor,
       });
     } catch (error) {
@@ -429,7 +432,7 @@ export class DocumentTree extends Component {
 
       objectPath.set([tree], pathToParent, newChildren);
 
-      this.updateTree({tree});
+      this.updateTree({ tree });
     } catch (error) {
       console.log(`Error addNodeListInBranch, numberParent=${numberParent}`, error);
     }
@@ -441,26 +444,34 @@ export class DocumentTree extends Component {
    * */
   addNodeInTree = cell => {
     const tree = Object.assign({}, this.state.tree);
+    console.log(1, cell)
 
     let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
+    console.log(3, pathToParent); // "0.children.4"
+
     // путь до парента в дереве
     let pathToParentChildren = pathToParent + '.children';
     let pathToNumberParent = pathToParent + '.number';
+    console.log(4, pathToParentChildren); //"0.children.6.children"
 
     let parentChildren = objectPath.get([tree], pathToParentChildren);
+    console.log(5, tree);
+
     let numberParent = objectPath.get([tree], pathToNumberParent);
 
     let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
 
+    console.log(2, parentChildren, cell.prevcell.id); //undefined "5c59e1689adb4967b3a97445"
+
     // Добавить в массив новую ячейку после предыдущей
-    parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
+    parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({ ...cell, focused: true }));
 
     // перерасчет номеров
     parentChildren = this.cellNumbering(parentChildren, numberParent);
 
     objectPath.set([tree], pathToParentChildren, parentChildren);
 
-    this.updateTree({tree});
+    this.updateTree({ tree });
   };
 
   /**
@@ -469,6 +480,7 @@ export class DocumentTree extends Component {
    * @desc возвращает индекс предыдущей ячейки
    * */
   getIndexPrevCell = (cellList, targetId) => {
+    console.log(1, cellList, targetId); //undefined "5c59e1689adb4967b3a97445"
     try {
       return cellList.findIndex(item => item.id === targetId);
     } catch (error) {
@@ -507,10 +519,10 @@ export class DocumentTree extends Component {
         focused: false,
         ...(SidebarCellNode.childcellIsCategory(cell)
           ? {
-            children: [],
-            toggled: false,
-            loading: false,
-          }
+              children: [],
+              toggled: false,
+              loading: false,
+            }
           : null),
         ...cell,
       };
@@ -544,7 +556,7 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = id => {
-    const {client} = this.props;
+    const { client } = this.props;
 
     return client
       .query({
@@ -560,14 +572,14 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log('DocumentTree:', this);
+    // console.log('DocumentTree:', this);
     return (
       <Box
         style={{
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={decorators} data={this.state.tree} onToggle={this.onToggle}/>
+        <Treebeard decorators={decorators} data={this.state.tree} onToggle={this.onToggle} />
       </Box>
     );
   }

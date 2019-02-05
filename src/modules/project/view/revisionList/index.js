@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import Flex from '@lib/ui/Flex/Flex';
@@ -19,19 +19,16 @@ import RevisionListQuery from './RevisionListQuery.graphql';
 
 const has = Object.prototype.hasOwnProperty;
 
-
 export class RevisionListPage extends Component {
-  static propTypes = {...ReactRoutePropTypes};
+  static propTypes = { ...ReactRoutePropTypes };
 
   state = {};
 
   render() {
     const {
-      match: {
-        params
-      },
+      match: { params },
     } = this.props;
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
@@ -41,10 +38,10 @@ export class RevisionListPage extends Component {
               variables={{
                 id: params && params.id,
               }}>
-              {({loading, error, data}) => {
-                console.log('RevisionListQuery', data);
+              {({ loading, error, data }) => {
+                // console.log('RevisionListQuery', data);
                 if (loading) {
-                  return <SmallPreloader/>;
+                  return <SmallPreloader />;
                 }
                 if (error) {
                   throw error;
@@ -53,11 +50,7 @@ export class RevisionListPage extends Component {
                   return null;
                 }
 
-                return (
-                  <RevisionList
-                    data={data.revisionList}
-                  />
-                );
+                return <RevisionList data={data.revisionList} />;
               }}
             </Query>
           </Container>
