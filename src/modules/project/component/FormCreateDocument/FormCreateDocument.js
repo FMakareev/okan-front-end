@@ -50,7 +50,6 @@ export class FormCreateDocument extends Component {
 
   render() {
     const { submitting, handleSubmit } = this.props;
-    // console.log('FormCreateDocument: ', this.props);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
