@@ -67,14 +67,11 @@ export class FormProfileCreateUser extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
-
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
+    // console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
         return response;
@@ -153,10 +150,12 @@ export class FormProfileCreateUser extends Component {
         <Field
           name="phone"
           component={MaskedInputField}
-          placeholder={'Телефон'}
+          placeholder={'( 111 ) - 111 - 11 - 11'}
           type="text"
           validate={required}
           fontFamily={'secondary'}
+          fontSize={5}
+          lineHeight={7}
         />
 
         <Field
@@ -164,8 +163,7 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Электронная почта'}
           type="text"
-          size={'md'}
-          // validate={[required, isEmail]}
+          size={'md'} // validate={[required, isEmail]}
           fontFamily={'secondary'}
         />
 

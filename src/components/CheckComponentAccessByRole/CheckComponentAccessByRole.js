@@ -12,14 +12,14 @@ export const CheckComponentAccessByRole = ({ children, targetRole, userRole }) =
       if (targetRole.some(item => item === userRole.name)) {
         return children;
       } else {
-        console.log(`Error CheckComponentAccessByRole: access denied`);
+        // console.log(`Error CheckComponentAccessByRole: access denied`);
       }
     } else {
-      console.log(`Error CheckComponentAccessByRole: targetRole is undefined`);
+      // console.log(`Error CheckComponentAccessByRole: targetRole is undefined`);
       return children;
     }
   } else {
-    console.log(`Error CheckComponentAccessByRole: userRole not found.`);
+    // console.log(`Error CheckComponentAccessByRole: userRole not found.`);
   }
   return null;
 };
