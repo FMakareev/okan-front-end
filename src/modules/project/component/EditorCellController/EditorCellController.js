@@ -1,24 +1,37 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
-import { graphql } from 'react-apollo';
+import {graphql} from "react-apollo";
 
+/** Mutation */
+import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import { Flex } from '@lib/ui/Flex/Flex';
+import {Flex} from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 
 /** Redux */
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {getFormValues} from "redux-form";
+import {error, success} from "react-notification-system-redux";
 
-/** Mutation */
-import UpdateCellMutation from './UpdateCellMutation.graphql';
 
-let timer
+const notificationOpts = () => ({
+  success: {
+    title: 'Раздел сохранен',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Раздел не сохранен',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 export class EditorCellController extends Component {
   static propTypes = {
@@ -26,75 +39,139 @@ export class EditorCellController extends Component {
     data: PropTypes.string,
   };
 
-  static defaultProps = { data: '' };
+  static defaultProps = {data: ''};
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
+
+
   }
 
   get initialState() {
     return {
-      editable: this.props.editable,
+      editable: false,
+      timer: null,
       // draggable: false,
     };
   }
+
+  componentDidMount(){
+    const {data} = this.props;
+    if (this.props.editable &&
+      (
+        data.content &&
+        (!data.content.content || data.content.content === 'Новый блок')
+      )
+    ) {
+      this.openEditor();
+    }
+  }
+
+  /**
+   * @desc это метод нужен для сохранения контента через setInterval
+   * */
+  createAutoSave = () => {
+    const {values, data} = this.props;
+    if ((values && values.content) &&
+      values.content !== data.content.content
+    ) {
+      console.info('auto save.');
+      this.saveCellContent();
+    } else {
+      console.info('нет изменений');
+    }
+  }
+
+  /** @desc запуск автосохранения */
+  startAutoSave = () => {
+    console.log('startAutoSave...');
+    const timer = setInterval(this.createAutoSave, 30000);
+    this.setState((state) => ({
+      ...state,
+      timer: timer,
+    }))
+  };
+
+  /** @desc стоп автосохранения */
+  stopAutoSave = () => {
+    console.log('stopAutoSave...');
+    clearInterval(this.state.timer);
+    this.setState((state) => ({
+      ...state,
+      timer: null,
+    }))
+  };
 
   /**
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
+    console.log('onToggleForm');
     this.setState(state => ({
       ...state,
       editable: !state.editable,
     }));
   };
 
-  // componentDidMount() {
-  //   console.log('mount')
-  // }
 
-  // componentDidUpdate() {
-  //   if(this.state.editable) {
-  //     var timer = setInterval(() => {
-  //       this.saveCellContent(); 
-  //     }, 10000);
-  //   }
-  // };
+  /**
+   * @desc метод открывает редактор и стартует автосохранение
+   * */
+  openEditor = () => {
+    try {
+      this.startAutoSave();
+      this.onToggleForm();
+    } catch (error) {
+      console.error('Error openEditor:', error);
+    }
+  };
 
-  formDidMount = () => {
-    timer = setInterval(() => {
-      this.saveCellContent(); 
-    }, 30000);
-  }
-
+  /**
+   * @desc Метод для сохранения ячейки
+   * */
   saveCellContent() {
-    // console.log(this.props.values.content)
-    this.props
+    return this.props
       .mutate({
         variables: {
           id: this.props.data.id,
           content: this.props.values.content,
         },
       })
-      .then(({ data }) => {
-        console.log('got data', data);
+      .then((response) => {
+        console.log('got data', response);
+        return response;
       })
       .catch(error => {
-        console.log('there was an error sending the query', error);
+        console.log('Error saveCellContent: ', error);
+        throw error;
       });
   }
 
-  onBlur = () => {
-    if (this.props.values.content) {
-      clearInterval(timer);
-      this.saveCellContent();
-      this.setState(state => ({
-        ...state,
-        editable: !state.editable,
-      }));
+  /**
+   * @desc метод для отключения фокуса формы и автосохранения
+   * */
+  onBlurForm = () => {
+    const {values, data} = this.props;
+    this.stopAutoSave();
+    if ((values && values.content) &&
+      values.content !== data.content.content
+    ) {
+      this.saveCellContent()
+        .then(response => {
+          this.props.setNotificationSuccess(notificationOpts().success);
+          this.onToggleForm();
+        })
+        .catch(error => {
+          console.log('Error onBlurForm: ', error);
+          this.props.setNotificationError(notificationOpts().error);
+          this.onToggleForm();
+        });
+    } else {
+      this.onToggleForm();
     }
-  }
+  };
+
   // onHover() {
   //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
 
@@ -130,9 +207,10 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const { editable } = this.state;
-    const { data } = this.props;
-    // console.log('EditorCellController: ', this.props);
+    const {editable} = this.state;
+    const {data} = this.props;
+    console.log('EditorCellController: ', this.props);
+    console.log('EditorCellController: ', editable);
     return (
       <Flex
         pl={'10px'}
@@ -151,25 +229,28 @@ export class EditorCellController extends Component {
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
             <Text
-              onClick={this.onToggleForm}
+              onClick={this.openEditor}
               fontSize={5}
               lineHeight={6}
               color={'color11'}
               fontFamily={'primary300'}>
               {data.content && ReactHTMLParser(data.content.content)}
+              {
+                data.content && !data.content.content && 'Нажмите чтобы начать редактирование раздела.'
+              }
             </Text>
           )}
           {editable && (
             <EditorCellForm
               form={'EditorCellForm-' + data.id}
               initialValues={{
+                id: data.id,
                 content: data.content.content,
                 contenttype: data.content.contenttype,
               }}
               id={data.id}
               data={data}
-              didMount={()=>this.formDidMount()}
-              onBlur={()=>this.onBlur()}
+              onBlurForm={() => this.onBlurForm()}
             />
           )}
         </Box>
@@ -181,11 +262,22 @@ export class EditorCellController extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  let id = props.data.id
-  return state.form['EditorCellForm-' + id];
-};
-
 EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 
-export default connect(mapStateToProps)(EditorCellController);
+
+EditorCellController = connect(
+  (state, {data}) => {
+    console.log(data);
+    console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
+
+    return ({
+      values: getFormValues('EditorCellForm-' + data.id)(state),
+    })
+  },
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  })
+)(EditorCellController);
+
+export default EditorCellController
