@@ -65,7 +65,7 @@ export class EditorCellController extends Component {
   formDidMount = () => {
     timer = setInterval(() => {
       this.saveCellContent(); 
-    }, 10000);
+    }, 30000);
   }
 
   saveCellContent() {
@@ -161,7 +161,7 @@ export class EditorCellController extends Component {
           )}
           {editable && (
             <EditorCellForm
-              form={'EditorCellForm-' + data.name}
+              form={'EditorCellForm-' + data.id}
               initialValues={{
                 content: data.content.content,
                 contenttype: data.content.contenttype,
@@ -181,8 +181,9 @@ export class EditorCellController extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return state.form['EditorCellForm-null'];
+const mapStateToProps = (state, props) => {
+  let id = props.data.id
+  return state.form['EditorCellForm-' + id];
 };
 
 EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
