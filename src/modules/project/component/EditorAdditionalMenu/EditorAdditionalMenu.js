@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
+import { graphql, Query, withApollo } from 'react-apollo';
 
 /** Image */
 import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
@@ -15,26 +16,33 @@ import EditorAdditionalMenuButtonTable from './EditorAdditionalMenuButtonTable';
 import EditorAdditionalMenuButtonImage from './EditorAdditionalMenuButtonImage';
 import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 
+/** Graphql schema */
+import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+
+/** New block types */
+import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType'
+
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
-const EditorAdditionalMenuButton = () => (
-  <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
-    <Flex mx={-2}>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonTable/>
-      </Box>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonImage/>
-      </Box>
-      <Box mx={2}>
-        <EditorAdditionalMenuButtonText/>
-      </Box>
-    </Flex>
-  </Absolute>
-);
-
-
+const EditorAdditionalMenuButton = (props) => {
+  return (
+    <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
+      <Flex mx={-2}>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonTable {...props}/>
+        </Box>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonImage {...props}/>
+        </Box>
+        <Box mx={2}>
+          <EditorAdditionalMenuButtonText {...props}/>
+        </Box>
+      </Flex>
+    </Absolute>
+  )
+};
 
 /**
  * @desc Компонент контроллер для добавления новых блоков в документ
@@ -116,9 +124,56 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
-  createEditorInstance = (message) => {
-    console.log(message);
-    alert('here');
+  getLastCellId = (blockType) => {
+    this.props.client.query({ 
+      query: CellListQuery,
+      variables: {
+        parent: this.props.sectionid
+      }
+    }).then(({ data }) => {
+      let lastCellId = data.celllist[data.celllist.length - 1].id;
+      this.createEditorInstance(blockType, lastCellId)
+    }).catch((error) => {
+      this.createEditorInstance(blockType, null)
+      console.log('there was an error sending the query', error);
+    });
+  }
+
+  createEditorInstance = (blockType, lastCellId) => {
+    let prevcell = lastCellId ? lastCellId : this.props.sectionid;
+    this.props.mutate({
+      variables: { 
+        name: '',
+        prevcell: prevcell, 
+        parent: this.props.sectionid, 
+        isHead: false, 
+        contenttype: blockType,
+        content: 'Новый блок'
+      },
+      update: (store, { data: { createcell } }) => {
+        const data = store.readQuery({ 
+          query: CellListQuery,
+          variables: {
+            parent: this.props.sectionid
+          }
+        });
+ 
+        data.celllist.push(createcell.cell);
+
+        store.writeQuery({
+          query: CellListQuery,
+          variables: {
+            parent: this.props.sectionid
+          },
+          data
+        })
+      }
+    })
+      .then(({ data }) => {
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
 
   render() {
@@ -130,10 +185,14 @@ export class EditorAdditionalMenu extends Component {
         <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
           <SvgSidebarAdd/>
         </ButtonBase>
-        {active && <EditorAdditionalMenuButton handleButtonPress={(msg)=>{this.createEditorInstance(msg)}}/>}
+        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType)=>{this.getLastCellId(blockType)}}/>}
       </Box>
     );
   }
 }
+
+EditorAdditionalMenu = withApollo(EditorAdditionalMenu);
+
+EditorAdditionalMenu = graphql(CreateCellMutation)(EditorAdditionalMenu);
 
 export default RenderOpenWindow(EditorAdditionalMenu);

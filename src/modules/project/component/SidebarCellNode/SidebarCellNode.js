@@ -170,10 +170,13 @@ export class SidebarCellNode extends Component {
   };
 
   bindBlock = (parent, target) => {
+    let targetArr = [];
+    targetArr.push(target)
+    console.log(targetArr)
     this.props
       .mutate({
         variables: {
-          target: target,
+          target: targetArr,
           parent: parent,
         },
       })

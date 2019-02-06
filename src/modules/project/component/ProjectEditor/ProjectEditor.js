@@ -59,7 +59,7 @@ export class ProjectEditor extends Component {
               }
 
               if (error) {
-                return `Ошибка`;
+                return null;
               }
 
               if (data && data.celllist) {
@@ -71,6 +71,7 @@ export class ProjectEditor extends Component {
                     <EditorCellControllerWithProject
                       key={`EditorCellControllerWithProject-${index}`}
                       data={item}
+                      editable={item.content.number == 0 ? true : false}
                     />
                   </Box>
                 ));
@@ -79,7 +80,7 @@ export class ProjectEditor extends Component {
             }}
           </Query>
         </ContentWrapper>
-        <EditorAdditionalMenu />
+        <EditorAdditionalMenu sectionid={sectionid}/>
       </Flex>
     );
   }
