@@ -166,7 +166,6 @@ export class TextFieldArray extends Component {
       input: { value },
       valueKey,
     } = this.props;
-    console.log(1, this.props);
 
     return (
       <Box width={'100%'}>
