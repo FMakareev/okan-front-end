@@ -444,32 +444,39 @@ export class DocumentTree extends Component {
    * */
   addNodeInTree = cell => {
     const tree = Object.assign({}, this.state.tree);
-    console.log(1, cell)
 
     let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
-    console.log(3, pathToParent); // "0.children.4"
 
     // путь до парента в дереве
     let pathToParentChildren = pathToParent + '.children';
     let pathToNumberParent = pathToParent + '.number';
-    console.log(4, pathToParentChildren); //"0.children.6.children"
 
-    let parentChildren = objectPath.get([tree], pathToParentChildren);
-    console.log(5, tree);
+    let parent = objectPath.get([tree], pathToParent);
+    let parentChildren = objectPath.get([tree], pathToParentChildren) || [];
 
     let numberParent = objectPath.get([tree], pathToNumberParent);
 
-    let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
+    // проверяем что если у нас у ноды парента еще нет childcell и ячейка
+    // которую мы добавляем в дерево является его дочерней ячейкой
+    // то мы ее сразу добавляем в объект ячейки
+    if(parent.id === (cell.parent && cell.parent.id) && parent.childcell === null){
+      parent.childcell = cell;
+    }
 
-    console.log(2, parentChildren, cell.prevcell.id); //undefined "5c59e1689adb4967b3a97445"
+    // узнаем что ы добавляем не раздел, а од раздел и открываем сразу раздел в который добавляется подраздел
+    if(parent.id === (cell.parent && cell.parent.id) && parent.childcell !== null && cell.isHead){
+      parent.toggled = true;
+    }
+
+    let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
 
     // Добавить в массив новую ячейку после предыдущей
     parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({ ...cell, focused: true }));
 
     // перерасчет номеров
     parentChildren = this.cellNumbering(parentChildren, numberParent);
-
-    objectPath.set([tree], pathToParentChildren, parentChildren);
+    parent.children = parentChildren;
+    objectPath.set([tree], pathToParent, parent);
 
     this.updateTree({ tree });
   };
@@ -480,7 +487,6 @@ export class DocumentTree extends Component {
    * @desc возвращает индекс предыдущей ячейки
    * */
   getIndexPrevCell = (cellList, targetId) => {
-    console.log(1, cellList, targetId); //undefined "5c59e1689adb4967b3a97445"
     try {
       return cellList.findIndex(item => item.id === targetId);
     } catch (error) {
