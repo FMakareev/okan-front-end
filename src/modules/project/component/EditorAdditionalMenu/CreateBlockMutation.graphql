@@ -5,7 +5,14 @@ mutation($content: String, $contenttype: String, $name: String) {
       contenttype,
       id,
       name,
-      number
+      number,
+      content {
+        id,
+        contenttype,
+        content,
+        name,
+        number,
+      }
     }
   }
 }

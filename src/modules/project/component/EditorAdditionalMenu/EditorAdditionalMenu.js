@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
-import { graphql, Query } from 'react-apollo';
+import { graphql, Query, withApollo } from 'react-apollo';
 
 /** Image */
 import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
@@ -61,7 +61,6 @@ export class EditorAdditionalMenu extends Component {
     if (isBrowser) {
       this.app = document.getElementById('app');
     }
-
   }
 
   get initialState() {
@@ -125,23 +124,48 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
-  createEditorInstance = (blockType) => {
+  getLastCellId = (blockType) => {
+    this.props.client.query({ 
+      query: CellListQuery,
+      variables: {
+        parent: this.props.sectionid
+      }
+    }).then(({ data }) => {
+      let lastCellId = data.celllist[data.celllist.length - 1].id;
+      this.createEditorInstance(blockType, lastCellId)
+    }).catch((error) => {
+      console.log('there was an error sending the query', error);
+    });
+  }
+
+  createEditorInstance = (blockType, lastCellId) => {
+    let prevcell = lastCellId ? lastCellId : his.props.sectionid;
     this.props.mutate({
-      // variables: {
-      //   content: '',
-      //   contenttype: blockType,
-      //   name: ''
-      // },
       variables: { 
-        prevcell: '', 
-        parent: '', 
+        name: '',
+        prevcell: prevcell, 
+        parent: this.props.sectionid, 
         isHead: false, 
-        contenttype: blockType 
+        contenttype: blockType,
+        content: 'New block for Fedya'
       },
-      update: (store, { data: { CreateCellMutation } }) => {
-        const celllist = store.readQuery({ query: CellListQuery });
-        // console.log('store;', store)
-        console.log('celllist', celllist)
+      update: (store, { data: { createcell } }) => {
+        const data = store.readQuery({ 
+          query: CellListQuery,
+          variables: {
+            parent: this.props.sectionid
+          }
+        });
+ 
+        data.celllist.push(createcell.cell);
+
+        store.writeQuery({
+          query: CellListQuery,
+          variables: {
+            parent: this.props.sectionid
+          },
+          data
+        })
       }
     })
       .then(({ data }) => {
@@ -160,11 +184,13 @@ export class EditorAdditionalMenu extends Component {
         <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
           <SvgSidebarAdd/>
         </ButtonBase>
-        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType)=>{this.createEditorInstance(blockType)}}/>}
+        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType)=>{this.getLastCellId(blockType)}}/>}
       </Box>
     );
   }
 }
+
+EditorAdditionalMenu = withApollo(EditorAdditionalMenu);
 
 EditorAdditionalMenu = graphql(CreateCellMutation)(EditorAdditionalMenu);
 

@@ -1,5 +1,5 @@
-mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: String) {
-  createcell(prevcell: $prevcell,parent: $parent, isHead: $isHead, contenttype: $contenttype){
+mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: String, $content: String) {
+  createcell(prevcell: $prevcell,parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content){
     cell{
       # mongoid
       id
@@ -23,7 +23,27 @@ mutation($prevcell: String,$parent: String,$isHead: Boolean, $contenttype: Strin
       childcell: children{
         id
       }
-      isHead
+      isHead,
+      content {
+        id,
+        contenttype,
+        content,
+        name,
+        number
+      },
+      comments {
+        id
+        createdate: createdate
+        isdelete
+        message
+        sender {
+          id
+          firstname
+          lastname
+          patronymic
+        }
+        updatedate: updatedate
+      }
     }
   }
 }

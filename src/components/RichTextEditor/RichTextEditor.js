@@ -87,13 +87,13 @@ export class RichTextEditor extends Component {
   }
 
   storeBlockId = () => {
-    this.props.saveBlockId(this.props.id);
+    this.props.saveBlockId(this.props.data.id);
   }
 
   unbindBlock = () => {
     this.props.mutate({
       variables: {
-        cell: this.props.id
+        cell: this.props.data.id
       }
     })
       .then(({ data }) => {

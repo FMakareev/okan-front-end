@@ -25,7 +25,7 @@ export class EditorCellController extends Component {
 
   get initialState() {
     return {
-      editable: false,
+      editable: this.props.editable,
       // draggable: false,
     };
   }
@@ -39,6 +39,26 @@ export class EditorCellController extends Component {
       editable: !state.editable,
     }));
   };
+
+  componentDidMount() {
+    if(this.state.editable) {
+      var timer = setInterval(() => {
+        this.saveCellContent();
+      }, 30000);
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.state.editable) {
+      var timer = setInterval(() => {
+        this.saveCellContent();
+      }, 30000);
+    }
+  };
+
+  saveCellContent() {
+
+  }
 
   // onHover() {
   //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
@@ -112,6 +132,7 @@ export class EditorCellController extends Component {
                 contenttype: data.content.contenttype,
               }}
               id={data.id}
+              data={data}
             />
           )}
         </Box>
