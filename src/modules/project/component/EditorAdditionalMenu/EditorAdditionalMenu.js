@@ -34,10 +34,10 @@ const EditorAdditionalMenuButton = (props) => {
           <EditorAdditionalMenuButtonTable {...props}/>
         </Box>
         <Box mx={2}>
-          <EditorAdditionalMenuButtonImage/>
+          <EditorAdditionalMenuButtonImage {...props}/>
         </Box>
         <Box mx={2}>
-          <EditorAdditionalMenuButtonText/>
+          <EditorAdditionalMenuButtonText {...props}/>
         </Box>
       </Flex>
     </Absolute>
@@ -134,12 +134,13 @@ export class EditorAdditionalMenu extends Component {
       let lastCellId = data.celllist[data.celllist.length - 1].id;
       this.createEditorInstance(blockType, lastCellId)
     }).catch((error) => {
+      this.createEditorInstance(blockType, null)
       console.log('there was an error sending the query', error);
     });
   }
 
   createEditorInstance = (blockType, lastCellId) => {
-    let prevcell = lastCellId ? lastCellId : his.props.sectionid;
+    let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
       variables: { 
         name: '',
@@ -147,7 +148,7 @@ export class EditorAdditionalMenu extends Component {
         parent: this.props.sectionid, 
         isHead: false, 
         contenttype: blockType,
-        content: 'New block for Fedya'
+        content: 'Новый блок'
       },
       update: (store, { data: { createcell } }) => {
         const data = store.readQuery({ 

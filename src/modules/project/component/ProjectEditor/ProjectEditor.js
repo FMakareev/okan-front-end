@@ -59,7 +59,7 @@ export class ProjectEditor extends Component {
               }
 
               if (error) {
-                return `Ошибка`;
+                return null;
               }
 
               if (data && data.celllist) {

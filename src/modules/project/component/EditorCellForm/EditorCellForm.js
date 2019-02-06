@@ -24,16 +24,19 @@ export class EditorCellForm extends Component {
     return value;
   };
 
+  componentDidMount = () => {this.props.didMount()}
+
   render() {
     const { handleSubmit, id, data } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
+      <Form onChange={handleSubmit(this.submit)} onBlur={()=>this.props.onBlur()}>
         <Field
           name={'content'}
           component={RichTextEditor} 
           id={id}
           data={data}
+          
           />
       </Form>
     );

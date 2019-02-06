@@ -1,0 +1,42 @@
+mutation ($id: String!, $content: String){
+    updatecell(id: $id, content: $content) {
+        cell {
+            id
+            name
+            verify
+            prevcell {
+                id
+            }
+            nextcell{
+                id
+            }
+            parent{
+                id
+            }
+            childcell: children{
+                id
+            }
+            isHead,
+            content {
+                id,
+                contenttype,
+                content,
+                name,
+                number
+            },
+            comments {
+                id
+                createdate: createdate
+                isdelete
+                message
+                sender {
+                id
+                firstname
+                lastname
+                patronymic
+                }
+                updatedate: updatedate
+            }
+        }
+    }
+}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
+import { graphql } from 'react-apollo';
+
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
 
@@ -9,6 +11,14 @@ import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
 import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
+
+/** Redux */
+import { connect } from 'react-redux';
+
+/** Mutation */
+import UpdateCellMutation from './UpdateCellMutation.graphql';
+
+let timer
 
 export class EditorCellController extends Component {
   static propTypes = {
@@ -40,26 +50,51 @@ export class EditorCellController extends Component {
     }));
   };
 
-  componentDidMount() {
-    if(this.state.editable) {
-      var timer = setInterval(() => {
-        this.saveCellContent();
-      }, 30000);
-    }
-  }
+  // componentDidMount() {
+  //   console.log('mount')
+  // }
 
-  componentDidUpdate() {
-    if(this.state.editable) {
-      var timer = setInterval(() => {
-        this.saveCellContent();
-      }, 30000);
-    }
-  };
+  // componentDidUpdate() {
+  //   if(this.state.editable) {
+  //     var timer = setInterval(() => {
+  //       this.saveCellContent(); 
+  //     }, 10000);
+  //   }
+  // };
+
+  formDidMount = () => {
+    timer = setInterval(() => {
+      this.saveCellContent(); 
+    }, 10000);
+  }
 
   saveCellContent() {
-
+    // console.log(this.props.values.content)
+    this.props
+      .mutate({
+        variables: {
+          id: this.props.data.id,
+          content: this.props.values.content,
+        },
+      })
+      .then(({ data }) => {
+        console.log('got data', data);
+      })
+      .catch(error => {
+        console.log('there was an error sending the query', error);
+      });
   }
 
+  onBlur = () => {
+    if (this.props.values.content) {
+      clearInterval(timer);
+      this.saveCellContent();
+      this.setState(state => ({
+        ...state,
+        editable: !state.editable,
+      }));
+    }
+  }
   // onHover() {
   //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
 
@@ -133,6 +168,8 @@ export class EditorCellController extends Component {
               }}
               id={data.id}
               data={data}
+              didMount={()=>this.formDidMount()}
+              onBlur={()=>this.onBlur()}
             />
           )}
         </Box>
@@ -144,4 +181,10 @@ export class EditorCellController extends Component {
   }
 }
 
-export default EditorCellController;
+const mapStateToProps = state => {
+  return state.form['EditorCellForm-null'];
+};
+
+EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
+
+export default connect(mapStateToProps)(EditorCellController);

@@ -66,13 +66,13 @@ export class FroalaReduxForm extends Component {
     charCounterCount: false,
     // toolbarButtons: this.toolbarButtons,
     toolbarButtons: ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'],
-    events : {
-      'froalaEditor.contentChanged' : function(e, editor) {
+    // events : {
+    //   'froalaEditor.contentChanged' : function(e, editor) {
 
-        //** Getting html content of Froala here */
-        this.props.content = editor.html.get();
-      }
-    }
+    //     //** Getting html content of Froala here */
+    //     this.props.content = editor.html.get();
+    //   }
+    // }
   };
 
   shouldComponentUpdate(nextProps) {
