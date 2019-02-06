@@ -51,7 +51,7 @@ export class FroalaReduxForm extends Component {
       case BLOCK_TEXT :
         toolbarButtons = ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'];
         break;
-    };
+    }
     let EditorConfig = {
       placeholderText: 'Введите текст',
       theme: 'froala',
@@ -64,21 +64,6 @@ export class FroalaReduxForm extends Component {
       EditorConfig: EditorConfig
     });
   }
-
-  // EditorConfig = {
-  //   placeholderText: 'Введите текст',
-  //   theme: 'froala',
-  //   charCounterCount: false,
-  //   // toolbarButtons: this.toolbarButtons,
-  //   toolbarButtons: ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'],
-  //   // events : {
-  //   //   'froalaEditor.contentChanged' : function(e, editor) {
-
-  //   //     //** Getting html content of Froala here */
-  //   //     this.props.content = editor.html.get();
-  //   //   }
-  //   // }
-  // };
 
   shouldComponentUpdate(nextProps) {
     if (
@@ -104,16 +89,19 @@ export class FroalaReduxForm extends Component {
   }
 
   render() {
-    const { input } = this.props;
+    const { input, config } = this.props;
 
     return (
       <div>
         <DefineIcons buttonClick={(action) => {this.props.handleButtonClick(action)}}/>
-        <FroalaEditor 
-          onModelChange={this.handleModelChange} 
-          model={input.value} 
-          tag={'textarea'} 
-          config={this.state.EditorConfig}
+        <FroalaEditor
+          onModelChange={this.handleModelChange}
+          model={input.value}
+          tag={'textarea'}
+          config={{
+            ...config,
+            ...this.state.EditorConfig,
+          }}
         />
       </div>
     );
