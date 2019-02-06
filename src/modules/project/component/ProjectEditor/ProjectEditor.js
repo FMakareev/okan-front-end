@@ -43,7 +43,15 @@ export class ProjectEditor extends Component {
 
   render() {
     const { sectionid } = this.props;
-
+    if(!sectionid){
+      return (<Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
+        <ContentWrapper>
+          <Box>
+            Раздел не выбран.
+          </Box>
+        </ContentWrapper>
+      </Flex>)
+    }
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
         <ContentWrapper>
@@ -71,7 +79,9 @@ export class ProjectEditor extends Component {
                     <EditorCellControllerWithProject
                       key={`EditorCellControllerWithProject-${index}`}
                       data={item}
-                      editable={item.content.number == 0 ? true : false}
+                      // TODO: эта штука работает не так, проблема в том что она каждый раз включает
+                      // редактирование первого блока и не запускает автосохранение
+                      editable={item.content.number === 0}
                     />
                   </Box>
                 ));
