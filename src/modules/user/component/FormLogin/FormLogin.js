@@ -126,7 +126,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
-        this.setState(() => ({ submitting: false, isLoading: false , apolloError: null }));
+        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
@@ -138,6 +138,7 @@ export class FormLogin extends Component {
 
   getUser = email => {
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
+    console.log('this.props;', this.props);
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
