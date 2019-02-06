@@ -103,7 +103,7 @@ export class SidebarCreateCell extends Component {
       isHead,
     };
 
-    this.onToggle();
+
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
@@ -111,9 +111,7 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         // console.log('SidebarCreateCell response: ', response);
-        if (isHead) {
-          this.props.addNodeInTree(response.data.createcell.cell);
-        }
+        this.props.addNodeInTree(response.data.createcell.cell);
         setNotificationSuccess(notificationOpts({ prevcell, parent, isHead, contenttype }).success);
       })
       .catch(error => {
@@ -125,23 +123,28 @@ export class SidebarCreateCell extends Component {
 
   render() {
     const {
-      node: { isHead, childcell, id, parent },
+      node: { isHead, childcell, name, ...rest },
     } = this.props;
     const { toggle } = this.state;
 
-    // console.log('SidebarCreateCell: ', this.props);
+    // console.log('SidebarCreateCell name: ', name);
+    // console.log('SidebarCreateCell isHead: ', isHead);
+    // console.log('SidebarCreateCell childcell: ', childcell);
+    // console.log('SidebarCreateCell rest: ', rest);
 
     return (
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
-          onClick={this.onToggle}>
+          onClick={this.onToggle}
+        >
           <SvgSidebarAdd />
         </ButtonBase>
 
         {toggle && (
           <AbsoluteStyled
+            onMouseLeave={this.onToggle}
             onClick={event => {
               event.stopPropagation();
             }}
@@ -149,7 +152,8 @@ export class SidebarCreateCell extends Component {
             right={'0'}>
             {((isHead && childcell) || (isHead && !childcell) || (!isHead && childcell)) && (
               <BoxStyled
-                onClick={() => {
+                onClick={(event) => {
+                  this.onToggle(event);
                   this.submit(
                     this.props.node.id,
                     this.props.node.parent !== null ? this.props.node.parent.id : null,
@@ -160,9 +164,10 @@ export class SidebarCreateCell extends Component {
               </BoxStyled>
             )}
 
-            {((isHead && !childcell) || (!isHead && childcell)) && (
+            {((isHead && !childcell) || (isHead && childcell && childcell.isHead)) && (
               <BoxStyled
-                onClick={() => {
+                onClick={(event) => {
+                  this.onToggle(event);
                   this.submit(this.props.node.id, this.props.node.id, true);
                 }}>
                 Подраздел
@@ -171,8 +176,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_TEXT);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_TEXT);
                 }}>
                 Добавить текст
               </BoxStyled>
@@ -180,8 +186,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_IMAGE);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_IMAGE);
                 }}>
                 Добавить изображение
               </BoxStyled>
@@ -189,8 +196,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_TABLE);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_TABLE);
                 }}>
                 Добавить таблица
               </BoxStyled>
