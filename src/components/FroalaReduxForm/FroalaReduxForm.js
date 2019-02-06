@@ -56,7 +56,8 @@ export class FroalaReduxForm extends Component {
       placeholderText: 'Введите текст',
       theme: 'froala',
       charCounterCount: false,
-      toolbarButtons: toolbarButtons
+      toolbarButtons: toolbarButtons,
+      autofocus: true
     }
     this.setState({
       ...this.state,
