@@ -18,7 +18,7 @@ const ContentEditableStyled = styled(ContentEditable)`
 
 // TODO: добавить таймер для автоматического схранения данных и стэйт перенести сюда
 
-export const SidebarCellNodeEditable = React.forwardRef(({html,focused, onChange, id, onToggle}, ref) => {
+export const SidebarCellNodeEditable = React.forwardRef(({html, focused, onChange, id, onToggle}, ref) => {
   return (<Mutation
     onError={() => {
     }}
@@ -36,10 +36,18 @@ export const SidebarCellNodeEditable = React.forwardRef(({html,focused, onChange
             value={html}
             autoFocus={focused}
             disabled={!focused}
+            onKeyUp={(event) => {
+              if (event.key === "Enter") {
+                event.persist();
+                onToggle();
+                mutate({variables: {id, name: html}});
+              }
+            }}
             onBlur={() => {
-
-              mutate({variables: {id, name: html}});
-              onToggle();
+              if (focused) {
+                onToggle();
+                mutate({variables: {id, name: html}});
+              }
             }}
             onClick={(event) => {
               if (focused) {

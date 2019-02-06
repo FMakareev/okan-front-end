@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Mutation, withApollo} from 'react-apollo';
-import {error, success} from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { Mutation, withApollo } from 'react-apollo';
+import { error, success } from 'react-notification-system-redux';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -18,11 +18,10 @@ import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
+import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** Graphql schema */
 import CreateCellMutation from './CreateCellMutation.graphql';
-
 
 const notificationOpts = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
@@ -90,21 +89,21 @@ export class SidebarCreateCell extends Component {
 
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({toggle: !state.toggle}));
+    this.setState(state => ({ toggle: !state.toggle }));
   };
 
   submit = (prevcell, parent, isHead, contenttype) => {
     // console.log(prevcell, parent, isHead, contenttype);
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const { setNotificationSuccess, setNotificationError } = this.props;
 
     const variables = {
-      ...(prevcell ? {prevcell} : null),
-      ...(parent ? {parent} : null),
-      ...(contenttype ? {contenttype} : {contenttype: null}),
+      ...(prevcell ? { prevcell } : null),
+      ...(parent ? { parent } : null),
+      ...(contenttype ? { contenttype } : { contenttype: null }),
       isHead,
     };
 
-    this.onToggle();
+
     this.props.client
       .mutate({
         mutation: CreateCellMutation,
@@ -112,37 +111,40 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         // console.log('SidebarCreateCell response: ', response);
-        if (isHead) {
-          this.props.addNodeInTree(response.data.createcell.cell);
-        }
-        setNotificationSuccess(notificationOpts({prevcell, parent, isHead, contenttype}).success);
+        this.props.addNodeInTree(response.data.createcell.cell);
+        setNotificationSuccess(notificationOpts({ prevcell, parent, isHead, contenttype }).success);
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationOpts({prevcell, parent, isHead, contenttype}).error);
+        setNotificationError(notificationOpts({ prevcell, parent, isHead, contenttype }).error);
       });
   };
 
   render() {
     const {
-      node: {isHead, childcell, id, parent},
+      node: { isHead, childcell, name, ...rest },
     } = this.props;
-    const {toggle} = this.state;
+    const { toggle } = this.state;
 
-    console.log('SidebarCreateCell: ', this.props);
+    // console.log('SidebarCreateCell name: ', name);
+    // console.log('SidebarCreateCell isHead: ', isHead);
+    // console.log('SidebarCreateCell childcell: ', childcell);
+    // console.log('SidebarCreateCell rest: ', rest);
 
     return (
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
-          onClick={this.onToggle}>
-          <SvgSidebarAdd/>
+          onClick={this.onToggle}
+        >
+          <SvgSidebarAdd />
         </ButtonBase>
 
         {toggle && (
           <AbsoluteStyled
+            onMouseLeave={this.onToggle}
             onClick={event => {
               event.stopPropagation();
             }}
@@ -150,16 +152,22 @@ export class SidebarCreateCell extends Component {
             right={'0'}>
             {((isHead && childcell) || (isHead && !childcell) || (!isHead && childcell)) && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(this.props.node.id, this.props.node.parent !== null ? this.props.node.parent.id : null, true);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(
+                    this.props.node.id,
+                    this.props.node.parent !== null ? this.props.node.parent.id : null,
+                    true,
+                  );
                 }}>
                 Раздел
               </BoxStyled>
             )}
 
-            {((isHead && !childcell) || (!isHead && childcell)) && (
+            {((isHead && !childcell) || (isHead && childcell && childcell.isHead)) && (
               <BoxStyled
-                onClick={() => {
+                onClick={(event) => {
+                  this.onToggle(event);
                   this.submit(this.props.node.id, this.props.node.id, true);
                 }}>
                 Подраздел
@@ -168,8 +176,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_TEXT);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_TEXT);
                 }}>
                 Добавить текст
               </BoxStyled>
@@ -177,8 +186,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_IMAGE);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_IMAGE);
                 }}>
                 Добавить изображение
               </BoxStyled>
@@ -186,8 +196,9 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={() => {
-                  this.submit(null, this.props.node.id, false, BLOCK_TABLE);
+                onClick={(event) => {
+                  this.onToggle(event);
+                  this.submit(this.props.node.id, this.props.node.id, false, BLOCK_TABLE);
                 }}>
                 Добавить таблица
               </BoxStyled>
@@ -202,7 +213,7 @@ export class SidebarCreateCell extends Component {
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
 SidebarCreateCell = connect(
-  state => ({user: getUserFromStore(state)}),
+  state => ({ user: getUserFromStore(state) }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
