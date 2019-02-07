@@ -29,11 +29,11 @@ const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({ active }) => (active ? 'background-color: #bdbdbd;' : '')}
+  ${({ active }) => (active ? 'background-color: #bdbdbd52;' : '')}
   /* ${props => console.log(props)} */
 
   &:hover {
-    background-color: #bdbdbd;
+    background-color: #bdbdbd52;
   }
 `;
 
@@ -202,13 +202,14 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { node } = this.props;
+    const { node, onClick } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
-
+    // console.log(1, this.props.node.active, this.props.node.id);
+    console.log(2, this.props);
     return (
       <Wrapper
-        active={node.active && !isHead}
+        active={node.active && isHead}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
         py={'5px'}
