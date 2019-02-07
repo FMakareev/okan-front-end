@@ -20,7 +20,7 @@ const inputSize = variant({
  * Text Field Base
  * @example ./TextFieldBase.example.md
  */
-export const TextFieldBase = styled.input`
+const TextField = styled.input`
   width: 100%;
   border: 1px solid;
   ${inputSize};
@@ -44,6 +44,10 @@ export const TextFieldBase = styled.input`
     color: transparent;
   }
 `;
+
+export const TextFieldBase = props => {
+  return <TextField {...props} />;
+};
 
 TextFieldBase.propTypes = {
   /** Description of prop "px: padding-left and padding-right". */

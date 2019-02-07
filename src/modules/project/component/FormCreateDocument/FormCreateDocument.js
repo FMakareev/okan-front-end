@@ -29,8 +29,10 @@ const notificationOpts = () => ({
 });
 
 export class FormCreateDocument extends Component {
-  submit = value => {
+  submit = (value, event) => {
     const { project } = this.props;
+    event.stopPropagation();
+    event.preventDefault();
 
     return this.props['@apollo/create']({
       variables: {
