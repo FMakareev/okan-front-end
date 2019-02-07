@@ -246,7 +246,7 @@ export class FormRegistration extends Component {
           <Field
             name={'password'}
             placeholder={'Пароль'}
-            TextFieldInput={TextFieldWithTooltip}
+            // TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -254,7 +254,7 @@ export class FormRegistration extends Component {
             <Field
               name={'retryPas'}
               placeholder={'Потвердите пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>

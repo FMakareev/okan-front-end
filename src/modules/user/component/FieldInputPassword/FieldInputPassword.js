@@ -7,12 +7,17 @@ import styled from 'styled-components';
 import Flex from '@lib/ui/Flex/Flex';
 import Relative from '@lib/ui/Relative/Relative';
 import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
+import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** validation */
 import required from '../../../../utils/validation/required';
 
 /** Image */
 import { SvgEye } from '@lib/ui/Icons/SvgEye';
+
+const BtnEye = styled.div`
+  cursor: pointer;
+`;
 
 export class FieldInputPassword extends Component {
   constructor(props) {
@@ -35,7 +40,7 @@ export class FieldInputPassword extends Component {
     isOpen: PropTypes.bool,
   };
 
-  handleClick() {
+  handleClick(e) {
     this.setState({ isOpen: !this.state.isOpen, type: this.state.isOpen ? 'password' : 'text' });
   }
 
@@ -45,16 +50,16 @@ export class FieldInputPassword extends Component {
 
     return (
       <Relative width={'100%'}>
-        <TextFieldInput left={'40%'} {...this.props} type={type} />
+        <TextFieldWithTooltip left={'40%'} {...this.props} type={type} />
 
         <Absolute top={'33%'} right={'4%'}>
-          <ButtonBase variant={'empty'} onClick={this.handleClick} borderRadius={5}>
+          <BtnEye onClick={this.handleClick} borderRadius={5}>
             {isOpen ? (
               <div style={{ fill: '#00649C' }}>{SvgEye()}</div>
             ) : (
               <div style={{ fill: '#848484' }}> {SvgEye()}</div>
             )}
-          </ButtonBase>
+          </BtnEye>
         </Absolute>
       </Relative>
     );

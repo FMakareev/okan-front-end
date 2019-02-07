@@ -145,7 +145,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'password'}
               placeholder={'Старый пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxFirst>
@@ -153,7 +153,7 @@ class FormPasswordRecovery extends Component {
           <Field
             name={'newpassword'}
             placeholder={'Новый пароль'}
-            TextFieldInput={TextFieldWithTooltip}
+            // TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -161,7 +161,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'confirmnewpassword'}
               placeholder={'Потвердите новый пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
