@@ -1,27 +1,25 @@
 mutation($isHead: Boolean, $name: String) {
   createcell(isHead: $isHead, name: $name){
     cell{
-      # mongoid
       id
-      # имя раздела
       name
-      # статус проверки ячейки
       verify
-      # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
       prevcell {
         id
       }
-      # id следующей ячейки
-      nextcell{
+      nextcell {
         id
       }
-      # id родительской ячейки
-      parent{
+      parent {
         id
       }
-      # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-      children{
+      childcell: children {
         id
+        isHead
+      }
+      isHead
+      content {
+        number
       }
     }
   }
