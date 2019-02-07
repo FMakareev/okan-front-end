@@ -44,11 +44,34 @@ class MaskedInputs extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { masked: null };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const {
+      input: { onChange },
+    } = this.props;
+
+    this.setState({ masked: event.target.value });
+
+    onChange(event.target.value);
   }
 
   render() {
-    const { input, meta, mask, placeholder, required, disabled, loading, name } = this.props;
+    const {
+      input,
+      meta,
+      mask,
+      placeholder,
+      required,
+      disabled,
+      loading,
+      name,
+      submitForm,
+    } = this.props;
+
+    const { masked } = this.state;
 
     return (
       <MaskedInputStyled
@@ -60,9 +83,8 @@ class MaskedInputs extends Component {
         disabled={disabled}
         onFocus={input.onFocus}
         onBlur={input.onBlur}
-        onChange={event => {
-          input.onChange(event.target.value);
-        }}
+        onChange={this.handleChange}
+        value={submitForm ? null : masked}
       />
     );
   }

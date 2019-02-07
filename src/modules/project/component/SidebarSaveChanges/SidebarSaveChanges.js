@@ -18,13 +18,13 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const notificationOpts = name => ({
   success: {
-    title: `Файл "${name}" сохранен успешно.`,
+    title: `Ревизия документа "${name}" создана.`,
     position: 'tr',
     autoDismiss: 6,
   },
   error: {
     title: `Произошла ошибка.`,
-    message: `Файл "${name}" не был сохранен.`,
+    message: `Ревизия документа "${name}" не создана.`,
     position: 'tr',
     autoDismiss: 6,
   },

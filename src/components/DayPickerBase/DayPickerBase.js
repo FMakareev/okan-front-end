@@ -35,7 +35,6 @@ export class DayPickerBase extends Component {
 
   handleChange(date) {
     this.setState({ startDate: date });
-
     const {
       input: { onChange },
     } = this.props;
@@ -43,19 +42,13 @@ export class DayPickerBase extends Component {
     onChange(date.toString());
   }
 
-  // componentDidUpdate = nextProps => {
-  //   if (nextProps.input.value !== this.props.input.value) {
-  //     this.setState({ startDate: null });
-  //   }
-  // };
-
   render() {
-    const { placeholder, input } = this.props;
+    const { placeholder, input, submitForm } = this.props;
     const { startDate } = this.state;
 
     return (
       <DatePicker
-        selected={startDate}
+        selected={submitForm ? null : startDate}
         onChange={this.handleChange}
         peekNextMonth
         showMonthDropdown
@@ -70,7 +63,6 @@ export class DayPickerBase extends Component {
         {...this.props}
       />
     );
-    // isClearable={true}
   }
 }
 

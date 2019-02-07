@@ -88,7 +88,8 @@ export class FormProfileCreateUser extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, submitSucceeded } = this.props;
+    // console.log(1, this.props);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -135,6 +136,7 @@ export class FormProfileCreateUser extends Component {
           type="text"
           validate={required}
           fontFamily={'secondary'}
+          submitForm={submitSucceeded}
         />
 
         <Field
@@ -156,6 +158,7 @@ export class FormProfileCreateUser extends Component {
           fontFamily={'secondary'}
           fontSize={5}
           lineHeight={7}
+          submitForm={submitSucceeded}
         />
 
         <Field
@@ -163,8 +166,10 @@ export class FormProfileCreateUser extends Component {
           component={TextFieldWithTooltip}
           placeholder={'Электронная почта'}
           type="text"
-          size={'md'} // validate={[required, isEmail]}
-          fontFamily={'secondary'}
+          size={'md'}
+          fontFamily={
+            'secondary' // validate={[required, isEmail]}
+          }
         />
 
         <BoxSecond mb={11}>

@@ -21,13 +21,13 @@ import { NOT_APPROVAL } from '../../../../shared/approvalStatus';
 
 const notificationOpts = name => ({
   success: {
-    title: `Ревизия документа "${name}" создана.`,
+    title: `Файл "${name}" сохранен успешно.`,
     position: 'tr',
     autoDismiss: 6,
   },
   error: {
     title: `Произошла ошибка.`,
-    message: `Ревизия документа "${name}" не создана.`,
+    message: `Файл "${name}" не был сохранен.`,
     position: 'tr',
     autoDismiss: 6,
   },
