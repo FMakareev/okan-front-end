@@ -29,6 +29,16 @@ const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
+  min-height: 40px;
+
+  &:hover {
+    background-color: #bdbdbd;
+  }
+`;
+
+const TextStyled = styled(Text)`
+  width: 150px;
+  word-wrap: break-word;
 `;
 
 const notificationOpts = cellText => ({
@@ -106,6 +116,12 @@ export class SidebarCellNode extends Component {
     // console.log('props after update', this.props)
   }
 
+  // Focus = div => {
+  //   return this.props.node.active
+  //     ? (div.style.backgroundColor = '#bdbdbd')
+  //     : (div.style.backgroundColor = '#fff');
+  // };
+
   handleChange = evt => {
     this.setState({ name: evt.target.value });
   };
@@ -171,8 +187,8 @@ export class SidebarCellNode extends Component {
 
   bindBlock = (parent, target) => {
     let targetArr = [];
-    targetArr.push(target)
-    console.log(targetArr)
+    targetArr.push(target);
+    console.log(targetArr);
     this.props
       .mutate({
         variables: {
@@ -195,16 +211,17 @@ export class SidebarCellNode extends Component {
     const { decorators, terminal, onClick, node } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
+
     return (
       <Wrapper
+        // ref={this.Focus}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
         mb={'10px'}
-        px={'10px'}
         onClick={this.handleClick}
         justifyContent={'flex-start'}
-        alignItems={'center'}>
-        <Flex width={'calc(100% - 72px)'}>
+        alignItems={'flex-start'}>
+        <Flex width={'calc(100% - 72px)'} ml={'10px'}>
           {isHead && <NodeToggle toggled={node.toggled} />}
           <Flex
             fontWeight={isHead ? 500 : 300}
@@ -214,7 +231,7 @@ export class SidebarCellNode extends Component {
             <Text fontWeight={'inherit'} color={'color11'}>
               {node.number}
             </Text>
-            <Text fontWeight={'inherit'} color={'color11'} mr={1}>
+            <TextStyled fontWeight={'inherit'} color={'color11'} mr={1}>
               <SidebarCellNodeEditable
                 id={node.id}
                 onToggle={this.onToggleEditable}
@@ -223,10 +240,10 @@ export class SidebarCellNode extends Component {
                 focused={node.focused}
                 onChange={this.handleChange}
               />
-            </Text>
+            </TextStyled>
           </Flex>
         </Flex>
-        <Flex>
+        <Flex mr={'10px'}>
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarChangeCell onClick={this.onToggleEditable} />
           </Box>

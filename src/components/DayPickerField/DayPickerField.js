@@ -34,7 +34,7 @@ class DayPickerField extends Component {
     return (
       <FlexStyled justifyContent={'space-between'} width={'100%'}>
         <Text color={'#848484'} fontSize={5} lineHeight={6} width={'100%'}>
-          <DayPickerBase placeholder={placeholder} input={input} />
+          <DayPickerBase placeholder={placeholder} input={input} {...this.props} />
         </Text>
         <Absolute zIndex={10} right={'7%'} top={'24%'}>
           {SvgCalendar()}

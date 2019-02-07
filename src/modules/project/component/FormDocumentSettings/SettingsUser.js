@@ -71,7 +71,7 @@ export class SettingsUser extends Component {
             textAlign={'center'}
             mb={6}
             fontFamily={'primary500'}>
-            Участники проекта
+            Согласующие
           </Text>
 
           {options &&

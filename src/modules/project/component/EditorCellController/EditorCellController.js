@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
-import {graphql} from "react-apollo";
+import { graphql } from 'react-apollo';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
@@ -11,14 +11,13 @@ import EditorCellForm from '../EditorCellForm/EditorCellForm';
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 
 /** Redux */
-import {connect} from 'react-redux';
-import {getFormValues} from "redux-form";
-import {error, success} from "react-notification-system-redux";
-
+import { connect } from 'react-redux';
+import { getFormValues } from 'redux-form';
+import { error, success } from 'react-notification-system-redux';
 
 const notificationOpts = () => ({
   success: {
@@ -39,13 +38,11 @@ export class EditorCellController extends Component {
     data: PropTypes.string,
   };
 
-  static defaultProps = {data: ''};
+  static defaultProps = { data: '' };
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
-
-
   }
 
   get initialState() {
@@ -56,13 +53,11 @@ export class EditorCellController extends Component {
     };
   }
 
-  componentDidMount(){
-    const {data} = this.props;
-    if (this.props.editable &&
-      (
-        data.content &&
-        (!data.content.content || data.content.content === 'Новый блок')
-      )
+  componentDidMount() {
+    const { data } = this.props;
+    if (
+      this.props.editable &&
+      (data.content && (!data.content.content || data.content.content === 'Новый блок'))
     ) {
       this.openEditor();
     }
@@ -72,48 +67,45 @@ export class EditorCellController extends Component {
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const {values, data} = this.props;
-    if ((values && values.content) &&
-      values.content !== data.content.content
-    ) {
+    const { values, data } = this.props;
+    if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
     } else {
       console.info('нет изменений');
     }
-  }
+  };
 
   /** @desc запуск автосохранения */
   startAutoSave = () => {
-    console.log('startAutoSave...');
+    // console.log('startAutoSave...');
     const timer = setInterval(this.createAutoSave, 30000);
-    this.setState((state) => ({
+    this.setState(state => ({
       ...state,
       timer: timer,
-    }))
+    }));
   };
 
   /** @desc стоп автосохранения */
   stopAutoSave = () => {
-    console.log('stopAutoSave...');
+    // console.log('stopAutoSave...');
     clearInterval(this.state.timer);
-    this.setState((state) => ({
+    this.setState(state => ({
       ...state,
       timer: null,
-    }))
+    }));
   };
 
   /**
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
-    console.log('onToggleForm');
+    // console.log('onToggleForm');
     this.setState(state => ({
       ...state,
       editable: !state.editable,
     }));
   };
-
 
   /**
    * @desc метод открывает редактор и стартует автосохранение
@@ -138,8 +130,8 @@ export class EditorCellController extends Component {
           content: this.props.values.content,
         },
       })
-      .then((response) => {
-        console.log('got data', response);
+      .then(response => {
+        // console.log('got data', response);
         return response;
       })
       .catch(error => {
@@ -152,11 +144,9 @@ export class EditorCellController extends Component {
    * @desc метод для отключения фокуса формы и автосохранения
    * */
   onBlurForm = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     this.stopAutoSave();
-    if ((values && values.content) &&
-      values.content !== data.content.content
-    ) {
+    if (values && values.content && values.content !== data.content.content) {
       this.saveCellContent()
         .then(response => {
           this.props.setNotificationSuccess(notificationOpts().success);
@@ -207,10 +197,10 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const {editable} = this.state;
-    const {data} = this.props;
-    console.log('EditorCellController: ', this.props);
-    console.log('EditorCellController: ', editable);
+    const { editable } = this.state;
+    const { data } = this.props;
+    // console.log('EditorCellController: ', this.props);
+    // console.log('EditorCellController: ', editable);
     return (
       <Flex
         pl={'10px'}
@@ -235,9 +225,9 @@ export class EditorCellController extends Component {
               color={'color11'}
               fontFamily={'primary300'}>
               {data.content && ReactHTMLParser(data.content.content)}
-              {
-                data.content && !data.content.content && 'Нажмите чтобы начать редактирование раздела.'
-              }
+              {data.content &&
+                !data.content.content &&
+                'Нажмите чтобы начать редактирование раздела.'}
             </Text>
           )}
           {editable && (
@@ -264,20 +254,19 @@ export class EditorCellController extends Component {
 
 EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 
-
 EditorCellController = connect(
-  (state, {data}) => {
-    console.log(data);
-    console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
+  (state, { data }) => {
+    // console.log(data);
+    // console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
 
-    return ({
+    return {
       values: getFormValues('EditorCellForm-' + data.id)(state),
-    })
+    };
   },
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
-  })
+  }),
 )(EditorCellController);
 
-export default EditorCellController
+export default EditorCellController;

@@ -2,6 +2,8 @@ query ($author: String!, $approvalstatus: String) {
   documentlist(author: $author, approvalstatus: $approvalstatus) {
     id
     name
-    documentnumber
+    okancode
+    project
+    approvalstatus
   }
 }

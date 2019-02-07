@@ -17,15 +17,20 @@ import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyPropert
 export class DayPickerBase extends Component {
   static propTypes = {
     /**placeholder */
-    placeholder: PropTypes.string,
-    /**input */
+    placeholder: PropTypes.string /**input */,
     ...fieldInputPropTypes,
   };
 
+  static defaultProps = { input: { onChange: () => null, value: null } };
+
   constructor(props) {
     super(props);
-    this.state = { startDate: null };
+    this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  get initialState() {
+    return { startDate: null };
   }
 
   handleChange(date) {
@@ -37,6 +42,12 @@ export class DayPickerBase extends Component {
 
     onChange(date.toString());
   }
+
+  // componentDidUpdate = nextProps => {
+  //   if (nextProps.input.value !== this.props.input.value) {
+  //     this.setState({ startDate: null });
+  //   }
+  // };
 
   render() {
     const { placeholder, input } = this.props;
@@ -56,8 +67,10 @@ export class DayPickerBase extends Component {
         locale={'ru'}
         popperPlacement="top-end"
         popperModifiers={{ offset: { enabled: true, offset: '-130px, 0px' } }}
+        {...this.props}
       />
     );
+    // isClearable={true}
   }
 }
 

@@ -8,6 +8,10 @@ import Flex from '@lib/ui/Flex/Flex';
 import Tbody from '@lib/ui/Table/Tbody';
 import Td from '@lib/ui/Table/Td';
 import Tr from '@lib/ui/Table/Tr';
+import Link from '@lib/ui/Link/Link';
+
+/** Constants */
+import { NOT_APPROVAL } from '../../../../shared/approvalStatus';
 
 const TrStyled = styled(Tr)`
   display: flex;
@@ -26,41 +30,47 @@ const TbodyStyled = styled(Tbody)`
   margin: 10px 0 0 0;
 `;
 
-export const ProfileApproval = ({ data }) => (
-  <Fragment>
-    <Text
-      fontSize={6}
-      lineHeight={8}
-      color={'color7'}
-      textAlign={'center'}
-      mb={[13]}
-      fontFamily={'primary500'}>
-      На согласование
-    </Text>
-    <Tbody>
-    <Flex justifyContent={'space-around'}>
-      <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-        Номер документа
+export const ProfileApproval = ({ data }) => {
+  return (
+    <Fragment>
+      <Text
+        fontSize={6}
+        lineHeight={8}
+        color={'color7'}
+        textAlign={'center'}
+        mb={[13]}
+        fontFamily={'primary500'}>
+        На согласование
       </Text>
+      <Tbody>
+        <Flex justifyContent={'space-around'}>
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Номер документа
+          </Text>
 
-      <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-        Название документа
-      </Text>
-    </Flex>
-    </Tbody>
-    {Array.isArray(data) &&
-    data.map(item => {
-      return (
-        <TbodyStyled>
-          <TrStyled>
-            <Td fontFamily={'primary500'}>{item.name}</Td>
-            <Td fontFamily={'secondaryBold'}>{item.documentnumber}</Td>
-          </TrStyled>
-        </TbodyStyled>
-      );
-    })}
-  </Fragment>
-);
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Название документа
+          </Text>
+        </Flex>
+      </Tbody>
+      {data.approvalstatus === NOT_APPROVAL
+        ? Array.isArray(data) &&
+          data.map(item => {
+            return (
+              <Link to={`/app/project/${item.project}/${item.id}`}>
+                <TbodyStyled>
+                  <TrStyled>
+                    <Td fontFamily={'primary500'}>{item.okancode}</Td>
+                    <Td fontFamily={'secondaryBold'}>{item.name}</Td>
+                  </TrStyled>
+                </TbodyStyled>
+              </Link>
+            );
+          })
+        : null}
+    </Fragment>
+  );
+};
 
 ProfileApproval.propTypes = {
   data: PropTypes.arrayOf({

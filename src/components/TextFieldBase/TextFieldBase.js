@@ -44,6 +44,7 @@ export const TextFieldBase = styled.input`
     color: transparent;
   }
 `;
+
 TextFieldBase.propTypes = {
   /** Description of prop "px: padding-left and padding-right". */
   px: PropTypes.number,

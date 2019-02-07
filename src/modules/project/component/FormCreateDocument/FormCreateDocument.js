@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import CreateDocumentQuery from './CreateDocumentQuery.graphql';
+import { error, success } from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { Field, reduxForm, Form, getFormValues } from 'redux-form';
+
+/** View */
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
 import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 import { Flex } from '@lib/ui/Flex/Flex';
-import { Field, reduxForm, Form } from 'redux-form';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { Box } from '@lib/ui/Box/Box';
+
+/** Graphql schema */
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import CreateDocumentQuery from './CreateDocumentQuery.graphql';
+
+const notificationOpts = () => ({
+  success: {
+    title: 'Раздел создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Раздел не создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 export class FormCreateDocument extends Component {
   submit = value => {
     const { project } = this.props;
+
     return this.props['@apollo/create']({
       variables: {
         ...value,
         projectid: project.project.id,
+        // name: value,
       },
       /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
       update: (store, { data: { createdocument } }) => {
@@ -41,11 +62,24 @@ export class FormCreateDocument extends Component {
     })
       .then(response => {
         console.log(response);
+        this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
       })
       .catch(error => {
+        this.props.setNotificationError(notificationOpts().error);
+
         console.log(error);
       });
+  };
+
+  /**
+   * @desc метод для отключения фокуса формы и автосохранения
+   * */
+  onBlurForm = e => {
+    // e.stopPropagation();
+
+    const value = Object.assign({}, { name: e.target.value });
+    return this.submit(value);
   };
 
   render() {
@@ -62,6 +96,7 @@ export class FormCreateDocument extends Component {
               size={'xs'}
               type={'text'}
               borderRadius={'4px'}
+              onBlur={this.onBlurForm}
             />
           </Box>
           <Box ml={'3'} height={'20px'}>
@@ -86,5 +121,15 @@ FormCreateDocument = graphql(CreateDocumentQuery, {
 FormCreateDocument = reduxForm({
   form: 'FormCreateDocument',
 })(FormCreateDocument);
+
+FormCreateDocument = connect(
+  state => {
+    return { values: getFormValues('FormCreateDocument')(state) };
+  },
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(FormCreateDocument);
 
 export default FormCreateDocument;

@@ -22,7 +22,7 @@ import CellItemQuery from './CellItemQuery.graphql';
 import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
 
 decorators.TreeBeardWrapper = props => <Box {...props} />;
-decorators.TreeNodeList = props => <Box pl={'10px'} {...props} />;
+decorators.TreeNodeList = props => <Box {...props} />;
 
 decorators.Loading = () => (
   <Flex mb={'10px'} px={'20px'} justifyContent={'flex-start'} alignItems={'center'}>
@@ -459,12 +459,12 @@ export class DocumentTree extends Component {
     // проверяем что если у нас у ноды парента еще нет childcell и ячейка
     // которую мы добавляем в дерево является его дочерней ячейкой
     // то мы ее сразу добавляем в объект ячейки
-    if(parent.id === (cell.parent && cell.parent.id) && parent.childcell === null){
+    if (parent.id === (cell.parent && cell.parent.id) && parent.childcell === null) {
       parent.childcell = cell;
     }
 
     // узнаем что ы добавляем не раздел, а од раздел и открываем сразу раздел в который добавляется подраздел
-    if(parent.id === (cell.parent && cell.parent.id) && parent.childcell !== null && cell.isHead){
+    if (parent.id === (cell.parent && cell.parent.id) && parent.childcell !== null && cell.isHead) {
       parent.toggled = true;
     }
 
