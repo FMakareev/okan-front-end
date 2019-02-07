@@ -41,14 +41,16 @@ export class Header extends Component {
   }
 
   get openMenu() {
-    return <AbsoluteStyled top={'33px'} right={0} onMouseLeave={this.handleMouseOut}>
+    return (
+      <AbsoluteStyled top={'33px'} right={'-15px'} onMouseLeave={this.handleMouseOut}>
         <ProfileLink to="/app/profile" activeClassName="active">
           <BoxTop>Профиль</BoxTop>
         </ProfileLink>
         <ProfileLink to="/logout" activeClassName="active">
           <BoxBottom>Выйти</BoxBottom>
         </ProfileLink>
-      </AbsoluteStyled>;
+      </AbsoluteStyled>
+    );
   }
 
   get initialState() {
@@ -57,7 +59,7 @@ export class Header extends Component {
 
   handleMouseEnter() {
     this.setState(({ isOpen }) => {
-      return { isOpen: !isOpen };
+      return { isOpen: true };
     });
   }
 
@@ -84,7 +86,7 @@ export class Header extends Component {
             position={'relative'}
             onMouseEnter={this.handleMouseEnter}>
             <ProfileLogo />
-            {isOpen && <Fragment> {this.openMenu}</Fragment>}
+            {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
 
           <ProjectListLink to="/app/project-list" activeClassName="active">
