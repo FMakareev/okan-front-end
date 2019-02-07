@@ -62,7 +62,7 @@ export class SidebarApprovalStatus extends Component {
     const { clickStatus } = this.state;
 
     return (
-      <Query query={CellMarkerQuery} variables={{ id: node && node.id }}>
+      <Query query={CellMarkerQuery} variables={{ id: node && node.id }} skip={true}>
         {({ loading, error, data }) => {
           const { cellMarker } = data;
 

@@ -223,7 +223,7 @@ export class FormLogin extends Component {
             <Field
               name={'ups'}
               placeholder={'Пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
@@ -236,9 +236,6 @@ export class FormLogin extends Component {
           isLoading={isLoading}
           error={error || apolloError}
         />
-
-        {/* if succes => to={'/app/project-list'}  ----- USER*/}
-        {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
       </Form>
     );
   }
