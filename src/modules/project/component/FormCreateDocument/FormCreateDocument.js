@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, Mutation } from 'react-apollo';
 import { error, success } from 'react-notification-system-redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm, Form, getFormValues } from 'redux-form';
@@ -36,7 +36,6 @@ export class FormCreateDocument extends Component {
       variables: {
         ...value,
         projectid: project.project.id,
-        // name: value,
       },
       /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
       update: (store, { data: { createdocument } }) => {
@@ -72,33 +71,71 @@ export class FormCreateDocument extends Component {
       });
   };
 
-  /**
-   * @desc метод для отключения фокуса формы и автосохранения
-   * */
-  onBlurForm = e => {
-    // e.stopPropagation();
-
-    const value = Object.assign({}, { name: e.target.value });
-    return this.submit(value);
-  };
-
   render() {
-    const { submitting, handleSubmit } = this.props;
+    const { submitting, handleSubmit, submitSucceeded, project } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
           <Box height={'20px'} width={'100%'}>
-            <Field
-              name={'name'}
-              disabled={submitting}
-              component={TextFieldWithTooltip}
-              placeholder={'Введите название документа...'}
-              size={'xs'}
-              type={'text'}
-              borderRadius={'4px'}
-              onBlur={this.onBlurForm}
-            />
+            <Mutation mutation={CreateDocumentQuery}>
+              {(mutate, { loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+
+                return (
+                  <Field
+                    name={'name'}
+                    disabled={submitting}
+                    component={TextFieldWithTooltip}
+                    placeholder={'Введите название документа...'}
+                    size={'xs'}
+                    type={'text'}
+                    borderRadius={'4px'}
+                    onBlur={event => {
+                      mutate({
+                        variables: {
+                          name: event.target.value,
+                          projectid: project.project.id,
+                        },
+                        /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
+                        update: (store, { data: { createdocument } }) => {
+                          // считываем из локального кеша аполо по запросу данные
+                          // TODO: добавить вывод сообщений о ошбках через redux-notification
+                          const data = store.readQuery({
+                            query: ProjectItemQuery,
+                            variables: {
+                              id: this.props.project.project.id,
+                            },
+                          }); // пушим наш только что созданный документ в список всех документов
+                          data.projectitem.documents.push(createdocument.document);
+
+                          // записываем в кеш обновленный список документов
+                          store.writeQuery({
+                            query: ProjectItemQuery,
+                            variables: {
+                              id: this.props.project.project.id,
+                            },
+                            data,
+                          });
+                        },
+                      })
+                        .then(response => {
+                          console.log(response);
+                          this.props.setNotificationSuccess(notificationOpts().success);
+                          this.props.reset();
+                        })
+                        .catch(error => {
+                          this.props.setNotificationError(notificationOpts().error);
+
+                          console.log(error);
+                        });
+                    }}
+                  />
+                );
+              }}
+            </Mutation>
           </Box>
+
           <Box ml={'3'} height={'20px'}>
             <ButtonBase
               disabled={submitting}

@@ -1,20 +1,19 @@
-import React, {Component} from 'react';
-import {graphql} from 'react-apollo';
+import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
 import CreateCellMutation from './CreateCellMutation.graphql';
 import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
-import {ButtonBase} from '@lib/ui/ButtonBase/ButtonBase';
+import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
 import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
-import {Flex} from '@lib/ui/Flex/Flex';
-import {Field, reduxForm, Form} from 'redux-form';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { Field, reduxForm, Form } from 'redux-form';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
-import {Box} from '@lib/ui/Box/Box';
-import {connect} from "react-redux";
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
-import {error, success} from "react-notification-system-redux";
+import { Box } from '@lib/ui/Box/Box';
+import { connect } from 'react-redux';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import { error, success } from 'react-notification-system-redux';
 
-
-const notificationOpts = (name) => {
+const notificationOpts = name => {
   return {
     success: {
       title: `Раздел создан.`,
@@ -28,22 +27,18 @@ const notificationOpts = (name) => {
       position: 'tr',
       autoDismiss: 6,
     },
-  }
+  };
 };
 
-
-
 export class FormCreateFirstCell extends Component {
-
-
-  SubmitCreateCell = (value) => {
-    const {project} = this.props;
+  SubmitCreateCell = value => {
+    const { project } = this.props;
     return this.props['CreateCellMutation']({
       variables: {
         ...value,
         isHead: true,
         projectid: project.project.id,
-      }
+      },
     }).catch(error => {
       console.log('Error SubmitCreateCell:', error);
     });
@@ -54,14 +49,14 @@ export class FormCreateFirstCell extends Component {
    * @param {string} children - id дочерней ячейки которая присваивается документу
    * @desc метод для обновления документа
    * */
-  SubmitUpdateDocument = (children) => {
-    const {project, document,  setNotificationSuccess, setNotificationError} = this.props;
+  SubmitUpdateDocument = children => {
+    const { project, document, setNotificationSuccess, setNotificationError } = this.props;
     return this.props['UpdateDocumentMutation']({
       variables: {
         id: document.id,
         children: children,
       },
-      update: (store, {data: {updatedocument}}) => {
+      update: (store, { data: { updatedocument } }) => {
         console.log('FormCreateFirstCell updatedocument.document: ', updatedocument.document);
         const data = store.readQuery({
           query: ProjectItemQuery,
@@ -70,7 +65,9 @@ export class FormCreateFirstCell extends Component {
           },
         });
         // пушим наш только что созданный документ в список всех документов
-        let documentIndex = data.projectitem.documents.findIndex(item => item.id === updatedocument.document.id);
+        let documentIndex = data.projectitem.documents.findIndex(
+          item => item.id === updatedocument.document.id,
+        );
         data.projectitem.documents[documentIndex] = updatedocument.document;
 
         store.writeQuery({
@@ -81,25 +78,22 @@ export class FormCreateFirstCell extends Component {
           data,
         });
         setNotificationSuccess(notificationOpts(updatedocument.document.name).success);
-      }
+      },
     }).catch(error => {
       console.log('Error SubmitUpdateDocument:', error);
       setNotificationError(notificationOpts(document.name).error);
-
     });
-  }
-
+  };
 
   submit = value => {
-    this.SubmitCreateCell(value)
-      .then((response) => {
-        const {data} = response;
-        this.SubmitUpdateDocument(data.createcell.cell.id)
-      })
+    this.SubmitCreateCell(value).then(response => {
+      const { data } = response;
+      this.SubmitUpdateDocument(data.createcell.cell.id);
+    });
   };
 
   render() {
-    const {submitting, handleSubmit} = this.props;
+    const { submitting, handleSubmit } = this.props;
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Flex pb={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
@@ -120,7 +114,7 @@ export class FormCreateFirstCell extends Component {
               title={'Добавить раздел'}
               size={'small'}
               variant={'empty'}>
-              <SvgSidebarAdd/>
+              <SvgSidebarAdd />
             </ButtonBase>
           </Box>
         </Flex>

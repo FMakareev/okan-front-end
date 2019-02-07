@@ -29,7 +29,8 @@ const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({active})=>active?'background-color: #bdbdbd;':''}
+  ${({ active }) => (active ? 'background-color: #bdbdbd;' : '')}
+  /* ${props => console.log(props)} */
 
   &:hover {
     background-color: #bdbdbd;
@@ -104,7 +105,7 @@ export class SidebarCellNode extends Component {
   }
 
   get initialState() {
-    console.log(this.props.node);
+    // console.log(this.props.node);
     try {
       return {
         name: this.props.node.name,
@@ -204,10 +205,9 @@ export class SidebarCellNode extends Component {
     const { node } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
-    console.log(isHead);
+
     return (
       <Wrapper
-        // ref={this.Focus}
         active={node.active && !isHead}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
