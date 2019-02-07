@@ -29,7 +29,7 @@ const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  min-height: 40px;
+  ${({active})=>active?'background-color: #bdbdbd;':''}
 
   &:hover {
     background-color: #bdbdbd;
@@ -37,7 +37,8 @@ const Wrapper = styled(Flex)`
 `;
 
 const TextStyled = styled(Text)`
-  width: 150px;
+  max-width: 150px;
+  width: 100%;
   word-wrap: break-word;
 `;
 
@@ -62,6 +63,7 @@ const notificationOpts = cellText => ({
 export class SidebarCellNode extends Component {
   static propTypes = {
     addNodeInTree: PropTypes.func.isRequired,
+    cellCheckStatusChange: PropTypes.func.isRequired,
     position: PropTypes.shape({
       cellid: PropTypes.string,
       sectionid: PropTypes.string,
@@ -102,6 +104,7 @@ export class SidebarCellNode extends Component {
   }
 
   get initialState() {
+    console.log(this.props.node);
     try {
       return {
         name: this.props.node.name,
@@ -112,15 +115,6 @@ export class SidebarCellNode extends Component {
       console.error(e);
     }
   }
-  componentDidUpdate() {
-    // console.log('props after update', this.props)
-  }
-
-  // Focus = div => {
-  //   return this.props.node.active
-  //     ? (div.style.backgroundColor = '#bdbdbd')
-  //     : (div.style.backgroundColor = '#fff');
-  // };
 
   handleChange = evt => {
     this.setState({ name: evt.target.value });
@@ -128,7 +122,6 @@ export class SidebarCellNode extends Component {
 
   onToggleEditable = () => {
     const { changeNodeFocus, node } = this.props;
-    // console.log('onToggleEditable: ', this.props);
     if (node.focused) {
       this.contentEditable.current.focus();
     }
@@ -208,16 +201,18 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { decorators, terminal, onClick, node } = this.props;
+    const { node } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
-
+    console.log(isHead);
     return (
       <Wrapper
         // ref={this.Focus}
+        active={node.active && !isHead}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
-        mb={'10px'}
+        py={'5px'}
+        ml={'-5px'}
         onClick={this.handleClick}
         justifyContent={'flex-start'}
         alignItems={'flex-start'}>
@@ -255,7 +250,10 @@ export class SidebarCellNode extends Component {
             />
           </Box>
           <Box px={1}>
-            <SidebarApprovalStatus node={node} />
+            <SidebarApprovalStatus
+              cellCheckStatusChange={this.props.cellCheckStatusChange}
+              node={node}
+            />
           </Box>
         </Flex>
       </Wrapper>

@@ -150,7 +150,7 @@ export class SidebarCreateCell extends Component {
             }}
             top={'20px'}
             right={'0'}>
-            {((isHead && childcell) || (isHead && !childcell) || (!isHead && childcell)) && (
+            {/*{((isHead && childcell) || (isHead && !childcell) || (!isHead && childcell)) && (*/}
               <BoxStyled
                 onClick={(event) => {
                   this.onToggle(event);
@@ -162,9 +162,9 @@ export class SidebarCreateCell extends Component {
                 }}>
                 Раздел
               </BoxStyled>
-            )}
+            {/*)}*/}
 
-            {((isHead && !childcell) || (isHead && childcell && childcell.isHead)) && (
+            {/*{((isHead && !childcell) || (isHead && childcell && childcell.isHead)) && (*/}
               <BoxStyled
                 onClick={(event) => {
                   this.onToggle(event);
@@ -172,7 +172,7 @@ export class SidebarCreateCell extends Component {
                 }}>
                 Подраздел
               </BoxStyled>
-            )}
+            {/*)}*/}
 
             {isHead && !childcell && (
               <BoxStyled
