@@ -20,5 +20,13 @@ export const ButtonVariant = {
     border: '2px solid',
     '&:hover': { backgroundColor: '#00649C', color: '#ffffff', fill: '#ffffff' },
   },
-  empty: { backgroundColor: '#ffffff', border: 0 },
+  empty: {
+    backgroundColor: '#ffffff',
+    fill: '#ffffff',
+    border: 0 ,
+    ':disabled':{
+      backgroundColor: '#e5e5e5',
+      fill: '#e5e5e5',
+    }
+  },
 };
