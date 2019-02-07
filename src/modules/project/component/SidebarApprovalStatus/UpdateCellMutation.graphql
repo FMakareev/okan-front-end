@@ -4,6 +4,23 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
       id
       name
       verify
+      prevcell {
+        id
+      }
+      nextcell {
+        id
+      }
+      parent {
+        id
+      }
+      childcell: children {
+        id
+        isHead
+      }
+      isHead
+      content {
+        number
+      }
     }
   }
 }
