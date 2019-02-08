@@ -57,7 +57,7 @@ export class EditorCellController extends Component {
     const { data } = this.props;
     if (
       this.props.editable &&
-      (data.content && (!data.content.content || data.content.content === 'Новый блок'))
+      (data.content && (!data.content.content || data.content.content === ''))
     ) {
       this.openEditor();
     }
