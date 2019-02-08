@@ -23,7 +23,7 @@ import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions'
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
-  width: 320px;
+  width: 340px;
   min-height: calc(100vh - 40px);
   padding-top: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -35,7 +35,7 @@ const Wrapper = styled(Flex)`
   background-color: #e8e8e8;
 `;
 const EditorWrapper = styled.div`
-  width: calc(100% - 360px);
+  width: calc(100% - 380px);
   min-height: calc(100vh - 40px);
 `;
 
@@ -106,7 +106,12 @@ export class ProjectEditorPage extends Component {
                     project: data.projectitem,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar {...data.projectitem} />
+                    <ProjectSidebar project={{
+                      // объект с параметрами роутера
+                      position: params,
+                      // объект с данными о проекте
+                      project: data.projectitem,
+                    }} {...data.projectitem} />
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.bindingBlockId ? { opacity: '0.4' } : {}}
