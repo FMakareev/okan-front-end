@@ -65,6 +65,7 @@ export class SidebarCellNode extends Component {
   static propTypes = {
     addNodeInTree: PropTypes.func.isRequired,
     cellCheckStatusChange: PropTypes.func.isRequired,
+    removeNodeInTree: PropTypes.func.isRequired,
     position: PropTypes.shape({
       cellid: PropTypes.string,
       sectionid: PropTypes.string,
@@ -205,8 +206,6 @@ export class SidebarCellNode extends Component {
     const { node, onClick } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
-    // console.log(1, this.props.node.active, this.props.node.id);
-    console.log(2, this.props);
     return (
       <Wrapper
         active={node.active && isHead}
@@ -248,6 +247,7 @@ export class SidebarCellNode extends Component {
               node={node}
               addNodeInTree={this.props.addNodeInTree}
               changeNodeFocus={this.props.changeNodeFocus}
+              removeNodeInTree={this.props.removeNodeInTree}
             />
           </Box>
           <Box px={1}>
