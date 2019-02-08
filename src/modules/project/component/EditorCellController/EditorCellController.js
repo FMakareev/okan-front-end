@@ -196,11 +196,11 @@ export class EditorCellController extends Component {
   //   console.log(event)
   // }
 
+
+
   render() {
     const { editable } = this.state;
     const { data } = this.props;
-    // console.log('EditorCellController: ', this.props);
-    // console.log('EditorCellController: ', editable);
     return (
       <Flex
         pl={'10px'}
@@ -246,7 +246,7 @@ export class EditorCellController extends Component {
           )}
         </Box>
         <Box width={'20px'}>
-          <EditorCellCommentController {...data} />
+          <EditorCellCommentController {...this.props.project} {...data} />
         </Box>
       </Flex>
     );
