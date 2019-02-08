@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import styled from 'styled-components';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
+import { withProject } from '../ProjectContext/ProjectContext';
+import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
-
-/**PropTypes */
 import { Flex } from '@lib/ui/Flex/Flex';
-import styled from 'styled-components';
-import { withProject } from '../ProjectContext/ProjectContext';
-
-import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
+import { Box } from '@lib/ui/Box/Box';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
-import { Box } from '@lib/ui/Box/Box';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -25,6 +22,7 @@ const ContentWrapper = styled.div`
   padding-right: 20px;
   margin-bottom: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 `;
 
 const EditorCellControllerWithProject = withProject(props => <EditorCellController {...props} />);
@@ -43,17 +41,17 @@ export class ProjectEditor extends Component {
 
   render() {
     const { sectionid } = this.props;
-    if(!sectionid){
-      return (<Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
-        <ContentWrapper>
-          <Box>
-            Раздел не выбран.
-          </Box>
-        </ContentWrapper>
-      </Flex>)
+    if (!sectionid) {
+      return (
+        <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'60px'} flexDirection={'column'}>
+          <ContentWrapper>
+            <Box>Раздел не выбран.</Box>
+          </ContentWrapper>
+        </Flex>
+      );
     }
     return (
-      <Flex pl={'10px'} pr={'40px'} mb={'20px'} flexDirection={'column'}>
+      <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'60px'} flexDirection={'column'}>
         <ContentWrapper>
           <Query
             skip={!sectionid}
@@ -90,7 +88,7 @@ export class ProjectEditor extends Component {
             }}
           </Query>
         </ContentWrapper>
-        <EditorAdditionalMenu sectionid={sectionid}/>
+        <EditorAdditionalMenu sectionid={sectionid} />
       </Flex>
     );
   }

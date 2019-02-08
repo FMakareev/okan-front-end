@@ -24,6 +24,8 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 
 /** PropTypes  */
 import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
+
+/** Constatns */
 import { CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED } from '@lib/shared/approvalStatus';
 
 const has = Object.prototype.hasOwnProperty;

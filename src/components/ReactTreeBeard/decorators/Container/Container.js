@@ -1,13 +1,10 @@
-import React, {Component} from 'react';
-import PropTypes from "prop-types";
-import {VelocityComponent} from 'velocity-react';
-
-
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { VelocityComponent } from 'velocity-react';
 
 export class Container extends Component {
-
   renderToggle() {
-    const {animations} = this.props;
+    const { animations } = this.props;
 
     if (!animations) {
       return this.renderToggleDecorator();
@@ -16,29 +13,26 @@ export class Container extends Component {
     return (
       <VelocityComponent
         animation={animations.toggle.animation}
-        duration={animations.toggle.duration}
-      >
+        duration={animations.toggle.duration}>
         {this.renderToggleDecorator()}
       </VelocityComponent>
     );
   }
 
   renderToggleDecorator() {
-    const {decorators} = this.props;
+    const { decorators } = this.props;
 
-    return <decorators.Toggle/>;
+    return <decorators.Toggle />;
   }
 
   render() {
-    const {decorators, terminal, onClick, node} = this.props;
-    console.log(this.props);
+    const { decorators, terminal, onClick, node } = this.props;
+    // console.log(this.props);
     return (
-      <div
-        onClick={onClick}
-      >
+      <div onClick={onClick}>
         {!terminal ? this.renderToggle() : null}
 
-        <decorators.Header node={node}/>
+        <decorators.Header node={node} />
       </div>
     );
   }
@@ -49,11 +43,8 @@ Container.propTypes = {
   /** @desc есть ли дочерние ноды */
   terminal: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  animations: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]).isRequired,
-  node: PropTypes.object.isRequired
+  animations: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+  node: PropTypes.object.isRequired,
 };
 
-export default Container
+export default Container;

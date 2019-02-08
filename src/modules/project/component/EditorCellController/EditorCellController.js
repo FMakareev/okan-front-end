@@ -199,7 +199,7 @@ export class EditorCellController extends Component {
   render() {
     const { editable } = this.state;
     const { data } = this.props;
-    // console.log('EditorCellController: ', this.props);
+    console.log('EditorCellController: ', this.props);
     // console.log('EditorCellController: ', editable);
     return (
       <Flex
