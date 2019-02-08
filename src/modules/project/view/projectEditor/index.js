@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-
+import '../../../../assets/style/editor-cell_content.css';
 import ProjectItemQuery from './ProjectItemQuery.graphql';
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
