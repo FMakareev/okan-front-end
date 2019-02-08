@@ -947,15 +947,15 @@
   -ms-transition: background 0.2s ease 0s;
   -o-transition: background 0.2s ease 0s;
   padding: 0;
-  width: 20px;
+  width: 30px;
   height: 26px;
 }
 
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="copy"] img,
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="bind"] img,
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="unbind"] img {
-  width: 9px;
-  margin: 0 5px auto;
+  width: 12px;
+  margin: 5px 10px auto;
 }
 
 .froala-theme.fr-toolbar .fr-command.fr-btn[id|="copy"],
