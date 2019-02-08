@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withApollo} from 'react-apollo';
 import PropTypes from 'prop-types';
 import objectPath from 'object-path';
+import {withRouter} from "react-router-dom";
 
 /** View */
 import {Treebeard, decorators} from '../../../../components/ReactTreeBeard/index';
@@ -18,23 +19,18 @@ import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
 /** Graphql schema */
 import CellItemQuery from './CellItemQuery.graphql';
 import UpdateCellMutation from './UpdateCellMutation.graphql';
+import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
+import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
 
 /** PropTypes  */
 import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
 import {CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED} from '@lib/shared/approvalStatus';
 
-decorators.TreeBeardWrapper = props => <Box {...props} />;
-decorators.TreeNodeList = props => <Box ml={'5px'} {...props} />;
-
-decorators.Loading = () => (
-  <Flex mb={'10px'} px={'20px'} justifyContent={'flex-start'} alignItems={'center'}>
-    Загрузка...
-  </Flex>
-);
 
 const has = Object.prototype.hasOwnProperty;
 
 const SidebarCellNodeWithProject = withProject(props => <SidebarCellNode {...props} />);
+
 
 export class DocumentTree extends Component {
   static propTypes = {
@@ -65,8 +61,15 @@ export class DocumentTree extends Component {
     super(props);
     this.state = this.initialState;
     this.onToggle = this.onToggle.bind(this);
+    this.decorators = Object.assign({}, decorators);
 
-    decorators.Container = props => (
+    this.decorators.TreeBeardWrapper = props => <Box {...props} />;
+    this.decorators.TreeNodeList = props => <Box ml={'5px'} {...props} />;
+
+    this.decorators.Loading = () => (<Flex mb={'10px'} px={'20px'} justifyContent={'flex-start'} alignItems={'center'}>
+      Загрузка...
+    </Flex>);
+    this.decorators.Container = props => (
       <SidebarCellNodeWithProject
         document={this.props.data}
         changeNodeFocus={this.changeNodeFocus}
@@ -84,6 +87,7 @@ export class DocumentTree extends Component {
   }
 
   get initialState() {
+    console.log('initialState:');
     const {data, project} = this.props;
     const children =
       data && has.call(data, 'childcell') && data.childcell !== null
@@ -95,7 +99,7 @@ export class DocumentTree extends Component {
             active: false,
             focused: false,
             decorators: {
-              ...decorators,
+              ...this.decorators,
               Container: props => (
                 <FormCreateFirstCell document={data} project={project} {...props} />
               ),
@@ -111,10 +115,9 @@ export class DocumentTree extends Component {
         loading: false,
         active: false,
         focused: false,
-        id: 'ROOT',
         ...data,
         decorators: {
-          ...decorators,
+          ...this.decorators,
           Container: props => (
             <SidebarCellRoot
               document={this.props.data}
@@ -130,26 +133,32 @@ export class DocumentTree extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     const {data} = nextProps;
+    console.log('componentWillUpdate nextProps: ', nextProps);
+    console.log('componentWillUpdate this.props: ', this.props);
 
+    console.log('componentWillUpdate nextState: ', nextState);
+    console.log('componentWillUpdate this.state: ', this.state.tree);
     if (data.childcell !== null && this.state.tree.childcell === null) {
-      const newState = {
-        ...this.state,
-        tree: {
-          ...this.state.tree,
-          ...data,
-          number: '',
-          toggled: false,
-          loading: false,
-          active: false,
-          focused: false,
-          id: 'ROOT',
-          children: [],
-        },
-      };
-      this.setState(newState, state => {
+      const newState = this.initialState;
+      this.setState((state) => ({
+        ...newState,
+        toggled: true,
+        active: true,
+      }), state => {
         // console.log('New state after create first cell');
         this.onToggle(newState.tree, true);
       });
+    }
+
+    if(
+      (
+        !nextState.tree.childcell ||
+        !this.state.tree.childcell ||
+        this.state.tree.childcell.id !== nextState.tree.childcell.id
+      ) &&
+      !this.state.tree.children.length
+    ){
+      this.setState((state) => this.initialState)
     }
   }
 
@@ -238,8 +247,7 @@ export class DocumentTree extends Component {
    * @params {string} cellid ячейки которую надо удалить
    * @desc метод для удаления ячейки из дерева
    * */
-  removeNodeInTree = (cellid) => {
-    console.log('removeNodeInTree:', cellid);
+  removeNodeInTree = async (cellid) => {
     if (!cellid) {
       console.error(`Error removeNodeInTree: cellid is ${cellid}`);
       return cellid;
@@ -271,15 +279,13 @@ export class DocumentTree extends Component {
         }
         objectPath.set([tree], pathToPrevNodeCurrentNode, prevNodeCurrentNode);
         objectPath.set([tree], pathToNextNodeCurrentNode, nextNodeCurrentNode);
-        // TODO: добавить обновление ячеек по запросу на бек
-        // TODO: добавить перерасчет нумерации ячеек
+
       } else if (!prevNodeCurrentNode && nextNodeCurrentNode) {
         /** удаление ячейки без ссылки на предыдущую ячейку */
         nextNodeCurrentNode.prevcell = null;
         tree.childcell = nextNodeCurrentNode;
         objectPath.set([tree], pathToNextNodeCurrentNode, nextNodeCurrentNode);
-        // TODO: добавить обновление ячеек по запросу на бек
-        // TODO: добавить перерасчет нумерации ячеек
+
       } else if (prevNodeCurrentNode && !nextNodeCurrentNode) {
         /** удаление ячейки со ссылкой только на предыдущую ячейку при этом предыдущая родитель удоляемой ячейки */
         if (currentNode.parent && (prevNodeCurrentNode.id === currentNode.parent.id)) {
@@ -289,13 +295,22 @@ export class DocumentTree extends Component {
           prevNodeCurrentNode.nextcell = null;
         }
         objectPath.set([tree], pathToPrevNodeCurrentNode, prevNodeCurrentNode);
-        // TODO: добавить обновление ячеек по запросу на бек
-        // TODO: добавить перерасчет нумерации ячеек
+
       }
 
 
       objectPath.del([tree], pathToCurrentNode);
+
+      if(tree.children.length === 0){
+        tree.childcell = null;
+        await this.updateDocument({id:tree.id, children: null})
+      }
+
       this.updateTree({tree});
+
+      if(getPosition(this.props.project, 'sectionid') === currentNode.id){
+        this.props.history.push(`/app/project/${getPosition(this.props.project, 'projectid')}`)
+      }
     } catch (error) {
       console.error('Error removeNodeInTree: ', error);
     }
@@ -361,7 +376,6 @@ export class DocumentTree extends Component {
    * @desc метод для включения/выключения ноды дерева
    * */
   onToggle = (node, toggled) => {
-    console.log('onToggle: ', node, toggled);
     node.active = toggled;
     if (node.loading) {
       return;
@@ -624,7 +638,7 @@ export class DocumentTree extends Component {
    * @param {object} cell объект ячейки
    * @desc метод добавления одной ячейки в дерево
    * */
-  addNodeInTree = async cell => {
+  addNodeInTree = cell => {
     console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
 
@@ -655,12 +669,8 @@ export class DocumentTree extends Component {
         id: parent.id,
         verify: CELL_STATUS_CHANGED,
       };
-      // Если предыдущая ячейка это парент то мы добавляем ее
-      if (cell.prevcell.id === parent.id) {
-        // value.children = cell.id;
-      }
+
       parent.verify = CELL_STATUS_CHANGED;
-      await this.updateCell(value);
     }
 
     let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
@@ -783,20 +793,55 @@ export class DocumentTree extends Component {
       });
   };
 
+  updateDocument = value => {
+    console.log('updateDocument:', value);
+    const {client} = this.props;
+
+    return client
+      .mutate({
+        mutation: UpdateDocumentMutation,
+        variables: value,
+        update: (store, {data: {updatedocument}}) => {
+          const data = store.readQuery({
+            query: ProjectItemQuery,
+            variables: {
+              id: updatedocument.document.project,
+            },
+          });
+          let documentIndex = data.projectitem.documents.findIndex(
+            item => item.id === updatedocument.document.id,
+          );
+          data.projectitem.documents[documentIndex] = updatedocument.document;
+
+          store.writeQuery({
+            query: ProjectItemQuery,
+            variables: {
+              id: updatedocument.document.project,
+            },
+            data,
+          });
+        },
+      })
+      .catch(error => {
+        console.error(`Error updateCell, id=${value.id}: `, error);
+        return error;
+      });
+  };
   render() {
-    console.log('DocumentTree:', this.state.tree);
+    console.log(`DocumentTree name=${this.state.tree.name}:`, this.state.tree);
     return (
       <Box
         style={{
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={decorators} data={this.state.tree} onToggle={this.onToggle}/>
+        <Treebeard decorators={this.decorators} data={this.state.tree} onToggle={this.onToggle}/>
       </Box>
     );
   }
 }
 
 DocumentTree = withApollo(DocumentTree);
+DocumentTree = withRouter(DocumentTree);
 
 export default DocumentTree;
