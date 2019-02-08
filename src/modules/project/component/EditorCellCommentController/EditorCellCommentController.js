@@ -134,8 +134,12 @@ export class EditorCellCommentController extends Component {
 
   render() {
     const {isOpen, status} = this.state;
-    const {comments} = this.props;
-
+    const {comments, project, user} = this.props;
+    console.log('EditorCellCommentController: ',this.props);
+    /** @desc скрываю кнопук коментариев для автора проекта если коментариев нет */
+    if(project.author.id === user.id && (!comments || comments.length === 0)){
+      return null;
+    }
     return (
       <Relative>
         <EditorCellCommentButton status={status} onClick={this.onClick}/>
