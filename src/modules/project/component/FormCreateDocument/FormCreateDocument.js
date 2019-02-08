@@ -30,9 +30,8 @@ const notificationOpts = () => ({
 
 export class FormCreateDocument extends Component {
   submit = (value, event) => {
+    if(!value.length) return;
     const { project } = this.props;
-    event.stopPropagation();
-    event.preventDefault();
 
     return this.props['@apollo/create']({
       variables: {
@@ -93,45 +92,7 @@ export class FormCreateDocument extends Component {
                     size={'xs'}
                     type={'text'}
                     borderRadius={'4px'}
-                    onBlur={event => {
-                      mutate({
-                        variables: {
-                          name: event.target.value,
-                          projectid: project.project.id,
-                        },
-                        /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
-                        update: (store, { data: { createdocument } }) => {
-                          // считываем из локального кеша аполо по запросу данные
-                          // TODO: добавить вывод сообщений о ошбках через redux-notification
-                          const data = store.readQuery({
-                            query: ProjectItemQuery,
-                            variables: {
-                              id: this.props.project.project.id,
-                            },
-                          }); // пушим наш только что созданный документ в список всех документов
-                          data.projectitem.documents.push(createdocument.document);
-
-                          // записываем в кеш обновленный список документов
-                          store.writeQuery({
-                            query: ProjectItemQuery,
-                            variables: {
-                              id: this.props.project.project.id,
-                            },
-                            data,
-                          });
-                        },
-                      })
-                        .then(response => {
-                          console.log(response);
-                          this.props.setNotificationSuccess(notificationOpts().success);
-                          this.props.reset();
-                        })
-                        .catch(error => {
-                          this.props.setNotificationError(notificationOpts().error);
-
-                          console.log(error);
-                        });
-                    }}
+                    onBlur={handleSubmit(this.submit)}
                   />
                 );
               }}
