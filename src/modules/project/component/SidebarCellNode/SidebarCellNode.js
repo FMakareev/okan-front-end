@@ -206,6 +206,7 @@ export class SidebarCellNode extends Component {
     const { node, onClick } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
+    console.log('SidebarCellNode: ',this.props.node);
     return (
       <Wrapper
         active={node.active && isHead}

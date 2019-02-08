@@ -8,10 +8,9 @@ import defaultDecorators from '../decorators';
 import defaultAnimations from '../themes/animations';
 
 
-
 export class TreeBeard extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
 
@@ -29,14 +28,13 @@ export class TreeBeard extends Component {
     }
     return (
       <decorators.TreeBeardWrapper>
-        {data.map((node, index) =>
-          <TreeNode
+        {data.map((node, index) => (<TreeNode
             animations={animations}
             decorators={decorators}
             key={node.id || index}
             node={node}
             onToggle={onToggle}
-          />
+          />)
         )}
       </decorators.TreeBeardWrapper>
     );

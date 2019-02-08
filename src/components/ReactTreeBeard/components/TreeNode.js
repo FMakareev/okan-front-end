@@ -86,7 +86,6 @@ export class TreeNode extends Component {
 
   renderChildren(decorators) {
     const {animations, decorators: propDecorators, node} = this.props;
-
     if (node.loading) {
       return this.renderLoading(decorators);
     }
@@ -100,14 +99,17 @@ export class TreeNode extends Component {
       <propDecorators.TreeNodeList
         ref={ref => this.subtreeRef = ref}>
         {
-          children.map((child, index) => (<TreeNode
+          children.map((child, index) => {
+            child.number = `${node.number}${index+1}.`;
+            return (<TreeNode
               {...this._eventBubbles()}
               animations={animations}
               decorators={propDecorators}
               key={child.id || index}
               node={child}
             />)
-          )}
+          })
+        }
       </propDecorators.TreeNodeList>
     );
   }

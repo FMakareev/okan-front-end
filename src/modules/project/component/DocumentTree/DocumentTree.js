@@ -192,8 +192,6 @@ export class DocumentTree extends Component {
             let childNodesList = [];
             this.createBranch(item.childcell.id, nodes, childNodesList);
 
-            childNodesList = this.cellNumbering(childNodesList, item.number);
-
             this.createTree(childNodesList, nodes);
             item.children = childNodesList;
           }
@@ -218,7 +216,6 @@ export class DocumentTree extends Component {
           let newNodes = [];
           // console.log(this.state.tree);
           this.createBranch(this.state.tree.childcell.id, nodes, newNodes);
-          newNodes = this.cellNumbering(newNodes, '');
           this.createTree(newNodes, nodes);
           newNodes = this.activeBranch(cellid, newNodes);
           this.updateTree({
@@ -378,7 +375,7 @@ export class DocumentTree extends Component {
       this.branchDownload(node.childcell.id, childList)
         .then(response => {
           if (childList.length) {
-            this.addNodeListInBranch(childList, node.number);
+            this.addNodeListInBranch(childList);
           }
           this.changeStatusLoadingsNode(node.id, false);
         })
@@ -605,10 +602,9 @@ export class DocumentTree extends Component {
 
   /**
    * @params {array} cellList - данные ноды/ячейки
-   * @params {string} numberParent - порядковый номер родителя
    * @desc метод для добавления ноды в дерево
    * */
-  addNodeListInBranch = (cellList, numberParent) => {
+  addNodeListInBranch = (cellList) => {
     try {
       const tree = Object.assign({}, this.state.tree);
       let pathToParent =
@@ -616,13 +612,11 @@ export class DocumentTree extends Component {
 
       let newChildren = cellList.map(cell => this.createCellNode(cell));
 
-      newChildren = this.cellNumbering(newChildren, numberParent);
-
       objectPath.set([tree], pathToParent, newChildren);
 
       this.updateTree({tree});
     } catch (error) {
-      console.log(`Error addNodeListInBranch, numberParent=${numberParent}`, error);
+      console.log(`Error addNodeListInBranch`, error);
     }
   };
 
@@ -643,9 +637,6 @@ export class DocumentTree extends Component {
     let parent = objectPath.get([tree], pathToParent);
     // дочерние узлы парента
     let parentChildren = objectPath.get([tree], pathToParentChildren) || [];
-
-    // порядковый номер парента
-    let numberParent = objectPath.get([tree], pathToParent + '.number');
 
     // проверяем что если у нас у ноды парента еще нет childcell и ячейка
     // которую мы добавляем в дерево является его дочерней ячейкой
@@ -677,8 +668,6 @@ export class DocumentTree extends Component {
     // Добавить в массив новую ячейку после предыдущей
     parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
 
-    // перерасчет номеров
-    parentChildren = this.cellNumbering(parentChildren, numberParent);
     parent.children = parentChildren;
     objectPath.set([tree], pathToParent, parent);
 
@@ -741,26 +730,6 @@ export class DocumentTree extends Component {
     }
   };
 
-  /**
-   * @param {array} cellList массив ячеек
-   * @param {string} parentNumber объект ячейки
-   * @desc метод для нумерации ячеек
-   * */
-  cellNumbering = (cellList, parentNumber) => {
-    try {
-      if (cellList && Array.isArray(cellList)) {
-        return cellList.map((item, index) => ({
-          ...item,
-          number: `${parentNumber}${index + 1}.`,
-        }));
-      } else {
-        return [];
-      }
-    } catch (error) {
-      console.error(`Error cellNumbering, parentNumber=${parentNumber}: `, error);
-      return [];
-    }
-  };
 
   /**
    * @params {string} id ясейки
