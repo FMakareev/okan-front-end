@@ -61,7 +61,7 @@ export class FormCreateFirstCell extends Component {
         const data = store.readQuery({
           query: ProjectItemQuery,
           variables: {
-            id: this.props.project.project.id,
+            id: updatedocument.document.project,
           },
         });
         // пушим наш только что созданный документ в список всех документов
@@ -73,7 +73,7 @@ export class FormCreateFirstCell extends Component {
         store.writeQuery({
           query: ProjectItemQuery,
           variables: {
-            id: this.props.project.project.id,
+            id: updatedocument.document.project,
           },
           data,
         });
