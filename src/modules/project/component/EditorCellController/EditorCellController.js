@@ -219,6 +219,7 @@ export class EditorCellController extends Component {
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
             <Text
+              className={'editor-cell_content'}
               onClick={this.openEditor}
               fontSize={5}
               lineHeight={6}
