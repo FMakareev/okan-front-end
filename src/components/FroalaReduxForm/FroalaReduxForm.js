@@ -14,15 +14,14 @@ import '../../assets/style/froala-theme.css';
 import 'font-awesome/css/font-awesome.css';
 
 // Require block types
-import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../shared/blockType';
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT } from '../../shared/blockType';
 
-// That's where the magic happens
+// That's where the styled-components
 const FroalaEditor = dynamic(import('react-froala-wysiwyg'), {
   ssr: false,
 });
 
 export class FroalaReduxForm extends Component {
-
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -42,14 +41,91 @@ export class FroalaReduxForm extends Component {
     const contentType = this.props.data.content.contenttype;
     let toolbarButtons = [];
     switch (contentType) {
-      case BLOCK_IMAGE :
-        toolbarButtons = ['copy', 'bind', 'unbind', '|', 'insertImage', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'];
+      case BLOCK_IMAGE:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'insertImage',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
         break;
-      case BLOCK_TABLE :
-        toolbarButtons = ['copy', 'bind', 'unbind', '|', 'insertTable', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'];
+      case BLOCK_TABLE:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'insertTable',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
         break;
-      case BLOCK_TEXT :
-        toolbarButtons = ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'specialCharacters', 'emoticons', 'print', 'help'];
+      case BLOCK_TEXT:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
         break;
     }
     let EditorConfig = {
@@ -57,11 +133,11 @@ export class FroalaReduxForm extends Component {
       theme: 'froala',
       charCounterCount: false,
       toolbarButtons: toolbarButtons,
-      autofocus: true
-    }
+      autofocus: true,
+    };
     this.setState({
       ...this.state,
-      EditorConfig: EditorConfig
+      EditorConfig: EditorConfig,
     });
   }
 
@@ -93,15 +169,16 @@ export class FroalaReduxForm extends Component {
 
     return (
       <div>
-        <DefineIcons buttonClick={(action) => {this.props.handleButtonClick(action)}}/>
+        <DefineIcons
+          buttonClick={action => {
+            this.props.handleButtonClick(action);
+          }}
+        />
         <FroalaEditor
           onModelChange={this.handleModelChange}
           model={input.value}
           tag={'textarea'}
-          config={{
-            ...config,
-            ...this.state.EditorConfig,
-          }}
+          config={{ ...config, ...this.state.EditorConfig }}
         />
       </div>
     );
