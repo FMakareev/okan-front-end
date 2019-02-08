@@ -29,8 +29,9 @@ const notificationOpts = () => ({
 });
 
 export class FormCreateDocument extends Component {
-  submit = (value, event) => {
-    if(!value.length) return;
+  createDocument = (value, event) => {
+    console.log('createDocument: ', value);
+    if(!value.name || !value.name.length) return;
     const { project } = this.props;
 
     return this.props['@apollo/create']({
@@ -76,7 +77,7 @@ export class FormCreateDocument extends Component {
     const { submitting, handleSubmit, submitSucceeded, project } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
+      <Form onSubmit={handleSubmit(this.createDocument)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
           <Box height={'20px'} width={'100%'}>
             <Mutation mutation={CreateDocumentQuery}>
@@ -92,7 +93,7 @@ export class FormCreateDocument extends Component {
                     size={'xs'}
                     type={'text'}
                     borderRadius={'4px'}
-                    onBlur={handleSubmit(this.submit)}
+                    onBlur={handleSubmit(this.createDocument)}
                   />
                 );
               }}
@@ -101,6 +102,7 @@ export class FormCreateDocument extends Component {
 
           <Box ml={'3'} height={'20px'}>
             <ButtonBase
+              type={'submit'}
               disabled={submitting}
               title={'Добавить документ'}
               size={'small'}
