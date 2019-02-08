@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
-import { graphql, Query, withApollo } from 'react-apollo';
+import {graphql, Query, withApollo} from 'react-apollo';
 
 /** Image */
 import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
@@ -25,7 +25,11 @@ import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType
 
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
+import {error, success} from "react-notification-system-redux";
+import {connect} from "react-redux";
 
+
+// TODO: три компонента кнопок превратить в один и тип и название передавать пропсами
 const EditorAdditionalMenuButton = (props) => {
   return (
     <Absolute className={'EditorAdditionalMenuButton'} left={'30px'} top={'0%'}>
@@ -43,6 +47,52 @@ const EditorAdditionalMenuButton = (props) => {
     </Absolute>
   )
 };
+
+
+const createCellNotification = (contentType,messageType) => {
+  let contentTypeName = '';
+  switch (contentType) {
+    case(BLOCK_TABLE): {
+      contentTypeName = 'таблица';
+      break;
+    }
+    case(BLOCK_IMAGE): {
+      contentTypeName = 'изображение';
+      break;
+    }
+    case(BLOCK_TEXT): {
+      contentTypeName = 'текстовый блок';
+      break;
+    }
+  }
+
+  switch(messageType){
+    case('success'):{
+      return {
+        title: `Создан: ${contentTypeName}`,
+        position: 'tr',
+        autoDismiss: 3,
+      };
+    }
+    case('error'):{
+      return {
+        title: 'Ошибка',
+        message: `Не создан: ${contentTypeName}`,
+        position: 'tr',
+        autoDismiss: 3,
+      };
+    }
+    default:{
+      return {
+        title: 'Ошибка',
+        message: 'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
+        position: 'tr',
+        autoDismiss: 3,
+      };
+    }
+  }
+};
+
 
 /**
  * @desc Компонент контроллер для добавления новых блоков в документ
@@ -100,10 +150,10 @@ export class EditorAdditionalMenu extends Component {
   eventHandle = (event) => {
     try {
       if (Array.isArray(event.path)) {
-        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0 ) {
+        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0) {
           return null;
         } else {
-          if(this.state.active){
+          if (this.state.active) {
             return this.toggleMenu();
           }
           return null
@@ -125,39 +175,47 @@ export class EditorAdditionalMenu extends Component {
   };
 
   getLastCellId = (blockType) => {
-    this.props.client.query({ 
+    this.props.client.query({
       query: CellListQuery,
       variables: {
         parent: this.props.sectionid
       }
-    }).then(({ data }) => {
-      let lastCellId = data.celllist[data.celllist.length - 1].id;
+    }).then(({data}) => {
+      let lastCellId = null;
+      if (data && Array.isArray(data.celllist) && data.celllist.length > 1) {
+        lastCellId = data.celllist[data.celllist.length - 1].id;
+      }
       this.createEditorInstance(blockType, lastCellId)
     }).catch((error) => {
-      this.createEditorInstance(blockType, null)
+      this.createEditorInstance(blockType, null);
       console.log('there was an error sending the query', error);
     });
-  }
+  };
 
   createEditorInstance = (blockType, lastCellId) => {
     let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
-      variables: { 
+      variables: {
         name: '',
-        prevcell: prevcell, 
-        parent: this.props.sectionid, 
-        isHead: false, 
+        prevcell: prevcell,
+        parent: this.props.sectionid,
+        isHead: false,
         contenttype: blockType,
-        content: 'Новый блок'
+        content: ''
       },
-      update: (store, { data: { createcell } }) => {
-        const data = store.readQuery({ 
+      update: (store, {data: {createcell}}) => {
+
+        const data = store.readQuery({
           query: CellListQuery,
           variables: {
             parent: this.props.sectionid
           }
         });
- 
+
+        if(data.celllist.length > 1){
+          data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
+        }
+
         data.celllist.push(createcell.cell);
 
         store.writeQuery({
@@ -169,9 +227,13 @@ export class EditorAdditionalMenu extends Component {
         })
       }
     })
-      .then(({ data }) => {
+      .then(({data}) => {
         console.log('got data', data);
-      }).catch((error) => {
+        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
+
+      })
+      .catch((error) => {
+        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
         console.log('there was an error sending the query', error);
       });
   }
@@ -185,7 +247,9 @@ export class EditorAdditionalMenu extends Component {
         <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
           <SvgSidebarAdd/>
         </ButtonBase>
-        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType)=>{this.getLastCellId(blockType)}}/>}
+        {active && <EditorAdditionalMenuButton handleButtonPress={(blockType) => {
+          this.getLastCellId(blockType)
+        }}/>}
       </Box>
     );
   }
@@ -194,5 +258,13 @@ export class EditorAdditionalMenu extends Component {
 EditorAdditionalMenu = withApollo(EditorAdditionalMenu);
 
 EditorAdditionalMenu = graphql(CreateCellMutation)(EditorAdditionalMenu);
+
+EditorAdditionalMenu = connect(
+  null,
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(EditorAdditionalMenu);
 
 export default RenderOpenWindow(EditorAdditionalMenu);

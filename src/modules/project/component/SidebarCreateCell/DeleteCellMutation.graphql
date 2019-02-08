@@ -1,0 +1,7 @@
+mutation($id: String!){
+  deletecell(id:$id){
+    cell{
+      id
+    }
+  }
+}

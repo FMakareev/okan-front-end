@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-
 
 /** Css value */
 import {
@@ -25,17 +24,6 @@ import { ProfileLogo, ProjectListLogo } from './Logos';
 /** HOC */
 import RenderOpenWindow from '../../utils/helpers/RenderOpenWindow';
 
-const OpenMenu = (
-  <AbsoluteStyled top={'33px'} right={0}>
-    <ProfileLink to="/app/profile" activeClassName="active">
-      <BoxTop>Профиль</BoxTop>
-    </ProfileLink>
-    <ProfileLink to="/logout" activeClassName="active">
-      <BoxBottom>Выйти</BoxBottom>
-    </ProfileLink>
-  </AbsoluteStyled>
-);
-
 export class Header extends Component {
   static propTypes = {
     /** route name */
@@ -44,19 +32,46 @@ export class Header extends Component {
     handleClick: PropTypes.func,
   };
 
-  static defaultProps = { name: 'Title not found', isOpen: false, handleClick: () => {} };
-
   constructor(props) {
     super(props);
     this.state = this.initialState;
+
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+  }
+
+  get openMenu() {
+    return (
+      <AbsoluteStyled top={'33px'} right={'-15px'} onMouseLeave={this.handleMouseOut}>
+        <ProfileLink to="/app/profile" activeClassName="active">
+          <BoxTop>Профиль</BoxTop>
+        </ProfileLink>
+        <ProfileLink to="/logout" activeClassName="active">
+          <BoxBottom>Выйти</BoxBottom>
+        </ProfileLink>
+      </AbsoluteStyled>
+    );
   }
 
   get initialState() {
-    return {};
+    return { isOpen: false };
+  }
+
+  handleMouseEnter() {
+    this.setState(({ isOpen }) => {
+      return { isOpen: true };
+    });
+  }
+
+  handleMouseOut() {
+    this.setState(({ isOpen }) => {
+      return { isOpen: false };
+    });
   }
 
   render() {
-    const { name, isOpen, handleClick } = this.props;
+    const { name } = this.props;
+    const { isOpen } = this.state;
 
     return (
       <Wrapper>
@@ -66,10 +81,12 @@ export class Header extends Component {
         <ControlsWrapper>
           <Title>{name}</Title>
 
-          <ButtonBaseStyled variant={'empty'} onClick={handleClick} position={'relative'}>
+          <ButtonBaseStyled
+            variant={'empty'}
+            position={'relative'}
+            onMouseEnter={this.handleMouseEnter}>
             <ProfileLogo />
-
-            {isOpen && OpenMenu}
+            {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
 
           <ProjectListLink to="/app/project-list" activeClassName="active">
@@ -81,4 +98,5 @@ export class Header extends Component {
   }
 }
 
-export default RenderOpenWindow(Header);
+// export default RenderOpenWindow(Header);
+export default Header;

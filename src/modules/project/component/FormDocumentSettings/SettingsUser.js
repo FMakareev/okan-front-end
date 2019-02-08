@@ -85,7 +85,11 @@ export class SettingsUser extends Component {
                     return this.onChange(id);
                   }}
                   pt={3}>
-                  <CheckboxBase id={id} checked={this.findUserInValue(input.value, id) >= 0} />
+                  <CheckboxBase
+                    input={input}
+                    id={id}
+                    checked={this.findUserInValue(input.value, id) >= 0}
+                  />
 
                   <Text
                     fontFamily={'primary300'}

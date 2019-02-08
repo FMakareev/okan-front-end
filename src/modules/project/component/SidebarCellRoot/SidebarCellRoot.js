@@ -74,16 +74,16 @@ export const SidebarCellRoot = props => {
           <SidebarProjectSettings projectid={projectid} documentid={document.id} />
         </Box>
         <Box px={1}>
-          <SidebarSaveChanges/>
+          <SidebarSaveChanges documentid={document} />
         </Box>
         <Box px={1}>
-          <SidebarRevisionList documentid={document.id} projectid={projectid}/>
+          <SidebarRevisionList documentid={document.id} projectid={projectid} />
         </Box>
         <Box px={1}>
-          <SidebarCreateRevision document={document}/>
+          <SidebarCreateRevision document={document} />
         </Box>
         <Box px={1}>
-          <SidebarProjectExport/>
+          <SidebarProjectExport />
         </Box>
       </Flex>
     </FlexStyled>

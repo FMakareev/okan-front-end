@@ -11,11 +11,13 @@ export const SidebarChangeCell = ({onClick}) => {
   return (
     <ButtonBase
       title={'Переименовать раздел.'}
-      onClick={(event)=>{
-      event.stopPropagation();
-      onClick()
-    }} variant={'empty'}>
-      <img src={settingsSidebar} />
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick()
+      }}
+      variant={'empty'}
+    >
+      <img src={settingsSidebar}/>
     </ButtonBase>
   );
 };

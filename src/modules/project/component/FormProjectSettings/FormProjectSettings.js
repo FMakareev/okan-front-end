@@ -122,7 +122,7 @@ export class FormProjectSettings extends Component {
           textAlign={'center'}
           mb={4}
           fontFamily={'primary500'}>
-          Участники проекта
+          Согласующие
         </Text>
 
         <Box mb={'45px'}>

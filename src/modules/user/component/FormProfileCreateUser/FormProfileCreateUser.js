@@ -67,14 +67,11 @@ export class FormProfileCreateUser extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
-
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
+    // console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
         return response;
@@ -91,7 +88,8 @@ export class FormProfileCreateUser extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, submitSucceeded } = this.props;
+    // console.log(1, this.props);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -138,6 +136,7 @@ export class FormProfileCreateUser extends Component {
           type="text"
           validate={required}
           fontFamily={'secondary'}
+          submitForm={submitSucceeded}
         />
 
         <Field
@@ -153,10 +152,13 @@ export class FormProfileCreateUser extends Component {
         <Field
           name="phone"
           component={MaskedInputField}
-          placeholder={'Телефон'}
+          placeholder={'( 111 ) - 111 - 11 - 11'}
           type="text"
           validate={required}
           fontFamily={'secondary'}
+          fontSize={5}
+          lineHeight={7}
+          submitForm={submitSucceeded}
         />
 
         <Field
@@ -165,8 +167,9 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Электронная почта'}
           type="text"
           size={'md'}
-          // validate={[required, isEmail]}
-          fontFamily={'secondary'}
+          fontFamily={
+            'secondary' // validate={[required, isEmail]}
+          }
         />
 
         <BoxSecond mb={11}>

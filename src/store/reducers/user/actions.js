@@ -45,7 +45,7 @@ export const userInit = (state, request) => dispatch => {
             if (isBrowser) {
               localStorage.clear();
             }
-            console.log('Error userInit: ', error);
+            console.error('Error userInit: ', error);
             /** */
             dispatch({
               type: USER_INIT_LOADING_ERROR,
@@ -59,7 +59,13 @@ export const userInit = (state, request) => dispatch => {
         resolve(true);
       }
     } catch (error) {
-      console.log('Error userInit: ', error);
+      console.error('Error userInit: ', error);
+      dispatch({
+        type: USER_INIT_LOADING_ERROR,
+        user: {
+          error: USER_NOT_AUTHORIZED,
+        },
+      });
       resolve(error);
     }
   });

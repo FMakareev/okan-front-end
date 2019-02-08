@@ -110,7 +110,11 @@ export class RichTextEditor extends Component {
 
     return (
       <Wrapper className={className}>
-        <FroalaReduxForm {...this.props} handleButtonClick={(action) => {this.getButtonClick(action)}}/>
+        <FroalaReduxForm
+          {...this.props}
+
+          handleButtonClick={(action) => {this.getButtonClick(action)}}
+        />
         <Message meta={meta} />
       </Wrapper>
     );
@@ -121,7 +125,7 @@ RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 
 export default connect(
   null,
-  dispatch => ({ 
+  dispatch => ({
     saveBlockId: id => dispatch(saveBlockId(id)),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

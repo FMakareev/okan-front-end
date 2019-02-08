@@ -18,6 +18,9 @@ import {
   CELL_STATUS_NOT_CHECKED,
 } from '@lib/shared/approvalStatus';
 
+/** */
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+
 const GetStatusColor = status => {
   switch (status) {
     case CELL_STATUS_CHECKED: {
@@ -43,13 +46,31 @@ export class SidebarApprovalStatus extends Component {
   state = { clickStatus: false };
 
   submit = (id, verify) => {
-    // console.log(11, id, verify);
-
     this.props.client
-      .mutate({ mutation: UpdateCellMutation, variables: { id, verify } })
-      .then(response => {
+      .mutate({
+        mutation: UpdateCellMutation,
+        variables: {
+          id,
+          verify,
+        },
+        update: (store, { data: { updatecell } }) => {
+          const options = {
+            query: CellItemQuery,
+            variables: {
+              id: id,
+            },
+          };
+          const data = store.readQuery(options);
+          data.cell = updatecell.cell;
+          store.writeQuery({
+            ...options,
+            data,
+          });
+        },
+      })
+      .then(async response => {
         console.log('response: ', response);
-        this.setState(({ clickStatus }) => ({ clickStatus: true }));
+        await this.props.cellCheckStatusChange(id, verify);
       })
       .catch(error => {
         console.error(error);
@@ -59,26 +80,25 @@ export class SidebarApprovalStatus extends Component {
   render() {
     const { node } = this.props;
 
-    const { clickStatus } = this.state;
-
     return (
-      <Query query={CellMarkerQuery} variables={{ id: node && node.id }}>
+      <Query
+        // skip={true}
+        query={CellMarkerQuery}
+        variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {
-          const { cellMarker } = data;
-
-          const statusRender =
-            cellMarker && cellMarker.answer ? CELL_STATUS_CHANGED : CELL_STATUS_NOT_CHECKED;
-          const status = clickStatus ? CELL_STATUS_CHECKED : statusRender;
-
           return (
             <ButtonBase
               title={'Статус проверки блока'}
               variant={'empty'}
+              disabled={node.childcell && node.childcell.isHead}
               onClick={event => {
                 event.stopPropagation();
                 return this.submit(node.id, CELL_STATUS_CHECKED);
               }}>
-              <SvgStatus fill={GetStatusColor(status)} stroke={'#fff'} />
+              <SvgStatus
+                fill={GetStatusColor(node.verify)}
+                bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
+              />
             </ButtonBase>
           );
         }}

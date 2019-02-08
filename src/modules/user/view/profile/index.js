@@ -53,8 +53,6 @@ export class ProfilePage extends Component {
     const {
       user: { role, id },
     } = this.props;
-
-
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
@@ -63,7 +61,6 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
                 <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
                   {({ loading, error, data }) => {
-
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
@@ -118,7 +115,7 @@ export class ProfilePage extends Component {
                 userRole={role && role}>
                 <Query query={NotificationListQuery}>
                   {({ loading, error, data }) => {
-                    console.log('notificationslist', data);
+                    // console.log('notificationslist', data);
 
                     if (id && loading) {
                       return <SmallPreloader />;
