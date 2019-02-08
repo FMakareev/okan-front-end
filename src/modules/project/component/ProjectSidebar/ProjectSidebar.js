@@ -8,14 +8,8 @@ import {ProjectPropTypes} from "../../../../propTypes/ProjectPropTypes";
 import {withProject} from "../ProjectContext/ProjectContext";
 
 
-const DocumentTreeWithProject =  withProject((props) => {
-  // console.log('DocumentTreeWithProject: ',props);
-  return (<DocumentTree {...props}/>)
-});
-const FormCreateDocumentWithProject =  withProject((props) => {
-  // console.log('DocumentTreeWithProject: ',props);
-  return (<FormCreateDocument {...props}/>)
-});
+const DocumentTreeWithProject = withProject((props) => (<DocumentTree {...props}/>));
+const FormCreateDocumentWithProject = withProject((props) => (<FormCreateDocument {...props}/>));
 
 
 export class ProjectSidebar extends Component {
@@ -23,6 +17,18 @@ export class ProjectSidebar extends Component {
   static propTypes = {
     project: ProjectPropTypes,
   };
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('shouldComponentUpdate: ',nextProps,this.props);
+  //   const {
+  //     documents
+  //   } = nextProps;
+  //   if (documents !== this.props.documents.length) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   render() {
     const {
@@ -33,9 +39,9 @@ export class ProjectSidebar extends Component {
       {
         documents && documents.map((item, index) => (<DocumentTreeWithProject
           data={item}
-          key={`DocumentTree=${index}`}/>))
+          key={`DocumentTree=${item.id}`}/>))
       }
-      <FormCreateDocumentWithProject />
+      <FormCreateDocumentWithProject/>
     </Fragment>)
   }
 }
