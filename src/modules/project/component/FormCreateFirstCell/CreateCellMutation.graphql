@@ -1,26 +1,44 @@
 mutation($isHead: Boolean, $name: String) {
   createcell(isHead: $isHead, name: $name){
     cell{
+      childcell: children {
+        id
+        name
+        isHead
+      }
+      comments {
+        id
+        createdate
+        isdelete
+        message
+        sender {
+          id
+          firstname
+          lastname
+          patronymic
+        }
+        updatedate
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
       id
+      isHead
       name
-      verify
-      prevcell {
+      nextcell {
         id
       }
-      nextcell {
+      prevcell {
         id
       }
       parent {
         id
       }
-      childcell: children {
-        id
-        isHead
-      }
-      isHead
-      content {
-        number
-      }
+      verify
     }
   }
 }

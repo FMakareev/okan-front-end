@@ -13,8 +13,10 @@ mutation ($id: String!, $content: String){
             parent{
                 id
             }
-            childcell: children{
-                id
+            childcell: children {
+              id
+              name
+              isHead
             }
             isHead,
             content {

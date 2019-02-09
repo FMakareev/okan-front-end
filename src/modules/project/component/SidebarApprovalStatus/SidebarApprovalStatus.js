@@ -82,7 +82,7 @@ export class SidebarApprovalStatus extends Component {
 
     return (
       <Query
-        // skip={true}
+        skip={true}
         query={CellMarkerQuery}
         variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {

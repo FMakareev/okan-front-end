@@ -285,12 +285,38 @@ export class DocumentTree extends Component {
           prevNodeCurrentNode.nextcell = nextNodeCurrentNode;
           nextNodeCurrentNode.prevcell = prevNodeCurrentNode;
         }
+        /** @desc обновляем в кеше apollo prevcell */
+        this.updateCellInCache({
+          id:prevNodeCurrentNode.id,
+          prevcell:prevNodeCurrentNode.prevcell,
+          nextcell:prevNodeCurrentNode.nextcell,
+          parent:prevNodeCurrentNode.parent,
+        });
+
+        /** @desc обновляем в кеше apollo nextcell */
+        this.updateCellInCache({
+          id:nextNodeCurrentNode.id,
+          prevcell:nextNodeCurrentNode.prevcell,
+          parent:nextNodeCurrentNode.parent,
+        });
+
         objectPath.set([tree], pathToPrevNodeCurrentNode, prevNodeCurrentNode);
         objectPath.set([tree], pathToNextNodeCurrentNode, nextNodeCurrentNode);
       } else if (!prevNodeCurrentNode && nextNodeCurrentNode) {
         /** удаление ячейки без ссылки на предыдущую ячейку */
         nextNodeCurrentNode.prevcell = null;
         tree.childcell = nextNodeCurrentNode;
+        // TODO: чекнуть как обновляется в кеше
+        /** @desc обновляем в кеше apollo nextcell */
+        this.updateCellInCache({
+          id:nextNodeCurrentNode.id,
+          prevcell:null,
+        });
+        this.updateDocumentInCache({
+          id: tree.id,
+          project: tree.project,
+          childcell: tree.childcell,
+        });
         objectPath.set([tree], pathToNextNodeCurrentNode, nextNodeCurrentNode);
       } else if (prevNodeCurrentNode && !nextNodeCurrentNode) {
         /** удаление ячейки со ссылкой только на предыдущую ячейку при этом предыдущая родитель удоляемой ячейки */
@@ -300,6 +326,13 @@ export class DocumentTree extends Component {
           /** удаление ячейки со ссылкой только на предыдущую ячейку при этом предыдущая не родитель удоляемой ячейки */
           prevNodeCurrentNode.nextcell = null;
         }
+        /** @desc обновляем в кеше apollo prevcell */
+        this.updateCellInCache({
+          id:prevNodeCurrentNode.id,
+          nextcell:prevNodeCurrentNode.nextcell,
+          childcell:prevNodeCurrentNode.childcell,
+        });
+
         objectPath.set([tree], pathToPrevNodeCurrentNode, prevNodeCurrentNode);
       }
 
@@ -319,6 +352,54 @@ export class DocumentTree extends Component {
       console.error('Error removeNodeInTree: ', error);
     }
   };
+
+  /**
+   * @param {object} value
+   * @desc метод для обновления ячейки в кеше */
+  updateCellInCache = (value) => {
+    const {client} = this.props;
+    const options = {
+      query: CellItemQuery,
+      variables: {
+        id: value.id,
+      },
+    };
+
+    const data = client.readQuery(options);
+
+    data.cellitem = {...data.cellitem,...value};
+
+
+    client.writeQuery({...options,data});
+
+
+  };
+  /**
+   * @param {object} value
+   * @desc метод для обновления ячейки в кеше */
+  updateDocumentInCache = (value) => {
+    const {client} = this.props;
+    const data = client.readQuery({
+      query: ProjectItemQuery,
+      variables: {
+        id: value.project,
+      },
+    });
+    let documentIndex = data.projectitem.documents.findIndex(
+      item => item.id === value.id,
+    );
+    data.projectitem.documents[documentIndex] = {...data.projectitem.documents[documentIndex],...value};
+
+    client.writeQuery({
+      query: ProjectItemQuery,
+      variables: {
+        id: value.project,
+      },
+      data,
+    });
+
+  };
+
 
   /**
    * @params {string} currentNodeId
@@ -752,7 +833,7 @@ export class DocumentTree extends Component {
     return client
       .query({
         query: CellItemQuery,
-        fetchPolicy: 'network-only',
+        // fetchPolicy: 'network-only',
         variables: {
           id,
         },
@@ -804,24 +885,7 @@ export class DocumentTree extends Component {
         mutation: UpdateDocumentMutation,
         variables: value,
         update: (store, { data: { updatedocument } }) => {
-          const data = store.readQuery({
-            query: ProjectItemQuery,
-            variables: {
-              id: updatedocument.document.project,
-            },
-          });
-          let documentIndex = data.projectitem.documents.findIndex(
-            item => item.id === updatedocument.document.id,
-          );
-          data.projectitem.documents[documentIndex] = updatedocument.document;
-
-          store.writeQuery({
-            query: ProjectItemQuery,
-            variables: {
-              id: updatedocument.document.project,
-            },
-            data,
-          });
+          this.updateDocumentInCache(updatedocument.document);
         },
       })
       .catch(error => {
@@ -829,6 +893,7 @@ export class DocumentTree extends Component {
         return error;
       });
   };
+
   render() {
     // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state.tree);
     return (
