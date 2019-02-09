@@ -207,14 +207,13 @@ export class EditorCellController extends Component {
       sectionNumber,
       project,
     } = this.props;
-    // console.log('EditorCellController: ', this.props);
+
+    // console.log('1: ', this.props);
     // console.log('EditorCellController: ', editable);
     return (
       <Flex
         pl={'10px'}
-        mt={12}
-        alignItems={'center'}
-        // onMouseOver={()=>this.onHover()}
+        mt={12} // onMouseOver={()=>this.onHover()}
         // // draggable={this.state.draggable}
         // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
         // draggable="true"
@@ -222,29 +221,48 @@ export class EditorCellController extends Component {
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
         alignItems="flex-start">
-        <Text
-          width={'60px'}
-          fontFamily={'secondary'}
-          lineHeight={'22px'}
-          fontSize={6}
-          color={'color4'}
-          mt={'2px'}
-          ml={'10px'}>
-          {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
-        </Text>
+        {(!editable || data.content.contenttype == 'text') && (
+          <Text
+            width={'60px'}
+            fontFamily={'secondary'}
+            lineHeight={'22px'}
+            fontSize={6}
+            color={'color4'}
+            mt={'2px'}
+            ml={'10px'}>
+            {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
+          </Text>
+        )}
+        {editable && data.content.contenttype != 'text' && (
+          <EditorTypeIcon type={data.content.contenttype} />
+        )}
         <Box width={'calc(100% - 80px)'}>
-          {(!editable || data.content.contenttype == 'text') && (
+          {!editable && (
             <Text
-              width={'60px'}
-              fontFamily={'secondary'}
-              lineHeight={8}
-              fontSize={6}
-              color={'color4'}>
-              {data.content.number}
+              className={'editor-cell_content'}
+              onClick={this.openEditor}
+              fontSize={5}
+              lineHeight={6}
+              color={'color11'}
+              fontFamily={'primary300'}>
+              {data.content && ReactHTMLParser(data.content.content)}
+              {data.content &&
+                !data.content.content &&
+                'Нажмите чтобы начать редактирование раздела.'}
             </Text>
           )}
-          {editable && data.content.contenttype != 'text' && (
-            <EditorTypeIcon type={data.content.contenttype} />
+          {editable && (
+            <EditorCellForm
+              form={'EditorCellForm-' + data.id}
+              initialValues={{
+                id: data.id,
+                content: data.content.content,
+                contenttype: data.content.contenttype,
+              }}
+              id={data.id}
+              data={data}
+              onBlurForm={() => this.onBlurForm()}
+            />
           )}
         </Box>
         <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />

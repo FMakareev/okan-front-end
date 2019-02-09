@@ -50,10 +50,7 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const numberSection = queryString.parse(search);
-    const section = numberSection.sectionNumber.slice(0, -4);
-    const subSection = numberSection.sectionNumber.slice(0, -2);
-
-    console.log(1, numberSection);
+    const section = numberSection.sectionNumber.slice(0, -2);
 
     if (!sectionid) {
       return (
@@ -77,7 +74,6 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
-              console.log(1, data.celllist);
               return (
                 <Fragment>
                   <Text
@@ -88,9 +84,13 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {data.celllist.length === 0 && <Fragment>{subSection}</Fragment>}
-                    {numberSection.sectionNumber.length === 2 ? numberSection.sectionNumber : 1}
+                    {numberSection.sectionNumber.length === 2 && (
+                      <Fragment>{numberSection.sectionNumber}</Fragment>
+                    )}
+
+                    {numberSection.sectionNumber.length > 2 && <Fragment>{section}</Fragment>}
                   </Text>
+
                   <ContentWrapper>
                     <Text
                       width={'60px'}
@@ -101,8 +101,9 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {<Fragment>{subSection}</Fragment>}
-                      {data.celllist.length === 0 && (
+                      {numberSection.sectionNumber.length <= 2 && null}
+
+                      {numberSection.sectionNumber.length > 2 && (
                         <Fragment>{numberSection.sectionNumber}</Fragment>
                       )}
                     </Text>
@@ -119,7 +120,7 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.number === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${subSection}${index + 1}`}
+                            sectionNumber={`${numberSection.sectionNumber}${index + 1}`}
                           />
                         </Box>
                       );
