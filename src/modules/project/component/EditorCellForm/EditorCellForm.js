@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm, Form} from 'redux-form';
+import { Field, reduxForm, Form } from 'redux-form';
 /** View */
 import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
 /** PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
-
-
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 export class EditorCellForm extends Component {
   state = {};
@@ -15,16 +13,15 @@ export class EditorCellForm extends Component {
   froalaConfig = {
     events: {
       'froalaEditor.blur': (e, editor) => {
-        console.log('froalaEditor.blur: ', e, editor);
+        // console.log('froalaEditor.blur: ', e, editor);
 
         this.props.onBlurForm();
       },
       'froalaEditor.focus': (e, editor) => {
-        console.log('froalaEditor.focus: ', e, editor);
+        // console.log('froalaEditor.focus: ', e, editor);
       },
-    }
+    },
   };
-
 
   static propTypes = {
     /** func submit for Form */
@@ -33,8 +30,7 @@ export class EditorCellForm extends Component {
   };
 
   static defaultProps = {
-    handleSubmit: () => {
-    }
+    handleSubmit: () => {},
   };
 
   constructor(props) {
@@ -44,11 +40,11 @@ export class EditorCellForm extends Component {
   }
 
   get initialState() {
-    return {}
+    return {};
   }
 
   render() {
-    const {id, data} = this.props;
+    const { id, data } = this.props;
 
     return (
       <Form>
@@ -63,8 +59,6 @@ export class EditorCellForm extends Component {
     );
   }
 }
-
-
 
 export default reduxForm({
   form: 'EditorCellForm',

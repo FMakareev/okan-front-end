@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import CreateCellMutation from './CreateCellMutation.graphql';
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import { connect } from 'react-redux';
+import { Field, reduxForm, Form } from 'redux-form';
+import { error, success } from 'react-notification-system-redux';
+
+/** View */
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
 import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 import { Flex } from '@lib/ui/Flex/Flex';
-import { Field, reduxForm, Form } from 'redux-form';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { Box } from '@lib/ui/Box/Box';
-import { connect } from 'react-redux';
+
+/** Strore */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
-import { error, success } from 'react-notification-system-redux';
+
+/** Graphql Schema */
+import CreateCellMutation from './CreateCellMutation.graphql';
+import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
+import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
 
 const notificationOpts = name => {
   return {
