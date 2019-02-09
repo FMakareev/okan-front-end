@@ -13,6 +13,7 @@ import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
 import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
+import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
 import { connect } from 'react-redux';
@@ -213,9 +214,14 @@ export class EditorCellController extends Component {
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
       >
-        <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
-          {data.content.number}
-        </Text>
+        {(!editable || data.content.contenttype == 'text') && (
+          <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
+            {data.content.number}
+          </Text>
+        )}
+        {(editable && data.content.contenttype != 'text') && (
+          <EditorTypeIcon type={data.content.contenttype}/>
+        )}
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
             <Text
