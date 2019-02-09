@@ -1,0 +1,16 @@
+mutation($id: String!){
+  deletecell(id:$id){
+    cell{
+      id
+      nextcell {
+        id
+      }
+      prevcell {
+        id
+      }
+      parent {
+        id
+      }
+    }
+  }
+}

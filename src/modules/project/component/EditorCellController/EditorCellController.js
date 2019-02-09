@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo';
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
+import EditorCellDelete from './EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
@@ -201,7 +202,7 @@ export class EditorCellController extends Component {
 
   render() {
     const { editable } = this.state;
-    const { data } = this.props;
+    const { data, project } = this.props;
     return (
       <Flex
         pl={'10px'}
@@ -213,6 +214,7 @@ export class EditorCellController extends Component {
         // draggable
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
+        alignItems='flex-start'
       >
         {(!editable || data.content.contenttype == 'text') && (
           <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
@@ -251,6 +253,10 @@ export class EditorCellController extends Component {
             />
           )}
         </Box>
+        <EditorCellDelete 
+          id={data.id} 
+          sectionid={project.position.sectionid}
+        />
         <Box width={'20px'}>
           <EditorCellCommentController {...this.props.project} {...data} />
         </Box>
