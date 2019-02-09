@@ -7,12 +7,14 @@ import { graphql } from 'react-apollo';
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
+import EditorCellDelete from './EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
 import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
+import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
 import { connect } from 'react-redux';
@@ -200,7 +202,7 @@ export class EditorCellController extends Component {
 
   render() {
     const { editable } = this.state;
-    const { data } = this.props;
+    const { data, project } = this.props;
     return (
       <Flex
         pl={'10px'}
@@ -212,10 +214,16 @@ export class EditorCellController extends Component {
         // draggable
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
+        alignItems='flex-start'
       >
-        <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
-          {data.content.number}
-        </Text>
+        {(!editable || data.content.contenttype == 'text') && (
+          <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
+            {data.content.number}
+          </Text>
+        )}
+        {(editable && data.content.contenttype != 'text') && (
+          <EditorTypeIcon type={data.content.contenttype}/>
+        )}
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
             <Text
@@ -245,6 +253,10 @@ export class EditorCellController extends Component {
             />
           )}
         </Box>
+        <EditorCellDelete 
+          id={data.id} 
+          sectionid={project.position.sectionid}
+        />
         <Box width={'20px'}>
           <EditorCellCommentController {...this.props.project} {...data} />
         </Box>
