@@ -84,8 +84,7 @@ export class DocumentTree extends Component {
       />
     );
 
-    // console.log(this.props);
-    // console.log(getPosition(this.props.project, 'documentid'));
+
     if (this.props.data.id === getPosition(this.props.project, 'documentid')) {
       this.initTree(getPosition(this.props.project, 'sectionid'));
     }
@@ -148,8 +147,11 @@ export class DocumentTree extends Component {
       this.setState(
         state => ({
           ...newState,
-          toggled: true,
-          active: true,
+          tree:{
+            ...newState.tree,
+            toggled: true,
+            active: true,
+          },
         }),
         state => {
           // console.log('New state after create first cell');
@@ -943,7 +945,7 @@ export class DocumentTree extends Component {
 
   render() {
     console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
-    console.log(`DocumentTree name=${this.state.tree.name}:`, this.props);
+
     return (
       <Box
         style={{
