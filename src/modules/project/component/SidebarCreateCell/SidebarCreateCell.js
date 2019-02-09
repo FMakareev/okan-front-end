@@ -233,7 +233,7 @@ export class SidebarCreateCell extends Component {
     } = this.props;
     const {toggle} = this.state;
 
-
+    console.log('SidebarCreateCell: ', this.props);
     return (
       <Box position={'relative'}>
         <ButtonBase
