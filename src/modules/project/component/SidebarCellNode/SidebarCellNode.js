@@ -168,15 +168,15 @@ export class SidebarCellNode extends Component {
   static gotToCategory = (document, node, history) => {
     try {
       if (!history) {
-        console.error(`Error: goToCategory history is undefined: `,history);
+        console.error(`Error: goToCategory history is undefined: `, history);
         return null
       }
       if (!document) {
-        console.error(`Error: goToCategory document is undefined: `,document);
+        console.error(`Error: goToCategory document is undefined: `, document);
         return null
       }
       if (!node) {
-        console.error(`Error: goToCategory node is undefined: `,node);
+        console.error(`Error: goToCategory node is undefined: `, node);
         return null
       }
       history.push(
@@ -200,10 +200,11 @@ export class SidebarCellNode extends Component {
           this.bindBlock(node.id, bindingBlockId);
         } else {
           SidebarCellNode.gotToCategory(document, node, history);
+          this.props.changeActiveNode(node ? node.id : null, getPosition(this.props.project, 'sectionid'));
         }
       }
     } catch (error) {
-      console.log(`Error node=${node.id}: `, error);
+      console.log(`Error node=${node && node.id}: `, error);
     }
   };
 
@@ -243,7 +244,7 @@ export class SidebarCellNode extends Component {
 
     return (
       <Wrapper
-        active={node.active && isHead}
+        active={node.active}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
         py={'5px'}
