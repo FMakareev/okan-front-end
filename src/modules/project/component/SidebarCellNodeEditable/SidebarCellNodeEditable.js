@@ -58,7 +58,7 @@ export const SidebarCellNodeEditable = React.forwardRef(
 
 SidebarCellNodeEditable.propTypes = {
   id: PropTypes.string.isRequired,
-  html: PropTypes.string.isRequired,
+  html: PropTypes.string,
   focused: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
