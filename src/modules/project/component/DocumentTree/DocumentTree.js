@@ -663,7 +663,7 @@ export class DocumentTree extends Component {
         tree = await this.changeParentVerifyStatus(currentNode.parent, tree, status);
       }
       // TODO: добавить уведомление об обновлении статуса
-      this.updateTree({tree});
+      this.updateTree({ tree });
     } catch (error) {
       console.error('Error cellCheckStatusChange: ', error);
     }
@@ -772,7 +772,7 @@ export class DocumentTree extends Component {
    * @desc метод добавления одной ячейки в дерево
    * */
   addNodeInTree = cell => {
-    console.log('addNodeInTree: ', cell);
+    // console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
 
     let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
@@ -809,12 +809,12 @@ export class DocumentTree extends Component {
     let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
 
     // Добавить в массив новую ячейку после предыдущей
-    parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
+    parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({ ...cell, focused: true }));
 
     parent.children = parentChildren;
     objectPath.set([tree], pathToParent, parent);
 
-    this.updateTree({tree});
+    this.updateTree({ tree });
   };
 
   /**
@@ -877,7 +877,7 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = id => {
-    const {client} = this.props;
+    const { client } = this.props;
 
     return client
       .query({
