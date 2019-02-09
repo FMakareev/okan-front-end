@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
 import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
@@ -198,13 +199,20 @@ export class EditorCellController extends Component {
 
   render() {
     const { editable } = this.state;
-    const { data } = this.props;
-    console.log('EditorCellController: ', this.props);
+
+    const {
+      data,
+      location: { search },
+      sectionNumber,
+    } = this.props;
+    // console.log('EditorCellController: ', this.props);
     // console.log('EditorCellController: ', editable);
+
     return (
       <Flex
         pl={'10px'}
         mt={12}
+        alignItems={'center'}
         // onMouseOver={()=>this.onHover()}
         // // draggable={this.state.draggable}
         // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
@@ -213,17 +221,24 @@ export class EditorCellController extends Component {
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
       >
-        <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
-          {data.content.number}
+        <Text
+          width={'60px'}
+          fontFamily={'secondary'}
+          lineHeight={'22px'}
+          fontSize={6}
+          color={'color4'}
+          mt={'2px'}
+          ml={'10px'}>
+          {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
         </Text>
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
             <Text
               className={'editor-cell_content'}
               onClick={this.openEditor}
-              fontSize={5}
-              lineHeight={6}
-              color={'color11'}
+              fontSize={6}
+              lineHeight={8}
+              color={'color4'}
               fontFamily={'primary300'}>
               {data.content && ReactHTMLParser(data.content.content)}
               {data.content &&
@@ -254,6 +269,7 @@ export class EditorCellController extends Component {
 }
 
 EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
+EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
   (state, { data }) => {

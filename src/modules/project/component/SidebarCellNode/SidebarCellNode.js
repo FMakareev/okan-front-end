@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {graphql} from 'react-apollo';
-import {success, error} from 'react-notification-system-redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -16,20 +16,20 @@ import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
 import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatus';
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from '../NodeToggle/NodeToggle';
-import {SidebarCellNodeEditable} from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
-import {getPosition} from '../ProjectContext/ProjectContextSelectors';
+import { SidebarCellNodeEditable } from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
 
 /** Redux action to remove BlockId from store */
-import {removeBlockId} from '../../../../store/reducers/blocksBinding/actions';
+import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
 
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({active}) => (active ? 'background-color: #bdbdbd52;' : '')}
+  ${({ active }) => (active ? 'background-color: #bdbdbd52;' : '')}
   /* ${props => console.log(props)} */
 
   &:hover {
@@ -119,19 +119,19 @@ export class SidebarCellNode extends Component {
   }
 
   handleChange = evt => {
-    this.setState({name: evt.target.value});
+    this.setState({ name: evt.target.value });
   };
 
   /**
    * @desc метод для активации режима редактирования раздела
    * */
   onToggleEditable = () => {
-    const {changeNodeFocus, node} = this.props;
+    const { changeNodeFocus, node } = this.props;
     if (node.focused) {
       this.contentEditable.current.focus();
     }
     changeNodeFocus(node.id, !node.focused);
-    this.setState(() => ({focused: !node.focused}));
+    this.setState(() => ({ focused: !node.focused }));
   };
 
   /**
@@ -140,7 +140,6 @@ export class SidebarCellNode extends Component {
    * */
   getNumberFromContent = node =>
     has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
-
 
   /**
    * @param {object} cell - объект ячейки
@@ -168,16 +167,16 @@ export class SidebarCellNode extends Component {
   static gotToCategory = (document, node, history) => {
     try {
       if (!history) {
-        console.error(`Error: goToCategory history is undefined: `,history);
-        return null
+        console.error(`Error: goToCategory history is undefined: `, history);
+        return null;
       }
       if (!document) {
-        console.error(`Error: goToCategory document is undefined: `,document);
-        return null
+        console.error(`Error: goToCategory document is undefined: `, document);
+        return null;
       }
       if (!node) {
-        console.error(`Error: goToCategory node is undefined: `,node);
-        return null
+        console.error(`Error: goToCategory node is undefined: `, node);
+        return null;
       }
       history.push(
         `/app/project/${document.project}/${document.id}/${node.id}?sectionNumber=${node.number}`,
@@ -189,7 +188,7 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const {onClick, node, history, document, bindingBlockId} = this.props;
+      const { onClick, node, history, document, bindingBlockId } = this.props;
 
       const isHead = SidebarCellNode.childcellIsCategory(node);
 
@@ -225,7 +224,7 @@ export class SidebarCellNode extends Component {
           parent: parent,
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
         this.props.removeBlockId();
@@ -237,8 +236,8 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const {node, onClick} = this.props;
-    const {hover, name} = this.state;
+    const { node, onClick } = this.props;
+    const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
 
     return (
@@ -252,7 +251,7 @@ export class SidebarCellNode extends Component {
         justifyContent={'flex-start'}
         alignItems={'flex-start'}>
         <Flex width={'calc(100% - 72px)'} ml={'10px'}>
-          {isHead && <NodeToggle toggled={node.toggled}/>}
+          {isHead && <NodeToggle toggled={node.toggled} />}
           <Flex
             fontWeight={isHead ? 500 : 300}
             ml={isHead ? '' : '20px'}
@@ -275,7 +274,7 @@ export class SidebarCellNode extends Component {
         </Flex>
         <Flex mr={'10px'}>
           <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarChangeCell onClick={this.onToggleEditable}/>
+            <SidebarChangeCell onClick={this.onToggleEditable} />
           </Box>
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
