@@ -199,10 +199,14 @@ export class SidebarCellNode extends Component {
           this.bindBlock(node.id, bindingBlockId);
         } else {
           SidebarCellNode.gotToCategory(document, node, history);
+          this.props.changeActiveNode(
+            node ? node.id : null,
+            getPosition(this.props.project, 'sectionid'),
+          );
         }
       }
     } catch (error) {
-      console.log(`Error node=${node.id}: `, error);
+      console.log(`Error node=${node && node.id}: `, error);
     }
   };
 
@@ -242,7 +246,7 @@ export class SidebarCellNode extends Component {
 
     return (
       <Wrapper
-        active={node.active && isHead}
+        active={node.active}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
         py={'5px'}

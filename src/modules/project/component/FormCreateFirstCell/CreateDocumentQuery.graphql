@@ -7,6 +7,8 @@ mutation($name: String!, $projectid: String) {
       approvalstatus
       childcell: children {
         id
+        name
+        isHead
       }
     }
   }

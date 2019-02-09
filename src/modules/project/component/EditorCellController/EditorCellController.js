@@ -8,12 +8,14 @@ import { withRouter } from 'react-router-dom';
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
+import EditorCellDelete from './EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
 import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
+import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
 import { connect } from 'react-redux';
@@ -58,7 +60,7 @@ export class EditorCellController extends Component {
     const { data } = this.props;
     if (
       this.props.editable &&
-      (data.content && (!data.content.content || data.content.content === 'Новый блок'))
+      (data.content && (!data.content.content || data.content.content === ''))
     ) {
       this.openEditor();
     }
@@ -199,15 +201,14 @@ export class EditorCellController extends Component {
 
   render() {
     const { editable } = this.state;
-
     const {
       data,
       location: { search },
       sectionNumber,
+      project,
     } = this.props;
     // console.log('EditorCellController: ', this.props);
     // console.log('EditorCellController: ', editable);
-
     return (
       <Flex
         pl={'10px'}
@@ -220,7 +221,7 @@ export class EditorCellController extends Component {
         // draggable
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
-      >
+        alignItems="flex-start">
         <Text
           width={'60px'}
           fontFamily={'secondary'}
@@ -232,36 +233,23 @@ export class EditorCellController extends Component {
           {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
         </Text>
         <Box width={'calc(100% - 80px)'}>
-          {!editable && (
+          {(!editable || data.content.contenttype == 'text') && (
             <Text
-              className={'editor-cell_content'}
-              onClick={this.openEditor}
-              fontSize={6}
+              width={'60px'}
+              fontFamily={'secondary'}
               lineHeight={8}
-              color={'color4'}
-              fontFamily={'primary300'}>
-              {data.content && ReactHTMLParser(data.content.content)}
-              {data.content &&
-                !data.content.content &&
-                'Нажмите чтобы начать редактирование раздела.'}
+              fontSize={6}
+              color={'color4'}>
+              {data.content.number}
             </Text>
           )}
-          {editable && (
-            <EditorCellForm
-              form={'EditorCellForm-' + data.id}
-              initialValues={{
-                id: data.id,
-                content: data.content.content,
-                contenttype: data.content.contenttype,
-              }}
-              id={data.id}
-              data={data}
-              onBlurForm={() => this.onBlurForm()}
-            />
+          {editable && data.content.contenttype != 'text' && (
+            <EditorTypeIcon type={data.content.contenttype} />
           )}
         </Box>
+        <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
         <Box width={'20px'}>
-          <EditorCellCommentController {...data} />
+          <EditorCellCommentController {...this.props.project} {...data} />
         </Box>
       </Flex>
     );
