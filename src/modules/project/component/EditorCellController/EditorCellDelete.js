@@ -65,7 +65,7 @@ export class EditorCellDelete extends Component {
                 /**
                  * @desc Если ячейка в начале списка, то меняем указатель у следующей
                  * */
-                if (deletecell.cell.nextcell && deletecell.cell.prevcell == deletecell.cell.parent.id) {
+                if (deletecell.cell.nextcell && deletecell.cell.prevcell.id == deletecell.cell.parent.id) {
                     console.log('first')
                     data.celllist[cellInd + 1].prevcell = null;
                 }
