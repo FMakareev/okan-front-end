@@ -34,23 +34,20 @@ const EditorCellControllerWithProject = withProject(props => <EditorCellControll
 export class ProjectEditor extends Component {
   static propTypes = {};
 
-  constructor(props) {
-    super(props);
-    this.state = {};
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
 
-    this.submit = this.submit.bind(this);
-  }
+  //   this.submit = this.submit.bind(this);
+  // }
 
-  submit(value) {}
+  // submit(value) {}
 
   render() {
     const {
       sectionid,
       location: { search },
     } = this.props;
-
-    const numberSection = queryString.parse(search);
-    const section = numberSection.sectionNumber.slice(0, -2);
 
     if (!sectionid) {
       return (
@@ -74,10 +71,17 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
+              const numberSection = queryString.parse(search);
+              const section = numberSection && numberSection.sectionNumber.slice(0, -2);
+
+              const name = data.celllist.length !== 0 ? data.celllist[0].parent.name : null;
+
+              console.log('celllist', data.celllist);
+
               return (
                 <Fragment>
                   <Text
-                    width={'60px'}
+                    width={'100%'}
                     fontFamily={'secondary'}
                     lineHeight={8}
                     fontSize={6}
@@ -85,7 +89,7 @@ export class ProjectEditor extends Component {
                     mt={'15px'}
                     ml={'15px'}>
                     {numberSection.sectionNumber.length === 2 && (
-                      <Fragment>{numberSection.sectionNumber}</Fragment>
+                      <Fragment>{`${numberSection.sectionNumber} ${name}`}</Fragment>
                     )}
 
                     {numberSection.sectionNumber.length > 2 && <Fragment>{section}</Fragment>}
@@ -93,7 +97,7 @@ export class ProjectEditor extends Component {
 
                   <ContentWrapper>
                     <Text
-                      width={'60px'}
+                      width={'100%'}
                       fontFamily={'secondary'}
                       lineHeight={8}
                       fontSize={6}
@@ -104,7 +108,7 @@ export class ProjectEditor extends Component {
                       {numberSection.sectionNumber.length <= 2 && null}
 
                       {numberSection.sectionNumber.length > 2 && (
-                        <Fragment>{numberSection.sectionNumber}</Fragment>
+                        <Fragment>{`${numberSection.sectionNumber} ${name}`}</Fragment>
                       )}
                     </Text>
 

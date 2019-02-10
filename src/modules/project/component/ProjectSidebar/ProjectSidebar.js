@@ -1,19 +1,22 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import DocumentListQuery from './DocumentListQuery.graphql'
-import {Query} from 'react-apollo';
-import {DocumentTree} from "../DocumentTree/DocumentTree";
-import FormCreateDocument from "../FormCreateDocument/FormCreateDocument";
-import {ProjectPropTypes} from "../../../../propTypes/ProjectPropTypes";
-import {withProject} from "../ProjectContext/ProjectContext";
+import { Query } from 'react-apollo';
 
+/** View */
+import { DocumentTree } from '../DocumentTree/DocumentTree';
+import FormCreateDocument from '../FormCreateDocument/FormCreateDocument';
+import { withProject } from '../ProjectContext/ProjectContext';
 
-const DocumentTreeWithProject = withProject((props) => (<DocumentTree {...props}/>));
-const FormCreateDocumentWithProject = withProject((props) => (<FormCreateDocument {...props}/>));
+/** Graphql Schema */
+import DocumentListQuery from './DocumentListQuery.graphql';
 
+/** PropTypes */
+import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
+
+const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
+const FormCreateDocumentWithProject = withProject(props => <FormCreateDocument {...props} />);
 
 export class ProjectSidebar extends Component {
-
   static propTypes = {
     project: ProjectPropTypes,
   };
@@ -31,18 +34,17 @@ export class ProjectSidebar extends Component {
   // }
 
   render() {
-    const {
-      documents
-    } = this.props;
+    const { documents } = this.props;
 
-    return (<Fragment>
-      {
-        documents && documents.map((item, index) => (<DocumentTreeWithProject
-          data={item}
-          key={`DocumentTree=${item.id}`}/>))
-      }
-      <FormCreateDocumentWithProject/>
-    </Fragment>)
+    return (
+      <Fragment>
+        {documents &&
+          documents.map((item, index) => (
+            <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`} />
+          ))}
+        <FormCreateDocumentWithProject />
+      </Fragment>
+    );
   }
 }
 

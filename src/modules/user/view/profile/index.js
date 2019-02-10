@@ -53,6 +53,9 @@ export class ProfilePage extends Component {
     const {
       user: { role, id },
     } = this.props;
+
+    console.log(1, id);
+
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>

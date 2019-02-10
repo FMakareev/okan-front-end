@@ -1,5 +1,5 @@
-query ($author: String!) {
-  documentlist(author: $author) {
+query ($projectid: String) {
+  documentlist(projectid: $projectid) {
     id
     name
     childcell: children {

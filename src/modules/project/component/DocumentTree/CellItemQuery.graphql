@@ -30,12 +30,15 @@ query ($id: String!) {
     name
     nextcell {
       id
+      name
     }
     prevcell {
       id
+      name
     }
     parent {
       id
+      name
     }
     verify
   }

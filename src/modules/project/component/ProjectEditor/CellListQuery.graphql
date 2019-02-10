@@ -27,12 +27,15 @@ query ($parent: String) {
     isHead
     name
     nextcell {
+      name
       id
     }
     prevcell {
+      name
       id
     }
     parent {
+      name
       id
     }
     verify
