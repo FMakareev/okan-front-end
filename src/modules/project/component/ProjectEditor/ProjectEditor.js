@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
+import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
@@ -16,6 +16,7 @@ import { Text } from '@lib/ui/Text/Text';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -34,20 +35,39 @@ const EditorCellControllerWithProject = withProject(props => <EditorCellControll
 export class ProjectEditor extends Component {
   static propTypes = {};
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
+  state = { name: null, parentName: null };
 
-  //   this.submit = this.submit.bind(this);
-  // }
+  componentDidMount() {
+    this.getParent(this.props.sectionid);
+  }
 
-  // submit(value) {}
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sectionid !== this.props.sectionid) {
+      this.getParent(nextProps.sectionid);
+    }
+  }
+
+  getParent = parent => {
+    this.props.client
+      .query({ query: CellItemQuery, variables: { id: parent } })
+      .then(({ data }) => {
+        return this.setState({
+          name: data.cellitem.name,
+          parentName: data.cellitem.parent.name,
+        });
+      })
+      .catch(error => {
+        console.log('getParent error, string 57 :', error);
+      });
+  };
 
   render() {
     const {
       sectionid,
       location: { search },
     } = this.props;
+
+    const { name, parentName } = this.state;
 
     if (!sectionid) {
       return (
@@ -74,10 +94,6 @@ export class ProjectEditor extends Component {
               const numberSection = queryString.parse(search);
               const section = numberSection && numberSection.sectionNumber.slice(0, -2);
 
-              const name = data.celllist.length !== 0 ? data.celllist[0].parent.name : null;
-
-              console.log('celllist', data.celllist);
-
               return (
                 <Fragment>
                   <Text
@@ -89,12 +105,13 @@ export class ProjectEditor extends Component {
                     mt={'15px'}
                     ml={'15px'}>
                     {numberSection.sectionNumber.length === 2 && (
-                      <Fragment>{`${numberSection.sectionNumber} ${name}`}</Fragment>
+                      <Fragment>{`${numberSection.sectionNumber} ${parentName}`}</Fragment>
                     )}
 
-                    {numberSection.sectionNumber.length > 2 && <Fragment>{section}</Fragment>}
+                    {numberSection.sectionNumber.length > 2 && (
+                      <Fragment>{`${section} ${parentName}`}</Fragment>
+                    )}
                   </Text>
-
                   <ContentWrapper>
                     <Text
                       width={'100%'}
@@ -145,5 +162,7 @@ export class ProjectEditor extends Component {
 }
 
 ProjectEditor = withRouter(ProjectEditor);
+
+ProjectEditor = withApollo(ProjectEditor);
 
 export default ProjectEditor;

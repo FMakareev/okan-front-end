@@ -37,7 +37,12 @@ query ($parent: String) {
     parent {
       name
       id
+      parent {
+        name
+        id
+      }
     }
+    
     verify
   }
 }
