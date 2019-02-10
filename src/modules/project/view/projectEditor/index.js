@@ -83,10 +83,7 @@ export class ProjectEditorPage extends Component {
     } = this.props;
 
     return (
-      <Query
-        query={ProjectItemQuery}
-        variables={{ id: params.projectid }}
-      >
+      <Query query={ProjectItemQuery} variables={{ id: params.projectid }}>
         {({ loading, data, error, ...rest }) => {
           if (loading) {
             return 'Загрузка...';
@@ -106,12 +103,15 @@ export class ProjectEditorPage extends Component {
                     project: data.projectitem,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar project={{
-                      // объект с параметрами роутера
-                      position: params,
-                      // объект с данными о проекте
-                      project: data.projectitem,
-                    }} {...data.projectitem} />
+                    <ProjectSidebar
+                      project={{
+                        // объект с параметрами роутера
+                        position: params,
+                        // объект с данными о проекте
+                        project: data.projectitem,
+                      }}
+                      {...data.projectitem}
+                    />
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.bindingBlockId ? { opacity: '0.4' } : {}}

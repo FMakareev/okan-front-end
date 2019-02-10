@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
 import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
@@ -198,31 +199,42 @@ export class EditorCellController extends Component {
   //   console.log(event)
   // }
 
-
-
   render() {
     const { editable } = this.state;
-    const { data, project } = this.props;
+    const {
+      data,
+      location: { search },
+      sectionNumber,
+      project,
+    } = this.props;
+
+    // console.log('1: ', this.props);
+    // console.log('EditorCellController: ', editable);
     return (
       <Flex
         pl={'10px'}
-        mt={12}
-        // onMouseOver={()=>this.onHover()}
+        mt={12} // onMouseOver={()=>this.onHover()}
         // // draggable={this.state.draggable}
         // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
         // draggable="true"
         // draggable
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
-        alignItems='flex-start'
-      >
+        alignItems="flex-start">
         {(!editable || data.content.contenttype == 'text') && (
-          <Text width={'60px'} fontFamily={'secondary'} lineHeight={8} fontSize={6} color={'color4'}>
-            {data.content.number}
+          <Text
+            width={'60px'}
+            fontFamily={'secondary'}
+            lineHeight={'22px'}
+            fontSize={6}
+            color={'color4'}
+            mt={'2px'}
+            ml={'10px'}>
+            {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
           </Text>
         )}
-        {(editable && data.content.contenttype != 'text') && (
-          <EditorTypeIcon type={data.content.contenttype}/>
+        {editable && data.content.contenttype != 'text' && (
+          <EditorTypeIcon type={data.content.contenttype} />
         )}
         <Box width={'calc(100% - 80px)'}>
           {!editable && (
@@ -253,10 +265,7 @@ export class EditorCellController extends Component {
             />
           )}
         </Box>
-        <EditorCellDelete 
-          id={data.id} 
-          sectionid={project.position.sectionid}
-        />
+        <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
         <Box width={'20px'}>
           <EditorCellCommentController {...this.props.project} {...data} />
         </Box>
@@ -266,6 +275,7 @@ export class EditorCellController extends Component {
 }
 
 EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
+EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
   (state, { data }) => {

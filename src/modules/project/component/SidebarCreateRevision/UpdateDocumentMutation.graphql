@@ -6,6 +6,11 @@ mutation ($approvalstatus: String, $id: String!) {
       name
       okancode
       project
+      childcell: children {
+        id
+        name
+        isHead
+      }
     }
   }
 }

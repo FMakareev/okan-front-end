@@ -8,8 +8,10 @@ mutation($id: String!,$children:String){
       # название шаблона
       name
       # id корневого элемента от которого строится граф разделов
-      childcell:children{
+      childcell: children {
         id
+        name
+        isHead
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus

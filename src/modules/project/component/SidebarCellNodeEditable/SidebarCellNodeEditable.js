@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Mutation } from 'react-apollo';
+import {Mutation} from 'react-apollo';
+
+/** Graphql */
 import UpdateCellMutation from './UpdateCellMutation.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 const TextareaStyled = styled.textarea`
   max-width: 150px;
@@ -13,10 +16,15 @@ const TextareaStyled = styled.textarea`
 // TODO: добавить таймер для автоматического схранения данных и стэйт перенести сюда
 
 export const SidebarCellNodeEditable = React.forwardRef(
-  ({ html, focused, onChange, id, onToggle }, ref) => {
+  ({html, focused, onChange, id, onToggle}, ref) => {
     return (
-      <Mutation onError={() => {}} mutation={UpdateCellMutation}>
-        {(mutate, { called, data, error, loading }) => {
+      <Mutation
+        onError={() => {
+        }}
+        mutation={UpdateCellMutation}
+
+      >
+        {(mutate, {called, data, error, loading}) => {
           // console.log(mutate, { called, data, error, loading });
 
           if (!focused) {
@@ -32,13 +40,32 @@ export const SidebarCellNodeEditable = React.forwardRef(
                   if (event.key === 'Enter') {
                     event.persist();
                     onToggle();
-                    mutate({ variables: { id, name: html } });
+                    mutate({
+                      variables: {id, name: html},
+                      update: (store, {data: {updatecell}}) => {
+                        let options = {
+                          query: CellItemQuery,
+                          variables: {
+                            id: updatecell.cell.id,
+                          },
+                        };
+                        let data = store.readQuery(options);
+                        console.log(data);
+
+                        data.cellitem = {...data.cellitem,...updatecell.cell};
+
+                        store.writeQuery({
+                          ...options,
+                          data,
+                        });
+                      }
+                    });
                   }
                 }}
                 onBlur={() => {
                   if (focused) {
                     onToggle();
-                    mutate({ variables: { id, name: html } });
+                    mutate({variables: {id, name: html}});
                   }
                 }}
                 onClick={event => {
@@ -58,7 +85,7 @@ export const SidebarCellNodeEditable = React.forwardRef(
 
 SidebarCellNodeEditable.propTypes = {
   id: PropTypes.string.isRequired,
-  html: PropTypes.string.isRequired,
+  html: PropTypes.string,
   focused: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
