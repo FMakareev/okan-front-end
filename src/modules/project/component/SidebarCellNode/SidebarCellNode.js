@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { success, error } from 'react-notification-system-redux';
 
 /** View */
@@ -21,9 +21,10 @@ import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
+import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
 
 /** Redux action to remove BlockId from store */
-import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -196,7 +197,7 @@ export class SidebarCellNode extends Component {
         onClick();
       } else {
         if (bindingBlockId) {
-          this.bindBlock(node.id, bindingBlockId);
+          this.createBindingBlockCopy(node.id, node.lastChildren);
         } else {
           SidebarCellNode.gotToCategory(document, node, history);
           this.props.changeActiveNode(
@@ -217,12 +218,34 @@ export class SidebarCellNode extends Component {
     }));
   };
 
-  bindBlock = (parent, target) => {
+  createBindingBlockCopy = (parentCellId, lastChildren) => {
+    this.props
+      .createCopy({
+        variables: {
+          name: '',
+          prevcell: lastChildren ? lastChildren.id : parentCellId,
+          parent: parentCellId,
+          isHead: false,
+        },
+      })
+      .then(({data}) => {
+        // console.log('got data', data);
+        this.bindBlock(data.createcell.cell.id, this.props.bindingBlockId);
+        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
+
+      })
+      .catch((error) => {
+        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
+        console.log('there was an error sending the query', error);
+      });
+  };
+
+  bindBlock = (target, parent) => {
     let targetArr = [];
     targetArr.push(target);
     console.log(targetArr);
     this.props
-      .mutate({
+      .bindingBlock({
         variables: {
           target: targetArr,
           parent: parent,
@@ -231,7 +254,7 @@ export class SidebarCellNode extends Component {
       .then(({ data }) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
-        this.props.removeBlockId();
+        this.props.removeBlock();
       })
       .catch(error => {
         console.log('there was an error sending the query', error);
@@ -306,12 +329,15 @@ const mapStateToProps = state => {
   return state.blocksBinding;
 };
 
-SidebarCellNode = graphql(BindingCellMutation)(SidebarCellNode);
+SidebarCellNode = compose(
+  graphql(BindingCellMutation, {name: 'bindingBlock'}),
+  graphql(CreateCellMutation, {name: 'createCopy'})
+)(SidebarCellNode);
 
 export default connect(
   mapStateToProps,
   dispatch => ({
-    removeBlockId: () => dispatch(removeBlockId()),
+    removeBlock: () => dispatch(removeBlock()),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

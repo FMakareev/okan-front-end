@@ -1,4 +1,4 @@
-import { SAVE_BLOCK_ID, REMOVE_BLOCK_ID } from './actionTypes';
+import { SAVE_BLOCK, REMOVE_BLOCK } from './actionTypes';
 
 const initialState = {
 
@@ -6,12 +6,12 @@ const initialState = {
 
 export const ReducerBlocksBinding = (state = initialState, action) => {    
   switch (action.type) {
-    case SAVE_BLOCK_ID:
+    case SAVE_BLOCK:
         return { 
             ...state,
             bindingBlockId: action.blockId
         }
-    case REMOVE_BLOCK_ID: 
+    case REMOVE_BLOCK: 
         return initialState
     default:
         return state
