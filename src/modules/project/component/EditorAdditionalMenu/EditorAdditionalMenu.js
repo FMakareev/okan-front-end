@@ -174,6 +174,10 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
+  /**
+   * @desc Получаем из кэша id последней ячейки в celllist, 
+   * чтобы использовать при создании как prevcell
+   * */
   getLastCellId = (blockType) => {
     this.props.client.query({
       query: CellListQuery,
@@ -192,6 +196,11 @@ export class EditorAdditionalMenu extends Component {
     });
   };
 
+  /**
+   * @desc Отправляем мутацию на создание ячейки, затем берем из кэша
+   * celllist и вставляем туда новую ячейку, а предыдущей присваиваем
+   * nextcell равный id созданной ячейки
+   * */
   createEditorInstance = (blockType, lastCellId) => {
     let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
