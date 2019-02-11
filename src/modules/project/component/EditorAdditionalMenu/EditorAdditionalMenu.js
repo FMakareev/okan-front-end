@@ -182,7 +182,7 @@ export class EditorAdditionalMenu extends Component {
       }
     }).then(({data}) => {
       let lastCellId = null;
-      if (data && Array.isArray(data.celllist) && data.celllist.length > 1) {
+      if (data && Array.isArray(data.celllist) && data.celllist.length > 0) {
         lastCellId = data.celllist[data.celllist.length - 1].id;
       }
       this.createEditorInstance(blockType, lastCellId)
@@ -211,8 +211,7 @@ export class EditorAdditionalMenu extends Component {
             parent: this.props.sectionid
           }
         });
-
-        if(data.celllist.length > 1){
+        if(data.celllist.length > 0){
           data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
         }
 
