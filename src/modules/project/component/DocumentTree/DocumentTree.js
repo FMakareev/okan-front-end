@@ -137,17 +137,13 @@ export class DocumentTree extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     const {data} = nextProps;
-    // console.log('componentWillUpdate nextProps: ', nextProps);
-    // console.log('componentWillUpdate this.props: ', this.props);
 
-    // console.log('componentWillUpdate nextState: ', nextState);
-    // console.log('componentWillUpdate this.state: ', this.state.tree);
     if (data.childcell !== null && this.state.tree.childcell === null) {
       const newState = this.initialState;
       this.setState(
         state => ({
           ...newState,
-          tree:{
+          tree: {
             ...newState.tree,
             toggled: true,
             active: true,
@@ -663,7 +659,7 @@ export class DocumentTree extends Component {
         tree = await this.changeParentVerifyStatus(currentNode.parent, tree, status);
       }
       // TODO: добавить уведомление об обновлении статуса
-      this.updateTree({ tree });
+      this.updateTree({tree});
     } catch (error) {
       console.error('Error cellCheckStatusChange: ', error);
     }
@@ -775,46 +771,153 @@ export class DocumentTree extends Component {
     // console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
 
-    let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
+    let newCell = this.createCellNode({...cell, focused: true});
 
-    // путь до парента в дереве
-    let pathToParentChildren = pathToParent + '.children';
+    let pathToParentCell = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
+    let parentCell = objectPath.get([tree], pathToParentCell);
 
-    // объект парента
-    let parent = objectPath.get([tree], pathToParent);
-    // дочерние узлы парента
-    let parentChildren = objectPath.get([tree], pathToParentChildren) || [];
+    let pathToPrevCell = cell.prevcell !== null ? this.getPathToNode(tree, cell.prevcell.id) : null;
+    let prevCell = pathToPrevCell ? objectPath.get([tree], pathToPrevCell) : null;
 
-    // проверяем что если у нас у ноды парента еще нет childcell и ячейка
-    // которую мы добавляем в дерево является его дочерней ячейкой
-    // то мы ее сразу добавляем в объект ячейки
-    if (parent.id === (cell.parent && cell.parent.id) && parent.childcell === null) {
-      parent.childcell = cell;
+    let pathToNextCell = cell.nextcell !== null ? this.getPathToNode(tree, cell.nextcell.id) : null;
+    let nextCell = pathToNextCell ? objectPath.get([tree], pathToNextCell) : null;
+
+    /**
+     * 1. есть предыдущая ячейка и следующая
+     * 2. есть только предыдущая
+     * 3. есть только следующая
+     * 4. предыддущая ячейка это родитель без детей
+     * 5. предыддущая ячейка это родитель и у него есть дочернияя ячейка и она не раздел isHead==false
+     * 6. предыддущая ячейка это родитель с детьми и все они разделы
+     * */
+
+
+    if ((prevCell && parentCell) && (prevCell.id === parentCell.id)) {
+
+      if (parentCell.children && parentCell.children.length) {
+        if (parentCell.children[0].isHead) {
+          parentCell.children[parentCell.children.length - 1].nextcell = newCell;
+          newCell.prevcell = parentCell.children[parentCell.children.length - 1];
+          parentCell.children.push(newCell);
+        } else {
+          newCell.childcell = parentCell.children[0];
+          newCell.children = parentCell.children.map(item => {
+            item.parent = newCell;
+            return item;
+          });
+          newCell.children[0].parent = newCell;
+          newCell.children[0].prevcell = newCell;
+
+          parentCell.children = [newCell];
+          parentCell.childcell = newCell;
+
+          newCell.parent = parentCell;
+          newCell.prevcell = parentCell;
+        }
+      } else if (newCell.isHead) { /** новая ячейка раздел */
+        parentCell.childcell = newCell;
+        parentCell.children = [newCell];
+
+      } else if (!newCell.isHead) { /** новая ячейка не раздел */
+        parentCell.childcell = newCell;
+      }
+
+      if (parent.__typename === 'Cell') {
+        parentCell.verify = CELL_STATUS_CHANGED;
+      }
+
+      parentCell.toggled = true;
+      parentCell.active = true;
+      objectPath.set([tree], pathToParentCell, parentCell);
+      this.updateCellInCache({
+        id: parentCell.id,
+        verify: parentCell.verify,
+        prevcell: parentCell.prevcell,
+        childcell: parentCell.childcell,
+        nextcell: parentCell.nextcell,
+        parent: parentCell.parent,
+      });
+    } else {
+      if (prevCell && nextCell) {
+        prevCell.nextcell = newCell;
+        nextCell.prevcell = newCell;
+
+
+        objectPath.set([tree], pathToPrevCell, prevCell);
+        this.updateCellInCache({
+          id: prevCell.id,
+          nextcell: prevCell.nextcell,
+        });
+
+        objectPath.set([tree], pathToNextCell, nextCell);
+        this.updateCellInCache({
+          id: nextCell.id,
+          prevcell: nextCell.prevcell,
+        });
+
+      } else if (prevCell && !nextCell) {
+        prevCell.nextcell = newCell;
+        objectPath.set([tree], pathToPrevCell, prevCell);
+        this.updateCellInCache({
+          id: prevCell.id,
+          nextcell: prevCell.nextcell,
+        });
+      } else if (!prevCell && nextCell) {
+        nextCell.prevcell = newCell;
+        objectPath.set([tree], pathToNextCell, nextCell);
+        this.updateCellInCache({
+          id: nextCell.id,
+          prevcell: nextCell.prevcell,
+        });
+      }
+
+      let indexPrevCell = this.getIndexPrevCell(parentCell.children, newCell.prevcell.id);
+
+      parentCell.children.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
+      objectPath.set([tree], pathToParentCell, parentCell);
     }
 
-    // узнаем что ы добавляем не раздел, а под раздел и открываем сразу раздел в который добавляется подраздел
-    if (parent.id === (cell.parent && cell.parent.id) && parent.childcell !== null && cell.isHead) {
-      parent.toggled = true;
-    }
 
-    if (parent.__typename === 'Cell') {
-      let value = {
-        id: parent.id,
-        verify: CELL_STATUS_CHANGED,
-      };
+    // let pathToParent = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
+    //
+    // // путь до парента в дереве
+    // let pathToParentChildren = pathToParent + '.children';
+    //
+    // // объект парента
+    // let parent = objectPath.get([tree], pathToParent);
+    // // дочерние узлы парента
+    // let parentChildren = objectPath.get([tree], pathToParentChildren) || [];
+    //
+    // // проверяем что если у нас у ноды парента еще нет childcell и ячейка
+    // // которую мы добавляем в дерево является его дочерней ячейкой
+    // // то мы ее сразу добавляем в объект ячейки
+    // if (parent.id === (cell.parent && cell.parent.id) && parent.childcell === null) {
+    //   parent.childcell = cell;
+    // }
+    //
+    // // узнаем что ы добавляем не раздел, а под раздел и открываем сразу раздел в который добавляется подраздел
+    // if (parent.id === (cell.parent && cell.parent.id) && parent.childcell !== null && cell.isHead) {
+    //   parent.toggled = true;
+    // }
+    //
+    // if (parent.__typename === 'Cell') {
+    //   let value = {
+    //     id: parent.id,
+    //     verify: CELL_STATUS_CHANGED,
+    //   };
+    //
+    //   parent.verify = CELL_STATUS_CHANGED;
+    // }
+    //
+    // let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
+    //
+    // // Добавить в массив новую ячейку после предыдущей
+    // parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({...cell, focused: true}));
+    //
+    // parent.children = parentChildren;
+    // objectPath.set([tree], pathToParent, parent);
 
-      parent.verify = CELL_STATUS_CHANGED;
-    }
-
-    let indexPrevCell = this.getIndexPrevCell(parentChildren, cell.prevcell.id);
-
-    // Добавить в массив новую ячейку после предыдущей
-    parentChildren.splice(indexPrevCell + 1, 0, this.createCellNode({ ...cell, focused: true }));
-
-    parent.children = parentChildren;
-    objectPath.set([tree], pathToParent, parent);
-
-    this.updateTree({ tree });
+    this.updateTree({tree});
   };
 
   /**
@@ -877,7 +980,7 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = id => {
-    const { client } = this.props;
+    const {client} = this.props;
 
     return client
       .query({

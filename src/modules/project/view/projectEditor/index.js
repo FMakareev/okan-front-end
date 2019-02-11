@@ -34,6 +34,7 @@ const Wrapper = styled(Flex)`
   min-height: calc(100vh - 40px);
   background-color: #e8e8e8;
 `;
+
 const EditorWrapper = styled.div`
   width: calc(100% - 380px);
   min-height: calc(100vh - 40px);

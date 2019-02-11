@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
+import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
@@ -16,6 +16,7 @@ import { Text } from '@lib/ui/Text/Text';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -34,14 +35,35 @@ const EditorCellControllerWithProject = withProject(props => <EditorCellControll
 export class ProjectEditor extends Component {
   static propTypes = {};
 
-  constructor(props) {
-    super(props);
-    this.state = {};
+  state = {
+    name: null,
+    parentName: null,
+    number: queryString.parse(this.props.location.search).sectionNumber,
+  };
 
-    this.submit = this.submit.bind(this);
+  componentDidMount() {
+    this.getParent(this.props.sectionid);
   }
 
-  submit(value) {}
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sectionid !== this.props.sectionid) {
+      this.getParent(nextProps.sectionid);
+    }
+  }
+
+  getParent = parent => {
+    this.props.client
+      .query({ query: CellItemQuery, variables: { id: parent } })
+      .then(({ data }) => {
+        return this.setState({
+          name: data.cellitem.name,
+          parentName: data.cellitem.parent.name,
+        });
+      })
+      .catch(error => {
+        console.log('getParent error, string 57 :', error);
+      });
+  };
 
   render() {
     const {
@@ -49,8 +71,7 @@ export class ProjectEditor extends Component {
       location: { search },
     } = this.props;
 
-    const numberSection = queryString.parse(search);
-    const section = numberSection.sectionNumber.slice(0, -2);
+    const { name, parentName, number } = this.state;
 
     if (!sectionid) {
       return (
@@ -74,26 +95,25 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
+              const section = number.slice(0, -2);
+
               return (
                 <Fragment>
                   <Text
-                    width={'60px'}
+                    width={'100%'}
                     fontFamily={'secondary'}
                     lineHeight={8}
                     fontSize={6}
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {numberSection.sectionNumber.length === 2 && (
-                      <Fragment>{numberSection.sectionNumber}</Fragment>
-                    )}
+                    {number.length === 2 && <Fragment>{`${number} ${parentName}`}</Fragment>}
 
-                    {numberSection.sectionNumber.length > 2 && <Fragment>{section}</Fragment>}
+                    {number.length > 2 && <Fragment>{`${section} ${parentName}`}</Fragment>}
                   </Text>
-
                   <ContentWrapper>
                     <Text
-                      width={'60px'}
+                      width={'100%'}
                       fontFamily={'secondary'}
                       lineHeight={8}
                       fontSize={6}
@@ -101,11 +121,9 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {numberSection.sectionNumber.length <= 2 && null}
+                      {number.length <= 2 && null}
 
-                      {numberSection.sectionNumber.length > 2 && (
-                        <Fragment>{numberSection.sectionNumber}</Fragment>
-                      )}
+                      {number.length > 2 && <Fragment>{`${number} ${name}`}</Fragment>}
                     </Text>
 
                     {data.celllist.map((item, index) => {
@@ -120,7 +138,7 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.number === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${numberSection.sectionNumber}${index + 1}`}
+                            sectionNumber={`${number}${index + 1}`}
                           />
                         </Box>
                       );
@@ -141,5 +159,7 @@ export class ProjectEditor extends Component {
 }
 
 ProjectEditor = withRouter(ProjectEditor);
+
+ProjectEditor = withApollo(ProjectEditor);
 
 export default ProjectEditor;

@@ -25,6 +25,7 @@ import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
+import CreateSubCellMutation from './CreateSubCellMutation.graphql';
 
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
@@ -89,6 +90,8 @@ const notificationDelete = (name) => {
 };
 
 
+const has = Object.prototype.hasOwnProperty;
+
 export class SidebarCreateCell extends Component {
   static propTypes = {
     /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
@@ -108,9 +111,188 @@ export class SidebarCreateCell extends Component {
     };
   }
 
+  /**
+   * @desc метод для управления открыванием выпадающего списка
+   * */
   onToggle = event => {
     event && event.stopPropagation();
     this.setState(state => ({toggle: !state.toggle}));
+  };
+
+
+  /**
+   * @param {string} id - id ячейки
+   * @desc метод получения ячейки
+   * */
+  getCell = (id) => {
+    const {client} = this.props;
+    return client
+      .query({
+        query: CellItemQuery,
+        variables: {
+          id,
+        },
+      })
+      .catch(error => {
+        console.error(`Error getNode, id=${id}: `, error);
+        return error;
+      });
+  };
+
+  /**
+   * @param {string} id - id следующей ячейки
+   * @param {array} nodes - список всех полученых ячеек, пополняется каждый раз после выполнения запроса.
+   * @desc получить список ячеек попорядку рекурсивно
+   * */
+  getListOfParentCells = (id, nodes) => {
+    const {client} = this.props;
+    return this.getCell(id)
+      .then(response => {
+        console.log(response);
+        const {data} = response;
+        if (data && data.cellitem) {
+          nodes.push(data.cellitem);
+          if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
+            return this.getListOfParentCells(data.cellitem.nextcell.id, nodes);
+          }
+          return nodes;
+        } else {
+          return nodes;
+        }
+      }).catch(error => {
+        console.error('Error getListOfParentCells: ', error);
+        return [];
+      })
+  };
+
+  /**
+   * @param {array} cells
+   * @desc сортировка по указателям ветки ячеек
+   * */
+  sortingCells = (cells) => {
+    cells.sort((prev, next) => {
+      console.log(prev, next);
+      if ((prev.parent && prev.prevcell) && prev.parent.id === prev.prevcell.id) {
+        return -1;
+      }
+      if (!prev.nextcell) {
+        return 1;
+      }
+      if ((prev.nextcell && next.id) && prev.nextcell.id === next.id) {
+        return -1;
+      } else if ((next.nextcell && prev.id) && next.nextcell.id === prev.id) {
+        return 1;
+      } else {
+        return 1;
+      }
+    });
+    return cells;
+  };
+
+  /**
+   * @param {string} prevcell - id предыдущей ячейки или родительской
+   * @param {string || null} nextcell
+   * @param {string} parent - id родителя
+   * @param {boolean} isHead - если раздел то true, если контент то false
+   * @param {string || null} contenttype
+   * @param {object} node
+   * @desc создание ячейки
+   * */
+  createSubCellStateMachine = async ({prevcell, nextcell, parent, isHead, contenttype, node}) => {
+    try {
+      console.log('createSubCellStateMachine:', prevcell, nextcell, parent, isHead, contenttype, node);
+      /** 1) если дочерние ячейки являются разделами */
+      if (node.isHead && node.childcell) {
+        console.log('createSubCellStateMachine:isHead && node.childcell');
+        if (node.childcell.isHead) {
+          console.log('createSubCellStateMachine:node.childcell.isHead');
+          let cells = await this.getListOfParentCells(node.childcell.id, []);
+          cells = this.sortingCells(cells);
+          this.createCell({
+            prevcell: cells && cells.length > 0 ? cells[cells.length - 1].id : parent,
+            parent: parent,
+            isHead: true,
+            contenttype: null,
+            nextcell: null,
+          });
+
+        } else if (!node.childcell.isHead) {
+          console.log('createSubCellStateMachine:!node.childcell.isHead');
+
+          this.createSubCell({
+            parent: node.id,
+            isHead: true,
+          });
+        }
+      } else {
+        console.log('createSubCellStateMachine: else createCell');
+        this.createCell({
+          prevcell: parent,
+          parent: parent,
+          isHead: true,
+          contenttype: null,
+          nextcell: null,
+        });
+      }
+
+    } catch (error) {
+      console.error('Error createCellStateMachine: ', error);
+    }
+
+
+  };
+
+  /**
+   * @param {string} prevcell - id предыдущей ячейки или родительской
+   * @param {string} parent - id родителя
+   * @param {boolean} isHead - если раздел то true, если контент то false
+   * @param {string || null} contenttype
+   * @param {string || null} nextcell
+   * @desc создание подраздела у раздела ячейки которого являются контентом
+   * */
+  createSubCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
+    // console.log(prevcell, parent, isHead, contenttype);
+    const {setNotificationSuccess, setNotificationError} = this.props;
+
+    const variables = {
+      parent: parent,
+      contenttype: null,
+      isHead,
+    };
+
+    this.props.client
+      .mutate({
+        mutation: CreateSubCellMutation,
+        variables,
+        update: (store, {data: {createsubcell}}) => {
+          try {
+            let options = {
+              query: CellItemQuery,
+              variables: {
+                id: createsubcell.cell.id,
+              },
+            };
+            store.writeQuery({
+              ...options,
+              data: {
+                cellitem:createsubcell.cell,
+              },
+            });
+          } catch (error) {
+            console.error('Error createCell: ', error);
+          }
+        },
+      })
+      .then(response => {
+        console.log('SidebarCreateCell response createsubcell: ', response.data.createsubcell.cell);
+        this.props.addNodeInTree(response.data.createsubcell.cell);
+        setNotificationSuccess(notificationCreate({prevcell, parent, isHead, contenttype}).success);
+      })
+      .catch(error => {
+        console.error('Error SidebarCreateCell: ', error);
+
+        setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
+      });
   };
 
   /**
@@ -121,7 +303,7 @@ export class SidebarCreateCell extends Component {
    * @param {string || null} nextcell
    * @desc создание ячейки
    * */
-  createCell = (prevcell, parent, isHead, contenttype, nextcell) => {
+  createCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
     // console.log(prevcell, parent, isHead, contenttype);
     const {setNotificationSuccess, setNotificationError} = this.props;
 
@@ -138,49 +320,19 @@ export class SidebarCreateCell extends Component {
         mutation: CreateCellMutation,
         variables,
         update: (store, {data: {createcell}}) => {
-
-          const newCell = createcell.cell;
-          let prevcell = null;
-          let nextcell = null;
-
           try {
-            if (newCell.prevcell) {
-              let options = {
-                query: CellItemQuery,
-                variables: {
-                  id: newCell.prevcell.id,
-                },
-              };
-
-              prevcell = store.readQuery(options);
-              console.log(prevcell);
-
-              prevcell.cellitem.nextcell = newCell;
-              store.writeQuery({
-                ...options,
-                data: prevcell,
-              });
-            }
-          } catch (error) {
-            console.error('Error createCell: ', error);
-          }
-
-          try {
-            if (newCell.nextcell) {
-              let options = {
-                query: CellItemQuery,
-                variables: {
-                  id: newCell.nextcell.id,
-                },
-              };
-              nextcell = store.readQuery(options);
-              console.log(newCell);
-              nextcell.cellitem.prevcell = newCell;
-              store.writeQuery({
-                ...options,
-                data: nextcell,
-              });
-            }
+            let options = {
+              query: CellItemQuery,
+              variables: {
+                id: createcell.cell.id,
+              },
+            };
+            store.writeQuery({
+              ...options,
+              data: {
+                cellitem:createcell.cell,
+              },
+            });
           } catch (error) {
             console.error('Error createCell: ', error);
           }
@@ -197,7 +349,6 @@ export class SidebarCreateCell extends Component {
         setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
       });
   };
-
 
   /**
    * @param {string} id
@@ -233,7 +384,7 @@ export class SidebarCreateCell extends Component {
     } = this.props;
     const {toggle} = this.state;
 
-
+    // console.log('SidebarCreateCell: ', this.props);
     return (
       <Box position={'relative'}>
         <ButtonBase
@@ -255,13 +406,13 @@ export class SidebarCreateCell extends Component {
             <BoxStyled
               onClick={(event) => {
                 this.onToggle(event);
-                this.createCell(
-                  id,
-                  parent !== null ? parent.id : null,
-                  true,
-                  null,
-                  nextcell !== null ? nextcell.id : null,
-                );
+                this.createCell({
+                  prevcell: id,
+                  parent: parent !== null ? parent.id : null,
+                  isHead: true,
+                  contenttype: null,
+                  nextcell: null,
+                });
               }}
             >
               Раздел
@@ -270,7 +421,13 @@ export class SidebarCreateCell extends Component {
             <BoxStyled
               onClick={(event) => {
                 this.onToggle(event);
-                this.createCell(id, id, true);
+                this.createSubCellStateMachine({
+                  prevcell: id,
+                  parent: id,
+                  nextcell: null,
+                  isHead: true,
+                  node: this.props.node,
+                })
               }}
             >
               Подраздел
@@ -280,7 +437,12 @@ export class SidebarCreateCell extends Component {
               <BoxStyled
                 onClick={(event) => {
                   this.onToggle(event);
-                  this.createCell(id, id, false, BLOCK_TEXT);
+                  this.createCell({
+                    prevcell: id,
+                    parent: id,
+                    isHead: false,
+                    contenttype: BLOCK_TEXT
+                  });
                 }}>
                 Добавить текст
               </BoxStyled>
@@ -290,7 +452,13 @@ export class SidebarCreateCell extends Component {
               <BoxStyled
                 onClick={(event) => {
                   this.onToggle(event);
-                  this.createCell(id, id, false, BLOCK_IMAGE);
+
+                  this.createCell({
+                    prevcell: id,
+                    parent: id,
+                    isHead: false,
+                    contenttype: BLOCK_IMAGE
+                  });
                 }}>
                 Добавить изображение
               </BoxStyled>
@@ -300,7 +468,12 @@ export class SidebarCreateCell extends Component {
               <BoxStyled
                 onClick={(event) => {
                   this.onToggle(event);
-                  this.createCell(id, id, false, BLOCK_TABLE);
+                  this.createCell({
+                    prevcell: id,
+                    parent: id,
+                    isHead: false,
+                    contenttype: BLOCK_TABLE
+                  });
                 }}>
                 Добавить таблица
               </BoxStyled>
