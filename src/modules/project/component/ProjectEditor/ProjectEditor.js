@@ -38,11 +38,30 @@ export class ProjectEditor extends Component {
   state = {
     name: null,
     parentName: null,
-    number: queryString.parse(this.props.location.search).sectionNumber,
+    number: null,
+  };
+
+  getParent = parent => {
+    this.props.client
+      .query({ query: CellItemQuery, variables: { id: parent } })
+      .then(({ data }) => {
+        const parentNames = data.cellitem.parent && data.cellitem.parent.name;
+        const names = data.cellitem && data.cellitem.name;
+        const numbers = queryString.parse(this.props.location.search).sectionNumber;
+
+        return this.setState(({ name, parentName, number }) => {
+          return { name: names, parentName: parentNames, number: numbers };
+        });
+      })
+      .catch(error => {
+        console.log('getParent error, string 57 :', error);
+      });
   };
 
   componentDidMount() {
-    this.getParent(this.props.sectionid);
+    {
+      this.props.sectionid && this.getParent(this.props.sectionid);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,20 +70,6 @@ export class ProjectEditor extends Component {
     }
   }
 
-  getParent = parent => {
-    this.props.client
-      .query({ query: CellItemQuery, variables: { id: parent } })
-      .then(({ data }) => {
-        return this.setState({
-          name: data.cellitem.name,
-          parentName: data.cellitem.parent.name,
-        });
-      })
-      .catch(error => {
-        console.log('getParent error, string 57 :', error);
-      });
-  };
-
   render() {
     const {
       sectionid,
@@ -72,6 +77,7 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const { name, parentName, number } = this.state;
+    console.log(1, number);
 
     if (!sectionid) {
       return (
@@ -107,9 +113,11 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {number.length === 2 && <Fragment>{`${number} ${parentName}`}</Fragment>}
-
-                    {number.length > 2 && <Fragment>{`${section} ${parentName}`}</Fragment>}
+                    {number.length === 2 ? (
+                      <Fragment>{`${number} ${name}`}</Fragment>
+                    ) : (
+                      <Fragment>{`${section} ${parentName}`}</Fragment>
+                    )}
                   </Text>
                   <ContentWrapper>
                     <Text
@@ -121,9 +129,7 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number.length <= 2 && null}
-
-                      {number.length > 2 && <Fragment>{`${number} ${name}`}</Fragment>}
+                      {number.length <= 2 ? null : <Fragment>{`${number} ${name}`}</Fragment>}
                     </Text>
 
                     {data.celllist.map((item, index) => {

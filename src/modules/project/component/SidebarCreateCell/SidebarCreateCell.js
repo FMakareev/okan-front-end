@@ -1,38 +1,38 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Mutation, withApollo} from 'react-apollo';
-import {error, success} from 'react-notification-system-redux';
-import {invalidateFields, ROOT} from 'apollo-cache-invalidation'
+import { connect } from 'react-redux';
+import { Mutation, withApollo } from 'react-apollo';
+import { error, success } from 'react-notification-system-redux';
+import { invalidateFields, ROOT } from 'apollo-cache-invalidation';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Box from '../../../../components/Box/Box';
 
 /** Image */
-import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
+import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
 
 /** Style css */
-import {AbsoluteStyled, BoxStyled} from './SidebarCreateCellStyled';
+import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
 
 /** Store */
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
+import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** Graphql schema */
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 
-const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
+const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
 
   if (prevcell && isHead) {
     title = 'Раздел';
   } else if (isHead && parent) {
-    title = 'Под раздел';
+    title = 'Подраздел';
   } else if (!isHead && contenttype) {
     switch (contenttype) {
       case BLOCK_TEXT: {
@@ -71,8 +71,7 @@ const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   };
 };
 
-const notificationDelete = (name) => {
-
+const notificationDelete = name => {
   return {
     success: {
       title: `Раздел "${name}" удален.`,
@@ -87,7 +86,6 @@ const notificationDelete = (name) => {
     },
   };
 };
-
 
 export class SidebarCreateCell extends Component {
   static propTypes = {
@@ -110,7 +108,7 @@ export class SidebarCreateCell extends Component {
 
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({toggle: !state.toggle}));
+    this.setState(state => ({ toggle: !state.toggle }));
   };
 
   /**
@@ -123,13 +121,13 @@ export class SidebarCreateCell extends Component {
    * */
   createCell = (prevcell, parent, isHead, contenttype, nextcell) => {
     // console.log(prevcell, parent, isHead, contenttype);
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const { setNotificationSuccess, setNotificationError } = this.props;
 
     const variables = {
-      ...(prevcell ? {prevcell} : null),
-      ...(nextcell ? {nextcell} : null),
-      ...(parent ? {parent} : null),
-      ...(contenttype ? {contenttype} : {contenttype: null}),
+      ...(prevcell ? { prevcell } : null),
+      ...(nextcell ? { nextcell } : null),
+      ...(parent ? { parent } : null),
+      ...(contenttype ? { contenttype } : { contenttype: null }),
       isHead,
     };
 
@@ -137,8 +135,7 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: CreateCellMutation,
         variables,
-        update: (store, {data: {createcell}}) => {
-
+        update: (store, { data: { createcell } }) => {
           const newCell = createcell.cell;
           let prevcell = null;
           let nextcell = null;
@@ -189,15 +186,16 @@ export class SidebarCreateCell extends Component {
       .then(response => {
         console.log('SidebarCreateCell response: ', response.data.createcell.cell);
         this.props.addNodeInTree(response.data.createcell.cell);
-        setNotificationSuccess(notificationCreate({prevcell, parent, isHead, contenttype}).success);
+        setNotificationSuccess(
+          notificationCreate({ prevcell, parent, isHead, contenttype }).success,
+        );
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
+        setNotificationError(notificationCreate({ prevcell, parent, isHead, contenttype }).error);
       });
   };
-
 
   /**
    * @param {string} id
@@ -205,14 +203,14 @@ export class SidebarCreateCell extends Component {
    * @desc метод для удаления ячейки
    * */
   deleteCell = (id, name) => {
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const { setNotificationSuccess, setNotificationError } = this.props;
 
     // TODO: Добавить удаление удаленного объекта из кеша
 
     this.props.client
       .mutate({
         mutation: DeleteCellMutation,
-        variables: {id},
+        variables: { id },
         fetchPolicy: 'no-cache',
       })
       .then(response => {
@@ -226,22 +224,19 @@ export class SidebarCreateCell extends Component {
       });
   };
 
-
   render() {
     const {
-      node: {isHead, childcell, id, parent, nextcell, name},
+      node: { isHead, childcell, id, parent, nextcell, name },
     } = this.props;
-    const {toggle} = this.state;
-
+    const { toggle } = this.state;
 
     return (
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
-          onClick={this.onToggle}
-        >
-          <SvgSidebarAdd/>
+          onClick={this.onToggle}>
+          <SvgSidebarAdd />
         </ButtonBase>
 
         {toggle && (
@@ -253,7 +248,7 @@ export class SidebarCreateCell extends Component {
             top={'20px'}
             right={'0'}>
             <BoxStyled
-              onClick={(event) => {
+              onClick={event => {
                 this.onToggle(event);
                 this.createCell(
                   id,
@@ -262,23 +257,21 @@ export class SidebarCreateCell extends Component {
                   null,
                   nextcell !== null ? nextcell.id : null,
                 );
-              }}
-            >
+              }}>
               Раздел
             </BoxStyled>
 
             <BoxStyled
-              onClick={(event) => {
+              onClick={event => {
                 this.onToggle(event);
                 this.createCell(id, id, true);
-              }}
-            >
+              }}>
               Подраздел
             </BoxStyled>
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={(event) => {
+                onClick={event => {
                   this.onToggle(event);
                   this.createCell(id, id, false, BLOCK_TEXT);
                 }}>
@@ -288,7 +281,7 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={(event) => {
+                onClick={event => {
                   this.onToggle(event);
                   this.createCell(id, id, false, BLOCK_IMAGE);
                 }}>
@@ -298,19 +291,19 @@ export class SidebarCreateCell extends Component {
 
             {isHead && !childcell && (
               <BoxStyled
-                onClick={(event) => {
+                onClick={event => {
                   this.onToggle(event);
                   this.createCell(id, id, false, BLOCK_TABLE);
                 }}>
-                Добавить таблица
+                Добавить таблицу
               </BoxStyled>
             )}
 
             <BoxStyled
-              onClick={(event) => {
+              onClick={event => {
                 console.log('Удалить раздел', this.props);
                 this.onToggle(event);
-                this.deleteCell(id, name)
+                this.deleteCell(id, name);
               }}>
               Удалить раздел
             </BoxStyled>
@@ -324,7 +317,7 @@ export class SidebarCreateCell extends Component {
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
 SidebarCreateCell = connect(
-  state => ({user: getUserFromStore(state)}),
+  state => ({ user: getUserFromStore(state) }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
