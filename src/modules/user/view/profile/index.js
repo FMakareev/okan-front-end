@@ -54,7 +54,7 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
-    console.log(1, id);
+    // console.log(1, id);
 
     return (
       <ErrorCatch>
@@ -64,7 +64,6 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
                 <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
                   {({ loading, error, data }) => {
-                    console.log(2, data);
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
