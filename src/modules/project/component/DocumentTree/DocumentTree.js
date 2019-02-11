@@ -788,7 +788,7 @@ export class DocumentTree extends Component {
      * 2. есть только предыдущая
      * 3. есть только следующая
      * 4. предыддущая ячейка это родитель без детей
-     * 5. предыддущая ячейка это родитель и у него есть дочернияя ячейка и не раздел isHead==false
+     * 5. предыддущая ячейка это родитель и у него есть дочернияя ячейка и она не раздел isHead==false
      * 6. предыддущая ячейка это родитель с детьми и все они разделы
      * */
 
@@ -815,11 +815,12 @@ export class DocumentTree extends Component {
           newCell.parent = parentCell;
           newCell.prevcell = parentCell;
         }
-      } else {
-        newCell.prevcell = parentCell;
-        newCell.parent = parentCell;
+      } else if (newCell.isHead) { /** новая ячейка раздел */
         parentCell.childcell = newCell;
         parentCell.children = [newCell];
+
+      } else if (!newCell.isHead) { /** новая ячейка не раздел */
+        parentCell.childcell = newCell;
       }
 
       if (parent.__typename === 'Cell') {
@@ -829,7 +830,14 @@ export class DocumentTree extends Component {
       parentCell.toggled = true;
       parentCell.active = true;
       objectPath.set([tree], pathToParentCell, parentCell);
-
+      this.updateCellInCache({
+        id: parentCell.id,
+        verify: parentCell.verify,
+        prevcell: parentCell.prevcell,
+        childcell: parentCell.childcell,
+        nextcell: parentCell.nextcell,
+        parent: parentCell.parent,
+      });
     } else {
       if (prevCell && nextCell) {
         prevCell.nextcell = newCell;
@@ -837,13 +845,31 @@ export class DocumentTree extends Component {
 
 
         objectPath.set([tree], pathToPrevCell, prevCell);
+        this.updateCellInCache({
+          id: prevCell.id,
+          nextcell: prevCell.nextcell,
+        });
+
         objectPath.set([tree], pathToNextCell, nextCell);
+        this.updateCellInCache({
+          id: nextCell.id,
+          prevcell: nextCell.prevcell,
+        });
+
       } else if (prevCell && !nextCell) {
         prevCell.nextcell = newCell;
         objectPath.set([tree], pathToPrevCell, prevCell);
+        this.updateCellInCache({
+          id: prevCell.id,
+          nextcell: prevCell.nextcell,
+        });
       } else if (!prevCell && nextCell) {
         nextCell.prevcell = newCell;
         objectPath.set([tree], pathToNextCell, nextCell);
+        this.updateCellInCache({
+          id: nextCell.id,
+          prevcell: nextCell.prevcell,
+        });
       }
 
       let indexPrevCell = this.getIndexPrevCell(parentCell.children, newCell.prevcell.id);
