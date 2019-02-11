@@ -184,9 +184,9 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {number && number.length === 2 ? (
-                      <Fragment>{`${number} ${childName}`}</Fragment>
+                      <Fragment>{`${number} ${childName||''}`}</Fragment>
                     ) : (
-                      <Fragment>{`${section} ${parentName}`}</Fragment>
+                      <Fragment>{`${section} ${parentName||''}`}</Fragment>
                     )}
                   </Text>
                   <ContentWrapper>
@@ -199,7 +199,7 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName}`}</Fragment>}
+                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName||''}`}</Fragment>}
                     </Text>
 
                     {data.celllist.map((item, index) => {
