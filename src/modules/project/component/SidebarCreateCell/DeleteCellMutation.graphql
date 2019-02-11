@@ -1,7 +1,34 @@
 mutation($id: String!){
   deletecell(id:$id){
     cell{
+      childcell: children {
+        id
+        name
+        isHead
+      }
+      comments {
+        id
+        createdate
+        isdelete
+        message
+        sender {
+          id
+          firstname
+          lastname
+          patronymic
+        }
+        updatedate
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
       id
+      isHead
+      name
       nextcell {
         id
       }
@@ -11,6 +38,7 @@ mutation($id: String!){
       parent {
         id
       }
+      verify
     }
   }
 }
