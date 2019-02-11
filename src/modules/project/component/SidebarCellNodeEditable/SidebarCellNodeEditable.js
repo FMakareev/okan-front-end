@@ -51,11 +51,13 @@ const notificationOpts = () => ({
 });
 
 export const SidebarCellNodeEditable = React.forwardRef(
-  ({html, focused, onChange, id, onToggle, onError, setNotificationError, setNotificationSuccess}, ref) => {
+  ({html, prevHtml,focused, onChange, id, onToggle, onError, setNotificationError, setNotificationSuccess}, ref) => {
     return (
       <Mutation
         onCompleted={() => {
-          setNotificationSuccess(notificationOpts().success)
+          if(prevHtml !== html){
+            setNotificationSuccess(notificationOpts().success)
+          }
         }}
         onError={(error) => {
           console.error('ErrorSidebarCellNodeEditable: ',error);
@@ -78,14 +80,18 @@ export const SidebarCellNodeEditable = React.forwardRef(
                   if (event.key === 'Enter') {
                     event.persist();
                     onToggle();
-                    UpdateCell(mutate, {id, html}, onError)
+                    if(prevHtml !== html) {
+                      UpdateCell(mutate, {id, html}, onError)
+                    }
                   }
                 }}
                 onBlur={() => {
                   if (focused) {
                     onToggle();
                   }
-                  UpdateCell(mutate, {id, html}, onError)
+                  if(prevHtml !== html) {
+                    UpdateCell(mutate, {id, html}, onError)
+                  }
                 }}
                 onClick={event => {
                   if (focused) {
