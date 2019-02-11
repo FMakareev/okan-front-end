@@ -35,7 +35,11 @@ const EditorCellControllerWithProject = withProject(props => <EditorCellControll
 export class ProjectEditor extends Component {
   static propTypes = {};
 
-  state = { name: null, parentName: null };
+  state = {
+    name: null,
+    parentName: null,
+    number: queryString.parse(this.props.location.search).sectionNumber,
+  };
 
   componentDidMount() {
     this.getParent(this.props.sectionid);
@@ -67,7 +71,7 @@ export class ProjectEditor extends Component {
       location: { search },
     } = this.props;
 
-    const { name, parentName } = this.state;
+    const { name, parentName, number } = this.state;
 
     if (!sectionid) {
       return (
@@ -91,8 +95,7 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
-              const numberSection = queryString.parse(search);
-              const section = numberSection && numberSection.sectionNumber.slice(0, -2);
+              const section = number.slice(0, -2);
 
               return (
                 <Fragment>
@@ -104,13 +107,9 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {numberSection.sectionNumber.length === 2 && (
-                      <Fragment>{`${numberSection.sectionNumber} ${parentName}`}</Fragment>
-                    )}
+                    {number.length === 2 && <Fragment>{`${number} ${parentName}`}</Fragment>}
 
-                    {numberSection.sectionNumber.length > 2 && (
-                      <Fragment>{`${section} ${parentName}`}</Fragment>
-                    )}
+                    {number.length > 2 && <Fragment>{`${section} ${parentName}`}</Fragment>}
                   </Text>
                   <ContentWrapper>
                     <Text
@@ -122,11 +121,9 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {numberSection.sectionNumber.length <= 2 && null}
+                      {number.length <= 2 && null}
 
-                      {numberSection.sectionNumber.length > 2 && (
-                        <Fragment>{`${numberSection.sectionNumber} ${name}`}</Fragment>
-                      )}
+                      {number.length > 2 && <Fragment>{`${number} ${name}`}</Fragment>}
                     </Text>
 
                     {data.celllist.map((item, index) => {
@@ -141,7 +138,7 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.number === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${numberSection.sectionNumber}${index + 1}`}
+                            sectionNumber={`${number}${index + 1}`}
                           />
                         </Box>
                       );
