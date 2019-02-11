@@ -1,0 +1,44 @@
+mutation( $parent: String!, $isHead: Boolean, $contenttype: String, $content: String) {
+  createsubcell(parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content){
+    cell{
+      childcell: children {
+        id
+        name
+        isHead
+      }
+      comments {
+        id
+        createdate
+        isdelete
+        message
+        sender {
+          id
+          firstname
+          lastname
+          patronymic
+        }
+        updatedate
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
+      id
+      isHead
+      name
+      nextcell {
+        id
+      }
+      prevcell {
+        id
+      }
+      parent {
+        id
+      }
+      verify
+    }
+  }
+}
