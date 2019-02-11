@@ -30,7 +30,7 @@ import CreateSubCellMutation from './CreateSubCellMutation.graphql';
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
 
-  if (prevcell && isHead) {
+  if (prevcell && isHead && !parent) {
     title = 'Раздел';
   } else if (prevcell && isHead && parent) {
     title = 'Подраздел';
@@ -171,7 +171,6 @@ export class SidebarCreateCell extends Component {
    * */
   sortingCells = (cells) => {
     cells.sort((prev, next) => {
-      console.log(prev, next);
       if ((prev.parent && prev.prevcell) && prev.parent.id === prev.prevcell.id) {
         return -1;
       }
@@ -275,7 +274,7 @@ export class SidebarCreateCell extends Component {
             store.writeQuery({
               ...options,
               data: {
-                cellitem:createsubcell.cell,
+                cellitem: createsubcell.cell,
               },
             });
           } catch (error) {
@@ -286,7 +285,12 @@ export class SidebarCreateCell extends Component {
       .then(response => {
         console.log('SidebarCreateCell response createsubcell: ', response.data.createsubcell.cell);
         this.props.addNodeInTree(response.data.createsubcell.cell);
-        setNotificationSuccess(notificationCreate({prevcell, parent, isHead, contenttype}).success);
+        setNotificationSuccess(notificationCreate({
+          prevcell,
+          parent: parent || 'document',
+          isHead,
+          contenttype
+        }).success);
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
@@ -330,7 +334,7 @@ export class SidebarCreateCell extends Component {
             store.writeQuery({
               ...options,
               data: {
-                cellitem:createcell.cell,
+                cellitem: createcell.cell,
               },
             });
           } catch (error) {
@@ -341,12 +345,12 @@ export class SidebarCreateCell extends Component {
       .then(response => {
         console.log('SidebarCreateCell response: ', response.data.createcell.cell);
         this.props.addNodeInTree(response.data.createcell.cell);
-        setNotificationSuccess(notificationCreate({prevcell, parent, isHead, contenttype}).success);
+        setNotificationSuccess(notificationCreate({prevcell, parent: null, isHead, contenttype}).success);
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
+        setNotificationError(notificationCreate({prevcell, parent: null, isHead, contenttype}).error);
       });
   };
 
