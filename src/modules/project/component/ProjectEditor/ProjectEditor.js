@@ -1,18 +1,18 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import queryString from 'query-string';
-import { Query, withApollo } from 'react-apollo';
+import {Query, withApollo} from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import { withProject } from '../ProjectContext/ProjectContext';
-import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
+import {withProject} from '../ProjectContext/ProjectContext';
+import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
-import { Flex } from '@lib/ui/Flex/Flex';
-import { Box } from '@lib/ui/Box/Box';
-import { Text } from '@lib/ui/Text/Text';
+import {Flex} from '@lib/ui/Flex/Flex';
+import {Box} from '@lib/ui/Box/Box';
+import {Text} from '@lib/ui/Text/Text';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
@@ -36,47 +36,117 @@ export class ProjectEditor extends Component {
   static propTypes = {};
 
   state = {
-    name: '',
+    childName: '',
     parentName: '',
     number: null,
   };
 
-  getParent = parent => {
-    this.props.client
-      .query({ query: CellItemQuery, variables: { id: parent } })
-      .then(({ data }) => {
-        const parentNames = data.cellitem.parent && data.cellitem.parent.name;
-        const names = data.cellitem && data.cellitem.name;
-        const numbers = queryString.parse(this.props.location.search).sectionNumber;
-
-        return this.setState(({ name, parentName, number }) => {
-          return { name: names, parentName: parentNames, number: numbers };
-        });
-      })
-      .catch(error => {
-        console.log('getParent error, string 57 :', error);
-      });
-  };
+  componentWillUnmount() {
+    this.unsubscribeToCellItem();
+  }
 
   componentDidMount() {
-    {
-      this.props.sectionid && this.getParent(this.props.sectionid);
+    if (this.props.sectionid) {
+      this.createPageTitle(this.props.sectionid);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.sectionid !== this.props.sectionid) {
-      this.getParent(nextProps.sectionid);
+      this.createPageTitle(nextProps.sectionid);
     }
   }
+
+
+  /**
+   * @param {string} id - id ячейки
+   * @desc метод для создания заголовков
+   * */
+  createPageTitle = async (id) => {
+    try {
+      this.unsubscribeToCellItem();
+
+      let childCell = await this.getCellItem(id);
+      this.subscribeInstanceToUpdateTitle = this.subscribeToCellItem(childCell.data.cellitem.id)
+        .subscribe(({data}) => {
+          const name = data.cellitem && data.cellitem.name;
+          const numbers = queryString.parse(this.props.location.search);
+          return this.setState((state) => ({
+            ...state,
+            childName: name,
+            number: numbers && numbers.sectionNumber
+          }));
+        });
+
+      if (childCell && childCell.data.cellitem.parent) {
+
+        let parentCell = await this.getCellItem(childCell.data.cellitem.parent.id);
+        this.subscribeInstanceToUpdateParentTitle = this.subscribeToCellItem(parentCell.data.cellitem.id)
+          .subscribe(({data}) => {
+            const name = data.cellitem && data.cellitem.name;
+            return this.setState((state) => ({
+              ...state,
+              parentName: name,
+            }));
+          });
+      }
+
+
+    } catch (error) {
+      console.log('Error createPageTitle: ', error);
+    }
+
+  };
+
+  /** @desc сбрасываем подписки на изменение ячеек */
+  unsubscribeToCellItem = () => {
+    if (this.subscribeInstanceToUpdateTitle) {
+      this.subscribeInstanceToUpdateTitle.unsubscribe();
+      this.subscribeInstanceToUpdateTitle = null;
+    }
+    if (this.subscribeInstanceToUpdateParentTitle) {
+      this.subscribeInstanceToUpdateParentTitle.unsubscribe();
+      this.subscribeInstanceToUpdateParentTitle = null;
+    }
+  };
+
+  /**
+   * @param {string} id - id ячейки
+   * @desc создает подписку на обновление ячейки
+   * */
+  subscribeToCellItem = (id) => {
+    try {
+      return this.props.client
+        .watchQuery({
+          query: CellItemQuery,
+          variables: {id: id}
+        })
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  };
+
+
+  /**
+   * @param {string} id - id ячейки
+   * @desc метод выполняет получение данные по ячейке
+   * */
+  getCellItem = id => {
+   return this.props.client
+      .query({query: CellItemQuery, variables: {id}})
+      .catch(error => {
+        console.log('Error getCellItem: ', error);
+      });
+  };
+
 
   render() {
     const {
       sectionid,
-      location: { search },
+      location: {search},
     } = this.props;
 
-    const { name, parentName, number } = this.state;
+    const {childName, parentName, number} = this.state;
 
     if (!sectionid) {
       return (
@@ -89,8 +159,8 @@ export class ProjectEditor extends Component {
     }
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'5px'} flexDirection={'column'}>
-        <Query skip={!sectionid} query={CellListQuery} variables={{ parent: sectionid }}>
-          {({ data, loading, error }) => {
+        <Query skip={!sectionid} query={CellListQuery} variables={{parent: sectionid}}>
+          {({data, loading, error}) => {
             if (loading) {
               return `Загрузка`;
             }
@@ -100,7 +170,7 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
-              const section = number.slice(0, -2);
+              const section = number ? number.slice(0, -2) : '';
 
               return (
                 <Fragment>
@@ -112,8 +182,9 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {number.length === 2 ? (
-                      <Fragment>{`${number} ${name}`}</Fragment>
+                    {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
+                    {number && number.length === 2 ? (
+                      <Fragment>{`${number} ${childName}`}</Fragment>
                     ) : (
                       <Fragment>{`${section} ${parentName}`}</Fragment>
                     )}
@@ -128,7 +199,7 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number.length <= 2 ? null : <Fragment>{`${number} ${name}`}</Fragment>}
+                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName}`}</Fragment>}
                     </Text>
 
                     {data.celllist.map((item, index) => {
@@ -157,7 +228,7 @@ export class ProjectEditor extends Component {
           }}
         </Query>
 
-        <EditorAdditionalMenu sectionid={sectionid} />
+        <EditorAdditionalMenu sectionid={sectionid}/>
       </Flex>
     );
   }
