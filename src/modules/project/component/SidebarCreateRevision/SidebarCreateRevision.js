@@ -83,6 +83,7 @@ export class SidebarCreateRevision extends Component {
   };
 
   render() {
+    // console.log('SidebarCreateRevision: ', this.props);
     return (
       <ButtonBase
         title={'Создать ревизию документа.'}

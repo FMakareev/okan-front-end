@@ -32,8 +32,8 @@ const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
 
   if (prevcell && isHead) {
     title = 'Раздел';
-  } else if (isHead && parent) {
-    title = 'Под раздел';
+  } else if (prevcell && isHead && parent) {
+    title = 'Подраздел';
   } else if (!isHead && contenttype) {
     switch (contenttype) {
       case BLOCK_TEXT: {
@@ -350,6 +350,7 @@ export class SidebarCreateCell extends Component {
       });
   };
 
+
   /**
    * @param {string} id
    * @param {string} name
@@ -384,7 +385,7 @@ export class SidebarCreateCell extends Component {
     } = this.props;
     const {toggle} = this.state;
 
-    // console.log('SidebarCreateCell: ', this.props);
+
     return (
       <Box position={'relative'}>
         <ButtonBase
@@ -475,7 +476,7 @@ export class SidebarCreateCell extends Component {
                     contenttype: BLOCK_TABLE
                   });
                 }}>
-                Добавить таблица
+                Добавить таблицу
               </BoxStyled>
             )}
 
