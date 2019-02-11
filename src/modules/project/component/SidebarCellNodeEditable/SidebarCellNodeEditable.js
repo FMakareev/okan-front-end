@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Mutation} from 'react-apollo';
 import UpdateCellMutation from './UpdateCellMutation.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import {error, success} from "react-notification-system-redux";
 
 const TextareaStyled = styled.textarea`
   max-width: 150px;
@@ -12,7 +13,7 @@ const TextareaStyled = styled.textarea`
 `;
 
 
-const UpdateCache = (store, {data: {updatecell}}) => {
+const UpdateCache = (store, {data: {updatecell}}, onError) => {
   try {
     let options = {
       query: CellItemQuery,
@@ -24,7 +25,7 @@ const UpdateCache = (store, {data: {updatecell}}) => {
     store.writeQuery({
       ...options,
       data: {
-        cellitem:updatecell.cell,
+        cellitem: updatecell.cell,
       },
     });
   } catch (error) {
@@ -32,17 +33,38 @@ const UpdateCache = (store, {data: {updatecell}}) => {
   }
 };
 
+const UpdateCell = (mutate, {id, html}, callback) => {
+  return mutate({variables: {id, name: html}, update: UpdateCache})
+};
 
-// TODO: добавить таймер для автоматического схранения данных и стэйт перенести сюда
+const notificationOpts = () => ({
+  success: {
+    title: 'Раздел обновлен',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Раздел не обновлен',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 export const SidebarCellNodeEditable = React.forwardRef(
-  ({html, focused, onChange, id, onToggle}, ref) => {
+  ({html, focused, onChange, id, onToggle, onError, setNotificationError, setNotificationSuccess}, ref) => {
     return (
-      <Mutation onError={() => {
-      }} mutation={UpdateCellMutation}>
+      <Mutation
+        onCompleted={() => {
+          setNotificationSuccess(notificationOpts().success)
+        }}
+        onError={(error) => {
+          console.error('ErrorSidebarCellNodeEditable: ',error);
+          onError(error);
+          setNotificationError(notificationOpts().error)
+        }}
+        mutation={UpdateCellMutation}
+      >
         {(mutate, {called, data, error, loading}) => {
-          // console.log(mutate, { called, data, error, loading });
-
           if (!focused) {
             return html;
           } else {
@@ -56,14 +78,14 @@ export const SidebarCellNodeEditable = React.forwardRef(
                   if (event.key === 'Enter') {
                     event.persist();
                     onToggle();
-                    mutate({variables: {id, name: html}, update: UpdateCache});
+                    UpdateCell(mutate, {id, html}, onError)
                   }
                 }}
                 onBlur={() => {
                   if (focused) {
                     onToggle();
-                    mutate({variables: {id, name: html}, update: UpdateCache});
                   }
+                  UpdateCell(mutate, {id, html}, onError)
                 }}
                 onClick={event => {
                   if (focused) {
@@ -85,6 +107,8 @@ SidebarCellNodeEditable.propTypes = {
   html: PropTypes.string,
   focused: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  setNotificationError: PropTypes.func.isRequired,
+  setNotificationSuccess: PropTypes.func.isRequired,
 };
 
 export default SidebarCellNodeEditable;

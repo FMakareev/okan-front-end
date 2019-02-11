@@ -110,6 +110,7 @@ export class SidebarCellNode extends Component {
     try {
       return {
         name: this.props.node.name,
+        prevName: this.props.node.name,
         focused: this.props.node.focused,
         hover: false,
       };
@@ -131,7 +132,7 @@ export class SidebarCellNode extends Component {
       this.contentEditable.current.focus();
     }
     changeNodeFocus(node.id, !node.focused);
-    this.setState(() => ({ focused: !node.focused }));
+    this.setState(() => ({ focused: !node.focused, prevName: node.name }));
   };
 
   /**
@@ -240,7 +241,8 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { node, onClick } = this.props;
+    const { node, onClick,setNotificationSuccess,
+      setNotificationError } = this.props;
     const { hover, name } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
 
@@ -268,6 +270,12 @@ export class SidebarCellNode extends Component {
               <SidebarCellNodeEditable
                 id={node.id}
                 onToggle={this.onToggleEditable}
+                setNotificationSuccess={setNotificationSuccess}
+                setNotificationError={setNotificationError}
+                onError={()=>{
+                  console.log('onError:');
+                  this.setState(()=>this.initialState)
+                }}
                 ref={this.contentEditable}
                 html={name}
                 focused={node.focused}
