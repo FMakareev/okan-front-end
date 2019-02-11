@@ -27,11 +27,12 @@ import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 
 const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
+  console.log(1, prevcell, parent, isHead, contenttype);
   let title = '';
 
-  if (prevcell && isHead) {
+  if (prevcell && isHead && !parent) {
     title = 'Раздел';
-  } else if (isHead && parent) {
+  } else if (prevcell && isHead && parent) {
     title = 'Подраздел';
   } else if (!isHead && contenttype) {
     switch (contenttype) {
@@ -186,6 +187,7 @@ export class SidebarCreateCell extends Component {
       .then(response => {
         console.log('SidebarCreateCell response: ', response.data.createcell.cell);
         this.props.addNodeInTree(response.data.createcell.cell);
+        console.log(222222, response.data.createcell);
         setNotificationSuccess(
           notificationCreate({ prevcell, parent, isHead, contenttype }).success,
         );

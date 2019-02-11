@@ -1,0 +1,9 @@
+query ($user: String) {
+  documentsforapproval(user: $user) {
+    id
+    name
+    okancode
+    project
+    approvalstatus
+  }
+}

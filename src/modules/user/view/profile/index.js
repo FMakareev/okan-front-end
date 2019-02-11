@@ -28,7 +28,7 @@ import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
 /** Graphql schema */
 import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
-import DocumentListQuery from './DocumentListQuery.graphql';
+import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -62,19 +62,20 @@ export class ProfilePage extends Component {
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
+                <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
                   {({ loading, error, data }) => {
+                    console.log(2, data);
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
                     if (error) {
-                      console.error(`Error DocumentListQuery: `, error);
+                      console.error(`Error DocumentsForApprovalQuery: `, error);
                       return null;
                     }
-                    if (id && data && !data.documentlist) {
+                    if (id && data && !data.documentsforapproval) {
                       return null;
                     }
-                    return <ProfileApproval data={data && data.documentlist} />;
+                    return <ProfileApproval data={data && data.documentsforapproval} />;
                   }}
                 </Query>
               </CheckComponentAccessByRole>

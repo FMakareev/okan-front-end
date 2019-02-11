@@ -67,7 +67,7 @@ export class SidebarCreateRevision extends Component {
           event.stopPropagation();
           this.submit();
         }}
-        title={'Создать ревизию документа.'}
+        title={'Документ обновлен'}
         variant={'empty'}>
         <SvgSidebarComment />
       </ButtonBase>

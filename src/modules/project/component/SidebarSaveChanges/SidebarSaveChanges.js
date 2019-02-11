@@ -64,6 +64,7 @@ export class SidebarSaveChanges extends Component {
           event.stopPropagation();
           this.submit();
         }}
+        title={'Создать ревизию документа.'}
         variant={'empty'}>
         <SvgSidebarSave />
       </ButtonBase>

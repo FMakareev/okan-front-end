@@ -31,6 +31,7 @@ const TbodyStyled = styled(Tbody)`
 `;
 
 export const ProfileApproval = ({ data }) => {
+  console.log(11, data);
   return (
     <Fragment>
       <Text

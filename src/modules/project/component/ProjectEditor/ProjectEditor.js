@@ -36,8 +36,8 @@ export class ProjectEditor extends Component {
   static propTypes = {};
 
   state = {
-    name: null,
-    parentName: null,
+    name: '',
+    parentName: '',
     number: null,
   };
 
@@ -77,7 +77,6 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const { name, parentName, number } = this.state;
-    console.log(1, number);
 
     if (!sectionid) {
       return (
