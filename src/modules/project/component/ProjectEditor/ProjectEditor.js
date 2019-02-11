@@ -100,7 +100,7 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
-              const section = number.slice(0, -2);
+              const section = number ? number.slice(0, -2) : null;
 
               return (
                 <Fragment>
