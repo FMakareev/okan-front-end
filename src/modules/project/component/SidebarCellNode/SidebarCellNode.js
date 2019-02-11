@@ -243,7 +243,7 @@ export class SidebarCellNode extends Component {
   render() {
     const { node, onClick,setNotificationSuccess,
       setNotificationError } = this.props;
-    const { hover, name } = this.state;
+    const { hover, name,prevName } = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
 
     return (
@@ -278,6 +278,7 @@ export class SidebarCellNode extends Component {
                 }}
                 ref={this.contentEditable}
                 html={name}
+                prevHtml={prevName}
                 focused={node.focused}
                 onChange={this.handleChange}
               />
