@@ -8,13 +8,13 @@ import Text from '../../../../components/Text/Text';
 
 /** Components */
 import SidebarProjectSettings from '../SidebarProjectSettings/SidebarProjectSettings';
-import SidebarSaveChanges from '../SidebarSaveChanges/SidebarSaveChanges';
+import SidebarCreateRevision from '../SidebarCreateRevision/SidebarCreateRevision';
 import SidebarRevisionList from '../SidebarRevisionList/SidebarRevisionList';
 import SidebarProjectExport from '../SidebarProjectExport/SidebarProjectExport';
 
 /** Styles property */
 import { NodeToggle } from '../NodeToggle/NodeToggle';
-import SidebarCreateRevision from '../SidebarCreateRevision/SidebarCreateRevision';
+import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocumentToApproval';
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
@@ -74,13 +74,13 @@ export const SidebarCellRoot = props => {
           <SidebarProjectSettings projectid={projectid} documentid={document.id} />
         </Box>
         <Box px={1}>
-          <SidebarSaveChanges documentid={document} />
+          <SidebarCreateRevision documentid={document} />
         </Box>
         <Box px={1}>
           <SidebarRevisionList documentid={document.id} projectid={projectid} />
         </Box>
         <Box px={1}>
-          <SidebarCreateRevision document={document} />
+          <SidebarDocumentToApproval document={document} />
         </Box>
         <Box px={1}>
           <SidebarProjectExport />
