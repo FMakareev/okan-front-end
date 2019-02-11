@@ -434,51 +434,6 @@ export class SidebarCreateCell extends Component {
               Подраздел
             </BoxStyled>
 
-            {isHead && !childcell && (
-              <BoxStyled
-                onClick={(event) => {
-                  this.onToggle(event);
-                  this.createCell({
-                    prevcell: id,
-                    parent: id,
-                    isHead: false,
-                    contenttype: BLOCK_TEXT
-                  });
-                }}>
-                Добавить текст
-              </BoxStyled>
-            )}
-
-            {isHead && !childcell && (
-              <BoxStyled
-                onClick={(event) => {
-                  this.onToggle(event);
-
-                  this.createCell({
-                    prevcell: id,
-                    parent: id,
-                    isHead: false,
-                    contenttype: BLOCK_IMAGE
-                  });
-                }}>
-                Добавить изображение
-              </BoxStyled>
-            )}
-
-            {isHead && !childcell && (
-              <BoxStyled
-                onClick={(event) => {
-                  this.onToggle(event);
-                  this.createCell({
-                    prevcell: id,
-                    parent: id,
-                    isHead: false,
-                    contenttype: BLOCK_TABLE
-                  });
-                }}>
-                Добавить таблицу
-              </BoxStyled>
-            )}
 
             <BoxStyled
               onClick={(event) => {
