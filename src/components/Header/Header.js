@@ -81,10 +81,7 @@ export class Header extends Component {
         <ControlsWrapper>
           <Title>{name}</Title>
 
-          <ButtonBaseStyled
-            variant={'empty'}
-            position={'relative'}
-            onMouseEnter={this.handleMouseEnter}>
+          <ButtonBaseStyled variant={'empty'} position={'relative'} onClick={this.handleMouseEnter}>
             <ProfileLogo />
             {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
