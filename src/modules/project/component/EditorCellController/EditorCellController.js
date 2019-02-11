@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
+
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
 import EditorCellDelete from './EditorCellDelete';
