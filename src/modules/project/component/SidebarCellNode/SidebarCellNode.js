@@ -63,6 +63,7 @@ const notificationOpts = cellText => ({
 
 export class SidebarCellNode extends Component {
   static propTypes = {
+    updateNode: PropTypes.func.isRequired,
     addNodeInTree: PropTypes.func.isRequired,
     cellCheckStatusChange: PropTypes.func.isRequired,
     removeNodeInTree: PropTypes.func.isRequired,
@@ -300,6 +301,7 @@ export class SidebarCellNode extends Component {
           <Box px={1}>
             <SidebarApprovalStatus
               cellCheckStatusChange={this.props.cellCheckStatusChange}
+              updateNode={this.props.updateNode}
               node={node}
             />
           </Box>
