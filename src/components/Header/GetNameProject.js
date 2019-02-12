@@ -10,7 +10,11 @@ export class GetNameProject extends Component {
 
   getProject = projectid => {
     this.props.client
-      .query({ query: ProjectItemQuery, variables: { id: projectid } })
+      .query({
+        query: ProjectItemQuery,
+        // fetchPolicy: 'network-only',
+        variables: { id: projectid },
+      })
       .then(({ data }) => {
         const projectName = data && data.projectitem.name;
 
@@ -28,7 +32,7 @@ export class GetNameProject extends Component {
     const str = this.props.location.pathname;
 
     if (str.indexOf(beginString) === 0) {
-      let result = str.lastIndexOf('/') + 1;
+      let result = str.indexOf('/', 5) + 1;
       const projectid = str.slice(result);
       return this.getProject(projectid);
     }
