@@ -19,6 +19,7 @@ import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 /** Graphql schema */
 import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** New block types */
 import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType'
@@ -27,6 +28,7 @@ import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 import {error, success} from "react-notification-system-redux";
 import {connect} from "react-redux";
+import {sortingCells} from "../../utils/sortingCells";
 
 
 // TODO: три компонента кнопок превратить в один и тип и название передавать пропсами
@@ -49,7 +51,7 @@ const EditorAdditionalMenuButton = (props) => {
 };
 
 
-const createCellNotification = (contentType,messageType) => {
+const createCellNotification = (contentType, messageType) => {
   let contentTypeName = '';
   switch (contentType) {
     case(BLOCK_TABLE): {
@@ -66,15 +68,15 @@ const createCellNotification = (contentType,messageType) => {
     }
   }
 
-  switch(messageType){
-    case('success'):{
+  switch (messageType) {
+    case('success'): {
       return {
         title: `Создан: ${contentTypeName}`,
         position: 'tr',
         autoDismiss: 3,
       };
     }
-    case('error'):{
+    case('error'): {
       return {
         title: 'Ошибка',
         message: `Не создан: ${contentTypeName}`,
@@ -82,7 +84,7 @@ const createCellNotification = (contentType,messageType) => {
         autoDismiss: 3,
       };
     }
-    default:{
+    default: {
       return {
         title: 'Ошибка',
         message: 'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
@@ -212,10 +214,10 @@ export class EditorAdditionalMenu extends Component {
           }
         });
 
-        if(data.celllist.length > 1){
+        if (data.celllist.length > 1) {
           data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
         }
-
+        data.celllist = sortingCells(data.celllist);
         data.celllist.push(createcell.cell);
 
         store.writeQuery({
@@ -224,16 +226,42 @@ export class EditorAdditionalMenu extends Component {
             parent: this.props.sectionid
           },
           data
-        })
+        });
+
+        try{
+          if (createcell.cell.parent) {
+            const parent = store.readQuery({
+              query: CellItemQuery,
+              variables: {
+                id: createcell.cell.parent.id
+              }
+            });
+            if(!parent.cellitem.childcell){
+              parent.cellitem.childcell = createcell.cell;
+              store.writeQuery({
+                query: CellItemQuery,
+                variables: {
+                  id: createcell.cell.parent.id
+                },
+                data: parent,
+              });
+            }
+
+          }
+        } catch(error){
+          console.error('Error: ',error);
+        }
+
+
       }
     })
       .then(({data}) => {
         console.log('got data', data);
-        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
+        this.props.setNotificationSuccess(createCellNotification(blockType, 'success'));
 
       })
       .catch((error) => {
-        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
+        this.props.setNotificationSuccess(createCellNotification(blockType, 'error'));
         console.log('there was an error sending the query', error);
       });
   }
