@@ -117,7 +117,6 @@ export class EditorCellDelete extends Component {
   }
 
   render() {
-    console.log('EditorCellDelete');
     return (
       <ButtonBase
         mr={7}

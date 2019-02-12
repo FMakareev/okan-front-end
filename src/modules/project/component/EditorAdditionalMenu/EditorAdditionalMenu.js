@@ -176,6 +176,10 @@ export class EditorAdditionalMenu extends Component {
     }))
   };
 
+  /**
+   * @desc Получаем из кэша id последней ячейки в celllist,
+   * чтобы использовать при создании как prevcell
+   * */
   getLastCellId = (blockType) => {
     this.props.client.query({
       query: CellListQuery,
@@ -184,7 +188,7 @@ export class EditorAdditionalMenu extends Component {
       }
     }).then(({data}) => {
       let lastCellId = null;
-      if (data && Array.isArray(data.celllist) && data.celllist.length > 1) {
+      if (data && Array.isArray(data.celllist) && data.celllist.length > 0) {
         lastCellId = data.celllist[data.celllist.length - 1].id;
       }
       this.createEditorInstance(blockType, lastCellId)
@@ -194,6 +198,11 @@ export class EditorAdditionalMenu extends Component {
     });
   };
 
+  /**
+   * @desc Отправляем мутацию на создание ячейки, затем берем из кэша
+   * celllist и вставляем туда новую ячейку, а предыдущей присваиваем
+   * nextcell равный id созданной ячейки
+   * */
   createEditorInstance = (blockType, lastCellId) => {
     let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
@@ -214,7 +223,7 @@ export class EditorAdditionalMenu extends Component {
           }
         });
 
-        if (data.celllist.length > 1) {
+        if (data.celllist.length > 0) {
           data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
         }
         data.celllist = sortingCells(data.celllist);

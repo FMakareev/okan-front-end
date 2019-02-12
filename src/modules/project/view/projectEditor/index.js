@@ -19,7 +19,7 @@ import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
-import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
@@ -74,7 +74,7 @@ export class ProjectEditorPage extends Component {
 
   handleClick() {
     if (this.props.bindingBlockId) {
-      this.props.removeBlockId();
+      this.props.removeBlock();
     }
   }
 
@@ -136,5 +136,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { removeBlockId },
+  { removeBlock },
 )(ProjectEditorPage);

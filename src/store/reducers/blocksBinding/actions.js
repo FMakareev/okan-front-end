@@ -1,16 +1,16 @@
-import { SAVE_BLOCK_ID, REMOVE_BLOCK_ID } from './actionTypes';
+import { SAVE_BLOCK, REMOVE_BLOCK } from './actionTypes';
 
 // export const saveBlockId = (id) => ({
 //   type: SAVE_BLOCK_ID,
 //   blockId: id
 // })
 
-export const saveBlockId = (id) => dispatch => {
+export const saveBlock = (id, type) => dispatch => {
     return new Promise((resolve, reject) => {
         try {
             if (isBrowser) {
                 dispatch({
-                    type: SAVE_BLOCK_ID,
+                    type: SAVE_BLOCK,
                     blockId: id
                 });
             }
@@ -20,12 +20,12 @@ export const saveBlockId = (id) => dispatch => {
     });
 };
 
-export const removeBlockId = (id) => dispatch => {
+export const removeBlock = (id) => dispatch => {
     return new Promise((resolve, reject) => {
         try {
             if (isBrowser) {
                 dispatch({
-                    type: REMOVE_BLOCK_ID
+                    type: REMOVE_BLOCK
                 });
             }
         } catch (error) {

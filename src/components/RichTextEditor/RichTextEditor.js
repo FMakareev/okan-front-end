@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
-import { saveBlockId } from '../../store/reducers/blocksBinding/actions';
+import { saveBlock } from '../../store/reducers/blocksBinding/actions';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /**View */
@@ -76,7 +76,7 @@ export class RichTextEditor extends Component {
   getButtonClick = (action) => {
     switch(action){
       case 'bind':
-        this.storeBlockId();
+        this.storeBlock();
         break;
       case 'unbind':
         this.unbindBlock();
@@ -86,10 +86,17 @@ export class RichTextEditor extends Component {
     }
   }
 
-  storeBlockId = () => {
-    this.props.saveBlockId(this.props.data.id);
+  /**
+   * @desc Записываем в store Redux данные ячейки, которые хотим привязать:
+   * id, contentType
+   * */
+  storeBlock = () => {
+    this.props.saveBlock(this.props.data.id);
   }
 
+  /**
+   * @desc Удаляем связи с текущей ячейкой
+   * */
   unbindBlock = () => {
     this.props.mutate({
       variables: {
@@ -126,7 +133,7 @@ RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 export default connect(
   null,
   dispatch => ({
-    saveBlockId: id => dispatch(saveBlockId(id)),
+    saveBlock: (id) => dispatch(saveBlock(id)),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   })

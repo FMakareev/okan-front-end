@@ -41,6 +41,9 @@ query ($id: String!) {
       name
     }
     verify
+    lastChildren {
+      id
+    }
   }
 
 }
