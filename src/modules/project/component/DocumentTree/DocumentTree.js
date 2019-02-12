@@ -76,6 +76,7 @@ export class DocumentTree extends Component {
       <SidebarCellNodeWithProject
         document={this.props.data}
         changeNodeFocus={this.changeNodeFocus}
+        updateNode={this.updateNode}
         changeActiveNode={(id, prevCursor) => this.changeActiveNode(id, prevCursor, this.state.tree.children)}
         cellCheckStatusChange={this.cellCheckStatusChange}
         addNodeInTree={this.addNodeInTree}
@@ -251,12 +252,12 @@ export class DocumentTree extends Component {
     }
     try {
       let tree = Object.assign({}, this.state.tree);
-      let pathToCurrentNode = this.getPathToNode(tree, cellid);
+      let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
       let currentNode = objectPath.get([tree], pathToCurrentNode);
 
       /** предыдущая ячейка */
       let pathToPrevNodeCurrentNode = currentNode.prevcell
-        ? this.getPathToNode(tree, currentNode.prevcell.id)
+        ? this.getPathToNode([tree], currentNode.prevcell.id) || '0'
         : null;
       let prevNodeCurrentNode = pathToPrevNodeCurrentNode
         ? objectPath.get([tree], pathToPrevNodeCurrentNode)
@@ -264,7 +265,7 @@ export class DocumentTree extends Component {
 
       /** следующая ячейка */
       let pathToNextNodeCurrentNode = currentNode.nextcell
-        ? this.getPathToNode(tree, currentNode.nextcell.id)
+        ? this.getPathToNode([tree], currentNode.nextcell.id) || '0'
         : null;
       let nextNodeCurrentNode = pathToNextNodeCurrentNode
         ? objectPath.get([tree], pathToNextNodeCurrentNode)
@@ -341,8 +342,17 @@ export class DocumentTree extends Component {
 
       this.updateTree({tree});
 
-      if (getPosition(this.props.project, 'sectionid') === currentNode.id) {
-        this.props.history.push(`/app/project/${getPosition(this.props.project, 'projectid')}`);
+      const activesection = getPosition(this.props.project, 'sectionid');
+
+      if (activesection) {
+        if (activesection === currentNode.id) {
+          this.props.history.push(`/app/project/${getPosition(this.props.project, 'projectid')}`);
+        } else if (currentNode.children && currentNode.children.length) {
+          let pathToActiveSection = this.getPathToNode(currentNode.children, activesection);
+          if (pathToActiveSection) {
+            this.props.history.push(`/app/project/${getPosition(this.props.project, 'projectid')}`);
+          }
+        }
       }
     } catch (error) {
       console.error('Error removeNodeInTree: ', error);
@@ -405,10 +415,10 @@ export class DocumentTree extends Component {
    * */
   changeActiveNode = (cellid, cursorid, nodes) => {
     try {
-      let pathToCurrentNode = this.getPathToNode(nodes, cellid);
+      let pathToCurrentNode = this.getPathToNode(nodes, cellid) || '0';
       let currentNode = objectPath.get(nodes, pathToCurrentNode);
 
-      let pathToPrevCursorNode = cursorid ? this.getPathToNode(nodes, cursorid) : null;
+      let pathToPrevCursorNode = cursorid ? this.getPathToNode(nodes, cursorid) || '0' : null;
       let prevCursorNode = pathToPrevCursorNode ? objectPath.get(nodes, pathToPrevCursorNode) : null;
 
       if (
@@ -421,7 +431,7 @@ export class DocumentTree extends Component {
         console.log('BOOM1');
         /** @desc изменяем статус у текущей активной ноды и всех ее предков */
         nodes = this.changeActiveBranch(prevCursorNode, pathToPrevCursorNode, nodes, false);
-      } else {
+      } else if (pathToPrevCursorNode) {
         objectPath.set(nodes, pathToPrevCursorNode + '.active', false);
       }
 
@@ -459,7 +469,7 @@ export class DocumentTree extends Component {
       if (currentNode.parent) {
         let pathToParentNode;
         let parentNode;
-        pathToParentNode = this.getPathToNode(nodes, currentNode.parent.id);
+        pathToParentNode = this.getPathToNode(nodes, currentNode.parent.id) || '0';
         parentNode = objectPath.get(nodes, pathToParentNode);
 
         while (parentNode !== null) {
@@ -468,7 +478,7 @@ export class DocumentTree extends Component {
           objectPath.set(nodes, pathToParentNode, parentNode);
 
           if (parentNode.parent && parentNode.parent.id) {
-            pathToParentNode = this.getPathToNode(nodes, parentNode.parent.id);
+            pathToParentNode = this.getPathToNode(nodes, parentNode.parent.id) || '0';
             parentNode = objectPath.get(nodes, pathToParentNode);
           } else {
             pathToParentNode = null;
@@ -589,7 +599,7 @@ export class DocumentTree extends Component {
     try {
       const {tree, cursor} = this.state;
       // нашли путь к  ноде
-      let pathToNode = this.getPathToNode(tree, id) + '.loading';
+      let pathToNode = (this.getPathToNode(tree, id) || '0') + '.loading';
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, status);
@@ -647,7 +657,7 @@ export class DocumentTree extends Component {
     // console.log('cellCheckStatusChange', cellid, status);
     try {
       let tree = Object.assign({}, this.state.tree);
-      let pathToCurrentNode = this.getPathToNode(tree, cellid);
+      let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
       let currentNode = objectPath.get([tree], pathToCurrentNode);
 
       objectPath.set([tree], pathToCurrentNode, {
@@ -674,7 +684,7 @@ export class DocumentTree extends Component {
   changeParentVerifyStatus = (parent, tree, status) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let pathToParentNode = this.getPathToNode(tree, parent.id);
+        let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
         let parentNode = objectPath.get([tree], pathToParentNode);
 
         if (parentNode && Array.isArray(parentNode.children)) {
@@ -751,7 +761,7 @@ export class DocumentTree extends Component {
     try {
       const tree = Object.assign({}, this.state.tree);
       let pathToParent =
-        this.getPathToNode(tree, cellList[0].parent && cellList[0].parent.id) + '.children';
+        (this.getPathToNode(tree, cellList[0].parent && cellList[0].parent.id) || '0') + '.children';
 
       let newChildren = cellList.map(cell => this.createCellNode(cell));
 
@@ -773,13 +783,13 @@ export class DocumentTree extends Component {
 
     let newCell = this.createCellNode({...cell, focused: true});
 
-    let pathToParentCell = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null);
+    let pathToParentCell = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null) || '0';
     let parentCell = objectPath.get([tree], pathToParentCell);
 
-    let pathToPrevCell = cell.prevcell !== null ? this.getPathToNode(tree, cell.prevcell.id) : null;
+    let pathToPrevCell = cell.prevcell !== null ? this.getPathToNode(tree, cell.prevcell.id) || '0' : null;
     let prevCell = pathToPrevCell ? objectPath.get([tree], pathToPrevCell) : null;
 
-    let pathToNextCell = cell.nextcell !== null ? this.getPathToNode(tree, cell.nextcell.id) : null;
+    let pathToNextCell = cell.nextcell !== null ? this.getPathToNode(tree, cell.nextcell.id) || '0' : null;
     let nextCell = pathToNextCell ? objectPath.get([tree], pathToNextCell) : null;
 
     /**
@@ -814,11 +824,13 @@ export class DocumentTree extends Component {
           newCell.parent = parentCell;
           newCell.prevcell = parentCell;
         }
-      } else if (newCell.isHead) { /** новая ячейка раздел */
+      } else if (newCell.isHead) {
+        /** новая ячейка раздел */
         parentCell.childcell = newCell;
         parentCell.children = [newCell];
 
-      } else if (!newCell.isHead) { /** новая ячейка не раздел */
+      } else if (!newCell.isHead) {
+        /** новая ячейка не раздел */
         parentCell.childcell = newCell;
       }
 
@@ -894,6 +906,25 @@ export class DocumentTree extends Component {
     }
   };
 
+
+  /**
+   * @param {string} cellid
+   * @param {object} newData
+   * @desc метод получает на вход id ячейки и новые данные, эта ячейка находится в дереве и сливается с новыми данными причем новые данные перезаписывают старые
+   * */
+  updateNode = (cellid, newData) => {
+    try {
+      const {tree} = Object.assign({}, this.state);
+      const pathToCurrentNode = this.getPathToNode(tree, cellid);
+      const currentNode = objectPath.get([tree], pathToCurrentNode);
+
+      objectPath.set([tree], pathToCurrentNode, {...currentNode, ...newData});
+      this.updateTree({tree});
+    } catch (error) {
+      console.error('Error updateNode: ', error);
+    }
+  };
+
   /**
    * @param {object} tree объект дерева
    * @param {string} parentId - id родителя
@@ -905,11 +936,11 @@ export class DocumentTree extends Component {
       if (Array.isArray(pathToParent) && pathToParent.length) {
         return pathToParent[0];
       } else {
-        return '0';
+        return null;
       }
     } catch (error) {
       console.log(`Error getPathToNode, parentId=${parentId}:`, error);
-      return '0';
+      return null;
     }
   };
 
