@@ -71,6 +71,28 @@ export class Header extends Component {
     });
   }
 
+  componentDidMount() {
+    this.nv.addEventListener('click', this.handleClick);
+    window.addEventListener('mousedown', this.handleWindow);
+  }
+
+  componentWillUnmount() {
+    this.nv.removeEventListener('click', this.handleClick);
+    window.removeEventListener('mousedown', this.handleWindow);
+  }
+
+  handleClick = event => {
+    this.setState(({ isOpen }) => {
+      return { isOpen: true };
+    });
+  };
+
+  handleWindow = event => {
+    this.setState(({ isOpen }) => {
+      return { isOpen: false };
+    });
+  };
+
   render() {
     const { name } = this.props;
     const { isOpen } = this.state;
@@ -88,7 +110,13 @@ export class Header extends Component {
             {str.indexOf(beginString) === 0 ? <GetNameProject /> : name}
           </Title>
 
-          <ButtonBaseStyled variant={'empty'} position={'relative'} onClick={this.handleMouseEnter}>
+          <ButtonBaseStyled
+            variant={'empty'}
+            position={'relative'}
+            id={'click'}
+            ref={
+              elem => (this.nv = elem) // onClick={this.handleMouseEnter}
+            }>
             <ProfileLogo />
             {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
