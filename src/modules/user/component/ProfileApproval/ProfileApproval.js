@@ -11,7 +11,7 @@ import Tr from '@lib/ui/Table/Tr';
 import Link from '@lib/ui/Link/Link';
 
 /** Constants */
-import { NOT_APPROVAL } from '../../../../shared/approvalStatus';
+import { TO_APPROVAL } from '../../../../shared/approvalStatus';
 
 const TrStyled = styled(Tr)`
   display: flex;
@@ -28,6 +28,12 @@ const TbodyStyled = styled(Tbody)`
   border: 1px solid #848484;
   border-radius: 5px;
   margin: 10px 0 0 0;
+  width: 100%;
+`;
+
+const LinkStyled = styled(Link)`
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const ProfileApproval = ({ data }) => {
@@ -54,21 +60,21 @@ export const ProfileApproval = ({ data }) => {
           </Text>
         </Flex>
       </Tbody>
-      {data.approvalstatus === NOT_APPROVAL
-        ? Array.isArray(data) &&
-          data.map(item => {
-            return (
-              <Link to={`/app/project/${item.project}/${item.id}`}>
+      {Array.isArray(data) &&
+        data.map(item => {
+          return (
+            item.approvalstatus === TO_APPROVAL && (
+              <LinkStyled to={`/app/project/${item.project}/${item.id}`}>
                 <TbodyStyled>
                   <TrStyled>
                     <Td fontFamily={'primary500'}>{item.okancode}</Td>
                     <Td fontFamily={'secondaryBold'}>{item.name}</Td>
                   </TrStyled>
                 </TbodyStyled>
-              </Link>
-            );
-          })
-        : null}
+              </LinkStyled>
+            )
+          );
+        })}
     </Fragment>
   );
 };

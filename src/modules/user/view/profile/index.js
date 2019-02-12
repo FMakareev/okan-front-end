@@ -64,6 +64,7 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
                 <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
                   {({ loading, error, data }) => {
+                    // console.log(1, data);
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
