@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Query, withApollo } from 'react-apollo';
 
@@ -42,9 +42,8 @@ export class GetNameProject extends Component {
 
   render() {
     const { name } = this.state;
-    console.log(1, name);
 
-    return <div>{name}</div>;
+    return <Fragment>{name}</Fragment>;
   }
 }
 

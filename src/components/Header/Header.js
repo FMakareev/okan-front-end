@@ -84,14 +84,19 @@ export class Header extends Component {
         <LogoWrapper src={Logo} alt="logo" />
         <LineWrapper />
         <ControlsWrapper>
-          <Title>{str.indexOf(beginString) === 0 ? <GetNameProject /> : name}</Title>
+          <Title onMouseOver={this.handleMouseOut}>
+            {str.indexOf(beginString) === 0 ? <GetNameProject /> : name}
+          </Title>
 
           <ButtonBaseStyled variant={'empty'} position={'relative'} onClick={this.handleMouseEnter}>
             <ProfileLogo />
             {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
 
-          <ProjectListLink to="/app/project-list" activeClassName="active">
+          <ProjectListLink
+            to="/app/project-list"
+            activeClassName="active"
+            onMouseOver={this.handleMouseOut}>
             <ProjectListLogo />
           </ProjectListLink>
         </ControlsWrapper>
