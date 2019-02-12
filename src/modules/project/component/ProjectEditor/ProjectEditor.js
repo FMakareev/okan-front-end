@@ -17,6 +17,7 @@ import {Text} from '@lib/ui/Text/Text';
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import {sortingCells} from "../../utils/sortingCells";
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -132,7 +133,7 @@ export class ProjectEditor extends Component {
    * @desc метод выполняет получение данные по ячейке
    * */
   getCellItem = id => {
-   return this.props.client
+    return this.props.client
       .query({query: CellItemQuery, variables: {id}})
       .catch(error => {
         console.log('Error getCellItem: ', error);
@@ -184,9 +185,9 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {number && number.length === 2 ? (
-                      <Fragment>{`${number} ${childName||''}`}</Fragment>
+                      <Fragment>{`${number} ${childName || ''}`}</Fragment>
                     ) : (
-                      <Fragment>{`${section} ${parentName||''}`}</Fragment>
+                      <Fragment>{`${section} ${parentName || ''}`}</Fragment>
                     )}
                   </Text>
                   <ContentWrapper>
@@ -199,10 +200,10 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName||''}`}</Fragment>}
+                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName || ''}`}</Fragment>}
                     </Text>
 
-                    {data.celllist.map((item, index) => {
+                    {sortingCells(data.celllist).map((item, index) => {
                       return (
                         <Box
                           position={'relative'}
