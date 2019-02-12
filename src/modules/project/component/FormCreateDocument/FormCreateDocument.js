@@ -31,7 +31,7 @@ const notificationOpts = () => ({
 export class FormCreateDocument extends Component {
   createDocument = (value, event) => {
     console.log('createDocument: ', value);
-    if(!value.name || !value.name.length) return;
+    if (!value.name || !value.name.length) return;
     const { project } = this.props;
 
     return this.props['@apollo/create']({
@@ -78,7 +78,7 @@ export class FormCreateDocument extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.createDocument)}>
-        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
+        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'} mb={'150px'}>
           <Box height={'20px'} width={'100%'}>
             <Mutation mutation={CreateDocumentQuery}>
               {(mutate, { loading, error, data }) => {
