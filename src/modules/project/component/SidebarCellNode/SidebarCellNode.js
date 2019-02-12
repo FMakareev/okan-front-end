@@ -243,17 +243,39 @@ export class SidebarCellNode extends Component {
   bindBlock = (target, parent) => {
     let targetArr = [];
     targetArr.push(target);
-    console.log(targetArr);
     this.props
       .bindingBlock({
         variables: {
           target: targetArr,
           parent: parent,
         },
+        update: (store, {data: {createcell}}) => {
+
+          const data = store.readQuery({
+            query: CellListQuery,
+            variables: {
+              parent: this.props.node.id
+            }
+          });
+          if(data.celllist.length > 0){
+            data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
+          }
+  
+          data.celllist.push(createcell.cell);
+  
+          store.writeQuery({
+            query: CellListQuery,
+            variables: {
+              parent: this.props.node.id
+            },
+            data
+          })
+        }
       })
       .then(({ data }) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
+        /** Удаляет id блока из кэша */
         this.props.removeBlock();
       })
       .catch(error => {
