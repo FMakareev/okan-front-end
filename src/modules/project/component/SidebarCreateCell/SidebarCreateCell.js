@@ -27,7 +27,6 @@ import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 
 const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
-  console.log(1, prevcell, parent, isHead, contenttype);
   let title = '';
 
   if (prevcell && isHead && !parent) {
@@ -75,13 +74,13 @@ const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
 const notificationDelete = name => {
   return {
     success: {
-      title: `Раздел "${name}" удален.`,
+      title: `"${name}" удален.`,
       position: 'tr',
       autoDismiss: 6,
     },
     error: {
       title: `Произошла ошибка.`,
-      message: `Раздел "${name}" не удален.`,
+      message: `"${name}" не удален.`,
       position: 'tr',
       autoDismiss: 6,
     },
