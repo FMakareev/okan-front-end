@@ -26,13 +26,14 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
+import {sortingCells} from "../../utils/sortingCells";
 
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
 
   if (prevcell && isHead && !parent) {
     title = 'Раздел';
-  } else if (prevcell && isHead && parent) {
+  } else if (prevcell && isHead && parent === prevcell) {
     title = 'Подраздел';
   } else if (!isHead && contenttype) {
     switch (contenttype) {
@@ -76,13 +77,13 @@ const notificationDelete = (name) => {
 
   return {
     success: {
-      title: `Раздел "${name}" удален.`,
+      title: `Раздел "${name ? name : ''}" удален.`,
       position: 'tr',
       autoDismiss: 6,
     },
     error: {
       title: `Произошла ошибка.`,
-      message: `Раздел "${name}" не удален.`,
+      message: `Раздел "${name ? name : ''}" не удален.`,
       position: 'tr',
       autoDismiss: 6,
     },
@@ -145,7 +146,6 @@ export class SidebarCreateCell extends Component {
    * @desc получить список ячеек попорядку рекурсивно
    * */
   getListOfParentCells = (id, nodes) => {
-    const {client} = this.props;
     return this.getCell(id)
       .then(response => {
         console.log(response);
@@ -165,28 +165,7 @@ export class SidebarCreateCell extends Component {
       })
   };
 
-  /**
-   * @param {array} cells
-   * @desc сортировка по указателям ветки ячеек
-   * */
-  sortingCells = (cells) => {
-    cells.sort((prev, next) => {
-      if ((prev.parent && prev.prevcell) && prev.parent.id === prev.prevcell.id) {
-        return -1;
-      }
-      if (!prev.nextcell) {
-        return 1;
-      }
-      if ((prev.nextcell && next.id) && prev.nextcell.id === next.id) {
-        return -1;
-      } else if ((next.nextcell && prev.id) && next.nextcell.id === prev.id) {
-        return 1;
-      } else {
-        return 1;
-      }
-    });
-    return cells;
-  };
+
 
   /**
    * @param {string} prevcell - id предыдущей ячейки или родительской
@@ -202,11 +181,9 @@ export class SidebarCreateCell extends Component {
       console.log('createSubCellStateMachine:', prevcell, nextcell, parent, isHead, contenttype, node);
       /** 1) если дочерние ячейки являются разделами */
       if (node.isHead && node.childcell) {
-        console.log('createSubCellStateMachine:isHead && node.childcell');
         if (node.childcell.isHead) {
-          console.log('createSubCellStateMachine:node.childcell.isHead');
           let cells = await this.getListOfParentCells(node.childcell.id, []);
-          cells = this.sortingCells(cells);
+          cells = sortingCells(cells);
           this.createCell({
             prevcell: cells && cells.length > 0 ? cells[cells.length - 1].id : parent,
             parent: parent,
@@ -216,15 +193,14 @@ export class SidebarCreateCell extends Component {
           });
 
         } else if (!node.childcell.isHead) {
-          console.log('createSubCellStateMachine:!node.childcell.isHead');
 
           this.createSubCell({
             parent: node.id,
+            prevcell,
             isHead: true,
           });
         }
       } else {
-        console.log('createSubCellStateMachine: else createCell');
         this.createCell({
           prevcell: parent,
           parent: parent,
@@ -250,7 +226,6 @@ export class SidebarCreateCell extends Component {
    * @desc создание подраздела у раздела ячейки которого являются контентом
    * */
   createSubCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    // console.log(prevcell, parent, isHead, contenttype);
     const {setNotificationSuccess, setNotificationError} = this.props;
 
     const variables = {
@@ -308,7 +283,6 @@ export class SidebarCreateCell extends Component {
    * @desc создание ячейки
    * */
   createCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    // console.log(prevcell, parent, isHead, contenttype);
     const {setNotificationSuccess, setNotificationError} = this.props;
 
     const variables = {
@@ -388,7 +362,6 @@ export class SidebarCreateCell extends Component {
       node: {isHead, childcell, id, parent, nextcell, name},
     } = this.props;
     const {toggle} = this.state;
-
 
     return (
       <Box position={'relative'}>
