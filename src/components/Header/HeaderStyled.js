@@ -111,7 +111,7 @@ const ProjectListLink = styled(ProfileLink)`
 `;
 
 const AbsoluteStyled = styled(Absolute)`
-  z-index:11;
+  z-index: 11;
   border: 1px solid;
   background-color: #fff;
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
@@ -158,7 +158,7 @@ const ButtonBaseStyled = styled(ButtonBase)`
   fill: #fff;
   background-color: #007faf;
 
-  & :focus {
+  & :active {
     fill: #00649c;
   }
 `;
