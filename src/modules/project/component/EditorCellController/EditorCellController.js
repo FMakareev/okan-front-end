@@ -222,9 +222,9 @@ export class EditorCellController extends Component {
         // onDrag={(event)=>this.onDragBlock(event)}
         // ondragstart={(event)=>this.onDragBlock(event)}
         alignItems="flex-start">
-        {(!editable || data.content.contenttype == 'text') && (
+        {(!editable || data.content.contenttype === 'text') && (
           <Text
-            width={'60px'}
+            width={'100px'}
             fontFamily={'secondary'}
             lineHeight={'22px'}
             fontSize={6}
@@ -234,10 +234,10 @@ export class EditorCellController extends Component {
             {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
           </Text>
         )}
-        {editable && data.content.contenttype != 'text' && (
+        {editable && data.content.contenttype !== 'text' && (
           <EditorTypeIcon type={data.content.contenttype} />
         )}
-        <Box width={'calc(100% - 80px)'}>
+        <Box width={'calc(100% - 120px)'}>
           {!editable && (
             <Text
               className={'editor-cell_content'}
