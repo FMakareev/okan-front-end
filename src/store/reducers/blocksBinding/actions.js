@@ -1,17 +1,18 @@
-import { SAVE_BLOCK, REMOVE_BLOCK } from './actionTypes';
+import { REMOVE_BLOCK, COPY_CELL } from './actionTypes';
 
 // export const saveBlockId = (id) => ({
 //   type: SAVE_BLOCK_ID,
 //   blockId: id
 // })
 
-export const saveBlock = (id, type) => dispatch => {
+export const copyCell = (cell, bind, type) => dispatch => {
     return new Promise((resolve, reject) => {
         try {
             if (isBrowser) {
                 dispatch({
-                    type: SAVE_BLOCK,
-                    blockId: id
+                    type: COPY_CELL,
+                    cell: cell,
+                    bind: bind
                 });
             }
         } catch (error) {

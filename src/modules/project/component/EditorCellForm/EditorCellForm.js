@@ -54,6 +54,7 @@ export class EditorCellForm extends Component {
           id={id}
           data={data}
           config={this.froalaConfig}
+          instantSave={()=>this.props.instantSave()}
         />
       </Form>
     );

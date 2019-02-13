@@ -282,6 +282,7 @@ export class EditorCellController extends Component {
                 id={data.id}
                 data={data}
                 onBlurForm={() => this.onBlurForm()}
+                instantSave={() => this.saveCellContent()}
               />
             )}
           </Box>

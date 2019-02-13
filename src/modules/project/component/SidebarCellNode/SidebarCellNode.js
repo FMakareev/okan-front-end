@@ -22,6 +22,8 @@ import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
 import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Redux action to remove BlockId from store */
 import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
@@ -189,15 +191,15 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const { onClick, node, history, document, bindingBlockId } = this.props;
+      const { onClick, node, history, document, cellToCopy, bindAfterCopy } = this.props;
 
       const isHead = SidebarCellNode.childcellIsCategory(node);
 
       if (isHead) {
         onClick();
       } else {
-        if (bindingBlockId) {
-          this.createBindingBlockCopy(node.id, node.lastChildren);
+        if (cellToCopy) {
+          this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
         } else {
           SidebarCellNode.gotToCategory(document, node, history);
           this.props.changeActiveNode(
@@ -218,39 +220,19 @@ export class SidebarCellNode extends Component {
     }));
   };
 
-  createBindingBlockCopy = (parentCellId, lastChildren) => {
+  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
+    console.log(this.props.cellToCopy)
     this.props
       .createCopy({
         variables: {
-          name: '',
+          name: this.props.cellToCopy.content.name,
+          content: this.props.cellToCopy.content.content,
+          contenttype: this.props.cellToCopy.content.contenttype,
           prevcell: lastChildren ? lastChildren.id : parentCellId,
           parent: parentCellId,
           isHead: false,
         },
-      })
-      .then(({data}) => {
-        // console.log('got data', data);
-        this.bindBlock(data.createcell.cell.id, this.props.bindingBlockId);
-        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
-
-      })
-      .catch((error) => {
-        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
-        console.log('there was an error sending the query', error);
-      });
-  };
-
-  bindBlock = (target, parent) => {
-    let targetArr = [];
-    targetArr.push(target);
-    this.props
-      .bindingBlock({
-        variables: {
-          target: targetArr,
-          parent: parent,
-        },
         update: (store, {data: {createcell}}) => {
-
           const data = store.readQuery({
             query: CellListQuery,
             variables: {
@@ -269,7 +251,71 @@ export class SidebarCellNode extends Component {
               parent: this.props.node.id
             },
             data
+          });
+        }
+      })
+      .then(({data}) => {
+        if (bindAfterCopy)
+          this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
+        else
+          /** Удаляет id блока из кэша */
+          this.props.removeBlock();
+      })
+      .catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+  };
+
+  bindBlock = (target, parent) => {
+    let targetArr = [];
+    targetArr.push(target.id);
+    this.props
+      .bindBlock({
+        variables: {
+          target: targetArr,
+          parent: parent,
+        },
+        update: (store, {data: {bindingcell}}) => {          
+          const dataParentList = store.readQuery({
+            query: CellListQuery,
+            variables: {
+              parent: bindingcell.cell.parent.id
+            }
+          });
+
+          let dataParentWrite = {};
+          for (var i = 0; i < dataParentList.celllist.length; i++) {
+            if(dataParentList.celllist[i].id == bindingcell.cell.id) {
+              dataParentWrite = dataParentList.celllist[i];
+              dataParentWrite.pull = bindingcell.cell.pull;
+            }
+          }
+          
+          store.writeQuery({
+            query: CellListQuery,
+            variables: {
+              id: bindingcell.cell.parent.id
+            },
+            data: dataParentWrite
           })
+
+          const nodeCell = store.readQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id
+            }
+          });
+          
+          nodeCell.cellitem.lastChildren = target;
+          this.props.node.lastChildren = target;
+
+          store.writeQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id
+            },
+            data: nodeCell
+          });
         }
       })
       .then(({ data }) => {
@@ -352,7 +398,7 @@ const mapStateToProps = state => {
 };
 
 SidebarCellNode = compose(
-  graphql(BindingCellMutation, {name: 'bindingBlock'}),
+  graphql(BindingCellMutation, {name: 'bindBlock'}),
   graphql(CreateCellMutation, {name: 'createCopy'})
 )(SidebarCellNode);
 

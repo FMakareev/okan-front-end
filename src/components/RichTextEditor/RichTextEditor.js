@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
-import { saveBlock } from '../../store/reducers/blocksBinding/actions';
+import { copyCell } from '../../store/reducers/blocksBinding/actions';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /**View */
@@ -76,22 +76,15 @@ export class RichTextEditor extends Component {
   getButtonClick = (action) => {
     switch(action){
       case 'bind':
-        this.storeBlock();
+        this.copyCell(true);
         break;
       case 'unbind':
         this.unbindBlock();
         break;
       case 'copy':
+        this.copyCell(false);
         break;
     }
-  }
-
-  /**
-   * @desc Записываем в store Redux данные ячейки, которые хотим привязать:
-   * id, contentType
-   * */
-  storeBlock = () => {
-    this.props.saveBlock(this.props.data.id);
   }
 
   /**
@@ -110,6 +103,13 @@ export class RichTextEditor extends Component {
         console.log('there was an error sending the query', error);
         this.props.setNotificationError(notificationOpts().error);
       });
+  }
+
+  copyCell = (bind) => {
+    let data = this.props.data;
+    data.content.content = this.props.input.value;
+    this.props.instantSave();
+    this.props.copyCell(this.props.data, bind);
   }
 
   render() {
@@ -133,7 +133,7 @@ RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 export default connect(
   null,
   dispatch => ({
-    saveBlock: (id) => dispatch(saveBlock(id)),
+    copyCell: (cell, bind) => dispatch(copyCell(cell, bind)),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   })

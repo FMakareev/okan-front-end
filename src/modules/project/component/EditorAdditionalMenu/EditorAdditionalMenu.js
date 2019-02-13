@@ -19,6 +19,7 @@ import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 /** Graphql schema */
 import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** New block types */
 import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType'
@@ -232,6 +233,14 @@ export class EditorAdditionalMenu extends Component {
             parent: this.props.sectionid
           },
           data
+        })
+        
+        store.writeQuery({
+          query: CellItemQuery,
+          variables: {
+            id: createcell.cell.id
+          },
+          data: createcell
         })
       }
     })
