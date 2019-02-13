@@ -61,6 +61,21 @@ const notificationOpts = cellText => ({
   },
 });
 
+const notificationCopy = cellText => ({
+  success: {
+    title: 'Блок скопирован',
+    message: 'Блок скопирован в раздел ' + cellText,
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Ошибка',
+    message: 'Не удалось скопировать блок',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 // TODO: добавить авто сохранение каждые 30 секунд если поле с именем в фокусе
 // TODO: добавить вывод актуального статуса
 
@@ -257,11 +272,14 @@ export class SidebarCellNode extends Component {
       .then(({data}) => {
         if (bindAfterCopy)
           this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
-        else
+        else {
+          this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
           this.props.removeBlock();
+        }
       })
       .catch((error) => {
+        this.props.setNotificationError(notificationCopy(null).error);
         console.log('there was an error sending the query', error);
       });
   };
