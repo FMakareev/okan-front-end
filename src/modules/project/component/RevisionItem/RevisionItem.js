@@ -18,7 +18,7 @@ const TdStyled = styled(Td)`
 export const RevisionItem = ({ id, name, createrevisiondate, authorrevision }) => {
   return (
     <Tr>
-      <TdStyled fontFamily={'primary300'} py={4} pl={3}>
+      <TdStyled fontFamily={'primary300'} py={4}>
         {name}
       </TdStyled>
       <TdStyled fontFamily={'primary300'} py={4} textAlign={'center'}>

@@ -45,6 +45,16 @@ export const routes = [
   {
     layout: LAYOUT_APP,
     exact: true,
+    name: 'Список ревизий',
+    path: '/revision-item/:id',
+    order: 0,
+    hidden: false,
+    load: () => import(/* webpackChunkName: 'revisionList'  */ './view/projectEditor'),
+    roles: [ROLE_ADMIN, ROLE_USER],
+  },
+  {
+    layout: LAYOUT_APP,
+    exact: true,
     name: 'Настройки документа',
     path: '/document-settings/:id',
     order: 0,

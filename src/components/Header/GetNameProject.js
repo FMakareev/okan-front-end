@@ -8,13 +8,21 @@ import ProjectItemQuery from '../../modules/project/view/projectEditor/ProjectIt
 export class GetNameProject extends Component {
   state = { name: '' };
 
-  getProject = projectid => {
+  getIdProject(str) {
+    const beginString = '/app/project/';
+    // const str = this.props.location.pathname;
+    // console.log(100, str);
+
+    if (str.indexOf(beginString) === 0) {
+      let result = str.indexOf('/', 5) + 1;
+      const id = str.slice(result);
+      return this.getProject(id);
+    }
+  }
+
+  getProject = idProject => {
     this.props.client
-      .query({
-        query: ProjectItemQuery,
-        // fetchPolicy: 'network-only',
-        variables: { id: projectid },
-      })
+      .query({ query: ProjectItemQuery, variables: { id: idProject } }) // fetchPolicy: 'network-only',
       .then(({ data }) => {
         const projectName = data && data.projectitem.name;
 
@@ -28,19 +36,14 @@ export class GetNameProject extends Component {
   };
 
   componentDidMount() {
-    const beginString = '/app/project/';
-    const str = this.props.location.pathname;
-
-    if (str.indexOf(beginString) === 0) {
-      let result = str.indexOf('/', 5) + 1;
-      const projectid = str.slice(result);
-      return this.getProject(projectid);
+    {
+      this.getIdProject(this.props.location.pathname);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps !== this.props.name) {
-      this.getProject(nextProps);
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      this.getIdProject(nextProps.location.pathname);
     }
   }
 
