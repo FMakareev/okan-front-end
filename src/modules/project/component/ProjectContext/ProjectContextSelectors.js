@@ -13,3 +13,17 @@ export const getPosition = (object, key) => {
     return null
   }
 };
+
+export const getProject = (object, key) => {
+  try {
+    if (key && has.call(object, 'project')) {
+      if (has.call(object.project, key)) {
+        return object.project[key];
+      }
+    }
+    return null
+  } catch (error) {
+    console.error(error);
+    return null
+  }
+};
