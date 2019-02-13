@@ -23,6 +23,9 @@ import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { error, success } from 'react-notification-system-redux';
 
+/** Global */
+import {BLOCK_IMAGE, BLOCK_TEXT, BLOCK_TABLE} from '../../../../shared/blockType';
+
 const notificationOpts = () => ({
   success: {
     title: 'Раздел сохранен',
@@ -212,65 +215,94 @@ export class EditorCellController extends Component {
     // console.log('1: ', this.props);
     // console.log('EditorCellController: ', editable);
     return (
-      <Flex
-        pl={'10px'}
-        mt={12} // onMouseOver={()=>this.onHover()}
-        // // draggable={this.state.draggable}
-        // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
-        // draggable="true"
-        // draggable
-        // onDrag={(event)=>this.onDragBlock(event)}
-        // ondragstart={(event)=>this.onDragBlock(event)}
-        alignItems="flex-start">
-        {(!editable || data.content.contenttype === 'text') && (
-          <Text
-            width={'100px'}
-            fontFamily={'secondary'}
-            lineHeight={'22px'}
-            fontSize={6}
-            color={'color4'}
-            mt={'2px'}
-            ml={'10px'}>
-            {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
-          </Text>
-        )}
-        {editable && data.content.contenttype !== 'text' && (
-          <EditorTypeIcon type={data.content.contenttype} />
-        )}
-        <Box width={'calc(100% - 120px)'}>
-          {!editable && (
+      <Box
+        ml={(data.content.contenttype !== BLOCK_TEXT && !editable)? 19 : null}
+        mt={12}
+      >
+        <Text
+          Weight={500}
+          fontSize={6}
+          color={'color11'}
+          ml={'10px'}
+        >
+          {
+            !editable && data.content.contenttype === BLOCK_TABLE ?
+            data.content.number + '. ' + data.content.name :
+            null
+          }
+        </Text>
+        <Flex
+          pl={'10px'}
+          // onMouseOver={()=>this.onHover()}
+          // // draggable={this.state.draggable}
+          // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
+          // draggable="true"
+          // draggable
+          // onDrag={(event)=>this.onDragBlock(event)}
+          // ondragstart={(event)=>this.onDragBlock(event)}
+          alignItems="flex-start">
+          {(data.content.contenttype === BLOCK_TEXT) && (
             <Text
-              className={'editor-cell_content'}
-              onClick={this.openEditor}
-              fontSize={5}
-              lineHeight={6}
-              color={'color11'}
-              fontFamily={'primary300'}>
-              {data.content && ReactHTMLParser(data.content.content)}
-              {data.content &&
-                !data.content.content &&
-                'Нажмите чтобы начать редактирование раздела.'}
+              width={'100px'}
+              fontFamily={'secondary'}
+              lineHeight={'22px'}
+              fontSize={6}
+              color={'color4'}
+              mt={'2px'}
+              ml={'10px'}>
+              {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
             </Text>
           )}
-          {editable && (
-            <EditorCellForm
-              form={'EditorCellForm-' + data.id}
-              initialValues={{
-                id: data.id,
-                content: data.content.content,
-                contenttype: data.content.contenttype,
-              }}
-              id={data.id}
-              data={data}
-              onBlurForm={() => this.onBlurForm()}
-            />
+          {editable && data.content.contenttype !== BLOCK_TEXT && (
+            <EditorTypeIcon type={data.content.contenttype} />
           )}
-        </Box>
-        <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
-        <Box width={'20px'}>
-          <EditorCellCommentController {...this.props.project} {...data} />
-        </Box>
-      </Flex>
+          <Box width={'calc(100% - 120px)'}>
+            {!editable && (
+              <Text
+                className={'editor-cell_content'}
+                onClick={this.openEditor}
+                fontSize={5}
+                lineHeight={6}
+                color={'color11'}
+                fontFamily={'primary300'}>
+                {data.content && ReactHTMLParser(data.content.content)}
+                {data.content &&
+                  !data.content.content &&
+                  'Нажмите чтобы начать редактирование раздела.'}
+              </Text>
+            )}
+            {editable && (
+              <EditorCellForm
+                form={'EditorCellForm-' + data.id}
+                initialValues={{
+                  id: data.id,
+                  content: data.content.content,
+                  contenttype: data.content.contenttype,
+                }}
+                id={data.id}
+                data={data}
+                onBlurForm={() => this.onBlurForm()}
+              />
+            )}
+          </Box>
+          <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
+          <Box width={'20px'}>
+            <EditorCellCommentController {...this.props.project} {...data} />
+          </Box>
+        </Flex>
+        <Text
+          Weight={500}
+          fontSize={6}
+          color={'color11'}
+          textAlign={'center'}
+        >
+          {
+            !editable && data.content.contenttype == BLOCK_IMAGE ?
+            data.content.number + '. ' + data.content.name :
+            null
+          }
+        </Text>
+      </Box>
     );
   }
 }
