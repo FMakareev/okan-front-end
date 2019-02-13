@@ -17,12 +17,12 @@ import CreateDocumentQuery from './CreateDocumentQuery.graphql';
 
 const notificationOpts = () => ({
   success: {
-    title: 'Раздел создан',
+    title: 'Документ создан',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'Раздел не создан',
+    title: 'Документ не создан',
     position: 'tr',
     autoDismiss: 2,
   },
