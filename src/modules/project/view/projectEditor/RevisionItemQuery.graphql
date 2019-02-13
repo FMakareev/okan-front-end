@@ -1,0 +1,46 @@
+query ($id: String!) {
+  revisionItem(id: $id) {
+    approvalstatus
+    authorrevision {
+      id
+      email
+      firstname
+      role {
+        name
+      }
+    }
+    children {
+      id
+      name
+      isHead
+      content {
+        id
+        contenttype
+        number
+      }
+      nextcell {
+        id
+        name
+      }
+      prevcell {
+        id
+        name
+      }
+      parent {
+        id
+        name
+      }
+      children{
+        id
+        name
+        isHead
+      }
+    }
+    name
+    partners {
+      id
+      firstname
+      lastname
+    }
+  }
+}

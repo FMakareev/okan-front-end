@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { Query, compose, graphql, withApollo } from 'react-apollo';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+
+/** css style */
 import '../../../../assets/style/editor-cell_content.css';
+
+/** Graphql schema */
 import ProjectItemQuery from './ProjectItemQuery.graphql';
+import RevisionItemQuery from './RevisionItemQuery.graphql';
+
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
-import { Flex } from '@lib/ui/Flex/Flex';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
-
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
@@ -82,6 +87,7 @@ export class ProjectEditorPage extends Component {
     const {
       match: { params },
     } = this.props;
+    // console.log(1, this.props);
 
     return (
       <Query query={ProjectItemQuery} variables={{ id: params.projectid }}>
@@ -133,6 +139,28 @@ export class ProjectEditorPage extends Component {
 const mapStateToProps = state => {
   return state.blocksBinding;
 };
+
+// ProjectEditorPage = compose(
+//   graphql(RevisionItemQuery, {
+//     options: props => {
+//       return {
+//         variables: {
+//           id: '5c6413aa9adb491dad810c0a',
+//         },
+//       };
+//     },
+//   }),
+//   graphql(ProjectItemQuery, {
+//     options: props => {
+//       return {
+//         variables: {
+//           id: props.match.params.id,
+//         },
+//       };
+//     },
+//   }),
+//   withApollo,
+// )(ProjectEditorPage);
 
 export default connect(
   mapStateToProps,
