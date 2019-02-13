@@ -38,7 +38,6 @@ export class Header extends Component {
     super(props);
     this.state = this.initialState;
 
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
@@ -59,12 +58,6 @@ export class Header extends Component {
     return { isOpen: false };
   }
 
-  handleMouseEnter() {
-    this.setState(({ isOpen }) => {
-      return { isOpen: true };
-    });
-  }
-
   handleMouseOut() {
     this.setState(({ isOpen }) => {
       return { isOpen: false };
@@ -73,15 +66,18 @@ export class Header extends Component {
 
   componentDidMount() {
     this.nv.addEventListener('click', this.handleClick);
-    window.addEventListener('mousedown', this.handleWindow);
+
+    window.addEventListener('click', this.handleWindow);
   }
 
   componentWillUnmount() {
     this.nv.removeEventListener('click', this.handleClick);
-    window.removeEventListener('mousedown', this.handleWindow);
+
+    window.removeEventListener('click', this.handleWindow);
   }
 
   handleClick = event => {
+    event.stopPropagation();
     this.setState(({ isOpen }) => {
       return { isOpen: true };
     });
@@ -114,9 +110,7 @@ export class Header extends Component {
             variant={'empty'}
             position={'relative'}
             id={'click'}
-            ref={
-              elem => (this.nv = elem) // onClick={this.handleMouseEnter}
-            }>
+            ref={elem => (this.nv = elem)}>
             <ProfileLogo />
             {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
