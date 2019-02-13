@@ -12,7 +12,7 @@ import { BLOCK_TABLE, BLOCK_IMAGE } from '../../shared/blockType';
 
 export const EditorTypeIcon = ({type}) => {
   return (
-    <Box mr={7}>
+    <Box mr={6} ml={2}>
       {type == BLOCK_IMAGE && (
         <img src={pictureIcon} width={'40px'}/>
       )}

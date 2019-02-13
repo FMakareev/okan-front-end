@@ -216,7 +216,7 @@ export class EditorCellController extends Component {
     // console.log('EditorCellController: ', editable);
     return (
       <Box
-        ml={(data.content.contenttype != BLOCK_TEXT && !editable)? 19 : null}
+        pl={(data.content.contenttype != BLOCK_TEXT && !editable)? 18 : null}
         mt={12} 
       >
         <Text
@@ -258,7 +258,7 @@ export class EditorCellController extends Component {
           {editable && data.content.contenttype != BLOCK_TEXT && (
             <EditorTypeIcon type={data.content.contenttype} />
           )}
-          <Box width={'calc(100% - 80px)'}>
+          <Box width={'100%'}>
             {!editable && (
               <Text
                 className={'editor-cell_content'}
