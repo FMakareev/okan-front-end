@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
-import { success, error } from 'react-notification-system-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {graphql, compose} from 'react-apollo';
+import {success, error} from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -16,21 +16,21 @@ import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
 import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatus';
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from '../NodeToggle/NodeToggle';
-import { SidebarCellNodeEditable } from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {SidebarCellNodeEditable} from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
+import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
 import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
 
 /** Redux action to remove BlockId from store */
-import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
+import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({ active }) => (active ? 'background-color: #bdbdbd52;' : '')}
+  ${({active}) => (active ? 'background-color: #bdbdbd52;' : '')}
   /* ${props => console.log(props)} */
 
   &:hover {
@@ -122,19 +122,19 @@ export class SidebarCellNode extends Component {
   }
 
   handleChange = evt => {
-    this.setState({ name: evt.target.value });
+    this.setState({name: evt.target.value});
   };
 
   /**
    * @desc метод для активации режима редактирования раздела
    * */
   onToggleEditable = () => {
-    const { changeNodeFocus, node } = this.props;
+    const {changeNodeFocus, node} = this.props;
     if (node.focused) {
       this.contentEditable.current.focus();
     }
     changeNodeFocus(node.id, !node.focused);
-    this.setState(() => ({ focused: !node.focused, prevName: node.name }));
+    this.setState(() => ({focused: !node.focused, prevName: node.name}));
   };
 
   /**
@@ -162,19 +162,24 @@ export class SidebarCellNode extends Component {
   };
 
   /**
-   * @param {object} document
+   * @param {string} projectid
+   * @param {string} documentid
    * @param {object} node
    * @param {object} history
    * @desc метод для перехода к опредленной категории в роутере
    * */
-  static gotToCategory = (document, node, history) => {
+  static gotToCategory = (projectid, documentid, node, history) => {
     try {
       if (!history) {
         console.error(`Error: goToCategory history is undefined: `, history);
         return null;
       }
-      if (!document) {
-        console.error(`Error: goToCategory document is undefined: `, document);
+      if (!projectid) {
+        console.error(`Error: goToCategory projectid is undefined: `, projectid);
+        return null;
+      }
+      if (!documentid) {
+        console.error(`Error: goToCategory documentid is undefined: `, documentid);
         return null;
       }
       if (!node) {
@@ -182,7 +187,7 @@ export class SidebarCellNode extends Component {
         return null;
       }
       history.push(
-        `/app/project/${document.project}/${document.id}/${node.id}?sectionNumber=${node.number}`,
+        `/app/project/${projectid}/${documentid}/${node.id}?sectionNumber=${node.number}`,
       );
     } catch (error) {
       console.error('Error in gotToCategory: ', error);
@@ -191,7 +196,7 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const { onClick, node, history, document, bindingBlockId } = this.props;
+      const {onClick, node, history, document, bindingBlockId} = this.props;
 
       const isHead = SidebarCellNode.childcellIsCategory(node);
 
@@ -201,7 +206,8 @@ export class SidebarCellNode extends Component {
         if (bindingBlockId) {
           this.createBindingBlockCopy(node.id, node.lastChildren);
         } else {
-          SidebarCellNode.gotToCategory(document, node, history);
+
+          SidebarCellNode.gotToCategory(document.project, document.id, node, history);
           this.props.changeActiveNode(
             node ? node.id : null,
             getPosition(this.props.project, 'sectionid'),
@@ -221,6 +227,7 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren) => {
+    // TODO: косяк с уведомлениями
     this.props
       .createCopy({
         variables: {
@@ -233,11 +240,11 @@ export class SidebarCellNode extends Component {
       .then(({data}) => {
         // console.log('got data', data);
         this.bindBlock(data.createcell.cell.id, this.props.bindingBlockId);
-        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
+        this.props.setNotificationSuccess(createCellNotification(blockType, 'success'));
 
       })
       .catch((error) => {
-        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
+        this.props.setNotificationSuccess(createCellNotification(blockType, 'error'));
         console.log('there was an error sending the query', error);
       });
   };
@@ -253,7 +260,7 @@ export class SidebarCellNode extends Component {
           parent: parent,
         },
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
         this.props.removeBlock();
@@ -265,11 +272,12 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { node, onClick,setNotificationSuccess,
-      setNotificationError } = this.props;
-    const { hover, name,prevName } = this.state;
+    const {
+      node, onClick, setNotificationSuccess,
+      setNotificationError
+    } = this.props;
+    const {hover, name, prevName} = this.state;
     const isHead = SidebarCellNode.childcellIsCategory(node);
-
     return (
       <Wrapper
         active={node.active}
@@ -281,7 +289,7 @@ export class SidebarCellNode extends Component {
         justifyContent={'flex-start'}
         alignItems={'flex-start'}>
         <Flex width={'calc(100% - 72px)'} ml={'10px'}>
-          {isHead && <NodeToggle toggled={node.toggled} />}
+          {isHead && <NodeToggle toggled={node.toggled}/>}
           <Flex
             fontWeight={isHead ? 500 : 300}
             ml={isHead ? '' : '20px'}
@@ -296,9 +304,9 @@ export class SidebarCellNode extends Component {
                 onToggle={this.onToggleEditable}
                 setNotificationSuccess={setNotificationSuccess}
                 setNotificationError={setNotificationError}
-                onError={()=>{
+                onError={() => {
                   console.log('onError:');
-                  this.setState(()=>this.initialState)
+                  this.setState(() => this.initialState)
                 }}
                 ref={this.contentEditable}
                 html={name}
@@ -311,7 +319,7 @@ export class SidebarCellNode extends Component {
         </Flex>
         <Flex mr={'10px'}>
           <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarChangeCell onClick={this.onToggleEditable} />
+            <SidebarChangeCell onClick={this.onToggleEditable}/>
           </Box>
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
