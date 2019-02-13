@@ -39,6 +39,28 @@ mutation ($id: String!, $content: String){
                 }
                 updatedate: updatedate
             }
+            pull {
+                id
+                nextcell {
+                    name
+                    id
+                }
+                prevcell {
+                    name
+                    id
+                }
+                parent {
+                    name
+                    id
+                }
+                content {
+                    id
+                    name
+                    content
+                    contenttype
+                    number
+                }
+            }
         }
     }
 }
