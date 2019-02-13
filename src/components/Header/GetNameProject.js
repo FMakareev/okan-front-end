@@ -10,19 +10,11 @@ export class GetNameProject extends Component {
 
   getIdProject(str) {
     const beginString = '/app/project/';
-    // const str = this.props.location.pathname;
-    // console.log(100, str);
 
     if (str.indexOf(beginString) === 0) {
       let firstSlach = str.indexOf('/', 5) + 1;
       let secondSlach = str.indexOf('/', firstSlach);
-
-      console.log(111, secondSlach);
-
       const id = secondSlach !== -1 ? str.slice(firstSlach, secondSlach) : str.slice(firstSlach);
-      console.log(22, id);
-
-      // const id = str.slice(firstSlach, secondSlach);
       return this.getProject(id);
     }
   }
