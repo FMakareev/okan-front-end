@@ -220,14 +220,16 @@ export class EditorCellController extends Component {
         mt={12} 
       >
         <Text
-          Weight={500}
+          fontWeight={'bold'}
           fontSize={6}
           color={'color11'}
           ml={'10px'}
         >
           {
             !editable && data.content.contenttype == BLOCK_TABLE ? 
-            data.content.number + '. ' + data.content.name : 
+            (
+              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+            ): 
             null
           }
         </Text>
@@ -292,14 +294,16 @@ export class EditorCellController extends Component {
           </Box>
         </Flex>
         <Text
-          Weight={500}
+          fontWeight={'bold'}
           fontSize={6}
           color={'color11'}
           textAlign={'center'}
         >
           {
             !editable && data.content.contenttype == BLOCK_IMAGE ? 
-            data.content.number + '. ' + data.content.name : 
+            (
+              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+            ): 
             null
           }
         </Text>
