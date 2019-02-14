@@ -40,6 +40,7 @@ mutation($nextcell: String, $prevcell: String,$parent: String,$isHead: Boolean, 
       }
       lastChildren {
         id
+        name
       }
       pull {
         id
@@ -63,7 +64,7 @@ mutation($nextcell: String, $prevcell: String,$parent: String,$isHead: Boolean, 
           number
         }
       }
-      
+
       verify
     }
   }

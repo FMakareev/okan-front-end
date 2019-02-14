@@ -12,6 +12,10 @@ mutation($id: String!,$children:String){
         id
         name
         isHead
+        lastChildren {
+          id
+          name
+        }
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus

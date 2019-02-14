@@ -43,6 +43,7 @@ query ($id: String!) {
     verify
     lastChildren {
       id
+      name
     }
     pull {
       id
