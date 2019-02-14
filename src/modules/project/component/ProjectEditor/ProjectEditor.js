@@ -18,6 +18,7 @@ import { Text } from '@lib/ui/Text/Text';
 import CellListQuery from './CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import { sortingCells } from '../../utils/sortingCells';
+import {BLOCK_TEXT} from "@lib/shared/blockType";
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -39,7 +40,7 @@ export class ProjectEditor extends Component {
   state = {
     childName: '',
     parentName: '',
-    number: null,
+    parentNumber: null,
   };
 
   componentWillUnmount() {
@@ -75,7 +76,7 @@ export class ProjectEditor extends Component {
         return this.setState(state => ({
           ...state,
           childName: name,
-          number: numbers && numbers.sectionNumber,
+          parentNumber: numbers && numbers.sectionNumber,
         }));
       });
 
@@ -139,7 +140,7 @@ export class ProjectEditor extends Component {
       location: { search },
     } = this.props;
 
-    const { childName, parentName, number } = this.state;
+    const { childName, parentName, parentNumber } = this.state;
 
     if (!sectionid) {
       return (
@@ -163,8 +164,8 @@ export class ProjectEditor extends Component {
             }
 
             if (data && data.celllist) {
-              const section = number ? number.slice(0, -2) : '';
-
+              const section = parentNumber ? parentNumber.slice(0, -2) : '';
+              let childCellIndex = 0;
               return (
                 <Fragment>
                   <Text
@@ -176,8 +177,8 @@ export class ProjectEditor extends Component {
                     mt={'15px'}
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
-                    {number && number.length === 2 ? (
-                      <Fragment>{`${number} ${childName || ''}`}</Fragment>
+                    {parentNumber && parentNumber.length === 2 ? (
+                      <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
                     ) : (
                       <Fragment>{`${section} ${parentName || ''}`}</Fragment>
                     )}
@@ -192,12 +193,15 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number && number.length <= 2 ? null : (
-                        <Fragment>{`${number} ${childName || ''}`}</Fragment>
+                      {parentNumber && parentNumber.length <= 2 ? null : (
+                        <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
                       )}
                     </Text>
 
                     {sortingCells(data.celllist).map((item, index) => {
+                      if(item.content && item.content.contenttype === BLOCK_TEXT){
+                        childCellIndex +=1
+                      }
                       return (
                         <Box
                           position={'relative'}
@@ -207,9 +211,9 @@ export class ProjectEditor extends Component {
                             key={`EditorCellControllerWithProject-${index}`}
                             data={item}
                             editable={
-                              item.content.number === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
+                              item.content.parentNumber === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${number}${index + 1}`}
+                            sectionNumber={`${parentNumber}${childCellIndex}`}
                           />
                         </Box>
                       );
