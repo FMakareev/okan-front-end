@@ -53,6 +53,20 @@ export class EditorCellDelete extends Component {
               parent: this.props.sectionid
             }
           });
+    deleteCell = () => {
+        return this.props
+        .mutate({
+            variables: {
+                id: this.props.id
+            },
+            update: (store, {data: {deletecell}}) => {
+
+                let data = store.readQuery({
+                  query: CellListQuery,
+                  variables: {
+                    parent: this.props.sectionid
+                  }
+                });
 
           /** сортирую список ячеек по указателям, бекенд присылает этот список в разнобой */
           data.celllist = sortingCells(data.celllist);
@@ -114,13 +128,33 @@ export class EditorCellDelete extends Component {
             data.celllist.splice(cellIndex, 1);
           }
 
-          store.writeQuery({
-            query: CellListQuery,
-            variables: {
-              parent: this.props.sectionid
-            },
-            data
-          })
+              store.writeQuery({
+                query: CellListQuery,
+                variables: {
+                  parent: this.props.sectionid
+                },
+                data
+              })
+              console.log(this.props.sectionid)
+              data = store.readQuery({
+                query: CellItemQuery,
+                variables: {
+                  id: this.props.sectionid
+                }
+              });
+              console.log(deletecell.cell.id)
+              data.cellitem.lastChildren && data.cellitem.lastChildren.id == deletecell.cell.id ?
+                data.cellitem.lastChildren = null :
+                null
+              console.log(data.cellitem.lastChildren)
+
+              store.writeQuery({
+                query: CellItemQuery,
+                variables: {
+                  id: this.props.sectionid
+                },
+                data: data
+              })
         }
       })
       .then(response => {

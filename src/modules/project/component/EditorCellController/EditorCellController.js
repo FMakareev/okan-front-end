@@ -155,21 +155,17 @@ export class EditorCellController extends Component {
   onBlurForm = (e) => {
     var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
-    setTimeout(function () {
+    setTimeout(function() {
       if (!currentTarget.contains(document.activeElement)) {
-        this.startSave();
+          this.startSave();
       }
     }.bind(this), 0);
   };
 
   startSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     this.stopAutoSave();
-    if (
-      values &&
-      (values.content && values.content !== data.content.content ||
-        values.name && values.name !== data.content.name)
-    ) {
+    if (values && (values.content || values.name)) {
       this.saveCellContent()
         .then(response => {
           this.props.setNotificationSuccess(notificationOpts().success);
