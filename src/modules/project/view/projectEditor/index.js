@@ -74,7 +74,6 @@ export class ProjectEditorPage extends Component {
     const {
       match: { params },
     } = this.props;
-    console.log(11, this.props);
 
     return (
       <Query query={ProjectItemQuery} variables={{ id: params.projectid }}>
