@@ -35,6 +35,8 @@ export class EditorCellForm extends Component {
   //     //   console.log(error)
   //     // }
     },
+    quickInsertButtons: [],
+    quickInsertTags: []
   };
 
   static propTypes = {

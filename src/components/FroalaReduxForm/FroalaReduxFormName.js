@@ -8,7 +8,7 @@ import 'froala-editor/js/froala_editor.pkgd.min.js';
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
-import '../../assets/style/froala-theme.css';
+import '../../assets/style/froalaname-theme.css';
 
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
@@ -37,8 +37,8 @@ export class FroalaReduxFormName extends Component {
   componentWillMount() {
     
     let EditorConfig = {
-      placeholderText: 'Введите текст',
-      theme: 'froala',
+      placeholderText: 'Введите название блока',
+      theme: 'froalaname',
       charCounterCount: false,
       toolbarButtons: [],
       autofocus: false,
