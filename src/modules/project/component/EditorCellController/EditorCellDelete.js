@@ -13,6 +13,7 @@ import DeleteCellMutation from '../EditorCellController/DeleteCellMutation.graph
 
 /** Celllist query */
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Redux */
 import { connect } from 'react-redux';
@@ -45,7 +46,7 @@ export class EditorCellDelete extends Component {
             },
             update: (store, {data: {deletecell}}) => {
 
-                const data = store.readQuery({
+                let data = store.readQuery({
                   query: CellListQuery,
                   variables: {
                     parent: this.props.sectionid
@@ -99,6 +100,27 @@ export class EditorCellDelete extends Component {
                   },
                   data
                 })
+                console.log(this.props.sectionid)
+                data = store.readQuery({
+                    query: CellItemQuery,
+                    variables: {
+                      id: this.props.sectionid
+                    }
+                });
+                console.log(deletecell.cell.id)
+                data.cellitem.lastChildren && data.cellitem.lastChildren.id == deletecell.cell.id ? 
+                data.cellitem.lastChildren = null : 
+                null
+                console.log(data.cellitem.lastChildren)
+                
+                store.writeQuery({
+                    query: CellItemQuery,
+                    variables: {
+                      id: this.props.sectionid
+                    },
+                    data: data
+                })
+
             }
         })
         .then(response => {

@@ -139,7 +139,7 @@ export class EditorCellController extends Component {
         },
       })
       .then(response => {
-        // console.log('got data', response);
+        console.log('updated data', response);
         return response;
       })
       .catch(error => {
@@ -164,11 +164,7 @@ export class EditorCellController extends Component {
   startSave = () => {
     const { values, data } = this.props;
     this.stopAutoSave();
-    if (
-      values && 
-      (values.content && values.content !== data.content.content || 
-      values.name && values.name !== data.content.name)
-    ) {
+    if (values && (values.content || values.name)) {
       this.saveCellContent()
         .then(response => {
           this.props.setNotificationSuccess(notificationOpts().success);

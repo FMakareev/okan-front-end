@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { success, error } from 'react-notification-system-redux';
 
 /** View */
@@ -236,7 +236,15 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
-    console.log(this.props.cellToCopy)
+ 
+    var newNode = this.props.client.readQuery({
+      query: CellItemQuery,
+      variables: {
+        id: this.props.node.id
+      }
+    });
+    lastChildren = newNode.cellitem.lastChildren;
+    console.log(lastChildren)
     this.props
       .createCopy({
         variables: {
@@ -410,6 +418,8 @@ export class SidebarCellNode extends Component {
 }
 
 SidebarCellNode = withRouter(SidebarCellNode);
+
+SidebarCellNode = withApollo(SidebarCellNode)
 
 const mapStateToProps = state => {
   return state.blocksBinding;
