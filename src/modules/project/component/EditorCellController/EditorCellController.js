@@ -24,7 +24,8 @@ import {getFormValues} from 'redux-form';
 import {error, success} from 'react-notification-system-redux';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TEXT, BLOCK_TABLE} from '../../../../shared/blockType';
+import {BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType';
+import {EditorCellTitle} from "../EditorCellTitle/EditorCellTitle";
 
 const notificationOpts = () => ({
   success: {
@@ -154,20 +155,20 @@ export class EditorCellController extends Component {
   onBlurForm = (e) => {
     var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
-    setTimeout(function() {
+    setTimeout(function () {
       if (!currentTarget.contains(document.activeElement)) {
-          this.startSave();
+        this.startSave();
       }
     }.bind(this), 0);
   };
 
   startSave = () => {
-    const { values, data } = this.props;
+    const {values, data} = this.props;
     this.stopAutoSave();
     if (
       values &&
       (values.content && values.content !== data.content.content ||
-      values.name && values.name !== data.content.name)
+        values.name && values.name !== data.content.name)
     ) {
       this.saveCellContent()
         .then(response => {
@@ -219,15 +220,13 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const { editable } = this.state;
+    const {editable} = this.state;
     const {
       data,
-      location: { search },
+      location: {search},
       sectionNumber,
       project,
     } = this.props;
-
-    let parsedName = ReactHTMLParser(data.content.name);
 
     return (
       <Box
@@ -256,20 +255,7 @@ export class EditorCellController extends Component {
           <Box width={'calc(100%)'}>
 
             {/** заголовок таблицы */}
-            <Text
-              fontWeight={'bold'}
-              fontSize={6}
-              color={'color11'}
-              ml={'10px'}
-            >
-              {
-                !editable && data.content.contenttype === BLOCK_TABLE ?
-                  (
-                    data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
-                  ) :
-                  null
-              }
-            </Text>
+            <EditorCellTitle content={data.content} editable={editable}/>
 
             {/** текстовый контент */}
             {!editable && (
@@ -307,25 +293,18 @@ export class EditorCellController extends Component {
             )}
 
             {/** заголовок картинки */}
-            <Text
-              fontWeight={'bold'}
-              fontSize={6}
-              color={'color11'}
-              textAlign={'center'}
-            >
-              {
-                !editable && data.content.contenttype === BLOCK_IMAGE ?
-                  (
-                    data.content.name ? data.content.number + '. ' + parsedName[0].props.children[0] : data.content.number + '. '
-                  ) :
-                  null
-              }
-            </Text>
+            <EditorCellTitle content={data.content} editable={editable}/>
+
+
           </Box>
-          <Box width={'60px'}>
-            <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
-            <EditorCellCommentController {...this.props.project} {...data} />
-          </Box>
+          <Flex width={'60px'}>
+            <Box mx={2}>
+              <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+            </Box>
+            <Box mx={2}>
+              <EditorCellCommentController {...this.props.project} {...data} />
+            </Box>
+          </Flex>
         </Flex>
       </Box>
     );
