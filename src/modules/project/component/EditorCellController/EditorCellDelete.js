@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {graphql} from 'react-apollo';
 
 /** View */
-import Box from '../../../../components/Box/Box';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /** Images */
@@ -17,21 +16,21 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import {sortingCells} from "../../utils/sortingCells";
 
 /** Redux */
-import { connect } from 'react-redux';
-import { error, success } from 'react-notification-system-redux';
+import {connect} from 'react-redux';
+import {error, success} from 'react-notification-system-redux';
 
 const notificationOpts = () => ({
-    success: {
-      title: 'Блок удален',
-      position: 'tr',
-      autoDismiss: 2,
-    },
-    error: {
-      title: 'Не удалось удалить блок',
-      position: 'tr',
-      autoDismiss: 2,
-    },
-  });
+  success: {
+    title: 'Блок удален',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Не удалось удалить блок',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 
 export class EditorCellDelete extends Component {
@@ -46,27 +45,13 @@ export class EditorCellDelete extends Component {
           id: this.props.id
         },
         update: (store, {data: {deletecell}}) => {
-          console.log(deletecell);
-          const data = store.readQuery({
+
+          let data = store.readQuery({
             query: CellListQuery,
             variables: {
               parent: this.props.sectionid
             }
           });
-    deleteCell = () => {
-        return this.props
-        .mutate({
-            variables: {
-                id: this.props.id
-            },
-            update: (store, {data: {deletecell}}) => {
-
-                let data = store.readQuery({
-                  query: CellListQuery,
-                  variables: {
-                    parent: this.props.sectionid
-                  }
-                });
 
           /** сортирую список ячеек по указателям, бекенд присылает этот список в разнобой */
           data.celllist = sortingCells(data.celllist);
@@ -84,10 +69,10 @@ export class EditorCellDelete extends Component {
 
           /** если удаляемая ячейка является первой в списке */
           if (deletecell.cell.prevcell.id === deletecell.cell.parent.id) {
-             /** вот эта секция нужна для того чтобы у родительской ячейки изменить указатель на дочку
-              * и с помощью этого изменения оповестить навигацию и обновить у родительской ячейки в навигации поле childcell
-              * это нужно для того чтобы если после удаления первой ячейки в списке детей пользователь решит добавить подраздел в парента
-              * мы имели актуальную информацию о новой дочерней ячейке */
+            /** вот эта секция нужна для того чтобы у родительской ячейки изменить указатель на дочку
+             * и с помощью этого изменения оповестить навигацию и обновить у родительской ячейки в навигации поле childcell
+             * это нужно для того чтобы если после удаления первой ячейки в списке детей пользователь решит добавить подраздел в парента
+             * мы имели актуальную информацию о новой дочерней ячейке */
             let options = {
               query: CellItemQuery,
               variables: {
@@ -128,33 +113,33 @@ export class EditorCellDelete extends Component {
             data.celllist.splice(cellIndex, 1);
           }
 
-              store.writeQuery({
-                query: CellListQuery,
-                variables: {
-                  parent: this.props.sectionid
-                },
-                data
-              })
-              console.log(this.props.sectionid)
-              data = store.readQuery({
-                query: CellItemQuery,
-                variables: {
-                  id: this.props.sectionid
-                }
-              });
-              console.log(deletecell.cell.id)
-              data.cellitem.lastChildren && data.cellitem.lastChildren.id == deletecell.cell.id ?
-                data.cellitem.lastChildren = null :
-                null
-              console.log(data.cellitem.lastChildren)
+          store.writeQuery({
+            query: CellListQuery,
+            variables: {
+              parent: this.props.sectionid
+            },
+            data
+          })
+          console.log(this.props.sectionid)
+          data = store.readQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.sectionid
+            }
+          });
+          console.log(deletecell.cell.id)
+          data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id ?
+            data.cellitem.lastChildren = null :
+            null
+          console.log(data.cellitem.lastChildren)
 
-              store.writeQuery({
-                query: CellItemQuery,
-                variables: {
-                  id: this.props.sectionid
-                },
-                data: data
-              })
+          store.writeQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.sectionid
+            },
+            data: data
+          })
         }
       })
       .then(response => {
@@ -185,11 +170,11 @@ export class EditorCellDelete extends Component {
 EditorCellDelete = graphql(DeleteCellMutation)(EditorCellDelete);
 
 EditorCellDelete = connect(
-    null,
-    dispatch => ({
-      setNotificationSuccess: message => dispatch(success(message)),
-      setNotificationError: message => dispatch(error(message)),
-    }),
-  )(EditorCellDelete);
+  null,
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(EditorCellDelete);
 
 export default EditorCellDelete
