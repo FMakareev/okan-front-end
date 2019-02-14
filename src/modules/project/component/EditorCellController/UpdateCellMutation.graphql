@@ -1,5 +1,5 @@
-mutation ($id: String!, $content: String){
-    updatecell(id: $id, content: $content) {
+mutation ($id: String!, $content: String, $contentname: String){
+    updatecell(id: $id, content: $content, contentname: $contentname) {
         cell {
             id
             name

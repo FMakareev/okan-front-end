@@ -10,10 +10,14 @@ import Notifications, { success, error } from 'react-notification-system-redux';
 import Message from '../Message/Message';
 
 import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
+import { FroalaReduxFormName } from '@lib/ui/FroalaReduxForm/FroalaReduxFormName';
 
 /** Graphql */
 import { graphql } from 'react-apollo';
 import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+
+// Require block types
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
 
 const Wrapper = styled.div`
   ${space};
@@ -117,11 +121,19 @@ export class RichTextEditor extends Component {
 
     return (
       <Wrapper className={className}>
-        <FroalaReduxForm
-          {...this.props}
+        {this.props.contenttype == BLOCK_NAME ? 
+          (
+            <FroalaReduxFormName
+              {...this.props}
+            />
+          ) : (
+            <FroalaReduxForm
+              {...this.props}
 
-          handleButtonClick={(action) => {this.getButtonClick(action)}}
-        />
+              handleButtonClick={(action) => {this.getButtonClick(action)}}            
+            />
+          )
+        }
         <Message meta={meta} />
       </Wrapper>
     );

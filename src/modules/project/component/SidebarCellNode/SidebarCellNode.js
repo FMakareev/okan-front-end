@@ -240,7 +240,7 @@ export class SidebarCellNode extends Component {
     this.props
       .createCopy({
         variables: {
-          name: this.props.cellToCopy.content.name,
+          contentname: this.props.cellToCopy.content.name,
           content: this.props.cellToCopy.content.content,
           contenttype: this.props.cellToCopy.content.contenttype,
           prevcell: lastChildren ? lastChildren.id : parentCellId,

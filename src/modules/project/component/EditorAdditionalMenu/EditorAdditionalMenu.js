@@ -206,7 +206,7 @@ export class EditorAdditionalMenu extends Component {
     let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
       variables: {
-        name: '',
+        contentname: '',
         prevcell: prevcell,
         parent: this.props.sectionid,
         isHead: false,

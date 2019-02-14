@@ -7,6 +7,9 @@ import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
+/** Content Types */
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../../../shared/blockType';
+
 export class EditorCellForm extends Component {
   state = {};
 
@@ -15,9 +18,7 @@ export class EditorCellForm extends Component {
     // imageUploadMethod: 'POST',
     events: {
       'froalaEditor.blur': (e, editor) => {
-        // console.log('froalaEditor.blur: ', e, editor);
-
-        this.props.onBlurForm();
+        this.props.onBlurForm(e);
       },
       'froalaEditor.focus': (e, editor) => {
         // console.log('froalaEditor.focus: ', e, editor);
@@ -61,14 +62,41 @@ export class EditorCellForm extends Component {
 
     return (
       <Form>
+        {data.content.contenttype == BLOCK_TABLE ? 
+          (
+            <Field
+              name={'name'}
+              component={RichTextEditor}
+              id={id}
+              data={data}
+              contenttype={BLOCK_NAME}
+              config={this.froalaConfig}
+            />
+          ) : null
+        }
         <Field
           name={'content'}
           component={RichTextEditor}
           id={id}
           data={data}
+          contenttype={data.content.contenttype}
           config={this.froalaConfig}
           instantSave={()=>this.props.instantSave()}
+          // onBlurForm={() => this.props.onBlurForm('content')}
+          
         />
+        {data.content.contenttype == BLOCK_IMAGE ? 
+          (
+            <Field
+              name={'name'}
+              component={RichTextEditor}
+              id={id}
+              data={data}
+              contenttype={BLOCK_NAME}
+              config={this.froalaConfig}
+            />
+          ) : null
+        }
       </Form>
     );
   }

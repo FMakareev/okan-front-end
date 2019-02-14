@@ -14,7 +14,7 @@ import '../../assets/style/froala-theme.css';
 import 'font-awesome/css/font-awesome.css';
 
 // Require block types
-import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT } from '../../shared/blockType';
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
 
 // That's where the styled-components
 const FroalaEditor = dynamic(import('react-froala-wysiwyg'), {
@@ -38,7 +38,7 @@ export class FroalaReduxForm extends Component {
   }
 
   componentWillMount() {
-    const contentType = this.props.data.content.contenttype;
+    const contentType = this.props.contenttype;
     let toolbarButtons = [];
     switch (contentType) {
       case BLOCK_IMAGE:
@@ -126,6 +126,9 @@ export class FroalaReduxForm extends Component {
           'print',
           'help',
         ];
+        break;
+      case BLOCK_NAME:
+        toolbarButtons = [];
         break;
     }
     let EditorConfig = {
