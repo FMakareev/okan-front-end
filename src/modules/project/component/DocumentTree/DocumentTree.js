@@ -1036,7 +1036,7 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
+    console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
 
     return (
       <Box
