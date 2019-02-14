@@ -85,6 +85,7 @@ export class SidebarCellNode extends Component {
     addNodeInTree: PropTypes.func.isRequired,
     cellCheckStatusChange: PropTypes.func.isRequired,
     removeNodeInTree: PropTypes.func.isRequired,
+    createCopy: PropTypes.func.isRequired,
     position: PropTypes.shape({
       cellid: PropTypes.string,
       sectionid: PropTypes.string,
@@ -244,15 +245,14 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
- 
-    var newNode = this.props.client.readQuery({
+
+    let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
         id: this.props.node.id
       }
     });
     lastChildren = newNode.cellitem.lastChildren;
-    console.log(lastChildren)
     this.props
       .createCopy({
         variables: {
