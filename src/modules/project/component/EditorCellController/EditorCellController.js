@@ -135,7 +135,7 @@ export class EditorCellController extends Component {
         variables: {
           id: this.props.data.id,
           content: this.props.values.content,
-          contentname: this.props.values.name.slice(3, -4),
+          contentname: this.props.values.name,
         },
       })
       .then(response => {
@@ -154,20 +154,20 @@ export class EditorCellController extends Component {
   onBlurForm = (e) => {
     var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
-    setTimeout(function () {
+    setTimeout(function() {
       if (!currentTarget.contains(document.activeElement)) {
-        this.startSave();
+          this.startSave();
       }
     }.bind(this), 0);
   };
 
   startSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     this.stopAutoSave();
     if (
       values &&
       (values.content && values.content !== data.content.content ||
-        values.name && values.name !== data.content.name)
+      values.name && values.name !== data.content.name)
     ) {
       this.saveCellContent()
         .then(response => {
@@ -219,30 +219,22 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const {editable} = this.state;
+    const { editable } = this.state;
     const {
       data,
-      location: {search},
+      location: { search },
       sectionNumber,
       project,
     } = this.props;
 
-    // console.log('1: ', this.props);
-    // console.log('EditorCellController: ', editable);
+    let parsedName = ReactHTMLParser(data.content.name);
+
     return (
       <Box
-        // pl={(data.content.contenttype !== BLOCK_TEXT && !editable)? '100px' : null}
         mt={12}
       >
         <Flex
           pl={'10px'}
-          // onMouseOver={()=>this.onHover()}
-          // // draggable={this.state.draggable}
-          // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
-          // draggable="true"
-          // draggable
-          // onDrag={(event)=>this.onDragBlock(event)}
-          // ondragstart={(event)=>this.onDragBlock(event)}
           alignItems="flex-start">
           <Text
             width={'100px'}
@@ -324,7 +316,7 @@ export class EditorCellController extends Component {
               {
                 !editable && data.content.contenttype === BLOCK_IMAGE ?
                   (
-                    data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+                    data.content.name ? data.content.number + '. ' + parsedName[0].props.children[0] : data.content.number + '. '
                   ) :
                   null
               }
