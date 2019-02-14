@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query, withApollo} from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 
 import CellMarkerQuery from './CellMarkerQuery.graphql';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
-import {SvgStatus} from '../../../../components/Icons/SvgStatus';
+import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
 import UpdateCellMutation from './UpdateCellMutation.graphql';
 
@@ -20,7 +20,7 @@ import {
 
 /** */
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import queryString from "query-string";
+import queryString from 'query-string';
 
 const GetStatusColor = status => {
   switch (status) {
@@ -46,7 +46,7 @@ export class SidebarApprovalStatus extends Component {
 
   static defaultProps = {};
 
-  state = {clickStatus: false};
+  state = { clickStatus: false };
 
   /**
    * @param {string} id - id изменяемой ячейки
@@ -61,7 +61,7 @@ export class SidebarApprovalStatus extends Component {
           id,
           verify,
         },
-        update: (store, {data: {updatecell}}) => {
+        update: (store, { data: { updatecell } }) => {
           const options = {
             query: CellItemQuery,
             variables: {
@@ -77,7 +77,7 @@ export class SidebarApprovalStatus extends Component {
         },
       })
       .then(async response => {
-        console.log('response: ', response);
+        // console.log('response: ', response);
         await this.props.cellCheckStatusChange(id, verify);
       })
       .catch(error => {
@@ -94,20 +94,20 @@ export class SidebarApprovalStatus extends Component {
   }
 
   initSubscribe = () => {
-    const {node} = this.props;
+    const { node } = this.props;
     try {
-      if (!node.childcell && node.isHead ||
-        node.childcell && !node.childcell.isHead) {
-        this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id)
-          .subscribe(({data}) => {
-            console.log('initSubscribe: ', data.cellitem,node);
+      if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
+        this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
+          ({ data }) => {
+            // console.log('initSubscribe: ', data.cellitem,node);
             this.props.updateNode(node.id, data.cellitem);
-          });
+          },
+        );
       }
     } catch (error) {
       console.log('Error initSubscribe: ', error);
     }
-  }
+  };
 
   unsubscribeToCellItem = () => {
     if (this.subscribeInstanceToCellItem) {
@@ -120,25 +120,23 @@ export class SidebarApprovalStatus extends Component {
    * @param {string} id - id ячейки
    * @desc создает подписку на обновление ячейки
    * */
-  subscribeToCellItem = (id) => {
+  subscribeToCellItem = id => {
     try {
-      return this.props.client
-        .watchQuery({
-          query: CellItemQuery,
-          variables: {id: id}
-        })
+      return this.props.client.watchQuery({
+        query: CellItemQuery,
+        variables: { id: id },
+      });
     } catch (error) {
       console.error('Error: ', error);
     }
   };
 
-
   render() {
-    const {node} = this.props;
+    const { node } = this.props;
 
     return (
-      <Query skip={true} query={CellMarkerQuery} variables={{id: node && node.id}}>
-        {({loading, error, data}) => {
+      <Query skip={true} query={CellMarkerQuery} variables={{ id: node && node.id }}>
+        {({ loading, error, data }) => {
           return (
             <ButtonBase
               title={'Статус проверки блока'}
