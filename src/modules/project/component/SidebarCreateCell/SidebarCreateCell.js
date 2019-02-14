@@ -1,34 +1,33 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Mutation, withApollo } from 'react-apollo';
-import { error, success } from 'react-notification-system-redux';
-import { invalidateFields, ROOT } from 'apollo-cache-invalidation';
+import {connect} from 'react-redux';
+import {withApollo} from 'react-apollo';
+import {error, success} from 'react-notification-system-redux';
+import {invalidateFields, ROOT} from 'apollo-cache-invalidation';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Box from '../../../../components/Box/Box';
 
 /** Image */
-import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
+import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
 
 /** Style css */
-import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
+import {AbsoluteStyled, BoxStyled} from './SidebarCreateCellStyled';
 
 /** Store */
-import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
-import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
+import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
 
 /** Graphql schema */
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
-import { sortingCells } from '../../utils/sortingCells';
+import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
 
-const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
+const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
 
   if (prevcell && isHead && !parent) {
@@ -89,7 +88,8 @@ const notificationDelete = name => {
   };
 };
 
-const has = Object.prototype.hasOwnProperty;
+
+
 
 export class SidebarCreateCell extends Component {
   static propTypes = {
@@ -97,6 +97,7 @@ export class SidebarCreateCell extends Component {
     prevcell: PropTypes.string,
     /** @desc id ячейки родетеля это общее для ячейки prevcell и той что будет создана следом */
     parent: PropTypes.string,
+    removeNodeInTree: PropTypes.func,
   };
 
   constructor(props) {
@@ -115,52 +116,7 @@ export class SidebarCreateCell extends Component {
    * */
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({ toggle: !state.toggle }));
-  };
-
-  /**
-   * @param {string} id - id ячейки
-   * @desc метод получения ячейки
-   * */
-  getCell = id => {
-    const { client } = this.props;
-    return client
-      .query({
-        query: CellItemQuery,
-        variables: {
-          id,
-        },
-      })
-      .catch(error => {
-        console.error(`Error getNode, id=${id}: `, error);
-        return error;
-      });
-  };
-
-  /**
-   * @param {string} id - id следующей ячейки
-   * @param {array} nodes - список всех полученых ячеек, пополняется каждый раз после выполнения запроса.
-   * @desc получить список ячеек попорядку рекурсивно
-   * */
-  getListOfParentCells = (id, nodes) => {
-    return this.getCell(id)
-      .then(response => {
-        // console.log(response);
-        const { data } = response;
-        if (data && data.cellitem) {
-          nodes.push(data.cellitem);
-          if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
-            return this.getListOfParentCells(data.cellitem.nextcell.id, nodes);
-          }
-          return nodes;
-        } else {
-          return nodes;
-        }
-      })
-      .catch(error => {
-        console.error('Error getListOfParentCells: ', error);
-        return [];
-      });
+    this.setState(state => ({toggle: !state.toggle}));
   };
 
   /**
@@ -172,7 +128,7 @@ export class SidebarCreateCell extends Component {
    * @param {object} node
    * @desc создание ячейки
    * */
-  createSubCellStateMachine = async ({ prevcell, nextcell, parent, isHead, contenttype, node }) => {
+  createSubCellStateMachine = async ({prevcell, nextcell, parent, isHead, contenttype, node}) => {
     try {
       console.log(
         'createSubCellStateMachine:',
@@ -185,23 +141,20 @@ export class SidebarCreateCell extends Component {
       );
       /** 1) если дочерние ячейки являются разделами */
       if (node.isHead && !node.childcell) {
-        if (node.childcell) {
-          let cells = await this.getListOfParentCells(node.childcell.id, []);
-          cells = sortingCells(cells);
-          this.createCell({
-            prevcell: cells && cells.length > 0 ? cells[cells.length - 1].id : parent,
-            parent: parent,
-            isHead: true,
-            contenttype: null,
-            nextcell: null,
-          });
-        } else if (!node.childcell) {
-          this.createSubCell({
-            parent: node.id,
-            prevcell,
-            isHead: true,
-          });
-        }
+        this.createSubCell({
+          parent: node.id,
+          prevcell,
+          isHead: true,
+        });
+      } else if (node.isHead && node.childcell) {
+
+        this.createCell({
+          prevcell: node.lastChildren ? node.lastChildren.id : parent,
+          parent: parent,
+          isHead: true,
+          contenttype: null,
+          nextcell: null,
+        });
       } else {
         this.createCell({
           prevcell: parent,
@@ -224,8 +177,8 @@ export class SidebarCreateCell extends Component {
    * @param {string || null} nextcell
    * @desc создание подраздела у раздела ячейки которого являются контентом
    * */
-  createSubCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
-    const { setNotificationSuccess, setNotificationError } = this.props;
+  createSubCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
+    const {setNotificationSuccess, setNotificationError} = this.props;
 
     const variables = {
       parent: parent,
@@ -237,27 +190,22 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: CreateSubCellMutation,
         variables,
-        update: (store, { data: { createsubcell } }) => {
+        update: (store, {data: {createsubcell}}) => {
           try {
-            let options = {
-              query: CellItemQuery,
-              variables: {
-                id: createsubcell.cell.id,
-              },
-            };
-            store.writeQuery({
-              ...options,
-              data: {
-                cellitem: createsubcell.cell,
-              },
-            });
+            UpdateCellInCache(store, createsubcell.cell);
+
+            if (createsubcell.cell.parent && !createsubcell.cell.nextcell) {
+              UpdateCellInCache(store, {
+                ...createsubcell.cell.parent,
+                lastChildren: createsubcell.cell,
+              })
+            }
           } catch (error) {
             console.error('Error createCell: ', error);
           }
         },
       })
       .then(response => {
-        // console.log('SidebarCreateCell response createsubcell: ', response.data.createsubcell.cell);
         this.props.addNodeInTree(response.data.createsubcell.cell);
         setNotificationSuccess(
           notificationCreate({
@@ -271,7 +219,7 @@ export class SidebarCreateCell extends Component {
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationCreate({ prevcell, parent, isHead, contenttype }).error);
+        setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
       });
   };
 
@@ -283,16 +231,16 @@ export class SidebarCreateCell extends Component {
    * @param {string || null} nextcell
    * @desc создание ячейки
    * */
-  createCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
-    const { setNotificationSuccess, setNotificationError } = this.props;
+  createCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
+    const {setNotificationSuccess, setNotificationError} = this.props;
 
     console.log('createCell:', prevcell, nextcell, parent, isHead, contenttype);
 
     const variables = {
-      ...(prevcell ? { prevcell } : null),
-      ...(nextcell ? { nextcell } : null),
-      ...(parent ? { parent } : null),
-      ...(contenttype ? { contenttype } : { contenttype: null }),
+      ...(prevcell ? {prevcell} : null),
+      ...(nextcell ? {nextcell} : null),
+      ...(parent ? {parent} : null),
+      ...(contenttype ? {contenttype} : {contenttype: null}),
       isHead,
     };
 
@@ -300,20 +248,16 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: CreateCellMutation,
         variables,
-        update: (store, { data: { createcell } }) => {
+        update: (store, {data: {createcell}}) => {
           try {
-            let options = {
-              query: CellItemQuery,
-              variables: {
-                id: createcell.cell.id,
-              },
-            };
-            store.writeQuery({
-              ...options,
-              data: {
-                cellitem: createcell.cell,
-              },
-            });
+            UpdateCellInCache(store, createcell.cell);
+
+            if (createcell.cell.parent && !createcell.cell.nextcell) {
+              UpdateCellInCache(store, {
+                ...createcell.cell.parent,
+                lastChildren: createcell.cell,
+              })
+            }
           } catch (error) {
             console.error('Error createCell: ', error);
           }
@@ -323,14 +267,14 @@ export class SidebarCreateCell extends Component {
         // console.log('SidebarCreateCell response: ', response.data.createcell.cell);
         this.props.addNodeInTree(response.data.createcell.cell);
         setNotificationSuccess(
-          notificationCreate({ prevcell, parent: null, isHead, contenttype }).success,
+          notificationCreate({prevcell, parent: null, isHead, contenttype}).success,
         );
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
         setNotificationError(
-          notificationCreate({ prevcell, parent: null, isHead, contenttype }).error,
+          notificationCreate({prevcell, parent: null, isHead, contenttype}).error,
         );
       });
   };
@@ -341,14 +285,14 @@ export class SidebarCreateCell extends Component {
    * @desc метод для удаления ячейки
    * */
   deleteCell = (id, name) => {
-    const { setNotificationSuccess, setNotificationError } = this.props;
+    const {setNotificationSuccess, setNotificationError} = this.props;
 
     // TODO: Добавить удаление удаленного объекта из кеша
 
     this.props.client
       .mutate({
         mutation: DeleteCellMutation,
-        variables: { id },
+        variables: {id},
         fetchPolicy: 'no-cache',
       })
       .then(response => {
@@ -364,10 +308,10 @@ export class SidebarCreateCell extends Component {
 
   render() {
     const {
-      node: { isHead, childcell, id, parent, nextcell, name },
+      node: {isHead, childcell, id, parent, nextcell, name},
     } = this.props;
 
-    const { toggle } = this.state;
+    const {toggle} = this.state;
 
     return (
       <Box position={'relative'}>
@@ -375,7 +319,7 @@ export class SidebarCreateCell extends Component {
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
           onClick={this.onToggle}>
-          <SvgSidebarAdd />
+          <SvgSidebarAdd/>
         </ButtonBase>
 
         {toggle && (
@@ -432,7 +376,7 @@ export class SidebarCreateCell extends Component {
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
 SidebarCreateCell = connect(
-  state => ({ user: getUserFromStore(state) }),
+  state => ({user: getUserFromStore(state)}),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
