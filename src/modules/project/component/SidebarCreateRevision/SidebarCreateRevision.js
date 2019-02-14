@@ -46,13 +46,13 @@ export class SidebarCreateRevision extends Component {
         authorrevision: this.props.user.id,
         createrevisiondate: new Date().toISOString(),
       },
-      update: (client, {data:{createrevision}}) =>{
-        try{
+      update: (client, { data: { createrevision } }) => {
+        try {
           const options = {
             query: RevisionListQuery,
-            variables:{
+            variables: {
               id: documentid.id,
-            }
+            },
           };
 
           const data = client.readQuery(options);
@@ -61,15 +61,12 @@ export class SidebarCreateRevision extends Component {
 
           client.writeQuery({
             ...options,
-            data
-          })
-
-        } catch(error){
-          console.error('Error createRevision.update: ',error);
+            data,
+          });
+        } catch (error) {
+          console.error('Error createRevision.update: ', error);
         }
-
-
-      }
+      },
     })
       .then(response => {
         // console.log(response);

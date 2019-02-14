@@ -11,10 +11,11 @@ import SidebarProjectSettings from '../SidebarProjectSettings/SidebarProjectSett
 import SidebarCreateRevision from '../SidebarCreateRevision/SidebarCreateRevision';
 import SidebarRevisionList from '../SidebarRevisionList/SidebarRevisionList';
 import SidebarProjectExport from '../SidebarProjectExport/SidebarProjectExport';
+import SideBarDocumentDelete from '../SideBarDocumentDelete/SideBarDocumentDelete';
+import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocumentToApproval';
 
 /** Styles property */
 import { NodeToggle } from '../NodeToggle/NodeToggle';
-import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocumentToApproval';
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
@@ -84,6 +85,9 @@ export const SidebarCellRoot = props => {
         </Box>
         <Box px={1}>
           <SidebarProjectExport />
+        </Box>
+        <Box px={1}>
+          <SideBarDocumentDelete id={node.id} name={node.name} projectid={projectid} />
         </Box>
       </Flex>
     </FlexStyled>

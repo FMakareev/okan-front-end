@@ -34,7 +34,8 @@ export class ProjectSidebar extends Component {
   // }
 
   render() {
-    const { documents } = this.props;
+    const { documents, name, id } = this.props;
+    // console.log(1, this.props);
 
     return (
       <Fragment>
@@ -42,6 +43,9 @@ export class ProjectSidebar extends Component {
           documents.map((item, index) => (
             <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`} />
           ))}
+
+        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`} />}
+
         <FormCreateDocumentWithProject />
       </Fragment>
     );

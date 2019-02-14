@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Query, compose, graphql, withApollo } from 'react-apollo';
+import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -9,7 +9,6 @@ import '../../../../assets/style/editor-cell_content.css';
 
 /** Graphql schema */
 import ProjectItemQuery from './ProjectItemQuery.graphql';
-import RevisionItemQuery from './RevisionItemQuery.graphql';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -127,28 +126,6 @@ export class ProjectEditorPage extends Component {
 const mapStateToProps = state => {
   return state.blocksBinding;
 };
-
-// ProjectEditorPage = compose(
-//   graphql(RevisionItemQuery, {
-//     options: props => {
-//       return {
-//         variables: {
-//           id: '5c6413aa9adb491dad810c0a',
-//         },
-//       };
-//     },
-//   }),
-//   graphql(ProjectItemQuery, {
-//     options: props => {
-//       return {
-//         variables: {
-//           id: props.match.params.id,
-//         },
-//       };
-//     },
-//   }),
-//   withApollo,
-// )(ProjectEditorPage);
 
 export default connect(
   mapStateToProps,

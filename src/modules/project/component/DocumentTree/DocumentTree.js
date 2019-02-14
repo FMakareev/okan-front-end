@@ -376,6 +376,7 @@ export class DocumentTree extends Component {
 
     client.writeQuery({ ...options, data });
   };
+
   /**
    * @param {object} value
    * @desc метод для обновления ячейки в кеше */
@@ -1037,7 +1038,7 @@ export class DocumentTree extends Component {
 
   render() {
     // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
-
+    // console.log(222, this.props);
     return (
       <Box
         style={{
