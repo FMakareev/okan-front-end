@@ -139,8 +139,6 @@ export class EditorCellDelete extends Component {
   render() {
     return (
       <ButtonBase
-        mr={7}
-        ml={4}
         p={2}
         onClick={() => this.deleteCell()}
       >
