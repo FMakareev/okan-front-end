@@ -11,6 +11,8 @@ export class EditorCellForm extends Component {
   state = {};
 
   froalaConfig = {
+    // imageUploadURL: 'https://okan.code-artel.com/upload/uploader',
+    // imageUploadMethod: 'POST',
     events: {
       'froalaEditor.blur': (e, editor) => {
         // console.log('froalaEditor.blur: ', e, editor);
@@ -20,6 +22,17 @@ export class EditorCellForm extends Component {
       'froalaEditor.focus': (e, editor) => {
         // console.log('froalaEditor.focus: ', e, editor);
       },
+      // 'froalaEditor.image.beforeUpload': function(e, editor) {
+      //   console.log('froalaEditor.file.beforeUpload', editor.selection.get());
+      // },
+      // 'froalaEditor.image.uploaded' : function(e, editor, response) {
+      //   // console.log(editor.selection.get());
+      //   // console.log(response)
+      // },
+      // 'froalaEditor.image.error' : function(e, editor, error, response) {
+      //   // console.log(editor.selection.get());
+      //   console.log(error)
+      // }
     },
   };
 
