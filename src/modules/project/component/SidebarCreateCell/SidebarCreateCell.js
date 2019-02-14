@@ -367,7 +367,6 @@ export class SidebarCreateCell extends Component {
       node: { isHead, childcell, id, parent, nextcell, name },
     } = this.props;
 
-    console.log(999, id, name);
     const { toggle } = this.state;
 
     return (

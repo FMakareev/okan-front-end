@@ -57,6 +57,7 @@ export class EditorRevision extends Component {
     const {
       match: { params },
     } = this.props;
+    console.log(1, params.id);
 
     return (
       <Query query={RevisionItemQuery} variables={{ id: params.id }}>
