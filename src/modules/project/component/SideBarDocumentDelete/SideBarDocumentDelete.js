@@ -56,9 +56,9 @@ export class SideBarDocumentDelete extends Component {
 
           const projectItemList = data.projectitem.documents;
 
-          const newProjectItemList = projectItemList.filter(item => item !== documentIndex);
+          // const newProjectItemList = projectItemList.filter(item => item !== documentIndex);
 
-          // const newProjectItemList = projectItemList.splice(documentIndex, 1);
+          const newProjectItemList = projectItemList.splice(documentIndex, 1);
 
           store.writeQuery({ data, data: newProjectItemList });
         },
