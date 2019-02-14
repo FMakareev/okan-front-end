@@ -297,7 +297,7 @@ export class EditorCellController extends Component {
           textAlign={'center'}
         >
           {
-            !editable && data.content.contenttype == BLOCK_IMAGE ?
+            !editable && data.content.contenttype === BLOCK_IMAGE ?
             data.content.number + '. ' + data.content.name :
             null
           }
