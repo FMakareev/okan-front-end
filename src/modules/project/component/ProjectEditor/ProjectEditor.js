@@ -1,23 +1,23 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
-import {Query, withApollo} from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import {withProject} from '../ProjectContext/ProjectContext';
-import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
+import { withProject } from '../ProjectContext/ProjectContext';
+import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
-import {Flex} from '@lib/ui/Flex/Flex';
-import {Box} from '@lib/ui/Box/Box';
-import {Text} from '@lib/ui/Text/Text';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { Box } from '@lib/ui/Box/Box';
+import { Text } from '@lib/ui/Text/Text';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import {sortingCells} from "../../utils/sortingCells";
+import { sortingCells } from '../../utils/sortingCells';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -58,45 +58,42 @@ export class ProjectEditor extends Component {
     }
   }
 
-
   /**
    * @param {string} id - id ячейки
    * @desc метод для создания заголовков
    * */
-  createPageTitle = async (id) => {
+  createPageTitle = async id => {
     try {
       this.unsubscribeToCellItem();
 
       let childCell = await this.getCellItem(id);
-      this.subscribeInstanceToUpdateTitle = this.subscribeToCellItem(childCell.data.cellitem.id)
-        .subscribe(({data}) => {
-          const name = data.cellitem && data.cellitem.name;
-          const numbers = queryString.parse(this.props.location.search);
-          return this.setState((state) => ({
-            ...state,
-            childName: name,
-            number: numbers && numbers.sectionNumber
-          }));
-        });
+      this.subscribeInstanceToUpdateTitle = this.subscribeToCellItem(
+        childCell.data.cellitem.id,
+      ).subscribe(({ data }) => {
+        const name = data.cellitem && data.cellitem.name;
+        const numbers = queryString.parse(this.props.location.search);
+        return this.setState(state => ({
+          ...state,
+          childName: name,
+          number: numbers && numbers.sectionNumber,
+        }));
+      });
 
       if (childCell && childCell.data.cellitem.parent) {
-
         let parentCell = await this.getCellItem(childCell.data.cellitem.parent.id);
-        this.subscribeInstanceToUpdateParentTitle = this.subscribeToCellItem(parentCell.data.cellitem.id)
-          .subscribe(({data}) => {
-            const name = data.cellitem && data.cellitem.name;
-            return this.setState((state) => ({
-              ...state,
-              parentName: name,
-            }));
-          });
+        this.subscribeInstanceToUpdateParentTitle = this.subscribeToCellItem(
+          parentCell.data.cellitem.id,
+        ).subscribe(({ data }) => {
+          const name = data.cellitem && data.cellitem.name;
+          return this.setState(state => ({
+            ...state,
+            parentName: name,
+          }));
+        });
       }
-
-
     } catch (error) {
       console.log('Error createPageTitle: ', error);
     }
-
   };
 
   /** @desc сбрасываем подписки на изменение ячеек */
@@ -115,39 +112,35 @@ export class ProjectEditor extends Component {
    * @param {string} id - id ячейки
    * @desc создает подписку на обновление ячейки
    * */
-  subscribeToCellItem = (id) => {
+  subscribeToCellItem = id => {
     try {
-      return this.props.client
-        .watchQuery({
-          query: CellItemQuery,
-          variables: {id: id}
-        })
+      return this.props.client.watchQuery({
+        query: CellItemQuery,
+        variables: { id: id },
+      });
     } catch (error) {
       console.error('Error: ', error);
     }
   };
-
 
   /**
    * @param {string} id - id ячейки
    * @desc метод выполняет получение данные по ячейке
    * */
   getCellItem = id => {
-    return this.props.client
-      .query({query: CellItemQuery, variables: {id}})
-      .catch(error => {
-        console.log('Error getCellItem: ', error);
-      });
+    return this.props.client.query({ query: CellItemQuery, variables: { id } }).catch(error => {
+      console.log('Error getCellItem: ', error);
+    });
   };
-
 
   render() {
     const {
       sectionid,
-      location: {search},
+      location: { search },
     } = this.props;
+    console.log(11, sectionid);
 
-    const {childName, parentName, number} = this.state;
+    const { childName, parentName, number } = this.state;
 
     if (!sectionid) {
       return (
@@ -160,8 +153,8 @@ export class ProjectEditor extends Component {
     }
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'5px'} flexDirection={'column'}>
-        <Query skip={!sectionid} query={CellListQuery} variables={{parent: sectionid}}>
-          {({data, loading, error}) => {
+        <Query skip={!sectionid} query={CellListQuery} variables={{ parent: sectionid }}>
+          {({ data, loading, error }) => {
             if (loading) {
               return `Загрузка`;
             }
@@ -200,7 +193,9 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'-30px'}>
-                      {number && number.length <= 2 ? null : <Fragment>{`${number} ${childName || ''}`}</Fragment>}
+                      {number && number.length <= 2 ? null : (
+                        <Fragment>{`${number} ${childName || ''}`}</Fragment>
+                      )}
                     </Text>
 
                     {sortingCells(data.celllist).map((item, index) => {
@@ -229,7 +224,7 @@ export class ProjectEditor extends Component {
           }}
         </Query>
 
-        <EditorAdditionalMenu sectionid={sectionid}/>
+        <EditorAdditionalMenu sectionid={sectionid} />
       </Flex>
     );
   }

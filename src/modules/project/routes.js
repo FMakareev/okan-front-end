@@ -49,7 +49,7 @@ export const routes = [
     path: '/revision-item/:id',
     order: 0,
     hidden: false,
-    load: () => import(/* webpackChunkName: 'revisionList'  */ './view/projectEditor'),
+    load: () => import(/* webpackChunkName: 'revisionList'  */ './view/EditorRevision'),
     roles: [ROLE_ADMIN, ROLE_USER],
   },
   {

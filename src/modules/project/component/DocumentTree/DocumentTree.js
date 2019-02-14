@@ -376,6 +376,7 @@ export class DocumentTree extends Component {
 
     client.writeQuery({ ...options, data });
   };
+
   /**
    * @param {object} value
    * @desc метод для обновления ячейки в кеше */
