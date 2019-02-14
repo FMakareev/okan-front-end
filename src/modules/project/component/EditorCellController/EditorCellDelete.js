@@ -14,6 +14,23 @@ import DeleteCellMutation from '../EditorCellController/DeleteCellMutation.graph
 /** Celllist query */
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 
+/** Redux */
+import { connect } from 'react-redux';
+import { error, success } from 'react-notification-system-redux';
+
+const notificationOpts = () => ({
+    success: {
+      title: 'Блок удален',
+      position: 'tr',
+      autoDismiss: 2,
+    },
+    error: {
+      title: 'Не удалось удалить блок',
+      position: 'tr',
+      autoDismiss: 2,
+    },
+  });
+
 
 export class EditorCellDelete extends Component {
     constructor(props) {
@@ -86,10 +103,12 @@ export class EditorCellDelete extends Component {
         })
         .then(response => {
             console.log('response', response)
+            this.props.setNotificationSuccess(notificationOpts().success);
             return response;
         })
         .catch(error => {
             console.log('Error saveCellContent: ', error);
+            this.props.setNotificationError(notificationOpts().error);
             throw error;
         });
     }
@@ -109,5 +128,13 @@ export class EditorCellDelete extends Component {
 }
 
 EditorCellDelete = graphql(DeleteCellMutation)(EditorCellDelete);
+
+EditorCellDelete = connect(
+    null,
+    dispatch => ({
+      setNotificationSuccess: message => dispatch(success(message)),
+      setNotificationError: message => dispatch(error(message)),
+    }),
+  )(EditorCellDelete);
 
 export default EditorCellDelete
