@@ -135,7 +135,7 @@ export class EditorCellController extends Component {
         variables: {
           id: this.props.data.id,
           content: this.props.values.content,
-          contentname: this.props.values.name.slice(3, -4),
+          contentname: this.props.values.name,
         },
       })
       .then(response => {
@@ -227,6 +227,7 @@ export class EditorCellController extends Component {
       project,
     } = this.props;
 
+    let parsedName = ReactHTMLParser(data.content.name);
     // console.log('1: ', this.props);
     // console.log('EditorCellController: ', editable);
     return (
@@ -318,7 +319,7 @@ export class EditorCellController extends Component {
           {
             !editable && data.content.contenttype == BLOCK_IMAGE ? 
             (
-              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+              data.content.name ? data.content.number + '. ' + parsedName[0].props.children[0] : data.content.number + '. '
             ): 
             null
           }
