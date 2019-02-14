@@ -121,7 +121,7 @@ export class RichTextEditor extends Component {
 
     return (
       <Wrapper className={className}>
-        {this.props.contenttype == BLOCK_NAME ? 
+        {this.props.contenttype === BLOCK_NAME ?
           (
             <FroalaReduxFormName
               {...this.props}
@@ -130,7 +130,7 @@ export class RichTextEditor extends Component {
             <FroalaReduxForm
               {...this.props}
 
-              handleButtonClick={(action) => {this.getButtonClick(action)}}            
+              handleButtonClick={(action) => {this.getButtonClick(action)}}
             />
           )
         }

@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
-import { graphql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
+import {graphql} from 'react-apollo';
+import {withRouter} from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
@@ -14,17 +14,18 @@ import EditorCellDelete from './EditorCellDelete';
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import { Flex } from '@lib/ui/Flex/Flex';
+import {Flex} from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
-import { connect } from 'react-redux';
-import { getFormValues } from 'redux-form';
-import { error, success } from 'react-notification-system-redux';
+import {connect} from 'react-redux';
+import {getFormValues} from 'redux-form';
+import {error, success} from 'react-notification-system-redux';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TEXT, BLOCK_TABLE} from '../../../../shared/blockType';
+import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
+import {EditorCellTitle} from "../EditorCellTitle/EditorCellTitle";
 
 const notificationOpts = () => ({
   success: {
@@ -45,7 +46,7 @@ export class EditorCellController extends Component {
     data: PropTypes.string,
   };
 
-  static defaultProps = { data: '' };
+  static defaultProps = {data: ''};
 
   constructor(props) {
     super(props);
@@ -61,7 +62,7 @@ export class EditorCellController extends Component {
   }
 
   componentDidMount() {
-    const { data } = this.props;
+    const {data} = this.props;
     if (
       this.props.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
@@ -74,7 +75,7 @@ export class EditorCellController extends Component {
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const { values, data } = this.props;
+    const {values, data} = this.props;
     if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
@@ -135,7 +136,7 @@ export class EditorCellController extends Component {
         variables: {
           id: this.props.data.id,
           content: this.props.values.content,
-          contentname: this.props.values.name.slice(3, -4),
+          contentname: this.props.values.name,
         },
       })
       .then(response => {
@@ -154,21 +155,17 @@ export class EditorCellController extends Component {
   onBlurForm = (e) => {
     var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
-    setTimeout(function() {
+    setTimeout(function () {
       if (!currentTarget.contains(document.activeElement)) {
-          this.startSave();
+        this.startSave();
       }
     }.bind(this), 0);
   };
 
   startSave = () => {
-    const { values, data } = this.props;
+    const {values, data} = this.props;
     this.stopAutoSave();
-    if (
-      values &&
-      (values.content && values.content !== data.content.content ||
-      values.name && values.name !== data.content.name)
-    ) {
+    if (values && (values.content || values.name)) {
       this.saveCellContent()
         .then(response => {
           this.props.setNotificationSuccess(notificationOpts().success);
@@ -219,75 +216,65 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const { editable } = this.state;
+    const {editable} = this.state;
     const {
       data,
-      location: { search },
+      location: {search},
       sectionNumber,
       project,
     } = this.props;
 
-    // console.log('1: ', this.props);
-    // console.log('EditorCellController: ', editable);
     return (
       <Box
-        pl={(data.content.contenttype !== BLOCK_TEXT && !editable)? 18 : null}
         mt={12}
       >
-        <Text
-          fontWeight={'bold'}
-          fontSize={6}
-          color={'color11'}
-          ml={'10px'}
-        >
-          {
-            !editable && data.content.contenttype === BLOCK_TABLE ?
-            (
-              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
-            ):
-            null
-          }
-        </Text>
         <Flex
           pl={'10px'}
-          // onMouseOver={()=>this.onHover()}
-          // // draggable={this.state.draggable}
-          // // onClick={(event)=>{console.log('clicked', event.isPropagationStopped)}}
-          // draggable="true"
-          // draggable
-          // onDrag={(event)=>this.onDragBlock(event)}
-          // ondragstart={(event)=>this.onDragBlock(event)}
           alignItems="flex-start">
-          {(data.content.contenttype === BLOCK_TEXT) && (
-            <Text
-              width={'100px'}
-              fontFamily={'secondary'}
-              lineHeight={'22px'}
-              fontSize={6}
-              color={'color4'}
-              mt={'2px'}
-              ml={'10px'}>
-              {data.parent && data.prevcell && <Fragment> {sectionNumber}</Fragment>}
-            </Text>
-          )}
-          {editable && data.content.contenttype !== BLOCK_TEXT && (
-            <EditorTypeIcon type={data.content.contenttype} />
-          )}
-          <Box width={'calc(100% - 120px)'}>
+          <Text
+            width={'100px'}
+            fontFamily={'secondary'}
+            lineHeight={'22px'}
+            fontSize={6}
+            color={'color4'}
+            mt={'2px'}
+            ml={'10px'}>
+            {/** иконка редактора */}
+            {editable && data.content.contenttype !== BLOCK_TEXT && (
+              <EditorTypeIcon type={data.content.contenttype}/>
+            )}
+
+            {/** номер текстового блока */}
+            {(data.content.contenttype === BLOCK_TEXT) && data.parent && data.prevcell &&
+            <Fragment> {sectionNumber}</Fragment>}
+          </Text>
+          <Box width={'calc(100%)'}>
+
+            {/** заголовок таблицы */}
+            <EditorCellTitle
+              contenttype={BLOCK_TABLE}
+              onClick={this.openEditor}
+              content={data.content} editable={editable}/>
+
+            {/** текстовый контент */}
             {!editable && (
               <Text
                 className={'editor-cell_content'}
                 onClick={this.openEditor}
                 fontSize={5}
+                textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
+
                 lineHeight={6}
                 color={'color11'}
                 fontFamily={'primary300'}>
                 {data.content && ReactHTMLParser(data.content.content)}
                 {data.content &&
-                  !data.content.content &&
-                  'Нажмите чтобы начать редактирование раздела.'}
+                !data.content.content &&
+                'Нажмите чтобы начать редактирование раздела.'}
               </Text>
             )}
+
+            {/** форма редактора */}
             {editable && (
               <EditorCellForm
                 form={'EditorCellForm-' + data.id}
@@ -303,26 +290,26 @@ export class EditorCellController extends Component {
                 instantSave={() => this.startSave()}
               />
             )}
+
+            {/** заголовок картинки */}
+            <EditorCellTitle
+              contenttype={BLOCK_IMAGE}
+              onClick={this.openEditor}
+              content={data.content}
+              editable={editable}
+            />
+
+
           </Box>
-          <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
-          <Box width={'20px'}>
-            <EditorCellCommentController {...this.props.project} {...data} />
-          </Box>
+          <Flex width={'60px'}>
+            <Box mx={2}>
+              <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+            </Box>
+            <Box mx={2}>
+              <EditorCellCommentController {...this.props.project} {...data} />
+            </Box>
+          </Flex>
         </Flex>
-        <Text
-          fontWeight={'bold'}
-          fontSize={6}
-          color={'color11'}
-          textAlign={'center'}
-        >
-          {
-            !editable && data.content.contenttype === BLOCK_IMAGE ?
-            (
-              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
-            ):
-            null
-          }
-        </Text>
       </Box>
     );
   }
@@ -332,7 +319,7 @@ EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
-  (state, { data }) => {
+  (state, {data}) => {
     // console.log(data);
     // console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
 
