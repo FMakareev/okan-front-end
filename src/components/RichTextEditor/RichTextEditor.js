@@ -3,17 +3,21 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
-import { saveBlock } from '../../store/reducers/blocksBinding/actions';
+import { copyCell } from '../../store/reducers/blocksBinding/actions';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
 /**View */
 import Message from '../Message/Message';
 
 import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
+import { FroalaReduxFormName } from '@lib/ui/FroalaReduxForm/FroalaReduxFormName';
 
 /** Graphql */
 import { graphql } from 'react-apollo';
 import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+
+// Require block types
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
 
 const Wrapper = styled.div`
   ${space};
@@ -76,22 +80,15 @@ export class RichTextEditor extends Component {
   getButtonClick = (action) => {
     switch(action){
       case 'bind':
-        this.storeBlock();
+        this.copyCell(true);
         break;
       case 'unbind':
         this.unbindBlock();
         break;
       case 'copy':
+        this.copyCell(false);
         break;
     }
-  }
-
-  /**
-   * @desc Записываем в store Redux данные ячейки, которые хотим привязать:
-   * id, contentType
-   * */
-  storeBlock = () => {
-    this.props.saveBlock(this.props.data.id);
   }
 
   /**
@@ -112,16 +109,31 @@ export class RichTextEditor extends Component {
       });
   }
 
+  copyCell = (bind) => {
+    let data = this.props.data;
+    data.content.content = this.props.input.value;
+    this.props.instantSave();
+    this.props.copyCell(this.props.data, bind);
+  }
+
   render() {
     const { className, meta, id } = this.props;
 
     return (
       <Wrapper className={className}>
-        <FroalaReduxForm
-          {...this.props}
+        {this.props.contenttype == BLOCK_NAME ? 
+          (
+            <FroalaReduxFormName
+              {...this.props}
+            />
+          ) : (
+            <FroalaReduxForm
+              {...this.props}
 
-          handleButtonClick={(action) => {this.getButtonClick(action)}}
-        />
+              handleButtonClick={(action) => {this.getButtonClick(action)}}            
+            />
+          )
+        }
         <Message meta={meta} />
       </Wrapper>
     );
@@ -133,7 +145,7 @@ RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 export default connect(
   null,
   dispatch => ({
-    saveBlock: (id) => dispatch(saveBlock(id)),
+    copyCell: (cell, bind) => dispatch(copyCell(cell, bind)),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   })

@@ -207,7 +207,7 @@ export class EditorAdditionalMenu extends Component {
     let prevcell = lastCellId ? lastCellId : this.props.sectionid;
     this.props.mutate({
       variables: {
-        name: '',
+        contentname: '',
         prevcell: prevcell,
         parent: this.props.sectionid,
         isHead: false,
@@ -260,17 +260,24 @@ export class EditorAdditionalMenu extends Component {
         } catch(error){
           console.error('Error: ',error);
         }
+        store.writeQuery({
+          query: CellItemQuery,
+          variables: {
+            id: createcell.cell.id
+          },
+          data: createcell
+        })
 
 
       }
     })
       .then(({data}) => {
         console.log('got data', data);
-        this.props.setNotificationSuccess(createCellNotification(blockType, 'success'));
+        this.props.setNotificationSuccess(createCellNotification(blockType,'success'));
 
       })
       .catch((error) => {
-        this.props.setNotificationSuccess(createCellNotification(blockType, 'error'));
+        this.props.setNotificationSuccess(createCellNotification(blockType,'error'));
         console.log('there was an error sending the query', error);
       });
   }

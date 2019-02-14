@@ -135,6 +135,7 @@ export class EditorCellController extends Component {
         variables: {
           id: this.props.data.id,
           content: this.props.values.content,
+          contentname: this.props.values.name.slice(3, -4),
         },
       })
       .then(response => {
@@ -148,12 +149,26 @@ export class EditorCellController extends Component {
   }
 
   /**
-   * @desc метод для отключения фокуса формы и автосохранения
+   * @desc метод для отключения фокуса формы
    * */
-  onBlurForm = () => {
+  onBlurForm = (e) => {
+    var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
+
+    setTimeout(function() {
+      if (!currentTarget.contains(document.activeElement)) {
+          this.startSave();
+      }
+    }.bind(this), 0);
+  };
+
+  startSave = () => {
     const { values, data } = this.props;
     this.stopAutoSave();
-    if (values && values.content && values.content !== data.content.content) {
+    if (
+      values &&
+      (values.content && values.content !== data.content.content ||
+      values.name && values.name !== data.content.name)
+    ) {
       this.saveCellContent()
         .then(response => {
           this.props.setNotificationSuccess(notificationOpts().success);
@@ -216,18 +231,20 @@ export class EditorCellController extends Component {
     // console.log('EditorCellController: ', editable);
     return (
       <Box
-        ml={(data.content.contenttype !== BLOCK_TEXT && !editable)? 19 : null}
+        pl={(data.content.contenttype !== BLOCK_TEXT && !editable)? 18 : null}
         mt={12}
       >
         <Text
-          Weight={500}
+          fontWeight={'bold'}
           fontSize={6}
           color={'color11'}
           ml={'10px'}
         >
           {
             !editable && data.content.contenttype === BLOCK_TABLE ?
-            data.content.number + '. ' + data.content.name :
+            (
+              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+            ):
             null
           }
         </Text>
@@ -277,11 +294,13 @@ export class EditorCellController extends Component {
                 initialValues={{
                   id: data.id,
                   content: data.content.content,
+                  name: data.content.name,
                   contenttype: data.content.contenttype,
                 }}
                 id={data.id}
                 data={data}
-                onBlurForm={() => this.onBlurForm()}
+                onBlurForm={(e) => this.onBlurForm(e)}
+                instantSave={() => this.startSave()}
               />
             )}
           </Box>
@@ -291,14 +310,16 @@ export class EditorCellController extends Component {
           </Box>
         </Flex>
         <Text
-          Weight={500}
+          fontWeight={'bold'}
           fontSize={6}
           color={'color11'}
           textAlign={'center'}
         >
           {
             !editable && data.content.contenttype === BLOCK_IMAGE ?
-            data.content.number + '. ' + data.content.name :
+            (
+              data.content.name ? data.content.number + '. ' + data.content.name : data.content.number + '. '
+            ):
             null
           }
         </Text>

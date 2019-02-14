@@ -65,20 +65,8 @@ export class ProjectEditorPage extends Component {
     this.state = {};
   }
 
-  componentDidUpdate() {
-    if (this.props.bindingBlockId) {
-      console.log(this.props.bindingBlockId);
-      // EditorWrapper.addEventListener('click', function(){
-      //   alert('hi')
-      // });
-      // EditorWrapper.onClick = function() {
-      //   alert('hi');
-      // }
-    }
-  }
-
   handleClick() {
-    if (this.props.bindingBlockId) {
+    if (this.props.cellToCopy) {
       this.props.removeBlock();
     }
   }
@@ -121,7 +109,7 @@ export class ProjectEditorPage extends Component {
                     />
                   </SideBarWrapper>
                   <EditorWrapper
-                    style={this.props.bindingBlockId ? { opacity: '0.4' } : {}}
+                    style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
                     onClick={() => this.handleClick()}>
                     <ProjectEditor sectionid={params.sectionid} />
                   </EditorWrapper>

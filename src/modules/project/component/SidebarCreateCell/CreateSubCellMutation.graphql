@@ -38,6 +38,9 @@ mutation( $parent: String!, $isHead: Boolean, $contenttype: String, $content: St
       parent {
         id
       }
+      lastChildren {
+        id
+      }
       verify
     }
   }

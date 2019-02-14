@@ -1,5 +1,5 @@
-mutation($nextcell: String, $prevcell: String,$parent: String,$isHead: Boolean, $contenttype: String, $content: String) {
-  createcell(nextcell: $nextcell, prevcell: $prevcell,parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content){
+mutation($nextcell: String, $prevcell: String,$parent: String,$isHead: Boolean, $contenttype: String, $content: String, $contentname: String) {
+  createcell(nextcell: $nextcell, prevcell: $prevcell,parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content, contentname: $contentname){
     cell{
       childcell: children {
         id
@@ -38,6 +38,32 @@ mutation($nextcell: String, $prevcell: String,$parent: String,$isHead: Boolean, 
       parent {
         id
       }
+      lastChildren {
+        id
+      }
+      pull {
+        id
+        nextcell {
+          name
+          id
+        }
+        prevcell {
+          name
+          id
+        }
+        parent {
+          name
+          id
+        }
+        content {
+          id
+          name
+          content
+          contenttype
+          number
+        }
+      }
+      
       verify
     }
   }
