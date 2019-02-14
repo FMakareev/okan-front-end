@@ -27,6 +27,7 @@ import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
 
 /** Constatns */
 import { CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED } from '@lib/shared/approvalStatus';
+import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -250,6 +251,7 @@ export class DocumentTree extends Component {
       return cellid;
     }
     try {
+      const {client} = this.props;
       let tree = Object.assign({}, this.state.tree);
       let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
       let currentNode = objectPath.get([tree], pathToCurrentNode);
@@ -282,7 +284,7 @@ export class DocumentTree extends Component {
           nextNodeCurrentNode.prevcell = prevNodeCurrentNode;
         }
         /** @desc обновляем в кеше apollo prevcell */
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: prevNodeCurrentNode.id,
           prevcell: prevNodeCurrentNode.prevcell,
           nextcell: prevNodeCurrentNode.nextcell,
@@ -290,7 +292,7 @@ export class DocumentTree extends Component {
         });
 
         /** @desc обновляем в кеше apollo nextcell */
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: nextNodeCurrentNode.id,
           prevcell: nextNodeCurrentNode.prevcell,
           parent: nextNodeCurrentNode.parent,
@@ -304,7 +306,7 @@ export class DocumentTree extends Component {
         tree.childcell = nextNodeCurrentNode;
         // TODO: чекнуть как обновляется в кеше
         /** @desc обновляем в кеше apollo nextcell */
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: nextNodeCurrentNode.id,
           prevcell: null,
         });
@@ -323,7 +325,7 @@ export class DocumentTree extends Component {
           prevNodeCurrentNode.nextcell = null;
         }
         /** @desc обновляем в кеше apollo prevcell */
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: prevNodeCurrentNode.id,
           nextcell: prevNodeCurrentNode.nextcell,
           childcell: prevNodeCurrentNode.childcell,
@@ -356,25 +358,6 @@ export class DocumentTree extends Component {
     } catch (error) {
       console.error('Error removeNodeInTree: ', error);
     }
-  };
-
-  /**
-   * @param {object} value
-   * @desc метод для обновления ячейки в кеше */
-  updateCellInCache = value => {
-    const { client } = this.props;
-    const options = {
-      query: CellItemQuery,
-      variables: {
-        id: value.id,
-      },
-    };
-
-    const data = client.readQuery(options);
-
-    data.cellitem = { ...data.cellitem, ...value };
-
-    client.writeQuery({ ...options, data });
   };
 
   /**
@@ -778,7 +761,7 @@ export class DocumentTree extends Component {
   addNodeInTree = cell => {
     // console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
-
+    const {client} = this.props;
     let newCell = this.createCellNode({ ...cell, focused: true });
 
     let pathToParentCell =
@@ -839,7 +822,7 @@ export class DocumentTree extends Component {
       parentCell.toggled = true;
       parentCell.active = true;
       objectPath.set([tree], pathToParentCell, parentCell);
-      this.updateCellInCache({
+      UpdateCellInCache(client,{
         id: parentCell.id,
         verify: parentCell.verify,
         prevcell: parentCell.prevcell,
@@ -853,27 +836,27 @@ export class DocumentTree extends Component {
         nextCell.prevcell = newCell;
 
         objectPath.set([tree], pathToPrevCell, prevCell);
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: prevCell.id,
           nextcell: prevCell.nextcell,
         });
 
         objectPath.set([tree], pathToNextCell, nextCell);
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: nextCell.id,
           prevcell: nextCell.prevcell,
         });
       } else if (prevCell && !nextCell) {
         prevCell.nextcell = newCell;
         objectPath.set([tree], pathToPrevCell, prevCell);
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: prevCell.id,
           nextcell: prevCell.nextcell,
         });
       } else if (!prevCell && nextCell) {
         nextCell.prevcell = newCell;
         objectPath.set([tree], pathToNextCell, nextCell);
-        this.updateCellInCache({
+        UpdateCellInCache(client,{
           id: nextCell.id,
           prevcell: nextCell.prevcell,
         });
@@ -998,18 +981,7 @@ export class DocumentTree extends Component {
         mutation: UpdateCellMutation,
         variables: value,
         update: (store, { data: { updatecell } }) => {
-          const options = {
-            query: CellItemQuery,
-            variables: {
-              id: updatecell.cell.id,
-            },
-          };
-          const data = store.readQuery(options);
-          data.cell = updatecell.cell;
-          store.writeQuery({
-            ...options,
-            data,
-          });
+          UpdateCellInCache(store,updatecell.cell );
         },
       })
       .catch(error => {
@@ -1019,7 +991,6 @@ export class DocumentTree extends Component {
   };
 
   updateDocument = value => {
-    // console.log('updateDocument:', value);
     const { client } = this.props;
 
     return client
