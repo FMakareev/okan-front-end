@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { success, error } from 'react-notification-system-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {graphql, compose, withApollo} from 'react-apollo';
+import {success, error} from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -26,13 +26,14 @@ import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Redux action to remove BlockId from store */
-import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
+import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
+import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
 
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({ active }) => (active ? 'background-color: #bdbdbd52;' : '')}
+  ${({active}) => (active ? 'background-color: #bdbdbd52;' : '')}
   /* ${props => console.log(props)} */
 
   &:hover {
@@ -81,18 +82,24 @@ const notificationCopy = cellText => ({
 
 export class SidebarCellNode extends Component {
   static propTypes = {
+    /** @desc обновление инфомации ячейки в дереве навигации */
     updateNode: PropTypes.func.isRequired,
+    /** @desc добавление ячейки в дерево навигации */
     addNodeInTree: PropTypes.func.isRequired,
+    /** @desc метод для изменения статуса ячейки*/
     cellCheckStatusChange: PropTypes.func.isRequired,
+    /** @desc удаление ячейки из дерева навигации */
     removeNodeInTree: PropTypes.func.isRequired,
+    /** @desc создание копии ячейки */
     createCopy: PropTypes.func.isRequired,
+    /** @desc изменил статус фокуса у ячейки */
+    changeNodeFocus: PropTypes.func.isRequired,
     position: PropTypes.shape({
       cellid: PropTypes.string,
       sectionid: PropTypes.string,
       documentid: PropTypes.string,
       projectid: PropTypes.string,
     }),
-    changeNodeFocus: PropTypes.func.isRequired,
     decorators: PropTypes.shape({
       Container: PropTypes.any,
       Header: PropTypes.any,
@@ -214,7 +221,7 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const { onClick, node, history, document, cellToCopy, bindAfterCopy } = this.props;
+      const {onClick, node, history, document, cellToCopy, bindAfterCopy} = this.props;
 
       const isHead = SidebarCellNode.childcellIsCategory(node);
 
@@ -270,7 +277,7 @@ export class SidebarCellNode extends Component {
               parent: this.props.node.id
             }
           });
-          if(data.celllist.length > 0){
+          if (data.celllist.length > 0) {
             data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
           }
 
@@ -319,7 +326,7 @@ export class SidebarCellNode extends Component {
 
           let dataParentWrite = {};
           for (let i = 0; i < dataParentList.celllist.length; i++) {
-            if(dataParentList.celllist[i].id === bindingcell.cell.id) {
+            if (dataParentList.celllist[i].id === bindingcell.cell.id) {
               dataParentWrite = dataParentList.celllist[i];
               dataParentWrite.pull = bindingcell.cell.pull;
             }
@@ -331,28 +338,23 @@ export class SidebarCellNode extends Component {
               id: bindingcell.cell.parent.id
             },
             data: dataParentWrite
-          })
-
-          const nodeCell = store.readQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id
-            }
           });
 
-          nodeCell.cellitem.lastChildren = target;
-          this.props.node.lastChildren = target;
+          try {
+            UpdateCellInCache(store, {
+              id: this.props.node.id,
+              lastChildren: target,
+            });
 
-          store.writeQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id
-            },
-            data: nodeCell
-          });
+            this.props.updateNode(this.props.node.id, {lastChildren: target});
+          } catch (error) {
+            console.error('Error bindBlock: ', error);
+          }
+
+
         }
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
         /** Удаляет id блока из кэша */
@@ -366,7 +368,7 @@ export class SidebarCellNode extends Component {
 
   render() {
     const {
-      node, onClick, setNotificationSuccess,
+      node, setNotificationSuccess,
       setNotificationError
     } = this.props;
     const {hover, name, prevName} = this.state;
