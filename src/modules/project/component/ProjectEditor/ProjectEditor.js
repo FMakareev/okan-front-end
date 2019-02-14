@@ -138,7 +138,6 @@ export class ProjectEditor extends Component {
       sectionid,
       location: { search },
     } = this.props;
-    console.log(11, sectionid);
 
     const { childName, parentName, number } = this.state;
 
