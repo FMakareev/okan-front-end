@@ -92,9 +92,10 @@ export class FormCreateFirstCell extends Component {
   };
 
   submit = value => {
-    this.SubmitCreateCell(value).then(response => {
+    this.SubmitCreateCell(value)
+      .then(response => {
       const { data } = response;
-      this.SubmitUpdateDocument(data.createcell.cell.id);
+        this.SubmitUpdateDocument(data.createcell.cell.id);
     });
   };
 
@@ -110,7 +111,7 @@ export class FormCreateFirstCell extends Component {
         <Flex pb={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
           <Box height={'20px'} width={'100%'}>
             <Field
-              name={`name ${id}`}
+              name={`name`}
               disabled={submitting}
               component={TextFieldWithTooltip}
               placeholder={'Введите название раздела...'}

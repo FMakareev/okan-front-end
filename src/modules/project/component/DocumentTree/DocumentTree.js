@@ -106,7 +106,7 @@ export class DocumentTree extends Component {
               decorators: {
                 ...this.decorators,
                 Container: props => (
-                  <FormCreateFirstCell document={data} project={project} {...props} />
+                  <FormCreateFirstCell form={'FormCreateFirstCell-' + data.id} document={data} project={project} {...props} />
                 ),
               },
             },
