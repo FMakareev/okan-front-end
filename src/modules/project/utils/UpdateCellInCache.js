@@ -6,7 +6,6 @@ import CellItemQuery from './CellItemQuery.graphql';
  * @desc
  * */
 export const UpdateCellInCache = (client, data) => {
-  console.log('UpdateCellInCache: ',data);
   let cell = {cellitem: {}};
   let options = {
     query: CellItemQuery,
