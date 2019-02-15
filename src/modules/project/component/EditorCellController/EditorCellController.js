@@ -255,7 +255,7 @@ export class EditorCellController extends Component {
               <Fragment> {sectionNumber}</Fragment>
             }
           </Text>
-          <Box width={'calc(100%)'}>
+          <Box width={'calc(100% - 160px)'}>
 
             {/** заголовок таблицы */}
             <EditorCellTitle
@@ -270,7 +270,7 @@ export class EditorCellController extends Component {
                 onClick={this.openEditor}
                 fontSize={5}
                 textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
-
+                wordBreak={'break-all'}
                 lineHeight={6}
                 color={'color11'}
                 fontFamily={'primary300'}>
