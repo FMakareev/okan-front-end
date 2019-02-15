@@ -22,10 +22,13 @@ import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
 
 /** Graphql schema */
 import CreateCellMutation from './CreateCellMutation.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
 import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
 import deleteQueryFromCache from "../../utils/deleteQueryFromCache";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
@@ -96,6 +99,7 @@ export class SidebarCreateCell extends Component {
     /** @desc id ячейки родетеля это общее для ячейки prevcell и той что будет создана следом */
     parent: PropTypes.string,
     removeNodeInTree: PropTypes.func,
+    ...ProjectContextPropTypes,
   };
 
   constructor(props) {
@@ -137,25 +141,21 @@ export class SidebarCreateCell extends Component {
         contenttype,
         node,
       );
-      /** 1) если дочерние ячейки являются разделами */
-      if (node.isHead && !node.childcell) {
+      /**
+       * 1) если нет дочерних разделов и контента
+       * 2) если есть дочернии разделы
+       * 3) если есть дочерний контент -
+       * */
+      /** если дочка*/
+      if (node.isHead && node.childcell && !node.childcell.isHead) {
         this.createSubCell({
           parent: node.id,
-          prevcell,
-          isHead: true,
-        });
-      } else if (node.isHead && node.childcell) {
-
-        this.createCell({
           prevcell: node.lastChildren ? node.lastChildren.id : parent,
-          parent: parent,
           isHead: true,
-          contenttype: null,
-          nextcell: null,
         });
       } else {
         this.createCell({
-          prevcell: parent,
+          prevcell: node.lastChildren ? node.lastChildren.id : parent,
           parent: parent,
           isHead: true,
           contenttype: null,
@@ -176,7 +176,7 @@ export class SidebarCreateCell extends Component {
    * @desc создание подраздела у раздела ячейки которого являются контентом
    * */
   createSubCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const {setNotificationSuccess, setNotificationError, project, history, client} = this.props;
 
     const variables = {
       parent: parent,
@@ -184,27 +184,74 @@ export class SidebarCreateCell extends Component {
       isHead,
     };
 
-    this.props.client
+    client
       .mutate({
         mutation: CreateSubCellMutation,
         variables,
         update: (store, {data: {createsubcell}}) => {
           try {
+            console.log('createsubcell: ', createsubcell);
+            /** записываем в кеш аполо только что созданную ячейку */
             UpdateCellInCache(store, createsubcell.cell);
 
+            /** обновляем у родителя ссылку на последнюю дочернюю ячейку */
             if (createsubcell.cell.parent && !createsubcell.cell.nextcell) {
               UpdateCellInCache(store, {
                 ...createsubcell.cell.parent,
                 lastChildren: createsubcell.cell,
               })
             }
+
+            /** обновляем у дочерних ячеек ссылку на родителя */
+            if (createsubcell.cell.childcell && !createsubcell.cell.childcell.isHead) {
+              let options = {
+                query: CellListQuery,
+                variables: {
+                  parent: createsubcell.cell.parent.id
+                }
+              };
+
+              let data = {celllist: []};
+              try {
+                data = store.readQuery(options)
+              } catch (error) {
+                console.error('Error createSubCell update read celllist', error);
+              }
+              try {
+                console.log('update: ', data);
+                data.celllist = data.celllist.map(item => {
+                  if (item.prevcell.id === item.parent.id) {
+                    item.prevcell = createsubcell.cell;
+                  }
+                  item.parent = createsubcell.cell;
+                  return item;
+                });
+                console.log('update: ', data);
+
+                store.writeQuery({
+                  ...options,
+                  variables: {
+                    parent: createsubcell.cell.id
+                  },
+                  data,
+                })
+              } catch (error) {
+                console.error('Error createSubCell update write celllist', error);
+              }
+
+            }
+
+
           } catch (error) {
             console.error('Error createCell: ', error);
           }
+
+
         },
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createsubcell.cell);
+
         setNotificationSuccess(
           notificationCreate({
             prevcell,
@@ -213,6 +260,15 @@ export class SidebarCreateCell extends Component {
             contenttype,
           }).success,
         );
+        try {
+          if (getPosition(project, 'sectionid') === response.data.createsubcell.cell.parent.id) {
+            console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
+            this.props.changeActiveNode(response.data.createsubcell.cell.id);
+          }
+        } catch (error) {
+          console.error('Error: ', error);
+        }
+
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
@@ -289,7 +345,7 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: DeleteCellMutation,
         variables: {id},
-        // fetchPolicy: 'no-cache',
+        fetchPolicy: 'no-cache',
         update: (client, response, test) => {
           try {
             client.optimisticData.data = deleteQueryFromCache(client.optimisticData.data, id);
