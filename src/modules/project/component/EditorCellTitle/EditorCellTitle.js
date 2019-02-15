@@ -12,7 +12,8 @@ const NameStyled = styled(Box)`
     padding: 0;
   }
 `;
-
+//style="display:none;"
+//data-f-id="pbf"
 export const EditorCellTitle = ({content, editable, onClick, contenttype}) => {
   if (content.contenttype !== contenttype || editable) return null;
   return (<Text
@@ -30,7 +31,7 @@ export const EditorCellTitle = ({content, editable, onClick, contenttype}) => {
       alignItems={'flex-start'}
     >
       <Box>{content.number}. </Box>
-      <NameStyled>{content.name && ReactHTMLParser(content.name)}</NameStyled>
+      <NameStyled>{content.name && ReactHTMLParser(content.name.replace('data-f-id="pbf"', 'style="display:none;"'))}</NameStyled>
     </Flex>
   </Text>)
 };

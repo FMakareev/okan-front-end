@@ -267,7 +267,7 @@ export class EditorCellController extends Component {
                 lineHeight={6}
                 color={'color11'}
                 fontFamily={'primary300'}>
-                {data.content && ReactHTMLParser(data.content.content)}
+                {data.content && ReactHTMLParser(data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'))}
                 {data.content &&
                 !data.content.content &&
                 'Нажмите чтобы начать редактирование раздела.'}
