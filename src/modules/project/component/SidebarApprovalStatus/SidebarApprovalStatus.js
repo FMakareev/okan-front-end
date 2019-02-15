@@ -21,6 +21,7 @@ import {
 /** */
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 import queryString from 'query-string';
+import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
 
 const GetStatusColor = status => {
   switch (status) {
@@ -62,17 +63,8 @@ export class SidebarApprovalStatus extends Component {
           verify,
         },
         update: (store, { data: { updatecell } }) => {
-          const options = {
-            query: CellItemQuery,
-            variables: {
-              id: id,
-            },
-          };
-          const data = store.readQuery(options);
-          data.cell = updatecell.cell;
-          store.writeQuery({
-            ...options,
-            data,
+          UpdateCellInCache(store, {
+            ...updatecell.cell,
           });
         },
       })
