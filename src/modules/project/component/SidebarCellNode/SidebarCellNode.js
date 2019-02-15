@@ -28,6 +28,8 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 /** Redux action to remove BlockId from store */
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
+import {childcellIsCategory} from "../../utils/childcellIsCategory";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -94,12 +96,9 @@ export class SidebarCellNode extends Component {
     createCopy: PropTypes.func.isRequired,
     /** @desc изменил статус фокуса у ячейки */
     changeNodeFocus: PropTypes.func.isRequired,
-    position: PropTypes.shape({
-      cellid: PropTypes.string,
-      sectionid: PropTypes.string,
-      documentid: PropTypes.string,
-      projectid: PropTypes.string,
-    }),
+
+    ...ProjectContextPropTypes,
+
     decorators: PropTypes.shape({
       Container: PropTypes.any,
       Header: PropTypes.any,
@@ -169,61 +168,11 @@ export class SidebarCellNode extends Component {
   getNumberFromContent = node =>
     has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
-  /**
-   * @param {object} cell - объект ячейки
-   * @desc метод проверяет является ли дочерняя ячейка категорией
-   * */
-  static childcellIsCategory = cell => {
-    try {
-      if (has.call(cell, 'childcell') && cell.childcell) {
-        return cell.childcell.isHead;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error('Error cellIsHead: ', cell, error);
-      return false;
-    }
-  };
-
-  /**
-   * @param {string} projectid
-   * @param {string} documentid
-   * @param {object} node
-   * @param {object} history
-   * @desc метод для перехода к опредленной категории в роутере
-   * */
-  static gotToCategory = (projectid, documentid, node, history) => {
-    try {
-      if (!history) {
-        console.error(`Error: goToCategory history is undefined: `, history);
-        return null;
-      }
-      if (!projectid) {
-        console.error(`Error: goToCategory projectid is undefined: `, projectid);
-        return null;
-      }
-      if (!documentid) {
-        console.error(`Error: goToCategory documentid is undefined: `, documentid);
-        return null;
-      }
-      if (!node) {
-        console.error(`Error: goToCategory node is undefined: `, node);
-        return null;
-      }
-      history.push(
-        `/app/project/${projectid}/${documentid}/${node.id}?sectionNumber=${node.number}`,
-      );
-    } catch (error) {
-      console.error('Error in gotToCategory: ', error);
-    }
-  };
-
   handleClick = () => {
     try {
       const {onClick, node, history, document, cellToCopy, bindAfterCopy} = this.props;
 
-      const isHead = SidebarCellNode.childcellIsCategory(node);
+      const isHead = childcellIsCategory(node);
 
       if (isHead) {
         onClick();
@@ -232,7 +181,6 @@ export class SidebarCellNode extends Component {
           this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
         } else {
 
-          SidebarCellNode.gotToCategory(document.project, document.id, node, history);
           this.props.changeActiveNode(
             node ? node.id : null,
             getPosition(this.props.project, 'sectionid'),
@@ -369,10 +317,11 @@ export class SidebarCellNode extends Component {
   render() {
     const {
       node, setNotificationSuccess,
-      setNotificationError
+      setNotificationError,
+      project
     } = this.props;
     const {hover, name, prevName} = this.state;
-    const isHead = SidebarCellNode.childcellIsCategory(node);
+    const isHead = childcellIsCategory(node);
     return (
       <Wrapper
         active={node.active}
@@ -419,9 +368,11 @@ export class SidebarCellNode extends Component {
           <Box opacity={hover ? '1' : '0'} px={1}>
             <SidebarCreateCell
               node={node}
+              changeActiveNode={(id) => this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))}
               addNodeInTree={this.props.addNodeInTree}
               changeNodeFocus={this.props.changeNodeFocus}
               removeNodeInTree={this.props.removeNodeInTree}
+              project={project}
             />
           </Box>
           <Box px={1}>
