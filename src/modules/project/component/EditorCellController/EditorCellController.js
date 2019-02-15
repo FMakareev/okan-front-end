@@ -240,13 +240,20 @@ export class EditorCellController extends Component {
             mt={'2px'}
             ml={'10px'}>
             {/** иконка редактора */}
-            {editable && data.content.contenttype !== BLOCK_TEXT && (
-              <EditorTypeIcon type={data.content.contenttype}/>
-            )}
+            {
+              editable && data.content.contenttype !== BLOCK_TEXT &&
+              (
+                <EditorTypeIcon type={data.content.contenttype}/>
+              )
+            }
 
             {/** номер текстового блока */}
-            {(data.content.contenttype === BLOCK_TEXT) && data.parent && data.prevcell &&
-            <Fragment> {sectionNumber}</Fragment>}
+            {
+              (data.content.contenttype === BLOCK_TEXT) &&
+              data.parent &&
+              data.prevcell &&
+              <Fragment> {sectionNumber}</Fragment>
+            }
           </Text>
           <Box width={'calc(100%)'}>
 
@@ -267,10 +274,16 @@ export class EditorCellController extends Component {
                 lineHeight={6}
                 color={'color11'}
                 fontFamily={'primary300'}>
-                {data.content && ReactHTMLParser(data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'))}
-                {data.content &&
-                !data.content.content &&
-                'Нажмите чтобы начать редактирование раздела.'}
+                {
+                  data.content &&
+                  typeof data.content.content === 'string' &&
+                  ReactHTMLParser(data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'))
+                }
+                {
+                  data.content &&
+                  !data.content.content &&
+                  'Нажмите чтобы начать редактирование раздела.'
+                }
               </Text>
             )}
 

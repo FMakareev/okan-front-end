@@ -31,7 +31,13 @@ export const EditorCellTitle = ({content, editable, onClick, contenttype}) => {
       alignItems={'flex-start'}
     >
       <Box>{content.number}. </Box>
-      <NameStyled>{content.name && ReactHTMLParser(content.name.replace('data-f-id="pbf"', 'style="display:none;"'))}</NameStyled>
+      <NameStyled>
+        {
+          content.name &&
+          typeof content.name === 'string' &&
+          ReactHTMLParser(content.name.replace('data-f-id="pbf"', 'style="display:none;"'))
+        }
+      </NameStyled>
     </Flex>
   </Text>)
 };
