@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withApollo} from 'react-apollo';
 import {error, success} from 'react-notification-system-redux';
-import {invalidateFields, ROOT} from 'apollo-cache-invalidation';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -26,6 +25,7 @@ import CreateCellMutation from './CreateCellMutation.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
 import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
+import deleteQueryFromCache from "../../utils/deleteQueryFromCache";
 
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
@@ -87,8 +87,6 @@ const notificationDelete = name => {
     },
   };
 };
-
-
 
 
 export class SidebarCreateCell extends Component {
@@ -287,13 +285,18 @@ export class SidebarCreateCell extends Component {
   deleteCell = (id, name) => {
     const {setNotificationSuccess, setNotificationError} = this.props;
 
-    // TODO: Добавить удаление удаленного объекта из кеша
-
     this.props.client
       .mutate({
         mutation: DeleteCellMutation,
         variables: {id},
-        fetchPolicy: 'no-cache',
+        // fetchPolicy: 'no-cache',
+        update: (client, response, test) => {
+          try {
+            client.optimisticData.data = deleteQueryFromCache(client.optimisticData.data, id);
+          } catch (err) {
+            console.log(err);
+          }
+        }
       })
       .then(response => {
         this.props.removeNodeInTree(id);
