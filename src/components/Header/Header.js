@@ -76,14 +76,15 @@ export class Header extends Component {
     window.removeEventListener('click', this.handleWindow);
   }
 
-  handleClick = event => {
-    event.stopPropagation();
+  handleClick = e => {
+    e = e || window.event;
     this.setState(({ isOpen }) => {
       return { isOpen: true };
     });
+    e.stopPropagation();
   };
 
-  handleWindow = event => {
+  handleWindow = e => {
     this.setState(({ isOpen }) => {
       return { isOpen: false };
     });
