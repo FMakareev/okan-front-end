@@ -286,7 +286,7 @@ export class SidebarCreateCell extends Component {
    * @desc создание ячейки
    * */
   createCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const {setNotificationSuccess, project, setNotificationError} = this.props;
 
     console.log('createCell:', prevcell, nextcell, parent, isHead, contenttype);
 
@@ -323,6 +323,11 @@ export class SidebarCreateCell extends Component {
         setNotificationSuccess(
           notificationCreate({prevcell, parent: null, isHead, contenttype}).success,
         );
+
+        if (getPosition(project, 'sectionid') === response.data.createcell.cell.parent.id) {
+          console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
+          this.props.changeActiveNode(response.data.createcell.cell.id);
+        }
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
