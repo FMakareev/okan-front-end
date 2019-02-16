@@ -49,7 +49,7 @@ export class SideBarDocumentDelete extends Component {
           let documentIndex = null;
 
           for (let i = 0; i < data.projectitem.documents.length; i += 1) {
-            if (data.projectitem.documents[i].id === id) {
+            if (data.projectitem.documents[i].id === deletedocument.document.id) {
               documentIndex = i;
             }
           }
@@ -58,9 +58,15 @@ export class SideBarDocumentDelete extends Component {
 
           // const newProjectItemList = projectItemList.filter(item => item !== documentIndex);
 
-          const newProjectItemList = projectItemList.splice(documentIndex, 1);
+          const newProjectItemList = data.projectitem.documents.splice(documentIndex, 1);
 
-          store.writeQuery({ data, data: newProjectItemList });
+          console.log(1, data.projectitem.documents);
+          store.writeQuery({
+            query: ProjectItemQuery,
+            variables: { id: projectid },
+            data,
+          });
+          console.log(1, store);
         },
       })
       .then(response => {
