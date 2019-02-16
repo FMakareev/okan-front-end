@@ -36,6 +36,12 @@ const LinkStyled = styled(Link)`
   justify-content: space-between;
 `;
 
+const TdStyle = styled(Td)`
+  word-wrap: break-word;
+  width: 50%;
+  padding: 0 5px;
+`;
+
 export const ProfileApproval = ({ data }) => {
   // console.log(11, data);
   return (
@@ -67,8 +73,8 @@ export const ProfileApproval = ({ data }) => {
               <LinkStyled to={`/app/project/${item.project}/${item.id}`}>
                 <TbodyStyled>
                   <TrStyled>
-                    <Td fontFamily={'primary500'}>{item.okancode}</Td>
-                    <Td fontFamily={'secondaryBold'}>{item.name}</Td>
+                    <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
+                    <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
                   </TrStyled>
                 </TbodyStyled>
               </LinkStyled>
