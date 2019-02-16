@@ -35,6 +35,7 @@ const has = Object.prototype.hasOwnProperty;
 const SidebarCellNodeWithProject = withProject(props => <SidebarCellNode {...props} />);
 
 export class DocumentTree extends Component {
+
   static propTypes = {
     /** @desc объект с информацией о дкументе */
     data: PropTypes.shape({
@@ -780,21 +781,18 @@ export class DocumentTree extends Component {
    * @desc метод добавления одной ячейки в дерево
    * */
   addNodeInTree = cell => {
-    // console.log('addNodeInTree: ', cell);
+    console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
     const { client } = this.props;
     let newCell = this.createCellNode({ ...cell, focused: true });
 
-    let pathToParentCell =
-      this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null) || '0';
+    let pathToParentCell = this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null) || '0';
     let parentCell = objectPath.get([tree], pathToParentCell);
 
-    let pathToPrevCell =
-      cell.prevcell !== null ? this.getPathToNode(tree, cell.prevcell.id) || '0' : null;
+    let pathToPrevCell = cell.prevcell !== null ? this.getPathToNode(tree, cell.prevcell.id) || '0' : null;
     let prevCell = pathToPrevCell ? objectPath.get([tree], pathToPrevCell) : null;
 
-    let pathToNextCell =
-      cell.nextcell !== null ? this.getPathToNode(tree, cell.nextcell.id) || '0' : null;
+    let pathToNextCell = cell.nextcell !== null ? this.getPathToNode(tree, cell.nextcell.id) || '0' : null;
     let nextCell = pathToNextCell ? objectPath.get([tree], pathToNextCell) : null;
 
     /**
