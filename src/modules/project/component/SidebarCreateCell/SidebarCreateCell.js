@@ -261,9 +261,11 @@ export class SidebarCreateCell extends Component {
           }).success,
         );
         try {
-          if (getPosition(project, 'sectionid') === response.data.createsubcell.cell.parent.id) {
-            console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
-            this.props.changeActiveNode(response.data.createsubcell.cell.id);
+          if(response.data.createsubcell.cell.parent){
+            if (getPosition(project, 'sectionid') === response.data.createsubcell.cell.parent.id) {
+              console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
+              this.props.changeActiveNode(response.data.createsubcell.cell.id);
+            }
           }
         } catch (error) {
           console.error('Error: ', error);
@@ -323,11 +325,14 @@ export class SidebarCreateCell extends Component {
         setNotificationSuccess(
           notificationCreate({prevcell, parent: null, isHead, contenttype}).success,
         );
-
-        if (getPosition(project, 'sectionid') === response.data.createcell.cell.parent.id) {
-          console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
-          this.props.changeActiveNode(response.data.createcell.cell.id);
+        if (response.data.createcell.cell.parent) {
+          if (getPosition(project, 'sectionid') === response.data.createcell.cell.parent.id) {
+            console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
+            this.props.changeActiveNode(response.data.createcell.cell.id);
+          }
         }
+
+
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
