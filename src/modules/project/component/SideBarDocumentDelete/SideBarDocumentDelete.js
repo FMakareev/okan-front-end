@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
+import { withRouter } from 'react-router-dom';
 import { Mutation, withApollo } from 'react-apollo';
 
 /** View */
@@ -35,7 +36,14 @@ export class SideBarDocumentDelete extends Component {
   state = {};
 
   DeleteDocument = () => {
-    const { setNotificationSuccess, setNotificationError, id, name, projectid } = this.props;
+    const {
+      setNotificationSuccess,
+      setNotificationError,
+      id,
+      name,
+      projectid,
+      pathname,
+    } = this.props;
     this.props.client
       .mutate({
         mutation: DeleteDocumentMutation,
@@ -68,8 +76,11 @@ export class SideBarDocumentDelete extends Component {
         },
       })
       .then(response => {
-        // console.log(1122233, projectid);
-        // console.log(1122234, this.props);
+        const indexProjectidInPathname = pathname.indexOf(projectid);
+        const idPathname = pathname.substring(indexProjectidInPathname);
+        if (idPathname.length !== projectid.length) {
+          this.props.history.push(`/app/project/${projectid}`);
+        }
 
         setNotificationSuccess(notificationOpts(name).success);
       })
@@ -95,6 +106,8 @@ export class SideBarDocumentDelete extends Component {
 }
 
 SideBarDocumentDelete = withApollo(SideBarDocumentDelete);
+
+SideBarDocumentDelete = withRouter(SideBarDocumentDelete);
 
 SideBarDocumentDelete = connect(
   state => ({ user: getUserFromStore(state) }),
