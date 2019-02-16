@@ -52,7 +52,7 @@ const FlexStyled = styled(Flex)`
 
 export const SidebarCellRoot = props => {
   const { decorators, terminal, document, projectid, onClick, node } = props;
-
+  console.log(2, props);
   return (
     <FlexStyled
       active={node.active}

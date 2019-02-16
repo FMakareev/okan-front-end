@@ -60,21 +60,21 @@ export class SideBarDocumentDelete extends Component {
 
           const newProjectItemList = data.projectitem.documents.splice(documentIndex, 1);
 
-          console.log(1, data.projectitem.documents);
           store.writeQuery({
             query: ProjectItemQuery,
             variables: { id: projectid },
             data,
           });
-          console.log(1, store);
         },
       })
       .then(response => {
+        // console.log(1122233, projectid);
+        // console.log(1122234, this.props);
+
         setNotificationSuccess(notificationOpts(name).success);
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
-
         setNotificationError(notificationOpts(name).error);
       });
   };
