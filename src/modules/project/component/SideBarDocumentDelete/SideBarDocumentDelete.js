@@ -49,30 +49,22 @@ export class SideBarDocumentDelete extends Component {
         mutation: DeleteDocumentMutation,
         variables: { id },
         update: (store, { data: { deletedocument } }) => {
-          const data = store.readQuery({
-            query: ProjectItemQuery,
-            variables: { id: projectid },
-          });
+          try{
+            const options = {
+              query: ProjectItemQuery,
+              variables: { id: projectid },
+            };
+            const data = store.readQuery(options);
 
-          let documentIndex = null;
-
-          for (let i = 0; i < data.projectitem.documents.length; i += 1) {
-            if (data.projectitem.documents[i].id === deletedocument.document.id) {
-              documentIndex = i;
-            }
+            let documentIndex = data.projectitem.documents.findIndex(item =>item.id === deletedocument.document.id);
+            data.projectitem.documents.splice(documentIndex, 1);
+            store.writeQuery({
+              ...options,
+              data,
+            });
+          } catch(error){
+            console.error('Error update cache after deletedocument: ',error);
           }
-
-          const projectItemList = data.projectitem.documents;
-
-          // const newProjectItemList = projectItemList.filter(item => item !== documentIndex);
-
-          const newProjectItemList = data.projectitem.documents.splice(documentIndex, 1);
-
-          store.writeQuery({
-            query: ProjectItemQuery,
-            variables: { id: projectid },
-            data,
-          });
         },
       })
       .then(response => {
