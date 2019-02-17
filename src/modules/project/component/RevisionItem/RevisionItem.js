@@ -35,7 +35,7 @@ export const RevisionItem = ({ id, name, createrevisiondate, authorrevision }) =
             </ButtonBase>
           </Link>
 
-          <ButtonBase variant={'empty'}>
+          <ButtonBase title={'Эскпортировать ревизию документа'} variant={'empty'}>
             <SvgExport />
           </ButtonBase>
         </Flex>

@@ -119,6 +119,7 @@ export class Header extends Component {
           <ProjectListLink
             to="/app/project-list"
             activeClassName="active"
+            title={'Список проектов'}
             onMouseOver={this.handleMouseOut}>
             <ProjectListLogo />
           </ProjectListLink>
