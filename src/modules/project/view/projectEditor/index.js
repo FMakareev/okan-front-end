@@ -94,22 +94,18 @@ export class ProjectEditorPage extends Component {
                     position: params,
                     // объект с данными о проекте
                     project: data.projectitem,
+                    // можно ли редактировать проект
+                    editable: true,
                   }}>
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar
-                      project={{
-                        // объект с параметрами роутера
-                        position: params,
-                        // объект с данными о проекте
-                        project: data.projectitem,
-                      }}
                       {...data.projectitem}
                     />
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
                     onClick={() => this.handleClick()}>
-                    <ProjectEditor sectionid={params.sectionid} />
+                    <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>

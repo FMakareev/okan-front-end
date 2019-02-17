@@ -26,6 +26,7 @@ import {error, success} from 'react-notification-system-redux';
 /** Global */
 import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
 import {EditorCellTitle} from "../EditorCellTitle/EditorCellTitle";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
 
 const notificationOpts = () => ({
   success: {
@@ -44,6 +45,7 @@ export class EditorCellController extends Component {
   static propTypes = {
     /** data for components */
     data: PropTypes.string,
+    ...ProjectContextPropTypes,
   };
 
   static defaultProps = {data: ''};
@@ -267,7 +269,7 @@ export class EditorCellController extends Component {
             {!editable && (
               <Text
                 className={'editor-cell_content'}
-                onClick={this.openEditor}
+                onClick={() => project.editable ? this.openEditor() : null}
                 fontSize={5}
                 textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
                 wordBreak={'break-all'}
@@ -288,7 +290,7 @@ export class EditorCellController extends Component {
             )}
 
             {/** форма редактора */}
-            {editable && (
+            {project.editable && editable && (
               <EditorCellForm
                 form={'EditorCellForm-' + data.id}
                 initialValues={{
@@ -309,19 +311,22 @@ export class EditorCellController extends Component {
               contenttype={BLOCK_IMAGE}
               onClick={this.openEditor}
               content={data.content}
-              editable={editable}
+              editable={project.editable && editable}
             />
 
 
           </Box>
-          <Flex width={'60px'}>
-            <Box mx={2}>
-              <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
-            </Box>
-            <Box mx={2}>
-              <EditorCellCommentController {...this.props.project} {...data} />
-            </Box>
-          </Flex>
+          {
+            project.editable &&
+            <Flex width={'60px'}>
+              <Box mx={2}>
+                <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+              </Box>
+              <Box mx={2}>
+                <EditorCellCommentController {...this.props.project} {...data} />
+              </Box>
+            </Flex>
+          }
         </Flex>
       </Box>
     );

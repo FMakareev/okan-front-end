@@ -361,28 +361,32 @@ export class SidebarCellNode extends Component {
             </TextStyled>
           </Flex>
         </Flex>
-        <Flex mr={'10px'}>
-          <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarChangeCell onClick={this.onToggleEditable}/>
-          </Box>
-          <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarCreateCell
-              node={node}
-              changeActiveNode={(id) => this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))}
-              addNodeInTree={this.props.addNodeInTree}
-              changeNodeFocus={this.props.changeNodeFocus}
-              removeNodeInTree={this.props.removeNodeInTree}
-              project={project}
-            />
-          </Box>
-          <Box px={1}>
-            <SidebarApprovalStatus
-              cellCheckStatusChange={this.props.cellCheckStatusChange}
-              updateNode={this.props.updateNode}
-              node={node}
-            />
-          </Box>
-        </Flex>
+        {
+          project.editable &&
+          <Flex mr={'10px'}>
+            <Box opacity={hover ? '1' : '0'} px={1}>
+              <SidebarChangeCell onClick={this.onToggleEditable}/>
+            </Box>
+            <Box opacity={hover ? '1' : '0'} px={1}>
+              <SidebarCreateCell
+                node={node}
+                changeActiveNode={(id) => this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))}
+                addNodeInTree={this.props.addNodeInTree}
+                changeNodeFocus={this.props.changeNodeFocus}
+                removeNodeInTree={this.props.removeNodeInTree}
+                project={project}
+              />
+            </Box>
+            <Box px={1}>
+              <SidebarApprovalStatus
+                cellCheckStatusChange={this.props.cellCheckStatusChange}
+                updateNode={this.props.updateNode}
+                node={node}
+              />
+            </Box>
+          </Flex>
+        }
+
       </Wrapper>
     );
   }

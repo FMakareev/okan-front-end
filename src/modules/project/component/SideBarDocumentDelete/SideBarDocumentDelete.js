@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { withRouter } from 'react-router-dom';
-import { Mutation, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -17,86 +17,88 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
 
 const notificationOpts = name => ({
   success: {
-    title: `Документ "${name}" удален.`,
+    title: `Документ "${name || ''}" удален.`,
     position: 'tr',
     autoDismiss: 6,
   },
   error: {
     title: `Произошла ошибка.`,
-    message: `Документ "${name}" не удален.`,
+    message: `Документ "${name || ''}" не удален.`,
     position: 'tr',
     autoDismiss: 6,
   },
 });
 
 export class SideBarDocumentDelete extends Component {
-  state = {};
+  static propTypes = {
+    ...ProjectContextPropTypes,
+    documentId:PropTypes.string.isRequired,
+    documentName:PropTypes.string.isRequired,
+  };
 
-  DeleteDocument = () => {
+  deleteDocument = () => {
     const {
       setNotificationSuccess,
       setNotificationError,
-      id,
-      name,
-      projectid,
-      pathname,
+      documentId,
+      documentName,
+      history,
+      project,
     } = this.props;
     this.props.client
       .mutate({
         mutation: DeleteDocumentMutation,
-        variables: { id },
+        variables: { id:documentId },
         update: (store, { data: { deletedocument } }) => {
-          const data = store.readQuery({
-            query: ProjectItemQuery,
-            variables: { id: projectid },
-          });
+          try{
+            const options = {
+              query: ProjectItemQuery,
+              variables: { id: getPosition(project,'projectid') },
+            };
+            const data = store.readQuery(options);
 
-          let documentIndex = null;
-
-          for (let i = 0; i < data.projectitem.documents.length; i += 1) {
-            if (data.projectitem.documents[i].id === deletedocument.document.id) {
-              documentIndex = i;
-            }
+            let documentIndex = data.projectitem.documents.findIndex(item =>item.id === deletedocument.document.id);
+            data.projectitem.documents.splice(documentIndex, 1);
+            store.writeQuery({
+              ...options,
+              data,
+            });
+          } catch(error){
+            console.error('Error update cache after deletedocument: ',error);
           }
+          try{
+            if(getPosition(project, 'documentid') === deletedocument.document.id){
+              history.push(`/app/project/${getPosition(project, 'projectid')}`);
+            }
 
-          const projectItemList = data.projectitem.documents;
-
-          // const newProjectItemList = projectItemList.filter(item => item !== documentIndex);
-
-          const newProjectItemList = data.projectitem.documents.splice(documentIndex, 1);
-
-          store.writeQuery({
-            query: ProjectItemQuery,
-            variables: { id: projectid },
-            data,
-          });
+          } catch(error){
+            console.error('Error change path after deletedocument: ', error);
+          }
         },
       })
       .then(response => {
-        const indexProjectidInPathname = pathname.indexOf(projectid);
-        const idPathname = pathname.substring(indexProjectidInPathname);
-        if (idPathname.length !== projectid.length) {
-          this.props.history.push(`/app/project/${projectid}`);
-        }
 
-        setNotificationSuccess(notificationOpts(name).success);
+        setNotificationSuccess(notificationOpts(documentName).success);
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
-        setNotificationError(notificationOpts(name).error);
+        setNotificationError(notificationOpts(documentName).error);
       });
   };
 
   render() {
+
     return (
       <ButtonBase
         title={'Удалить документ.'}
         onClick={event => {
           event.stopPropagation();
-          this.DeleteDocument();
+          this.deleteDocument();
         }}
         variant={'empty'}>
         <SvgSidebarDelete />

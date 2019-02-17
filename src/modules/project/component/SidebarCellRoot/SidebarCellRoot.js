@@ -15,14 +15,16 @@ import SideBarDocumentDelete from '../SideBarDocumentDelete/SideBarDocumentDelet
 import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocumentToApproval';
 
 /** Styles property */
-import { NodeToggle } from '../NodeToggle/NodeToggle';
+import {NodeToggle} from '../NodeToggle/NodeToggle';
+import {withProject} from "../ProjectContext/ProjectContext";
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
   transition: all 0.225s;
-  ${({ active, ...rest }) => {
-    return active
-      ? `
+  ${({active, ...rest}) => {
+  return active
+    ? `
     {
       fill: #FFFFFF;
       color: #FFFFFF;
@@ -35,7 +37,7 @@ const FlexStyled = styled(Flex)`
       }
     }
   `
-      : `
+    : `
     {
       fill: #848484;
       color: #848484;
@@ -47,11 +49,14 @@ const FlexStyled = styled(Flex)`
       }
     }
   `;
-  }}
+}}
 `;
 
+
+const SideBarDocumentDeleteWithProject = withProject(props => <SideBarDocumentDelete {...props} />);
+
 export const SidebarCellRoot = props => {
-  const { decorators, terminal, document, projectid, onClick, node, pathname } = props;
+  const { project, document, onClick, node,} = props;
   return (
     <FlexStyled
       active={node.active}
@@ -62,38 +67,39 @@ export const SidebarCellRoot = props => {
       justifyContent={'space-between'}>
       <Flex alignItems={'center'}>
         <Box mx={2}>
-          <NodeToggle toggled={node.toggled} fill={'inherit'} />
+          <NodeToggle toggled={node.toggled} fill={'inherit'}/>
         </Box>
         <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'inherit'}>
           {node.name}
         </Text>
       </Flex>
+      {
+        project.editable &&
+        <Flex height={'20px'}>
+          <Box px={1}>
+            <SidebarProjectSettings projectid={getPosition(project, 'projectid')} documentid={document.id}/>
+          </Box>
+          <Box px={1}>
+            <SidebarCreateRevision documentid={document}/>
+          </Box>
+          <Box px={1}>
+            <SidebarRevisionList documentid={document.id} projectid={getPosition(project, 'projectid')}/>
+          </Box>
+          <Box px={1}>
+            <SidebarDocumentToApproval document={document}/>
+          </Box>
+          <Box px={1}>
+            <SidebarProjectExport/>
+          </Box>
+          <Box px={1}>
+            <SideBarDocumentDeleteWithProject
+              documentId={node.id}
+              documentName={node.name}
+            />
+          </Box>
+        </Flex>
+      }
 
-      <Flex height={'20px'}>
-        <Box px={1}>
-          <SidebarProjectSettings projectid={projectid} documentid={document.id} />
-        </Box>
-        <Box px={1}>
-          <SidebarCreateRevision documentid={document} />
-        </Box>
-        <Box px={1}>
-          <SidebarRevisionList documentid={document.id} projectid={projectid} />
-        </Box>
-        <Box px={1}>
-          <SidebarDocumentToApproval document={document} />
-        </Box>
-        <Box px={1}>
-          <SidebarProjectExport />
-        </Box>
-        <Box px={1}>
-          <SideBarDocumentDelete
-            id={node.id}
-            name={node.name}
-            projectid={projectid}
-            pathname={pathname}
-          />
-        </Box>
-      </Flex>
     </FlexStyled>
   );
 };
