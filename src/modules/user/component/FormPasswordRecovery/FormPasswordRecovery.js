@@ -42,8 +42,8 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
     errors.newpassword = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (newpassword !== undefined && newpassword.length > 32) {
-    errors.newpassword = 'Пароль должен состоять не больше 32 символов';
+  if (newpassword !== undefined && newpassword.length >= 30) {
+    errors.newpassword = 'Пароль должен состоять не больше 30 символов';
   }
 
   if (password === newpassword) {
