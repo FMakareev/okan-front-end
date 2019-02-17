@@ -155,13 +155,13 @@ export class EditorCellController extends Component {
    * @desc метод для отключения фокуса формы
    * */
   onBlurForm = (e) => {
-    var currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
+    let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
-    setTimeout(function () {
+    setTimeout(() => {
       if (!currentTarget.contains(document.activeElement)) {
         this.startSave();
       }
-    }.bind(this), 0);
+    }, 0);
   };
 
   startSave = () => {
