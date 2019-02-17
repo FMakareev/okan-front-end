@@ -189,7 +189,7 @@ export class TextFieldArray extends Component {
           ))}
 
         <SelectBase
-          placeholder={'Добавить нового участника'}
+          placeholder={'Добавить нового согласующего'}
           {...this.props}
           onChange={this.onChange}
           options={this.compareOptions(options, value, valueKey)}
