@@ -40,6 +40,7 @@ const TdStyle = styled(Td)`
   word-wrap: break-word;
   width: 50%;
   padding: 0 5px;
+  text-align: center;
 `;
 
 export const ProfileApproval = ({ data }) => {

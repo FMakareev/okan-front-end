@@ -49,7 +49,7 @@ const validate = ({ log, password, retryPas }) => {
     errors.retryPas = 'Обязательно для заполнения';
   }
 
-  if (password !== undefined && password.length <= 8) {
+  if (password !== undefined && password.length <= 7) {
     errors.password = 'Пароль должен состоять минимум из 8 символов';
   }
 

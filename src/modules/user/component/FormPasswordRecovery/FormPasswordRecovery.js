@@ -38,7 +38,7 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
     errors.confirmnewpassword = 'Обязательно для заполнения';
   }
 
-  if (newpassword !== undefined && newpassword.length <= 8) {
+  if (newpassword !== undefined && newpassword.length <= 7) {
     errors.newpassword = 'Пароль должен состоять минимум из 8 символов';
   }
 
@@ -47,11 +47,11 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
   }
 
   if (password === newpassword) {
-    errors.newpassword = 'Старый пароль и новый пароль, не должны совпадать';
+    errors.newpassword = 'Старый пароль и новый пароль не должны совпадать';
   }
 
   if (confirmnewpassword !== newpassword) {
-    errors.confirmnewpassword = 'Старый пароль и новый пароль, должны совпадать';
+    errors.confirmnewpassword = 'Пароли не совпадают';
   }
   return errors;
 };
