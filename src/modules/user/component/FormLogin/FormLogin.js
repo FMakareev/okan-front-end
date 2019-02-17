@@ -47,11 +47,11 @@ const validate = ({ uname, ups }) => {
   }
 
   if (ups !== undefined && ups.length <= 8) {
-    errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
+    errors.ups = 'Пароль должен состоять минимум из 8 символов ';
   }
 
   if (ups !== undefined && ups.length > 30) {
-    errors.ups = 'Пароль должен состоять не больше 30 цифр ';
+    errors.ups = 'Пароль должен состоять не больше 30 символов ';
   }
   return errors;
 };
