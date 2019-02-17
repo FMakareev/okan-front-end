@@ -16,6 +16,7 @@ import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocum
 
 /** Styles property */
 import { NodeToggle } from '../NodeToggle/NodeToggle';
+import {withProject} from "../ProjectContext/ProjectContext";
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
@@ -49,6 +50,9 @@ const FlexStyled = styled(Flex)`
   `;
   }}
 `;
+
+
+const SideBarDocumentDeleteWithProject = withProject(props => <SideBarDocumentDelete {...props} />);
 
 export const SidebarCellRoot = props => {
   const { decorators, terminal, document, projectid, onClick, node, pathname } = props;
@@ -86,7 +90,7 @@ export const SidebarCellRoot = props => {
           <SidebarProjectExport />
         </Box>
         <Box px={1}>
-          <SideBarDocumentDelete
+          <SideBarDocumentDeleteWithProject
             id={node.id}
             name={node.name}
             projectid={projectid}
