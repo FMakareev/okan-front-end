@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { withRouter } from 'react-router-dom';
-import { Mutation, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -18,43 +18,47 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
 
 const notificationOpts = name => ({
   success: {
-    title: `Документ "${name}" удален.`,
+    title: `Документ "${name || ''}" удален.`,
     position: 'tr',
     autoDismiss: 6,
   },
   error: {
     title: `Произошла ошибка.`,
-    message: `Документ "${name}" не удален.`,
+    message: `Документ "${name || ''}" не удален.`,
     position: 'tr',
     autoDismiss: 6,
   },
 });
 
 export class SideBarDocumentDelete extends Component {
-  state = {};
+  static propTypes = {
+    ...ProjectContextPropTypes,
+    documentId:PropTypes.string.isRequired,
+    documentName:PropTypes.string.isRequired,
+  };
 
   deleteDocument = () => {
     const {
       setNotificationSuccess,
       setNotificationError,
-      id,
-      name,
-      projectid,
+      documentId,
+      documentName,
       history,
       project,
     } = this.props;
     this.props.client
       .mutate({
         mutation: DeleteDocumentMutation,
-        variables: { id },
+        variables: { id:documentId },
         update: (store, { data: { deletedocument } }) => {
           try{
             const options = {
               query: ProjectItemQuery,
-              variables: { id: projectid },
+              variables: { id: getPosition(project,'projectid') },
             };
             const data = store.readQuery(options);
 
@@ -79,16 +83,15 @@ export class SideBarDocumentDelete extends Component {
       })
       .then(response => {
 
-        setNotificationSuccess(notificationOpts(name).success);
+        setNotificationSuccess(notificationOpts(documentName).success);
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
-        setNotificationError(notificationOpts(name).error);
+        setNotificationError(notificationOpts(documentName).error);
       });
   };
 
   render() {
-    console.log('this.props: ', this.props);
 
     return (
       <ButtonBase
