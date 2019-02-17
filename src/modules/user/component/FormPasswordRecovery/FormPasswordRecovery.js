@@ -39,11 +39,11 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
   }
 
   if (newpassword !== undefined && newpassword.length <= 8) {
-    errors.newpassword = 'Пароль должен состоять минимум из 8 цифр';
+    errors.newpassword = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (newpassword !== undefined && newpassword.length > 64) {
-    errors.newpassword = 'Пароль должен состоять не больше 32 цифр';
+  if (newpassword !== undefined && newpassword.length > 32) {
+    errors.newpassword = 'Пароль должен состоять не больше 32 символов';
   }
 
   if (password === newpassword) {

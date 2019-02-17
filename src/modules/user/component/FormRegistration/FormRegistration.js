@@ -50,11 +50,11 @@ const validate = ({ log, password, retryPas }) => {
   }
 
   if (password !== undefined && password.length <= 8) {
-    errors.password = 'Пароль должен состоять минимум из 8 цифр';
+    errors.password = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (password !== undefined && password.length > 64) {
-    errors.password = 'Пароль должен состоять не больше 32 цифр';
+  if (password !== undefined && password.length > 32) {
+    errors.password = 'Пароль должен состоять не больше 32 символов';
   }
 
   if (password !== retryPas) {
