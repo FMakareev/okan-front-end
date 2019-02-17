@@ -91,10 +91,8 @@ export const SidebarCellRoot = props => {
         </Box>
         <Box px={1}>
           <SideBarDocumentDeleteWithProject
-            id={node.id}
-            name={node.name}
-            projectid={projectid}
-            pathname={pathname}
+            documentId={node.id}
+            documentName={node.name}
           />
         </Box>
       </Flex>
