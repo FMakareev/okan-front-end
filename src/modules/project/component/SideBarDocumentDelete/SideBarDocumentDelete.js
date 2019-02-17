@@ -17,6 +17,7 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
 const notificationOpts = name => ({
   success: {
@@ -35,14 +36,15 @@ const notificationOpts = name => ({
 export class SideBarDocumentDelete extends Component {
   state = {};
 
-  DeleteDocument = () => {
+  deleteDocument = () => {
     const {
       setNotificationSuccess,
       setNotificationError,
       id,
       name,
       projectid,
-      pathname,
+      history,
+      project,
     } = this.props;
     this.props.client
       .mutate({
@@ -65,14 +67,17 @@ export class SideBarDocumentDelete extends Component {
           } catch(error){
             console.error('Error update cache after deletedocument: ',error);
           }
+          try{
+            if(getPosition(project, 'documentid') === deletedocument.document.id){
+              history.push(`/app/project/${getPosition(project, 'projectid')}`);
+            }
+
+          } catch(error){
+            console.error('Error change path after deletedocument: ', error);
+          }
         },
       })
       .then(response => {
-        const indexProjectidInPathname = pathname.indexOf(projectid);
-        const idPathname = pathname.substring(indexProjectidInPathname);
-        if (idPathname.length !== projectid.length) {
-          this.props.history.push(`/app/project/${projectid}`);
-        }
 
         setNotificationSuccess(notificationOpts(name).success);
       })
@@ -83,12 +88,14 @@ export class SideBarDocumentDelete extends Component {
   };
 
   render() {
+    console.log('this.props: ', this.props);
+
     return (
       <ButtonBase
         title={'Удалить документ.'}
         onClick={event => {
           event.stopPropagation();
-          this.DeleteDocument();
+          this.deleteDocument();
         }}
         variant={'empty'}>
         <SvgSidebarDelete />
