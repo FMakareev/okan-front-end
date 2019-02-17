@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 /** Graphql schema */
@@ -12,12 +11,12 @@ import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
-import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {DocumentTree} from "../../component/DocumentTree/DocumentTree";
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
@@ -37,6 +36,10 @@ const EditorWrapper = styled.div`
   width: calc(100% - 380px);
   min-height: calc(100vh - 40px);
 `;
+
+const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
+const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
+
 
 export class EditorRevision extends Component {
   static propTypes = {
@@ -60,9 +63,8 @@ export class EditorRevision extends Component {
     console.log(1, params.id);
 
     return (
-      <Query query={RevisionItemQuery} variables={{ id: params.id }}>
+      <Query query={RevisionItemQuery} variables={{ id: params.revisionid }}>
         {({ loading, data, error, ...rest }) => {
-          // console.log(2, data);
           if (loading) {
             return 'Загрузка...';
           }
@@ -78,23 +80,15 @@ export class EditorRevision extends Component {
                     // объект с параметрами роутера
                     position: params,
                     // объект с данными о проекте
-                    project: data.revisionItem,
+                    project: null,
+                    // можно ли редактировать проект
+                    editable: false,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar
-                      project={{
-                        // объект с параметрами роутера
-                        position: params,
-                        // объект с данными о проекте
-                        project: data.revisionItem,
-                      }}
-                      {...data.revisionItem}
-                    />
+                    <DocumentTreeWithProject data={data.revisionItem}/>
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
-                    onClick={() => this.handleClick()}>
-                    <ProjectEditor sectionid={params.id} />
+                  <EditorWrapper>
+                    <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
