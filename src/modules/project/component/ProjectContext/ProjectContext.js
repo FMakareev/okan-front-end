@@ -15,12 +15,20 @@ export const withProject = Component => {
 
 export const ProjectContextPropTypes = {
   project: PropTypes.shape({
+    /** редактируемый ли проект или нет, если нет то все кнопки отвечающие за редактирование скрываются */
+    editable: PropTypes.bool,
+    /** параметры роутера */
     position: PropTypes.shape({
-      cellid: PropTypes.string,
+      /** id активной ячейки */
       sectionid: PropTypes.string,
+      /** id документа в котором активна ячейка */
       documentid: PropTypes.string,
+      /** id открытого проекта */
       projectid: PropTypes.string,
+      /** id ревизии документа */
+      revisionid: PropTypes.string,
     }),
+    /** объект активного проекта */
     project: {
       author: PropTypes.shape({
         id: PropTypes.string,
