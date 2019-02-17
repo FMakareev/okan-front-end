@@ -80,14 +80,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'Все хорошо',
-    message: 'Все хорошо',
+    title: 'Пользователь успешно зарегистрирован',
+    message: 'Пользователь успешно зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'Ошибка регистрации',
-    message: 'Ошибка регистрации',
+    title: 'Пользователь не был зарегистрирован',
+    message: 'Пользователь не был зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },
