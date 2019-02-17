@@ -11,7 +11,6 @@ import {Text} from "@lib/ui/Text/Text";
 
 export const SelectStyles = {
   control: (style, props) => {
-    console.info(style, props);
     return {
       ...style,
       padding: "0 0 0 10px",
@@ -19,13 +18,13 @@ export const SelectStyles = {
       minHeight: "30px",
       ':hover': {
 
-        border: "none",
-        boxShadow: "none"
+        // border: "none",
+        // boxShadow: "none"
       },
       ...(props.isFocused
         ? {
-          border: "none",
-          boxShadow: "none"
+          // border: "none",
+          // boxShadow: "none"
         }
         : {}),
       ...(props.menuIsOpen ? {
@@ -35,7 +34,6 @@ export const SelectStyles = {
     };
   },
   selectContainer: (style, props) => {
-    console.info(style, props);
     return {
       ...style,
       padding: 0
