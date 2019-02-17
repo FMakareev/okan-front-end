@@ -21,21 +21,9 @@ export class ProjectSidebar extends Component {
     project: ProjectPropTypes,
   };
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('shouldComponentUpdate: ',nextProps,this.props);
-  //   const {
-  //     documents
-  //   } = nextProps;
-  //   if (documents !== this.props.documents.length) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   render() {
     const { documents, name, id } = this.props;
-    // console.log(1, this.props);
 
     return (
       <Fragment>
