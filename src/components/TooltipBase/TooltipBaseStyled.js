@@ -88,6 +88,6 @@ export const Warning = styled(Text)`
   font-family: 'Museo Sans 300', sans-serif;
   ${props => FontSizeProperty({ ...props, fontSize: 5 })}
   ${props => fontWeight({ ...props, fontWeight: 0 })}
-  ${props => LineHeightProperty({ ...props, fontWeight: 6 })}
+  ${props => LineHeightProperty({ ...props, lineHeight: 7 })}
   ${props => color({ ...props, color: 'color12' })}
 `;

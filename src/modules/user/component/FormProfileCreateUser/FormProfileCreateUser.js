@@ -92,7 +92,13 @@ export class FormProfileCreateUser extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={[13]}
+          fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 

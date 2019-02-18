@@ -40,8 +40,26 @@ const TextField = styled.input`
   ::placeholder {
     ${props => color({ ...props, color: 'color4' })}
   }
+  ::-webkit-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
+  :-ms-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
+  ::-ms-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
 
+  :focus::placeholder {
+    color: transparent;
+  }
   :focus::-webkit-input-placeholder {
+    color: transparent;
+  }
+  :focus:-ms-input-placeholder {
+    color: transparent;
+  }
+  :focus::-ms-input-placeholder {
     color: transparent;
   }
 `;

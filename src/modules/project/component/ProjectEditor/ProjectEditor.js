@@ -158,7 +158,9 @@ export class ProjectEditor extends Component {
       return (
         <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'60px'} flexDirection={'column'}>
           <ContentWrapper>
-            <Box>Раздел не выбран.</Box>
+            <Text fontFamily={'primary300'} fontSize={6} lineHeight={8}>
+              Раздел не выбран.
+            </Text>
           </ContentWrapper>
         </Flex>
       );

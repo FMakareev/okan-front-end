@@ -27,7 +27,7 @@ const buttonComment = variant({
  * @example ./ButtonBase.example.md
  */
 export const ButtonBase = styled.button`
- outline: none !important;
+  outline: none !important;
   cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -39,7 +39,6 @@ export const ButtonBase = styled.button`
   -ms-flex-pack: center;
   justify-content: center;
   padding: 0;
-}
 
   ${BorderRadiusProperty};
   ${buttonsVariant};

@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { space } from 'styled-system';
 
-// import TextField from '../TextField/TextField';
-
 export const Wrapper = styled.label`
   ${space};
   display: block;
