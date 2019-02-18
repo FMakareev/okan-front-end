@@ -21,7 +21,6 @@ export class ProjectSidebar extends Component {
     project: ProjectPropTypes,
   };
 
-
   render() {
     const { documents, name, id } = this.props;
 

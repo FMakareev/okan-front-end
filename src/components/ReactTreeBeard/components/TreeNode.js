@@ -1,8 +1,8 @@
 'use strict';
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {VelocityTransitionGroup} from 'velocity-react';
+import { VelocityTransitionGroup } from 'velocity-react';
 import styled from 'styled-components';
 
 import NodeHeader from './NodeHeader';
@@ -19,8 +19,8 @@ export class TreeNode extends Component {
   }
 
   onClick() {
-    const {node, onToggle} = this.props;
-    const {toggled} = node;
+    const { node, onToggle } = this.props;
+    const { toggled } = node;
 
     if (onToggle) {
       onToggle(node, !toggled);
@@ -28,7 +28,7 @@ export class TreeNode extends Component {
   }
 
   animations() {
-    const {animations, node} = this.props;
+    const { animations, node } = this.props;
 
     if (animations === false) {
       return false;
@@ -37,7 +37,7 @@ export class TreeNode extends Component {
     const anim = Object.assign({}, animations, node.animations);
     return {
       toggle: anim.toggle(this.props),
-      drawer: anim.drawer(this.props)
+      drawer: anim.drawer(this.props),
     };
   }
 
@@ -46,14 +46,16 @@ export class TreeNode extends Component {
    * */
   decorators() {
     // Merge Any Node Based Decorators Into The Pack
-    const {decorators, node} = this.props;
+    const { decorators, node } = this.props;
     let nodeDecorators = node.decorators || {};
 
     return Object.assign({}, decorators, nodeDecorators);
   }
 
   renderDrawer(decorators, animations) {
-    const {node: {toggled}} = this.props;
+    const {
+      node: { toggled },
+    } = this.props;
 
     if (!animations && !toggled) {
       return null;
@@ -61,18 +63,16 @@ export class TreeNode extends Component {
       return this.renderChildren(decorators, animations);
     }
 
-    const {animation, duration, ...restAnimationInfo} = animations.drawer;
+    const { animation, duration, ...restAnimationInfo } = animations.drawer;
     return (
-      <VelocityTransitionGroup
-        {...restAnimationInfo}
-      >
+      <VelocityTransitionGroup {...restAnimationInfo}>
         {toggled ? this.renderChildren(decorators, animations) : null}
       </VelocityTransitionGroup>
     );
   }
 
   renderHeader(decorators, animations) {
-    const {node} = this.props;
+    const { node } = this.props;
 
     return (
       <NodeHeader
@@ -85,7 +85,7 @@ export class TreeNode extends Component {
   }
 
   renderChildren(decorators) {
-    const {animations, decorators: propDecorators, node} = this.props;
+    const { animations, decorators: propDecorators, node } = this.props;
     if (node.loading) {
       return this.renderLoading(decorators);
     }
@@ -96,20 +96,19 @@ export class TreeNode extends Component {
     }
 
     return (
-      <propDecorators.TreeNodeList
-        ref={ref => this.subtreeRef = ref}>
-        {
-          children.map((child, index) => {
-            child.number = `${node.number}${index+1}.`;
-            return (<TreeNode
+      <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
+        {children.map((child, index) => {
+          child.number = `${node.number}${index + 1}.`;
+          return (
+            <TreeNode
               {...this._eventBubbles()}
               animations={animations}
               decorators={propDecorators}
               key={child.id || index}
               node={child}
-            />)
-          })
-        }
+            />
+          );
+        })}
       </propDecorators.TreeNodeList>
     );
   }
@@ -117,16 +116,16 @@ export class TreeNode extends Component {
   renderLoading(decorators) {
     return (
       <decorators.TreeNodeList>
-        <decorators.Loading/>
+        <decorators.Loading />
       </decorators.TreeNodeList>
     );
   }
 
   _eventBubbles() {
-    const {onToggle} = this.props;
+    const { onToggle } = this.props;
 
     return {
-      onToggle
+      onToggle,
     };
   }
 
@@ -142,17 +141,13 @@ export class TreeNode extends Component {
       </decorators.TreeNodeContainer>
     );
   }
-
 }
 
 TreeNode.propTypes = {
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
-  animations: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]).isRequired,
-  onToggle: PropTypes.func
+  animations: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+  onToggle: PropTypes.func,
 };
 
 export default TreeNode;

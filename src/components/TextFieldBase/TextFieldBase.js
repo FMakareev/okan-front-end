@@ -27,6 +27,7 @@ const TextField = styled.input`
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
   ${props => color({ ...props, color: 'color11' })};
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   ${FontSizeProperty};
   ${LineHeightProperty};

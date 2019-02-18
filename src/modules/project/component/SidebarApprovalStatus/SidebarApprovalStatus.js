@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query, withApollo } from 'react-apollo';
+import queryString from 'query-string';
 
-import CellMarkerQuery from './CellMarkerQuery.graphql';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
 import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
+/**Graphql schema */
 import UpdateCellMutation from './UpdateCellMutation.graphql';
+import CellMarkerQuery from './CellMarkerQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Constants */
 import {
@@ -18,10 +21,8 @@ import {
   CELL_STATUS_NOT_CHECKED,
 } from '@lib/shared/approvalStatus';
 
-/** */
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import queryString from 'query-string';
-import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
+/** Utils */
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 
 const GetStatusColor = status => {
   switch (status) {

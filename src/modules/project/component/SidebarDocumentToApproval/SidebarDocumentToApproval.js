@@ -17,7 +17,7 @@ import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarCommen
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constants */
-import {TO_APPROVAL} from "@lib/shared/approvalStatus";
+import { TO_APPROVAL } from '@lib/shared/approvalStatus';
 
 const notificationOpts = name => ({
   success: {

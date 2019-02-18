@@ -1,36 +1,40 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withApollo} from 'react-apollo';
-import {error, success} from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { withApollo } from 'react-apollo';
+import { error, success } from 'react-notification-system-redux';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Box from '../../../../components/Box/Box';
 
 /** Image */
-import {SvgSidebarAdd} from '../../../../components/Icons/SvgSidebarAdd';
+import { SvgSidebarAdd } from '../../../../components/Icons/SvgSidebarAdd';
 
 /** Style css */
-import {AbsoluteStyled, BoxStyled} from './SidebarCreateCellStyled';
+import { AbsoluteStyled, BoxStyled } from './SidebarCreateCellStyled';
 
 /** Store */
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constatnts */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '@lib/shared/blockType';
+import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** Graphql schema */
 import CreateCellMutation from './CreateCellMutation.graphql';
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
-import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
-import deleteQueryFromCache from "../../utils/deleteQueryFromCache";
-import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
-import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 
-const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
+/** Context */
+import { ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+
+/** Utils */
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
+import deleteQueryFromCache from '../../utils/deleteQueryFromCache';
+
+const notificationCreate = ({ prevcell, parent, isHead, contenttype }) => {
   let title = '';
 
   if (prevcell && isHead && !parent) {
@@ -91,7 +95,6 @@ const notificationDelete = name => {
   };
 };
 
-
 export class SidebarCreateCell extends Component {
   static propTypes = {
     /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
@@ -118,7 +121,7 @@ export class SidebarCreateCell extends Component {
    * */
   onToggle = event => {
     event && event.stopPropagation();
-    this.setState(state => ({toggle: !state.toggle}));
+    this.setState(state => ({ toggle: !state.toggle }));
   };
 
   /**
@@ -130,7 +133,7 @@ export class SidebarCreateCell extends Component {
    * @param {object} node
    * @desc создание ячейки
    * */
-  createSubCellStateMachine = async ({prevcell, nextcell, parent, isHead, contenttype, node}) => {
+  createSubCellStateMachine = async ({ prevcell, nextcell, parent, isHead, contenttype, node }) => {
     try {
       console.log(
         'createSubCellStateMachine:',
@@ -175,8 +178,8 @@ export class SidebarCreateCell extends Component {
    * @param {string || null} nextcell
    * @desc создание подраздела у раздела ячейки которого являются контентом
    * */
-  createSubCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    const {setNotificationSuccess, setNotificationError, project, history, client} = this.props;
+  createSubCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
+    const { setNotificationSuccess, setNotificationError, project, history, client } = this.props;
 
     const variables = {
       parent: parent,
@@ -188,7 +191,7 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: CreateSubCellMutation,
         variables,
-        update: (store, {data: {createsubcell}}) => {
+        update: (store, { data: { createsubcell } }) => {
           try {
             console.log('createsubcell: ', createsubcell);
             /** записываем в кеш аполо только что созданную ячейку */
@@ -199,7 +202,7 @@ export class SidebarCreateCell extends Component {
               UpdateCellInCache(store, {
                 ...createsubcell.cell.parent,
                 lastChildren: createsubcell.cell,
-              })
+              });
             }
 
             /** обновляем у дочерних ячеек ссылку на родителя */
@@ -207,13 +210,13 @@ export class SidebarCreateCell extends Component {
               let options = {
                 query: CellListQuery,
                 variables: {
-                  parent: createsubcell.cell.parent.id
-                }
+                  parent: createsubcell.cell.parent.id,
+                },
               };
 
-              let data = {celllist: []};
+              let data = { celllist: [] };
               try {
-                data = store.readQuery(options)
+                data = store.readQuery(options);
               } catch (error) {
                 console.error('Error createSubCell update read celllist', error);
               }
@@ -231,22 +234,17 @@ export class SidebarCreateCell extends Component {
                 store.writeQuery({
                   ...options,
                   variables: {
-                    parent: createsubcell.cell.id
+                    parent: createsubcell.cell.id,
                   },
                   data,
-                })
+                });
               } catch (error) {
                 console.error('Error createSubCell update write celllist', error);
               }
-
             }
-
-
           } catch (error) {
             console.error('Error createCell: ', error);
           }
-
-
         },
       })
       .then(response => {
@@ -261,7 +259,7 @@ export class SidebarCreateCell extends Component {
           }).success,
         );
         try {
-          if(response.data.createsubcell.cell.parent){
+          if (response.data.createsubcell.cell.parent) {
             if (getPosition(project, 'sectionid') === response.data.createsubcell.cell.parent.id) {
               console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
               this.props.changeActiveNode(response.data.createsubcell.cell.id);
@@ -270,12 +268,11 @@ export class SidebarCreateCell extends Component {
         } catch (error) {
           console.error('Error: ', error);
         }
-
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
-        setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
+        setNotificationError(notificationCreate({ prevcell, parent, isHead, contenttype }).error);
       });
   };
 
@@ -287,16 +284,16 @@ export class SidebarCreateCell extends Component {
    * @param {string || null} nextcell
    * @desc создание ячейки
    * */
-  createCell = ({prevcell, parent, isHead, contenttype, nextcell}) => {
-    const {setNotificationSuccess, project, setNotificationError} = this.props;
+  createCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
+    const { setNotificationSuccess, project, setNotificationError } = this.props;
 
     console.log('createCell:', prevcell, nextcell, parent, isHead, contenttype);
 
     const variables = {
-      ...(prevcell ? {prevcell} : null),
-      ...(nextcell ? {nextcell} : null),
-      ...(parent ? {parent} : null),
-      ...(contenttype ? {contenttype} : {contenttype: null}),
+      ...(prevcell ? { prevcell } : null),
+      ...(nextcell ? { nextcell } : null),
+      ...(parent ? { parent } : null),
+      ...(contenttype ? { contenttype } : { contenttype: null }),
       isHead,
     };
 
@@ -304,7 +301,7 @@ export class SidebarCreateCell extends Component {
       .mutate({
         mutation: CreateCellMutation,
         variables,
-        update: (store, {data: {createcell}}) => {
+        update: (store, { data: { createcell } }) => {
           try {
             UpdateCellInCache(store, createcell.cell);
 
@@ -312,7 +309,7 @@ export class SidebarCreateCell extends Component {
               UpdateCellInCache(store, {
                 ...createcell.cell.parent,
                 lastChildren: createcell.cell,
-              })
+              });
             }
           } catch (error) {
             console.error('Error createCell: ', error);
@@ -323,7 +320,7 @@ export class SidebarCreateCell extends Component {
         // console.log('SidebarCreateCell response: ', response.data.createcell.cell);
         this.props.addNodeInTree(response.data.createcell.cell);
         setNotificationSuccess(
-          notificationCreate({prevcell, parent: null, isHead, contenttype}).success,
+          notificationCreate({ prevcell, parent: null, isHead, contenttype }).success,
         );
         if (response.data.createcell.cell.parent) {
           if (getPosition(project, 'sectionid') === response.data.createcell.cell.parent.id) {
@@ -331,14 +328,12 @@ export class SidebarCreateCell extends Component {
             this.props.changeActiveNode(response.data.createcell.cell.id);
           }
         }
-
-
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
 
         setNotificationError(
-          notificationCreate({prevcell, parent: null, isHead, contenttype}).error,
+          notificationCreate({ prevcell, parent: null, isHead, contenttype }).error,
         );
       });
   };
@@ -349,12 +344,12 @@ export class SidebarCreateCell extends Component {
    * @desc метод для удаления ячейки
    * */
   deleteCell = (id, name) => {
-    const {setNotificationSuccess, setNotificationError} = this.props;
+    const { setNotificationSuccess, setNotificationError } = this.props;
 
     this.props.client
       .mutate({
         mutation: DeleteCellMutation,
-        variables: {id},
+        variables: { id },
         fetchPolicy: 'no-cache',
         update: (client, response, test) => {
           try {
@@ -362,7 +357,7 @@ export class SidebarCreateCell extends Component {
           } catch (err) {
             console.log(err);
           }
-        }
+        },
       })
       .then(response => {
         this.props.removeNodeInTree(id);
@@ -377,10 +372,10 @@ export class SidebarCreateCell extends Component {
 
   render() {
     const {
-      node: {isHead, childcell, id, parent, nextcell, name},
+      node: { isHead, childcell, id, parent, nextcell, name },
     } = this.props;
 
-    const {toggle} = this.state;
+    const { toggle } = this.state;
 
     return (
       <Box position={'relative'}>
@@ -388,7 +383,7 @@ export class SidebarCreateCell extends Component {
           title={'Добавить подраздел или раздел.'}
           variant={'empty'}
           onClick={this.onToggle}>
-          <SvgSidebarAdd/>
+          <SvgSidebarAdd />
         </ButtonBase>
 
         {toggle && (
@@ -445,7 +440,7 @@ export class SidebarCreateCell extends Component {
 SidebarCreateCell = withApollo(SidebarCreateCell);
 
 SidebarCreateCell = connect(
-  state => ({user: getUserFromStore(state)}),
+  state => ({ user: getUserFromStore(state) }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

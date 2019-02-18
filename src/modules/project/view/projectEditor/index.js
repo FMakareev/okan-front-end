@@ -20,6 +20,8 @@ import { Flex } from '@lib/ui/Flex/Flex';
 /** Components */
 import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
+
+/** Context */
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
@@ -30,6 +32,7 @@ const SideBarWrapper = styled.div`
   width: 340px;
   min-height: calc(100vh - 40px);
   padding-top: 10px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -98,9 +101,7 @@ export class ProjectEditorPage extends Component {
                     editable: true,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar
-                      {...data.projectitem}
-                    />
+                    <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.cellToCopy ? { opacity: '0.4' } : {}}

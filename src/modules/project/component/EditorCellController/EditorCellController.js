@@ -1,32 +1,32 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReactHTMLParser from 'react-html-parser';
-import {graphql} from 'react-apollo';
-import {withRouter} from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
+import { EditorCellTitle } from '../EditorCellTitle/EditorCellTitle';
+import { ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
 import EditorCellDelete from './EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
-import {connect} from 'react-redux';
-import {getFormValues} from 'redux-form';
-import {error, success} from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { getFormValues } from 'redux-form';
+import { error, success } from 'react-notification-system-redux';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
-import {EditorCellTitle} from "../EditorCellTitle/EditorCellTitle";
-import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
+import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '../../../../shared/blockType';
 
 const notificationOpts = () => ({
   success: {
@@ -48,7 +48,7 @@ export class EditorCellController extends Component {
     ...ProjectContextPropTypes,
   };
 
-  static defaultProps = {data: ''};
+  static defaultProps = { data: '' };
 
   constructor(props) {
     super(props);
@@ -64,7 +64,7 @@ export class EditorCellController extends Component {
   }
 
   componentDidMount() {
-    const {data} = this.props;
+    const { data } = this.props;
     if (
       this.props.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
@@ -77,7 +77,7 @@ export class EditorCellController extends Component {
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
@@ -154,7 +154,7 @@ export class EditorCellController extends Component {
   /**
    * @desc метод для отключения фокуса формы
    * */
-  onBlurForm = (e) => {
+  onBlurForm = e => {
     let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
 
     setTimeout(() => {
@@ -165,7 +165,7 @@ export class EditorCellController extends Component {
   };
 
   startSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     this.stopAutoSave();
     if (values && (values.content || values.name)) {
       this.saveCellContent()
@@ -218,21 +218,17 @@ export class EditorCellController extends Component {
   // }
 
   render() {
-    const {editable} = this.state;
+    const { editable } = this.state;
     const {
       data,
-      location: {search},
+      location: { search },
       sectionNumber,
       project,
     } = this.props;
 
     return (
-      <Box
-        mt={12}
-      >
-        <Flex
-          pl={'10px'}
-          alignItems="flex-start">
+      <Box mt={12}>
+        <Flex pl={'10px'} alignItems="flex-start">
           <Text
             width={'100px'}
             fontFamily={'secondary'}
@@ -242,50 +238,43 @@ export class EditorCellController extends Component {
             mt={'2px'}
             ml={'10px'}>
             {/** иконка редактора */}
-            {
-              editable && data.content.contenttype !== BLOCK_TEXT &&
-              (
-                <EditorTypeIcon type={data.content.contenttype}/>
-              )
-            }
+            {editable && data.content.contenttype !== BLOCK_TEXT && (
+              <EditorTypeIcon type={data.content.contenttype} />
+            )}
 
             {/** номер текстового блока */}
-            {
-              (data.content.contenttype === BLOCK_TEXT) &&
-              data.parent &&
-              data.prevcell &&
+            {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
               <Fragment> {sectionNumber}</Fragment>
-            }
+            )}
           </Text>
           <Box width={'calc(100% - 160px)'}>
-
             {/** заголовок таблицы */}
             <EditorCellTitle
               contenttype={BLOCK_TABLE}
               onClick={this.openEditor}
-              content={data.content} editable={editable}/>
+              content={data.content}
+              editable={editable}
+            />
 
             {/** текстовый контент */}
             {!editable && (
               <Text
                 className={'editor-cell_content'}
-                onClick={() => project.editable ? this.openEditor() : null}
+                onClick={() => (project.editable ? this.openEditor() : null)}
                 fontSize={5}
                 textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
                 wordBreak={'break-all'}
                 lineHeight={6}
                 color={'color11'}
                 fontFamily={'primary300'}>
-                {
-                  data.content &&
+                {data.content &&
                   typeof data.content.content === 'string' &&
-                  ReactHTMLParser(data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'))
-                }
-                {
-                  data.content &&
+                  ReactHTMLParser(
+                    data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'),
+                  )}
+                {data.content &&
                   !data.content.content &&
-                  'Нажмите чтобы начать редактирование раздела.'
-                }
+                  'Нажмите чтобы начать редактирование раздела.'}
               </Text>
             )}
 
@@ -301,7 +290,7 @@ export class EditorCellController extends Component {
                 }}
                 id={data.id}
                 data={data}
-                onBlurForm={(e) => this.onBlurForm(e)}
+                onBlurForm={e => this.onBlurForm(e)}
                 instantSave={() => this.startSave()}
               />
             )}
@@ -313,20 +302,17 @@ export class EditorCellController extends Component {
               content={data.content}
               editable={project.editable && editable}
             />
-
-
           </Box>
-          {
-            project.editable &&
+          {project.editable && (
             <Flex width={'60px'}>
               <Box mx={2}>
-                <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+                <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
               </Box>
               <Box mx={2}>
                 <EditorCellCommentController {...this.props.project} {...data} />
               </Box>
             </Flex>
-          }
+          )}
         </Flex>
       </Box>
     );
@@ -337,7 +323,7 @@ EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
-  (state, {data}) => {
+  (state, { data }) => {
     // console.log(data);
     // console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
 

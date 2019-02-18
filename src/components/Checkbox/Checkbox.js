@@ -33,13 +33,6 @@ export class Checkbox extends Component {
 
   static defaultProps = {};
 
-  // componentDidMount() {
-  //   if (this.props.input.value === '') {
-  //     this.props.input.onChange(false);
-  //   } else {
-  //   }
-  // }
-
   render() {
     const { input } = this.props;
 

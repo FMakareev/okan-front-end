@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
-import '../../assets/style/react-datepicker-big.css';
 import { ru } from 'date-fns/locale/ru';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
+
+/** Css */
+import '../../assets/style/react-datepicker-big.css';
 
 const DatePicker = dynamic(import('react-datepicker'), {
   ssr: false,

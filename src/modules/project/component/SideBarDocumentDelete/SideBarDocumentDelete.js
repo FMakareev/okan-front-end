@@ -17,8 +17,10 @@ import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql'
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
-import {getPosition} from "../ProjectContext/ProjectContextSelectors";
-import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
+
+/** Context */
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import { ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
 
 const notificationOpts = name => ({
   success: {
@@ -37,8 +39,8 @@ const notificationOpts = name => ({
 export class SideBarDocumentDelete extends Component {
   static propTypes = {
     ...ProjectContextPropTypes,
-    documentId:PropTypes.string.isRequired,
-    documentName:PropTypes.string.isRequired,
+    documentId: PropTypes.string.isRequired,
+    documentName: PropTypes.string.isRequired,
   };
 
   deleteDocument = () => {
@@ -53,36 +55,36 @@ export class SideBarDocumentDelete extends Component {
     this.props.client
       .mutate({
         mutation: DeleteDocumentMutation,
-        variables: { id:documentId },
+        variables: { id: documentId },
         update: (store, { data: { deletedocument } }) => {
-          try{
+          try {
             const options = {
               query: ProjectItemQuery,
-              variables: { id: getPosition(project,'projectid') },
+              variables: { id: getPosition(project, 'projectid') },
             };
             const data = store.readQuery(options);
 
-            let documentIndex = data.projectitem.documents.findIndex(item =>item.id === deletedocument.document.id);
+            let documentIndex = data.projectitem.documents.findIndex(
+              item => item.id === deletedocument.document.id,
+            );
             data.projectitem.documents.splice(documentIndex, 1);
             store.writeQuery({
               ...options,
               data,
             });
-          } catch(error){
-            console.error('Error update cache after deletedocument: ',error);
+          } catch (error) {
+            console.error('Error update cache after deletedocument: ', error);
           }
-          try{
-            if(getPosition(project, 'documentid') === deletedocument.document.id){
+          try {
+            if (getPosition(project, 'documentid') === deletedocument.document.id) {
               history.push(`/app/project/${getPosition(project, 'projectid')}`);
             }
-
-          } catch(error){
+          } catch (error) {
             console.error('Error change path after deletedocument: ', error);
           }
         },
       })
       .then(response => {
-
         setNotificationSuccess(notificationOpts(documentName).success);
       })
       .catch(error => {
@@ -92,7 +94,6 @@ export class SideBarDocumentDelete extends Component {
   };
 
   render() {
-
     return (
       <ButtonBase
         title={'Удалить документ.'}

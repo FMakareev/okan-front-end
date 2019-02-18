@@ -77,8 +77,8 @@ export class RichTextEditor extends Component {
     return false;
   }
 
-  getButtonClick = (action) => {
-    switch(action){
+  getButtonClick = action => {
+    switch (action) {
       case 'bind':
         this.copyCell(true);
         break;
@@ -89,51 +89,50 @@ export class RichTextEditor extends Component {
         this.copyCell(false);
         break;
     }
-  }
+  };
 
   /**
    * @desc Удаляем связи с текущей ячейкой
    * */
   unbindBlock = () => {
-    this.props.mutate({
-      variables: {
-        cell: this.props.data.id
-      }
-    })
+    this.props
+      .mutate({
+        variables: {
+          cell: this.props.data.id,
+        },
+      })
       .then(({ data }) => {
         console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts().success);
-      }).catch((error) => {
+      })
+      .catch(error => {
         console.log('there was an error sending the query', error);
         this.props.setNotificationError(notificationOpts().error);
       });
-  }
+  };
 
-  copyCell = (bind) => {
+  copyCell = bind => {
     let data = this.props.data;
     data.content.content = this.props.input.value;
     this.props.instantSave();
     this.props.copyCell(this.props.data, bind);
-  }
+  };
 
   render() {
     const { className, meta, id } = this.props;
 
     return (
       <Wrapper className={className}>
-        {this.props.contenttype === BLOCK_NAME ?
-          (
-            <FroalaReduxFormName
-              {...this.props}
-            />
-          ) : (
-            <FroalaReduxForm
-              {...this.props}
-
-              handleButtonClick={(action) => {this.getButtonClick(action)}}
-            />
-          )
-        }
+        {this.props.contenttype === BLOCK_NAME ? (
+          <FroalaReduxFormName {...this.props} />
+        ) : (
+          <FroalaReduxForm
+            {...this.props}
+            handleButtonClick={action => {
+              this.getButtonClick(action);
+            }}
+          />
+        )}
         <Message meta={meta} />
       </Wrapper>
     );
@@ -148,5 +147,5 @@ export default connect(
     copyCell: (cell, bind) => dispatch(copyCell(cell, bind)),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
-  })
-)(RichTextEditor)
+  }),
+)(RichTextEditor);

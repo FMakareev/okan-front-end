@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 export const Base = styled.div`
   position: relative;
@@ -11,7 +10,7 @@ export const Base = styled.div`
 `;
 
 export const Polygon = styled.polygon`
-  fill: #9DA5AB;
+  fill: #9da5ab;
   stroke-width: 0;
 `;
 
@@ -27,4 +26,4 @@ export default {
   Base,
   Polygon,
   Wrapper,
-}
+};

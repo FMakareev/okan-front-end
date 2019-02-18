@@ -11,6 +11,8 @@ import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
 import { LineHeightProperty } from '../../styles/styleProperty/LineHeightProperty';
 
 export const Wrapper = styled.div`
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   max-width: 240px;
   min-width: 100px;
@@ -42,7 +44,11 @@ export const Wrapper = styled.div`
   text-align: left;
   border: 1px solid;
   ${props => BorderColorProperty({ ...props, borderColor: 'color12' })}
-  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })}
+  ${props =>
+    BackgroundColorProperty({
+      ...props,
+      backgroundColor: 'color0',
+    })}
   border-radius: 3px;
 `;
 
@@ -55,6 +61,8 @@ export const OutsideTriangle = styled.div`
   border-width: 10.5px 18px 10.5px 0;
   border-color: transparent #df4624 transparent transparent;
   ${props => BorderColorProperty({ ...props, borderTopColor: 'color12' })}
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
   transform: rotate(90deg);
   top: -20px;
   left: 15%;
@@ -67,6 +75,8 @@ export const InsideTriangle = styled.div`
   z-index: 2;
   top: -18px;
   left: 15%;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
   transform: rotate(90deg);
   border-style: solid;
   border-width: 10.5px 18px 10.5px 0;

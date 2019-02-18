@@ -14,7 +14,10 @@ import Link from '@lib/ui/Link/Link';
 import { TO_APPROVAL } from '../../../../shared/approvalStatus';
 
 const TrStyled = styled(Tr)`
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   padding: 3px 0;
   cursor: pointer;
@@ -32,7 +35,11 @@ const TbodyStyled = styled(Tbody)`
 `;
 
 const LinkStyled = styled(Link)`
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 `;
 
@@ -44,7 +51,6 @@ const TdStyle = styled(Td)`
 `;
 
 export const ProfileApproval = ({ data }) => {
-  // console.log(11, data);
   return (
     <Fragment>
       <Text

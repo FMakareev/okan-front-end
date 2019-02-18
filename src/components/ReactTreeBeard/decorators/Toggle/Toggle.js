@@ -1,5 +1,5 @@
 import React from 'react';
-import {Base, Polygon, Wrapper} from "@lib/ui/ReactTreeBeard/decorators/Toggle/ToggleStyled";
+import { Base, Polygon, Wrapper } from '@lib/ui/ReactTreeBeard/decorators/Toggle/ToggleStyled';
 import PropTypes from 'prop-types';
 
 export const Toggle = () => {
@@ -10,15 +10,13 @@ export const Toggle = () => {
     <Base>
       <Wrapper>
         <svg height={14} width={14}>
-          <Polygon points={points}/>
+          <Polygon points={points} />
         </svg>
       </Wrapper>
     </Base>
   );
 };
 
-Toggle.propTypes = {
-
-};
+Toggle.propTypes = {};
 
 export default Toggle;

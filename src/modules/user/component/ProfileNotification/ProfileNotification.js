@@ -9,11 +9,6 @@ import Text from '@lib/ui/Text/Text';
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
 export const ProfileNotification = ({ initialValues }) => {
-  // const {
-  //   message,
-  //   createat,
-  //   sender: { firstname, lastname },
-  // } = initialValues;
   const isEmptyData = isEmpty(initialValues);
 
   return (

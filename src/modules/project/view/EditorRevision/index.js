@@ -16,13 +16,14 @@ import { ProjectContext, withProject } from '../../component/ProjectContext/Proj
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
-import {DocumentTree} from "../../component/DocumentTree/DocumentTree";
+import { DocumentTree } from '../../component/DocumentTree/DocumentTree';
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
   width: 340px;
   min-height: calc(100vh - 40px);
   padding-top: 10px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -39,7 +40,6 @@ const EditorWrapper = styled.div`
 
 const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
-
 
 export class EditorRevision extends Component {
   static propTypes = {
@@ -85,7 +85,7 @@ export class EditorRevision extends Component {
                     editable: false,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <DocumentTreeWithProject data={data.revisionItem}/>
+                    <DocumentTreeWithProject data={data.revisionItem} />
                   </SideBarWrapper>
                   <EditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid} />

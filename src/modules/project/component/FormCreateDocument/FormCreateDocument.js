@@ -6,10 +6,12 @@ import { Field, reduxForm, Form, getFormValues } from 'redux-form';
 
 /** View */
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
-import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 import { Flex } from '@lib/ui/Flex/Flex';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { Box } from '@lib/ui/Box/Box';
+
+/** Image */
+import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 
 /** Graphql schema */
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';

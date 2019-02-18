@@ -46,6 +46,8 @@ const FlexStyled = styled(Flex)`
   }
 
   @media (min-width: 1300px) {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
 `;

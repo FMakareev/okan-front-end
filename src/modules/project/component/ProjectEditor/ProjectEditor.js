@@ -1,25 +1,31 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
-import {Query, withApollo} from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import {ProjectContextPropTypes, withProject} from '../ProjectContext/ProjectContext';
-import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
+import { ProjectContextPropTypes, withProject } from '../ProjectContext/ProjectContext';
+import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
-import {Flex} from '@lib/ui/Flex/Flex';
-import {Box} from '@lib/ui/Box/Box';
-import {Text} from '@lib/ui/Text/Text';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { Box } from '@lib/ui/Box/Box';
+import { Text } from '@lib/ui/Text/Text';
 
 /** Graphql */
 import CellListQuery from './CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import {sortingCells} from '../../utils/sortingCells';
-import {BLOCK_TEXT} from "@lib/shared/blockType";
-import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+
+/** Utils */
+import { sortingCells } from '../../utils/sortingCells';
+
+/** Constants */
+import { BLOCK_TEXT } from '@lib/shared/blockType';
+
+/** COntext */
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -28,6 +34,7 @@ const ContentWrapper = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   margin-bottom: 20px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   min-height: 60px;
@@ -57,7 +64,9 @@ export class ProjectEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (getPosition(nextProps.project, 'sectionid') !== getPosition(this.props.project, 'sectionid')) {
+    if (
+      getPosition(nextProps.project, 'sectionid') !== getPosition(this.props.project, 'sectionid')
+    ) {
       this.createPageTitle(getPosition(nextProps.project, 'sectionid'));
     }
   }
@@ -73,7 +82,7 @@ export class ProjectEditor extends Component {
       let childCell = await this.getCellItem(id);
       this.subscribeInstanceToUpdateTitle = this.subscribeToCellItem(
         childCell.data.cellitem.id,
-      ).subscribe(({data}) => {
+      ).subscribe(({ data }) => {
         const name = data.cellitem && data.cellitem.name;
         const numbers = queryString.parse(this.props.location.search);
         return this.setState(state => ({
@@ -87,7 +96,7 @@ export class ProjectEditor extends Component {
         let parentCell = await this.getCellItem(childCell.data.cellitem.parent.id);
         this.subscribeInstanceToUpdateParentTitle = this.subscribeToCellItem(
           parentCell.data.cellitem.id,
-        ).subscribe(({data}) => {
+        ).subscribe(({ data }) => {
           const name = data.cellitem && data.cellitem.name;
           return this.setState(state => ({
             ...state,
@@ -120,7 +129,7 @@ export class ProjectEditor extends Component {
     try {
       return this.props.client.watchQuery({
         query: CellItemQuery,
-        variables: {id: id},
+        variables: { id: id },
       });
     } catch (error) {
       console.error('Error: ', error);
@@ -132,18 +141,18 @@ export class ProjectEditor extends Component {
    * @desc метод выполняет получение данные по ячейке
    * */
   getCellItem = id => {
-    return this.props.client.query({query: CellItemQuery, variables: {id}}).catch(error => {
+    return this.props.client.query({ query: CellItemQuery, variables: { id } }).catch(error => {
       console.log('Error getCellItem: ', error);
     });
   };
 
   render() {
     const {
-      location: {search},
+      location: { search },
       project,
     } = this.props;
 
-    const {childName, parentName, parentNumber} = this.state;
+    const { childName, parentName, parentNumber } = this.state;
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -156,8 +165,11 @@ export class ProjectEditor extends Component {
     }
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'5px'} flexDirection={'column'}>
-        <Query skip={!getPosition(project, 'sectionid')} query={CellListQuery} variables={{parent: getPosition(project, 'sectionid')}}>
-          {({data, loading, error}) => {
+        <Query
+          skip={!getPosition(project, 'sectionid')}
+          query={CellListQuery}
+          variables={{ parent: getPosition(project, 'sectionid') }}>
+          {({ data, loading, error }) => {
             if (loading) {
               return `Загрузка`;
             }
@@ -203,7 +215,7 @@ export class ProjectEditor extends Component {
 
                     {sortingCells(data.celllist).map((item, index) => {
                       if (item.content && item.content.contenttype === BLOCK_TEXT) {
-                        childCellIndex += 1
+                        childCellIndex += 1;
                       }
                       return (
                         <Box
@@ -230,10 +242,7 @@ export class ProjectEditor extends Component {
           }}
         </Query>
 
-        {
-          project.editable &&
-          <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')}/>
-        }
+        {project.editable && <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />}
       </Flex>
     );
   }

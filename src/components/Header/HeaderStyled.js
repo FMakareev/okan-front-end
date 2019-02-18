@@ -21,6 +21,8 @@ const Wrapper = styled.header`
   width: 100%;
   min-width: 1024px;
   height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
   ${props => BoxShadowProperty({ ...props, boxShadow: 2 })};
@@ -56,6 +58,8 @@ const LogoWrapper = styled.img`
 const ControlsWrapper = styled.div`
   margin-top: auto;
   margin-bottom: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 `;
 

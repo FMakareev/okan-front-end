@@ -10,15 +10,11 @@ import pictureIcon from '../../assets/image/pictureIcon.png';
 /** Editor types */
 import { BLOCK_TABLE, BLOCK_IMAGE } from '../../shared/blockType';
 
-export const EditorTypeIcon = ({type}) => {
+export const EditorTypeIcon = ({ type }) => {
   return (
     <Box mr={6} ml={2}>
-      {type == BLOCK_IMAGE && (
-        <img src={pictureIcon} width={'40px'}/>
-      )}
-      {type == BLOCK_TABLE && (
-        <img src={tableIcon} width={'40px'}/>        
-      )}
+      {type == BLOCK_IMAGE && <img src={pictureIcon} width={'40px'} />}
+      {type == BLOCK_TABLE && <img src={tableIcon} width={'40px'} />}
     </Box>
   );
 };

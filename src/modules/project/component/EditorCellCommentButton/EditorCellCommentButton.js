@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 /** View */
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
+
+/** Image */
 import { SvgDocumentComment } from '@lib/ui/Icons/SvgDocumentComment';
 
 const ButtonBaseStyled = styled(ButtonBase)`

@@ -69,7 +69,6 @@ export class SidebarCreateRevision extends Component {
       },
     })
       .then(response => {
-        // console.log(response);
         setNotificationSuccess(notificationOpts(documentid.name).success);
         return response;
       })
@@ -80,7 +79,6 @@ export class SidebarCreateRevision extends Component {
   };
 
   render() {
-    // console.log('SidebarCreateRevision: ', this.props);
     return (
       <ButtonBase
         title={'Создать ревизию документа.'}
