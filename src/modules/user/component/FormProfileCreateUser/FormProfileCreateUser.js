@@ -89,7 +89,6 @@ export class FormProfileCreateUser extends Component {
 
   render() {
     const { handleSubmit, pristine, submitting, invalid, submitSucceeded } = this.props;
-    // console.log(1, this.props);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
