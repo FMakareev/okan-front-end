@@ -10,7 +10,7 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
 /**Graphql schema */
-import UpdateCellMutation from './UpdateCellMutation.graphql';
+import ChangeStatusMutation from './ChangeStatusMutation.graphql';
 import CellMarkerQuery from './CellMarkerQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
@@ -48,30 +48,30 @@ export class SidebarApprovalStatus extends Component {
 
   static defaultProps = {};
 
-  state = { clickStatus: false };
-
   /**
    * @param {string} id - id изменяемой ячейки
    * @param {string} verify - статус на который нужно изменить
    * @desc изменение статуса у ячейки
    * */
-  changeStatus = (id, verify) => {
+  changeStatus = (id, status) => {
     this.props.client
       .mutate({
-        mutation: UpdateCellMutation,
+        mutation: ChangeStatusMutation,
         variables: {
           id,
-          verify,
+          status,
         },
-        update: (store, { data: { updatecell } }) => {
-          UpdateCellInCache(store, {
-            ...updatecell.cell,
-          });
+        update: (store, { data: { changestatus } }) => {
+          console.log(1, changestatus);
+          try {
+            UpdateCellInCache(store, { ...changestatus.cell });
+          } catch (e) {
+            console.error('Error in SidebarApprovalStatus change status: ', e);
+          }
         },
       })
       .then(async response => {
-        // console.log('response: ', response);
-        await this.props.cellCheckStatusChange(id, verify);
+        await this.props.cellCheckStatusChange(id, status);
       })
       .catch(error => {
         console.error(error);
