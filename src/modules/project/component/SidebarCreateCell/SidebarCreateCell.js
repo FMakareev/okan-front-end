@@ -338,6 +338,61 @@ export class SidebarCreateCell extends Component {
       });
   };
 
+  createAttachment = ({ prevcell, parent, isHead, contenttype, nextcell, isAttachment }) => {
+    const { setNotificationSuccess, project, setNotificationError } = this.props;
+
+    console.log('createAttachment:', prevcell, nextcell, parent, isHead, contenttype, isAttachment);
+
+    const variables = {
+      ...(prevcell ? { prevcell } : null),
+      ...(nextcell ? { nextcell } : null),
+      ...(parent ? { parent } : null),
+      ...(contenttype ? { contenttype } : { contenttype: null }),
+      isHead,
+      isAttachment,
+    };
+
+    // this.props.client
+    //   .mutate({
+    //     mutation: CreateCellMutation,
+    //     variables,
+    //     update: (store, { data: { createcell } }) => {
+    //       try {
+    //         UpdateCellInCache(store, createcell.cell);
+
+    //         if (createcell.cell.parent && !createcell.cell.nextcell) {
+    //           UpdateCellInCache(store, {
+    //             ...createcell.cell.parent,
+    //             lastChildren: createcell.cell,
+    //           });
+    //         }
+    //       } catch (error) {
+    //         console.error('Error createCell: ', error);
+    //       }
+    //     },
+    //   })
+    //   .then(response => {
+    //     // console.log('SidebarCreateCell response: ', response.data.createcell.cell);
+    //     this.props.addNodeInTree(response.data.createcell.cell);
+    //     setNotificationSuccess(
+    //       notificationCreate({ prevcell, parent: null, isHead, contenttype }).success,
+    //     );
+    //     if (response.data.createcell.cell.parent) {
+    //       if (getPosition(project, 'sectionid') === response.data.createcell.cell.parent.id) {
+    //         console.log('Мы тут, парент у нового раздела совпадает с текущим активным разделом');
+    //         this.props.changeActiveNode(response.data.createcell.cell.id);
+    //       }
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error SidebarCreateCell: ', error);
+
+    //     setNotificationError(
+    //       notificationCreate({ prevcell, parent: null, isHead, contenttype }).error,
+    //     );
+    //   });
+  };
+
   /**
    * @param {string} id
    * @param {string} name
@@ -424,11 +479,25 @@ export class SidebarCreateCell extends Component {
 
             <BoxStyled
               onClick={event => {
-                // console.log('Удалить раздел', this.props);
                 this.onToggle(event);
                 this.deleteCell(id, name);
               }}>
               Удалить {parent ? 'подраздел' : 'раздел'}
+            </BoxStyled>
+
+            <BoxStyled
+              onClick={event => {
+                this.onToggle(event);
+                this.createAttachment({
+                  prevcell: id,
+                  parent: parent !== null ? parent.id : null,
+                  isHead: true,
+                  contenttype: null,
+                  nextcell: null,
+                  isAttachment: true,
+                });
+              }}>
+              Создать приложение
             </BoxStyled>
           </AbsoluteStyled>
         )}
