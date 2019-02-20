@@ -4,11 +4,6 @@ import { Textarea as DefaultTextArea } from 'rebass';
 import styled from 'styled-components';
 import { color, space } from 'styled-system';
 
-// import Label from '../Label/Label';
-
-// import BorderRadiusProperty from '../../styles/BorderRadiusProperty';
-// import FontSizeProperty from '../../styles/FontSizeProperty';
-
 const NewTextArea = styled(DefaultTextArea)`
   /* background-color: ${props => props.theme.colors.color0}; */
   /* ${BorderRadiusProperty};

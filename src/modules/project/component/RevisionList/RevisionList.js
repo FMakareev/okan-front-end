@@ -35,7 +35,7 @@ export class RevisionList extends Component {
             fontFamily={'primary500'}
             py={4}
             textAlign={'left'}
-            width={'100px'}
+            width={'150px'}
             color={'color11'}>
             № Ревизии
           </Th>

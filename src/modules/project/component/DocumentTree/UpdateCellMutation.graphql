@@ -6,6 +6,10 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
         name
         isHead
       }
+      lastChildren {
+        id
+        name
+      }
       comments {
         id
         createdate

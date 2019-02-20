@@ -180,10 +180,6 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
           </Box>
-          {/*
-          <Container maxWidth={'400px'} width={'100%'}>
-            <TitlePage />
-</Container>*/}
         </Flex>
 
         <Flex justifyContent={'center'}>

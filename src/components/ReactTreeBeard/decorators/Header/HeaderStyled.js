@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 export const Base = styled.div`
   position: relative;
@@ -11,6 +10,6 @@ export const Base = styled.div`
 `;
 
 export const Title = styled.div`
- line-height: 24px;
+  line-height: 24px;
   vertical-align: middle;
 `;

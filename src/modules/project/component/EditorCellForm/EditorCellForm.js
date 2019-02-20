@@ -14,26 +14,16 @@ export class EditorCellForm extends Component {
   state = {};
 
   froalaConfig = {
-    // imageUploadURL: 'https://okan.code-artel.com/upload/uploader',
-    // imageUploadMethod: 'POST',
+    imageUploadURL: '/upload/uploader',
+    imageUploadMethod: 'POST',
+    fileUploadURL: '/upload/uploader',
+    fileUploadMethod: 'POST',
+
     events: {
       'froalaEditor.blur': (e, editor) => {
         this.props.onBlurForm(e);
       },
-  //     'froalaEditor.focus': (e, editor) => {
-  //       // console.log('froalaEditor.focus: ', e, editor);
-  //     },
-  //     // 'froalaEditor.image.beforeUpload': function(e, editor) {
-  //     //   console.log('froalaEditor.file.beforeUpload', editor.selection.get());
-  //     // },
-  //     // 'froalaEditor.image.uploaded' : function(e, editor, response) {
-  //     //   // console.log(editor.selection.get());
-  //     //   // console.log(response)
-  //     // },
-  //     // 'froalaEditor.image.error' : function(e, editor, error, response) {
-  //     //   // console.log(editor.selection.get());
-  //     //   console.log(error)
-  //     // }
+
     },
     quickInsertButtons: [],
     quickInsertTags: []
@@ -64,7 +54,7 @@ export class EditorCellForm extends Component {
 
     return (
       <Form>
-        {data.content.contenttype == BLOCK_TABLE ? 
+        {data.content.contenttype === BLOCK_TABLE ?
           (
             <Field
               name={'name'}
@@ -85,9 +75,9 @@ export class EditorCellForm extends Component {
           config={this.froalaConfig}
           instantSave={()=>this.props.instantSave()}
           // onBlurForm={() => this.props.onBlurForm('content')}
-          
+
         />
-        {data.content.contenttype == BLOCK_IMAGE ? 
+        {data.content.contenttype === BLOCK_IMAGE ?
           (
             <Field
               name={'name'}

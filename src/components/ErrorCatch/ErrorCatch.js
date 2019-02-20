@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { Redirect } from 'react-router-dom';
 import GraphQLError from './GraphQLError';
 import RenderError from '../RenderError/RenderError';
@@ -66,6 +65,5 @@ export class ErrorCatch extends Component {
     return children;
   }
 }
-
 
 export default ErrorCatch;

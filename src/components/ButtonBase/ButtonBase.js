@@ -29,12 +29,16 @@ const buttonComment = variant({
 export const ButtonBase = styled.button`
   outline: none !important;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding: 0;
-  /* ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-   */
 
   ${BorderRadiusProperty};
   ${buttonsVariant};
@@ -50,7 +54,6 @@ export const ButtonBase = styled.button`
   ${FontSizeProperty};
   ${BackgroundColorProperty};
   ${BorderRadiusProperty};
-
 `;
 
 ButtonBase.propTypes = {

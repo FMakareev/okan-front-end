@@ -5,6 +5,7 @@ export const ButtonSize = {
     fontSize: ' 14px',
     lineHeight: '16px',
     padding: '2px 0',
+    '-moz-padding': '0',
   },
   small: {
     // minWidth: '200px',

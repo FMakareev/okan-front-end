@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+
+/** css style */
 import '../../../../assets/style/editor-cell_content.css';
+
+/** Graphql schema */
 import ProjectItemQuery from './ProjectItemQuery.graphql';
+
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
-import { Flex } from '@lib/ui/Flex/Flex';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 
+/** Context */
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
@@ -26,6 +32,7 @@ const SideBarWrapper = styled.div`
   width: 340px;
   min-height: calc(100vh - 40px);
   padding-top: 10px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -90,22 +97,16 @@ export class ProjectEditorPage extends Component {
                     position: params,
                     // объект с данными о проекте
                     project: data.projectitem,
+                    // можно ли редактировать проект
+                    editable: true,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar
-                      project={{
-                        // объект с параметрами роутера
-                        position: params,
-                        // объект с данными о проекте
-                        project: data.projectitem,
-                      }}
-                      {...data.projectitem}
-                    />
+                    <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
                     onClick={() => this.handleClick()}>
-                    <ProjectEditor sectionid={params.sectionid} />
+                    <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>

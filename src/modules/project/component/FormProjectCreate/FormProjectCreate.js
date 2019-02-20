@@ -106,17 +106,8 @@ export class FormProjectCreate extends Component {
         }
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
-
-        if (graphQLErrors) {
-          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
-        } else {
-          throw new SubmissionError({ _error: message });
-        }
+        throw new SubmissionError({ _error: message });
       });
   }
 
@@ -156,7 +147,7 @@ export class FormProjectCreate extends Component {
           Список шаблонов
         </Text>
 
-        <BoxStyled mb={'180px'}>
+        <Box mb={'180px'}>
           <Query query={TemplateListQuery}>
             {({ data, loading, error }) => {
               // console.log(data, loading, error);
@@ -177,7 +168,7 @@ export class FormProjectCreate extends Component {
               );
             }}
           </Query>
-        </BoxStyled>
+        </Box>
 
         <ButtonWithImage
           type="submit"

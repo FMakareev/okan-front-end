@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { success, error } from 'react-notification-system-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {graphql, compose, withApollo} from 'react-apollo';
+import {success, error} from 'react-notification-system-redux';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -16,8 +16,8 @@ import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
 import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatus';
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from '../NodeToggle/NodeToggle';
-import { SidebarCellNodeEditable } from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {SidebarCellNodeEditable} from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
+import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
 import BindingCellMutation from './BindingCellMutation.graphql';
@@ -26,13 +26,16 @@ import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Redux action to remove BlockId from store */
-import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
+import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
+import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
+import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
+import {childcellIsCategory} from "../../utils/childcellIsCategory";
 
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
   cursor: pointer;
-  ${({ active }) => (active ? 'background-color: #bdbdbd52;' : '')}
+  ${({active}) => (active ? 'background-color: #bdbdbd52;' : '')}
   /* ${props => console.log(props)} */
 
   &:hover {
@@ -81,16 +84,21 @@ const notificationCopy = cellText => ({
 
 export class SidebarCellNode extends Component {
   static propTypes = {
+    /** @desc обновление инфомации ячейки в дереве навигации */
+    updateNode: PropTypes.func.isRequired,
+    /** @desc добавление ячейки в дерево навигации */
     addNodeInTree: PropTypes.func.isRequired,
+    /** @desc метод для изменения статуса ячейки*/
     cellCheckStatusChange: PropTypes.func.isRequired,
+    /** @desc удаление ячейки из дерева навигации */
     removeNodeInTree: PropTypes.func.isRequired,
-    position: PropTypes.shape({
-      cellid: PropTypes.string,
-      sectionid: PropTypes.string,
-      documentid: PropTypes.string,
-      projectid: PropTypes.string,
-    }),
+    /** @desc создание копии ячейки */
+    createCopy: PropTypes.func.isRequired,
+    /** @desc изменил статус фокуса у ячейки */
     changeNodeFocus: PropTypes.func.isRequired,
+
+    ...ProjectContextPropTypes,
+
     decorators: PropTypes.shape({
       Container: PropTypes.any,
       Header: PropTypes.any,
@@ -128,6 +136,7 @@ export class SidebarCellNode extends Component {
     try {
       return {
         name: this.props.node.name,
+        prevName: this.props.node.name,
         focused: this.props.node.focused,
         hover: false,
       };
@@ -137,19 +146,19 @@ export class SidebarCellNode extends Component {
   }
 
   handleChange = evt => {
-    this.setState({ name: evt.target.value });
+    this.setState({name: evt.target.value});
   };
 
   /**
    * @desc метод для активации режима редактирования раздела
    * */
   onToggleEditable = () => {
-    const { changeNodeFocus, node } = this.props;
+    const {changeNodeFocus, node} = this.props;
     if (node.focused) {
       this.contentEditable.current.focus();
     }
     changeNodeFocus(node.id, !node.focused);
-    this.setState(() => ({ focused: !node.focused }));
+    this.setState(() => ({focused: !node.focused, prevName: node.name}));
   };
 
   /**
@@ -159,56 +168,11 @@ export class SidebarCellNode extends Component {
   getNumberFromContent = node =>
     has.call(node, 'content') && has.call(node.content, 'number') && node.content.number;
 
-  /**
-   * @param {object} cell - объект ячейки
-   * @desc метод проверяет является ли дочерняя ячейка категорией
-   * */
-  static childcellIsCategory = cell => {
-    try {
-      if (has.call(cell, 'childcell') && cell.childcell) {
-        return cell.childcell.isHead;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error('Error cellIsHead: ', cell, error);
-      return false;
-    }
-  };
-
-  /**
-   * @param {object} document
-   * @param {object} node
-   * @param {object} history
-   * @desc метод для перехода к опредленной категории в роутере
-   * */
-  static gotToCategory = (document, node, history) => {
-    try {
-      if (!history) {
-        console.error(`Error: goToCategory history is undefined: `, history);
-        return null;
-      }
-      if (!document) {
-        console.error(`Error: goToCategory document is undefined: `, document);
-        return null;
-      }
-      if (!node) {
-        console.error(`Error: goToCategory node is undefined: `, node);
-        return null;
-      }
-      history.push(
-        `/app/project/${document.project}/${document.id}/${node.id}?sectionNumber=${node.number}`,
-      );
-    } catch (error) {
-      console.error('Error in gotToCategory: ', error);
-    }
-  };
-
   handleClick = () => {
     try {
-      const { onClick, node, history, document, cellToCopy, bindAfterCopy } = this.props;
+      const {onClick, node, history, document, cellToCopy, bindAfterCopy} = this.props;
 
-      const isHead = SidebarCellNode.childcellIsCategory(node);
+      const isHead = childcellIsCategory(node);
 
       if (isHead) {
         onClick();
@@ -216,7 +180,7 @@ export class SidebarCellNode extends Component {
         if (cellToCopy) {
           this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
         } else {
-          SidebarCellNode.gotToCategory(document, node, history);
+
           this.props.changeActiveNode(
             node ? node.id : null,
             getPosition(this.props.project, 'sectionid'),
@@ -236,15 +200,14 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
- 
-    var newNode = this.props.client.readQuery({
+
+    let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
         id: this.props.node.id
       }
     });
     lastChildren = newNode.cellitem.lastChildren;
-    console.log(lastChildren)
     this.props
       .createCopy({
         variables: {
@@ -262,12 +225,12 @@ export class SidebarCellNode extends Component {
               parent: this.props.node.id
             }
           });
-          if(data.celllist.length > 0){
+          if (data.celllist.length > 0) {
             data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
           }
-  
+
           data.celllist.push(createcell.cell);
-  
+
           store.writeQuery({
             query: CellListQuery,
             variables: {
@@ -301,7 +264,7 @@ export class SidebarCellNode extends Component {
           target: targetArr,
           parent: parent,
         },
-        update: (store, {data: {bindingcell}}) => {          
+        update: (store, {data: {bindingcell}}) => {
           const dataParentList = store.readQuery({
             query: CellListQuery,
             variables: {
@@ -310,41 +273,36 @@ export class SidebarCellNode extends Component {
           });
 
           let dataParentWrite = {};
-          for (var i = 0; i < dataParentList.celllist.length; i++) {
-            if(dataParentList.celllist[i].id == bindingcell.cell.id) {
+          for (let i = 0; i < dataParentList.celllist.length; i++) {
+            if (dataParentList.celllist[i].id === bindingcell.cell.id) {
               dataParentWrite = dataParentList.celllist[i];
               dataParentWrite.pull = bindingcell.cell.pull;
             }
           }
-          
+
           store.writeQuery({
             query: CellListQuery,
             variables: {
               id: bindingcell.cell.parent.id
             },
             data: dataParentWrite
-          })
-
-          const nodeCell = store.readQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id
-            }
           });
-          
-          nodeCell.cellitem.lastChildren = target;
-          this.props.node.lastChildren = target;
 
-          store.writeQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id
-            },
-            data: nodeCell
-          });
+          try {
+            UpdateCellInCache(store, {
+              id: this.props.node.id,
+              lastChildren: target,
+            });
+
+            this.props.updateNode(this.props.node.id, {lastChildren: target});
+          } catch (error) {
+            console.error('Error bindBlock: ', error);
+          }
+
+
         }
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
         /** Удаляет id блока из кэша */
@@ -357,10 +315,13 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const { node, onClick } = this.props;
-    const { hover, name } = this.state;
-    const isHead = SidebarCellNode.childcellIsCategory(node);
-
+    const {
+      node, setNotificationSuccess,
+      setNotificationError,
+      project
+    } = this.props;
+    const {hover, name, prevName} = this.state;
+    const isHead = childcellIsCategory(node);
     return (
       <Wrapper
         active={node.active}
@@ -372,7 +333,7 @@ export class SidebarCellNode extends Component {
         justifyContent={'flex-start'}
         alignItems={'flex-start'}>
         <Flex width={'calc(100% - 72px)'} ml={'10px'}>
-          {isHead && <NodeToggle toggled={node.toggled} />}
+          {isHead && <NodeToggle toggled={node.toggled}/>}
           <Flex
             fontWeight={isHead ? 500 : 300}
             ml={isHead ? '' : '20px'}
@@ -385,33 +346,47 @@ export class SidebarCellNode extends Component {
               <SidebarCellNodeEditable
                 id={node.id}
                 onToggle={this.onToggleEditable}
+                setNotificationSuccess={setNotificationSuccess}
+                setNotificationError={setNotificationError}
+                onError={() => {
+                  console.log('onError:');
+                  this.setState(() => this.initialState)
+                }}
                 ref={this.contentEditable}
                 html={name}
+                prevHtml={prevName}
                 focused={node.focused}
                 onChange={this.handleChange}
               />
             </TextStyled>
           </Flex>
         </Flex>
-        <Flex mr={'10px'}>
-          <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarChangeCell onClick={this.onToggleEditable} />
-          </Box>
-          <Box opacity={hover ? '1' : '0'} px={1}>
-            <SidebarCreateCell
-              node={node}
-              addNodeInTree={this.props.addNodeInTree}
-              changeNodeFocus={this.props.changeNodeFocus}
-              removeNodeInTree={this.props.removeNodeInTree}
-            />
-          </Box>
-          <Box px={1}>
-            <SidebarApprovalStatus
-              cellCheckStatusChange={this.props.cellCheckStatusChange}
-              node={node}
-            />
-          </Box>
-        </Flex>
+        {
+          project.editable &&
+          <Flex mr={'10px'}>
+            <Box opacity={hover ? '1' : '0'} px={1}>
+              <SidebarChangeCell onClick={this.onToggleEditable}/>
+            </Box>
+            <Box opacity={hover ? '1' : '0'} px={1}>
+              <SidebarCreateCell
+                node={node}
+                changeActiveNode={(id) => this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))}
+                addNodeInTree={this.props.addNodeInTree}
+                changeNodeFocus={this.props.changeNodeFocus}
+                removeNodeInTree={this.props.removeNodeInTree}
+                project={project}
+              />
+            </Box>
+            <Box px={1}>
+              <SidebarApprovalStatus
+                cellCheckStatusChange={this.props.cellCheckStatusChange}
+                updateNode={this.props.updateNode}
+                node={node}
+              />
+            </Box>
+          </Flex>
+        }
+
       </Wrapper>
     );
   }

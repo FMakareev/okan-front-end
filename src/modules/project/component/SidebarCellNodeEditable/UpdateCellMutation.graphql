@@ -6,6 +6,11 @@ mutation ($id: String!, $name: String) {
         name
         isHead
       }
+      lastChildren {
+        id
+        name
+        isHead
+      }
       comments {
         id
         createdate

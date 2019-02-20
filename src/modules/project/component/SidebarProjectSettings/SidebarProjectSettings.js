@@ -8,8 +8,11 @@ import Link from '../../../../components/Link/Link';
 /**Image */
 import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
 
-export const SidebarProjectSettings = ({projectid,documentid}) =>(
-  <Link title={'Открыть настройки документа'} onClick={(event)=>event.stopPropagation()} to={`/app/document-settings/${documentid}`}>
+export const SidebarProjectSettings = ({ projectid, documentid }) => (
+  <Link
+    title={'Открыть настройки документа'}
+    onClick={event => event.stopPropagation()}
+    to={`/app/document-settings/${documentid}`}>
     <ButtonBase variant={'empty'}>
       <img src={settingsSidebar} />
     </ButtonBase>

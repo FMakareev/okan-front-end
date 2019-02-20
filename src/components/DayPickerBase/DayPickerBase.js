@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
-import '../../assets/style/react-datepicker-big.css';
 import { ru } from 'date-fns/locale/ru';
 import dynamic from 'next/dynamic';
+import dayjs from 'dayjs';
+
+/** Css */
+import '../../assets/style/react-datepicker-big.css';
 
 const DatePicker = dynamic(import('react-datepicker'), {
   ssr: false,
@@ -34,12 +37,15 @@ export class DayPickerBase extends Component {
   }
 
   handleChange(date) {
+    const brithDay = dayjs(date).format('DD / MM / YYYY');
+    console.log(brithDay);
+
     this.setState({ startDate: date });
     const {
       input: { onChange },
     } = this.props;
 
-    onChange(date.toString());
+    onChange(brithDay);
   }
 
   render() {
@@ -55,7 +61,7 @@ export class DayPickerBase extends Component {
         showYearDropdown
         dropdownMode="select"
         placeholderText={placeholder}
-        dateFormat="dd/MM/yyyy"
+        dateFormat="dd / MM / yyyy"
         input={input}
         locale={'ru'}
         popperPlacement="top-end"

@@ -7,17 +7,16 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 /**Image */
 import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
 
-export const SidebarChangeCell = ({onClick}) => {
+export const SidebarChangeCell = ({ onClick }) => {
   return (
     <ButtonBase
       title={'Переименовать раздел.'}
-      onClick={(event) => {
+      onClick={event => {
         event.stopPropagation();
-        onClick()
+        onClick();
       }}
-      variant={'empty'}
-    >
-      <img src={settingsSidebar}/>
+      variant={'empty'}>
+      <img src={settingsSidebar} />
     </ButtonBase>
   );
 };

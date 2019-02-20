@@ -6,10 +6,12 @@ import { Field, reduxForm, Form, getFormValues } from 'redux-form';
 
 /** View */
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
-import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 import { Flex } from '@lib/ui/Flex/Flex';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { Box } from '@lib/ui/Box/Box';
+
+/** Image */
+import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 
 /** Graphql schema */
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
@@ -17,12 +19,12 @@ import CreateDocumentQuery from './CreateDocumentQuery.graphql';
 
 const notificationOpts = () => ({
   success: {
-    title: 'Раздел создан',
+    title: 'Документ создан',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'Раздел не создан',
+    title: 'Документ не создан',
     position: 'tr',
     autoDismiss: 2,
   },
@@ -31,7 +33,7 @@ const notificationOpts = () => ({
 export class FormCreateDocument extends Component {
   createDocument = (value, event) => {
     console.log('createDocument: ', value);
-    if(!value.name || !value.name.length) return;
+    if (!value.name || !value.name.length) return;
     const { project } = this.props;
 
     return this.props['@apollo/create']({
@@ -78,7 +80,7 @@ export class FormCreateDocument extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.createDocument)}>
-        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
+        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'} mb={'150px'}>
           <Box height={'20px'} width={'100%'}>
             <Mutation mutation={CreateDocumentQuery}>
               {(mutate, { loading, error, data }) => {

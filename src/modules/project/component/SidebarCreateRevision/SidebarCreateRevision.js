@@ -4,85 +4,97 @@ import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 
-/** graphql Schema */
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
-/** Image */
-import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
+/**Image */
+import { SvgSidebarSave } from '../../../../components/Icons/SvgSidebarSave';
+
+/** graphql Schema */
+import CreateRevisionMutation from './CreateRevisionMutation.graphql';
+import RevisionListQuery from '../../view/revisionList/RevisionListQuery.graphql';
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
-/** Constants */
-import { NOT_APPROVAL } from '../../../../shared/approvalStatus';
-
 const notificationOpts = name => ({
   success: {
-    title: `Файл "${name}" сохранен успешно.`,
+    title: `Ревизия документа "${name}" создана.`,
     position: 'tr',
     autoDismiss: 6,
   },
   error: {
     title: `Произошла ошибка.`,
-    message: `Файл "${name}" не был сохранен.`,
+    message: `Ревизия документа "${name}" не создана.`,
     position: 'tr',
     autoDismiss: 6,
   },
 });
 
 export class SidebarCreateRevision extends Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {};
 
-  get initialState() {
-    return {};
-  }
+  static defaultProps = {};
 
-  submit = () => {
-    const { document, setNotificationSuccess, setNotificationError } = this.props;
+  createRevision = () => {
+    const { documentid, setNotificationSuccess, setNotificationError } = this.props;
+    console.log(1, this.props);
 
-    return this.props[`@apollo/update`]({
-      variables: { approvalstatus: NOT_APPROVAL, id: document.id },
+    return this.props[`@apollo/create`]({
+      variables: {
+        id: documentid.id,
+        authorrevision: this.props.user.id,
+        createrevisiondate: new Date().toISOString(),
+      },
+      update: (client, { data: { createrevision } }) => {
+        try {
+          const options = {
+            query: RevisionListQuery,
+            variables: {
+              id: documentid.id,
+            },
+          };
+
+          const data = client.readQuery(options);
+
+          data.revisionList.push(createrevision.document);
+
+          client.writeQuery({
+            ...options,
+            data,
+          });
+        } catch (error) {
+          console.error('Error createRevision.update: ', error);
+        }
+      },
     })
       .then(response => {
-        console.log(response);
-        setNotificationSuccess(notificationOpts(document.name).success);
+        setNotificationSuccess(notificationOpts(documentid.name).success);
         return response;
       })
       .catch(error => {
-        console.error(`Error SidebarSaveChanges:`, error);
-        setNotificationError(notificationOpts(document.name).error);
+        console.error(`Error SidebarCreateRevision:`, error);
+        setNotificationError(notificationOpts(documentid.name).error);
       });
   };
 
   render() {
-    // console.log('SidebarCreateRevision: ', this.props);
     return (
       <ButtonBase
+        title={'Создать ревизию документа.'}
         onClick={event => {
           event.stopPropagation();
-          this.submit();
+          this.createRevision();
         }}
-        title={'Создать ревизию документа.'}
         variant={'empty'}>
-        <SvgSidebarComment />
+        <SvgSidebarSave />
       </ButtonBase>
     );
   }
 }
 
-SidebarCreateRevision.propTypes = {
-  document: PropTypes.object.isRequired,
-};
-
-SidebarCreateRevision.defaultProps = {};
-
-SidebarCreateRevision = graphql(UpdateDocumentMutation, {
-  name: `@apollo/update`,
+SidebarCreateRevision = graphql(CreateRevisionMutation, {
+  name: `@apollo/create`,
 })(SidebarCreateRevision);
 
 SidebarCreateRevision = connect(

@@ -14,6 +14,7 @@ import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import Text from '@lib/ui/Text/Text';
 import Box from '@lib/ui/Box/Box';
 import TextFieldArray from '@lib/ui/TextFieldArray/TextFieldArray';
+import { CheckboxBase } from '@lib/ui/CheckboxBase/CheckboxBase';
 
 /**Image */
 import { SvgSave } from '@lib/ui/Icons/SvgSave';
@@ -29,7 +30,6 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
-import { CheckboxBase } from '@lib/ui/CheckboxBase/CheckboxBase';
 
 const BoxStyled = styled(Box)`
   input {

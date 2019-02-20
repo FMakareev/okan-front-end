@@ -49,12 +49,12 @@ const validate = ({ log, password, retryPas }) => {
     errors.retryPas = 'Обязательно для заполнения';
   }
 
-  if (password !== undefined && password.length <= 8) {
-    errors.password = 'Пароль должен состоять минимум из 8 цифр';
+  if (password !== undefined && password.length <= 7) {
+    errors.password = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (password !== undefined && password.length > 64) {
-    errors.password = 'Пароль должен состоять не больше 32 цифр';
+  if (password !== undefined && password.length >= 30) {
+    errors.password = 'Пароль должен состоять не больше 30 символов';
   }
 
   if (password !== retryPas) {
@@ -80,14 +80,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'Все хорошо',
-    message: 'Все хорошо',
+    title: 'Пользователь успешно зарегистрирован',
+    message: 'Пользователь успешно зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'Ошибка регистрации',
-    message: 'Ошибка регистрации',
+    title: 'Пользователь не был зарегистрирован',
+    message: 'Пользователь не был зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },

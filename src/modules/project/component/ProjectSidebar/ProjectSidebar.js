@@ -21,20 +21,8 @@ export class ProjectSidebar extends Component {
     project: ProjectPropTypes,
   };
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('shouldComponentUpdate: ',nextProps,this.props);
-  //   const {
-  //     documents
-  //   } = nextProps;
-  //   if (documents !== this.props.documents.length) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   render() {
-    const { documents } = this.props;
+    const { documents, name, id } = this.props;
 
     return (
       <Fragment>
@@ -42,6 +30,9 @@ export class ProjectSidebar extends Component {
           documents.map((item, index) => (
             <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`} />
           ))}
+
+        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`} />}
+
         <FormCreateDocumentWithProject />
       </Fragment>
     );
