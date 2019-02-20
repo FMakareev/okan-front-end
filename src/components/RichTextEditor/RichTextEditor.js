@@ -5,6 +5,7 @@ import { space } from 'styled-system';
 import { connect } from 'react-redux';
 import { copyCell } from '../../store/reducers/blocksBinding/actions';
 import Notifications, { success, error } from 'react-notification-system-redux';
+import ReactDOM from 'react-dom';
 
 /**View */
 import Message from '../Message/Message';
@@ -76,6 +77,80 @@ export class RichTextEditor extends Component {
     }
     return false;
   }
+
+  componentDidMount() {
+    if (this.props.contenttype != BLOCK_NAME) {
+      const node = ReactDOM.findDOMNode(this);
+      const buttons = node.getElementsByTagName('button')
+      let bindingButton = buttons[1];
+
+      console.log(bindingButton)
+      
+      if (bindingButton) {
+        this.createDragEvent(bindingButton, node, true)
+      }
+    }
+  };
+
+  /**
+   * @desc метод для создания кастомного dragstart/drag события
+   * @argument button - кнопка для связывания блоков из апи froala;
+   * @argument node - dom-узел компонента RichTextEditor
+   * @argument bind - bool, параметр, определяющий, будет ли ячейка связана с копией
+   * */
+  createDragEvent = (button, node, bind) => {
+    {/** Инициализируем копию компонента */}
+    let nodePreview = node.cloneNode(true);
+    {/** Получаем ячейку, содержащую узел */}
+    let wholeCell = node.parentNode.parentNode.parentNode;
+
+    {/** Предотвращаем стандартную реакцию браузера на событие dragstart */}
+    node.ondragstart = (e) => {
+      e.preventDefault();
+    };
+    button.onmousedown = (e) => {
+      wholeCell.style.opacity = 0.5;
+      {/** Стилизуем копию узла и позиционируем абсолютно */}
+      nodePreview.style.position = 'absolute';
+      nodePreview.style.zIndex = 1000;
+      nodePreview.style.width = node.offsetWidth + 'px';
+
+      this.movePreviewAt(nodePreview, e);
+      document.body.appendChild(nodePreview);
+
+      document.onmousemove = (e) => {
+        this.movePreviewAt(nodePreview, e);
+      }
+      {/** Вешаем mouseup на копию узла, т.к. курсор наведен на нее, а не на кнопку */}
+      nodePreview.onmouseup = () => {
+        this.releaseButton(nodePreview, wholeCell);
+      }
+    }
+  }
+  
+  movePreviewAt = (node, e) => {
+    node.style.left = e.pageX - 48 + 'px';
+    node.style.top = e.pageY - 10 + 'px';
+  }
+  
+  releaseButton = (node, cell) => {
+    {/** удаляем копию узла */}
+    document.body.removeChild(node);
+    {/** обнуляем обработчики */}
+    document.onmousemove = null;
+    node.onmouseup = null;
+
+    cell.style.opacity = 1;
+  }
+
+  // triggerMouseEvent = (node, eventType) => {
+  //   let clickEvent = new MouseEvent(eventType, {
+  //     view: window,
+  //     bubbles: true,
+  //     cancelable: true
+  //   });
+  //   node.dispatchEvent(clickEvent);
+  // };
 
   getButtonClick = action => {
     switch (action) {

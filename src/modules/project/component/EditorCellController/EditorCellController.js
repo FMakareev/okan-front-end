@@ -66,7 +66,7 @@ export class EditorCellController extends Component {
   componentDidMount() {
     const { data } = this.props;
     if (
-      this.props.editable &&
+      this.state.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
     ) {
       this.openEditor();
@@ -182,22 +182,6 @@ export class EditorCellController extends Component {
       this.onToggleForm();
     }
   };
-
-  // onHover() {
-  //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
-
-  //   if(bindingButton) {
-  //     bindingButton.onmouseenter = (e) => {
-  //       this.startBinding()
-  //     }
-  //     bindingButton.onmouseleave = () => {
-  //       this.toggleDraggable()
-  //     }
-  //     bindingButton.onmousedown = () => {
-  //       this.onDragBlock
-  //     }
-  //   }
-  // }
 
   // async startBinding() {
   //   await this.toggleDraggable();

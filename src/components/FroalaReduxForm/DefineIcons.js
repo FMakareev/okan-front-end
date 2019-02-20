@@ -26,9 +26,9 @@ export function DefineIcons(props) {
     focus: true,
     undo: false,
     refreshAfterCallback: true,
-    callback: command => {
-      props.buttonClick(command);
-    },
+    // allback: command => {
+    //   props.buttonClick(command);
+    // },c
   });
 
   $.FroalaEditor.DefineIcon('unbind', { SRC: deleteIcon, ALT: 'unbind', template: 'image' });
