@@ -13,7 +13,7 @@ export class TreeBeard extends Component {
   }
 
   render() {
-    const { animations, decorators, data: propsData, onToggle, style } = this.props;
+    const { animations, decorators, data: propsData, onToggle } = this.props;
     let data = propsData;
 
     /**
