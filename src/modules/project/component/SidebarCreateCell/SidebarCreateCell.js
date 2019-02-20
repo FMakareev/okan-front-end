@@ -424,9 +424,10 @@ export class SidebarCreateCell extends Component {
 
             <BoxStyled
               onClick={event => {
-                // console.log('Удалить раздел', this.props);
                 this.onToggle(event);
-                this.deleteCell(id, name);
+                if (confirm("Вы уверены что хотите удалить раздел?")) {
+                  this.deleteCell(id, name);
+                }
               }}>
               Удалить {parent ? 'подраздел' : 'раздел'}
             </BoxStyled>

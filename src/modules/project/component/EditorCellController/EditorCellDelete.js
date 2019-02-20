@@ -159,7 +159,11 @@ export class EditorCellDelete extends Component {
     return (
       <ButtonBase
         p={2}
-        onClick={() => this.deleteCell()}
+        onClick={() => {
+          if (confirm("Вы уверены что хотите удалить блок?")) {
+            this.deleteCell()
+          }
+        }}
       >
         <img src={deleteIcon} width={'13px'}/>
       </ButtonBase>
