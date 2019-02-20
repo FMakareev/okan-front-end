@@ -512,7 +512,7 @@ export class DocumentTree extends Component {
 
         while (parentNode !== null) {
           parentNode.toggled = active;
-          parentNode.active = active;
+          parentNode.active = false;
           objectPath.set(nodes, pathToParentNode, parentNode);
 
           if (parentNode.parent && parentNode.parent.id) {
@@ -550,7 +550,6 @@ export class DocumentTree extends Component {
    * */
   onToggle = (node, toggled) => {
     try {
-      node.active = toggled;
       if (node.loading) {
         return;
       }
@@ -1077,7 +1076,7 @@ export class DocumentTree extends Component {
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={this.decorators} data={this.state.tree} onToggle={this.onToggle} />
+        <Treebeard decorators={this.decorators} cursor={this.state.cursor} data={this.state.tree} onToggle={this.onToggle} />
       </Box>
     );
   }
