@@ -108,8 +108,7 @@ export class ProjectEditorPage extends Component {
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid}/>
-                  <EditorWrapper
-                    onClick={() => this.handleClick()}>
+                  <EditorWrapper>
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
@@ -124,12 +123,11 @@ export class ProjectEditorPage extends Component {
 // export default ProjectEditorPage;
 const mapStateToProps = state => {
   return {
-    ...state.blocksBinding,
     user: getUserFromStore(state)
   };
 };
 
 export default connect(
   mapStateToProps,
-  {removeBlock},
+  null,
 )(ProjectEditorPage);
