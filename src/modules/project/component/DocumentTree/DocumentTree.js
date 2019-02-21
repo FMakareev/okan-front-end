@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
+import React, {Component} from 'react';
+import {withApollo} from 'react-apollo';
 import PropTypes from 'prop-types';
 import objectPath from 'object-path';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 /** View */
-import { Treebeard, decorators } from '@lib/ui/ReactTreeBeard/index';
-import { Box } from '@lib/ui/Box/Box';
+import {Treebeard, decorators} from '@lib/ui/ReactTreeBeard/index';
+import {Box} from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
 
 /** Component */
 import SidebarCellRoot from '../SidebarCellRoot/SidebarCellRoot';
 import SidebarCellNode from '../SidebarCellNode/SidebarCellNode';
-import { withProject } from '../ProjectContext/ProjectContext';
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {withProject} from '../ProjectContext/ProjectContext';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
 
 /** Graphql schema */
@@ -23,12 +23,12 @@ import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
 
 /** PropTypes  */
-import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
+import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
 
 /** Constatns */
-import { CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED } from '@lib/shared/approvalStatus';
-import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
-import { childcellIsCategory } from '../../utils/childcellIsCategory';
+import {CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED} from '@lib/shared/approvalStatus';
+import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import {childcellIsCategory} from '../../utils/childcellIsCategory';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -98,29 +98,29 @@ export class DocumentTree extends Component {
   }
 
   get initialState() {
-    const { data, project } = this.props;
+    const {data, project} = this.props;
     const children =
       data && has.call(data, 'childcell') && data.childcell !== null
         ? []
         : [
-            {
-              toggled: false,
-              loading: false,
-              active: false,
-              focused: false,
-              decorators: {
-                ...this.decorators,
-                Container: props => (
-                  <FormCreateFirstCell
-                    form={'FormCreateFirstCell-' + data.id}
-                    document={data}
-                    project={project}
-                    {...props}
-                  />
-                ),
-              },
+          {
+            toggled: false,
+            loading: false,
+            active: false,
+            focused: false,
+            decorators: {
+              ...this.decorators,
+              Container: props => (
+                <FormCreateFirstCell
+                  form={'FormCreateFirstCell-' + data.id}
+                  document={data}
+                  project={project}
+                  {...props}
+                />
+              ),
             },
-          ];
+          },
+        ];
 
     return {
       cursor: null,
@@ -142,7 +142,7 @@ export class DocumentTree extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { data } = nextProps;
+    const {data} = nextProps;
 
     if (data.childcell !== null && this.state.tree.childcell === null) {
       const newState = this.initialState;
@@ -255,7 +255,7 @@ export class DocumentTree extends Component {
       return cellid;
     }
     try {
-      const { client, history } = this.props;
+      const {client, history} = this.props;
       let tree = Object.assign({}, this.state.tree);
       let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
       let currentNode = objectPath.get([tree], pathToCurrentNode);
@@ -377,7 +377,7 @@ export class DocumentTree extends Component {
    * @param {object} value
    * @desc метод для обновления ячейки в кеше */
   updateDocumentInCache = value => {
-    const { client } = this.props;
+    const {client} = this.props;
     const data = client.readQuery({
       query: ProjectItemQuery,
       variables: {
@@ -407,7 +407,7 @@ export class DocumentTree extends Component {
    * */
   changeActiveNode = (cellid, cursorid, nodes) => {
     try {
-      const { data, history } = this.props;
+      const {data, history} = this.props;
       let pathToCurrentNode = this.getPathToNode(nodes, cellid) || '0';
       let currentNode = objectPath.get(nodes, pathToCurrentNode);
 
@@ -473,22 +473,34 @@ export class DocumentTree extends Component {
    * @param {string} props.cellLetterNumber - номер активной ячейки
    * @desc метод для изменения маршрута в проекте
    * */
-  changeRoute = ({history, projectid, revisionid, documentid, sectionid, cellNumber, cellLetterNumber}) => {
+  changeRoute = ({
+    history,
+    projectid,
+    revisionid,
+    documentid,
+    sectionid,
+    cellNumber,
+    cellLetterNumber,
+  }) => {
     try {
       if (projectid && documentid && sectionid && cellLetterNumber) {
-        history.push(`/app/project/${projectid}/${documentid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`);
+        history.push(
+          `/app/project/${projectid}/${documentid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`,
+        );
       } else if (projectid && documentid && sectionid && cellNumber) {
-        history.push(`/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`);
+        history.push(
+          `/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`,
+        );
       } else if (projectid && documentid && sectionid) {
         history.push(`/app/project/${projectid}/${documentid}/${sectionid}`);
       } else if (projectid) {
         history.push(`/app/project/${projectid}`);
-
       } else if (revisionid && sectionid && cellLetterNumber) {
-        history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`);
+        history.push(
+          `/app/revision-item/${revisionid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`,
+        );
       } else if (revisionid && sectionid && cellNumber) {
         history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionNumber=${cellNumber}`);
-
       } else if (revisionid && sectionid) {
         history.push(`/app/revision-item/${revisionid}/${sectionid}`);
       } else {
@@ -580,7 +592,7 @@ export class DocumentTree extends Component {
       } else {
         node.loading = false;
       }
-      this.updateTree({ cursor: node });
+      this.updateTree({cursor: node});
     } catch (error) {
       console.error('Error onToggle:', error);
     }
@@ -596,7 +608,7 @@ export class DocumentTree extends Component {
     if (!id) return;
     return this.getNode(id)
       .then(async response => {
-        const { data } = response;
+        const {data} = response;
         if (data && data.cellitem) {
           nodes.push(data.cellitem);
 
@@ -641,7 +653,7 @@ export class DocumentTree extends Component {
    * */
   changeStatusLoadingsNode = (id, status = false) => {
     try {
-      const { tree, cursor } = this.state;
+      const {tree, cursor} = this.state;
       // нашли путь к  ноде
       let pathToNode = (this.getPathToNode(tree, id) || '0') + '.loading';
 
@@ -653,9 +665,9 @@ export class DocumentTree extends Component {
         cursor:
           cursor.id === id
             ? {
-                ...cursor,
-                loading: status,
-              }
+              ...cursor,
+              loading: status,
+            }
             : cursor,
       });
     } catch (error) {
@@ -1083,7 +1095,12 @@ export class DocumentTree extends Component {
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={this.decorators} data={this.state.tree} onToggle={this.onToggle}/>
+        <Treebeard
+          decorators={this.decorators}
+          cursor={this.state.cursor}
+          data={this.state.tree}
+          onToggle={this.onToggle}
+        />
       </Box>
     );
   }
