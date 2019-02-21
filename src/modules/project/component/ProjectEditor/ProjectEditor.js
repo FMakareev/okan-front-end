@@ -151,7 +151,7 @@ export class ProjectEditor extends Component {
       location: { search },
       project,
     } = this.props;
-
+    // console.log(22222, this.props);
     const { childName, parentName, parentNumber } = this.state;
 
     if (!getPosition(project, 'sectionid')) {

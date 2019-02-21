@@ -73,20 +73,22 @@ export class DocumentTree extends Component {
         Загрузка...
       </Flex>
     );
-    this.decorators.Container = props => (
-      <SidebarCellNodeWithProject
-        document={this.props.data}
-        changeNodeFocus={this.changeNodeFocus}
-        updateNode={this.updateNode}
-        changeActiveNode={(id, prevCursor) =>
-          this.changeActiveNode(id, prevCursor, this.state.tree.children)
-        }
-        cellCheckStatusChange={this.cellCheckStatusChange}
-        addNodeInTree={this.addNodeInTree}
-        removeNodeInTree={this.removeNodeInTree}
-        {...props}
-      />
-    );
+    this.decorators.Container = props => {
+      return (
+        <SidebarCellNodeWithProject
+          document={this.props.data}
+          changeNodeFocus={this.changeNodeFocus}
+          updateNode={this.updateNode}
+          changeActiveNode={(id, prevCursor) =>
+            this.changeActiveNode(id, prevCursor, this.state.tree.children)
+          }
+          cellCheckStatusChange={this.cellCheckStatusChange}
+          addNodeInTree={this.addNodeInTree}
+          removeNodeInTree={this.removeNodeInTree}
+          {...props}
+        />
+      );
+    };
 
     /** id активного документа у нас под разным названием в зависимости от контекста */
     if (
@@ -126,6 +128,7 @@ export class DocumentTree extends Component {
       cursor: null,
       tree: {
         number: '',
+        letterNumber: '',
         toggled: false,
         loading: false,
         active: false,
@@ -1069,7 +1072,7 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
+    // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
 
     return (
       <Box

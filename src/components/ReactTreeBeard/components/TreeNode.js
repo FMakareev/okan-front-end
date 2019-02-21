@@ -6,6 +6,7 @@ import { VelocityTransitionGroup } from 'velocity-react';
 import styled from 'styled-components';
 
 import NodeHeader from './NodeHeader';
+import { getDirectiveNames } from 'apollo-utilities';
 
 const Ul = styled.ul`
   position: relative;
@@ -86,6 +87,7 @@ export class TreeNode extends Component {
 
   renderChildren(decorators) {
     const { animations, decorators: propDecorators, node } = this.props;
+
     if (node.loading) {
       return this.renderLoading(decorators);
     }
@@ -98,7 +100,37 @@ export class TreeNode extends Component {
     return (
       <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
         {children.map((child, index) => {
-          child.number = `${node.number}${index + 1}.`;
+          if (child.isAttachment) {
+            let cursor = 0;
+            let count = 0;
+            let result = [];
+            let indexLetter = index;
+
+            const strCirilice = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+
+            const createAbc = (str, count, cursor) => {
+              let result = '';
+              for (let i = 0; i < count + 1; i++) {
+                result = result + str[cursor];
+              }
+              return result;
+            };
+
+            for (let i = 0; i < 140; i++) {
+              result.push(createAbc(strCirilice, count, cursor));
+              cursor += 1;
+
+              if (cursor === strCirilice.length) {
+                cursor = 0;
+                count += 1;
+              }
+            }
+
+            child.letterNumber = `${node.letterNumber}${result[indexLetter - 1]}.`;
+          } else {
+            child.number = `${node.number}${index + 1}.`;
+          }
+
           return (
             <TreeNode
               {...this._eventBubbles()}

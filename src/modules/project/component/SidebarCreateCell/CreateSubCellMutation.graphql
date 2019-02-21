@@ -33,6 +33,7 @@ mutation ($parent: String!, $isHead: Boolean, $contenttype: String, $content: St
       }
       id
       isHead
+      isAttachment
       name
       nextcell {
         id
