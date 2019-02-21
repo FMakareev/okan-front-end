@@ -224,6 +224,7 @@ export class EditorCellController extends Component {
       location: { search },
       sectionNumber,
       project,
+      parentLetterNumber
     } = this.props;
 
     return (
@@ -250,10 +251,12 @@ export class EditorCellController extends Component {
           <Box width={'calc(100% - 160px)'}>
             {/** заголовок таблицы */}
             <EditorCellTitle
+              textAlign={'left'}
               contenttype={BLOCK_TABLE}
               onClick={this.openEditor}
               content={data.content}
               editable={editable}
+              parentLetterNumber={parentLetterNumber}
             />
 
             {/** текстовый контент */}
@@ -297,6 +300,8 @@ export class EditorCellController extends Component {
 
             {/** заголовок картинки */}
             <EditorCellTitle
+              textAlign={'center'}
+              parentLetterNumber={parentLetterNumber}
               contenttype={BLOCK_IMAGE}
               onClick={this.openEditor}
               content={data.content}

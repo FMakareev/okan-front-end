@@ -5,6 +5,7 @@ import ReactHTMLParser from 'react-html-parser';
 import { Text } from '@lib/ui/Text/Text';
 import { Flex } from '@lib/ui/Flex/Flex';
 import { Box } from '@lib/ui/Box/Box';
+import {BLOCK_IMAGE, BLOCK_TABLE} from "@lib/shared/blockType";
 
 const NameStyled = styled(Box)`
   p,
@@ -15,21 +16,32 @@ const NameStyled = styled(Box)`
     padding: 0;
   }
 `;
-
-export const EditorCellTitle = ({ content, editable, onClick, contenttype }) => {
+// TODO рефакторинг: с 32 по 43 строки оптимизировать
+export const EditorCellTitle = ({ content, editable, onClick, contenttype, parentLetterNumber, textAlign = 'center' }) => {
   if (content.contenttype !== contenttype || editable) return null;
   return (
     <Text
       onClick={() => {
-        console.log('onClick: ');
         onClick();
       }}
       fontWeight={'bold'}
       fontSize={6}
       color={'color11'}
-      textAlign={'center'}>
-      <Flex justifyContent={'center'} alignItems={'flex-start'}>
-        <Box>{content.number}. </Box>
+      width={'100%'}
+      textAlign={textAlign}>
+      <Flex width={'100%'} justifyContent={textAlign} alignItems={'flex-start'}>
+        {
+          parentLetterNumber &&
+          (<Box>
+            {contenttype === BLOCK_TABLE && 'Таблица '}{contenttype === BLOCK_IMAGE && 'Рисунок '}{parentLetterNumber} {content.number}.
+          </Box>)
+        }
+        {
+          !parentLetterNumber &&
+          (<Box>
+            {contenttype === BLOCK_TABLE && 'Таблица '}{contenttype === BLOCK_IMAGE && 'Рисунок '}{content.number}.
+          </Box>)
+        }
         <NameStyled>
           {content.name &&
             typeof content.name === 'string' &&

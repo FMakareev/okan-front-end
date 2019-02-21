@@ -126,6 +126,7 @@ export class DocumentTree extends Component {
       cursor: null,
       tree: {
         number: '',
+        letterNumber: '',
         toggled: false,
         loading: false,
         active: false,
@@ -452,6 +453,7 @@ export class DocumentTree extends Component {
           documentid: data.id,
           sectionid: currentNode.id,
           cellNumber: currentNode.number,
+          cellLetterNumber: currentNode.letterNumber,
         });
       }
     } catch (error) {
@@ -468,20 +470,25 @@ export class DocumentTree extends Component {
    * @param {string} props.documentid - id Документа доступен в режиме редактирования и комментирования
    * @param {string} props.sectionid - id активной ячейки в документе
    * @param {string} props.cellNumber - номер активной ячейки
+   * @param {string} props.cellLetterNumber - номер активной ячейки
    * @desc метод для изменения маршрута в проекте
    * */
-  changeRoute = ({ history, projectid, revisionid, documentid, sectionid, cellNumber }) => {
+  changeRoute = ({history, projectid, revisionid, documentid, sectionid, cellNumber, cellLetterNumber}) => {
     try {
-      if (projectid && documentid && sectionid && cellNumber) {
-        history.push(
-          `/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`,
-        );
+      if (projectid && documentid && sectionid && cellLetterNumber) {
+        history.push(`/app/project/${projectid}/${documentid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`);
+      } else if (projectid && documentid && sectionid && cellNumber) {
+        history.push(`/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`);
       } else if (projectid && documentid && sectionid) {
         history.push(`/app/project/${projectid}/${documentid}/${sectionid}`);
       } else if (projectid) {
         history.push(`/app/project/${projectid}`);
+
+      } else if (revisionid && sectionid && cellLetterNumber) {
+        history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`);
       } else if (revisionid && sectionid && cellNumber) {
         history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionNumber=${cellNumber}`);
+
       } else if (revisionid && sectionid) {
         history.push(`/app/revision-item/${revisionid}/${sectionid}`);
       } else {
@@ -1076,7 +1083,7 @@ export class DocumentTree extends Component {
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={this.decorators} cursor={this.state.cursor} data={this.state.tree} onToggle={this.onToggle} />
+        <Treebeard decorators={this.decorators} data={this.state.tree} onToggle={this.onToggle}/>
       </Box>
     );
   }

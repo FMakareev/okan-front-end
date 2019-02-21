@@ -25,6 +25,7 @@ query ($parent: String) {
     }
     id
     isHead
+    isAttachment
     name
     nextcell {
       name
@@ -66,9 +67,7 @@ query ($parent: String) {
         contenttype
         number
       }
-
     }
-    
     verify
   }
 }

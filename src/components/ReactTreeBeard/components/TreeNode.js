@@ -1,11 +1,12 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { VelocityTransitionGroup } from 'velocity-react';
+import {VelocityTransitionGroup} from 'velocity-react';
 import styled from 'styled-components';
 
 import NodeHeader from './NodeHeader';
+import {getDirectiveNames} from 'apollo-utilities';
 
 const Ul = styled.ul`
   position: relative;
@@ -19,8 +20,8 @@ export class TreeNode extends Component {
   }
 
   onClick() {
-    const { node, onToggle } = this.props;
-    const { toggled } = node;
+    const {node, onToggle} = this.props;
+    const {toggled} = node;
 
     if (onToggle) {
       onToggle(node, !toggled);
@@ -28,7 +29,7 @@ export class TreeNode extends Component {
   }
 
   animations() {
-    const { animations, node } = this.props;
+    const {animations, node} = this.props;
 
     if (animations === false) {
       return false;
@@ -46,7 +47,7 @@ export class TreeNode extends Component {
    * */
   decorators() {
     // Merge Any Node Based Decorators Into The Pack
-    const { decorators, node } = this.props;
+    const {decorators, node} = this.props;
     let nodeDecorators = node.decorators || {};
 
     return Object.assign({}, decorators, nodeDecorators);
@@ -54,7 +55,7 @@ export class TreeNode extends Component {
 
   renderDrawer(decorators, animations) {
     const {
-      node: { toggled },
+      node: {toggled},
     } = this.props;
 
     if (!animations && !toggled) {
@@ -63,7 +64,7 @@ export class TreeNode extends Component {
       return this.renderChildren(decorators, animations);
     }
 
-    const { animation, duration, ...restAnimationInfo } = animations.drawer;
+    const {animation, duration, ...restAnimationInfo} = animations.drawer;
     return (
       <VelocityTransitionGroup {...restAnimationInfo}>
         {toggled ? this.renderChildren(decorators, animations) : null}
@@ -72,7 +73,7 @@ export class TreeNode extends Component {
   }
 
   renderHeader(decorators, animations) {
-    const { node } = this.props;
+    const {node} = this.props;
 
     return (
       <NodeHeader
@@ -85,7 +86,8 @@ export class TreeNode extends Component {
   }
 
   renderChildren(decorators) {
-    const { animations, decorators: propDecorators, node } = this.props;
+    const {animations, decorators: propDecorators, node} = this.props;
+
     if (node.loading) {
       return this.renderLoading(decorators);
     }
@@ -94,11 +96,36 @@ export class TreeNode extends Component {
     if (!Array.isArray(children)) {
       children = children ? [children] : [];
     }
+    let cursor = 0;
+    let count = 0;
+    let result = [];
 
+    const alphabet = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+
+    const createAbc = (str, count, cursor) => {
+      let result = '';
+      for (let i = 0; i < count + 1; i++) {
+        result = result + str[cursor];
+      }
+      return result;
+    };
     return (
       <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
         {children.map((child, index) => {
-          child.number = `${node.number}${index + 1}.`;
+          if (child.isAttachment) {
+
+            child.letterNumber = `${node.letterNumber}${createAbc(alphabet, count, cursor)}.`;
+
+            cursor += 1;
+            if (cursor === alphabet.length) {
+              cursor = 0;
+              count += 1;
+            }
+
+          } else {
+            child.number = `${node.number}${index + 1}.`;
+          }
+
           return (
             <TreeNode
               {...this._eventBubbles()}
@@ -116,13 +143,13 @@ export class TreeNode extends Component {
   renderLoading(decorators) {
     return (
       <decorators.TreeNodeList>
-        <decorators.Loading />
+        <decorators.Loading/>
       </decorators.TreeNodeList>
     );
   }
 
   _eventBubbles() {
-    const { onToggle } = this.props;
+    const {onToggle} = this.props;
 
     return {
       onToggle,

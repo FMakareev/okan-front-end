@@ -27,9 +27,9 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Redux action to remove BlockId from store */
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
-import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
-import {ProjectContextPropTypes} from "../ProjectContext/ProjectContext";
-import {childcellIsCategory} from "../../utils/childcellIsCategory";
+import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import {ProjectContextPropTypes} from '../ProjectContext/ProjectContext';
+import {childcellIsCategory} from '../../utils/childcellIsCategory';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -135,7 +135,7 @@ export class SidebarCellNode extends Component {
     // console.log(this.props.node);
     try {
       return {
-        name: this.props.node.name,
+        name: this.props.node.name || '',
         prevName: this.props.node.name,
         focused: this.props.node.focused,
         hover: false,
@@ -180,7 +180,6 @@ export class SidebarCellNode extends Component {
         if (cellToCopy) {
           this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
         } else {
-
           this.props.changeActiveNode(
             node ? node.id : null,
             getPosition(this.props.project, 'sectionid'),
@@ -200,12 +199,11 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
-
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
-        id: this.props.node.id
-      }
+        id: this.props.node.id,
+      },
     });
     lastChildren = newNode.cellitem.lastChildren;
     this.props
@@ -222,8 +220,8 @@ export class SidebarCellNode extends Component {
           const data = store.readQuery({
             query: CellListQuery,
             variables: {
-              parent: this.props.node.id
-            }
+              parent: this.props.node.id,
+            },
           });
           if (data.celllist.length > 0) {
             data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
@@ -234,22 +232,21 @@ export class SidebarCellNode extends Component {
           store.writeQuery({
             query: CellListQuery,
             variables: {
-              parent: this.props.node.id
+              parent: this.props.node.id,
             },
-            data
+            data,
           });
-        }
+        },
       })
       .then(({data}) => {
-        if (bindAfterCopy)
-          this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
+        if (bindAfterCopy) this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
         else {
           this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
           this.props.removeBlock();
         }
       })
-      .catch((error) => {
+      .catch(error => {
         this.props.setNotificationError(notificationCopy(null).error);
         console.log('there was an error sending the query', error);
       });
@@ -268,8 +265,8 @@ export class SidebarCellNode extends Component {
           const dataParentList = store.readQuery({
             query: CellListQuery,
             variables: {
-              parent: bindingcell.cell.parent.id
-            }
+              parent: bindingcell.cell.parent.id,
+            },
           });
 
           let dataParentWrite = {};
@@ -283,9 +280,9 @@ export class SidebarCellNode extends Component {
           store.writeQuery({
             query: CellListQuery,
             variables: {
-              id: bindingcell.cell.parent.id
+              id: bindingcell.cell.parent.id,
             },
-            data: dataParentWrite
+            data: dataParentWrite,
           });
 
           try {
@@ -298,9 +295,7 @@ export class SidebarCellNode extends Component {
           } catch (error) {
             console.error('Error bindBlock: ', error);
           }
-
-
-        }
+        },
       })
       .then(({data}) => {
         // console.log('got data', data);
@@ -315,11 +310,8 @@ export class SidebarCellNode extends Component {
   };
 
   render() {
-    const {
-      node, setNotificationSuccess,
-      setNotificationError,
-      project
-    } = this.props;
+    const {node, setNotificationSuccess, setNotificationError, project} = this.props;
+    // console.log(11, this.props);
     const {hover, name, prevName} = this.state;
     const isHead = childcellIsCategory(node);
     return (
@@ -339,9 +331,12 @@ export class SidebarCellNode extends Component {
             ml={isHead ? '' : '20px'}
             color={'color11'}
             width={'calc(100% - 28px)'}>
-            <Text fontWeight={'inherit'} color={'color11'}>
-              {node.number}
-            </Text>
+            {
+              !node.isAttachment &&
+              <Text fontWeight={'inherit'} color={'color11'}>
+                {node.number}
+              </Text>
+            }
             <TextStyled fontWeight={'inherit'} color={'color11'} mr={1}>
               <SidebarCellNodeEditable
                 id={node.id}
@@ -350,7 +345,7 @@ export class SidebarCellNode extends Component {
                 setNotificationError={setNotificationError}
                 onError={() => {
                   console.log('onError:');
-                  this.setState(() => this.initialState)
+                  this.setState(() => this.initialState);
                 }}
                 ref={this.contentEditable}
                 html={name}
@@ -358,11 +353,13 @@ export class SidebarCellNode extends Component {
                 focused={node.focused}
                 onChange={this.handleChange}
               />
+              {
+                node.isAttachment && ' ' + node.letterNumber
+              }
             </TextStyled>
           </Flex>
         </Flex>
-        {
-          project.editable &&
+        {project.editable && (
           <Flex mr={'10px'}>
             <Box opacity={hover ? '1' : '0'} px={1}>
               <SidebarChangeCell onClick={this.onToggleEditable}/>
@@ -370,7 +367,9 @@ export class SidebarCellNode extends Component {
             <Box opacity={hover ? '1' : '0'} px={1}>
               <SidebarCreateCell
                 node={node}
-                changeActiveNode={(id) => this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))}
+                changeActiveNode={id =>
+                  this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))
+                }
                 addNodeInTree={this.props.addNodeInTree}
                 changeNodeFocus={this.props.changeNodeFocus}
                 removeNodeInTree={this.props.removeNodeInTree}
@@ -385,8 +384,7 @@ export class SidebarCellNode extends Component {
               />
             </Box>
           </Flex>
-        }
-
+        )}
       </Wrapper>
     );
   }
@@ -394,7 +392,7 @@ export class SidebarCellNode extends Component {
 
 SidebarCellNode = withRouter(SidebarCellNode);
 
-SidebarCellNode = withApollo(SidebarCellNode)
+SidebarCellNode = withApollo(SidebarCellNode);
 
 const mapStateToProps = state => {
   return state.blocksBinding;
@@ -402,7 +400,7 @@ const mapStateToProps = state => {
 
 SidebarCellNode = compose(
   graphql(BindingCellMutation, {name: 'bindBlock'}),
-  graphql(CreateCellMutation, {name: 'createCopy'})
+  graphql(CreateCellMutation, {name: 'createCopy'}),
 )(SidebarCellNode);
 
 export default connect(
