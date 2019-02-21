@@ -18,6 +18,7 @@ import {sortingCells} from "../../utils/sortingCells";
 /** Redux */
 import {connect} from 'react-redux';
 import {error, success} from 'react-notification-system-redux';
+import {BLOCK_TEXT} from "@lib/shared/blockType";
 
 const notificationOpts = () => ({
   success: {
@@ -56,61 +57,78 @@ export class EditorCellDelete extends Component {
           /** сортирую список ячеек по указателям, бекенд присылает этот список в разнобой */
           data.celllist = sortingCells(data.celllist);
 
-          let cellIndex = null;
-
           /**
            * @desc получаем id удаляемой ячейки
            * */
-          for (let i = 0; i < data.celllist.length; i++) {
-            if (data.celllist[i].id === deletecell.cell.id) {
-              cellIndex = i;
+          let cellIndex = data.celllist.findIndex((item) => item.id === deletecell.cell.id);
+
+          try {
+            /** @desc обновление нумерации у таблиц и картинок */
+            if (deletecell.cell.content.contenttype !== BLOCK_TEXT) {
+
+              data.celllist = data.celllist.map((item, index) => {
+
+                if (index > cellIndex) {
+                  if (item.content.contenttype === deletecell.cell.content.contenttype) {
+                    item.content.number = item.content.number - 1;
+                  }
+                }
+
+                return item;
+              })
             }
+          } catch (error) {
+            console.error('Error update content.number: ', error);
           }
 
-          /** если удаляемая ячейка является первой в списке */
-          if (deletecell.cell.prevcell.id === deletecell.cell.parent.id) {
-            /** вот эта секция нужна для того чтобы у родительской ячейки изменить указатель на дочку
-             * и с помощью этого изменения оповестить навигацию и обновить у родительской ячейки в навигации поле childcell
-             * это нужно для того чтобы если после удаления первой ячейки в списке детей пользователь решит добавить подраздел в парента
-             * мы имели актуальную информацию о новой дочерней ячейке */
-            let options = {
-              query: CellItemQuery,
-              variables: {
-                id: deletecell.cell.parent.id
+          try {
+            /** если удаляемая ячейка является первой в списке */
+            if (deletecell.cell.prevcell.id === deletecell.cell.parent.id) {
+              /** вот эта секция нужна для того чтобы у родительской ячейки изменить указатель на дочку
+               * и с помощью этого изменения оповестить навигацию и обновить у родительской ячейки в навигации поле childcell
+               * это нужно для того чтобы если после удаления первой ячейки в списке детей пользователь решит добавить подраздел в парента
+               * мы имели актуальную информацию о новой дочерней ячейке */
+              let options = {
+                query: CellItemQuery,
+                variables: {
+                  id: deletecell.cell.parent.id
+                }
+              };
+              const parent = store.readQuery(options);
+
+
+              if (deletecell.cell.nextcell) {
+                /** если поле удаляемой ячейки есть еще ячейка */
+                data.celllist.splice(cellIndex, 1);
+                data.celllist[0].prevcell = parent.cellitem;
+                parent.cellitem.childcell = data.celllist[0];
+
+              } else {
+                /** если ячейка одна в списке */
+                data.celllist = [];
+                parent.cellitem.childcell = null;
               }
-            };
-            const parent = store.readQuery(options);
 
-
-            if (deletecell.cell.nextcell) {
-              /** если поле удаляемой ячейки есть еще ячейка */
-              data.celllist.splice(cellIndex, 1);
-              data.celllist[0].prevcell = parent.cellitem;
-              parent.cellitem.childcell = data.celllist[0];
-
+              store.writeQuery({...options, data: parent});
             } else {
-              /** если ячейка одна в списке */
-              data.celllist = [];
-              parent.cellitem.childcell = null;
-            }
-
-            store.writeQuery({...options, data: parent});
-          } else {
-            /**
-             * @desc Если ячейка посередине списка, то меняем указатели у соседних
-             * */
-            if (deletecell.cell.nextcell && deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
-              data.celllist[cellIndex - 1].nextcell = data.celllist[cellIndex + 1];
-              data.celllist[cellIndex + 1].prevcell = data.celllist[cellIndex - 1];
-
-            } else if (!deletecell.cell.nextcell && deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
               /**
-               * @desc Если ячейка в конце списка, то меняем указатель у предыдущей
+               * @desc Если ячейка посередине списка, то меняем указатели у соседних
                * */
-              console.log('last');
-              data.celllist[cellIndex - 1].nextcell = null;
+              if (deletecell.cell.nextcell && deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
+                data.celllist[cellIndex - 1].nextcell = data.celllist[cellIndex + 1];
+                data.celllist[cellIndex + 1].prevcell = data.celllist[cellIndex - 1];
+
+              } else if (!deletecell.cell.nextcell && deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
+                /**
+                 * @desc Если ячейка в конце списка, то меняем указатель у предыдущей
+                 * */
+                console.log('last');
+                data.celllist[cellIndex - 1].nextcell = null;
+              }
+              data.celllist.splice(cellIndex, 1);
             }
-            data.celllist.splice(cellIndex, 1);
+          } catch (error) {
+            console.error('Error update celllist: ', error);
           }
 
           store.writeQuery({
@@ -119,19 +137,18 @@ export class EditorCellDelete extends Component {
               parent: this.props.sectionid
             },
             data
-          })
-          console.log(this.props.sectionid)
+          });
+
+
           data = store.readQuery({
             query: CellItemQuery,
             variables: {
               id: this.props.sectionid
             }
           });
-          console.log(deletecell.cell.id)
           data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id ?
             data.cellitem.lastChildren = null :
-            null
-          console.log(data.cellitem.lastChildren)
+            null;
 
           store.writeQuery({
             query: CellItemQuery,
@@ -159,7 +176,11 @@ export class EditorCellDelete extends Component {
     return (
       <ButtonBase
         p={2}
-        onClick={() => this.deleteCell()}
+        onClick={() => {
+          if (confirm("Вы уверены что хотите удалить блок?")) {
+            this.deleteCell()
+          }
+        }}
       >
         <img src={deleteIcon} width={'13px'}/>
       </ButtonBase>
