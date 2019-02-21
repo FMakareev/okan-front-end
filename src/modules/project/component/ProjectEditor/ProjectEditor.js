@@ -51,6 +51,7 @@ export class ProjectEditor extends Component {
     childName: '',
     parentName: '',
     parentNumber: null,
+    parentLetterNumber: null,
   };
 
   componentWillUnmount() {
@@ -71,6 +72,23 @@ export class ProjectEditor extends Component {
     }
   }
 
+  getSectionNumber = () => {
+    try{
+      return queryString.parse(this.props.location.search).sectionNumber;
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
+  };
+  getSectionLetterNumber = () => {
+    try{
+      return queryString.parse(this.props.location.search).sectionLetterNumber;
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
+  };
+
   /**
    * @param {string} id - id ячейки
    * @desc метод для создания заголовков
@@ -84,11 +102,11 @@ export class ProjectEditor extends Component {
         childCell.data.cellitem.id,
       ).subscribe(({ data }) => {
         const name = data.cellitem && data.cellitem.name;
-        const numbers = queryString.parse(this.props.location.search);
         return this.setState(state => ({
           ...state,
           childName: name,
-          parentNumber: numbers && numbers.sectionNumber,
+          parentNumber: this.getSectionNumber(),
+          parentLetterNumber: this.getSectionLetterNumber(),
         }));
       });
 
@@ -152,7 +170,7 @@ export class ProjectEditor extends Component {
       project,
     } = this.props;
     // console.log(22222, this.props);
-    const { childName, parentName, parentNumber } = this.state;
+    const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -195,7 +213,7 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {parentNumber && parentNumber.length === 2 ? (
-                      <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
+                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName || ''}`}</Fragment>
                     ) : (
                       <Fragment>{`${section} ${parentName || ''}`}</Fragment>
                     )}
@@ -211,7 +229,7 @@ export class ProjectEditor extends Component {
                       ml={'5px'}
                       mb={'-30px'}>
                       {parentNumber && parentNumber.length <= 2 ? null : (
-                        <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
+                        <Fragment>{`${parentNumber  || parentLetterNumber} ${childName || ''}`}</Fragment>
                       )}
                     </Text>
 
@@ -230,7 +248,8 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.parentNumber === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${parentNumber}${childCellIndex}`}
+                            sectionNumber={`${parentNumber || parentLetterNumber}${childCellIndex}`}
+                            parentLetterNumber={parentLetterNumber}
                           />
                         </Box>
                       );
