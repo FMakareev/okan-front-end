@@ -85,36 +85,10 @@ export class TreeNode extends Component {
     );
   }
 
-  getName() {
-    let cursor = 0;
-    let count = 0;
-    let result = [];
-    // let indexLetter = 0;
-
-    const strCirilice = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
-
-    const createAbc = (str, count, cursor) => {
-      let result = '';
-      for (let i = 0; i < count + 1; i++) {
-        result = result + str[cursor];
-      }
-      return result;
-    };
-
-    for (let i = 0; i < 140; i++) {
-      result.push(createAbc(strCirilice, count, cursor));
-      cursor += 1;
-
-      if (cursor === strCirilice.length) {
-        cursor = 0;
-        count += 1;
-      }
-    }
-  }
+  getName() {}
 
   renderChildren(decorators) {
     const { animations, decorators: propDecorators, node } = this.props;
-    let indexLetter = -1;
 
     if (node.loading) {
       return this.renderLoading(decorators);
@@ -129,8 +103,32 @@ export class TreeNode extends Component {
       <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
         {children.map((child, index) => {
           if (child.isAttachment) {
-            let result = this.getName();
-            child.letterNumber = `${node.letterNumber}${result[indexLetter + 1]}.`;
+            let cursor = 0;
+            let count = 0;
+            let result = [];
+            let indexLetter = index;
+
+            const strCirilice = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+
+            const createAbc = (str, count, cursor) => {
+              let result = '';
+              for (let i = 0; i < count + 1; i++) {
+                result = result + str[cursor];
+              }
+              return result;
+            };
+
+            for (let i = 0; i < 140; i++) {
+              result.push(createAbc(strCirilice, count, cursor));
+              cursor += 1;
+
+              if (cursor === strCirilice.length) {
+                cursor = 0;
+                count += 1;
+              }
+            }
+
+            child.letterNumber = `${node.letterNumber}${result[indexLetter]}.`;
           } else {
             child.number = `${node.number}${index + 1}.`;
           }
