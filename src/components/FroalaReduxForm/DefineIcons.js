@@ -14,10 +14,6 @@ export function DefineIcons(props) {
     title: 'copy something',
     focus: true,
     undo: false,
-    refreshAfterCallback: false,
-    callback: command => {
-      props.buttonClick(command);
-    },
   });
 
   $.FroalaEditor.DefineIcon('bind', { SRC: bindIcon, ALT: 'Bind', template: 'image' });
@@ -25,10 +21,6 @@ export function DefineIcons(props) {
     title: 'Bind block',
     focus: true,
     undo: false,
-    refreshAfterCallback: true,
-    // allback: command => {
-    //   props.buttonClick(command);
-    // },c
   });
 
   $.FroalaEditor.DefineIcon('unbind', { SRC: deleteIcon, ALT: 'unbind', template: 'image' });

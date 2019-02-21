@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
-import { copyCell } from '../../store/reducers/blocksBinding/actions';
+import { copyCell, removeBlock } from '../../store/reducers/blocksBinding/actions';
 import Notifications, { success, error } from 'react-notification-system-redux';
 import ReactDOM from 'react-dom';
 
@@ -71,23 +71,39 @@ export class RichTextEditor extends Component {
       nextProps.meta.active !== this.props.meta.active ||
       nextProps.meta.touched !== this.props.meta.touched ||
       nextProps.input.value !== this.props.input.value ||
-      nextProps.label !== this.props.label
+      nextProps.label !== this.props.label ||
+      nextProps.froalaLoaded !== this.props.froalaLoaded
     ) {
       return true;
     }
     return false;
   }
 
-  componentDidMount() {
+  /**
+   * @desc Ждем инициализации Фроалы
+   * */
+  componentDidUpdate(prevProps) {
+    if(prevProps.froalaLoaded !== this.props.froalaLoaded && this.props.froalaLoaded) {
+      console.log('updated')
+      this.initButtonsCallbacks();
+    }
+  };
+
+  /**
+   * @desc Получаем dom-узлы кнопок и передаем методу createDragEvent
+   * */
+  initButtonsCallbacks = () => {
     if (this.props.contenttype != BLOCK_NAME) {
       const node = ReactDOM.findDOMNode(this);
-      const buttons = node.getElementsByTagName('button')
+      const buttons = node.getElementsByTagName('button');
       let bindingButton = buttons[1];
-
-      console.log(bindingButton)
+      let copyButton = buttons[0];
       
       if (bindingButton) {
-        this.createDragEvent(bindingButton, node, true)
+        this.createDragEvent(bindingButton, node, true);
+      }
+      if (copyButton) {
+        this.createDragEvent(copyButton, node, false);
       }
     }
   };
@@ -114,6 +130,8 @@ export class RichTextEditor extends Component {
       nodePreview.style.position = 'absolute';
       nodePreview.style.zIndex = 1000;
       nodePreview.style.width = node.offsetWidth + 'px';
+      
+      this.copyCell(bind);
 
       this.movePreviewAt(nodePreview, e);
       document.body.appendChild(nodePreview);
@@ -121,36 +139,32 @@ export class RichTextEditor extends Component {
       document.onmousemove = (e) => {
         this.movePreviewAt(nodePreview, e);
       }
-      {/** Вешаем mouseup на копию узла, т.к. курсор наведен на нее, а не на кнопку */}
-      nodePreview.onmouseup = () => {
-        this.releaseButton(nodePreview, wholeCell);
+      {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
+      document.onmouseup = (e) => {
+        console.log('mouseup')
+        this.releaseButton(nodePreview, wholeCell, e);
       }
     }
   }
   
+  /**
+   * @desc Перемещаем копию узла к курсору
+   * */
   movePreviewAt = (node, e) => {
-    node.style.left = e.pageX - 48 + 'px';
-    node.style.top = e.pageY - 10 + 'px';
+    node.style.left = e.pageX + 8 + 'px';
+    node.style.top = e.pageY + 8 + 'px';
   }
   
-  releaseButton = (node, cell) => {
+  releaseButton = (node, cell, e) => {
     {/** удаляем копию узла */}
     document.body.removeChild(node);
     {/** обнуляем обработчики */}
     document.onmousemove = null;
-    node.onmouseup = null;
+    document.onmouseup = null;
 
     cell.style.opacity = 1;
   }
 
-  // triggerMouseEvent = (node, eventType) => {
-  //   let clickEvent = new MouseEvent(eventType, {
-  //     view: window,
-  //     bubbles: true,
-  //     cancelable: true
-  //   });
-  //   node.dispatchEvent(clickEvent);
-  // };
 
   getButtonClick = action => {
     switch (action) {
@@ -187,6 +201,7 @@ export class RichTextEditor extends Component {
   };
 
   copyCell = bind => {
+    this.props.removeBlock();
     let data = this.props.data;
     data.content.content = this.props.input.value;
     this.props.instantSave();
@@ -216,10 +231,15 @@ export class RichTextEditor extends Component {
 
 RichTextEditor = graphql(UnbindingCellMutation)(RichTextEditor);
 
+const mapStateToProps = state => {
+  return state.blocksBinding;
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   dispatch => ({
     copyCell: (cell, bind) => dispatch(copyCell(cell, bind)),
+    removeBlock: () => dispatch(removeBlock()),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

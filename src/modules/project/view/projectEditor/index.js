@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 
 /** css style */
 import '../../../../assets/style/editor-cell_content.css';
@@ -23,9 +22,6 @@ import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 
 /** Context */
 import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
-
-/** Redux action to remove BlockId from store */
-import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
@@ -67,12 +63,6 @@ export class ProjectEditorPage extends Component {
     this.state = {};
   }
 
-  handleClick() {
-    if (this.props.cellToCopy) {
-      this.props.removeBlock();
-    }
-  }
-
   render() {
     const {
       match: { params },
@@ -103,9 +93,7 @@ export class ProjectEditorPage extends Component {
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
-                    onClick={() => this.handleClick()}>
+                  <EditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
@@ -118,12 +106,4 @@ export class ProjectEditorPage extends Component {
   }
 }
 
-// export default ProjectEditorPage;
-const mapStateToProps = state => {
-  return state.blocksBinding;
-};
-
-export default connect(
-  mapStateToProps,
-  { removeBlock },
-)(ProjectEditorPage);
+export default ProjectEditorPage;

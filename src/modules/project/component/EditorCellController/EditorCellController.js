@@ -24,6 +24,7 @@ import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { error, success } from 'react-notification-system-redux';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
 import { BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT } from '../../../../shared/blockType';
@@ -159,6 +160,7 @@ export class EditorCellController extends Component {
 
     setTimeout(() => {
       if (!currentTarget.contains(document.activeElement)) {
+        this.props.removeBlock();
         this.startSave();
       }
     }, 0);
@@ -312,10 +314,11 @@ EditorCellController = connect(
     // console.log('values: ', getFormValues('EditorCellForm-' + data.id)(state));
 
     return {
-      values: getFormValues('EditorCellForm-' + data.id)(state),
+      values: getFormValues('EditorCellForm-' + data.id)(state)
     };
   },
   dispatch => ({
+    removeBlock: () => dispatch(removeBlock()),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
