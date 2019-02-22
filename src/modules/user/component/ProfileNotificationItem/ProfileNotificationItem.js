@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
+
 import PropTypes from 'prop-types';
 import { color } from 'styled-system';
-
 /**View */
 import Text from '@lib/ui/Text/Text';
 import Box from '@lib/ui/Box/Box';
@@ -46,22 +47,20 @@ const FlexStyled = styled(Flex)`
   }
 
   @media (min-width: 1300px) {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    display: inline-flex;
   }
 `;
-
-export const ProfileNotificationItem = ({ message, name, time }) => {
+// TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
+export const ProfileNotificationItem = ({ message,sender, name, createat }) => {
   return (
     <Box mb={[4]}>
       <TextStyled fontSize={6} lineHeight={8} color={'color11'} fontFamily={'secondary'}>
         {message}
       </TextStyled>
 
-      <FlexStyled width={'25%'}>
-        <Text>{name} /</Text>
-        <Text>{time}</Text>
+      <FlexStyled>
+        <Text>{sender.firstname} {sender.lastname}</Text>/
+        <Text>{dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}</Text>
       </FlexStyled>
     </Box>
   );

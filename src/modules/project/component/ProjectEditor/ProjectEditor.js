@@ -6,7 +6,7 @@ import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import { ProjectContextPropTypes, withProject } from '../ProjectContext/ProjectContext';
+import {PROJECT_MODE_RW, ProjectContextPropTypes, withProject} from '../ProjectContext/ProjectContext';
 import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
@@ -26,6 +26,7 @@ import { BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** COntext */
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import ProjectModeState from "../ProjectContext/ProjectModeState";
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -264,8 +265,9 @@ export class ProjectEditor extends Component {
             return null;
           }}
         </Query>
-
-        {project.editable && <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />}
+        <ProjectModeState is={PROJECT_MODE_RW}>
+          <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />
+        </ProjectModeState>
       </Flex>
     );
   }

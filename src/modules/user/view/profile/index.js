@@ -132,7 +132,7 @@ export class ProfilePage extends Component {
                     }
                     return (
                       <ProfileNotification
-                        initialValues={data && Object.assign({}, { ...data.notificationslist })}
+                        data={data.notificationslist}
                       />
                     );
                   }}

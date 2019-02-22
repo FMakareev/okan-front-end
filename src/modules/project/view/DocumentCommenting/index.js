@@ -1,37 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
-
-/** css style */
-import '../../../../assets/style/editor-cell_content.css';
 
 /** Graphql schema */
-import ProjectItemQuery from './ProjectItemQuery.graphql';
-
-/**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import DocumentItemQuery from './DocumentItemQuery.graphql';
 
 /** View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
-import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
-
-/** Context */
 import {
+  PROJECT_MODE_RC,
   PROJECT_MODE_READ,
-  PROJECT_MODE_RW,
   ProjectContext,
   withProject
 } from '../../component/ProjectContext/ProjectContext';
 
-/** Redux action to remove BlockId from store */
-import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+/**PropTypes */
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import { DocumentTree } from '../../component/DocumentTree/DocumentTree';
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
@@ -53,9 +43,10 @@ const EditorWrapper = styled.div`
   min-height: calc(100vh - 40px);
 `;
 
+const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
 
-export class ProjectEditorPage extends Component {
+export class DocumentCommenting extends Component {
   static propTypes = {
     ...ReactRoutePropTypes,
     match: PropTypes.shape({
@@ -68,40 +59,17 @@ export class ProjectEditorPage extends Component {
     }),
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  handleClick() {
-    if (this.props.cellToCopy) {
-      this.props.removeBlock();
-    }
-  }
-
-  currentUserProjectAuthor = (currentUser, projectAuthor) => {
-    try {
-      if(currentUser.id === projectAuthor.id){
-        return PROJECT_MODE_RW;
-      } else {
-        return PROJECT_MODE_READ;
-      }
-    } catch (error) {
-      console.error('Error currentUserProjectAuthor: ', error);
-      return PROJECT_MODE_READ;
-    }
-  };
+  state = {};
 
   render() {
     const {
-      match: {params},
-      user,
+      match: { params },
     } = this.props;
+    console.log(1, params.id);
 
     return (
-      <Query query={ProjectItemQuery} variables={{id: params.projectid}}>
-        {({loading, data, error, ...rest}) => {
-
+      <Query query={DocumentItemQuery} variables={{ id: params.documentid }}>
+        {({ loading, data, error, ...rest }) => {
           if (loading) {
             return 'Загрузка...';
           }
@@ -117,17 +85,15 @@ export class ProjectEditorPage extends Component {
                     // объект с параметрами роутера
                     position: params,
                     // объект с данными о проекте
-                    project: data.projectitem,
-
-                    mode: this.currentUserProjectAuthor(user, data.projectitem.author),
+                    project: null,
+                    // можно ли редактировать проект
+                    mode: PROJECT_MODE_RC,
                   }}>
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar {...data.projectitem} />
+                    <DocumentTreeWithProject data={data.documentitem} />
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? {opacity: '0.4'} : {}}
-                    onClick={() => this.handleClick()}>
-                    <ProjectEditorWithProject sectionid={params.sectionid}/>
+                  <EditorWrapper>
+                    <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
@@ -139,15 +105,4 @@ export class ProjectEditorPage extends Component {
   }
 }
 
-// export default ProjectEditorPage;
-const mapStateToProps = state => {
-  return {
-    ...state.blocksBinding,
-    user: getUserFromStore(state)
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  {removeBlock},
-)(ProjectEditorPage);
+export default DocumentCommenting;
