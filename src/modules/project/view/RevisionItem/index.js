@@ -12,7 +12,7 @@ import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
-import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
+import {PROJECT_MODE_READ, ProjectContext, withProject} from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -41,7 +41,7 @@ const EditorWrapper = styled.div`
 const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
 
-export class EditorRevision extends Component {
+export class RevisionItem extends Component {
   static propTypes = {
     ...ReactRoutePropTypes,
     match: PropTypes.shape({
@@ -82,7 +82,7 @@ export class EditorRevision extends Component {
                     // объект с данными о проекте
                     project: null,
                     // можно ли редактировать проект
-                    editable: false,
+                    mode: PROJECT_MODE_READ,
                   }}>
                   <SideBarWrapper width={'320px'}>
                     <DocumentTreeWithProject data={data.revisionItem} />
@@ -100,4 +100,4 @@ export class EditorRevision extends Component {
   }
 }
 
-export default EditorRevision;
+export default RevisionItem;
