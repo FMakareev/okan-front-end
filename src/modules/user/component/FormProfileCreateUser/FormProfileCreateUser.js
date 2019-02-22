@@ -87,7 +87,7 @@ export class FormProfileCreateUser extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, submitSucceeded } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -140,7 +140,6 @@ export class FormProfileCreateUser extends Component {
           type="text"
           validate={required}
           fontFamily={'secondary'}
-          submitForm={submitSucceeded}
         />
 
         <Field
@@ -162,7 +161,6 @@ export class FormProfileCreateUser extends Component {
           fontFamily={'secondary'}
           fontSize={5}
           lineHeight={7}
-          submitForm={submitSucceeded}
         />
 
         <Field
