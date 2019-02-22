@@ -526,7 +526,7 @@ export class SidebarCreateCell extends Component {
             <BoxStyled
               onClick={event => {
                 this.onToggle(event);
-                if (confirm('Вы уверены что хотите удалить раздел?')) {
+                if (confirm('Вы уверены что хотите удалить приложение?')) {
                   this.deleteCell(id, name);
                 }
               }}>

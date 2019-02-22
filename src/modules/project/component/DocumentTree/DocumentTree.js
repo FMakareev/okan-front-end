@@ -867,6 +867,7 @@ export class DocumentTree extends Component {
     console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
     const {client} = this.props;
+    // const focusedCell = cell.isAttachment ? false : true
     let newCell = this.createCellNode({...cell, focused: true});
 
     let pathToParentCell =
@@ -1116,7 +1117,7 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
+    // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
 
     return (
       <Box
