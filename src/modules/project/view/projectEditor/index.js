@@ -22,7 +22,12 @@ import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 
 /** Context */
-import {ProjectContext, withProject} from '../../component/ProjectContext/ProjectContext';
+import {
+  PROJECT_MODE_READ,
+  PROJECT_MODE_RW,
+  ProjectContext,
+  withProject
+} from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
@@ -76,10 +81,14 @@ export class ProjectEditorPage extends Component {
 
   currentUserProjectAuthor = (currentUser, projectAuthor) => {
     try {
-      return currentUser.id === projectAuthor.id;
+      if(currentUser.id === projectAuthor.id){
+        return PROJECT_MODE_RW;
+      } else {
+        return PROJECT_MODE_READ;
+      }
     } catch (error) {
       console.error('Error currentUserProjectAuthor: ', error);
-      return false;
+      return PROJECT_MODE_READ;
     }
   };
 
@@ -109,8 +118,8 @@ export class ProjectEditorPage extends Component {
                     position: params,
                     // объект с данными о проекте
                     project: data.projectitem,
-                    // можно ли редактировать проект
-                    editable: this.currentUserProjectAuthor(user, data.projectitem.author),
+
+                    mode: this.currentUserProjectAuthor(user, data.projectitem.author),
                   }}>
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
