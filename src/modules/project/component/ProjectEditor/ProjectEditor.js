@@ -73,7 +73,7 @@ export class ProjectEditor extends Component {
   }
 
   getSectionNumber = () => {
-    try{
+    try {
       return queryString.parse(this.props.location.search).sectionNumber;
     } catch (e) {
       console.error(e);
@@ -81,7 +81,7 @@ export class ProjectEditor extends Component {
     }
   };
   getSectionLetterNumber = () => {
-    try{
+    try {
       return queryString.parse(this.props.location.search).sectionLetterNumber;
     } catch (e) {
       console.error(e);
@@ -213,7 +213,8 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {parentNumber && parentNumber.length === 2 ? (
-                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName || ''}`}</Fragment>
+                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName ||
+                        ''}`}</Fragment>
                     ) : (
                       <Fragment>{`${section} ${parentName || ''}`}</Fragment>
                     )}
@@ -229,7 +230,8 @@ export class ProjectEditor extends Component {
                       ml={'5px'}
                       mb={'-30px'}>
                       {parentNumber && parentNumber.length <= 2 ? null : (
-                        <Fragment>{`${parentNumber  || parentLetterNumber} ${childName || ''}`}</Fragment>
+                        <Fragment>{`${parentNumber || parentLetterNumber} ${childName ||
+                          ''}`}</Fragment>
                       )}
                     </Text>
 
@@ -248,8 +250,8 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.parentNumber === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${parentNumber || parentLetterNumber}${childCellIndex}`}
-                            parentLetterNumber={parentLetterNumber}
+                            sectionNumber={`${childCellIndex}.`}
+                            // parentLetterNumber={parentLetterNumber}
                           />
                         </Box>
                       );

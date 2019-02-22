@@ -68,7 +68,6 @@ export class FormProfileCreateUser extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    // console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -77,10 +76,10 @@ export class FormProfileCreateUser extends Component {
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });

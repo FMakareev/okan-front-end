@@ -138,11 +138,9 @@ export class FormLogin extends Component {
 
   getUser = email => {
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
-    console.log('this.props;', this.props);
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
-        console.log('result', result);
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
@@ -156,11 +154,11 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
-        console.log('error: ', error);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
+        // console.log('error: ', error);
 
         setNotificationError(notificationOpts().error);
 
@@ -173,8 +171,6 @@ export class FormLogin extends Component {
   };
 
   setUser = props => {
-    console.log('setUser: ', props);
-
     const {
       data: { currentuseritem },
     } = props;
