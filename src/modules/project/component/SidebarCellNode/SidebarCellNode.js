@@ -28,8 +28,9 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 /** Redux action to remove BlockId from store */
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
-import {ProjectContextPropTypes} from '../ProjectContext/ProjectContext';
+import {PROJECT_MODE_RW, ProjectContextPropTypes} from '../ProjectContext/ProjectContext';
 import {childcellIsCategory} from '../../utils/childcellIsCategory';
+import ProjectModeState from "../ProjectContext/ProjectModeState";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -359,7 +360,7 @@ export class SidebarCellNode extends Component {
             </TextStyled>
           </Flex>
         </Flex>
-        {project.editable && (
+        <ProjectModeState is={PROJECT_MODE_RW}>
           <Flex mr={'10px'}>
             <Box opacity={hover ? '1' : '0'} px={1}>
               <SidebarChangeCell onClick={this.onToggleEditable}/>
@@ -384,7 +385,7 @@ export class SidebarCellNode extends Component {
               />
             </Box>
           </Flex>
-        )}
+        </ProjectModeState>
       </Wrapper>
     );
   }
