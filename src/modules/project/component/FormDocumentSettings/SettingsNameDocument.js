@@ -53,7 +53,7 @@ export const SettingsNameDocument = props => {
       </BoxStyled>
       <BoxStyled mb={4}>
         <Field
-          {...props.customercode.input}
+          {...props.okancode.input}
           component={TextFieldWithTooltip}
           type="text"
           placeholder={'Код документа ОКАН'}
@@ -62,7 +62,7 @@ export const SettingsNameDocument = props => {
       </BoxStyled>
       <BoxStyled mb={'180px'}>
         <Field
-          {...props.okancode.input}
+          {...props.customercode.input}
           component={TextFieldWithTooltip}
           type="text"
           placeholder={'Код документа заказчика'}
