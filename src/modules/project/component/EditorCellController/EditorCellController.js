@@ -225,7 +225,7 @@ export class EditorCellController extends Component {
       location: {search},
       sectionNumber,
       project,
-      parentLetterNumber
+      parentLetterNumber,
     } = this.props;
 
     return (

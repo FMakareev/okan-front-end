@@ -476,7 +476,7 @@ export class SidebarCreateCell extends Component {
             <BoxStyled
               onClick={event => {
                 this.onToggle(event);
-                if (confirm("Вы уверены что хотите удалить раздел?")) {
+                if (confirm('Вы уверены что хотите удалить раздел?')) {
                   this.deleteCell(id, name);
                 }
               }}>
@@ -521,6 +521,16 @@ export class SidebarCreateCell extends Component {
                 });
               }}>
               Создать приложение
+            </BoxStyled>
+
+            <BoxStyled
+              onClick={event => {
+                this.onToggle(event);
+                if (confirm('Вы уверены что хотите удалить приложение?')) {
+                  this.deleteCell(id, name);
+                }
+              }}>
+              Удалить приложение
             </BoxStyled>
           </AbsoluteStyled>
         )}

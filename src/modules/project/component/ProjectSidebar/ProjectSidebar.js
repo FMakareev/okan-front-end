@@ -22,14 +22,14 @@ export class ProjectSidebar extends Component {
     return (
       <Fragment>
         {documents &&
-        documents.map((item) => (
-          <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`}/>
-        ))}
+          documents.map(item => (
+            <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`} />
+          ))}
 
-        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`}/>}
+        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`} />}
 
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <FormCreateDocumentWithProject/>
+          <FormCreateDocumentWithProject />
         </ProjectModeState>
       </Fragment>
     );

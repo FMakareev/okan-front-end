@@ -30,7 +30,7 @@ const BoxStyled = styled(Box)`
   }
 `;
 
-const notificationOpts = (email) => ({
+const notificationOpts = email => ({
   success: {
     title: 'Пароль сброшен',
     message: `Письмо отправлено на почту ${email}`,
@@ -57,24 +57,19 @@ export class FormProfileRecoveryEmail extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
-
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts(value.email).success);
         this.props.reset();
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
-        // this.props.setNotificationError(error(notificationOpts.error));
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });

@@ -111,7 +111,6 @@ export class FormRegistration extends Component {
   }
 
   userAuth(value) {
-    console.log('userAuth: ', value);
     return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
       method: 'POST',
       credentials: 'include',
@@ -123,7 +122,6 @@ export class FormRegistration extends Component {
       body: jsonToUrlEncoded(value),
     })
       .then(response => {
-        console.log(response);
         if (response.status >= 400 || !document.cookie) {
           throw response;
         } else {
@@ -131,7 +129,6 @@ export class FormRegistration extends Component {
         }
       })
       .catch(({ status, ...rest }) => {
-        console.log('Error userAuth:', rest);
         this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
@@ -143,12 +140,10 @@ export class FormRegistration extends Component {
   }
 
   getUser = email => {
-    console.log('getUser: ', email);
     const { client, history, setNotificationSuccess, setNotificationError } = this.props;
     return client
       .query({ query: CurrentUserItemQuery, variables: { email: email } })
       .then(result => {
-        console.log('result', result);
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
@@ -162,11 +157,11 @@ export class FormRegistration extends Component {
         }
       })
       .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
-        console.log('error: ', error);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
+        // console.log('error: ', error);
 
         setNotificationError(notificationOpts().error);
 
@@ -179,8 +174,6 @@ export class FormRegistration extends Component {
   };
 
   setUser = props => {
-    console.log('setUser: ', props);
-
     const {
       data: { currentuseritem },
     } = props;
@@ -201,7 +194,6 @@ export class FormRegistration extends Component {
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        console.log(response);
         if (response.errors) {
           throw response;
         } else {

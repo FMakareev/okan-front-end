@@ -15,7 +15,6 @@ const DatePicker = dynamic(import('react-datepicker'), {
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
-import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 
 export class DayPickerBase extends Component {
   static propTypes = {
@@ -33,14 +32,14 @@ export class DayPickerBase extends Component {
   }
 
   get initialState() {
-    return { startDate: null };
+    return { startDate: '' };
   }
 
   handleChange(date) {
     const brithDay = dayjs(date).format('DD / MM / YYYY');
-    console.log(brithDay);
 
-    this.setState({ startDate: date });
+    this.setState({ startDate: date })
+
     const {
       input: { onChange },
     } = this.props;
@@ -49,12 +48,12 @@ export class DayPickerBase extends Component {
   }
 
   render() {
-    const { placeholder, input, submitForm } = this.props;
+    const { placeholder, input } = this.props;
     const { startDate } = this.state;
 
     return (
       <DatePicker
-        selected={submitForm ? null : startDate}
+        selected={!input.value ? '' : startDate}
         onChange={this.handleChange}
         peekNextMonth
         showMonthDropdown

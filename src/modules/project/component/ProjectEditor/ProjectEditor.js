@@ -6,7 +6,11 @@ import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import {PROJECT_MODE_RW, ProjectContextPropTypes, withProject} from '../ProjectContext/ProjectContext';
+import {
+  PROJECT_MODE_RW,
+  ProjectContextPropTypes,
+  withProject,
+} from '../ProjectContext/ProjectContext';
 import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
@@ -26,7 +30,7 @@ import { BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** COntext */
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
-import ProjectModeState from "../ProjectContext/ProjectModeState";
+import ProjectModeState from '../ProjectContext/ProjectModeState';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -74,7 +78,7 @@ export class ProjectEditor extends Component {
   }
 
   getSectionNumber = () => {
-    try{
+    try {
       return queryString.parse(this.props.location.search).sectionNumber;
     } catch (e) {
       console.error(e);
@@ -82,7 +86,7 @@ export class ProjectEditor extends Component {
     }
   };
   getSectionLetterNumber = () => {
-    try{
+    try {
       return queryString.parse(this.props.location.search).sectionLetterNumber;
     } catch (e) {
       console.error(e);
@@ -170,8 +174,9 @@ export class ProjectEditor extends Component {
       location: { search },
       project,
     } = this.props;
-    // console.log(22222, this.props);
+
     const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
+    console.log(11, childName, parentName, parentNumber, parentLetterNumber);
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -214,9 +219,10 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {parentNumber && parentNumber.length === 2 ? (
-                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName || ''}`}</Fragment>
+                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName ||
+                        ''}`}</Fragment>
                     ) : (
-                      <Fragment>{`${section} ${parentName || ''}`}</Fragment>
+                      <Fragment>{`${section} ${!parentLetterNumber ? parentName : ''}`}</Fragment>
                     )}
                   </Text>
                   <ContentWrapper>
@@ -230,7 +236,10 @@ export class ProjectEditor extends Component {
                       ml={'5px'}
                       mb={'-30px'}>
                       {parentNumber && parentNumber.length <= 2 ? null : (
-                        <Fragment>{`${parentNumber  || parentLetterNumber} ${childName || ''}`}</Fragment>
+                        <Fragment>{`${parentNumber ||
+                          (parentLetterNumber && parentLetterNumber
+                            ? `Приложение ${parentLetterNumber} `
+                            : null)} ${childName || ''}`}</Fragment>
                       )}
                     </Text>
 
