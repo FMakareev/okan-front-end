@@ -97,13 +97,15 @@ export class SideBarDocumentDelete extends Component {
     return (
       <ButtonBase
         title={'Удалить документ.'}
+        p={'2px'}
+        fontSize={'15px'}
         onClick={event => {
           event.stopPropagation();
           if (confirm('Вы уверены что хотите удалить раздел?')) {
             this.deleteDocument();
           }
         }}
-        variant={'empty'}>
+        variant={'outlineGray'}>
         <SvgSidebarDelete />
       </ButtonBase>
     );

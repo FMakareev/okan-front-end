@@ -11,7 +11,10 @@ export const SidebarProjectExport = () => (
   <ButtonBase
     title={'Эспортировать документ'}
     onClick={event => event.stopPropagation()}
-    variant={'empty'}>
+    variant={'outlineGray'}
+    p={'2px'}
+    fontSize={'15px'}
+  >
     <SvgSidebarExport />
   </ButtonBase>
 );

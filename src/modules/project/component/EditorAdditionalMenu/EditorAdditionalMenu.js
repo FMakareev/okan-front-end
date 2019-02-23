@@ -286,7 +286,11 @@ export class EditorAdditionalMenu extends Component {
 
     return (
       <Box position={'relative'}>
-        <ButtonBase variant={'empty'} onClick={this.toggleMenu}>
+        <ButtonBase
+          variant={'outlineGray'}
+          p={'2px'}
+          fontSize={'15px'}
+          onClick={this.toggleMenu}>
           <SvgSidebarAdd />
         </ButtonBase>
         {active && (
