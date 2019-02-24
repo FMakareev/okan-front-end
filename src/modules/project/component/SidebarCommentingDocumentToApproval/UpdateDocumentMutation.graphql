@@ -1,0 +1,16 @@
+mutation ($approvalstatus: String, $id: String!) {
+  updatedocument(approvalstatus: $approvalstatus, id: $id) {
+    document {
+      approvalstatus
+      id
+      name
+      okancode
+      project
+      childcell: children {
+        id
+        name
+        isHead
+      }
+    }
+  }
+}
