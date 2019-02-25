@@ -137,12 +137,15 @@ export class EditorCellCommentController extends Component {
 
   /** @desc Получаем пользователей */
   get partnersList() {
-    const partnersList = this.props.project.partners.map(item => item.id);
+    const partnersList = this.props.project && this.props.project.partners.map(item => item.id);
 
     const someCheck = data => {
       return data === this.props.user.id;
     };
     console.log(partnersList.some(someCheck));
+    console.log(partnersList);
+    console.log(this.props.user.id);
+
     return partnersList.some(someCheck);
   }
 
@@ -150,16 +153,18 @@ export class EditorCellCommentController extends Component {
     const { isOpen, status } = this.state;
     const { comments, project, user } = this.props;
 
-    console.log(1, this.props);
+    // console.log(1, this.props);
     /** @desc скрываю кнопук коментариев для автора проекта если коментариев нет */
+    // if (
+    //   project &&
+    //   project.author &&
+    //   project.author.id === user.id &&
+    //   (!comments || comments.length === 0)
+    // ) {
+    //   return null;
+    // }
+
     if (
-      project &&
-      project.author &&
-      project.author.id === user.id &&
-      (!comments || comments.length === 0)
-    ) {
-      return null;
-    } else if (
       project &&
       project.author &&
       project.author.id === user.id &&
@@ -178,7 +183,7 @@ export class EditorCellCommentController extends Component {
       );
     }
 
-    return null;
+    return <div>{this.partnersList}</div>;
   }
 }
 

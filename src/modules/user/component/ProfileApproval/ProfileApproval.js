@@ -51,6 +51,7 @@ const TdStyle = styled(Td)`
 `;
 
 export const ProfileApproval = ({ data }) => {
+  console.log(1, data);
   return (
     <Fragment>
       <Text
@@ -77,7 +78,7 @@ export const ProfileApproval = ({ data }) => {
         data.map(
           item =>
             item.approvalstatus === TO_APPROVAL && (
-              <LinkStyled to={`/app/document-commenting/${item.id}`}>
+              <LinkStyled to={`/app/document-commenting/${item.project}/${item.id}`}>
                 <TbodyStyled>
                   <TrStyled>
                     <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>

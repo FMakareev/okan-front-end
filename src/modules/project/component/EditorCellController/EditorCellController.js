@@ -232,8 +232,6 @@ export class EditorCellController extends Component {
       parentLetterNumber,
     } = this.props;
 
-    console.log(22, this.props);
-
     return (
       <Box mt={12}>
         <Flex pl={'10px'} alignItems="flex-start">
