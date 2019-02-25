@@ -147,7 +147,7 @@ export class FormProjectCreate extends Component {
         </Text>
 
         <Box mb={'180px'}>
-          <Query query={TemplateListQuery}>
+          <Query query={TemplateListQuery} options={{ fetchPolicy: 'no-cache' }}>
             {({ data, loading, error }) => {
               return (
                 <Field
@@ -158,7 +158,7 @@ export class FormProjectCreate extends Component {
                   type={'text'}
                   fontSize={5}
                   lineHeight={6}
-                  options={data && data.templatelist}
+                  options={newProjectList}
                   labelKey={'name'}
                   valueKey={'id'}
                 />
