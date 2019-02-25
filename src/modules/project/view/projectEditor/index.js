@@ -116,8 +116,8 @@ export class ProjectEditorPage extends Component {
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
-                    <ProjectEditorWithProject sectionid={params.sectionid}/>
                   <EditorWrapper>
+                    <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
