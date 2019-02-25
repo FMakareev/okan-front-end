@@ -30,7 +30,7 @@ export class ProjectSettingsPage extends Component {
       match: { params },
       user,
     } = this.props;
-    console.log(this.props);
+
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
@@ -41,7 +41,7 @@ export class ProjectSettingsPage extends Component {
                 id: params.id,
               }}>
               {({ data, error, loading }) => {
-                // console.log(data, error, loading);
+                console.log(data, error, loading);
 
                 if (loading) {
                   console.error('loading:', loading);
