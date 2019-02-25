@@ -88,26 +88,32 @@ export class EditorCellCommentItem extends Component {
   };
 
   render() {
-    const { message, sender, createdate, id } = this.props;
+    const { commentsList } = this.props;
     return (
-      <Wrapper flexDirection={'column'} alignItems={'flex-end'}>
-        <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
-          {message}
-        </Message>
-        <Flex alignItems={'flex-end'}>
-          <Text
-            px={'10px'}
-            fontFamily={'secondary'}
-            fontSize={'14px'}
-            lineHeight={'20px'}
-            color={'color4'}>
-            {sender.firstname} {sender.lastname} {sender.patronymic} / {createdate}
-          </Text>
-          <ButtonBaseComment onClick={() => this.onDelete(id)} mt={'-1px'} variant={'empty'}>
-            <SvgDeleteComment />
-          </ButtonBaseComment>
-        </Flex>
-      </Wrapper>
+      commentsList &&
+      commentsList.map(item => {
+        return (
+          <Wrapper flexDirection={'column'} alignItems={'flex-end'}>
+            <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
+              {item.message}
+            </Message>
+            <Flex alignItems={'flex-end'}>
+              <Text
+                px={'10px'}
+                fontFamily={'secondary'}
+                fontSize={'14px'}
+                lineHeight={'20px'}
+                color={'color4'}>
+                {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
+                {item.createdate}
+              </Text>
+              <ButtonBaseComment onClick={() => this.onDelete(id)} mt={'-1px'} variant={'empty'}>
+                <SvgDeleteComment />
+              </ButtonBaseComment>
+            </Flex>
+          </Wrapper>
+        );
+      })
     );
   }
 }

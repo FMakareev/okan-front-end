@@ -137,53 +137,42 @@ export class EditorCellCommentController extends Component {
 
   /** @desc Получаем пользователей */
   get partnersList() {
-    const partnersList = this.props.project && this.props.project.partners.map(item => item.id);
-
-    const someCheck = data => {
-      return data === this.props.user.id;
-    };
-    console.log(partnersList.some(someCheck));
-    console.log(partnersList);
-    console.log(this.props.user.id);
-
-    return partnersList.some(someCheck);
+    const commentsList =
+      this.props.comments &&
+      this.props.comments.filter(item => item.sender.id === this.props.user.id);
+    return commentsList;
   }
 
   render() {
     const { isOpen, status } = this.state;
     const { comments, project, user } = this.props;
 
-    // console.log(1, this.props);
-    /** @desc скрываю кнопук коментариев для автора проекта если коментариев нет */
-    // if (
-    //   project &&
-    //   project.author &&
-    //   project.author.id === user.id &&
-    //   (!comments || comments.length === 0)
-    // ) {
-    //   return null;
-    // }
-
+    /** @desc скрываю кнопку комментариев для автора проекта если коментариев нет */
     if (
       project &&
       project.author &&
       project.author.id === user.id &&
-      (!comments || comments.length !== 0) &&
-      this.partnersList
+      (!comments || comments.length === 0)
     ) {
-      return (
-        <Relative>
-          <EditorCellCommentButton status={status} onClick={this.onClick} />
-          {Array.isArray(comments) && comments.length > 0 && isOpen && (
-            <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
-              <EditorCellCommentItem cell={this.props} {...comments[0]} key={`FormCommentEditor`} />
-            </Absolute>
-          )}
-        </Relative>
-      );
+      return null;
     }
 
-    return <div>{this.partnersList}</div>;
+    const comment = this.partnersList ? this.partnersList : null;
+
+    return (
+      <Relative>
+        <EditorCellCommentButton status={status} onClick={this.onClick} />
+        {Array.isArray(comments) && comments.length > 0 && isOpen && (
+          <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
+            <EditorCellCommentItem
+              cell={this.props}
+              commentsList={comment}
+              key={`FormCommentEditor`}
+            />
+          </Absolute>
+        )}
+      </Relative>
+    );
   }
 }
 
