@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query, withApollo } from 'react-apollo';
+import queryString from 'query-string';
 
-import CellMarkerQuery from './CellMarkerQuery.graphql';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
 import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
-import UpdateCellMutation from './UpdateCellMutation.graphql';
+/**Graphql schema */
+import ChangeStatusMutation from './ChangeStatusMutation.graphql';
+import CellMarkerQuery from './CellMarkerQuery.graphql';
+import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 
 /** Constants */
 import {
@@ -17,6 +21,9 @@ import {
   CELL_STATUS_CHECKED,
   CELL_STATUS_NOT_CHECKED,
 } from '@lib/shared/approvalStatus';
+
+/** Utils */
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 
 const GetStatusColor = status => {
   switch (status) {
@@ -36,49 +43,132 @@ const GetStatusColor = status => {
 };
 
 export class SidebarApprovalStatus extends Component {
-  static propTypes = {};
+  static propTypes = {
+    updateNode: PropTypes.func,
+  };
 
   static defaultProps = {};
 
-  state = { clickStatus: false };
-
-  submit = (id, verify) => {
-    // console.log(11, id, verify);
-
+  /**
+   * @param {string} id - id изменяемой ячейки
+   * @param {string} verify - статус на который нужно изменить
+   * @desc изменение статуса у ячейки
+   * */
+  changeStatus = (id, status) => {
     this.props.client
-      .mutate({ mutation: UpdateCellMutation, variables: { id, verify } })
-      .then(response => {
-        console.log('response: ', response);
-        this.setState(({ clickStatus }) => ({ clickStatus: true }));
+      .mutate({
+        mutation: ChangeStatusMutation,
+        variables: {
+          id,
+          status,
+        },
+        update: (store, { data: { changestatus } }) => {
+          let cell = { celllist: {} };
+          const options = {
+            query: CellListQuery,
+            variables: {
+              parent: id,
+            },
+          };
+
+          try {
+            UpdateCellInCache(store, { ...changestatus.cell });
+          } catch (e) {
+            console.error('Error in SidebarApprovalStatus change status: ', e);
+          }
+
+          try {
+            cell = store.readQuery(options);
+            cell.celllist.map(item => (item.verify = changestatus.cell.verify));
+          } catch (e) {
+            console.error('Error in readQuery change status: ', e);
+          }
+
+          try {
+            store.writeQuery({
+              ...options,
+              data: {
+                ...cell,
+              },
+            });
+          } catch (e) {
+            console.error('Error in writeQuery change status: ', e);
+          }
+        },
+      })
+      .then(async response => {
+        await this.props.cellCheckStatusChange(id, status);
       })
       .catch(error => {
         console.error(error);
       });
   };
 
+  componentWillUnmount() {
+    this.unsubscribeToCellItem();
+  }
+
+  componentDidMount() {
+    this.initSubscribe();
+  }
+
+  initSubscribe = () => {
+    const { node } = this.props;
+    try {
+      if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
+        this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
+          ({ data }) => {
+            // console.log('initSubscribe: ', data.cellitem,node);
+            this.props.updateNode(node.id, data.cellitem);
+          },
+        );
+      }
+    } catch (error) {
+      console.log('Error initSubscribe: ', error);
+    }
+  };
+
+  unsubscribeToCellItem = () => {
+    if (this.subscribeInstanceToCellItem) {
+      this.subscribeInstanceToCellItem.unsubscribe();
+      this.subscribeInstanceToCellItem = null;
+    }
+  };
+
+  /**
+   * @param {string} id - id ячейки
+   * @desc создает подписку на обновление ячейки
+   * */
+  subscribeToCellItem = id => {
+    try {
+      return this.props.client.watchQuery({
+        query: CellItemQuery,
+        variables: { id: id },
+      });
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  };
+
   render() {
     const { node } = this.props;
 
-    const { clickStatus } = this.state;
-
     return (
-      <Query query={CellMarkerQuery} variables={{ id: node && node.id }}>
+      <Query skip={true} query={CellMarkerQuery} variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {
-          const { cellMarker } = data;
-
-          const statusRender =
-            cellMarker && cellMarker.answer ? CELL_STATUS_CHANGED : CELL_STATUS_NOT_CHECKED;
-          const status = clickStatus ? CELL_STATUS_CHECKED : statusRender;
-
           return (
             <ButtonBase
               title={'Статус проверки блока'}
               variant={'empty'}
+              disabled={node.childcell && node.childcell.isHead}
               onClick={event => {
                 event.stopPropagation();
-                return this.submit(node.id, CELL_STATUS_CHECKED);
+                return this.changeStatus(node.id, CELL_STATUS_CHECKED);
               }}>
-              <SvgStatus fill={GetStatusColor(status)} stroke={'#fff'} />
+              <SvgStatus
+                fill={GetStatusColor(node.verify)}
+                bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
+              />
             </ButtonBase>
           );
         }}

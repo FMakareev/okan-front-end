@@ -8,9 +8,16 @@ import Flex from '@lib/ui/Flex/Flex';
 import Tbody from '@lib/ui/Table/Tbody';
 import Td from '@lib/ui/Table/Td';
 import Tr from '@lib/ui/Table/Tr';
+import Link from '@lib/ui/Link/Link';
+
+/** Constants */
+import { TO_APPROVAL } from '../../../../shared/approvalStatus';
 
 const TrStyled = styled(Tr)`
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   padding: 3px 0;
   cursor: pointer;
@@ -24,43 +31,66 @@ const TbodyStyled = styled(Tbody)`
   border: 1px solid #848484;
   border-radius: 5px;
   margin: 10px 0 0 0;
+  width: 100%;
 `;
 
-export const ProfileApproval = ({ data }) => (
-  <Fragment>
-    <Text
-      fontSize={6}
-      lineHeight={8}
-      color={'color7'}
-      textAlign={'center'}
-      mb={[13]}
-      fontFamily={'primary500'}>
-      На согласование
-    </Text>
-    <Tbody>
-    <Flex justifyContent={'space-around'}>
-      <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-        Номер документа
-      </Text>
+const LinkStyled = styled(Link)`
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+`;
 
-      <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-        Название документа
+const TdStyle = styled(Td)`
+  word-wrap: break-word;
+  width: 50%;
+  padding: 0 5px;
+  text-align: center;
+`;
+
+export const ProfileApproval = ({ data }) => {
+  console.log(1, data);
+  return (
+    <Fragment>
+      <Text
+        fontSize={6}
+        lineHeight={8}
+        color={'color7'}
+        textAlign={'center'}
+        mb={[13]}
+        fontFamily={'primary500'}>
+        На согласование
       </Text>
-    </Flex>
-    </Tbody>
-    {Array.isArray(data) &&
-    data.map(item => {
-      return (
-        <TbodyStyled>
-          <TrStyled>
-            <Td fontFamily={'primary500'}>{item.name}</Td>
-            <Td fontFamily={'secondaryBold'}>{item.documentnumber}</Td>
-          </TrStyled>
-        </TbodyStyled>
-      );
-    })}
-  </Fragment>
-);
+      <Tbody>
+        <Flex justifyContent={'space-around'}>
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Номер документа
+          </Text>
+
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Название документа
+          </Text>
+        </Flex>
+      </Tbody>
+      {Array.isArray(data) &&
+        data.map(
+          item =>
+            item.approvalstatus === TO_APPROVAL && (
+              <LinkStyled to={`/app/document-commenting/${item.project}/${item.id}`}>
+                <TbodyStyled>
+                  <TrStyled>
+                    <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
+                    <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
+                  </TrStyled>
+                </TbodyStyled>
+              </LinkStyled>
+            ),
+        )}
+    </Fragment>
+  );
+};
 
 ProfileApproval.propTypes = {
   data: PropTypes.arrayOf({

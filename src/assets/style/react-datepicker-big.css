@@ -17,6 +17,7 @@
 .react-datepicker__year-read-view--down-arrow::before,
 .react-datepicker__month-read-view--down-arrow::before,
 .react-datepicker__month-year-read-view--down-arrow::before {
+  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   position: absolute;
   border: 8px solid transparent;
@@ -86,7 +87,10 @@
 }
 
 .react-datepicker {
-  font-family: 'Montserrat Medium', Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat Medium',
+    Helvetica,
+    Arial,
+    sans-serif;
   font-size: 0.8rem;
   background-color: #fff;
   color: #093971;
@@ -94,6 +98,7 @@
   border-radius: 4px;
   display: inline-block;
   position: relative;
+  -webkit-box-shadow: 4px 8px 16px rgba(28, 65, 84, 0.08);
   box-shadow: 4px 8px 16px rgba(28, 65, 84, 0.08);
 }
 
@@ -150,7 +155,6 @@
 
 .react-datepicker__header {
   text-align: center;
-  /* background-color: #E7EDF8; */
   background-color: #007faf !important;
   border-bottom: 1px solid #aeaeae;
   border-top-left-radius: 0.3rem;
@@ -185,6 +189,7 @@
 }
 
 .react-datepicker-time__header {
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden
@@ -310,6 +315,7 @@
   padding-right: 0;
   padding-left: 0;
   width: 100%;
+  -webkit-box-sizing: content-box;
   box-sizing: content-box
 }
 
@@ -460,6 +466,7 @@
   border: 1px solid transparent;
   font-family: 'Circe Regular';
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: #333333 !important;
   background-color: #fff;
@@ -467,6 +474,24 @@
   padding: 10px !important;
   font-size: 16px !important;
   line-height: 20px !important;
+}
+
+::-webkit-input-placeholder {
+  font-family: Circe Regular;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+:-ms-input-placeholder {
+  font-family: Circe Regular;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+::-ms-input-placeholder {
+  font-family: Circe Regular;
+  font-size: 16px;
+  line-height: 32px;
 }
 
 ::placeholder {
@@ -606,6 +631,7 @@
   background-color: #216ba5;
   border-radius: 50%;
   bottom: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: #fff;
   content: "\00d7";
@@ -638,8 +664,14 @@
   background-color: rgba(0, 0, 0, 0.8);
   left: 0;
   top: 0;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   z-index: 2147483647
 }

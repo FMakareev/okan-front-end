@@ -6,14 +6,19 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Link from '../../../../components/Link/Link';
 
 /**Image */
-import {SvgSidebarList} from '../../../../components/Icons/SvgSidebarList';
+import { SvgSidebarList } from '../../../../components/Icons/SvgSidebarList';
 
-export const SidebarRevisionList = ({documentid}) => (
+export const SidebarRevisionList = ({ documentid }) => (
   <Link
-    onClick={(event) => event.stopPropagation()}
+    title={'Список ревизий'}
+    onClick={event => event.stopPropagation()}
     to={`/app/revision-list/${documentid}`}>
-    <ButtonBase variant={'empty'}>
-      <SvgSidebarList/>
+    <ButtonBase
+      variant={'outlineGray'}
+      p={'3px'}
+      fontSize={'13px'}
+    >
+      <SvgSidebarList />
     </ButtonBase>
   </Link>
 );

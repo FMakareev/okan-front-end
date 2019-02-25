@@ -1,16 +1,33 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
-
+import { Field, reduxForm, Form } from 'redux-form';
 /** View */
 import RichTextEditor from '../../../../components/RichTextEditor/RichTextEditor';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
+/** Content Types */
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../../../shared/blockType';
+
 export class EditorCellForm extends Component {
   state = {};
+
+  froalaConfig = {
+    imageUploadURL: '/upload/uploader',
+    imageUploadMethod: 'POST',
+    fileUploadURL: '/upload/uploader',
+    fileUploadMethod: 'POST',
+
+    events: {
+      'froalaEditor.blur': (e, editor) => {
+        this.props.onBlurForm(e);
+      },
+
+    },
+    quickInsertButtons: [],
+    quickInsertTags: []
+  };
 
   static propTypes = {
     /** func submit for Form */
@@ -18,27 +35,64 @@ export class EditorCellForm extends Component {
     ...formPropTypes,
   };
 
-  static defaultProps = { handleSubmit: () => {} };
-
-  submit = value => {
-    return value;
+  static defaultProps = {
+    handleSubmit: () => {},
   };
 
+  constructor(props) {
+    super(props);
+    console.log();
+    this.state = this.initialState;
+  }
+
+  get initialState() {
+    return {};
+  }
+
   render() {
-    const { handleSubmit, id } = this.props;
+    const { id, data } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
+      <Form>
+        {data.content.contenttype === BLOCK_TABLE ?
+          (
+            <Field
+              name={'name'}
+              component={RichTextEditor}
+              id={id}
+              data={data}
+              contenttype={BLOCK_NAME}
+              config={this.froalaConfig}
+            />
+          ) : null
+        }
         <Field
           name={'content'}
-          component={RichTextEditor} 
+          component={RichTextEditor}
           id={id}
-          />
+          data={data}
+          contenttype={data.content.contenttype}
+          config={this.froalaConfig}
+          instantSave={()=>this.props.instantSave()}
+          // onBlurForm={() => this.props.onBlurForm('content')}
+
+        />
+        {data.content.contenttype === BLOCK_IMAGE ?
+          (
+            <Field
+              name={'name'}
+              component={RichTextEditor}
+              id={id}
+              data={data}
+              contenttype={BLOCK_NAME}
+              config={this.froalaConfig}
+            />
+          ) : null
+        }
       </Form>
     );
   }
 }
-
 
 export default reduxForm({
   form: 'EditorCellForm',

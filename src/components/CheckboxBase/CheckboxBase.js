@@ -31,6 +31,7 @@ const Input = styled.input`
     height: 32px;
     background-image: url(${offCheckbox}) !important;
     background-repeat: no-repeat;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
 
@@ -44,6 +45,7 @@ const Input = styled.input`
   }
 
   &:disabled + label:before {
+    -webkit-box-shadow: none;
     box-shadow: none;
     background-color: #ddd;
   }
@@ -77,12 +79,12 @@ export class CheckboxBase extends Component {
 
   render() {
     const { input, index, checked, disabled, children, id } = this.props;
-    // console.log(1, checked);
     return (
       <Wrapper>
         <Input
           id={`styled-checkbox-${id}`}
           type="checkbox"
+          defaultChecked={input.value}
           checked={checked}
           disabled={disabled}
           {...input}

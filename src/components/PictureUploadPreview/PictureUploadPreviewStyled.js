@@ -34,12 +34,11 @@ export const DropZoneIconWrapper = styled.div`
 `;
 
 export const Img = styled.img`
-  position: absolute;
-  left: 0;
   cursor: pointer;
   max-width: 400px;
   max-height: 58px;
-  width: 100%;
+  margin: 0 auto;
+  display: block;
 `;
 
 export const IconStyled = styled(Icon)`

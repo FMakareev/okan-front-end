@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import CreateDocumentQuery from './CreateDocumentQuery.graphql';
+import { graphql, Mutation } from 'react-apollo';
+import { error, success } from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { Field, reduxForm, Form, getFormValues } from 'redux-form';
+
+/** View */
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
-import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 import { Flex } from '@lib/ui/Flex/Flex';
-import { Field, reduxForm, Form } from 'redux-form';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { Box } from '@lib/ui/Box/Box';
+
+/** Image */
+import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
+
+/** Graphql schema */
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import CreateDocumentQuery from './CreateDocumentQuery.graphql';
+
+const notificationOpts = () => ({
+  success: {
+    title: 'Документ создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Документ не создан',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 export class FormCreateDocument extends Component {
-  submit = value => {
+  createDocument = (value, event) => {
+    console.log('createDocument: ', value);
+    if (!value.name || !value.name.length) return;
     const { project } = this.props;
+
     return this.props['@apollo/create']({
       variables: {
         ...value,
@@ -41,35 +65,53 @@ export class FormCreateDocument extends Component {
     })
       .then(response => {
         console.log(response);
+        this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
       })
       .catch(error => {
+        this.props.setNotificationError(notificationOpts().error);
+
         console.log(error);
       });
   };
 
   render() {
-    const { submitting, handleSubmit } = this.props;
+    const { submitting, handleSubmit, submitSucceeded, project } = this.props;
+
     return (
-      <Form onSubmit={handleSubmit(this.submit)}>
-        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'}>
-          <Box height={'20px'} width={'100%'}>
-            <Field
-              name={'name'}
-              disabled={submitting}
-              component={TextFieldWithTooltip}
-              placeholder={'Введите название документа...'}
-              size={'xs'}
-              type={'text'}
-              borderRadius={'4px'}
-            />
+      <Form onSubmit={handleSubmit(this.createDocument)}>
+        <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'} mb={'150px'}>
+          <Box mt={'-6px'} height={'20px'} width={'100%'}>
+            <Mutation mutation={CreateDocumentQuery}>
+              {(mutate, { loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+
+                return (
+                  <Field
+                    name={'name'}
+                    disabled={submitting}
+                    component={TextFieldWithTooltip}
+                    placeholder={'Введите название документа...'}
+                    size={'xs'}
+                    type={'text'}
+                    borderRadius={'4px'}
+                    onBlur={handleSubmit(this.createDocument)}
+                  />
+                );
+              }}
+            </Mutation>
           </Box>
+
           <Box ml={'3'} height={'20px'}>
             <ButtonBase
+              type={'submit'}
               disabled={submitting}
               title={'Добавить документ'}
               size={'small'}
-              variant={'empty'}>
+              variant={'outlineGray'}
+              p={'2px'}
+              fontSize={'15px'}
+            >
               <SvgSidebarAdd />
             </ButtonBase>
           </Box>
@@ -86,5 +128,15 @@ FormCreateDocument = graphql(CreateDocumentQuery, {
 FormCreateDocument = reduxForm({
   form: 'FormCreateDocument',
 })(FormCreateDocument);
+
+FormCreateDocument = connect(
+  state => {
+    return { values: getFormValues('FormCreateDocument')(state) };
+  },
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(FormCreateDocument);
 
 export default FormCreateDocument;

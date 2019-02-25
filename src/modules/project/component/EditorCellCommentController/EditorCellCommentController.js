@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Absolute } from 'rebass';
 import { connect } from 'react-redux';
+import { Field, Form, reduxForm } from 'redux-form';
+import styled from 'styled-components';
+
 /** Components */
 import EditorCellCommentButton from '../EditorCellCommentButton/EditorCellCommentButton';
+import { EditorCellCommentItem } from '../EditorCellCommentItem/EditorCellCommentItem';
 
 /** View */
-import Box from '../../../../components/Box/Box';
+import Box from '@lib/ui/Box/Box';
 import { Relative } from '@lib/ui/Relative/Relative';
 import TextAreaBase from '@lib/ui/TextAreaBase/TextAreaBase';
 import { Flex } from '@lib/ui/Flex/Flex';
-import { Field, Form, reduxForm } from 'redux-form';
-import styled from 'styled-components';
+
+/** Styles css */
 import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
 import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
-import { EditorCellCommentItem } from '../EditorCellCommentItem/EditorCellCommentItem';
+
+/** Reducer */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const FormStyled = styled(Form)`
@@ -29,7 +34,6 @@ const FormStyled = styled(Form)`
 
 class FormCommentEditor extends Component {
   render() {
-    // console.log('FormCommentEditor', this.props);
     return (
       <Box zIndex={1} right={'10px'} top={'10px'}>
         <FormStyled onSubmit={() => {}}>
@@ -66,6 +70,7 @@ export class EditorCellCommentController extends Component {
       status: this.getCurrentStatus(),
     };
   }
+
   /** @desc метод для получения статуса для кнопки комментария */
   getCurrentStatus = () => {
     try {
@@ -130,20 +135,55 @@ export class EditorCellCommentController extends Component {
     }
   };
 
+  /** @desc Получаем пользователей */
+  get partnersList() {
+    const partnersList = this.props.project && this.props.project.partners.map(item => item.id);
+
+    const someCheck = data => {
+      return data === this.props.user.id;
+    };
+    console.log(partnersList.some(someCheck));
+    console.log(partnersList);
+    console.log(this.props.user.id);
+
+    return partnersList.some(someCheck);
+  }
+
   render() {
     const { isOpen, status } = this.state;
-    const { comments } = this.props;
+    const { comments, project, user } = this.props;
 
-    return (
-      <Relative>
-        <EditorCellCommentButton status={status} onClick={this.onClick} />
-        {isOpen && (
-          <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
-            <EditorCellCommentItem cell={this.props} {...comments[0]} key={`FormCommentEditor`} />
-          </Absolute>
-        )}
-      </Relative>
-    );
+    // console.log(1, this.props);
+    /** @desc скрываю кнопук коментариев для автора проекта если коментариев нет */
+    // if (
+    //   project &&
+    //   project.author &&
+    //   project.author.id === user.id &&
+    //   (!comments || comments.length === 0)
+    // ) {
+    //   return null;
+    // }
+
+    if (
+      project &&
+      project.author &&
+      project.author.id === user.id &&
+      (!comments || comments.length !== 0) &&
+      this.partnersList
+    ) {
+      return (
+        <Relative>
+          <EditorCellCommentButton status={status} onClick={this.onClick} />
+          {Array.isArray(comments) && comments.length > 0 && isOpen && (
+            <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
+              <EditorCellCommentItem cell={this.props} {...comments[0]} key={`FormCommentEditor`} />
+            </Absolute>
+          )}
+        </Relative>
+      );
+    }
+
+    return <div>{this.partnersList}</div>;
   }
 }
 

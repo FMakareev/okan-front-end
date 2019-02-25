@@ -6,7 +6,6 @@ import shallowEqual from 'shallowequal';
 import deepEqual from 'deep-equal';
 
 class NodeHeader extends React.Component {
-
   shouldComponentUpdate(nextProps) {
     const props = this.props;
     const nextPropKeys = Object.keys(nextProps);
@@ -23,12 +22,12 @@ class NodeHeader extends React.Component {
       }
     }
 
-    return !deepEqual(props.animations, nextProps.animations, {strict: true});
+    return !deepEqual(props.animations, nextProps.animations, { strict: true });
   }
 
   render() {
-    const {animations, decorators, node, onClick} = this.props;
-    const {children} = node;
+    const { animations, decorators, node, onClick } = this.props;
+    const { children } = node;
     const terminal = !children;
     // console.table(this.props);
     return (
@@ -41,17 +40,13 @@ class NodeHeader extends React.Component {
       />
     );
   }
-
 }
 
 NodeHeader.propTypes = {
   decorators: PropTypes.object.isRequired,
-  animations: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]).isRequired,
+  animations: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   node: PropTypes.object.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default NodeHeader;

@@ -13,7 +13,10 @@ import '../../assets/style/froala-theme.css';
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
 
-// That's where the magic happens
+// Require block types
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
+
+// That's where the styled-components
 const FroalaEditor = dynamic(import('react-froala-wysiwyg'), {
   ssr: false,
 });
@@ -34,12 +37,112 @@ export class FroalaReduxForm extends Component {
     }
   }
 
-  EditorConfig = {
-    placeholderText: 'Введите текст',
-    theme: 'froala',
-    charCounterCount: false,
-    toolbarButtons: ['copy', 'bind', 'unbind', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontFamily', 'fontSize', 'color', 'clearFormatting', 'specialCharacters', 'paragraphFormat', 'paragraphStyle', 'quote', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', 'undo', 'redo', 'fullscreen', 'html', 'specialCharacters', 'emoticons', 'insertHR', 'print', 'help']
-  };
+  componentWillMount() {
+    const contentType = this.props.contenttype;
+    let toolbarButtons = [];
+    switch (contentType) {
+      case BLOCK_IMAGE:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'insertImage',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
+        break;
+      case BLOCK_TABLE:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'insertTable',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
+        break;
+      case BLOCK_TEXT:
+        toolbarButtons = [
+          'copy',
+          'bind',
+          'unbind',
+          '|',
+          'bold',
+          'italic',
+          'underline',
+          'fontSize',
+          'color',
+          'clearFormatting',
+          'specialCharacters',
+          'paragraphFormat',
+          'paragraphStyle',
+          'quote',
+          'align',
+          'formatOL',
+          'formatUL',
+          'outdent',
+          'indent',
+          'insertLink',
+          'specialCharacters',
+          'emoticons',
+          'print',
+          'help',
+        ];
+        break;
+      case BLOCK_NAME:
+        toolbarButtons = [];
+        break;
+    }
+    let EditorConfig = {
+      placeholderText: 'Введите текст',
+      theme: 'froala',
+      charCounterCount: false,
+      toolbarButtons: toolbarButtons,
+      autofocus: true,
+    };
+    this.setState({
+      ...this.state,
+      EditorConfig: EditorConfig,
+    });
+  }
 
   shouldComponentUpdate(nextProps) {
     if (
@@ -65,16 +168,20 @@ export class FroalaReduxForm extends Component {
   }
 
   render() {
-    const { input } = this.props;
+    const { input, config } = this.props;
 
     return (
       <div>
-        <DefineIcons buttonClick={(action) => {this.props.handleButtonClick(action)}}/>
-        <FroalaEditor 
-          onModelChange={this.handleModelChange} 
-          model={input.value} 
-          tag={'textarea'} 
-          config={this.EditorConfig}
+        <DefineIcons
+          buttonClick={action => {
+            this.props.handleButtonClick(action);
+          }}
+        />
+        <FroalaEditor
+          onModelChange={this.handleModelChange}
+          model={input.value}
+          tag={'textarea'}
+          config={{ ...config, ...this.state.EditorConfig }}
         />
       </div>
     );

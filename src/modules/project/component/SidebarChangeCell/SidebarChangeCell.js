@@ -1,21 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import {SvgSettings} from "@lib/ui/Icons/SvgSettings";
 
-/**Image */
-import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
 
-export const SidebarChangeCell = ({onClick}) => {
+export const SidebarChangeCell = ({ onClick }) => {
   return (
     <ButtonBase
       title={'Переименовать раздел.'}
-      onClick={(event)=>{
-      event.stopPropagation();
-      onClick()
-    }} variant={'empty'}>
-      <img src={settingsSidebar} />
+      onClick={event => {
+        event.stopPropagation();
+        onClick();
+      }}
+      variant={'outlineGray'}
+      p={'2px'}
+      fontSize={'15px'}
+    >
+      <SvgSettings/>
     </ButtonBase>
   );
 };

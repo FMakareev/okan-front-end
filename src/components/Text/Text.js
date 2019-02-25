@@ -10,6 +10,7 @@ import { LineHeightProperty } from '../../styles/styleProperty/LineHeightPropert
 
 /** View */
 import { Box } from '../Box/Box';
+import {WordBreakProperty} from "@lib/styles/styleProperty/WordBreakProperty";
 
 const textVariant = variant({
   key: 'variant.text',
@@ -25,6 +26,7 @@ export const Text = styled(Box)`
   ${FontFamilyProperty};
   ${textVariant};
   ${display};
+  ${WordBreakProperty};
   ${letterSpacing};
   ${LineHeightProperty};
   ${textAlign};
@@ -36,7 +38,7 @@ export const Text = styled(Box)`
 // TODO review:nik-z: добавь propTypes для варианта и для шрифта, использую перечисление PropTypes.oneOf и туда передай масив доступных в теме значений
 Text.propTypes = {
   /**  children React element  */
-  children: PropTypes.string,
+  children: PropTypes.any,
   /** CSS: mb - margin - bottom */
   mb: PropTypes.PropTypes.arrayOf(PropTypes.string),
   /** CSS : color */

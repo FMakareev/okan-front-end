@@ -20,13 +20,14 @@ const inputSize = variant({
  * Text Field Base
  * @example ./TextFieldBase.example.md
  */
-export const TextFieldBase = styled.input`
+const TextField = styled.input`
   width: 100%;
   border: 1px solid;
   ${inputSize};
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
   ${props => color({ ...props, color: 'color11' })};
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   ${FontSizeProperty};
   ${LineHeightProperty};
@@ -39,11 +40,34 @@ export const TextFieldBase = styled.input`
   ::placeholder {
     ${props => color({ ...props, color: 'color4' })}
   }
+  ::-webkit-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
+  :-ms-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
+  ::-ms-input-placeholder {
+    ${props => color({ ...props, color: 'color4' })}
+  }
 
+  :focus::placeholder {
+    color: transparent;
+  }
   :focus::-webkit-input-placeholder {
     color: transparent;
   }
+  :focus:-ms-input-placeholder {
+    color: transparent;
+  }
+  :focus::-ms-input-placeholder {
+    color: transparent;
+  }
 `;
+
+export const TextFieldBase = props => {
+  return <TextField {...props} />;
+};
+
 TextFieldBase.propTypes = {
   /** Description of prop "px: padding-left and padding-right". */
   px: PropTypes.number,

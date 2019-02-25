@@ -38,20 +38,20 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
     errors.confirmnewpassword = 'Обязательно для заполнения';
   }
 
-  if (newpassword !== undefined && newpassword.length <= 8) {
-    errors.newpassword = 'Пароль должен состоять минимум из 8 цифр';
+  if (newpassword !== undefined && newpassword.length <= 7) {
+    errors.newpassword = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (newpassword !== undefined && newpassword.length > 64) {
-    errors.newpassword = 'Пароль должен состоять не больше 32 цифр';
+  if (newpassword !== undefined && newpassword.length >= 30) {
+    errors.newpassword = 'Пароль должен состоять не больше 30 символов';
   }
 
   if (password === newpassword) {
-    errors.newpassword = 'Старый пароль и новый пароль, не должны совпадать';
+    errors.newpassword = 'Старый пароль и новый пароль не должны совпадать';
   }
 
   if (confirmnewpassword !== newpassword) {
-    errors.confirmnewpassword = 'Старый пароль и новый пароль, должны совпадать';
+    errors.confirmnewpassword = 'Пароли не совпадают';
   }
   return errors;
 };
@@ -145,7 +145,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'password'}
               placeholder={'Старый пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxFirst>
@@ -153,7 +153,7 @@ class FormPasswordRecovery extends Component {
           <Field
             name={'newpassword'}
             placeholder={'Новый пароль'}
-            TextFieldInput={TextFieldWithTooltip}
+            // TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -161,7 +161,7 @@ class FormPasswordRecovery extends Component {
             <Field
               name={'confirmnewpassword'}
               placeholder={'Потвердите новый пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>

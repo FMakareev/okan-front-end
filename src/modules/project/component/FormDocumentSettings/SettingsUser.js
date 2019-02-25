@@ -71,10 +71,10 @@ export class SettingsUser extends Component {
             textAlign={'center'}
             mb={6}
             fontFamily={'primary500'}>
-            Участники проекта
+            Согласующие документа
           </Text>
 
-          {options &&
+          {options.length > 0 ? (
             options.map((item, index) => {
               const { id } = item;
               return (
@@ -85,7 +85,11 @@ export class SettingsUser extends Component {
                     return this.onChange(id);
                   }}
                   pt={3}>
-                  <CheckboxBase id={id} checked={this.findUserInValue(input.value, id) >= 0} />
+                  <CheckboxBase
+                    input={input}
+                    id={id}
+                    checked={this.findUserInValue(input.value, id) >= 0}
+                  />
 
                   <Text
                     fontFamily={'primary300'}
@@ -97,7 +101,17 @@ export class SettingsUser extends Component {
                   </Text>
                 </FlexStyled>
               );
-            })}
+            })
+          ) : (
+            <Text
+              fontFamily={'primary300'}
+              fontSize={6}
+              lineHeight={8}
+              color={'color11'}
+              textAlign={'center'}>
+              Cписок согласующих пуст
+            </Text>
+          )}
         </Box>
       </Fragment>
     );

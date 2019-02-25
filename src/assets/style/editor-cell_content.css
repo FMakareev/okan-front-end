@@ -1,0 +1,444 @@
+.editor-cell_content {
+  /* line-height: 1.0; */
+  text-rendering: optimizeLegibility;
+}
+
+/* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
+.editor-cell_content * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Adapted from Eric Meyer's CSS Reset: http://meyerweb.com/eric/tools/css/reset/ */
+.editor-cell_content a,
+.editor-cell_content abbr,
+.editor-cell_content acronym,
+.editor-cell_content address,
+.editor-cell_content b,
+.editor-cell_content big,
+.editor-cell_content cite,
+.editor-cell_content code,
+.editor-cell_content del,
+.editor-cell_content em,
+.editor-cell_content i,
+.editor-cell_content ins,
+.editor-cell_content kbd,
+.editor-cell_content mark,
+.editor-cell_content output,
+.editor-cell_content q,
+.editor-cell_content ruby,
+.editor-cell_content s,
+.editor-cell_content samp,
+.editor-cell_content small,
+.editor-cell_content strike,
+.editor-cell_content strong,
+.editor-cell_content sub,
+.editor-cell_content sup,
+.editor-cell_content time,
+.editor-cell_content tt,
+.editor-cell_content u,
+.editor-cell_content var,
+.editor-cell_content dfn,
+.editor-cell_content dl,
+.editor-cell_content dt,
+.editor-cell_content dd,
+.editor-cell_content ol,
+.editor-cell_content ul,
+.editor-cell_content li,
+.editor-cell_content blockquote,
+.editor-cell_content h1,
+.editor-cell_content h2,
+.editor-cell_content h3,
+.editor-cell_content h4,
+.editor-cell_content h5,
+.editor-cell_content h6,
+.editor-cell_content p,
+.editor-cell_content pre,
+.editor-cell_content table,
+.editor-cell_content caption,
+.editor-cell_content tbody,
+.editor-cell_content tfoot,
+.editor-cell_content thead,
+.editor-cell_content tr,
+.editor-cell_content th,
+.editor-cell_content td,
+.editor-cell_content applet,
+.editor-cell_content canvas,
+.editor-cell_content embed,
+.editor-cell_content figure,
+.editor-cell_content figcaption,
+.editor-cell_content iframe,
+.editor-cell_content img,
+.editor-cell_content object {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  line-height: 1.0;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+/*
+  Initialize spacing and colors
+*/
+
+.editor-cell_content li,
+.editor-cell_content dt,
+.editor-cell_content dd,
+.editor-cell_content p,
+.editor-cell_content pre,
+.editor-cell_content caption,
+.editor-cell_content th,
+.editor-cell_content td,
+.editor-cell_content figcaption {
+  line-height: 1.4;
+}
+
+.editor-cell_content caption,
+.editor-cell_content dl,
+.editor-cell_content dd,
+.editor-cell_content div,
+.editor-cell_content figcaption,
+.editor-cell_content figure,
+.editor-cell_content h1,
+.editor-cell_content h2,
+.editor-cell_content h3,
+.editor-cell_content h4,
+.editor-cell_content h5,
+.editor-cell_content h6,
+.editor-cell_content p,
+.editor-cell_content pre,
+.editor-cell_content table,
+.editor-cell_content ol,
+.editor-cell_content ul {
+  margin: 1.4em 0;
+}
+
+.editor-cell_content blockquote,
+.editor-cell_content ol,
+.editor-cell_content ul {
+  margin-left: 2.8em;
+}
+
+.editor-cell_content code,
+.editor-cell_content pre,
+.editor-cell_content th {
+  background-color: #F3F6FA;
+}
+
+.editor-cell_content code,
+.editor-cell_content pre,
+.editor-cell_content th,
+.editor-cell_content td {
+  color: #324354;
+}
+
+.editor-cell_content pre,
+.editor-cell_content table,
+.editor-cell_content th,
+.editor-cell_content td {
+  border: 1px solid #dbe2f2;
+}
+
+/*
+  Inline elements
+*/
+
+.editor-cell_content a {
+  text-decoration: underline;
+}
+
+.editor-cell_content strong,
+.editor-cell_content b {
+  font-weight: bolder;
+}
+
+.editor-cell_content u,
+.editor-cell_content em,
+.editor-cell_content i {
+  font-style: italic;
+  text-decoration: none;
+}
+
+.editor-cell_content abbr[title] {
+  border-bottom: 1px dotted gray;
+}
+
+.editor-cell_content address {
+  /* no style */
+}
+
+.editor-cell_content cite {
+  font-style: italic;
+}
+
+.editor-cell_content code {
+  /* background-color set above */
+  /* color set above */
+  font-family: monospace;
+  padding: 0.1em 0.2em;
+}
+
+.editor-cell_content dfn {
+  /* no style */
+}
+
+.editor-cell_content del {
+  color: red;
+  text-decoration: line-through;
+}
+
+.editor-cell_content ins {
+  color: green;
+  text-decoration: none;
+}
+
+.editor-cell_content kbd {
+  font-family: monospace;
+}
+
+.editor-cell_content mark {
+  background-color: yellow;
+  color: black;
+}
+
+.editor-cell_content samp {
+  font-family: monospace;
+}
+
+.editor-cell_content small {
+  color: gray;
+  font-size: 80%;
+}
+
+.editor-cell_content s {
+  text-decoration: line-through;
+}
+
+.editor-cell_content sub {
+  font-size: 80%;
+  vertical-align: sub;
+}
+
+.editor-cell_content sup {
+  font-size: 80%;
+  vertical-align: super;
+}
+
+.editor-cell_content var {
+  font-style: italic;
+}
+
+/*
+  Lists
+*/
+
+.editor-cell_content ol,
+.editor-cell_content ul {
+  /* margin set above */
+}
+
+.editor-cell_content ol ol,
+.editor-cell_content ul ul,
+.editor-cell_content ol ul,
+.editor-cell_content ul ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.editor-cell_content ol {
+  list-style: decimal;
+}
+
+.editor-cell_content ol ol {
+  list-style: lower-alpha;
+}
+
+.editor-cell_content ol ol ol {
+  list-style: lower-roman;
+}
+
+.editor-cell_content ol ol ol ol {
+  list-style: decimal;
+}
+
+.editor-cell_content ul {
+  list-style: square;
+}
+
+.editor-cell_content li {
+  /* line-height set above */
+}
+
+.editor-cell_content dl {
+  /* margin set above */
+}
+
+.editor-cell_content dt {
+  font-weight: bold;
+  /* line-height set above */
+}
+
+.editor-cell_content dd {
+  /* line-height set above */
+  margin-top: 0;
+}
+
+/*
+  Block-level elements
+*/
+
+.editor-cell_content h1,
+.editor-cell_content h2,
+.editor-cell_content h3,
+.editor-cell_content h4,
+.editor-cell_content h5,
+.editor-cell_content h6 {
+  font-weight: bold;
+  /* margin set above */
+  margin-bottom: 0;
+}
+
+.editor-cell_content h1 {
+  font-size: 200%;
+}
+
+.editor-cell_content h2 {
+  font-size: 160%;
+}
+
+.editor-cell_content h3 {
+  font-size: 120%;
+}
+
+.editor-cell_content h4 {
+  font-size: 100%;
+}
+
+.editor-cell_content h5 {
+  font-size: 80%;
+}
+
+.editor-cell_content h6 {
+  font-size: 80%;
+  font-weight: normal;
+}
+
+.editor-cell_content p {
+  /* line-height set above */
+  /* margin set above */
+}
+
+.editor-cell_content blockquote {
+  /* margin-left set above */
+}
+
+.editor-cell_content pre {
+  /* background-color set above */
+  /* border set above */
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  /* color set above */
+  display: block;
+  font-family: monospace;
+  font-size: 12px;
+  /* line-height set above */
+  /* margin set above */
+  max-width: 100%;
+  overflow: scroll;
+  padding: .7em;
+  /* Mozilla, since 1999 */
+  white-space: -moz-pre-wrap !important;
+  /* css-3 */
+  white-space: pre-wrap;
+}
+
+/*
+  Tables
+*/
+
+.editor-cell_content table {
+  /* border set above */
+  border-collapse: collapse;
+  /* margin set above */
+  table-layout: auto;
+}
+
+.editor-cell_content caption {
+  caption-side: top;
+  font-weight: bold;
+  /* line-height set above */
+  /* margin set above */
+  margin-top: 0;
+  text-align: left;
+}
+
+.editor-cell_content thead {
+  /* no style */
+}
+
+.editor-cell_content tbody {
+  /* no style */
+}
+
+.editor-cell_content tfoot {
+  /* no style */
+}
+
+.editor-cell_content th,
+.editor-cell_content td {
+  /* border set above */
+  /* color set above */
+  /* line-height set above */
+  padding: .7em;
+  text-align: left;
+}
+
+.editor-cell_content th {
+  /* background-color set above */
+  font-weight: normal;
+}
+
+.editor-cell_content td {
+  /* no style */
+}
+
+/*
+  Media
+*/
+
+.editor-cell_content embed,
+.editor-cell_content iframe,
+.editor-cell_content img,
+.editor-cell_content object {
+  display: inline;
+  max-width: 100%;
+}
+
+.editor-cell_content figure {
+  display: block;
+  max-width: 100%;
+  /* margin set above */
+}
+
+.editor-cell_content figcaption {
+  font-size: 80%;
+  /* line-height set above */
+  /* margin set above */
+  text-align: left;
+}
+
+/*
+  Cleanup
+*/
+
+
+/* Remove top-margin from first element in editor-cell_content block so that it can align with other parts of the page */
+.editor-cell_content> :first-child {
+  margin-top: 0;
+  margin: 0;
+}

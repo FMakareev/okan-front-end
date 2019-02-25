@@ -1,0 +1,24 @@
+mutation ($id: String!) {
+  deletecell(id: $id) {
+    cell {
+      id
+      isAttachment
+      nextcell {
+        id
+      }
+      prevcell {
+        id
+      }
+      parent {
+        id
+      }
+      content {
+        id,
+        contenttype,
+        content,
+        name,
+        number
+      }
+    }
+  }
+}

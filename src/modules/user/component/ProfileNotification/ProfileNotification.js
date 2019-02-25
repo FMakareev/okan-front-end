@@ -8,13 +8,7 @@ import Text from '@lib/ui/Text/Text';
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
-export const ProfileNotification = ({ initialValues }) => {
-  // const {
-  //   message,
-  //   createat,
-  //   sender: { firstname, lastname },
-  // } = initialValues;
-  const isEmptyData = isEmpty(initialValues);
+export const ProfileNotification = ({ data }) => {
 
   return (
     <Fragment>
@@ -28,16 +22,13 @@ export const ProfileNotification = ({ initialValues }) => {
         Оповещения
       </Text>
 
-      {!isEmptyData && (
-        <ProfileNotificationItem
-          message={initialValues.message}
-          name={
-            initialValues.sender &&
-            `${initialValues.sender.firstname} ${initialValues.sender.lastname}`
-          }
-          time={initialValues.createat}
-        />
-      )}
+      {
+        data && data.map((item, index)=>( <ProfileNotificationItem
+          key={`ProfileNotificationItem-${index}`}
+          {...item}
+        />))
+      }
+
     </Fragment>
   );
 };

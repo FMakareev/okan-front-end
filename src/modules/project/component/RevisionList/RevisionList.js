@@ -8,6 +8,7 @@ import Th from '@lib/ui/Table/Th';
 import Tr from '@lib/ui/Table/Tr';
 import Table from '@lib/ui/Table/Table';
 import Tbody from '@lib/ui/Table/Tbody';
+import FroalaReduxForm from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 
 /** Components */
 import { RevisionItem } from '../RevisionItem/RevisionItem';
@@ -34,7 +35,7 @@ export class RevisionList extends Component {
             fontFamily={'primary500'}
             py={4}
             textAlign={'left'}
-            width={'100px'}
+            width={'150px'}
             color={'color11'}>
             № Ревизии
           </Th>

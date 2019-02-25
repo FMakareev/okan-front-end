@@ -1,24 +1,72 @@
 query ($id: String!) {
   cellitem(id: $id) {
-    id
-    name
-    verify
-    prevcell {
+    childcell: children {
       id
+      name
+      isHead
     }
+    comments {
+      id
+      createdate
+      isdelete
+      message
+      sender {
+        id
+        firstname
+        lastname
+        patronymic
+      }
+      updatedate
+    }
+    content {
+      id
+      name
+      content
+      contenttype
+      number
+    }
+    id
+    isHead
+    isAttachment
+    name
     nextcell {
       id
+      name
+    }
+    prevcell {
+      id
+      name
     }
     parent {
       id
+      name
     }
-    childcell: children {
+    verify
+    lastChildren {
       id
-      isHead
+      name
     }
-    isHead
-    content {
-      number
+    pull {
+      id
+      nextcell {
+        name
+        id
+      }
+      prevcell {
+        name
+        id
+      }
+      parent {
+        name
+        id
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
     }
   }
 }

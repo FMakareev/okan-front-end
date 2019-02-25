@@ -20,5 +20,34 @@ export const ButtonVariant = {
     border: '2px solid',
     '&:hover': { backgroundColor: '#00649C', color: '#ffffff', fill: '#ffffff' },
   },
-  empty: { backgroundColor: '#ffffff', border: 0 },
+  outlineGray: {
+    backgroundColor: '#ffffff',
+    fill: '#848484',
+    stroke: '#848484',
+    border: '0.5px solid #848484',
+    borderRadius: '5px',
+//     padding: 2px;
+// font-size: 15px;
+    '&:hover': {
+      color: '#00649C',
+      fill: '#00649C',
+      stroke: '#00649C',
+      borderColor: '#00649C',
+    },
+    ':disabled':{
+      backgroundColor: '#e5e5e5',
+      fill: '#e5e5e5',
+    }
+  },
+  empty: {
+    backgroundColor: '#ffffff',
+    fill: '#848484',
+    stroke: '#848484',
+    border: 0 ,
+    '&:hover': { color: '#00649C', fill: '#00649C', stroke: '#00649C' },
+    ':disabled':{
+      backgroundColor: '#e5e5e5',
+      fill: '#e5e5e5',
+    }
+  },
 };

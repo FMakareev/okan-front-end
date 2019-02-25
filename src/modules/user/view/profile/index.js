@@ -28,7 +28,7 @@ import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
 /** Graphql schema */
 import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
-import DocumentListQuery from './DocumentListQuery.graphql';
+import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -54,27 +54,26 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
-
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <Query skip={!id} query={DocumentListQuery} variables={{ author: id }}>
+                <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
                   {({ loading, error, data }) => {
-
+                    // console.log(1, data);
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
                     if (error) {
-                      console.error(`Error DocumentListQuery: `, error);
+                      console.error(`Error DocumentsForApprovalQuery: `, error);
                       return null;
                     }
-                    if (id && data && !data.documentlist) {
+                    if (id && data && !data.documentsforapproval) {
                       return null;
                     }
-                    return <ProfileApproval data={data && data.documentlist} />;
+                    return <ProfileApproval data={data && data.documentsforapproval} />;
                   }}
                 </Query>
               </CheckComponentAccessByRole>
@@ -118,7 +117,7 @@ export class ProfilePage extends Component {
                 userRole={role && role}>
                 <Query query={NotificationListQuery}>
                   {({ loading, error, data }) => {
-                    console.log('notificationslist', data);
+                    // console.log('notificationslist', data);
 
                     if (id && loading) {
                       return <SmallPreloader />;
@@ -131,11 +130,7 @@ export class ProfilePage extends Component {
                     if (id && data && !data.notificationslist) {
                       return null;
                     }
-                    return (
-                      <ProfileNotification
-                        initialValues={data && Object.assign({}, { ...data.notificationslist })}
-                      />
-                    );
+                    return <ProfileNotification data={data.notificationslist} />;
                   }}
                 </Query>
               </CheckComponentAccessByRole>

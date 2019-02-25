@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm, SubmissionError, Form, getFormValues} from 'redux-form';
 import styled from 'styled-components';
-import {graphql} from 'react-apollo';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import Notifications, {success, error} from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { graphql, withApollo } from 'react-apollo';
+import Notifications, { success, error } from 'react-notification-system-redux';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -18,18 +18,23 @@ import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 
 /** PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQL schema */
 import ActivateUserMutation from './ActivateUserMutation.graphql';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
-/** Validation */
-import required from '../../../../utils/validation/required';
-import isEmail from '../../../../utils/validation/isEmail';
-import {jsonToUrlEncoded} from "@lib/utils/jsontools/jsonToUrlEncoded";
-import {USER_ADD} from "../../../../store/reducers/user/actionTypes";
 
-const validate = ({log, password, retryPas}) => {
+/** Validation */
+import isEmail from '../../../../utils/validation/isEmail';
+import required from '../../../../utils/validation/required';
+
+/** JSON Method */
+import { jsonToUrlEncoded } from '@lib/utils/jsontools/jsonToUrlEncoded';
+
+/** Constatnts */
+import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
+
+const validate = ({ log, password, retryPas }) => {
   const errors = {};
 
   if (!log) {
@@ -44,12 +49,12 @@ const validate = ({log, password, retryPas}) => {
     errors.retryPas = 'Обязательно для заполнения';
   }
 
-  if (password !== undefined && password.length <= 8) {
-    errors.password = 'Пароль должен состоять минимум из 8 цифр';
+  if (password !== undefined && password.length <= 7) {
+    errors.password = 'Пароль должен состоять минимум из 8 символов';
   }
 
-  if (password !== undefined && password.length > 64) {
-    errors.password = 'Пароль должен состоять не больше 32 цифр';
+  if (password !== undefined && password.length >= 30) {
+    errors.password = 'Пароль должен состоять не больше 30 символов';
   }
 
   if (password !== retryPas) {
@@ -75,14 +80,14 @@ const BoxSecond = styled(Box)`
 
 const notificationOpts = () => ({
   success: {
-    title: 'Все хорошо',
-    message: 'Все хорошо',
+    title: 'Пользователь успешно зарегистрирован',
+    message: 'Пользователь успешно зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
-    title: 'Ошибка регистрации',
-    message: 'Ошибка регистрации',
+    title: 'Пользователь не был зарегистрирован',
+    message: 'Пользователь не был зарегистрирован',
     position: 'tr',
     autoDismiss: 2,
   },
@@ -102,11 +107,10 @@ export class FormRegistration extends Component {
   }
 
   get initialState() {
-    return {submitting: false, apolloError: null, isLoading: false};
+    return { submitting: false, apolloError: null, isLoading: false };
   }
 
   userAuth(value) {
-    console.log('userAuth: ', value);
     return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
       method: 'POST',
       credentials: 'include',
@@ -118,37 +122,33 @@ export class FormRegistration extends Component {
       body: jsonToUrlEncoded(value),
     })
       .then(response => {
-        console.log(response);
         if (response.status >= 400 || !document.cookie) {
           throw response;
         } else {
           return this.getUser(value.uname);
         }
       })
-      .catch(({status, ...rest}) => {
-        console.log('Error userAuth:',rest);
-        this.setState(() => ({submitting: false, isLoading: false, apolloError: null}));
+      .catch(({ status, ...rest }) => {
+        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
-          throw new SubmissionError({_error: 'Не верно введен логин или пароль'});
+          throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
         } else {
-          throw new SubmissionError({_error: 'Пользователь не найден'});
+          throw new SubmissionError({ _error: 'Пользователь не найден' });
         }
       });
   }
 
   getUser = email => {
-    console.log('getUser: ', email);
-    const {client, history, setNotificationSuccess, setNotificationError} = this.props;
+    const { client, history, setNotificationSuccess, setNotificationError } = this.props;
     return client
-      .query({query: CurrentUserItemQuery, variables: {email: email}})
+      .query({ query: CurrentUserItemQuery, variables: { email: email } })
       .then(result => {
-        console.log('result', result);
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
         } else {
-          this.setState(() => ({apolloError: null, isLoading: false}));
+          this.setState(() => ({ apolloError: null, isLoading: false }));
           this.setUser(result);
 
           history.push(`/app/project-list`);
@@ -156,12 +156,12 @@ export class FormRegistration extends Component {
           return Promise.resolve(result);
         }
       })
-      .catch(({graphQLErrors, message, error, networkError, ...rest}) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
-        console.log('error: ', error);
+      .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
+        // console.log('error: ', error);
 
         setNotificationError(notificationOpts().error);
 
@@ -174,29 +174,26 @@ export class FormRegistration extends Component {
   };
 
   setUser = props => {
-    console.log('setUser: ', props);
-
     const {
-      data: {currentuseritem},
+      data: { currentuseritem },
     } = props;
 
-    const {addUser} = this.props;
+    const { addUser } = this.props;
 
     addUser(currentuseritem);
 
-    localStorage.setItem('user', JSON.stringify({...currentuseritem}));
+    localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
 
   submit(value) {
-    const data = {variables: Object.assign({}, value)};
+    const data = { variables: Object.assign({}, value) };
 
-    this.setState(({submitting, isLoading}) => {
-      return {submitting: !submitting, isLoading: !isLoading};
+    this.setState(({ submitting, isLoading }) => {
+      return { submitting: !submitting, isLoading: !isLoading };
     });
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        console.log(response);
         if (response.errors) {
           throw response;
         } else {
@@ -219,12 +216,12 @@ export class FormRegistration extends Component {
   }
 
   render() {
-    const {handleSubmit, pristine, invalid, error} = this.props;
-    const {isLoading, apolloError, submitting} = this.state;
+    const { handleSubmit, pristine, invalid, error } = this.props;
+    const { isLoading, apolloError, submitting } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <FormLogo/>
+        <FormLogo />
 
         <Box mb={'100px'}>
           <BoxFirst>
@@ -241,7 +238,7 @@ export class FormRegistration extends Component {
           <Field
             name={'password'}
             placeholder={'Пароль'}
-            TextFieldInput={TextFieldWithTooltip}
+            // TextFieldInput={TextFieldWithTooltip}
             component={FieldInputPassword}
           />
 
@@ -249,7 +246,7 @@ export class FormRegistration extends Component {
             <Field
               name={'retryPas'}
               placeholder={'Потвердите пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
@@ -269,6 +266,7 @@ export class FormRegistration extends Component {
 }
 
 FormRegistration = withRouter(FormRegistration);
+FormRegistration = withApollo(FormRegistration);
 
 FormRegistration = graphql(ActivateUserMutation, {
   name: '@apollo/create',

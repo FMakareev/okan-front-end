@@ -5,7 +5,7 @@ query ($parent: String) {
     }
     comments {
       id
-      createdate: createdat
+      createdate
       isdelete
       message
       sender {
@@ -14,7 +14,7 @@ query ($parent: String) {
         lastname
         patronymic
       }
-      updatedate: updatedat
+      updatedate
     }
     content {
       id
@@ -25,15 +25,48 @@ query ($parent: String) {
     }
     id
     isHead
+    isAttachment
     name
     nextcell {
+      name
       id
     }
     prevcell {
+      name
       id
     }
     parent {
+      name
       id
+      parent {
+        name
+        id
+      }
+    }
+    lastChildren {
+      id
+    }
+    pull {
+      id
+      nextcell {
+        name
+        id
+      }
+      prevcell {
+        name
+        id
+      }
+      parent {
+        name
+        id
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
     }
     verify
   }

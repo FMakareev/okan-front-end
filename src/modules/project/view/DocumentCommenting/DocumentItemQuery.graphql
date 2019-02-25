@@ -1,0 +1,86 @@
+query ($documentid: String!, $projectid: String!) {
+  documentitem(id: $documentid) {
+    approvalstatus
+    id
+    authorrevision {
+      id
+      email
+      firstname
+      role {
+        name
+      }
+    }
+    childcell: children {
+      id
+      name
+      isHead
+      content {
+        id
+        contenttype
+        number
+      }
+      nextcell {
+        id
+        name
+      }
+      prevcell {
+        id
+        name
+      }
+      parent {
+        id
+        name
+      }
+      childcell: children{
+        id
+        name
+        isHead
+      }
+    }
+    name
+    partners {
+      id
+      firstname
+      lastname
+    }
+  }
+
+   projectitem(id: $projectid){
+    # mongoid
+    id
+    # название проекта
+    name
+    # пользователь создавший проект
+    author {
+      id
+    }
+    documents{
+      # mongoid
+      id
+      # id project
+      project
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
+      childcell: children {
+        id
+        name
+        isHead
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
+    }
+    # дата создания
+    createdate
+    # дата обновления
+    updatedate
+    # archive or working
+    status
+    partners{
+      id
+      lastname
+      firstname
+      email
+    }
+  }
+}

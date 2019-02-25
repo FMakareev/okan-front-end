@@ -1,31 +1,44 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import {Query} from 'react-apollo';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
+/** css style */
+import '../../../../assets/style/editor-cell_content.css';
+
+/** Graphql schema */
 import ProjectItemQuery from './ProjectItemQuery.graphql';
+
 /**PropTypes */
-import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
-import ErrorCatch from '../../../../components/ErrorCatch/ErrorCatch';
+import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
+import {Flex} from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
-import { Flex } from '@lib/ui/Flex/Flex';
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 
-import { ProjectContext, withProject } from '../../component/ProjectContext/ProjectContext';
+/** Context */
+import {
+  PROJECT_MODE_READ,
+  PROJECT_MODE_RW,
+  ProjectContext,
+  withProject
+} from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
-import { removeBlockId } from '../../../../store/reducers/blocksBinding/actions';
+import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
+import {getUserFromStore} from "../../../../store/reducers/user/selectors";
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
-  width: 320px;
+  width: 340px;
   min-height: calc(100vh - 40px);
   padding-top: 10px;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -34,8 +47,9 @@ const Wrapper = styled(Flex)`
   min-height: calc(100vh - 40px);
   background-color: #e8e8e8;
 `;
+
 const EditorWrapper = styled.div`
-  width: calc(100% - 360px);
+  width: calc(100% - 380px);
   min-height: calc(100vh - 40px);
 `;
 
@@ -59,32 +73,35 @@ export class ProjectEditorPage extends Component {
     this.state = {};
   }
 
-  componentDidUpdate() {
-    if (this.props.bindingBlockId) {
-      console.log(this.props.bindingBlockId);
-      // EditorWrapper.addEventListener('click', function(){
-      //   alert('hi')
-      // });
-      // EditorWrapper.onClick = function() {
-      //   alert('hi');
-      // }
+  handleClick() {
+    if (this.props.cellToCopy) {
+      this.props.removeBlock();
     }
   }
 
-  handleClick() {
-    if (this.props.bindingBlockId) {
-      this.props.removeBlockId();
+  currentUserProjectAuthor = (currentUser, projectAuthor) => {
+    try {
+      if(currentUser.id === projectAuthor.id){
+        return PROJECT_MODE_RW;
+      } else {
+        return PROJECT_MODE_READ;
+      }
+    } catch (error) {
+      console.error('Error currentUserProjectAuthor: ', error);
+      return PROJECT_MODE_READ;
     }
-  }
+  };
 
   render() {
     const {
-      match: { params },
+      match: {params},
+      user,
     } = this.props;
 
     return (
-      <Query query={ProjectItemQuery} variables={{ id: params.projectid }}>
-        {({ loading, data, error, ...rest }) => {
+      <Query query={ProjectItemQuery} variables={{id: params.projectid}}>
+        {({loading, data, error, ...rest}) => {
+
           if (loading) {
             return 'Загрузка...';
           }
@@ -101,14 +118,16 @@ export class ProjectEditorPage extends Component {
                     position: params,
                     // объект с данными о проекте
                     project: data.projectitem,
+
+                    mode: this.currentUserProjectAuthor(user, data.projectitem.author),
                   }}>
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
                   <EditorWrapper
-                    style={this.props.bindingBlockId ? { opacity: '0.4' } : {}}
+                    style={this.props.cellToCopy ? {opacity: '0.4'} : {}}
                     onClick={() => this.handleClick()}>
-                    <ProjectEditor sectionid={params.sectionid} />
+                    <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
@@ -122,10 +141,13 @@ export class ProjectEditorPage extends Component {
 
 // export default ProjectEditorPage;
 const mapStateToProps = state => {
-  return state.blocksBinding;
+  return {
+    ...state.blocksBinding,
+    user: getUserFromStore(state)
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { removeBlockId },
+  {removeBlock},
 )(ProjectEditorPage);

@@ -1,64 +1,61 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select, {components} from 'react-select';
+import Select, { components } from 'react-select';
 import DeepEqual from 'fast-deep-equal';
 
-
-
-import {SvgTriangle} from "@lib/ui/Icons/SvgTriangle";
-import {Text} from "@lib/ui/Text/Text";
-
+/** Component */
+import { SvgTriangle } from '@lib/ui/Icons/SvgTriangle';
+import { Text } from '@lib/ui/Text/Text';
 
 export const SelectStyles = {
   control: (style, props) => {
-    console.info(style, props);
     return {
       ...style,
-      padding: "0 0 0 10px",
-      border: "1px solid #848484",
-      minHeight: "30px",
+      padding: '0 0 0 10px',
+      border: '1px solid #848484',
+      minHeight: '30px',
       ':hover': {
-
-        border: "none",
-        boxShadow: "none"
+        // border: "none",
+        // boxShadow: "none"
       },
       ...(props.isFocused
         ? {
-          border: "none",
-          boxShadow: "none"
-        }
+            // border: "none",
+            // boxShadow: "none"
+          }
         : {}),
-      ...(props.menuIsOpen ? {
-        borderRadius: "5px 5px 0 0",
-        borderBottom: 'none',
-      } : {})
+      ...(props.menuIsOpen
+        ? {
+            borderRadius: '5px 5px 0 0',
+            borderBottom: 'none',
+          }
+        : {}),
     };
   },
   selectContainer: (style, props) => {
-    console.info(style, props);
     return {
       ...style,
-      padding: 0
+      padding: 0,
     };
   },
   valueContainer: style => {
     return {
       ...style,
-      padding: 0
+      padding: 0,
     };
   },
   dropdownIndicator: style => {
     return {
       ...style,
-      padding: "0 10px"
+      padding: '0 10px',
     };
   },
   menu: style => {
     return {
       ...style,
       margin: 0,
-      border: "1px solid #848484",
-      borderRadius: "0 0 5px 5px",
+      border: '1px solid #848484',
+      borderRadius: '0 0 5px 5px',
     };
   },
   option: (style, props) => {
@@ -66,20 +63,20 @@ export const SelectStyles = {
       ...style,
       width: 'calc(100% - 20px)',
       margin: '0 10px',
-      borderBottom: "1px solid #00649C",
-      textAlign: "center",
+      borderBottom: '1px solid #00649C',
+      textAlign: 'center',
       ...(props.isSelected
         ? {
-          backgroundColor: "rgba(0,127,175,.2)",
-          color: "#333333"
-        }
-        : null)
+            backgroundColor: 'rgba(0,127,175,.2)',
+            color: '#333333',
+          }
+        : null),
     };
   },
   indicatorSeparator: style => {
     return {
       ...style,
-      display: "none"
+      display: 'none',
     };
   },
   singleValue: style => {
@@ -87,20 +84,22 @@ export const SelectStyles = {
       ...style,
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      '-webkit-transform': 'translate(-50%, -50%)',
+      '-ms-transform': 'translate(-50%, -50%)',
     };
   },
 };
 
-// SvgTriangle
-
-const DropdownIndicator = (props) => {
+const DropdownIndicator = props => {
   return (
     <components.DropdownIndicator {...props}>
-      <Text style={{
-        transform: props.isFocused ? 'rotate(90deg)' : 'rotate(0)',
-      }} fill={'#333333'}>
-        <SvgTriangle/>
+      <Text
+        style={{
+          transform: props.isFocused ? 'rotate(90deg)' : 'rotate(0)',
+        }}
+        fill={'#333333'}>
+        <SvgTriangle />
       </Text>
     </components.DropdownIndicator>
   );
@@ -124,7 +123,7 @@ export class SelectBase extends Component {
     placeholder: PropTypes.string,
   };
 
-  static defaultProps = {mods: false, options: [], placeholder: ''}; // valueKey: 'id', // labelKey: 'name',
+  static defaultProps = { mods: false, options: [], placeholder: '' }; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
     super(props);
@@ -134,11 +133,11 @@ export class SelectBase extends Component {
   //перестраиваются элементы в вирт.доме
   shouldComponentUpdate(nextProps, nextState) {
     const {
-      input: {value},
+      input: { value },
       isLoading,
       options,
     } = this.props;
-    const {selectedOption} = this.state;
+    const { selectedOption } = this.state;
 
     if (
       nextProps.input.value !== this.props.value ||
@@ -155,7 +154,7 @@ export class SelectBase extends Component {
   //Когда будет изменено вирт. дом (устаревший)
   componentWillReceiveProps = nextProps => {
     const {
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = nextProps;
@@ -174,7 +173,7 @@ export class SelectBase extends Component {
   componentDidUpdate(prevProps) {
     const {
       // then options is update - we must update selectedOption at state
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = this.props;
@@ -187,15 +186,15 @@ export class SelectBase extends Component {
 
   get initialState() {
     const {
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = this.props;
 
     if (value) {
-      return {selectedOption: this.getSelectedValueFromOptions(options, value, valueKey)};
+      return { selectedOption: this.getSelectedValueFromOptions(options, value, valueKey) };
     }
-    return {selectedOption: null};
+    return { selectedOption: null };
   }
 
   getSelectedValueFromOptions = (options, value, valueKey) => {
@@ -215,9 +214,9 @@ export class SelectBase extends Component {
   };
 
   onChange = selectedOption => {
-    const {input, valueKey} = this.props;
+    const { input, valueKey } = this.props;
     this.setState(
-      () => ({selectedOption}),
+      () => ({ selectedOption }),
       () => {
         input.onChange(this.state.selectedOption ? this.state.selectedOption[valueKey] : null);
       },
@@ -225,8 +224,18 @@ export class SelectBase extends Component {
   };
 
   render() {
-    const {input, options, components, disabled, labelKey, valueKey, placeholder, isLoading, ...rest} = this.props;
-    const {selectedOption} = this.state;
+    const {
+      input,
+      options,
+      components,
+      disabled,
+      labelKey,
+      valueKey,
+      placeholder,
+      isLoading,
+      ...rest
+    } = this.props;
+    const { selectedOption } = this.state;
 
     return (
       <Select
@@ -238,10 +247,10 @@ export class SelectBase extends Component {
         disabled={disabled}
         placeholder={placeholder}
         blurInputOnSelect={true}
-        getOptionLabel={(option) => option[labelKey]}
-        getOptionValue={(option) => option[valueKey]}
+        getOptionLabel={option => option[labelKey]}
+        getOptionValue={option => option[valueKey]}
         styles={SelectStyles}
-        components={{DropdownIndicator, ...components}}
+        components={{ DropdownIndicator, ...components }}
         {...rest}
       />
     );

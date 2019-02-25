@@ -1,0 +1,24 @@
+mutation($id: String!,$children:String){
+  updatedocument(id: $id, children:$children){
+    document{
+      # mongoid
+      id
+      # id project
+      project
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
+      childcell: children {
+        id
+        name
+        isHead
+        lastChildren {
+          id
+          name
+        }
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
+    }
+  }
+}

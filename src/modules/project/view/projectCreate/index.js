@@ -12,6 +12,8 @@ import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
 import FormProjectCreate from '../../component/FormProjectCreate/FormProjectCreate';
+
+/** Reducers */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 export class ProjectCreatePage extends Component {

@@ -1,0 +1,34 @@
+mutation ($id: String!, $status: String!) {
+  changestatus(id: $id, status: $status) {
+    cell {
+      childcell: children {
+        id
+        isHead
+      }
+      id
+      isHead
+      lastChildren {
+        id
+        name
+        isHead
+      }
+      name
+      nextcell {
+        id
+        name
+        isHead
+      }
+      parent {
+        id
+        isHead
+        name
+      }
+      prevcell {
+        id
+        isHead
+        name
+      }
+      verify
+    }
+  }
+}

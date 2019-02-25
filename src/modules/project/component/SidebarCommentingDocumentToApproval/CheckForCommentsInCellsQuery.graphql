@@ -1,0 +1,6 @@
+query($id: String){
+  checkForCommentsInCells(id:$id){
+    id
+    answer
+  }
+}

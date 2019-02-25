@@ -146,7 +146,7 @@ export class FormDocumentSettings extends Component {
             <Container maxWidth={'500px'} width={'100%'}>
               <Query query={ProjectItemQuery} variables={{ id: project }}>
                 {({ loading, error, data }) => {
-                  console.log('FormDocumentSettings', data.projectitem);
+                  console.log('FormDocumentSettings', data);
                   if (loading) {
                     return 'Загрузка...';
                   }
@@ -180,10 +180,6 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
           </Box>
-          {/*
-          <Container maxWidth={'400px'} width={'100%'}>
-            <TitlePage />
-</Container>*/}
         </Flex>
 
         <Flex justifyContent={'center'}>

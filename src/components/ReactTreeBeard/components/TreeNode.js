@@ -6,6 +6,7 @@ import {VelocityTransitionGroup} from 'velocity-react';
 import styled from 'styled-components';
 
 import NodeHeader from './NodeHeader';
+import {getDirectiveNames} from 'apollo-utilities';
 
 const Ul = styled.ul`
   position: relative;
@@ -37,7 +38,7 @@ export class TreeNode extends Component {
     const anim = Object.assign({}, animations, node.animations);
     return {
       toggle: anim.toggle(this.props),
-      drawer: anim.drawer(this.props)
+      drawer: anim.drawer(this.props),
     };
   }
 
@@ -53,7 +54,9 @@ export class TreeNode extends Component {
   }
 
   renderDrawer(decorators, animations) {
-    const {node: {toggled}} = this.props;
+    const {
+      node: {toggled},
+    } = this.props;
 
     if (!animations && !toggled) {
       return null;
@@ -63,9 +66,7 @@ export class TreeNode extends Component {
 
     const {animation, duration, ...restAnimationInfo} = animations.drawer;
     return (
-      <VelocityTransitionGroup
-        {...restAnimationInfo}
-      >
+      <VelocityTransitionGroup {...restAnimationInfo}>
         {toggled ? this.renderChildren(decorators, animations) : null}
       </VelocityTransitionGroup>
     );
@@ -95,19 +96,46 @@ export class TreeNode extends Component {
     if (!Array.isArray(children)) {
       children = children ? [children] : [];
     }
+    let cursor = 0;
+    let count = 0;
+    let result = [];
 
+    const alphabet = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+
+    const createAbc = (str, count, cursor) => {
+      let result = '';
+      for (let i = 0; i < count + 1; i++) {
+        result = result + str[cursor];
+      }
+      return result;
+    };
     return (
-      <propDecorators.TreeNodeList
-        ref={ref => this.subtreeRef = ref}>
-        {
-          children.map((child, index) => (<TreeNode
+      <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
+        {children.map((child, index) => {
+          if (child.isAttachment) {
+
+            child.letterNumber = `${node.letterNumber}${createAbc(alphabet, count, cursor)}.`;
+
+            cursor += 1;
+            if (cursor === alphabet.length) {
+              cursor = 0;
+              count += 1;
+            }
+
+          } else {
+            child.number = `${node.number}${index + 1}.`;
+          }
+
+          return (
+            <TreeNode
               {...this._eventBubbles()}
               animations={animations}
               decorators={propDecorators}
               key={child.id || index}
               node={child}
-            />)
-          )}
+            />
+          );
+        })}
       </propDecorators.TreeNodeList>
     );
   }
@@ -124,7 +152,7 @@ export class TreeNode extends Component {
     const {onToggle} = this.props;
 
     return {
-      onToggle
+      onToggle,
     };
   }
 
@@ -140,17 +168,13 @@ export class TreeNode extends Component {
       </decorators.TreeNodeContainer>
     );
   }
-
 }
 
 TreeNode.propTypes = {
   node: PropTypes.object.isRequired,
   decorators: PropTypes.object.isRequired,
-  animations: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]).isRequired,
-  onToggle: PropTypes.func
+  animations: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+  onToggle: PropTypes.func,
 };
 
 export default TreeNode;

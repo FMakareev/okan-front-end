@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-
+import { withRouter } from 'react-router-dom';
 
 /** Css value */
 import {
@@ -21,20 +21,10 @@ import {
 /** Image */
 import Logo from '../../assets/image/Logo.png';
 import { ProfileLogo, ProjectListLogo } from './Logos';
+import GetNameProject from './GetNameProject';
 
 /** HOC */
 import RenderOpenWindow from '../../utils/helpers/RenderOpenWindow';
-
-const OpenMenu = (
-  <AbsoluteStyled top={'33px'} right={0}>
-    <ProfileLink to="/app/profile" activeClassName="active">
-      <BoxTop>Профиль</BoxTop>
-    </ProfileLink>
-    <ProfileLink to="/logout" activeClassName="active">
-      <BoxBottom>Выйти</BoxBottom>
-    </ProfileLink>
-  </AbsoluteStyled>
-);
 
 export class Header extends Component {
   static propTypes = {
@@ -44,19 +34,68 @@ export class Header extends Component {
     handleClick: PropTypes.func,
   };
 
-  static defaultProps = { name: 'Title not found', isOpen: false, handleClick: () => {} };
-
   constructor(props) {
     super(props);
     this.state = this.initialState;
+
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+  }
+
+  get openMenu() {
+    return (
+      <AbsoluteStyled top={'33px'} right={'-15px'} onMouseLeave={this.handleMouseOut}>
+        <ProfileLink to="/app/profile" activeClassName="active">
+          <BoxTop>Профиль</BoxTop>
+        </ProfileLink>
+        <ProfileLink to="/logout" activeClassName="active">
+          <BoxBottom>Выйти</BoxBottom>
+        </ProfileLink>
+      </AbsoluteStyled>
+    );
   }
 
   get initialState() {
-    return {};
+    return { isOpen: false };
   }
 
+  handleMouseOut() {
+    this.setState(({ isOpen }) => {
+      return { isOpen: false };
+    });
+  }
+
+  componentDidMount() {
+    this.nv.addEventListener('click', this.handleClick);
+
+    window.addEventListener('click', this.handleWindow);
+  }
+
+  componentWillUnmount() {
+    this.nv.removeEventListener('click', this.handleClick);
+
+    window.removeEventListener('click', this.handleWindow);
+  }
+
+  handleClick = e => {
+    e = e || window.event;
+    this.setState(({ isOpen }) => {
+      return { isOpen: true };
+    });
+    e.stopPropagation();
+  };
+
+  handleWindow = e => {
+    this.setState(({ isOpen }) => {
+      return { isOpen: false };
+    });
+  };
+
   render() {
-    const { name, isOpen, handleClick } = this.props;
+    const { name } = this.props;
+    const { isOpen } = this.state;
+
+    const beginString = '/app/project/';
+    const str = this.props.location.pathname;
 
     return (
       <Wrapper>
@@ -64,15 +103,24 @@ export class Header extends Component {
         <LogoWrapper src={Logo} alt="logo" />
         <LineWrapper />
         <ControlsWrapper>
-          <Title>{name}</Title>
+          <Title onMouseOver={this.handleMouseOut}>
+            {str.indexOf(beginString) === 0 ? <GetNameProject /> : name}
+          </Title>
 
-          <ButtonBaseStyled variant={'empty'} onClick={handleClick} position={'relative'}>
+          <ButtonBaseStyled
+            variant={'empty'}
+            position={'relative'}
+            id={'click'}
+            ref={elem => (this.nv = elem)}>
             <ProfileLogo />
-
-            {isOpen && OpenMenu}
+            {isOpen && <Fragment>{this.openMenu}</Fragment>}
           </ButtonBaseStyled>
 
-          <ProjectListLink to="/app/project-list" activeClassName="active">
+          <ProjectListLink
+            to="/app/project-list"
+            activeClassName="active"
+            title={'Список проектов'}
+            onMouseOver={this.handleMouseOut}>
             <ProjectListLogo />
           </ProjectListLink>
         </ControlsWrapper>
@@ -81,4 +129,7 @@ export class Header extends Component {
   }
 }
 
-export default RenderOpenWindow(Header);
+// export default RenderOpenWindow(Header);
+Header = withRouter(Header);
+
+export default Header;

@@ -8,6 +8,8 @@ mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
       # id корневого элемента от которого строится граф разделов
       childcell: children {
         id
+        name
+        isHead
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus

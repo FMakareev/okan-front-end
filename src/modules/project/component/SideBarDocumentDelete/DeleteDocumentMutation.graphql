@@ -1,0 +1,8 @@
+mutation ($id: String!) {
+  deletedocument(id: $id) {
+    document {
+      id
+      name
+    }
+  }
+}

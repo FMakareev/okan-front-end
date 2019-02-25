@@ -67,23 +67,19 @@ export class FormProfileCreateUser extends Component {
   }
 
   submit(value) {
-    console.log('value', value);
-
     const data = { variables: Object.assign({}, value) };
-    console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        // this.props.setNotificationSuccess(success(notificationOpts.success));
         this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });
@@ -95,7 +91,13 @@ export class FormProfileCreateUser extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text color={'color7'} textAlign={'center'} mb={13} fontFamily={'primary500'}>
+        <Text
+          fontSize={6}
+          lineHeight={8}
+          color={'color7'}
+          textAlign={'center'}
+          mb={[13]}
+          fontFamily={'primary500'}>
           Создать пользователя
         </Text>
 
@@ -153,10 +155,12 @@ export class FormProfileCreateUser extends Component {
         <Field
           name="phone"
           component={MaskedInputField}
-          placeholder={'Телефон'}
+          placeholder={'( 111 ) - 111 - 11 - 11'}
           type="text"
           validate={required}
           fontFamily={'secondary'}
+          fontSize={5}
+          lineHeight={7}
         />
 
         <Field
@@ -165,8 +169,9 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Электронная почта'}
           type="text"
           size={'md'}
-          // validate={[required, isEmail]}
-          fontFamily={'secondary'}
+          fontFamily={
+            'secondary' // validate={[required, isEmail]}
+          }
         />
 
         <BoxSecond mb={11}>

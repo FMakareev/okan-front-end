@@ -7,6 +7,7 @@ import { USER_REMOVE } from '../../../../store/reducers/user/actionTypes';
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import SmallPreloader from '../../../../components/SmallPreloader/SmallPreloader';
+import {withApollo} from "react-apollo";
 
 export class LogOut extends Component {
   static propTypes = {
@@ -35,6 +36,11 @@ export class LogOut extends Component {
   }
   logOut() {
     if (isBrowser) {
+      try{
+        this.props.client.resetStore();
+      } catch(error){
+        console.error('Error reset store in logout: ',error);
+      }
       return new Promise((resolve, reject) => {
         fetch(`${ENDPOINT_CLIENT}/user/logout`, {
           method: 'POST',
@@ -80,4 +86,6 @@ LogOut = connect(
     removeUser: () => dispatch({ type: USER_REMOVE }),
   }),
 )(LogOut);
+
+LogOut = withApollo(LogOut);
 export default LogOut;

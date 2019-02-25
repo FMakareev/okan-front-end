@@ -1,26 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Box} from "../Box/Box";
+import { Box } from '../Box/Box';
 
 export const PreloaderWrapper = styled(Box)`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   z-index: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
-  height: 100%; 
-  background-color: rgba(255, 255, 255, 0.6); 
-  transition: .225s all;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  -webkit-transition: 0.225s all;
+  -o-transition: 0.225s all;
+  transition: 0.225s all;
 `;
 export const SpeedingWheel = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 1em;
+  height: 1em;
   margin: 0 auto;
-  border: 2px solid #00649C;
+  border: 2px solid #00649c;
   border-radius: 50%;
   border-left-color: transparent;
   border-right-color: transparent;
@@ -32,7 +42,8 @@ export const SpeedingWheel = styled.div`
 
   @keyframes cssload-spin {
     100% {
-      transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
@@ -40,6 +51,8 @@ export const SpeedingWheel = styled.div`
   @-o-keyframes cssload-spin {
     100% {
       -o-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
@@ -47,6 +60,7 @@ export const SpeedingWheel = styled.div`
   @-ms-keyframes cssload-spin {
     100% {
       -ms-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
@@ -54,13 +68,15 @@ export const SpeedingWheel = styled.div`
   @-webkit-keyframes cssload-spin {
     100% {
       -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }
 
   @-moz-keyframes cssload-spin {
     100% {
-      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
       transform: rotate(360deg);
     }
   }

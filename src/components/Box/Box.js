@@ -1,4 +1,4 @@
-import { space, width, color, fontSize, height, position, zIndex, border,opacity } from 'styled-system';
+import { space, width, color, fontSize, height, position, zIndex, border,opacity, minHeight } from 'styled-system';
 import styled from 'styled-components';
 
 /** Style property */
@@ -12,6 +12,7 @@ export const Box = styled.div`
   ${zIndex};
   ${width};
   ${height};
+  ${minHeight};
   ${fontSize};
   ${border};
   ${color};

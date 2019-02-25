@@ -47,11 +47,11 @@ const validate = ({ uname, ups }) => {
   }
 
   if (ups !== undefined && ups.length <= 8) {
-    errors.ups = 'Пароль должен состоять минимум из 8 цифр ';
+    errors.ups = 'Пароль должен состоять минимум из 8 символов ';
   }
 
-  if (ups !== undefined && ups.length > 30) {
-    errors.ups = 'Пароль должен состоять не больше 30 цифр ';
+  if (ups !== undefined && ups.length >= 30) {
+    errors.ups = 'Пароль должен состоять не больше 30 символов ';
   }
   return errors;
 };
@@ -126,7 +126,7 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ status, statusText }) => {
-        this.setState(() => ({ submitting: false, isLoading: false , apolloError: null }));
+        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
@@ -141,7 +141,6 @@ export class FormLogin extends Component {
     return client
       .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
-        console.log('result', result);
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
@@ -155,11 +154,11 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
-        console.log('error: ', error);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
+        // console.log('error: ', error);
 
         setNotificationError(notificationOpts().error);
 
@@ -172,8 +171,6 @@ export class FormLogin extends Component {
   };
 
   setUser = props => {
-    console.log('setUser: ', props);
-
     const {
       data: { currentuseritem },
     } = props;
@@ -222,7 +219,7 @@ export class FormLogin extends Component {
             <Field
               name={'ups'}
               placeholder={'Пароль'}
-              TextFieldInput={TextFieldWithTooltip}
+              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </BoxSecond>
@@ -235,9 +232,6 @@ export class FormLogin extends Component {
           isLoading={isLoading}
           error={error || apolloError}
         />
-
-        {/* if succes => to={'/app/project-list'}  ----- USER*/}
-        {/* if succes => to={'/app/profile'}  ----- ADMIN*/}
       </Form>
     );
   }

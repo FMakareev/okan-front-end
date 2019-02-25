@@ -1,28 +1,45 @@
-mutation($isHead: Boolean, $name: String) {
-  createcell(isHead: $isHead, name: $name){
-    cell{
-      # mongoid
+mutation ($isHead: Boolean, $name: String, $isAttachment: Boolean) {
+  createcell(isHead: $isHead, name: $name, isAttachment: $isAttachment) {
+    cell {
+      childcell: children {
+        id
+        name
+        isHead
+      }
+      comments {
+        id
+        createdate
+        isdelete
+        message
+        sender {
+          id
+          firstname
+          lastname
+          patronymic
+        }
+        updatedate
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
       id
-      # имя раздела
+      isHead
+      isAttachment
       name
-      # статус проверки ячейки
-      verify
-      # id предыдущей ячейки, оно равно id в свойстве parent если ячейка дочерняя другой ячейке и первая по счету
+      nextcell {
+        id
+      }
       prevcell {
         id
       }
-      # id следующей ячейки
-      nextcell{
+      parent {
         id
       }
-      # id родительской ячейки
-      parent{
-        id
-      }
-      # id первой дочерней ячейки, от этой ячейки далее строятся запросы на получение всех дочерних ячеек
-      children{
-        id
-      }
+      verify
     }
   }
 }

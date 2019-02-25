@@ -1,24 +1,19 @@
 'use strict';
 
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import TreeNode from './TreeNode';
 import defaultDecorators from '../decorators';
 import defaultAnimations from '../themes/animations';
 
-
-
 export class TreeBeard extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-
-
   }
 
   render() {
-    const {animations, decorators, data: propsData, onToggle, style} = this.props;
+    const { animations, decorators, data: propsData, onToggle } = this.props;
     let data = propsData;
 
     /**
@@ -29,7 +24,7 @@ export class TreeBeard extends Component {
     }
     return (
       <decorators.TreeBeardWrapper>
-        {data.map((node, index) =>
+        {data.map((node, index) => (
           <TreeNode
             animations={animations}
             decorators={decorators}
@@ -37,28 +32,22 @@ export class TreeBeard extends Component {
             node={node}
             onToggle={onToggle}
           />
-        )}
+        ))}
       </decorators.TreeBeardWrapper>
     );
   }
 }
 
 TreeBeard.propTypes = {
-  data: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array
-  ]).isRequired,
-  animations: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]),
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  animations: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onToggle: PropTypes.func,
-  decorators: PropTypes.object
+  decorators: PropTypes.object,
 };
 
 TreeBeard.defaultProps = {
   animations: defaultAnimations,
-  decorators: defaultDecorators
+  decorators: defaultDecorators,
 };
 
 export default TreeBeard;

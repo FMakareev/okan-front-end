@@ -22,11 +22,6 @@ export const GraphQLError = error => {
     }
     case 'GraphQL error: not found': {
       return { title: 'error_page_not_found_title', message: 'error_page_not_found_title' };
-      // (
-      //   // <span>
-      //   //   {error.params.name} {'error_page_not_found_message'}
-      //   // </span>
-      // ),
     }
     default:
       return {

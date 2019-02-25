@@ -6,6 +6,7 @@ import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 import { getUserFromStore } from '../../store/reducers/user/selectors';
 import { Text } from '../Text/Text';
 import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
+import {withApollo} from "react-apollo";
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
@@ -14,6 +15,7 @@ export class LayoutBase extends PureComponent {
     super(props);
     this.state = this.initialState;
     // listen
+    // this.props.client.initQueryManager();
   }
 
   get initialState() {
@@ -65,7 +67,9 @@ export class LayoutBase extends PureComponent {
         routes: routes[indexRoute],
         loading: false,
       }),
-      () => console.log(`Run: layout - (${indexRoute}), path - ${location.pathname} `),
+      () => {
+        // console.log(`Run: layout - (${indexRoute}), path - ${location.pathname} `)
+      },
     );
   };
   render() {
@@ -91,4 +95,7 @@ LayoutBase = connect(state => ({
   user: getUserFromStore(state),
   notifications: state.notifications,
 }))(LayoutBase);
+
+LayoutBase = withApollo(LayoutBase);
+
 export default LayoutBase;

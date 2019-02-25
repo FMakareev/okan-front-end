@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { graphql, Query } from 'react-apollo';
+import { graphql, Query, withApollo } from 'react-apollo';
 import styled from 'styled-components';
 import Notifications, { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
@@ -80,9 +80,7 @@ export class FormProjectCreate extends Component {
             data: { createproject },
           } = response;
 
-          const data = store.readQuery({
-            query: ProjectListQuery,
-          });
+          const data = store.readQuery({ query: ProjectListQuery });
 
           data.projectList.push(createproject.project);
 
@@ -106,22 +104,14 @@ export class FormProjectCreate extends Component {
         }
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
-
-        if (graphQLErrors) {
-          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
-        } else {
-          throw new SubmissionError({ _error: message });
-        }
+        throw new SubmissionError({ _error: message });
       });
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, client } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Text
@@ -156,11 +146,9 @@ export class FormProjectCreate extends Component {
           Список шаблонов
         </Text>
 
-        <BoxStyled mb={'180px'}>
+        <Box mb={'180px'}>
           <Query query={TemplateListQuery}>
             {({ data, loading, error }) => {
-              // console.log(data, loading, error);
-
               return (
                 <Field
                   name={'template'}
@@ -177,7 +165,7 @@ export class FormProjectCreate extends Component {
               );
             }}
           </Query>
-        </BoxStyled>
+        </Box>
 
         <ButtonWithImage
           type="submit"
@@ -212,6 +200,8 @@ FormProjectCreate = connect(
 FormProjectCreate = reduxForm({
   form: 'FormProjectCreate',
 })(FormProjectCreate);
+
+FormProjectCreate = withApollo(FormProjectCreate);
 
 FormProjectCreate = withRouter(FormProjectCreate);
 
