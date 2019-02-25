@@ -108,7 +108,6 @@ export class EditorAdditionalMenu extends Component {
     /** id парента */
     parentid: PropTypes.string.isRequired,
     prevcell: PropTypes.string,
-    nextcell: PropTypes.string,
   };
 
   constructor(props) {
@@ -208,126 +207,125 @@ export class EditorAdditionalMenu extends Component {
   /**
    * @param {string} contenttype
    * @param {string} parentid
-   * @param {string} nextcell
    * @param {string} prevcell
    * @desc Отправляем мутацию на создание ячейки, затем берем из кэша
    * celllist и вставляем туда новую ячейку, а предыдущей присваиваем
    * nextcell равный id созданной ячейки
    * */
-  createNewCell = (contenttype, parentid, nextcell, prevcell) => {
+  createNewCell = (contenttype, parentid, prevcell) => {
     this.props
-      .mutate({
-        variables: {
-          contentname: '',
-          prevcell: prevcell,
-          // nextcell: nextcell,
-          parent: parentid,
-          contenttype: contenttype,
-          isHead: false,
-          content: '',
-        },
-        update: (store, {data: {createcell}}) => {
-          console.log(createcell);
-          let data = {celllist:[]};
-          let parent = null;
-          try {
-            data = store.readQuery({
-              query: CellListQuery,
-              variables: {
-                parent: parentid,
-              },
+      .client.mutate({
+      mutation: CreateCellMutation,
+      variables: {
+        contentname: '',
+        prevcell: prevcell,
+        parent: parentid,
+        contenttype: contenttype,
+        isHead: false,
+        content: '',
+      },
+      update: (store, {data: {createcell}}) => {
+        console.log(createcell);
+        let data = {celllist: []};
+        let parent = null;
+        try {
+          data = store.readQuery({
+            query: CellListQuery,
+            variables: {
+              parent: parentid,
+            },
+          });
+
+          parent = store.readQuery({
+            query: CellItemQuery,
+            variables: {
+              id: parentid,
+            },
+          });
+        } catch (error) {
+          console.error('Error: ', error);
+          this.props.setNotificationError(createCellNotification());
+        }
+
+        try {
+          if (data && data.celllist.length > 0) {
+
+            let nextCellIndex = createcell.cell.nextcell ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id) : -1;
+            let prevCellIndex = data.celllist.findIndex(item => item.id === createcell.cell.prevcell.id);
+            console.table({
+              nextCellIndex,
+              prevCellIndex,
             });
 
-            parent = store.readQuery({
-              query: CellItemQuery,
-              variables: {
-                id: parentid,
-              },
-            });
-          } catch (error) {
-            console.error('Error: ', error);
-            this.props.setNotificationError(createCellNotification());
-          }
-
-          try {
-            if (data && data.celllist.length > 0) {
-
-              let nextCellIndex = createcell.cell.nextcell ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id) : -1;
-              let prevCellIndex = data.celllist.findIndex(item => item.id === createcell.cell.prevcell.id);
-              console.table({
-                nextCellIndex,
-                prevCellIndex,
-              });
-
-              if (nextCellIndex >= 0 && prevCellIndex >= 0) {
-                /** ячейка добавляется между ячейками */
-                data.celllist[prevCellIndex].nextcell = createcell.cell;
-                data.celllist[nextCellIndex].prevcell = createcell.cell;
+            if (nextCellIndex >= 0 && prevCellIndex >= 0) {
+              /** ячейка добавляется между ячейками */
+              data.celllist[prevCellIndex].nextcell = createcell.cell;
+              data.celllist[nextCellIndex].prevcell = createcell.cell;
 
 
-              } else if (prevCellIndex >= 0) {
-                /** ячейка добавляется в конец */
-                data.celllist[prevCellIndex].nextcell = createcell.cell;
+            } else if (prevCellIndex >= 0) {
+              /** ячейка добавляется в конец */
+              data.celllist[prevCellIndex].nextcell = createcell.cell;
 
-                /** последняя в списке ячеек родителя */
-                parent.cellitem.lastChildren = createcell.cell;
-              } else if (createcell.cell.prevcell && createcell.cell.prevcell.id === createcell.cell.parent.id) {
-
-                /** ячейка первая в списке ячеек родителя  */
-                parent.cellitem.children = createcell.cell;
-                data.celllist[nextCellIndex].prevcell = createcell.cell;
-              }
-
-              data.celllist.splice(prevCellIndex, 0, createcell.cell);
-
-            } else {
-              /** первая ячейка потомок */
-              data.celllist.push(createcell.cell);
+              /** последняя в списке ячеек родителя */
+              parent.cellitem.lastChildren = createcell.cell;
+            } else if (createcell.cell.prevcell && createcell.cell.prevcell.id === createcell.cell.parent.id) {
 
               /** ячейка первая в списке ячеек родителя  */
               parent.cellitem.children = createcell.cell;
-
-              /** ячейка последняя в списке ячеек родителя  */
-              parent.cellitem.lastChildren = createcell.cell;
-              data.celllist = sortingCells(data.celllist);
+              data.celllist[nextCellIndex].prevcell = createcell.cell;
             }
-          } catch (error) {
-            console.error('Error: ', error);
-            this.props.setNotificationError(createCellNotification());
-          }
 
-          /** запись новой ячейки в кеш */
-          UpdateCellInCache(store, createcell.cell);
+            data.celllist.splice(prevCellIndex, 0, createcell.cell);
 
-          try {
-            /** запись в кеш данных родителя */
-            store.writeQuery({
-              query: CellItemQuery,
-              variables: {
-                id: createcell.cell.parent.id,
-              },
-              data: parent,
-            });
-          } catch (error) {
-            console.error('Error: ', error);
-            this.props.setNotificationError(createCellNotification());
-          }
+          } else {
+            /** первая ячейка потомок */
+            data.celllist.push(createcell.cell);
 
-          try {
-            /** запись в кеш обновленного списка ячеек */
-            store.writeQuery({
-              query: CellListQuery,
-              variables: {
-                parent: parentid,
-              },
-              data,
-            });
-          } catch (error) {
-            console.error('Error: ', error);
-            this.props.setNotificationError(createCellNotification());
+            /** ячейка первая в списке ячеек родителя  */
+            parent.cellitem.children = createcell.cell;
+
+            /** ячейка последняя в списке ячеек родителя  */
+            parent.cellitem.lastChildren = createcell.cell;
+            data.celllist = sortingCells(data.celllist);
           }
-        },
-      })
+        } catch (error) {
+          console.error('Error: ', error);
+          this.props.setNotificationError(createCellNotification());
+        }
+
+        /** запись новой ячейки в кеш */
+        UpdateCellInCache(store, createcell.cell);
+
+        try {
+          /** запись в кеш данных родителя */
+          store.writeQuery({
+            query: CellItemQuery,
+            variables: {
+              id: createcell.cell.parent.id,
+            },
+            data: parent,
+          });
+        } catch (error) {
+          console.error('Error: ', error);
+          this.props.setNotificationError(createCellNotification());
+        }
+
+        try {
+          /** запись в кеш обновленного списка ячеек */
+          store.writeQuery({
+            query: CellListQuery,
+            variables: {
+              parent: parentid,
+            },
+            data,
+          });
+        } catch (error) {
+          console.error('Error: ', error);
+          this.props.setNotificationError(createCellNotification());
+        }
+      },
+    })
       .then(({data}) => {
         console.log('got data', data);
         this.props.setNotificationSuccess(createCellNotification(contenttype, 'success'));
@@ -343,7 +341,6 @@ export class EditorAdditionalMenu extends Component {
     const {
       parentid,
       prevcell,
-      nextcell
     } = this.props;
 
     try {
@@ -354,9 +351,8 @@ export class EditorAdditionalMenu extends Component {
         lastCellId,
         parentid,
         prevcell,
-        nextcell
       })
-      this.createNewCell(contenttype, parentid, nextcell, prevcell ? prevcell : parentid);
+      this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
 
     } catch (error) {
       console.error('Error createCellStateMachine: ', error);
@@ -390,8 +386,6 @@ export class EditorAdditionalMenu extends Component {
 }
 
 EditorAdditionalMenu = withApollo(EditorAdditionalMenu);
-
-EditorAdditionalMenu = graphql(CreateCellMutation)(EditorAdditionalMenu);
 
 EditorAdditionalMenu = connect(
   null,
