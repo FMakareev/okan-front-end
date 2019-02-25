@@ -6,7 +6,11 @@ import { Query, withApollo } from 'react-apollo';
 
 /** Components */
 import EditorCellController from '../EditorCellController/EditorCellController';
-import { ProjectContextPropTypes, withProject } from '../ProjectContext/ProjectContext';
+import {
+  PROJECT_MODE_RW,
+  ProjectContextPropTypes,
+  withProject,
+} from '../ProjectContext/ProjectContext';
 import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
@@ -26,6 +30,7 @@ import { BLOCK_TEXT } from '@lib/shared/blockType';
 
 /** COntext */
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import ProjectModeState from '../ProjectContext/ProjectModeState';
 
 const ContentWrapper = styled.div`
   background-color: #ffffff;
@@ -51,6 +56,7 @@ export class ProjectEditor extends Component {
     childName: '',
     parentName: '',
     parentNumber: null,
+    parentLetterNumber: null,
   };
 
   componentWillUnmount() {
@@ -71,6 +77,23 @@ export class ProjectEditor extends Component {
     }
   }
 
+  getSectionNumber = () => {
+    try {
+      return queryString.parse(this.props.location.search).sectionNumber;
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
+  };
+  getSectionLetterNumber = () => {
+    try {
+      return queryString.parse(this.props.location.search).sectionLetterNumber;
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
+  };
+
   /**
    * @param {string} id - id ячейки
    * @desc метод для создания заголовков
@@ -84,11 +107,11 @@ export class ProjectEditor extends Component {
         childCell.data.cellitem.id,
       ).subscribe(({ data }) => {
         const name = data.cellitem && data.cellitem.name;
-        const numbers = queryString.parse(this.props.location.search);
         return this.setState(state => ({
           ...state,
           childName: name,
-          parentNumber: numbers && numbers.sectionNumber,
+          parentNumber: this.getSectionNumber(),
+          parentLetterNumber: this.getSectionLetterNumber(),
         }));
       });
 
@@ -152,7 +175,8 @@ export class ProjectEditor extends Component {
       project,
     } = this.props;
 
-    const { childName, parentName, parentNumber } = this.state;
+    const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
+    console.log(11, childName, parentName, parentNumber, parentLetterNumber);
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -195,9 +219,10 @@ export class ProjectEditor extends Component {
                     ml={'15px'}>
                     {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
                     {parentNumber && parentNumber.length === 2 ? (
-                      <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
+                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName ||
+                        ''}`}</Fragment>
                     ) : (
-                      <Fragment>{`${section} ${parentName || ''}`}</Fragment>
+                      <Fragment>{`${section} ${!parentLetterNumber ? parentName : ''}`}</Fragment>
                     )}
                   </Text>
                   <ContentWrapper>
@@ -211,7 +236,10 @@ export class ProjectEditor extends Component {
                       ml={'5px'}
                       mb={'-30px'}>
                       {parentNumber && parentNumber.length <= 2 ? null : (
-                        <Fragment>{`${parentNumber} ${childName || ''}`}</Fragment>
+                        <Fragment>{`${parentNumber ||
+                          (parentLetterNumber && parentLetterNumber
+                            ? `Приложение ${parentLetterNumber} `
+                            : null)} ${childName || ''}`}</Fragment>
                       )}
                     </Text>
 
@@ -230,7 +258,8 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.parentNumber === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${parentNumber}${childCellIndex}`}
+                            sectionNumber={`${parentNumber || parentLetterNumber}${childCellIndex}`}
+                            parentLetterNumber={parentLetterNumber}
                           />
                         </Box>
                       );
@@ -243,8 +272,9 @@ export class ProjectEditor extends Component {
             return null;
           }}
         </Query>
-
-        {project.editable && <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />}
+        <ProjectModeState is={PROJECT_MODE_RW}>
+          <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />
+        </ProjectModeState>
       </Flex>
     );
   }

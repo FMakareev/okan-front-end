@@ -60,7 +60,6 @@ export class SidebarDocumentToApproval extends Component {
   };
 
   render() {
-    // console.log('SidebarDocumentToApproval: ', this.props);
     return (
       <ButtonBase
         onClick={event => {

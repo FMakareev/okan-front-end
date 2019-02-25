@@ -1,6 +1,6 @@
-mutation ($children: String, $comments: [String], $content: String, $contentname: String, $contenttype: String, $id: String!, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String) {
-  updatecell(children: $children, comments: $comments, content: $content, contentname: $contentname, contenttype: $contenttype, id: $id, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify) {
-    cell{
+mutation ($children: String, $comments: [String], $content: String, $contentname: String, $contenttype: String, $id: String!, $isHead: Boolean, $name: String, $nextcell: String, $parent: String, $prevcell: String, $verify: String, $isAttachment: Boolean) {
+  updatecell(children: $children, comments: $comments, content: $content, contentname: $contentname, contenttype: $contenttype, id: $id, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, isAttachment: $isAttachment) {
+    cell {
       childcell: children {
         id
         name
@@ -32,6 +32,7 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
       }
       id
       isHead
+      isAttachment
       name
       nextcell {
         id

@@ -68,7 +68,6 @@ export class FormProfileCreateUser extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    // console.log('data', data);
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -77,10 +76,10 @@ export class FormProfileCreateUser extends Component {
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
+        // console.log('graphQLErrors: ', graphQLErrors);
+        // console.log('message: ', message);
+        // console.log('networkError: ', networkError);
+        // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });
@@ -88,7 +87,7 @@ export class FormProfileCreateUser extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid, submitSucceeded } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -141,7 +140,6 @@ export class FormProfileCreateUser extends Component {
           type="text"
           validate={required}
           fontFamily={'secondary'}
-          submitForm={submitSucceeded}
         />
 
         <Field
@@ -163,7 +161,6 @@ export class FormProfileCreateUser extends Component {
           fontFamily={'secondary'}
           fontSize={5}
           lineHeight={7}
-          submitForm={submitSucceeded}
         />
 
         <Field

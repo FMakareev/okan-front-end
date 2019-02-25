@@ -1,6 +1,6 @@
-mutation($id: String!){
-  deletecell(id:$id){
-    cell{
+mutation ($id: String!) {
+  deletecell(id: $id) {
+    cell {
       childcell: children {
         id
         name
@@ -33,6 +33,7 @@ mutation($id: String!){
       }
       id
       isHead
+      isAttachment
       name
       nextcell {
         id
@@ -68,7 +69,6 @@ mutation($id: String!){
           number
         }
       }
-
       verify
     }
   }

@@ -1,19 +1,25 @@
-import React, { Component } from 'react';
-import { withApollo } from 'react-apollo';
+import React, {Component} from 'react';
+import {withApollo} from 'react-apollo';
 import PropTypes from 'prop-types';
 import objectPath from 'object-path';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 /** View */
-import { Treebeard, decorators } from '@lib/ui/ReactTreeBeard/index';
-import { Box } from '@lib/ui/Box/Box';
+import {Treebeard, decorators} from '@lib/ui/ReactTreeBeard/index';
+import {Box} from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
 
 /** Component */
 import SidebarCellRoot from '../SidebarCellRoot/SidebarCellRoot';
 import SidebarCellNode from '../SidebarCellNode/SidebarCellNode';
-import { withProject } from '../ProjectContext/ProjectContext';
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {
+  PROJECT_MODE_RC,
+  PROJECT_MODE_READ,
+  PROJECT_MODE_REVISION,
+  PROJECT_MODE_RW,
+  withProject
+} from '../ProjectContext/ProjectContext';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
 
 /** Graphql schema */
@@ -23,12 +29,13 @@ import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
 import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
 
 /** PropTypes  */
-import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
+import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
 
 /** Constatns */
-import { CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED } from '@lib/shared/approvalStatus';
-import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
-import { childcellIsCategory } from '../../utils/childcellIsCategory';
+import {CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED} from '@lib/shared/approvalStatus';
+import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import {childcellIsCategory} from '../../utils/childcellIsCategory';
+import ProjectModeState from "../ProjectContext/ProjectModeState";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -98,34 +105,37 @@ export class DocumentTree extends Component {
   }
 
   get initialState() {
-    const { data, project } = this.props;
+    const {data, project} = this.props;
     const children =
       data && has.call(data, 'childcell') && data.childcell !== null
         ? []
         : [
-            {
-              toggled: false,
-              loading: false,
-              active: false,
-              focused: false,
-              decorators: {
-                ...this.decorators,
-                Container: props => (
+          {
+            toggled: false,
+            loading: false,
+            active: false,
+            focused: false,
+            decorators: {
+              ...this.decorators,
+              Container: props => (
+                <ProjectModeState is={PROJECT_MODE_RW}>
                   <FormCreateFirstCell
                     form={'FormCreateFirstCell-' + data.id}
                     document={data}
                     project={project}
                     {...props}
                   />
-                ),
-              },
+                </ProjectModeState>
+              ),
             },
-          ];
+          },
+        ];
 
     return {
       cursor: null,
       tree: {
         number: '',
+        letterNumber: '',
         toggled: false,
         loading: false,
         active: false,
@@ -141,7 +151,7 @@ export class DocumentTree extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { data } = nextProps;
+    const {data} = nextProps;
 
     if (data.childcell !== null && this.state.tree.childcell === null) {
       const newState = this.initialState;
@@ -254,7 +264,7 @@ export class DocumentTree extends Component {
       return cellid;
     }
     try {
-      const { client, history } = this.props;
+      const {client, history} = this.props;
       let tree = Object.assign({}, this.state.tree);
       let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
       let currentNode = objectPath.get([tree], pathToCurrentNode);
@@ -344,10 +354,10 @@ export class DocumentTree extends Component {
 
       if (tree.children.length === 0) {
         tree.childcell = null;
-        await this.updateDocument({ id: tree.id, children: null });
+        await this.updateDocument({id: tree.id, children: null});
       }
 
-      this.updateTree({ tree });
+      this.updateTree({tree});
 
       const activesection = getPosition(this.props.project, 'sectionid');
 
@@ -376,7 +386,7 @@ export class DocumentTree extends Component {
    * @param {object} value
    * @desc метод для обновления ячейки в кеше */
   updateDocumentInCache = value => {
-    const { client } = this.props;
+    const {client} = this.props;
     const data = client.readQuery({
       query: ProjectItemQuery,
       variables: {
@@ -406,7 +416,7 @@ export class DocumentTree extends Component {
    * */
   changeActiveNode = (cellid, cursorid, nodes) => {
     try {
-      const { data, history } = this.props;
+      const {data, history} = this.props;
       let pathToCurrentNode = this.getPathToNode(nodes, cellid) || '0';
       let currentNode = objectPath.get(nodes, pathToCurrentNode);
 
@@ -452,6 +462,7 @@ export class DocumentTree extends Component {
           documentid: data.id,
           sectionid: currentNode.id,
           cellNumber: currentNode.number,
+          cellLetterNumber: currentNode.letterNumber,
         });
       }
     } catch (error) {
@@ -468,25 +479,62 @@ export class DocumentTree extends Component {
    * @param {string} props.documentid - id Документа доступен в режиме редактирования и комментирования
    * @param {string} props.sectionid - id активной ячейки в документе
    * @param {string} props.cellNumber - номер активной ячейки
+   * @param {string} props.cellLetterNumber - номер активной ячейки
    * @desc метод для изменения маршрута в проекте
    * */
-  changeRoute = ({ history, projectid, revisionid, documentid, sectionid, cellNumber }) => {
+  changeRoute = ({
+                   history,
+                   projectid,
+                   revisionid,
+                   documentid,
+                   sectionid,
+                   cellNumber,
+                   cellLetterNumber,
+                 }) => {
     try {
-      if (projectid && documentid && sectionid && cellNumber) {
-        history.push(
-          `/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`,
-        );
-      } else if (projectid && documentid && sectionid) {
-        history.push(`/app/project/${projectid}/${documentid}/${sectionid}`);
-      } else if (projectid) {
-        history.push(`/app/project/${projectid}`);
-      } else if (revisionid && sectionid && cellNumber) {
-        history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionNumber=${cellNumber}`);
-      } else if (revisionid && sectionid) {
-        history.push(`/app/revision-item/${revisionid}/${sectionid}`);
-      } else {
-        history.push(`/app/revision-item/${revisionid}`);
+      const {project} = this.props;
+
+      if (project.mode === PROJECT_MODE_READ || project.mode === PROJECT_MODE_RW) {
+        if (projectid && documentid && sectionid && cellLetterNumber) {
+          history.push(
+            `/app/project/${projectid}/${documentid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`,
+          );
+        } else if (projectid && documentid && sectionid && cellNumber) {
+          history.push(
+            `/app/project/${projectid}/${documentid}/${sectionid}?sectionNumber=${cellNumber}`,
+          );
+        } else if (projectid && documentid && sectionid) {
+          history.push(`/app/project/${projectid}/${documentid}/${sectionid}`);
+        } else if (projectid) {
+          history.push(`/app/project/${projectid}`);
+        }
+      } else if (project.mode === PROJECT_MODE_RC) {
+        if (documentid && sectionid && cellLetterNumber) {
+          history.push(
+            `/app/document-commenting/${documentid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`,
+          );
+        } else if (documentid && sectionid && cellNumber) {
+          history.push(`/app/document-commenting/${documentid}/${sectionid}?sectionNumber=${cellNumber}`);
+        } else if (documentid && sectionid) {
+          history.push(`/app/document-commenting/${documentid}/${sectionid}`);
+        } else {
+          history.push(`/app/document-commenting/${documentid}`);
+        }
+      } else if (project.mode === PROJECT_MODE_REVISION) {
+        if (revisionid && sectionid && cellLetterNumber) {
+          history.push(
+            `/app/revision-item/${revisionid}/${sectionid}?sectionLetterNumber=${cellLetterNumber}`,
+          );
+        } else if (revisionid && sectionid && cellNumber) {
+          history.push(`/app/revision-item/${revisionid}/${sectionid}?sectionNumber=${cellNumber}`);
+        } else if (revisionid && sectionid) {
+          history.push(`/app/revision-item/${revisionid}/${sectionid}`);
+        } else {
+          history.push(`/app/revision-item/${revisionid}`);
+        }
       }
+
+
     } catch (error) {
       console.error('Error changeRoute: ', error);
     }
@@ -573,7 +621,7 @@ export class DocumentTree extends Component {
       } else {
         node.loading = false;
       }
-      this.updateTree({ cursor: node });
+      this.updateTree({cursor: node});
     } catch (error) {
       console.error('Error onToggle:', error);
     }
@@ -589,7 +637,7 @@ export class DocumentTree extends Component {
     if (!id) return;
     return this.getNode(id)
       .then(async response => {
-        const { data } = response;
+        const {data} = response;
         if (data && data.cellitem) {
           nodes.push(data.cellitem);
 
@@ -634,7 +682,7 @@ export class DocumentTree extends Component {
    * */
   changeStatusLoadingsNode = (id, status = false) => {
     try {
-      const { tree, cursor } = this.state;
+      const {tree, cursor} = this.state;
       // нашли путь к  ноде
       let pathToNode = (this.getPathToNode(tree, id) || '0') + '.loading';
 
@@ -646,9 +694,9 @@ export class DocumentTree extends Component {
         cursor:
           cursor.id === id
             ? {
-                ...cursor,
-                loading: status,
-              }
+              ...cursor,
+              loading: status,
+            }
             : cursor,
       });
     } catch (error) {
@@ -663,7 +711,7 @@ export class DocumentTree extends Component {
    * */
   changeNodeFocus = (id, focused = false) => {
     try {
-      const { tree, cursor } = this.state;
+      const {tree, cursor} = this.state;
       // нашли путь к  ноде
       let pathToNode = this.getPathToNode(tree, id) + '.focused';
 
@@ -674,9 +722,9 @@ export class DocumentTree extends Component {
         cursor:
           cursor && cursor.id === id
             ? {
-                ...cursor,
-                focused: focused,
-              }
+              ...cursor,
+              focused: focused,
+            }
             : cursor,
       });
     } catch (error) {
@@ -706,7 +754,7 @@ export class DocumentTree extends Component {
         tree = await this.changeParentVerifyStatus(currentNode.parent, tree, status);
       }
       // TODO: добавить уведомление об обновлении статуса
-      this.updateTree({ tree });
+      this.updateTree({tree});
     } catch (error) {
       console.error('Error cellCheckStatusChange: ', error);
     }
@@ -805,7 +853,7 @@ export class DocumentTree extends Component {
 
       objectPath.set([tree], pathToParent, newChildren);
 
-      this.updateTree({ tree });
+      this.updateTree({tree});
     } catch (error) {
       console.log(`Error addNodeListInBranch`, error);
     }
@@ -818,8 +866,9 @@ export class DocumentTree extends Component {
   addNodeInTree = cell => {
     console.log('addNodeInTree: ', cell);
     const tree = Object.assign({}, this.state.tree);
-    const { client } = this.props;
-    let newCell = this.createCellNode({ ...cell, focused: true });
+    const {client} = this.props;
+    // const focusedCell = cell.isAttachment ? false : true
+    let newCell = this.createCellNode({...cell, focused: true});
 
     let pathToParentCell =
       this.getPathToNode(tree, cell.parent !== null ? cell.parent.id : null) || '0';
@@ -927,12 +976,12 @@ export class DocumentTree extends Component {
       parentCell.children.splice(
         indexPrevCell + 1,
         0,
-        this.createCellNode({ ...cell, focused: true }),
+        this.createCellNode({...cell, focused: true}),
       );
       objectPath.set([tree], pathToParentCell, parentCell);
     }
 
-    this.updateTree({ tree });
+    this.updateTree({tree});
   };
 
   /**
@@ -956,12 +1005,12 @@ export class DocumentTree extends Component {
    * */
   updateNode = (cellid, newData) => {
     try {
-      const { tree } = Object.assign({}, this.state);
+      const {tree} = Object.assign({}, this.state);
       const pathToCurrentNode = this.getPathToNode(tree, cellid);
       const currentNode = objectPath.get([tree], pathToCurrentNode);
 
-      objectPath.set([tree], pathToCurrentNode, { ...currentNode, ...newData });
-      this.updateTree({ tree });
+      objectPath.set([tree], pathToCurrentNode, {...currentNode, ...newData});
+      this.updateTree({tree});
     } catch (error) {
       console.error('Error updateNode: ', error);
     }
@@ -997,10 +1046,10 @@ export class DocumentTree extends Component {
         focused: false,
         ...(childcellIsCategory(cell)
           ? {
-              children: [],
-              toggled: false,
-              loading: false,
-            }
+            children: [],
+            toggled: false,
+            loading: false,
+          }
           : null),
         ...cell,
       };
@@ -1013,7 +1062,7 @@ export class DocumentTree extends Component {
    * @params {string} id ясейки
    * @desc запрос для получения данных ячейки */
   getNode = id => {
-    const { client } = this.props;
+    const {client} = this.props;
 
     return client
       .query({
@@ -1034,13 +1083,13 @@ export class DocumentTree extends Component {
    * @desc запрос для обновления ячейки */
   updateCell = value => {
     // console.log('updateCell:', value);
-    const { client } = this.props;
+    const {client} = this.props;
 
     return client
       .mutate({
         mutation: UpdateCellMutation,
         variables: value,
-        update: (store, { data: { updatecell } }) => {
+        update: (store, {data: {updatecell}}) => {
           UpdateCellInCache(store, updatecell.cell);
         },
       })
@@ -1051,13 +1100,13 @@ export class DocumentTree extends Component {
   };
 
   updateDocument = value => {
-    const { client } = this.props;
+    const {client} = this.props;
 
     return client
       .mutate({
         mutation: UpdateDocumentMutation,
         variables: value,
-        update: (store, { data: { updatedocument } }) => {
+        update: (store, {data: {updatedocument}}) => {
           this.updateDocumentInCache(updatedocument.document);
         },
       })
@@ -1068,7 +1117,7 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
+    // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
 
     return (
       <Box
@@ -1076,7 +1125,7 @@ export class DocumentTree extends Component {
           borderBottom: '1px solid #848484',
           marginBottom: '4px',
         }}>
-        <Treebeard decorators={this.decorators} cursor={this.state.cursor} data={this.state.tree} onToggle={this.onToggle} />
+        <Treebeard decorators={this.decorators} data={this.state.tree} onToggle={this.onToggle}/>
       </Box>
     );
   }

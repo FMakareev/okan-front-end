@@ -1,7 +1,8 @@
-mutation($id: String!){
-  deletecell(id:$id){
-    cell{
+mutation ($id: String!) {
+  deletecell(id: $id) {
+    cell {
       id
+      isAttachment
       nextcell {
         id
       }

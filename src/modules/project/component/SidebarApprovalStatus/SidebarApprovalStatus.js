@@ -13,6 +13,7 @@ import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 import ChangeStatusMutation from './ChangeStatusMutation.graphql';
 import CellMarkerQuery from './CellMarkerQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 
 /** Constants */
 import {
@@ -62,11 +63,36 @@ export class SidebarApprovalStatus extends Component {
           status,
         },
         update: (store, { data: { changestatus } }) => {
-          console.log(1, changestatus);
+          let cell = { celllist: {} };
+          const options = {
+            query: CellListQuery,
+            variables: {
+              parent: id,
+            },
+          };
+
           try {
             UpdateCellInCache(store, { ...changestatus.cell });
           } catch (e) {
             console.error('Error in SidebarApprovalStatus change status: ', e);
+          }
+
+          try {
+            cell = store.readQuery(options);
+            cell.celllist.map(item => (item.verify = changestatus.cell.verify));
+          } catch (e) {
+            console.error('Error in readQuery change status: ', e);
+          }
+
+          try {
+            store.writeQuery({
+              ...options,
+              data: {
+                ...cell,
+              },
+            });
+          } catch (e) {
+            console.error('Error in writeQuery change status: ', e);
           }
         },
       })

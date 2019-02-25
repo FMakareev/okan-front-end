@@ -68,7 +68,6 @@ class MaskedInputs extends Component {
       disabled,
       loading,
       name,
-      submitForm,
     } = this.props;
 
     const { masked } = this.state;
@@ -84,7 +83,7 @@ class MaskedInputs extends Component {
         onFocus={input.onFocus}
         onBlur={input.onBlur}
         onChange={this.handleChange}
-        value={submitForm ? null : masked}
+        value={!input.value ? '' : masked}
       />
     );
   }

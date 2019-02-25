@@ -1,5 +1,5 @@
-mutation ($id: String!, $name: String) {
-  updatecell(id: $id, name: $name) {
+mutation ($id: String!, $name: String, $isAttachment: Boolean) {
+  updatecell(id: $id, name: $name, isAttachment: $isAttachment) {
     cell {
       childcell: children {
         id
@@ -33,6 +33,7 @@ mutation ($id: String!, $name: String) {
       }
       id
       isHead
+      isAttachment
       name
       nextcell {
         id
