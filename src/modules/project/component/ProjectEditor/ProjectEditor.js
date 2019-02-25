@@ -176,7 +176,6 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
-    console.log(11, childName, parentName, parentNumber, parentLetterNumber);
 
     if (!getPosition(project, 'sectionid')) {
       return (

@@ -9,5 +9,6 @@
     }
     createdate
     updatedate
+    isTemplate
   }
 }

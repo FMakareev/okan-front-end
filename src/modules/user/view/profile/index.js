@@ -130,11 +130,7 @@ export class ProfilePage extends Component {
                     if (id && data && !data.notificationslist) {
                       return null;
                     }
-                    return (
-                      <ProfileNotification
-                        data={data.notificationslist}
-                      />
-                    );
+                    return <ProfileNotification data={data.notificationslist} />;
                   }}
                 </Query>
               </CheckComponentAccessByRole>

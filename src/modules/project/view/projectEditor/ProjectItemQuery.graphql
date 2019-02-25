@@ -30,6 +30,12 @@ query($id: String!){
     updatedate
     # archive or working
     status
+    partners{
+      id
+      lastname
+      firstname
+      email
+    }
   }
 }
 

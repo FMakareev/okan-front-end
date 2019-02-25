@@ -74,18 +74,19 @@ export const ProfileApproval = ({ data }) => {
         </Flex>
       </Tbody>
       {Array.isArray(data) &&
-        data.map(item => (
-          item.approvalstatus === TO_APPROVAL && (
-            <LinkStyled to={`/app/document-commenting/${item.id}`}>
-              <TbodyStyled>
-                <TrStyled>
-                  <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
-                  <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
-                </TrStyled>
-              </TbodyStyled>
-            </LinkStyled>
-          )
-        ))}
+        data.map(
+          item =>
+            item.approvalstatus === TO_APPROVAL && (
+              <LinkStyled to={`/app/document-commenting/${item.id}`}>
+                <TbodyStyled>
+                  <TrStyled>
+                    <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
+                    <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
+                  </TrStyled>
+                </TbodyStyled>
+              </LinkStyled>
+            ),
+        )}
     </Fragment>
   );
 };
