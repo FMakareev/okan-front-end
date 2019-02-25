@@ -250,14 +250,18 @@ export class EditorAdditionalMenu extends Component {
               });
               if (!parent.cellitem.childcell) {
                 parent.cellitem.childcell = createcell.cell;
-                store.writeQuery({
-                  query: CellItemQuery,
-                  variables: {
-                    id: createcell.cell.parent.id,
-                  },
-                  data: parent,
-                });
               }
+              parent.cellitem.lastChildren = {};
+              parent.cellitem.lastChildren.id = createcell.cell.id; 
+              parent.cellitem.lastChildren.name = createcell.cell.name; 
+              parent.cellitem.lastChildren.__typename = "Cell"; 
+              store.writeQuery({
+                query: CellItemQuery,
+                variables: {
+                  id: createcell.cell.parent.id,
+                },
+                data: parent,
+              });
             }
           } catch (error) {
             console.error('Error: ', error);

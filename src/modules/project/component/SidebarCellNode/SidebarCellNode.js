@@ -32,6 +32,9 @@ import { PROJECT_MODE_RW, ProjectContextPropTypes } from '../ProjectContext/Proj
 import { childcellIsCategory } from '../../utils/childcellIsCategory';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
 
+/** Utils */
+import { sortingCells } from '../../utils/sortingCells';
+
 const has = Object.prototype.hasOwnProperty;
 
 const Wrapper = styled(Flex)`
@@ -217,7 +220,7 @@ export class SidebarCellNode extends Component {
           isHead: false,
         },
         update: (store, { data: { createcell } }) => {
-          const data = store.readQuery({
+          let data = store.readQuery({
             query: CellListQuery,
             variables: {
               parent: this.props.node.id,
@@ -226,7 +229,7 @@ export class SidebarCellNode extends Component {
           if (data.celllist.length > 0) {
             data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
           }
-
+          data.celllist = sortingCells(data.celllist);
           data.celllist.push(createcell.cell);
 
           store.writeQuery({
@@ -235,6 +238,26 @@ export class SidebarCellNode extends Component {
               parent: this.props.node.id,
             },
             data,
+          });
+
+          data = null;
+
+          data = store.readQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id,
+            },
+          });
+          data.cellitem.lastChildren = {};
+          data.cellitem.lastChildren.id = createcell.cell.id; 
+          data.cellitem.lastChildren.name = createcell.cell.name; 
+          data.cellitem.lastChildren.__typename = "Cell"; 
+          store.writeQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id,
+            },
+            data: data,
           });
         },
       })
