@@ -5,7 +5,7 @@ export const compilerPromise = compiler =>
         return resolve();
       }
       console.log('stats.errors: ', stats.errors);
-      console.log('stats.compilation: ', stats.compilation);
+      console.log('stats.compilation.error: ', stats.compilation.error);
       console.log('stats.compilation.errors: ', stats.compilation.errors);
       // return Promise.reject(new Error('Compiler promise error.'));
     });
