@@ -9,27 +9,31 @@ import {PROJECT_MODE_RW, withProject} from '../ProjectContext/ProjectContext';
 
 /** PropTypes */
 import ProjectModeState from "../ProjectContext/ProjectModeState";
+import {SidebarDocumentSearch} from "../SidebarDocumentSearch/SidebarDocumentSearch";
 
 const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
 const FormCreateDocumentWithProject = withProject(props => <FormCreateDocument {...props} />);
 
 export class ProjectSidebar extends Component {
-  static propTypes = {
-  };
+  static propTypes = {};
 
   render() {
     const {documents, id,} = this.props;
     return (
       <Fragment>
         {documents &&
-          documents.map(item => (
-            <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`} />
-          ))}
+        documents.map(item => (
+          <DocumentTreeWithProject data={item} key={`DocumentTree=${item.id}`}/>
+        ))}
 
-        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`} />}
+        {!documents && <DocumentTreeWithProject data={this.props} key={`DocumentTree=${id}`}/>}
 
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <FormCreateDocumentWithProject />
+          <FormCreateDocumentWithProject/>
+        </ProjectModeState>
+
+        <ProjectModeState is={PROJECT_MODE_RW}>
+          <SidebarDocumentSearch/>
         </ProjectModeState>
       </Fragment>
     );
