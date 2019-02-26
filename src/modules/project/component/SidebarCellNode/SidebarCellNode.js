@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { success, error } from 'react-notification-system-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {graphql, compose, withApollo} from 'react-apollo';
+import {success, error} from 'react-notification-system-redux';
+import ReactDOM from 'react-dom';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -201,6 +202,13 @@ export class SidebarCellNode extends Component {
     }));
   };
 
+  onMouseUp = () => {
+    const {node, bindAfterCopy} = this.props;
+    if (this.props.cellToCopy) {
+      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
+    }
+  };
+
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
@@ -343,6 +351,7 @@ export class SidebarCellNode extends Component {
         active={node.active}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
+        onMouseUp={() => this.onMouseUp()}
         py={'5px'}
         ml={'-5px'}
         onClick={this.handleClick}

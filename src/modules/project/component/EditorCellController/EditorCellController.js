@@ -28,6 +28,7 @@ import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon
 import {connect} from 'react-redux';
 import {getFormValues} from 'redux-form';
 import {error, success} from 'react-notification-system-redux';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
 import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
@@ -75,7 +76,7 @@ export class EditorCellController extends Component {
   componentDidMount() {
     const {data} = this.props;
     if (
-      this.props.editable &&
+      this.state.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
     ) {
       this.openEditor();
@@ -168,6 +169,7 @@ export class EditorCellController extends Component {
 
     setTimeout(() => {
       if (!currentTarget.contains(document.activeElement)) {
+        this.props.removeBlock();
         this.startSave();
       }
     }, 0);
@@ -191,22 +193,6 @@ export class EditorCellController extends Component {
       this.onToggleForm();
     }
   };
-
-  // onHover() {
-  //   let bindingButton = document.querySelector('.fr-btn[id|="bind"]')
-
-  //   if(bindingButton) {
-  //     bindingButton.onmouseenter = (e) => {
-  //       this.startBinding()
-  //     }
-  //     bindingButton.onmouseleave = () => {
-  //       this.toggleDraggable()
-  //     }
-  //     bindingButton.onmousedown = () => {
-  //       this.onDragBlock
-  //     }
-  //   }
-  // }
 
   // async startBinding() {
   //   await this.toggleDraggable();
@@ -383,6 +369,7 @@ EditorCellController = connect(
     values: getFormValues('EditorCellForm-' + data.id)(state),
   }),
   dispatch => ({
+    removeBlock: () => dispatch(removeBlock()),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
