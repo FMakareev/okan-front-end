@@ -27,8 +27,8 @@ export const PreloaderWrapper = styled(Box)`
   transition: 0.225s all;
 `;
 export const SpeedingWheel = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 1em;
+  height: 1em;
   margin: 0 auto;
   border: 2px solid #00649c;
   border-radius: 50%;

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { success, error } from 'react-notification-system-redux';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {graphql, compose, withApollo} from 'react-apollo';
+import {success, error} from 'react-notification-system-redux';
+import ReactDOM from 'react-dom';
 
 /** View */
 import Flex from '../../../../components/Flex/Flex';
@@ -31,6 +32,9 @@ import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 import { PROJECT_MODE_RW, ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
 import { childcellIsCategory } from '../../utils/childcellIsCategory';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
+
+/** Utils */
+import { sortingCells } from '../../utils/sortingCells';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -198,6 +202,13 @@ export class SidebarCellNode extends Component {
     }));
   };
 
+  onMouseUp = () => {
+    const {node, bindAfterCopy} = this.props;
+    if (this.props.cellToCopy) {
+      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
+    }
+  };
+
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
@@ -217,7 +228,7 @@ export class SidebarCellNode extends Component {
           isHead: false,
         },
         update: (store, { data: { createcell } }) => {
-          const data = store.readQuery({
+          let data = store.readQuery({
             query: CellListQuery,
             variables: {
               parent: this.props.node.id,
@@ -226,7 +237,7 @@ export class SidebarCellNode extends Component {
           if (data.celllist.length > 0) {
             data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
           }
-
+          data.celllist = sortingCells(data.celllist);
           data.celllist.push(createcell.cell);
 
           store.writeQuery({
@@ -235,6 +246,26 @@ export class SidebarCellNode extends Component {
               parent: this.props.node.id,
             },
             data,
+          });
+
+          data = null;
+
+          data = store.readQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id,
+            },
+          });
+          data.cellitem.lastChildren = {};
+          data.cellitem.lastChildren.id = createcell.cell.id; 
+          data.cellitem.lastChildren.name = createcell.cell.name; 
+          data.cellitem.lastChildren.__typename = "Cell"; 
+          store.writeQuery({
+            query: CellItemQuery,
+            variables: {
+              id: this.props.node.id,
+            },
+            data: data,
           });
         },
       })
@@ -320,6 +351,7 @@ export class SidebarCellNode extends Component {
         active={node.active}
         onMouseEnter={() => this.onHover(true)}
         onMouseLeave={() => this.onHover(false)}
+        onMouseUp={() => this.onMouseUp()}
         py={'5px'}
         ml={'-5px'}
         onClick={this.handleClick}

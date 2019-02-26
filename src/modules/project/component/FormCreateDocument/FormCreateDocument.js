@@ -81,7 +81,7 @@ export class FormCreateDocument extends Component {
     return (
       <Form onSubmit={handleSubmit(this.createDocument)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'} mb={'150px'}>
-          <Box height={'20px'} width={'100%'}>
+          <Box mt={'-6px'} height={'20px'} width={'100%'}>
             <Mutation mutation={CreateDocumentQuery}>
               {(mutate, { loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
@@ -108,7 +108,10 @@ export class FormCreateDocument extends Component {
               disabled={submitting}
               title={'Добавить документ'}
               size={'small'}
-              variant={'empty'}>
+              variant={'outlineGray'}
+              p={'2px'}
+              fontSize={'15px'}
+            >
               <SvgSidebarAdd />
             </ButtonBase>
           </Box>

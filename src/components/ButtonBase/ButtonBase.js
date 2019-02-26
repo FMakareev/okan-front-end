@@ -27,6 +27,7 @@ const buttonComment = variant({
  * @example ./ButtonBase.example.md
  */
 export const ButtonBase = styled.button`
+  position: relative;
   outline: none !important;
   cursor: pointer;
   display: -webkit-box;

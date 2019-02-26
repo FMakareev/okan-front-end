@@ -23,6 +23,13 @@ export class EditorCellForm extends Component {
       'froalaEditor.blur': (e, editor) => {
         this.props.onBlurForm(e);
       },
+      'froalaEditor.initialized': (e, editor) => {
+        // this.initFroala();
+        this.setState({
+          ...this.state,
+          froalaLoaded: true
+        })
+      },
 
     },
     quickInsertButtons: [],
@@ -46,14 +53,18 @@ export class EditorCellForm extends Component {
   }
 
   get initialState() {
-    return {};
+    return {
+      froalaLoaded: false,
+    };
   }
 
   render() {
     const { id, data } = this.props;
 
     return (
-      <Form>
+      <Form
+        onSubmit={() => console.log('submit')}
+      >
         {data.content.contenttype === BLOCK_TABLE ?
           (
             <Field
@@ -73,6 +84,7 @@ export class EditorCellForm extends Component {
           data={data}
           contenttype={data.content.contenttype}
           config={this.froalaConfig}
+          froalaLoaded={this.state.froalaLoaded}
           instantSave={()=>this.props.instantSave()}
           // onBlurForm={() => this.props.onBlurForm('content')}
 

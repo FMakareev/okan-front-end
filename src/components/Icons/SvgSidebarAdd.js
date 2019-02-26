@@ -1,26 +1,16 @@
 import React from 'react';
 
-export const SvgSidebarAdd = () => {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect
-        x="0.25"
-        y="0.25"
-        width="19.5"
-        height="19.5"
-        rx="4.75"
-        fill="white"
-        stroke="#848484"
-        strokeWidth="0.5"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M15.2344 9H11V4.74999C11 4.33577 10.4142 4 10 4C9.58581 4 9 4.33577 9 4.74999V9H4.75007C4.33585 9 4 9.58578 4 10C4 10.4142 4.33585 11 4.75007 11H9V15.25C9 15.6642 9.58581 16 10 16C10.4142 16 11 15.6642 11 15.25V11H15.2344C15.6486 11 16 10.4142 16 10C16 9.58583 15.6486 9 15.2344 9Z"
-        fill="#848484"
-      />
-    </svg>
-  );
-};
+export const SvgSidebarAdd = () => (
+  <svg width="1em" height="1em" viewBox="0 0 12 12" fill="inherit" xmlns="http://www.w3.org/2000/svg">
+    <path
+      x={0}
+      y={0}
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M11.2344 5H7V0.74999C7 0.335773 6.41423 0 6.00002 0C5.58581 0 5 0.335773 5 0.74999V5H0.750066C0.335853 5 0 5.58578 0 6C0 6.41422 0.335853 7 0.750066 7H5V11.25C5 11.6642 5.58581 12 6.00002 12C6.41423 12 7 11.6642 7 11.25V7H11.2344C11.6486 7 12 6.41417 12 6C12 5.58583 11.6486 5 11.2344 5Z"
+      stroke='none'
+      fill="inherit"/>
+  </svg>
+);
 
 export default SvgSidebarAdd;

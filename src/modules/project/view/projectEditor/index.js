@@ -73,12 +73,6 @@ export class ProjectEditorPage extends Component {
     this.state = {};
   }
 
-  handleClick() {
-    if (this.props.cellToCopy) {
-      this.props.removeBlock();
-    }
-  }
-
   currentUserProjectAuthor = (currentUser, projectAuthor) => {
     try {
       if (currentUser.id === projectAuthor.id) {

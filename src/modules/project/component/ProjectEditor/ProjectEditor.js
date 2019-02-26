@@ -233,7 +233,7 @@ export class ProjectEditor extends Component {
                       color={'color11'}
                       mt={'7px'}
                       ml={'5px'}
-                      mb={'-30px'}>
+                      mb={'10px'}>
                       {parentNumber && parentNumber.length <= 2 ? null : (
                         <Fragment>{`${parentNumber ||
                           (parentLetterNumber && parentLetterNumber
@@ -248,6 +248,8 @@ export class ProjectEditor extends Component {
                       }
                       return (
                         <Box
+                          pb={6}
+                          pt={6}
                           position={'relative'}
                           zIndex={data.celllist.length - index}
                           key={`EditorCellControllerWithProject-${index}`}>
@@ -272,7 +274,7 @@ export class ProjectEditor extends Component {
           }}
         </Query>
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <EditorAdditionalMenu sectionid={getPosition(project, 'sectionid')} />
+          <EditorAdditionalMenu parentid={getPosition(project, 'sectionid')} />
         </ProjectModeState>
       </Flex>
     );

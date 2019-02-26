@@ -86,7 +86,10 @@ export class SidebarCreateRevision extends Component {
           event.stopPropagation();
           this.createRevision();
         }}
-        variant={'empty'}>
+        variant={'outlineGray'}
+        p={'3px'}
+        fontSize={'13px'}
+      >
         <SvgSidebarSave />
       </ButtonBase>
     );

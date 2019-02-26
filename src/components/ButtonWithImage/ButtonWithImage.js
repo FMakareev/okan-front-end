@@ -1,37 +1,45 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 /** View */
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
+import {PreloaderWrapper, SpeedingWheel} from "@lib/ui/SmallPreloader/SmallPreloader";
 
 export const ButtonWithImage = ({
-  leftIcon,
-  rightIcon,
-  children,
-  variant,
-  size,
-  mr,
-  ml,
-  width,
-  widthIcon,
-  ...props
-}) => {
+                                  leftIcon,
+                                  rightIcon,
+                                  children,
+                                  variant,
+                                  size,
+                                  mr,
+                                  ml,
+                                  width,
+                                  widthIcon,
+                                  isLoading,
+                                  ...props
+                                }) => {
   return (
     <ButtonBase variant={variant} size={size} width={width} {...props}>
       <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
         {leftIcon && (
-          <Flex mr={mr} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
+          <Flex position={'relative'} mr={mr} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
             {leftIcon}
           </Flex>
         )}
 
         <Flex justifyContent={'center'} alignItems={'center'}>
           {children}
+          {
+            isLoading &&
+            <PreloaderWrapper>
+              <SpeedingWheel/>
+            </PreloaderWrapper>
+          }
         </Flex>
 
         {rightIcon && (
-          <Flex ml={ml} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
+          <Flex position={'relative'} ml={ml} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
             {rightIcon}
           </Flex>
         )}

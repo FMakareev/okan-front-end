@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
+import {SvgSettings} from "@lib/ui/Icons/SvgSettings";
 
-/**Image */
-import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
 
 export const SidebarChangeCell = ({ onClick }) => {
   return (
@@ -15,8 +13,11 @@ export const SidebarChangeCell = ({ onClick }) => {
         event.stopPropagation();
         onClick();
       }}
-      variant={'empty'}>
-      <img src={settingsSidebar} />
+      variant={'outlineGray'}
+      p={'2px'}
+      fontSize={'15px'}
+    >
+      <SvgSettings/>
     </ButtonBase>
   );
 };
