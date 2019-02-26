@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { graphql } from 'react-apollo';
 import { withApollo } from 'react-apollo';
 import dayjs from 'dayjs';
+import { connect } from 'react-redux';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Text from '@lib/ui/Text/Text';
@@ -57,6 +59,21 @@ const Wrapper = styled(Flex)`
   }
 `;
 
+const notificationOpts = () => ({
+  success: {
+    title: 'Комментарий удален',
+    message: 'Комментарий удален',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Комментарий не удален',
+    message: 'Комментарий не удален',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 export class EditorCellCommentItem extends Component {
   static propTypes = {
     cell: PropTypes.string,
@@ -75,7 +92,6 @@ export class EditorCellCommentItem extends Component {
   };
 
   onDelete(id) {
-    // console.log(1, this.props);
     return this.props[`@apollo/update`]({
       variables: { id, isdelete: true },
       update: (store, { data: { updatecomment } }) => {
@@ -100,10 +116,11 @@ export class EditorCellCommentItem extends Component {
       },
     })
       .then(response => {
-        // console.log(1, response);
+        this.props.setNotificationSuccess(notificationOpts().success);
         return response;
       })
       .catch(error => {
+        this.props.setNotificationError(notificationOpts().error);
         console.error('Error onDelete:', error);
       });
   }
@@ -147,5 +164,13 @@ EditorCellCommentItem = withApollo(EditorCellCommentItem);
 EditorCellCommentItem = graphql(UpdateCommentMutation, {
   name: `@apollo/update`,
 })(EditorCellCommentItem);
+
+EditorCellCommentItem = connect(
+  null,
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(EditorCellCommentItem);
 
 export default EditorCellCommentItem;
