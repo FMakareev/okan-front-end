@@ -4,7 +4,8 @@ export const compilerPromise = compiler =>
       if (!stats.hasErrors()) {
         return resolve();
       }
-      return Promise.reject(new Error('Compiler promise error.'));
+      console.log('stats.hasErrors(): ', stats.hasErrors());
+      // return Promise.reject(new Error('Compiler promise error.'));
     });
   });
 
