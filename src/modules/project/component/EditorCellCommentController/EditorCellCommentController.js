@@ -135,7 +135,7 @@ export class EditorCellCommentController extends Component {
     }
   };
 
-  /** @desc Получаем пользователей */
+  /** @desc Получаем список комментов */
   get partnersList() {
     const commentsList =
       this.props.comments &&
@@ -158,7 +158,6 @@ export class EditorCellCommentController extends Component {
     }
 
     const comment = this.partnersList ? this.partnersList : null;
-
     return (
       <Relative>
         <EditorCellCommentButton status={status} onClick={this.onClick} />
