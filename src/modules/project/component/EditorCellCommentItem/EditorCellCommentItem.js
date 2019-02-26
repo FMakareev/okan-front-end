@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql } from 'react-apollo';
 import { withApollo } from 'react-apollo';
+import dayjs from 'dayjs';
 
 /** View */
 import Text from '@lib/ui/Text/Text';
@@ -125,7 +126,7 @@ export class EditorCellCommentItem extends Component {
                 lineHeight={'20px'}
                 color={'color4'}>
                 {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
-                {item.createdate}
+                {dayjs(item.createdate).format('DD.MM.YYYY HH:mm:ss')}
               </Text>
               <ButtonBaseComment
                 onClick={() => this.onDelete(item.id)}
