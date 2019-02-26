@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
+import dayjs from 'dayjs';
 
 /** View */
 import Text from '@lib/ui/Text/Text';
@@ -13,6 +15,7 @@ import { SvgDeleteComment } from '@lib/ui/Icons/SvgDeleteComment';
 
 /** Graphql schema */
 import UpdateCommentMutation from './UpdateCommentMutation.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 
 /** Style css */
 import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
@@ -71,21 +74,39 @@ export class EditorCellCommentItem extends Component {
     updatedate: PropTypes.string,
   };
 
-  onDelete = id => {
+  onDelete(id) {
+    // console.log(1, this.props);
     return this.props[`@apollo/update`]({
-      variables: {
-        id,
-        isDelete: true,
+      variables: { id, isdelete: true },
+      update: (store, { data: { updatecomment } }) => {
+        try {
+          const options = {
+            query: CellListQuery,
+            variables: { parent: this.props.cell.parent.id },
+          };
+          const data = store.readQuery(options);
+
+          data.celllist.map(item => {
+            let documentIndex =
+              item.comments &&
+              item.comments.findIndex(items => items.id === updatecomment.comment.id);
+            return item.comments && item.comments.splice(documentIndex, 1);
+          });
+
+          store.writeQuery({ ...options, data });
+        } catch (error) {
+          console.error('Error createRevision.update: ', error);
+        }
       },
     })
       .then(response => {
-        console.log(response);
+        // console.log(1, response);
         return response;
       })
       .catch(error => {
         console.error('Error onDelete:', error);
       });
-  };
+  }
 
   render() {
     const { commentsList } = this.props;
@@ -105,9 +126,12 @@ export class EditorCellCommentItem extends Component {
                 lineHeight={'20px'}
                 color={'color4'}>
                 {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
-                {item.createdate}
+                {dayjs(item.createdate).format('DD.MM.YYYY HH:mm:ss')}
               </Text>
-              <ButtonBaseComment onClick={() => this.onDelete(id)} mt={'-1px'} variant={'empty'}>
+              <ButtonBaseComment
+                onClick={() => this.onDelete(item.id)}
+                mt={'-1px'}
+                variant={'empty'}>
                 <SvgDeleteComment />
               </ButtonBaseComment>
             </Flex>
@@ -117,6 +141,8 @@ export class EditorCellCommentItem extends Component {
     );
   }
 }
+
+EditorCellCommentItem = withApollo(EditorCellCommentItem);
 
 EditorCellCommentItem = graphql(UpdateCommentMutation, {
   name: `@apollo/update`,

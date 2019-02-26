@@ -68,6 +68,7 @@ export class SideBarDocumentDelete extends Component {
               item => item.id === deletedocument.document.id,
             );
             data.projectitem.documents.splice(documentIndex, 1);
+
             store.writeQuery({
               ...options,
               data,

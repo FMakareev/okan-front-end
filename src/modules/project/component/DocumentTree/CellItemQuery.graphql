@@ -1,4 +1,4 @@
-query ($id: String!) {
+query ($id: String) {
   cellitem(id: $id) {
     childcell: children {
       id

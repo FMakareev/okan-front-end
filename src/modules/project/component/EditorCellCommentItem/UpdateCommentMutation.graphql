@@ -1,6 +1,17 @@
-mutation ($id: String!, $isdelete: Boolean){
-  updatecomment(id: $id,isdelete: $isdelete){
-    id
-    isDelete
+mutation ($id: String!, $isdelete: Boolean) {
+  updatecomment(id: $id, isdelete: $isdelete) {
+    comment {
+      createdate
+      id
+      isdelete
+      message
+      sender {
+        firstname
+        lastname
+        patronymic
+        id
+      }
+      updatedate
+    }
   }
 }
