@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-icons-kit';
+import { connect } from 'react-redux';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 /** Icons */
 import { ic_add } from 'react-icons-kit/md/ic_add';
@@ -15,6 +17,15 @@ import Image from '../Image/Image';
 import { DropZoneStyled, DropZoneIconWrapper, Img, IconStyled } from './PictureUploadPreviewStyled';
 
 const handleDropRejected = (...args) => console.log('reject', args);
+
+const notificationOpts = () => ({
+  error: {
+    title: 'Ошибка загрузки подписи',
+    message: 'Размер картинки не должен превышать : 600КВ',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
 
 /**
  * @example ./PictureUploadPreview.example.md
@@ -51,6 +62,11 @@ export class PictureUploadPreview extends Component {
       return null;
     }
 
+    if (files[0].size > 600000) {
+      this.props.setNotificationError(notificationOpts().error);
+      return null;
+    }
+
     this.setState({
       files,
     });
@@ -71,7 +87,7 @@ export class PictureUploadPreview extends Component {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function() {
-      console.log(reader.result);
+      // console.log(reader.result);
       onChange(reader.result);
     };
     reader.onerror = function(error) {
@@ -111,5 +127,12 @@ export class PictureUploadPreview extends Component {
     );
   }
 }
+
+PictureUploadPreview = connect(
+  null,
+  dispatch => ({
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(PictureUploadPreview);
 
 export default PictureUploadPreview;
