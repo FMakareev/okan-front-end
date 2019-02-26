@@ -6,10 +6,8 @@ import {error, success} from 'react-notification-system-redux';
 
 /** graphql Schema */
 import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import CheckForChangesInDocQuery from './CheckForChangesInDocQuery.graphql';
+import CheckForCommentsInCellsQuery from './CheckForCommentsInCellsQuery.graphql';
 
-/** View */
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /** Image */
 import {SvgSidebarComment} from '../../../../components/Icons/SvgSidebarComment';
@@ -18,19 +16,19 @@ import {SvgSidebarComment} from '../../../../components/Icons/SvgSidebarComment'
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 
 /** Constants */
-import {TO_APPROVAL} from '@lib/shared/approvalStatus';
+import {APPROVAL, NOT_APPROVAL, TO_APPROVAL} from '@lib/shared/approvalStatus';
 import ButtonWithImage from "@lib/ui/ButtonWithImage/ButtonWithImage";
 
 const notificationOpts = name => {
   return ({
     success: {
-      title: `Документ "${name}" отправлен на согласование.`,
+      title: `Документ "${name}" согласован.`,
       position: 'tr',
       autoDismiss: 2,
     },
     validError: {
       title: `Произошла ошибка.`,
-      message: `Документ "${name}" не был отправлен на согласование т.к. в нем есть измененные блоки.`,
+      message: `Документ "${name}" не был согласование т.к. в нем есть комментарии.`,
       position: 'tr',
       autoDismiss: 6,
     },
@@ -43,7 +41,7 @@ const notificationOpts = name => {
   });
 }
 
-export class SidebarDocumentToApproval extends Component {
+export class SidebarCommentingDocumentToApproval extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -59,40 +57,44 @@ export class SidebarDocumentToApproval extends Component {
    * @param {string} id
    * @desc запрос на получение информации о наличии изменений в документе, проверяет ячейки
    * */
-  checkForChangesInDoc = (id) => {
+  checkForCommentsInCells = (id) => {
     const {setNotificationError,document, client} = this.props;
 
     return client.query({
-      query: CheckForChangesInDocQuery,
+      query: CheckForCommentsInCellsQuery,
       fetchPolicy: 'no-cache',
       variables: {
         id: id,
       }
     })
       .then(response => {
-        console.log('Success checkForChangesInDoc: ', response);
+        console.log('Success checkForCommentsInCells: ', response);
         return response.data;
       })
       .catch(error => {
-        console.error(`Error checkForChangesInDoc:`, error);
+        console.error(`Error checkForCommentsInCells:`, error);
         setNotificationError(notificationOpts(document.name).submitError);
         return error;
       })
   };
 
   /**
-   * @param {string} id
+   * @param {string} id документа
+   * @param {string} approvalstatus статус
    * @desc запрос на изменение статуса у документа
    * */
-  updateApprovalDocumentStatus = (id) => {
-    const {setNotificationSuccess,document, setNotificationError} = this.props;
+  updateApprovalDocumentStatus = (id, approvalstatus) => {
+    const { document, setNotificationError } = this.props;
 
-    return this.props[`@apollo/update`]({
-      variables: {approvalstatus: TO_APPROVAL, id: id},
+    return this.props.client.mutate({
+      mutation: UpdateDocumentMutation,
+      variables: {
+        approvalstatus: approvalstatus,
+        id: id,
+      },
     })
       .then(response => {
         console.log('Success updateApprovalDocumentStatus: ', response);
-        setNotificationSuccess(notificationOpts(document.name).success);
         return response.data;
       })
       .catch(error => {
@@ -110,20 +112,23 @@ export class SidebarDocumentToApproval extends Component {
     const {document, setNotificationSuccess, setNotificationError} = this.props;
     this.setState({isLoading: true});
 
-    const {checkForChangesInDoc, graphQLErrors, networkError} = await this.checkForChangesInDoc(document.id);
+    const {checkForCommentsInCells, graphQLErrors, networkError} = await this.checkForCommentsInCells(document.id);
 
     if (graphQLErrors && graphQLErrors.length || networkError) {
-      /** Проверяем наличие ошибок при вызове метода checkForChangesInDoc */
+      /** Проверяем наличие ошибок при вызове метода checkForCommentsInCells */
       setNotificationError(notificationOpts(document.name).submitError);
-    } else if (checkForChangesInDoc.answer) {
-      /** если есть измененния в документе то выдаем ошибку */
+    } else if (checkForCommentsInCells.answer) {
+      /** если есть комментарии в документе то выдаем ошибку */
       setNotificationError(notificationOpts(document.name).validError);
+      const {updatedocument} = await this.updateApprovalDocumentStatus(document.id, NOT_APPROVAL);
     } else {
       /** если есть нет измененний в документе то меняем статус согласования */
-      const {updatedocument} = await this.updateApprovalDocumentStatus(document.id);
+      const {updatedocument, networkError, graphQLErrors} = await this.updateApprovalDocumentStatus(document.id, APPROVAL);
+      if (!graphQLErrors || !networkError) {
+        setNotificationSuccess(notificationOpts(document.name).success);
+      }
     }
     this.setState({isLoading: false});
-
 
   };
 
@@ -139,7 +144,7 @@ export class SidebarDocumentToApproval extends Component {
           event.stopPropagation();
           this.submitDocumentToApproval();
         }}
-        title={'Отправить на согласование.'}
+        title={'Согласованть.'}
         variant={'outlineGray'}>
         <SvgSidebarComment/>
       </ButtonWithImage>
@@ -147,24 +152,22 @@ export class SidebarDocumentToApproval extends Component {
   }
 }
 
-SidebarDocumentToApproval.propTypes = {
+SidebarCommentingDocumentToApproval.propTypes = {
   document: PropTypes.object.isRequired,
 };
 
-SidebarDocumentToApproval.defaultProps = {};
+SidebarCommentingDocumentToApproval.defaultProps = {};
 
-SidebarDocumentToApproval = graphql(UpdateDocumentMutation, {
-  name: `@apollo/update`,
-})(SidebarDocumentToApproval);
 
-SidebarDocumentToApproval = withApollo(SidebarDocumentToApproval);
 
-SidebarDocumentToApproval = connect(
+SidebarCommentingDocumentToApproval = withApollo(SidebarCommentingDocumentToApproval);
+
+SidebarCommentingDocumentToApproval = connect(
   state => ({user: getUserFromStore(state)}),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
-)(SidebarDocumentToApproval);
+)(SidebarCommentingDocumentToApproval);
 
-export default SidebarDocumentToApproval;
+export default SidebarCommentingDocumentToApproval;

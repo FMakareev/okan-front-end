@@ -68,6 +68,7 @@ export class SideBarDocumentDelete extends Component {
               item => item.id === deletedocument.document.id,
             );
             data.projectitem.documents.splice(documentIndex, 1);
+
             store.writeQuery({
               ...options,
               data,
@@ -97,13 +98,15 @@ export class SideBarDocumentDelete extends Component {
     return (
       <ButtonBase
         title={'Удалить документ.'}
+        p={'2px'}
+        fontSize={'15px'}
         onClick={event => {
           event.stopPropagation();
           if (confirm('Вы уверены что хотите удалить раздел?')) {
             this.deleteDocument();
           }
         }}
-        variant={'empty'}>
+        variant={'outlineGray'}>
         <SvgSidebarDelete />
       </ButtonBase>
     );

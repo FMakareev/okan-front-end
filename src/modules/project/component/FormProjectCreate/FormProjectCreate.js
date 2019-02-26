@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { graphql, Query } from 'react-apollo';
+import { graphql, Query, withApollo } from 'react-apollo';
 import styled from 'styled-components';
 import Notifications, { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
@@ -80,9 +80,7 @@ export class FormProjectCreate extends Component {
             data: { createproject },
           } = response;
 
-          const data = store.readQuery({
-            query: ProjectListQuery,
-          });
+          const data = store.readQuery({ query: ProjectListQuery });
 
           data.projectList.push(createproject.project);
 
@@ -112,7 +110,8 @@ export class FormProjectCreate extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const { handleSubmit, pristine, submitting, invalid, client } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <Text
@@ -148,10 +147,8 @@ export class FormProjectCreate extends Component {
         </Text>
 
         <Box mb={'180px'}>
-          <Query query={TemplateListQuery}>
+          <Query query={TemplateListQuery} options={{ fetchPolicy: 'no-cache' }}>
             {({ data, loading, error }) => {
-              // console.log(data, loading, error);
-
               return (
                 <Field
                   name={'template'}
@@ -161,7 +158,7 @@ export class FormProjectCreate extends Component {
                   type={'text'}
                   fontSize={5}
                   lineHeight={6}
-                  options={data && data.templatelist}
+                  options={newProjectList}
                   labelKey={'name'}
                   valueKey={'id'}
                 />
@@ -203,6 +200,8 @@ FormProjectCreate = connect(
 FormProjectCreate = reduxForm({
   form: 'FormProjectCreate',
 })(FormProjectCreate);
+
+FormProjectCreate = withApollo(FormProjectCreate);
 
 FormProjectCreate = withRouter(FormProjectCreate);
 

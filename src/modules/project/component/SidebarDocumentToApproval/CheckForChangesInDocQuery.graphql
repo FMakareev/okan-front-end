@@ -1,0 +1,6 @@
+query($id: String){
+  checkForChangesInDoc(id:$id){
+    id
+    answer
+  }
+}

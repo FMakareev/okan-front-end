@@ -10,7 +10,11 @@ import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graph
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
 import {EditorCellTitle} from '../EditorCellTitle/EditorCellTitle';
-import {PROJECT_MODE_RC, PROJECT_MODE_RW, ProjectContextPropTypes} from '../ProjectContext/ProjectContext';
+import {
+  PROJECT_MODE_RC,
+  PROJECT_MODE_RW,
+  ProjectContextPropTypes,
+} from '../ProjectContext/ProjectContext';
 import EditorCellDelete from './EditorCellDelete';
 
 /** View */
@@ -28,7 +32,10 @@ import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
 import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
-import {ProjectModeState} from "../ProjectContext/ProjectModeState";
+import {ProjectModeState} from '../ProjectContext/ProjectModeState';
+import {Relative} from "@lib/ui/Relative/Relative";
+import {getPosition} from "../ProjectContext/ProjectContextSelectors";
+import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
 
 const notificationOpts = () => ({
   success: {
@@ -61,6 +68,7 @@ export class EditorCellController extends Component {
     return {
       editable: false,
       timer: null,
+      toggleAdditionalMenu: false,
       // draggable: false,
     };
   }
@@ -204,6 +212,13 @@ export class EditorCellController extends Component {
   //   console.log(event)
   // }
 
+  onHover = (toggle) => {
+    this.setState(state => ({
+      ...state,
+      toggleAdditionalMenu: toggle,
+    }));
+  }
+
   render() {
     const {editable} = this.state;
     const {
@@ -214,27 +229,57 @@ export class EditorCellController extends Component {
       parentLetterNumber,
     } = this.props;
 
-    return (
-      <Box mt={12}>
-        <Flex pl={'10px'} alignItems="flex-start">
-          <Text
-            width={'100px'}
-            fontFamily={'secondary'}
-            lineHeight={'22px'}
-            fontSize={6}
-            color={'color4'}
-            mt={'2px'}
-            ml={'10px'}>
-            {/** иконка редактора */}
-            {editable && data.content.contenttype !== BLOCK_TEXT && (
-              <EditorTypeIcon type={data.content.contenttype}/>
-            )}
+    const {toggleAdditionalMenu} = this.state;
 
-            {/** номер текстового блока */}
-            {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
-              <Fragment> {sectionNumber}</Fragment>
-            )}
-          </Text>
+    return (
+      <Relative
+        onMouseEnter={() => this.onHover(true)}
+        onMouseLeave={() => this.onHover(false)}
+      >
+        <Flex pl={'10px'} alignItems="flex-start">
+          <Relative pl={'10px'}>
+            <Box
+              mt={'-20px'}
+              opacity={toggleAdditionalMenu ? 1 : 0}
+            >
+              <ProjectModeState is={PROJECT_MODE_RW}>
+                <EditorAdditionalMenu
+                  prevcell={data.prevcell ? data.prevcell.id : null}
+                  nextcell={data.id}
+                  parentid={getPosition(project, 'sectionid')}
+                />
+              </ProjectModeState>
+            </Box>
+            <Text
+              width={'100px'}
+              fontFamily={'secondary'}
+              lineHeight={'22px'}
+              fontSize={6}
+              color={'color4'}
+              mt={'2px'}>
+              {/** иконка редактора */}
+              {editable && data.content.contenttype !== BLOCK_TEXT && (
+                <EditorTypeIcon type={data.content.contenttype}/>
+              )}
+
+              {/** номер текстового блока */}
+              {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
+                <Fragment> {sectionNumber}</Fragment>
+              )}
+            </Text>
+            <Box
+              opacity={toggleAdditionalMenu ? 1 : 0}
+            >
+              <ProjectModeState is={PROJECT_MODE_RW}>
+                <EditorAdditionalMenu
+                  prevcell={data.id}
+                  nextcell={data.nextcell ? data.nextcell.id : null}
+                  parentid={getPosition(project, 'sectionid')}
+                />
+              </ProjectModeState>
+            </Box>
+          </Relative>
+
           <Box width={'calc(100% - 160px)'}>
             {/** заголовок таблицы */}
             <EditorCellTitle
@@ -311,7 +356,7 @@ export class EditorCellController extends Component {
             </ProjectModeState>
           </Flex>
         </Flex>
-      </Box>
+      </Relative>
     );
   }
 }

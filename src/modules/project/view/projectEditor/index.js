@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 /** css style */
 import '../../../../assets/style/editor-cell_content.css';
@@ -11,11 +11,11 @@ import '../../../../assets/style/editor-cell_content.css';
 import ProjectItemQuery from './ProjectItemQuery.graphql';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProjectSidebar from '../../component/ProjectSidebar/ProjectSidebar';
@@ -26,10 +26,12 @@ import {
   PROJECT_MODE_READ,
   PROJECT_MODE_RW,
   ProjectContext,
-  withProject
+  withProject,
 } from '../../component/ProjectContext/ProjectContext';
 
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+/** Redux action to remove BlockId from store */
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const SideBarWrapper = styled.div`
   background-color: #ffffff;
@@ -73,7 +75,7 @@ export class ProjectEditorPage extends Component {
 
   currentUserProjectAuthor = (currentUser, projectAuthor) => {
     try {
-      if(currentUser.id === projectAuthor.id){
+      if (currentUser.id === projectAuthor.id) {
         return PROJECT_MODE_RW;
       } else {
         return PROJECT_MODE_READ;
@@ -86,14 +88,13 @@ export class ProjectEditorPage extends Component {
 
   render() {
     const {
-      match: {params},
+      match: { params },
       user,
     } = this.props;
 
     return (
-      <Query query={ProjectItemQuery} variables={{id: params.projectid}}>
-        {({loading, data, error, ...rest}) => {
-
+      <Query query={ProjectItemQuery} variables={{ id: params.projectid }}>
+        {({ loading, data, error, ...rest }) => {
           if (loading) {
             return 'Загрузка...';
           }
@@ -116,8 +117,10 @@ export class ProjectEditorPage extends Component {
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
-                  <EditorWrapper>
-                    <ProjectEditorWithProject sectionid={params.sectionid}/>
+                  <EditorWrapper
+                    style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
+                    onClick={() => this.handleClick()}>
+                    <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
               </Wrapper>
@@ -132,11 +135,12 @@ export class ProjectEditorPage extends Component {
 // export default ProjectEditorPage;
 const mapStateToProps = state => {
   return {
-    user: getUserFromStore(state)
+    ...state.blocksBinding,
+    user: getUserFromStore(state),
   };
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  { removeBlock },
 )(ProjectEditorPage);

@@ -6,15 +6,19 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import Link from '../../../../components/Link/Link';
 
 /**Image */
-import settingsSidebar from '../../../../assets/image/settingsSidebar.png';
+import SvgSettings from "@lib/ui/Icons/SvgSettings";
 
 export const SidebarProjectSettings = ({ projectid, documentid }) => (
   <Link
     title={'Открыть настройки документа'}
     onClick={event => event.stopPropagation()}
     to={`/app/document-settings/${documentid}`}>
-    <ButtonBase variant={'empty'}>
-      <img src={settingsSidebar} />
+    <ButtonBase
+      variant={'outlineGray'}
+      p={'2px'}
+      fontSize={'15px'}
+    >
+      <SvgSettings/>
     </ButtonBase>
   </Link>
 );

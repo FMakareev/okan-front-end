@@ -43,12 +43,9 @@ const FlexStyled = styled(Flex)`
   overflow: hidden;
 
   @media (min-width: 768px) {
-    display: block;
-  }
-
-  @media (min-width: 1300px) {
     display: inline-flex;
   }
+
 `;
 // TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
 export const ProfileNotificationItem = ({ message,sender, name, createat }) => {

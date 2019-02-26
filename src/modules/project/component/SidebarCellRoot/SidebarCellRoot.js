@@ -17,9 +17,11 @@ import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocum
 
 /** Styles property */
 import { NodeToggle } from '../NodeToggle/NodeToggle';
-import {PROJECT_MODE_RW, withProject} from '../ProjectContext/ProjectContext';
+import {PROJECT_MODE_RC, PROJECT_MODE_RW, withProject} from '../ProjectContext/ProjectContext';
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 import {ProjectModeState} from "../ProjectContext/ProjectModeState";
+import SidebarCommentingDocumentToApproval
+  from "../SidebarCommentingDocumentToApproval/SidebarCommentingDocumentToApproval";
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
@@ -77,8 +79,15 @@ export const SidebarCellRoot = props => {
           {node.name}
         </Text>
       </Flex>
+      <Flex height={'20px'}>
+      <ProjectModeState is={PROJECT_MODE_RC}>
+        <Box px={1}>
+          <SidebarCommentingDocumentToApproval document={document} />
+        </Box>
+      </ProjectModeState>
+
       <ProjectModeState is={PROJECT_MODE_RW}>
-        <Flex height={'20px'}>
+
           <Box px={1}>
             <SidebarProjectSettings
               projectid={getPosition(project, 'projectid')}
@@ -103,8 +112,8 @@ export const SidebarCellRoot = props => {
           <Box px={1}>
             <SideBarDocumentDeleteWithProject documentId={node.id} documentName={node.name} />
           </Box>
-        </Flex>
       </ProjectModeState>
+      </Flex>
     </FlexStyled>
   );
 };

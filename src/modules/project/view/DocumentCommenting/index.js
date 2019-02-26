@@ -16,7 +16,7 @@ import {
   PROJECT_MODE_RC,
   PROJECT_MODE_READ,
   ProjectContext,
-  withProject
+  withProject,
 } from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
@@ -65,10 +65,11 @@ export class DocumentCommenting extends Component {
     const {
       match: { params },
     } = this.props;
-    console.log(1, params.id);
 
     return (
-      <Query query={DocumentItemQuery} variables={{ id: params.documentid }}>
+      <Query
+        query={DocumentItemQuery}
+        variables={{ documentid: params.documentid, projectid: params.projectid }}>
         {({ loading, data, error, ...rest }) => {
           if (loading) {
             return 'Загрузка...';
@@ -85,7 +86,7 @@ export class DocumentCommenting extends Component {
                     // объект с параметрами роутера
                     position: params,
                     // объект с данными о проекте
-                    project: null,
+                    project: data.projectitem,
                     // можно ли редактировать проект
                     mode: PROJECT_MODE_RC,
                   }}>

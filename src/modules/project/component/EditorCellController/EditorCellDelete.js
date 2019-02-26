@@ -146,9 +146,15 @@ export class EditorCellDelete extends Component {
               id: this.props.sectionid
             }
           });
-          data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id ?
-            data.cellitem.lastChildren = null :
-            null;
+
+          if (data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id) {
+            if(deletecell.cell.prevcell.id != deletecell.cell.parent.id){
+              data.cellitem.lastChildren.id = deletecell.cell.prevcell.id;
+              data.cellitem.lastChildren.name = deletecell.cell.prevcell.name;
+            } else {
+              data.cellitem.lastChildren = null;
+            }
+          }
 
           store.writeQuery({
             query: CellItemQuery,

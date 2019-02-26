@@ -13,7 +13,11 @@ export const SidebarRevisionList = ({ documentid }) => (
     title={'Список ревизий'}
     onClick={event => event.stopPropagation()}
     to={`/app/revision-list/${documentid}`}>
-    <ButtonBase variant={'empty'}>
+    <ButtonBase
+      variant={'outlineGray'}
+      p={'3px'}
+      fontSize={'13px'}
+    >
       <SvgSidebarList />
     </ButtonBase>
   </Link>

@@ -432,7 +432,10 @@ export class SidebarCreateCell extends Component {
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
-          variant={'empty'}
+
+          variant={'outlineGray'}
+          p={'2px'}
+          fontSize={'15px'}
           onClick={this.onToggle}>
           <SvgSidebarAdd />
         </ButtonBase>
