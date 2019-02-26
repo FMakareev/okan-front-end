@@ -29,8 +29,6 @@ import {
   withProject
 } from '../../component/ProjectContext/ProjectContext';
 
-/** Redux action to remove BlockId from store */
-import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 import {getUserFromStore} from "../../../../store/reducers/user/selectors";
 
 const SideBarWrapper = styled.div`
@@ -71,12 +69,6 @@ export class ProjectEditorPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  handleClick() {
-    if (this.props.cellToCopy) {
-      this.props.removeBlock();
-    }
   }
 
   currentUserProjectAuthor = (currentUser, projectAuthor) => {
@@ -124,9 +116,7 @@ export class ProjectEditorPage extends Component {
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? {opacity: '0.4'} : {}}
-                    onClick={() => this.handleClick()}>
+                  <EditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </EditorWrapper>
                 </ProjectContext.Provider>
@@ -142,12 +132,11 @@ export class ProjectEditorPage extends Component {
 // export default ProjectEditorPage;
 const mapStateToProps = state => {
   return {
-    ...state.blocksBinding,
     user: getUserFromStore(state)
   };
 };
 
 export default connect(
   mapStateToProps,
-  {removeBlock},
+  null,
 )(ProjectEditorPage);
