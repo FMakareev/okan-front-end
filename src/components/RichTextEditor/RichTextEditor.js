@@ -142,7 +142,12 @@ export class RichTextEditor extends Component {
       {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
       document.onmouseup = (e) => {
         console.log('mouseup')
-        this.releaseButton(nodePreview, wholeCell, e);
+        this.releaseButton(nodePreview, wholeCell, e, button);
+      }
+      {/** Вешаем mouseup на кнопку, т.к. предыдущий обработчик не срабатывает на кнопке */}
+      button.onmouseup = (e) => {
+        console.log('mouseup on button')
+        this.releaseButton(nodePreview, wholeCell, e, button);
       }
     }
   }
@@ -155,12 +160,13 @@ export class RichTextEditor extends Component {
     node.style.top = e.pageY + 8 + 'px';
   }
   
-  releaseButton = (node, cell, e) => {
+  releaseButton = (node, cell, e, button) => {
     {/** удаляем копию узла */}
     document.body.removeChild(node);
     {/** обнуляем обработчики */}
     document.onmousemove = null;
     document.onmouseup = null;
+    button.onmouseup = null;
 
     cell.style.opacity = 1;
   }

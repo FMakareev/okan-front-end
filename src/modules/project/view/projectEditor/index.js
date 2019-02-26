@@ -117,9 +117,7 @@ export class ProjectEditorPage extends Component {
                   <SideBarWrapper width={'320px'}>
                     <ProjectSidebar {...data.projectitem} />
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? { opacity: '0.4' } : {}}
-                    onClick={() => this.handleClick()}>
+                  <EditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid} />
                   </EditorWrapper>
                 </ProjectContext.Provider>
