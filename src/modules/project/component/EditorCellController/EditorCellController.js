@@ -36,6 +36,7 @@ import {ProjectModeState} from '../ProjectContext/ProjectModeState';
 import {Relative} from "@lib/ui/Relative/Relative";
 import {getPosition} from "../ProjectContext/ProjectContextSelectors";
 import {EditorAdditionalMenu} from "../EditorAdditionalMenu/EditorAdditionalMenu";
+import {CELL_STATUS_CHANGED} from "@lib/shared/approvalStatus";
 
 const notificationOpts = () => ({
   success: {
@@ -149,6 +150,7 @@ export class EditorCellController extends Component {
           id: this.props.data.id,
           content: this.props.values.content,
           contentname: this.props.values.name,
+          verify: CELL_STATUS_CHANGED
         },
       })
       .then(response => {
