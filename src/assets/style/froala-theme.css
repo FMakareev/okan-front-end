@@ -974,6 +974,11 @@
   width: auto;
 }
 
+.editor-cell_content u {
+  text-decoration: underline;
+  font-style: normal;
+}
+
 .froala-theme.fr-toolbar .fr-command.fr-btn i,
 .froala-theme.fr-popup .fr-command.fr-btn i,
 .froala-theme.fr-toolbar .fr-command.fr-btn svg,

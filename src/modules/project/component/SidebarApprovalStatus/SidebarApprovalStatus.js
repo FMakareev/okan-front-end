@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query, withApollo} from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 import queryString from 'query-string';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
-import {SvgStatus} from '../../../../components/Icons/SvgStatus';
+import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
 /**Graphql schema */
 import ChangeStatusMutation from './ChangeStatusMutation.graphql';
@@ -23,7 +23,7 @@ import {
 } from '@lib/shared/approvalStatus';
 
 /** Utils */
-import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 
 const GetStatusColor = status => {
   switch (status) {
@@ -55,6 +55,7 @@ export class SidebarApprovalStatus extends Component {
    * @desc изменение статуса у ячейки
    * */
   changeStatus = (id, status) => {
+    console.log(11, status, id);
     this.props.client
       .mutate({
         mutation: ChangeStatusMutation,
@@ -62,8 +63,8 @@ export class SidebarApprovalStatus extends Component {
           id,
           status,
         },
-        update: (store, {data: {changestatus}}) => {
-          let cell = {celllist: {}};
+        update: (store, { data: { changestatus } }) => {
+          let cell = { celllist: {} };
           const options = {
             query: CellListQuery,
             variables: {
@@ -72,7 +73,7 @@ export class SidebarApprovalStatus extends Component {
           };
 
           try {
-            UpdateCellInCache(store, {...changestatus.cell});
+            UpdateCellInCache(store, { ...changestatus.cell });
           } catch (e) {
             console.error('Error in SidebarApprovalStatus change status: ', e);
           }
@@ -113,11 +114,11 @@ export class SidebarApprovalStatus extends Component {
   }
 
   initSubscribe = () => {
-    const {node} = this.props;
+    const { node } = this.props;
     try {
       if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
-          ({data}) => {
+          ({ data }) => {
             // console.log('initSubscribe: ', data.cellitem,node);
             this.props.updateNode(node.id, data.cellitem);
           },
@@ -141,9 +142,10 @@ export class SidebarApprovalStatus extends Component {
    * */
   subscribeToCellItem = id => {
     try {
+      // this.changeStatus(id, CELL_STATUS_CHANGED);
       return this.props.client.watchQuery({
         query: CellItemQuery,
-        variables: {id: id},
+        variables: { id: id },
       });
     } catch (error) {
       console.error('Error: ', error);
@@ -151,10 +153,11 @@ export class SidebarApprovalStatus extends Component {
   };
 
   render() {
-    const {node} = this.props;
+    const { node } = this.props;
     return (
-      <Query skip={false} query={CheckForCellChangesQuery} variables={{id: node && node.id}}>
-        {({loading, error, data}) => {
+      <Query skip={false} query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
+        {({ loading, error, data }) => {
+          // console.log(1, data);
 
           return (
             <ButtonBase
@@ -166,7 +169,11 @@ export class SidebarApprovalStatus extends Component {
                 return this.changeStatus(node.id, CELL_STATUS_CHECKED);
               }}>
               <SvgStatus
-                fill={GetStatusColor(data.checkForCellChanges && data.checkForCellChanges.answer ? CELL_STATUS_CHANGED : node.verify)}
+                fill={GetStatusColor(
+                  data.checkForCellChanges && data.checkForCellChanges.answer
+                    ? CELL_STATUS_CHANGED
+                    : node.verify,
+                )}
                 bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
               />
             </ButtonBase>
