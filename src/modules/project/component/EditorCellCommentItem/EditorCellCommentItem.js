@@ -17,7 +17,7 @@ import { SvgDeleteComment } from '@lib/ui/Icons/SvgDeleteComment';
 
 /** Graphql schema */
 import UpdateCommentMutation from './UpdateCommentMutation.graphql';
-import CellListQuery from '../projectEditor/CellListQuery.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 
 /** Style css */
 import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';

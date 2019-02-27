@@ -1,5 +1,5 @@
-mutation ($id: String!, $content: String, $contentname: String, $isAttachment: Boolean) {
-  updatecell(id: $id, content: $content, contentname: $contentname, isAttachment: $isAttachment) {
+mutation ($id: String!, $content: String, $contentname: String, $isAttachment: Boolean, $verify: String) {
+  updatecell(id: $id, content: $content, contentname: $contentname, isAttachment: $isAttachment, verify:$verify) {
     cell {
       id
       name
