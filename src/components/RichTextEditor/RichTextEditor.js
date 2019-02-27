@@ -158,6 +158,25 @@ export class RichTextEditor extends Component {
   movePreviewAt = (node, e) => {
     node.style.left = e.pageX + 8 + 'px';
     node.style.top = e.pageY + 8 + 'px';
+
+    {/** Кроссбраузерное нахождение высоты всей страницы */}
+    var scrollHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+    
+    {/** Сравниваем с высотой клиента */}
+    if (scrollHeight > document.documentElement.clientHeight) {
+      {/** Наведение на верх страницы (50 пикселей сверху) */}
+      if (e.clientY < 50) {
+        window.scrollBy(0,-10);
+      }
+      {/** Наведение на низ страницы (50 пикселей снизу) */}
+      if (e.clientY > document.documentElement.clientHeight - 50) {
+        window.scrollBy(0,10);
+      }
+    }
   }
   
   releaseButton = (node, cell, e, button) => {
