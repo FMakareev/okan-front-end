@@ -172,8 +172,14 @@ export class RichTextEditor extends Component {
       if (e.clientY < 50) {
         window.scrollBy(0,-10);
       }
-      {/** Наведение на низ страницы (50 пикселей снизу) */}
-      if (e.clientY > document.documentElement.clientHeight - 50) {
+      /**
+       * Наведение на низ страницы (50 пикселей снизу) &&
+       * Предотвращение лишнего скролла вниз
+       */
+      if (
+        e.clientY > document.documentElement.clientHeight - 50 &&
+        e.offsetY < document.documentElement.offsetHeight
+      ) {
         window.scrollBy(0,10);
       }
     }
