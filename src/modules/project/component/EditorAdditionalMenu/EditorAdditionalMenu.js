@@ -338,7 +338,7 @@ export class EditorAdditionalMenu extends Component {
 
 
   createCellStateMachine = async (contenttype) => {
-    const {
+    let {
       parentid,
       prevcell,
     } = this.props;
@@ -352,6 +352,7 @@ export class EditorAdditionalMenu extends Component {
         parentid,
         prevcell,
       })
+      prevcell = !prevcell && lastCellId ? lastCellId : prevcell;
       this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
 
     } catch (error) {
