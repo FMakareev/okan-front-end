@@ -83,17 +83,6 @@ export const routes = [
     load: () => import(/* webpackChunkName: 'DocumentCommenting'  */ './view/DocumentCommenting'),
     roles: [ROLE_ADMIN, ROLE_USER],
   },
-
-  {
-    layout: LAYOUT_APP,
-    exact: true,
-    name: 'Настройки документа',
-    path: '/document-settings/:id',
-    order: 0,
-    hidden: false,
-    load: () => import(/* webpackChunkName: 'documentSettings'  */ './view/documentSettings'),
-    roles: [ROLE_ADMIN, ROLE_USER],
-  },
   {
     layout: LAYOUT_APP,
     exact: true,
@@ -102,6 +91,8 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
+    roles: [ROLE_ADMIN, ROLE_USER],
+
   },
   {
     layout: LAYOUT_APP,
@@ -111,6 +102,8 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
+    roles: [ROLE_ADMIN, ROLE_USER],
+
   },
   {
     layout: LAYOUT_APP,
@@ -120,6 +113,8 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
+    roles: [ROLE_ADMIN, ROLE_USER],
+
   },
   {
     layout: LAYOUT_APP,
@@ -129,9 +124,6 @@ export const routes = [
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'projectEditor'  */ './view/projectEditor'),
+    roles: [ROLE_ADMIN, ROLE_USER],
   },
 ];
-// roles: [ROLE_ADMIN, ROLE_USER],
-// roles: [ROLE_ADMIN, ROLE_USER],
-// roles: [ROLE_ADMIN, ROLE_USER],
-// roles: [ROLE_ADMIN, ROLE_USER],
