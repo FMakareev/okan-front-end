@@ -4,6 +4,7 @@ query ($id: String) {
     name
     okancode
     customercode
+    equipmentname
     project
     partners {
       id
@@ -12,4 +13,16 @@ query ($id: String) {
       patronymic
     }
   }
+
+  userlist{
+    id
+    firstname
+    lastname
+    patronymic
+    role{
+      id
+      name
+    }
+  }
+
 }
