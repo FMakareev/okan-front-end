@@ -976,7 +976,7 @@
 
 .editor-cell_content u {
   text-decoration: underline;
-  font-style: normal;
+  font-style: inherit;
 }
 
 .froala-theme.fr-toolbar .fr-command.fr-btn i,

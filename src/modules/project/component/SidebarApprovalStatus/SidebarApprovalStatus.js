@@ -43,9 +43,7 @@ const GetStatusColor = status => {
 };
 
 export class SidebarApprovalStatus extends Component {
-  static propTypes = {
-    updateNode: PropTypes.func,
-  };
+  static propTypes = { updateNode: PropTypes.func };
 
   static defaultProps = {};
 
@@ -55,7 +53,6 @@ export class SidebarApprovalStatus extends Component {
    * @desc изменение статуса у ячейки
    * */
   changeStatus = (id, status) => {
-    console.log(11, status, id);
     this.props.client
       .mutate({
         mutation: ChangeStatusMutation,
@@ -84,7 +81,6 @@ export class SidebarApprovalStatus extends Component {
           } catch (e) {
             console.error('Error in readQuery change status: ', e);
           }
-
           try {
             store.writeQuery({
               ...options,
@@ -95,9 +91,35 @@ export class SidebarApprovalStatus extends Component {
           } catch (e) {
             console.error('Error in writeQuery change status: ', e);
           }
+
+          let checkChanges = { checkForCellChanges: {} };
+          const dataCheckForCellChanges = {
+            query: CheckForCellChangesQuery,
+            variables: {
+              id: id,
+            },
+          };
+
+          try {
+            checkChanges = store.readQuery(dataCheckForCellChanges);
+            checkChanges.checkForCellChanges.answer = false;
+            //  this.props.cellCheckStatusChange(id, data.cellitem.verify);
+          } catch (error) {
+            console.warn('Warning UpdateCellInCache read: ', error);
+          }
+
+          try {
+            store.writeQuery({
+              ...dataCheckForCellChanges,
+              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
+            });
+          } catch (e) {
+            console.log(e);
+          }
         },
       })
       .then(async response => {
+        // console.log(10, id, status);
         await this.props.cellCheckStatusChange(id, status);
       })
       .catch(error => {
@@ -121,6 +143,8 @@ export class SidebarApprovalStatus extends Component {
           ({ data }) => {
             // console.log('initSubscribe: ', data.cellitem,node);
             this.props.updateNode(node.id, data.cellitem);
+            // console.log(1, node.id, data.cellitem.verify);
+            this.props.cellCheckStatusChange(node.id, data.cellitem.verify);
           },
         );
       }
@@ -153,12 +177,11 @@ export class SidebarApprovalStatus extends Component {
   };
 
   render() {
-    const { node } = this.props;
+    const { node, client } = this.props;
     return (
       <Query skip={false} query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {
-          // console.log(1, data);
-
+          // console.log(100, data);
           return (
             <ButtonBase
               title={'Статус проверки блока'}
