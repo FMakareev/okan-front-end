@@ -19,7 +19,7 @@ const FlexStyled = styled(Flex)`
   min-height: 45px;
 `;
 
-export class SettingsUser extends Component {
+export class InnerApprovalPartners extends Component {
   static propTypes = {
     /** Data  */
     data: PropTypes.element,
@@ -48,7 +48,7 @@ export class SettingsUser extends Component {
   };
 
   removeFromArrayById(arr, indexes) {
-    var slice = [].slice; // В переменную slice скопировали метод
+    let slice = [].slice; // В переменную slice скопировали метод
     let arrayOfIndexes = slice.call(arguments, 1); // В переменную arrayOfIndexes одалжили метод, который копирует массив от arg(id) на +1. И получили новый массив в котором вырезали id
     // console.log(1, arr, indexes, arrayOfIndexes, arguments);
     // arr - массив indexes - индекс по которому кликнули 2 раз arrayofIndex - Новый массив arg - id
@@ -79,7 +79,7 @@ export class SettingsUser extends Component {
               const { id } = item;
               return (
                 <FlexStyled
-                  key={`SettingsUser-${index}`}
+                  key={`InnerApprovalPartners-${index}`}
                   onClick={event => {
                     event.preventDefault();
                     return this.onChange(id);
@@ -118,4 +118,4 @@ export class SettingsUser extends Component {
   }
 }
 
-export default SettingsUser;
+export default InnerApprovalPartners;
