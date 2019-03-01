@@ -29,7 +29,7 @@ const BoxStyled = styled(Box)`
   ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
-export const SettingsNameDocument = props => {
+export const BasicDocumentSettings = props => {
   return (
     <Box>
       <Text
@@ -47,7 +47,16 @@ export const SettingsNameDocument = props => {
           {...props.name.input}
           component={TextFieldWithTooltip}
           type="text"
-          placeholder={'ТЗ - RK-186-344'}
+          placeholder={'Название документа'}
+          fontFamily={'secondary'}
+        />
+      </BoxStyled>
+      <BoxStyled mb={4}>
+        <Field
+          {...props.equipmentname.input}
+          component={TextFieldWithTooltip}
+          type="text"
+          placeholder={'Наименование оборудования'}
           fontFamily={'secondary'}
         />
       </BoxStyled>
@@ -73,6 +82,11 @@ export const SettingsNameDocument = props => {
   );
 };
 
-SettingsNameDocument.propTypes = {};
+BasicDocumentSettings.propTypes = {
+  customercode: PropTypes.object,
+  okancode: PropTypes.object,
+  name: PropTypes.object,
+  equipmentname: PropTypes.object,
+};
 
-export default SettingsNameDocument;
+export default BasicDocumentSettings;
