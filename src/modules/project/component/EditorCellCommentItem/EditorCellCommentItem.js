@@ -104,14 +104,14 @@ export class EditorCellCommentItem extends Component {
 
           data.celllist.map(item => {
             let documentIndex =
-              item.comments &&
+              Array.isArray(item.comments) &&
               item.comments.findIndex(items => items.id === updatecomment.comment.id);
             return item.comments && item.comments.splice(documentIndex, 1);
           });
 
           store.writeQuery({ ...options, data });
         } catch (error) {
-          console.error('Error createRevision.update: ', error);
+          console.error('Error EditorCellCommentItem, method onDelete: ', error);
         }
       },
     })
