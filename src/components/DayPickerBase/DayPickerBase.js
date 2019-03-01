@@ -32,19 +32,21 @@ export class DayPickerBase extends Component {
   }
 
   get initialState() {
-    return { startDate: '' };
+    const { input } = this.props;
+
+    return { startDate: input.value };
   }
 
   handleChange(date) {
     const brithDay = dayjs(date).format('DD / MM / YYYY');
 
-    this.setState({ startDate: date })
+    this.setState({ startDate: new Date(date).toISOString() });
 
     const {
       input: { onChange },
     } = this.props;
 
-    onChange(brithDay);
+    onChange(new Date(date).toISOString());
   }
 
   render() {
@@ -53,7 +55,7 @@ export class DayPickerBase extends Component {
 
     return (
       <DatePicker
-        selected={!input.value ? '' : startDate}
+        selected={startDate}
         onChange={this.handleChange}
         peekNextMonth
         showMonthDropdown
