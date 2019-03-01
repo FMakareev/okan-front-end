@@ -74,6 +74,9 @@ ButtonBase.propTypes = {
   disabled: PropTypes.bool,
   /** Active button */
   active: PropTypes.bool,
+  variant: PropTypes.string,
+  size: PropTypes.string,
+  btnComment: PropTypes.string,
 };
 
 ButtonBase.defaultProps = { borderRadius: '5px' };
