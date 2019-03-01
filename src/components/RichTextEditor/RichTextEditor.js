@@ -142,7 +142,12 @@ export class RichTextEditor extends Component {
       {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
       document.onmouseup = (e) => {
         console.log('mouseup')
-        this.releaseButton(nodePreview, wholeCell, e);
+        this.releaseButton(nodePreview, wholeCell, e, button);
+      }
+      {/** Вешаем mouseup на кнопку, т.к. предыдущий обработчик не срабатывает на кнопке */}
+      button.onmouseup = (e) => {
+        console.log('mouseup on button')
+        this.releaseButton(nodePreview, wholeCell, e, button);
       }
     }
   }
@@ -153,14 +158,40 @@ export class RichTextEditor extends Component {
   movePreviewAt = (node, e) => {
     node.style.left = e.pageX + 8 + 'px';
     node.style.top = e.pageY + 8 + 'px';
+
+    {/** Кроссбраузерное нахождение высоты всей страницы */}
+    var scrollHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+    
+    {/** Сравниваем с высотой клиента */}
+    if (scrollHeight > document.documentElement.clientHeight) {
+      {/** Наведение на верх страницы (50 пикселей сверху) */}
+      if (e.clientY < 50) {
+        window.scrollBy(0,-10);
+      }
+      /**
+       * Наведение на низ страницы (50 пикселей снизу) &&
+       * Предотвращение лишнего скролла вниз
+       */
+      if (
+        e.clientY > document.documentElement.clientHeight - 50 &&
+        e.offsetY < document.documentElement.offsetHeight
+      ) {
+        window.scrollBy(0,10);
+      }
+    }
   }
   
-  releaseButton = (node, cell, e) => {
+  releaseButton = (node, cell, e, button) => {
     {/** удаляем копию узла */}
     document.body.removeChild(node);
     {/** обнуляем обработчики */}
     document.onmousemove = null;
     document.onmouseup = null;
+    button.onmouseup = null;
 
     cell.style.opacity = 1;
   }

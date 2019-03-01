@@ -181,14 +181,10 @@ export class SidebarCellNode extends Component {
       if (isHead) {
         onClick();
       } else {
-        if (cellToCopy) {
-          this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
-        } else {
-          this.props.changeActiveNode(
-            node ? node.id : null,
-            getPosition(this.props.project, 'sectionid'),
-          );
-        }
+        this.props.changeActiveNode(
+          node ? node.id : null,
+          getPosition(this.props.project, 'sectionid'),
+        );
       }
     } catch (error) {
       console.log(`Error node=${node && node.id}: `, error);
