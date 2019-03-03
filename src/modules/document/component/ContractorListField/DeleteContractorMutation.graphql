@@ -1,0 +1,7 @@
+mutation($id: String) {
+  deletecontractorapproval(id: $id){
+    contractorapproval{
+      id
+    }
+  }
+}
