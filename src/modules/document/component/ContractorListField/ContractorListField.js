@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Box} from "@lib/ui/Box/Box";
+import {withApollo} from "react-apollo";
 import {Field} from "redux-form";
+import {Box} from "@lib/ui/Box/Box";
 import AddContractorButton from "../AddContractorButton/AddContractorButton";
 import CreateContractor from "../CreateContractor/CreateContractor";
 import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
@@ -10,16 +11,74 @@ import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
 import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
 import required from "@lib/utils/validation/required";
 import DayPickerField from "@lib/ui/DayPickerField/DayPickerField";
-
+import DeleteContractorMutation from './DeleteContractorMutation.graphql';
+import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
+import {error, success} from "react-notification-system-redux";
+import {connect} from "react-redux";
+import {getUserFromStore} from "../../../../store/reducers/user/selectors";
 
 export class ContractorListField extends Component {
 
+
+  constructor(props){
+    super(props);
+    this.state = this.initialState;
+  }
+
+  get initialState(){
+    return {
+      loadingRemove: false,
+    }
+  }
+
+  removeContractorMutation = (id) => {
+    const {client} = this.props;
+    // return client.mutate({
+    //   mutation: DeleteContractorMutation,
+    //   variables: {
+    //     id: id,
+    //   }
+    // })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          createuser: {
+            user: {
+              ...value,
+              id: 'айдишник'
+            }
+          }
+        })
+      }, 3000);
+    })
+  };
+
+  loadingRemoveToggle = () => {
+    this.setState((state)=>({
+      loadingRemove: !state.loadingRemove
+    }));
+  };
+
+  removeContractorFromField = async (contractor, callBack) => {
+
+    if (contractor.user.role === ROLE_EXTERNALCONTRACTOR) {
+      this.loadingRemoveToggle();
+      // TODO: тут метод для удаления пользователя
+      const response = await this.removeContractorMutation(contractor.user.id);
+      this.loadingRemoveToggle();
+      console.log(response);
+    }
+
+    if (typeof callBack === 'function') {
+      callBack();
+    }
+  };
+
   render() {
     const {fields} = this.props;
-    console.log(this.props);
+    const {loadingRemove} = this.state;
+
     return (<Box>
-
-
       {
         fields.map((member, index) => {
           if (fields.get(index).user.role === ROLE_USER) {
@@ -40,15 +99,17 @@ export class ContractorListField extends Component {
                 />
               </Box>
               <Box pl={6}>
-                <ButtonBase
+                <ButtonWithImage
+                  isLoading={loadingRemove}
+                  disabled={loadingRemove}
                   type={'button'}
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => fields.remove(index)}
+                  onClick={() => this.removeContractorFromField(fields.get(index), () => fields.remove(index))}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
-                </ButtonBase>
+                </ButtonWithImage>
               </Box>
             </Flex>)
           } else if (fields.get(index).user.role === ROLE_EXTERNALCONTRACTOR) {
@@ -68,15 +129,17 @@ export class ContractorListField extends Component {
                 />
               </Box>
               <Box pl={6}>
-                <ButtonBase
+                <ButtonWithImage
+                  isLoading={loadingRemove}
+                  disabled={loadingRemove}
                   type={'button'}
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => fields.remove(index)}
+                  onClick={() => this.removeContractorFromField(fields.get(index), () => fields.remove(index))}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
-                </ButtonBase>
+                </ButtonWithImage>
               </Box>
             </Flex>)
           }
@@ -96,5 +159,15 @@ export class ContractorListField extends Component {
     </Box>)
   }
 }
+
+ContractorListField = withApollo(ContractorListField);
+
+ContractorListField = connect(
+  null,
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(ContractorListField);
 
 export default ContractorListField;
