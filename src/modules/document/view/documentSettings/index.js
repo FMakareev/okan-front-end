@@ -17,6 +17,7 @@ import FormDocumentSettings from '../../component/FormDocumentSettings/FormDocum
 
 /** Graphql schema */
 import DocumentItemQuery from './DocumentItemQuery.graphql';
+import {error, success} from "react-notification-system-redux";
 
 const has = Object.prototype.hasOwnProperty;
 const testData = {
@@ -56,53 +57,71 @@ const testData = {
   }
 };
 
+const notificationDocumentSettingsPage = () => ({
+  error: {
+    title: 'Ошибка инициализации.',
+    message: 'Во время инициализации формы произошла ошибка, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
 class DocumentSettingsPage extends Component {
   static propTypes = {...ReactRoutePropTypes};
 
   state = {};
 
+  /**
+   * @param {array} approvallist - список согласующиъ/утверждающих externalapprove, externalconform
+   * @param {array} userlist - просто список пользователей
+   * @desc метод преобразует данные из списков externalapprove, externalconform в валидную для формы структуру
+   * */
   createContractorApprovalList = (approvallist, userlist) => {
-    try {
-      return approvallist.map(item => {
-        const indexUser = userlist.findIndex(user => user.id === item.user);
-        if (indexUser >= 0) {
-          return {
-            user: {
-              ...userlist[indexUser],
-              role: userlist[indexUser].role.name
-            },
-            approvaldate: item.approvaldate
-          }
-        }
-      })
-    } catch (error) {
-      console.error('Error createContractorApprovalList: ', error);
-      return error;
-    }
+    const newapprovallist = [];
+    approvallist.forEach(item => {
+      const indexUser = userlist.findIndex(user => user.id === item.user);
+      if (indexUser >= 0) {
+        newapprovallist.push({
+          user: {
+            ...userlist[indexUser],
+            role: userlist[indexUser].role.name
+          },
+          approvaldate: item.approvaldate
+        });
+      }
+    });
+    return newapprovallist;
   };
 
-  // TODO: в запрос userlist Добавить подпись, организацию и должность
-  // TODO: добавить описание методов
+  /**
+   * @param {object} value
+   * @param {object} value.documentitem - данные иззапроса документа
+   * @param {object} value.userlist - список пользователей системы
+   * @return {object} возвращает объект с данными для формы
+   * @desc метод формирует объект для инициализации формы
+   * */
   createInitialValues = ({documentitem, userlist}) => {
+    const {setNotificationError} = this.props;
+
     try {
-      const initialValues = {
+      return {
         ...documentitem,
         partners: documentitem
           ? documentitem.partners.map(item => item.id)
           : [],
       };
 
-      if (initialValues.externalapprove) {
-        initialValues.externalapprove = this.createContractorApprovalList(initialValues.externalapprove, userlist);
-      }
-      if (initialValues.externalconform) {
-        initialValues.externalconform = this.createContractorApprovalList(initialValues.externalconform, userlist);
-      }
+      // if (initialValues.externalapprove) {
+      //   initialValues.externalapprove = this.createContractorApprovalList(initialValues.externalapprove, userlist);
+      // }
+      // if (initialValues.externalconform) {
+      //   initialValues.externalconform = this.createContractorApprovalList(initialValues.externalconform, userlist);
+      // }
 
-      return initialValues;
+      // return initialValues;
     } catch (error) {
       console.error('Error createInitialValues: ', error);
-      // TODO: вставить уведомление о ошибке инициализации формы
+      setNotificationError(notificationDocumentSettingsPage().error);
       return {};
     }
   };
@@ -145,8 +164,14 @@ class DocumentSettingsPage extends Component {
   }
 }
 
-DocumentSettingsPage = connect(state => ({
-  user: getUserFromStore(state),
-}))(DocumentSettingsPage);
+DocumentSettingsPage = connect(
+  state => ({
+    user: getUserFromStore(state),
+  }),
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(DocumentSettingsPage);
 
 export default DocumentSettingsPage;

@@ -14,11 +14,14 @@ query ($id: String) {
     }
   }
 
-  userlist{
+  userlist {
     id
     firstname
     lastname
     patronymic
+    signature
+    organizationname
+    position
     role{
       id
       name
