@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {graphql} from 'react-apollo';
+import {graphql, withApollo} from 'react-apollo';
 import {success, error} from 'react-notification-system-redux';
 import {Fields, reduxForm, SubmissionError, Form, getFormValues, FieldArray} from 'redux-form';
-import { withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {has} from '../../../../utils/has';
 /**PropTypes */
 import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
@@ -14,32 +14,32 @@ import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
-/**Image */
-import {SvgSave} from '@lib/ui/Icons/SvgSave';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
+import InnerApprovalPartnersQuery from "../InnerApprovalPartnersQuery/InnerApprovalPartnersQuery";
+import ContractorListField from "../ContractorListField/ContractorListField";
+import {Text} from "@lib/ui/Text/Text";
+import {SvgSave} from '@lib/ui/Icons/SvgSave';
+import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
 
 /** Graphql schema */
 import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
 import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
-import InnerApprovalPartnersQuery from "../InnerApprovalPartnersQuery/InnerApprovalPartnersQuery";
-import ContractorListField from "../ContractorListField/ContractorListField";
-import {Text} from "@lib/ui/Text/Text";
-import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
+import CreateUserMutation from './CreateUserMutation.graphql';
+import UpdateUserMutation from './UpdateUserMutation.graphql';
 
 const notificationOpts = () => ({
   success: {
     title: 'Настройки проекта успешно обновлены',
-    message: 'Настройки проекта успешно обновлены',
     position: 'tr',
     autoDismiss: 2,
   },
   error: {
     title: 'Настройки проекта не обновлены',
-    message: 'Настройки проекта не обновлены',
+    message: 'Во время обновления настроек возникла ошибка, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
     position: 'tr',
-    autoDismiss: 2,
+    autoDismiss: 5,
   },
 });
 
@@ -92,19 +92,22 @@ export class FormDocumentSettings extends Component {
    * @desc метод для создания пользователя
    * */
   createUser = (value) => {
+    const {client} = this.props;
+    // TODO: раскомментировать метод
+    // return  client.mutate({
+    //   mutation: CreateUserMutation,
+    //   variables: value,
+    // });
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject({
-          message: 'ОШИБКА!!!!!!!!!!!'
+        resolve({
+          createuser: {
+            user: {
+              ...value,
+              id: 'айдишник-createUser'
+            }
+          }
         })
-        // resolve({
-        //   createuser: {
-        //     user: {
-        //       ...value,
-        //       id: 'айдишник'
-        //     }
-        //   }
-        // })
       }, 2000);
     })
   };
@@ -124,13 +127,19 @@ export class FormDocumentSettings extends Component {
    * @desc метод для обновления пользователя
    * */
   updateUser = (value) => {
+    const {client} = this.props;
+    // TODO: раскомментировать метод
+    // return  client.mutate({
+    //   mutation: UpdateUserMutation,
+    //   variables: value,
+    // });
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({
           updateuser: {
             user: {
               ...value,
-              id: 'айдишник'
+              id: 'айдишник-updateUser'
             }
           }
         })
@@ -138,6 +147,56 @@ export class FormDocumentSettings extends Component {
     })
   };
 
+  /**
+   * @param {String} approvaldate
+   * @param {string} userid
+   * @return {Promise}
+   * @desc
+   * */
+  submitCreateContractorApproval = (approvaldate, userid) => {
+    // TODO: заменить заглушку на мутацию
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          createcontractorapproval: {
+            contractorapproval: {
+              user: {
+                id: userid,
+              },
+              approvaldate,
+              id: 'айдишник-createcontractorapproval'
+            }
+          }
+        })
+      }, 2000);
+    })
+  };
+
+  /**
+   * @param {String} id объекта ContractorApproval
+   * @param {String} approvaldate - дата согласования/утверждения
+   * @param {string} userid
+   * @return {Promise}
+   * @desc
+   * */
+  submitUpdateContractorApproval = (id, approvaldate, userid) => {
+    // TODO: заменить заглушку на мутацию
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          updatecontractorapproval: {
+            contractorapproval: {
+              user: {
+                id: userid,
+              },
+              approvaldate: approvaldate,
+              id: 'айдишник-updatecontractorapproval'
+            }
+          }
+        })
+      }, 2000);
+    })
+  };
 
   /**
    * @param {array} value
@@ -149,27 +208,36 @@ export class FormDocumentSettings extends Component {
   createContractorApprovalList = async (value) => {
     try {
       return await value.map(async (item) => {
+        let contractorapproval = {};
+        let user = {};
 
         if (item.user.role === ROLE_EXTERNALCONTRACTOR) { /** если это внешний контрагент */
           if (has.call(item.user, 'id')) {
             /** обновляем пользователя */
             const {updateuser} = await this.updateUser(item.user);
-            return this.createContractorApproval({
-              ...item,
-              ...updateuser,
-            });
-          } else { /** пользователь системы */
+            user = updateuser.user;
+          } else {
             /** создаем пользователя */
             const {createuser} = await this.createUser(item.user);
-            return this.createContractorApproval({
-              ...item,
-              ...createuser,
-            });
+            user = createuser.user;
           }
         } else if (item.user.role === ROLE_USER) {
           /** если это внутренний пользователь системы */
-          return this.createContractorApproval(item);
+          user = item.user;
         }
+
+        /** создаем/обновляем объект ContractorApproval */
+        if (has.call(item, 'id')) {
+          const {updatecontractorapproval} = await this.submitUpdateContractorApproval(item.id, item.approvaldate, user.id);
+          console.log('updatecontractorapproval: ', updatecontractorapproval);
+          contractorapproval = updatecontractorapproval.contractorapproval;
+        } else {
+          const {createcontractorapproval} = await this.submitCreateContractorApproval(item.approvaldate, user.id);
+          console.log('createcontractorapproval: ', createcontractorapproval);
+          contractorapproval = createcontractorapproval.contractorapproval;
+        }
+
+        return contractorapproval.id;
       })
     } catch (error) {
       console.error('Error createContractorApprovalList: ', error);
@@ -198,10 +266,10 @@ export class FormDocumentSettings extends Component {
       console.log('newDate: ', newDate);
 
       /** резолвим промисы */
-      if(newDate.externalapprove.length){
+      if (newDate.externalapprove.length) {
         newDate.externalapprove = await Promise.all(newDate.externalapprove)
       }
-      if(newDate.externalconform.length){
+      if (newDate.externalconform.length) {
         newDate.externalconform = await Promise.all(newDate.externalconform)
       }
 
@@ -231,7 +299,7 @@ export class FormDocumentSettings extends Component {
     const documentApproval = await this.transformDocumentApproval(value);
     console.log('documentApproval:', documentApproval);
 
-    if(documentApproval.message){
+    if (documentApproval.message) {
       setNotificationError(notificationOpts().error);
       throw new SubmissionError({_error: documentApproval.message});
     }
@@ -263,10 +331,7 @@ export class FormDocumentSettings extends Component {
         return response;
       })
       .catch(({graphQLErrors, message, networkError, ...rest}) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
+
         setNotificationError(notificationOpts().error);
         throw new SubmissionError({_error: message});
       });
@@ -370,5 +435,6 @@ FormDocumentSettings = connect(
 FormDocumentSettings = reduxForm({
   form: 'FormDocumentSettings',
 })(FormDocumentSettings);
-FormDocumentSettings = withRouter(FormDocumentSettings)
+FormDocumentSettings = withRouter(FormDocumentSettings);
+FormDocumentSettings = withApollo(FormDocumentSettings);
 export default FormDocumentSettings;
