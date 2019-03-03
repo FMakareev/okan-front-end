@@ -1,0 +1,17 @@
+mutation ($firstname: String, $lastname: String, $patronymic: String, $position: String, $signature: String, $organizationname: String) {
+  createuser(firstname: $firstname, lastname: $lastname, patronymic: $patronymic, position: $position, signature: $signature, organizationname: $organizationname) {
+    user {
+      firstname
+      id
+      lastname
+      patronymic
+      position
+      organizationname
+      role {
+        id
+        name
+      }
+      signature
+    }
+  }
+}
