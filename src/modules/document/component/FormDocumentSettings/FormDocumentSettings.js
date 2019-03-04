@@ -400,7 +400,7 @@ export class FormDocumentSettings extends Component {
           </Box>
         </Flex>
 
-        <Flex justifyContent={'center'}>
+        <Flex justifyContent={'center'} mb={'200px'}>
           <ButtonWithImage
             type="submit"
             variant={'large'}
@@ -423,9 +423,9 @@ FormDocumentSettings = graphql(FormDocumentSettingsMutation, {
 })(FormDocumentSettings);
 
 FormDocumentSettings = connect(
-  state => {
-    return {values: getFormValues('FormDocumentSettings')(state)};
-  },
+  state => ({
+    values: getFormValues('FormDocumentSettings')(state),
+  }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
