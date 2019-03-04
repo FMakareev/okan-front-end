@@ -8,6 +8,7 @@ import { ButtonSize } from './variants/buttonSize';
 import { ButtonComment } from './variants/buttonComment';
 import { TextVariant } from './variants/textVariant';
 import {InputSize} from "@lib/styles/variants/InputSize";
+import {InputVariant} from "@lib/styles/variants/inputVariant";
 
 export const ColorPallet = {
   color0: '#FFFFFF',
@@ -82,6 +83,7 @@ export const StyledThemeProvider = ({ children }) => (
         buttonComment: ButtonComment,
         text: TextVariant,
         inputSize: InputSize,
+        inputVariant:InputVariant,
       },
       fontFamily: {
         primary300: 'Museo Sans 300',
