@@ -739,7 +739,6 @@ export class DocumentTree extends Component {
    * если у всех соседей статус такой же  то меняет на него парента и так до корня
    * */
   cellCheckStatusChange = async (cellid, status) => {
-    // console.log('cellCheckStatusChange', cellid, status);
     try {
       let tree = Object.assign({}, this.state.tree);
       let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
@@ -751,6 +750,8 @@ export class DocumentTree extends Component {
       });
 
       if (currentNode.parent) {
+        // console.log(3, currentNode.parent);
+        // console.log(3.1, currentNode.parent, tree, status);
         tree = await this.changeParentVerifyStatus(currentNode.parent, tree, status);
       }
       // TODO: добавить уведомление об обновлении статуса

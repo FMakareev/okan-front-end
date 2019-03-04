@@ -393,6 +393,7 @@ export class SidebarCellNode extends Component {
             </Box>
             <Box opacity={hover ? '1' : '0'} px={1}>
               <SidebarCreateCell
+                cellCheckStatusChange={this.props.cellCheckStatusChange}
                 node={node}
                 changeActiveNode={id =>
                   this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))
