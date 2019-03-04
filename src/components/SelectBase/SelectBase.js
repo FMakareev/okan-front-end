@@ -8,7 +8,6 @@ import {SvgTriangle} from '@lib/ui/Icons/SvgTriangle';
 import {Text} from '@lib/ui/Text/Text';
 import {InputVariant} from '../../styles/variants/InputVariant';
 import has from '../../utils/has';
-// selectProps.variant
 
 /**
  * @param {object} theme - объект варианта из темы, импортируем напрямую из папки styles/variant
