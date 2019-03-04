@@ -108,6 +108,7 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Имя'}
           type="text"
           size={'md'}
+          variant={'primary'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -118,6 +119,7 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Отчество'}
           type="text"
           size={'md'}
+          variant={'primary'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -138,6 +140,7 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Должность'}
           type="text"
           size={'md'}
+          variant={'primary'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -149,8 +152,6 @@ export class FormProfileCreateUser extends Component {
           type="text"
           validate={required}
           fontFamily={'secondary'}
-          fontSize={5}
-          lineHeight={7}
         />
 
         <Field
@@ -159,9 +160,7 @@ export class FormProfileCreateUser extends Component {
           placeholder={'Электронная почта'}
           type="text"
           size={'md'}
-          fontFamily={
-            'secondary' // validate={[required, isEmail]}
-          }
+          variant={'primary'}
         />
 
         <TextFieldLastWrapper mb={11}>
