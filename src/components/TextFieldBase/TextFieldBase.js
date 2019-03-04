@@ -15,15 +15,20 @@ const inputSize = variant({
   key: 'variant.inputSize',
   prop: 'size',
 });
+const inputVariant = variant({
+  key: 'variant.inputVariant',
+  prop: 'variant',
+});
 
 /**
  * Text Field Base
  * @example ./TextFieldBase.example.md
  */
-const TextField = styled.input`
+export const TextFieldBase = styled.input`
+  ${inputVariant};
+  ${inputSize};
   width: 100%;
   border: 1px solid;
-  ${inputSize};
   ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
   ${props => color({ ...props, color: 'color11' })};
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
@@ -36,7 +41,6 @@ const TextField = styled.input`
   ${BorderColorProperty};
   ${display};
   ${space};
-
   ::placeholder {
     ${props => color({ ...props, color: 'color4' })}
   }
@@ -64,9 +68,6 @@ const TextField = styled.input`
   }
 `;
 
-export const TextFieldBase = props => {
-  return <TextField {...props} />;
-};
 
 TextFieldBase.propTypes = {
   /** Description of prop "px: padding-left and padding-right". */
@@ -90,6 +91,7 @@ TextFieldBase.propTypes = {
 
 TextFieldBase.defaultProps = {
   size: 'lg',
+  variant: 'default',
   fontFamily: 'secondary',
 };
 
