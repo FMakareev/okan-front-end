@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
-import styled from 'styled-components';
 import { success, error } from 'react-notification-system-redux';
-import { Fields, Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { Fields, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 
 /**PropTypes */
@@ -21,11 +18,10 @@ import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { SvgSave } from '@lib/ui/Icons/SvgSave';
 
 /** Components */
-import SettingsUser from './SettingsUser';
 import SettingsNameDocument from './SettingsNameDocument';
+import {InnerApprovalPartnersQuery} from "../InnerApprovalPartnersQuery/InnerApprovalPartnersQuery";
 
 /** Graphql schema */
-import ProjectItemQuery from './ProjectItemQuery.graphql';
 import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
 import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
 
@@ -125,33 +121,9 @@ export class FormDocumentSettings extends Component {
         <Flex mt={9} justifyContent={'space-around'}>
           <Box width={'55%'}>
             <Container maxWidth={'500px'} width={'100%'}>
-              <Query query={ProjectItemQuery} variables={{ id: project }}>
-                {({ loading, error, data }) => {
-                  console.log('FormDocumentSettings', data);
-                  if (loading) {
-                    return 'Загрузка...';
-                  }
-                  if (error) {
-                    return 'Произошла ошибка.';
-                  }
-                  if (!data || (data && !has.call(data, 'projectitem'))) {
-                    return null;
-                  }
-                  return (
-                    <Field
-                      component={SettingsUser}
-                      options={
-                        data.projectitem &&
-                        data.projectitem.partners.map(item => ({
-                          id: item.id,
-                          name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
-                        }))
-                      }
-                      name={'partners'}
-                    />
-                  );
-                }}
-              </Query>
+              <InnerApprovalPartnersQuery
+                projectid={project}
+              />
             </Container>
 
             <Container maxWidth={'500px'} width={'100%'}>
