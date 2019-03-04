@@ -6,7 +6,6 @@ import AddContractorButton from "../AddContractorButton/AddContractorButton";
 import CreateContractor from "../CreateContractor/CreateContractor";
 import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
 import {Flex} from "@lib/ui/Flex/Flex";
-import {ButtonBase} from "@lib/ui/ButtonBase/ButtonBase";
 import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
 import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
 import required from "@lib/utils/validation/required";
@@ -15,7 +14,8 @@ import DeleteContractorMutation from './DeleteContractorMutation.graphql';
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
 import {error, success} from "react-notification-system-redux";
 import {connect} from "react-redux";
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 
 export class ContractorListField extends Component {
 
@@ -44,7 +44,7 @@ export class ContractorListField extends Component {
         resolve({
           createuser: {
             user: {
-              ...value,
+              // ...value,
               id: 'айдишник'
             }
           }
@@ -84,19 +84,24 @@ export class ContractorListField extends Component {
           if (fields.get(index).user.role === ROLE_USER) {
             return (<Flex mb={6}>
               <Box width={'100%'}>
-                <Field
-                  name={member + '.user.id'}
-                  component={SelectContractorFromInnerUserList}
-                />
-                <Field
-                  name={member + ".approvaldate"}
-                  component={DayPickerField}
-                  placeholder={'Дата'}
-                  type={"text"}
-                  size={'md'}
-                  fontFamily={'secondary'}
-                  validate={required}
-                />
+                <TextFieldFirstWrapper>
+                  <Field
+                    name={member + '.user.id'}
+                    variant={'firstField'}
+                    component={SelectContractorFromInnerUserList}
+                  />
+                </TextFieldFirstWrapper>
+                <TextFieldLastWrapper>
+                  <Field
+                    name={member + ".approvaldate"}
+                    component={DayPickerField}
+                    placeholder={'Дата'}
+                    type={"text"}
+                    size={'sm'}
+                    fontFamily={'secondary'}
+                    validate={required}
+                  />
+                </TextFieldLastWrapper>
               </Box>
               <Box pl={6}>
                 <ButtonWithImage
