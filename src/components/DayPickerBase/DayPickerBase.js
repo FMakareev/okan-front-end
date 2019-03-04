@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {variant} from 'styled-system';
 import { ru } from 'date-fns/locale/ru';
-import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
+import { asyncComponent } from 'react-async-component';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 /** Css */
 import '../../assets/style/react-datepicker-big.css';
+import {Box} from "@lib/ui/Box/Box";
 
-const DatePicker = dynamic(import('react-datepicker'), {
-  ssr: false,
+// const DatePicker = dynamic(import('react-datepicker'), {
+//   ssr: false,
+// });
+const DatePicker = asyncComponent({
+  resolve: () => import('react-datepicker'),
+  LoadingComponent: ({placeholder})=>(<Box border={'1px solid #848484'} px={'12px'} py={'10px'}>{placeholder}</Box>),
+  serverMode: 'defer'
 });
 
 const inputSize = variant({
