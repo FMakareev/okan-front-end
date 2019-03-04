@@ -158,7 +158,7 @@ export class FormProjectCreate extends Component {
                   type={'text'}
                   fontSize={5}
                   lineHeight={6}
-                  options={newProjectList}
+                  options={data && data.templatelist}
                   labelKey={'name'}
                   valueKey={'id'}
                 />
