@@ -25,20 +25,9 @@ import isEmail from '../../../../utils/validation/isEmail';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
+import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 
-const BoxFirst = styled(Box)`
-  input:first-child {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-`;
-
-const BoxSecond = styled(Box)`
-  input:first-child {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-`;
 
 const notificationOpts = () => ({
   success: {
@@ -101,7 +90,7 @@ export class FormProfileCreateUser extends Component {
           Создать пользователя
         </Text>
 
-        <BoxFirst>
+        <TextFieldFirstWrapper>
           <Field
             name="firstname"
             component={TextFieldWithTooltip}
@@ -111,7 +100,7 @@ export class FormProfileCreateUser extends Component {
             fontFamily={'secondary'}
             validate={required}
           />
-        </BoxFirst>
+        </TextFieldFirstWrapper>
 
         <Field
           name="lastname"
@@ -138,6 +127,7 @@ export class FormProfileCreateUser extends Component {
           component={DayPickerField}
           placeholder={'Дата рождения'}
           type="text"
+          variant={'primary'}
           validate={required}
           fontFamily={'secondary'}
         />
@@ -174,7 +164,7 @@ export class FormProfileCreateUser extends Component {
           }
         />
 
-        <BoxSecond mb={11}>
+        <TextFieldLastWrapper mb={11}>
           <Field
             name="signature"
             component={PictureUploadPreview}
@@ -182,7 +172,7 @@ export class FormProfileCreateUser extends Component {
             type="text"
             validate={required}
           />
-        </BoxSecond>
+        </TextFieldLastWrapper>
 
         <ButtonWithImage
           type="submit"
