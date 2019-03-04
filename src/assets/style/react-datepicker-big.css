@@ -463,17 +463,11 @@
 
 .react-datepicker__input-container input {
   width: 100%;
-  border: 1px solid transparent;
   font-family: 'Circe Regular';
-  border-radius: 4px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  color: #333333 !important;
   background-color: #fff;
   cursor: text;
-  padding: 10px !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
 }
 
 ::-webkit-input-placeholder {
