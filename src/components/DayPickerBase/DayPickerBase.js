@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { color } from 'styled-system';
+import {variant} from 'styled-system';
 import { ru } from 'date-fns/locale/ru';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
+import styled from 'styled-components';
+
+/** PropTypes */
+import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 /** Css */
 import '../../assets/style/react-datepicker-big.css';
@@ -13,8 +16,19 @@ const DatePicker = dynamic(import('react-datepicker'), {
   ssr: false,
 });
 
-/** PropTypes */
-import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
+const inputSize = variant({
+  key: 'variant.inputSize',
+  prop: 'size',
+});
+const inputVariant = variant({
+  key: 'variant.inputVariant',
+  prop: 'variant',
+});
+const DatePickerStyled = styled(DatePicker)`
+  ${inputSize};
+  ${inputVariant};
+`;
+
 
 export class DayPickerBase extends Component {
   static propTypes = {
@@ -23,7 +37,11 @@ export class DayPickerBase extends Component {
     ...fieldInputPropTypes,
   };
 
-  static defaultProps = { input: { onChange: () => null, value: null } };
+  static defaultProps = {
+    input: { onChange: () => null, value: null },
+    size: 'md',
+    variant: 'default',
+  };
 
   constructor(props) {
     super(props);
@@ -54,7 +72,7 @@ export class DayPickerBase extends Component {
     const { startDate } = this.state;
 
     return (
-      <DatePicker
+      <DatePickerStyled
         selected={startDate}
         onChange={this.handleChange}
         peekNextMonth
