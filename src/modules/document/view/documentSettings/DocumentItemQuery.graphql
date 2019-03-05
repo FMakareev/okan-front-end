@@ -1,0 +1,15 @@
+query ($id: String) {
+  documentitem(id: $id) {
+    id
+    name
+    okancode
+    customercode
+    project
+    partners {
+      id
+      firstname
+      lastname
+      patronymic
+    }
+  }
+}

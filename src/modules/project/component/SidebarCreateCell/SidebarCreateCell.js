@@ -317,8 +317,14 @@ export class SidebarCreateCell extends Component {
         },
       })
       .then(response => {
-        // console.log('SidebarCreateCell response: ', response.data.createcell.cell);
+        console.log('SidebarCreateCell response: ', response.data.createcell);
         this.props.addNodeInTree(response.data.createcell.cell);
+        this.props.cellCheckStatusChange(
+          // response.data.createcell.cell.parent.id,
+          response.data.createcell.cell.id,
+          response.data.createcell.cell.verify,
+        );
+
         setNotificationSuccess(
           notificationCreate({ prevcell, parent: null, isHead, contenttype }).success,
         );
@@ -413,6 +419,7 @@ export class SidebarCreateCell extends Component {
       .then(response => {
         this.props.removeNodeInTree(id);
         setNotificationSuccess(notificationDelete(name).success);
+        // this.props.cellCheckStatusChange(id, response.data.createcell.cell.verify);
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
@@ -432,7 +439,6 @@ export class SidebarCreateCell extends Component {
       <Box position={'relative'}>
         <ButtonBase
           title={'Добавить подраздел или раздел.'}
-
           variant={'outlineGray'}
           p={'2px'}
           fontSize={'15px'}

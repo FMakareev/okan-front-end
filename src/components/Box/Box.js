@@ -1,4 +1,4 @@
-import { space, width, color, fontSize, height, position, zIndex, border,opacity, minHeight } from 'styled-system';
+import { space, width, color, fontSize, height, position, zIndex, border,opacity, minHeight, borderRadius, borderColor, borders, overflow } from 'styled-system';
 import styled from 'styled-components';
 
 /** Style property */
@@ -15,6 +15,10 @@ export const Box = styled.div`
   ${minHeight};
   ${fontSize};
   ${border};
+  ${borders};
+  ${borderColor};
+  ${borderRadius};
+  ${overflow};
   ${color};
   ${BackgroundColorProperty};
   ${TextAlignProperty}
@@ -26,6 +30,10 @@ Box.propTypes = {
   ...width.propTypes,
   ...fontSize.propTypes,
   ...border.propTypes,
+  ...borders.propTypes,
+  ...borderColor.propTypes,
+  ...borderRadius.propTypes,
+  ...overflow.propTypes,
   ...color.propTypes,
 };
 

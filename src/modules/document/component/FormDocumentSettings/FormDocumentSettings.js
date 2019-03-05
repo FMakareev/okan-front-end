@@ -1,0 +1,174 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
+import { success, error } from 'react-notification-system-redux';
+import { Fields, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { Redirect } from 'react-router-dom';
+
+/**PropTypes */
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+
+/** View */
+import Box from '@lib/ui/Box/Box';
+import Flex from '@lib/ui/Flex/Flex';
+import Container from '@lib/ui/Container/Container';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+
+/**Image */
+import { SvgSave } from '@lib/ui/Icons/SvgSave';
+
+/** Components */
+import SettingsNameDocument from './SettingsNameDocument';
+import {InnerApprovalPartnersQuery} from "../InnerApprovalPartnersQuery/InnerApprovalPartnersQuery";
+
+/** Graphql schema */
+import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
+import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
+
+const notificationOpts = () => ({
+  success: {
+    title: 'Настройки проекта успешно обновлены',
+    message: 'Настройки проекта успешно обновлены',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Настройки проекта не обновлены',
+    message: 'Настройки проекта не обновлены',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+});
+
+const has = Object.prototype.hasOwnProperty;
+
+const sleep = ms =>
+  new Promise(resolve => {
+    return setInterval(resolve, ms);
+  });
+
+export class FormDocumentSettings extends Component {
+  static propTypes = { ...ReactRoutePropTypes };
+
+  state = this.initialState;
+
+  get initialState() {
+    return { redirect: null };
+  }
+
+  submit = value => {
+    // console.log('FormDocumentSettings', value);
+    const data = {
+      variables: Object.assign({}, value),
+      update: (store, response) => {
+        try {
+          const {
+            data: { updatedocument },
+          } = response;
+
+          const data = store.readQuery({ query: DocumentItemQuery });
+
+          data.documentitem.push(updatedocument.document);
+
+          store.writeQuery({ query: DocumentItemQuery, data });
+        } catch (e) {
+          console.error('Error in FormProjectCreate, method submit : ', e);
+        }
+      },
+    };
+    console.log('FormDocumentSettings', data);
+
+    return this.props['@apollo/update'](data)
+      .then(response => {
+        this.props.setNotificationSuccess(notificationOpts().success);
+        this.setState(() => ({ redirect: `/app/project/${data.variables.project}` }));
+
+        return response;
+      })
+      .then(response => {
+        return sleep(1000);
+      })
+      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+        console.log('graphQLErrors: ', graphQLErrors);
+        console.log('message: ', message);
+        console.log('networkError: ', networkError);
+        console.log('rest: ', rest);
+        this.props.setNotificationError(notificationOpts().error);
+        if (graphQLErrors) {
+          throw new SubmissionError({ ...this.getNetworkError(graphQLErrors) });
+        } else {
+          throw new SubmissionError({ _error: message });
+        }
+      });
+  };
+
+  render() {
+    const {
+      handleSubmit,
+      submitting,
+      invalid,
+      initialValues: { project },
+    } = this.props;
+
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to={redirect} />;
+    }
+
+    return (
+      <Form onSubmit={handleSubmit(this.submit)}>
+        <Flex mt={9} justifyContent={'space-around'}>
+          <Box width={'55%'}>
+            <Container maxWidth={'500px'} width={'100%'}>
+              <InnerApprovalPartnersQuery
+                projectid={project}
+              />
+            </Container>
+
+            <Container maxWidth={'500px'} width={'100%'}>
+              <Fields
+                names={['name', 'customercode', 'okancode']}
+                component={SettingsNameDocument}
+              />
+            </Container>
+          </Box>
+        </Flex>
+
+        <Flex justifyContent={'center'}>
+          <ButtonWithImage
+            type="submit"
+            variant={'large'}
+            size={'medium'}
+            children={'Сохранить настройки'}
+            leftIcon={SvgSave()}
+            mr={9}
+            disabled={submitting || invalid}
+            width={'500px'}
+            widthIcon={'16px'}
+          />
+        </Flex>
+      </Form>
+    );
+  }
+}
+
+FormDocumentSettings = graphql(FormDocumentSettingsMutation, {
+  name: '@apollo/update',
+})(FormDocumentSettings);
+
+FormDocumentSettings = connect(
+  state => {
+    return { values: getFormValues('FormDocumentSettings')(state) };
+  },
+  dispatch => ({
+    setNotificationSuccess: message => dispatch(success(message)),
+    setNotificationError: message => dispatch(error(message)),
+  }),
+)(FormDocumentSettings);
+
+FormDocumentSettings = reduxForm({
+  form: 'FormDocumentSettings',
+})(FormDocumentSettings);
+
+export default FormDocumentSettings;

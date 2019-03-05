@@ -9,7 +9,6 @@ import Text from '@lib/ui/Text/Text';
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
 export const ProfileNotification = ({ data }) => {
-
   return (
     <Fragment>
       <Text
@@ -22,13 +21,10 @@ export const ProfileNotification = ({ data }) => {
         Оповещения
       </Text>
 
-      {
-        data && data.map((item, index)=>( <ProfileNotificationItem
-          key={`ProfileNotificationItem-${index}`}
-          {...item}
-        />))
-      }
-
+      {data &&
+        data.map((item, index) => (
+          <ProfileNotificationItem key={`ProfileNotificationItem-${index}`} {...item} />
+        ))}
     </Fragment>
   );
 };

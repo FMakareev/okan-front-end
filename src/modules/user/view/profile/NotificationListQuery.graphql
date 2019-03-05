@@ -1,9 +1,35 @@
-query ($user: String) {
-  notificationslist(user: $user) {
+query ($user: String, $messageread: Boolean) {
+  notificationslist(user: $user, messageread: $messageread) {
+    # cell {
+    #   id
+    #   name
+    #   children {
+    #     id
+    #     name
+    #   }
+    # }
+    comment {
+      id
+      message
+      cell
+    }
     createat
+    document {
+      id
+      name
+      project
+    }
     id
     message
+    messageread
+    recipient {
+      id
+      firstname
+      lastname
+      patronymic
+    }
     sender {
+      id
       firstname
       lastname
       patronymic
