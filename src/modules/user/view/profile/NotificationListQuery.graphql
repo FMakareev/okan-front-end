@@ -1,13 +1,13 @@
 query ($user: String, $messageread: Boolean) {
   notificationslist(user: $user, messageread: $messageread) {
-    # cell {
-    #   id
-    #   name
-    #   children {
-    #     id
-    #     name
-    #   }
-    # }
+    cell {
+      id
+      name
+      parent {
+        id
+        name
+      }
+    }
     comment {
       id
       message
