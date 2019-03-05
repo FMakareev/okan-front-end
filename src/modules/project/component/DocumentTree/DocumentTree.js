@@ -768,7 +768,6 @@ export class DocumentTree extends Component {
    * @desc метод для изменения статуса проверки ячеек
    * */
   changeParentVerifyStatus = (parent, tree, status) => {
-    // console.log(4, parent, tree, status);
     return new Promise(async (resolve, reject) => {
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
@@ -782,12 +781,16 @@ export class DocumentTree extends Component {
             item => item.verify === CELL_STATUS_CHANGED || item.verify === CELL_STATUS_NOT_CHECKED,
           );
           console.log(8, result);
+          if (result === 0) {
+            parentNode.verify = CELL_STATUS_CHANGED;
+          }
 
           if (result === -1) {
             parentNode = {
               ...parentNode,
               verify: status,
             };
+
             console.log(9, parentNode);
             objectPath.set([tree], pathToParentNode, parentNode);
             await this.updateCell({
