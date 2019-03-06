@@ -53,12 +53,7 @@ const FlexStyled = styled(Flex)`
 export const ProfileNotificationItem = ({ message, sender, name, createat, comment, document, cell }) => {
   // to={`http://okan.localhost/app/project/${document.project}/${document.id}`}
 
-  let link = '/app/project/' + 
-              document.project + '/' + 
-              document.id + '/' + 
-              cell.parent.id + '?cellid=' +
-              comment.cell + '&сommentid=' + 
-              comment.id;
+  let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
 
   console.log(document.name)
 
