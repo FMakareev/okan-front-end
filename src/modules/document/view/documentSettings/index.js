@@ -96,11 +96,10 @@ class DocumentSettingsPage extends Component {
   /**
    * @param {object} value
    * @param {object} value.documentitem - данные иззапроса документа
-   * @param {object} value.userlist - список пользователей системы
    * @return {object} возвращает объект с данными для формы
    * @desc метод формирует объект для инициализации формы
    * */
-  createInitialValues = ({documentitem, userlist}) => {
+  createInitialValues = ({documentitem}) => {
     const {setNotificationError} = this.props;
 
     try {
@@ -110,15 +109,6 @@ class DocumentSettingsPage extends Component {
           ? documentitem.partners.map(item => item.id)
           : [],
       };
-
-      // if (initialValues.externalapprove) {
-      //   initialValues.externalapprove = this.createContractorApprovalList(initialValues.externalapprove, userlist);
-      // }
-      // if (initialValues.externalconform) {
-      //   initialValues.externalconform = this.createContractorApprovalList(initialValues.externalconform, userlist);
-      // }
-
-      // return initialValues;
     } catch (error) {
       console.error('Error createInitialValues: ', error);
       setNotificationError(notificationDocumentSettingsPage().error);
@@ -137,7 +127,6 @@ class DocumentSettingsPage extends Component {
       <ErrorCatch>
         <Query query={DocumentItemQuery} variables={{id: id}}>
           {({data, error, loading}) => {
-            // console.log('DocumentItemQuery', data);
 
             if (loading) {
               console.error('loading:', loading);
