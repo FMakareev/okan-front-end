@@ -24,7 +24,7 @@ const getStyleVariant = (theme, themeKey, component) => {
     }
     return {};
   } catch (e) {
-    console.error('Error getStyleVariant: ',e);
+    console.error('Error getStyleVariant: ', e);
     return {};
   }
 };
@@ -152,9 +152,15 @@ export class SelectBase extends Component {
     loading: PropTypes.bool,
     defaultOptions: PropTypes.object,
     placeholder: PropTypes.string,
+    optionsFilter: PropTypes.func,
   };
 
-  static defaultProps = {mods: false, options: [], placeholder: ''}; // valueKey: 'id', // labelKey: 'name',
+  static defaultProps = {
+    mods: false,
+    options: [],
+    placeholder: '',
+    optionsFilter: (options) => options,
+  }; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
     super(props);
@@ -264,6 +270,7 @@ export class SelectBase extends Component {
       valueKey,
       placeholder,
       isLoading,
+      optionsFilter,
       ...rest
     } = this.props;
     const {selectedOption} = this.state;
@@ -272,7 +279,7 @@ export class SelectBase extends Component {
       <Select
         value={selectedOption}
         name={input.name}
-        options={options}
+        options={optionsFilter(options)}
         isLoading={isLoading}
         onChange={this.onChange}
         disabled={disabled}
