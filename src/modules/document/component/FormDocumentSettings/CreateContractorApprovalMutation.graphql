@@ -1,5 +1,5 @@
-mutation($position:String,$firstname:String,$lastname:String,$patronymic:String,$signature:String,$approvaldate:String, $userid: String){
-  createcontractorapproval(position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate, userid: $userid){
+mutation($position:String,$firstname:String,$lastname:String,$patronymic:String,$signature:String,$approvaldate:String, $userid: String, $organizationname: String){
+  createcontractorapproval(position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate, userid: $userid,organizationname:$organizationname){
     contractorapproval {
       id
       user {
@@ -9,6 +9,11 @@ mutation($position:String,$firstname:String,$lastname:String,$patronymic:String,
         patronymic
         position
         organizationname
+        signature
+        role{
+          id
+          name
+        }
       }
       approvaldate
     }
