@@ -1,6 +1,6 @@
-mutation($id:String, $userid:String, $position:String,$firstname:String,$lastname:String,$patronymic:String,$signature:String,$approvaldate:String){
-  updatecontractorapproval(id: $id, userid:$userid, position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate){
-    contractorapproval{
+mutation($id:String ,$position:String,$firstname:String,$lastname:String,$patronymic:String,$signature:String,$approvaldate:String, $userid: String, $organizationname: String){
+  updatecontractorapproval(id: $id,position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate, userid: $userid,organizationname:$organizationname){
+    contractorapproval {
       id
       user {
         id
@@ -9,6 +9,11 @@ mutation($id:String, $userid:String, $position:String,$firstname:String,$lastnam
         patronymic
         position
         organizationname
+        signature
+        role{
+          name
+          id
+        }
       }
       approvaldate
     }
