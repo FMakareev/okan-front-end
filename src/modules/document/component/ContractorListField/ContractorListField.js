@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withApollo} from "react-apollo";
-import {Field} from "redux-form";
+import {Field, getFormValues} from "redux-form";
 import {Box} from "@lib/ui/Box/Box";
 import AddContractorButton from "../AddContractorButton/AddContractorButton";
 import CreateContractor from "../CreateContractor/CreateContractor";
@@ -20,68 +20,83 @@ import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWr
 export class ContractorListField extends Component {
 
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = this.initialState;
   }
 
-  get initialState(){
+  get initialState() {
     return {
       loadingRemove: false,
     }
   }
 
-  removeContractorMutation = (id) => {
+  removeContractorApprovalMutation = (id) => {
     const {client} = this.props;
-    // return client.mutate({
-    //   mutation: DeleteContractorMutation,
-    //   variables: {
-    //     id: id,
-    //   }
-    // })
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          createuser: {
-            user: {
-              // ...value,
-              id: 'айдишник'
-            }
-          }
-        })
-      }, 3000);
-    })
+    return client.mutate({
+      mutation: DeleteContractorMutation,
+      variables: {
+        id: id,
+      }
+    });
   };
 
   loadingRemoveToggle = () => {
-    this.setState((state)=>({
+    this.setState((state) => ({
       loadingRemove: !state.loadingRemove
     }));
   };
 
-  removeContractorFromField = async (contractor, callBack) => {
-
-    if (contractor.user.role === ROLE_EXTERNALCONTRACTOR) {
-      this.loadingRemoveToggle();
-      // TODO: тут метод для удаления пользователя
-      const response = await this.removeContractorMutation(contractor.user.id);
-      this.loadingRemoveToggle();
-      console.log(response);
-    }
+  /**
+   * @param {object} contractor
+   * @param {function} callBack
+   * */
+  removeContractorApprovalFromField = async (contractor, callBack) => {
+    console.log('removeContractorApprovalFromField: ',contractor, callBack);
+    this.loadingRemoveToggle();
+    // TODO: тут метод для удаления пользователя
+    // TODO: добавить уведомление
+    const response = await this.removeContractorApprovalMutation(contractor.id);
+    console.log('removeContractorApprovalFromField: ',response);
+    this.loadingRemoveToggle();
 
     if (typeof callBack === 'function') {
       callBack();
     }
   };
 
-  render() {
-    const {fields} = this.props;
-    const {loadingRemove} = this.state;
+  optionsUserFilter = (options) => {
+    try {
+      const {fields, values, compareUsers} = this.props;
+      let v = Object.entries(values).filter(([key]) => {
+        if (compareUsers.findIndex(item => item === key) >= 0) {
+          return values[key];
+        }
+      }).map(([key, value]) => value);
 
+      let newOptions = Object.assign([], options);
+
+      v.forEach(item => {
+        newOptions = newOptions.filter(option => {
+          return !(item.findIndex(value => value.user.id ? value.user.id === option.id : false) >= 0);
+        });
+      });
+
+      return newOptions
+    } catch (error) {
+      console.error('Error: ', error);
+      return options;
+    }
+  }
+
+  render() {
+    const {fields, values, compareUsers} = this.props;
+    const {loadingRemove} = this.state;
+    console.log(this.props);
     return (<Box>
       {
         fields.map((member, index) => {
-          if (fields.get(index).user.role === ROLE_USER) {
+          if (fields.get(index).user.role.name === ROLE_USER) {
             return (<Flex mb={6}>
               <Box width={'100%'}>
                 <TextFieldFirstWrapper>
@@ -89,6 +104,7 @@ export class ContractorListField extends Component {
                     name={member + '.user.id'}
                     variant={'firstField'}
                     component={SelectContractorFromInnerUserList}
+                    optionsFilter={this.optionsUserFilter}
                   />
                 </TextFieldFirstWrapper>
                 <TextFieldLastWrapper>
@@ -111,13 +127,13 @@ export class ContractorListField extends Component {
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => this.removeContractorFromField(fields.get(index), () => fields.remove(index))}
+                  onClick={() => this.removeContractorApprovalFromField(fields.get(index), () => fields.remove(index))}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
                 </ButtonWithImage>
               </Box>
             </Flex>)
-          } else if (fields.get(index).user.role === ROLE_EXTERNALCONTRACTOR) {
+          } else if (fields.get(index).user.role.name === ROLE_EXTERNALCONTRACTOR) {
             return (<Flex mb={6}>
               <Box width={'100%'}>
                 <CreateContractor
@@ -141,7 +157,7 @@ export class ContractorListField extends Component {
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => this.removeContractorFromField(fields.get(index), () => fields.remove(index))}
+                  onClick={() => this.removeContractorApprovalFromField(fields.get(index), () => fields.remove(index))}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
                 </ButtonWithImage>
@@ -156,7 +172,9 @@ export class ContractorListField extends Component {
         onChange={(value) => {
           fields.push({
             user: {
-              role: value,
+              role: {
+                name: value,
+              },
             }
           });
         }}
@@ -168,7 +186,9 @@ export class ContractorListField extends Component {
 ContractorListField = withApollo(ContractorListField);
 
 ContractorListField = connect(
-  null,
+  state => ({
+    values: getFormValues('FormDocumentSettings')(state),
+  }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
