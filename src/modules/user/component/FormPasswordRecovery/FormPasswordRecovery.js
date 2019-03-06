@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { Field, reduxForm, Form } from 'redux-form';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
 import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
-import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 
 /** Components */
@@ -22,6 +20,8 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQl schema */
 import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql';
+import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
+import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
 
 const validate = ({ password, newpassword, confirmnewpassword }) => {
   const errors = {};
@@ -56,23 +56,7 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
   return errors;
 };
 
-const BoxFirst = styled(Box)`
-  input {
-    border-top-left-radius: 5px !important;
-    border-top-right-radius: 5px !important;
-    border-bottom-left-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-  }
-`;
 
-const BoxSecond = styled(Box)`
-  input {
-    border-top-left-radius: 0px !important;
-    border-top-right-radius: 0px !important;
-    border-bottom-left-radius: 5px !important;
-    border-bottom-right-radius: 5px !important;
-  }
-`;
 
 const notificationOpts = () => ({
   success: {
@@ -141,30 +125,28 @@ class FormPasswordRecovery extends Component {
         <FormLogo />
 
         <Box mb={'100px'}>
-          <BoxFirst>
+          <TextFieldFirstWrapper>
             <Field
               name={'password'}
               placeholder={'Старый пароль'}
-              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
-          </BoxFirst>
+          </TextFieldFirstWrapper>
 
           <Field
             name={'newpassword'}
             placeholder={'Новый пароль'}
-            // TextFieldInput={TextFieldWithTooltip}
+            variant={'secondary'}
             component={FieldInputPassword}
           />
 
-          <BoxSecond>
+          <TextFieldLastWrapper>
             <Field
               name={'confirmnewpassword'}
               placeholder={'Потвердите новый пароль'}
-              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
-          </BoxSecond>
+          </TextFieldLastWrapper>
         </Box>
 
         <TooltipBase isActive={error} warning={error}>
