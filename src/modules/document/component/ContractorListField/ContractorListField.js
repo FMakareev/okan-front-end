@@ -17,6 +17,20 @@ import {connect} from "react-redux";
 import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
 import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 
+const ContractorListFieldNotificationList = () => ({
+  success: {
+    title: 'Настройки проекта успешно обновлены',
+    position: 'tr',
+    autoDismiss: 2,
+  },
+  error: {
+    title: 'Ошибка',
+    message: 'Удаление пользователя не было выполнено, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
+    position: 'tr',
+    autoDismiss: 5,
+  },
+});
+
 export class ContractorListField extends Component {
 
 
@@ -38,9 +52,14 @@ export class ContractorListField extends Component {
       variables: {
         id: id,
       }
-    });
+    }).catch(error => {
+      return error;
+    })
   };
 
+  /**
+   * @desc метод для изменения статуса прелоатера
+   * */
   loadingRemoveToggle = () => {
     this.setState((state) => ({
       loadingRemove: !state.loadingRemove
@@ -49,50 +68,84 @@ export class ContractorListField extends Component {
 
   /**
    * @param {object} contractor
-   * @param {function} callBack
+   * @param {string} contractor.id
+   * @param {object} contractor.user
+   * @param {function} callBack метод который будет вызван после выполнения асинхронного запроса
+   * @desc метод для удаления ContractorApproval из документа
    * */
   removeContractorApprovalFromField = async (contractor, callBack) => {
-    console.log('removeContractorApprovalFromField: ',contractor, callBack);
-    this.loadingRemoveToggle();
-    // TODO: тут метод для удаления пользователя
-    // TODO: добавить уведомление
-    const response = await this.removeContractorApprovalMutation(contractor.id);
-    console.log('removeContractorApprovalFromField: ',response);
-    this.loadingRemoveToggle();
+    const {setNotificationError} = this.props;
+    /** если есть id значит ContractorApproval создан в БД */
+    if (contractor.id) {
+      this.loadingRemoveToggle();
+      const response = await this.removeContractorApprovalMutation(contractor.id);
+      this.loadingRemoveToggle();
+
+      if(response && response.message){
+        setNotificationError(ContractorListFieldNotificationList().error);
+        return null;
+      }
+    }
 
     if (typeof callBack === 'function') {
       callBack();
     }
   };
 
-  optionsUserFilter = (options) => {
+  /**
+   * @params {Array) options массив пользователей
+   * @params {Array) options[i].id пользователя
+   * @params {Array) values - объект redux-form формы
+   * @params {Array) compareUsers - массив названий свойств из объекта формы которые будут использованы во время фильтрации опций
+   * @params {String) compareUsers[i]
+   * @return {Array}
+   * @desc метод для удаления из массива опций пользователей которые уже были выбранны в одном из указанных
+   * в свойстве compareUsers  элементов формы
+   * */
+  userListFilterByFormFields = (options, values, compareUsers) => {
     try {
-      const {fields, values, compareUsers} = this.props;
-      let v = Object.entries(values).filter(([key]) => {
+
+      /** ищем в объекте формы свойства по которым будет фильтроватся options */
+      let listOfSelectedUsers = Object.entries(values).filter(([key]) => {
         if (compareUsers.findIndex(item => item === key) >= 0) {
           return values[key];
         }
       }).map(([key, value]) => value);
 
-      let newOptions = Object.assign([], options);
+      let updatedListOfOptions = Object.assign([], options);
 
-      v.forEach(item => {
-        newOptions = newOptions.filter(option => {
+      listOfSelectedUsers.forEach(item => {
+        updatedListOfOptions = updatedListOfOptions.filter(option => {
           return !(item.findIndex(value => value.user.id ? value.user.id === option.id : false) >= 0);
         });
       });
 
-      return newOptions
+      return updatedListOfOptions
     } catch (error) {
       console.error('Error: ', error);
       return options;
     }
-  }
+  };
+
+
+  /**
+   * @param {array} options
+   * @param {array} roles
+   * @return {Array}
+   * @desc
+   * */
+  userListFilterByRole = (options = [], roles = []) => {
+    if (roles.length && options.length) {
+      return options.filter(user => !roles.find(role => user.role ? role === user.role.name : true))
+    } else {
+      return [];
+    }
+  };
 
   render() {
     const {fields, values, compareUsers} = this.props;
     const {loadingRemove} = this.state;
-    console.log(this.props);
+
     return (<Box>
       {
         fields.map((member, index) => {
@@ -104,7 +157,7 @@ export class ContractorListField extends Component {
                     name={member + '.user.id'}
                     variant={'firstField'}
                     component={SelectContractorFromInnerUserList}
-                    optionsFilter={this.optionsUserFilter}
+                    optionsFilter={(options) => this.userListFilterByFormFields(this.userListFilterByRole(options, ['admin']), values, compareUsers)}
                   />
                 </TextFieldFirstWrapper>
                 <TextFieldLastWrapper>
@@ -137,16 +190,15 @@ export class ContractorListField extends Component {
             return (<Flex mb={6}>
               <Box width={'100%'}>
                 <CreateContractor
-                  names={[
-                    member + '.user.organizationname',
-                    member + '.user.position',
-                    member + '.user.firstname',
-                    member + '.user.lastname',
-                    member + '.user.patronymic',
-                    member + '.approvaldate',
-                    member + '.user.signature',
-                  ]}
-                  name={member + '.user.'}
+                  names={{
+                    organizationname: member + '.user.organizationname',
+                    position: member + '.user.position',
+                    firstname: member + '.user.firstname',
+                    lastname: member + '.user.lastname',
+                    patronymic: member + '.user.patronymic',
+                    approvaldate: member + '.approvaldate',
+                    signature: member + '.user.signature',
+                  }}
                 />
               </Box>
               <Box pl={6}>
