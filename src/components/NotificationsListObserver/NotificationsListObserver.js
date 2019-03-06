@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {withApollo} from 'react-apollo';
 import NotificationListQuery from './NotificationListQuery.graphql';
+import dayjs from 'dayjs';
 
 import Link from '@lib/ui/Link/Link';
 import Text from '@lib/ui/Text/Text';
