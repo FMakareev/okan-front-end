@@ -24,10 +24,10 @@ import {SvgSave} from '@lib/ui/Icons/SvgSave';
 import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
 
 /** Graphql schema */
-import FormDocumentSettingsMutation from './FormDocumentSettingsMutation.graphql';
+import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
 import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
-import CreateUserMutation from './CreateUserMutation.graphql';
-import UpdateUserMutation from './UpdateUserMutation.graphql';
+import CreateContractorApprovalMutation from './CreateContractorApprovalMutation.graphql';
+import UpdateContractorApprovalMutation from './UpdateContractorApprovalMutation.graphql';
 
 const notificationOpts = () => ({
   success: {
@@ -55,146 +55,62 @@ export class FormDocumentSettings extends Component {
 
   /**
    * @param {object} value
+   * @param {object} value.approvaldate
    * @param {string} value.user.firstname
    * @param {string} value.user.lastname
    * @param {string} value.user.patronymic
    * @param {string} value.user.organizationname
    * @param {string} value.user.position
+   * @param {string} value.user.approvaldate
    * @param {string} value.user.signature
    * @param {string} value.user.role
-   * @param {string} value.approvaldate
-   * @return {object} возвращает структуру gql типа ContractorApproval
-   * @desc метод для преобразования данных к типу ContractorApproval
-   * */
-  createContractorApproval = (value) => {
-    try {
-      return {
-        id: value.user.id,
-        approvaldate: value.approvaldate,
-      }
-    } catch (error) {
-      console.error('Error createContractorApproval: ', error);
-      return null;
-    }
-  };
-
-  /**
-   * @param {object} value
-   * @param {string} value.firstname
-   * @param {string} value.lastname
-   * @param {string} value.patronymic
-   * @param {string} value.organizationname
-   * @param {string} value.position
-   * @param {string} value.approvaldate
-   * @param {string} value.signature
-   * @param {string} value.role
+   * @param {string} value.user.role.name
    * @return {Promise}
-   * @desc метод для создания пользователя
+   * @desc
    * */
-  createUser = (value) => {
-    const {client} = this.props;
-    // TODO: раскомментировать метод
-    // return  client.mutate({
-    //   mutation: CreateUserMutation,
-    //   variables: value,
-    // });
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          createuser: {
-            user: {
-              ...value,
-              id: 'айдишник-createUser'
-            }
-          }
-        })
-      }, 2000);
+  submitCreateContractorApproval = (value) => {
+    const variables = {
+      approvaldate: value.approvaldate,
+      userid: value.user.id,
+      ...value.user,
+    };
+    console.log('submitCreateContractorApproval: ', variables);
+    // TODO: заменить заглушку на мутацию
+    return this.props.client.mutate({
+      mutation: CreateContractorApprovalMutation,
+      variables
     })
   };
 
   /**
    * @param {object} value
-   * @param {string} value.id
-   * @param {string} value.firstname
-   * @param {string} value.lastname
-   * @param {string} value.patronymic
-   * @param {string} value.organizationname
-   * @param {string} value.position
-   * @param {string} value.approvaldate
-   * @param {string} value.signature
-   * @param {string} value.role
-   * @return {Promise}
-   * @desc метод для обновления пользователя
-   * */
-  updateUser = (value) => {
-    const {client} = this.props;
-    // TODO: раскомментировать метод
-    // return  client.mutate({
-    //   mutation: UpdateUserMutation,
-    //   variables: value,
-    // });
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          updateuser: {
-            user: {
-              ...value,
-              id: 'айдишник-updateUser'
-            }
-          }
-        })
-      }, 2000);
-    })
-  };
-
-  /**
-   * @param {String} approvaldate
-   * @param {string} userid
+   * @param {object} value.id
+   * @param {object} value.approvaldate
+   * @param {string} value.user.id
+   * @param {string} value.user.firstname
+   * @param {string} value.user.lastname
+   * @param {string} value.user.patronymic
+   * @param {string} value.user.organizationname
+   * @param {string} value.user.position
+   * @param {string} value.user.approvaldate
+   * @param {string} value.user.signature
+   * @param {string} value.user.role
+   * @param {string} value.user.role.name
    * @return {Promise}
    * @desc
    * */
-  submitCreateContractorApproval = (approvaldate, userid) => {
+  submitUpdateContractorApproval = (value) => {
+    const variables = {
+      ...value.user,
+      id: value.id,
+      approvaldate: value.approvaldate,
+      userid: value.user.id,
+    };
+    console.log('submitUpdateContractorApproval: ', variables);
     // TODO: заменить заглушку на мутацию
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          createcontractorapproval: {
-            contractorapproval: {
-              user: {
-                id: userid,
-              },
-              approvaldate,
-              id: 'айдишник-createcontractorapproval'
-            }
-          }
-        })
-      }, 2000);
-    })
-  };
-
-  /**
-   * @param {String} id объекта ContractorApproval
-   * @param {String} approvaldate - дата согласования/утверждения
-   * @param {string} userid
-   * @return {Promise}
-   * @desc
-   * */
-  submitUpdateContractorApproval = (id, approvaldate, userid) => {
-    // TODO: заменить заглушку на мутацию
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          updatecontractorapproval: {
-            contractorapproval: {
-              user: {
-                id: userid,
-              },
-              approvaldate: approvaldate,
-              id: 'айдишник-updatecontractorapproval'
-            }
-          }
-        })
-      }, 2000);
+    return this.props.client.mutate({
+      mutation: UpdateContractorApprovalMutation,
+      variables
     })
   };
 
@@ -209,31 +125,21 @@ export class FormDocumentSettings extends Component {
     try {
       return await value.map(async (item) => {
         let contractorapproval = {};
-        let user = {};
 
-        if (item.user.role === ROLE_EXTERNALCONTRACTOR) { /** если это внешний контрагент */
-          if (has.call(item.user, 'id')) {
-            /** обновляем пользователя */
-            const {updateuser} = await this.updateUser(item.user);
-            user = updateuser.user;
-          } else {
-            /** создаем пользователя */
-            const {createuser} = await this.createUser(item.user);
-            user = createuser.user;
-          }
-        } else if (item.user.role === ROLE_USER) {
-          /** если это внутренний пользователь системы */
-          user = item.user;
+        if (item.user.role.name === ROLE_EXTERNALCONTRACTOR) {
+
+        } else if (item.user.role.name === ROLE_USER) {
+
         }
 
         /** создаем/обновляем объект ContractorApproval */
         if (has.call(item, 'id')) {
-          const {updatecontractorapproval} = await this.submitUpdateContractorApproval(item.id, item.approvaldate, user.id);
+          const {data: {updatecontractorapproval}} = await this.submitUpdateContractorApproval(item);
           console.log('updatecontractorapproval: ', updatecontractorapproval);
           contractorapproval = updatecontractorapproval.contractorapproval;
         } else {
-          const {createcontractorapproval} = await this.submitCreateContractorApproval(item.approvaldate, user.id);
-          console.log('createcontractorapproval: ', createcontractorapproval);
+          const {data: {createcontractorapproval}} = await this.submitCreateContractorApproval(item);
+          console.log('createcontractorapproval: ', createcontractorapproval.contractorapproval);
           contractorapproval = createcontractorapproval.contractorapproval;
         }
 
@@ -297,7 +203,7 @@ export class FormDocumentSettings extends Component {
     const {setNotificationError, setNotificationSuccess, history} = this.props;
 
     const documentApproval = await this.transformDocumentApproval(value);
-    console.log('documentApproval:', documentApproval);
+    console.log('updateDocument documentApproval:', documentApproval);
 
     if (documentApproval.message) {
       setNotificationError(notificationOpts().error);
@@ -311,23 +217,29 @@ export class FormDocumentSettings extends Component {
           const {
             data: {updatedocument},
           } = response;
+          const documentItemOptions = {
+            query: DocumentItemQuery,
+            variables: {
+              id: updatedocument.document.id
+            }
+          };
 
-          const data = store.readQuery({query: DocumentItemQuery});
+          const documentItem = store.readQuery(documentItemOptions);
 
-          data.documentitem.push(updatedocument.document);
+          documentItem.documentitem = updatedocument.document;
 
-          store.writeQuery({query: DocumentItemQuery, data});
+          store.writeQuery({...documentItemOptions, data: documentItem});
         } catch (e) {
           console.error('Error in FormProjectCreate, method updateDocument : ', e);
         }
       },
     };
-    console.log('updateDocument', options);
+    console.log('updateDocument options: ', options);
 
     return this.props['@apollo/update'](options)
       .then(response => {
         setNotificationSuccess(notificationOpts().success);
-        history.push(`/app/project/${options.variables.project}`);
+        // history.push(`/app/project/${options.variables.project}`);
         return response;
       })
       .catch(({graphQLErrors, message, networkError, ...rest}) => {
@@ -347,7 +259,7 @@ export class FormDocumentSettings extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
-        <Flex mt={9} mb={'200px'} justifyContent={'space-around'}>
+        <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
           <Box width={'50%'}>
             <Container maxWidth={'500px'} width={'100%'}>
               <InnerApprovalPartnersQuery
@@ -355,7 +267,10 @@ export class FormDocumentSettings extends Component {
                 projectid={project}
               />
             </Container>
-
+            {/**
+             modified:   system/config/parts/server.py
+             modified:   system/includes/lib/database.py
+             */}
             <Container maxWidth={'500px'} width={'100%'}>
               <Fields
                 names={['name', 'customercode', 'okancode', 'equipmentname']}
@@ -376,7 +291,8 @@ export class FormDocumentSettings extends Component {
                 Утверждающие документа
               </Text>
               <FieldArray
-                name="externalapprove"
+                name={"externalapprove"}
+                compareUsers={["externalconform", "externalapprove"]}
                 component={ContractorListField}
               />
             </Container>
@@ -393,7 +309,8 @@ export class FormDocumentSettings extends Component {
                 Внешние согласующие документа
               </Text>
               <FieldArray
-                name="externalconform"
+                name={"externalconform"}
+                compareUsers={["externalconform", "externalapprove"]}
                 component={ContractorListField}
               />
             </Container>
@@ -402,7 +319,7 @@ export class FormDocumentSettings extends Component {
 
         <Flex justifyContent={'center'} mb={'200px'}>
           <ButtonWithImage
-            type="submit"
+            type={"submit"}
             variant={'large'}
             size={'medium'}
             children={'Сохранить настройки'}
@@ -418,7 +335,7 @@ export class FormDocumentSettings extends Component {
   }
 }
 
-FormDocumentSettings = graphql(FormDocumentSettingsMutation, {
+FormDocumentSettings = graphql(UpdateDocumentMutation, {
   name: '@apollo/update',
 })(FormDocumentSettings);
 
