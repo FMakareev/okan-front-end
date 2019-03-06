@@ -14,6 +14,7 @@ import {info} from 'react-notification-system-redux';
 
 export class NotificationsListObserver extends Component {
   subscribeInstanceToNotifications = null;
+
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -24,12 +25,17 @@ export class NotificationsListObserver extends Component {
       timer: null,
     };
   }
+
   componentWillUnmount() {
     this.unsubscribeToCellItem();
   }
 
   componentDidMount() {
-    this.observeNotifications();
+    if (isBrowser) {
+      setTimeout(() => {
+        this.observeNotifications();
+      }, 5000);
+    }
   }
 
   unsubscribeToCellItem = () => {
@@ -46,12 +52,13 @@ export class NotificationsListObserver extends Component {
   observeNotifications = () => {
     this.subscribeInstanceToNotifications = this.props.client.watchQuery({
       query: NotificationListQuery,
-      pollInterval: 3000,
+      pollInterval: 30000,
+      fetchPolicy: 'no-cache',
       variables: {
         user: this.props.user.id,
         messageread: true
       }
-    }).subscribe(({ data }) => {
+    }).subscribe(({data}) => {
       this.showNotifications(data.notificationslist);
       return response;
     })
@@ -64,10 +71,10 @@ export class NotificationsListObserver extends Component {
   setOptions = ({sender, createat, comment, document, cell}) => {
     let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
 
-    return  {
+    return {
       position: 'br',
       dismissible: 'button',
-      autoDismiss: 10,
+      autoDismiss: 6,
       children: (
         <Box>
           <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
@@ -94,18 +101,19 @@ export class NotificationsListObserver extends Component {
    * */
   showNotifications = (list) => {
     if (Array.isArray(list) && list.length > 0) {
+      let interval = 1500;
       list.forEach((item, i, arr) => {
-        console.log(item)
-        let notification = this.setOptions(item);
-        this.props.setNotification(notification)
+        interval += interval;
+        setTimeout(() => {
+          let notification = this.setOptions(item);
+          this.props.setNotification(notification);
+        }, interval);
       });
     }
   };
 
   render() {
-    return (
-      <div></div>
-    )
+    return null;
   }
 }
 
