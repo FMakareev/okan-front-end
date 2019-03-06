@@ -12,20 +12,35 @@ query ($id: String) {
       lastname
       patronymic
     }
-  }
-
-  userlist {
-    id
-    firstname
-    lastname
-    patronymic
-    signature
-    organizationname
-    position
-    role{
+    externalapprove {
       id
-      name
+      user {
+        id
+        firstname
+        lastname
+        patronymic
+        position
+        organizationname
+        role{
+          name
+        }
+      }
+      approvaldate
+    }
+    externalconform {
+      id
+      user {
+        id
+        firstname
+        lastname
+        patronymic
+        position
+        organizationname
+        role{
+          name
+        }
+      }
+      approvaldate
     }
   }
-
 }
