@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { withApollo } from 'react-apollo';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
-import Flex from '@lib/ui/Flex/Flex';
-import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
 import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
@@ -34,6 +31,8 @@ import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
+import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 
 const validate = ({ uname, ups }) => {
   const errors = {};
@@ -56,22 +55,6 @@ const validate = ({ uname, ups }) => {
   return errors;
 };
 
-const BoxFirst = styled(Box)`
-  input {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-`;
-
-const BoxSecond = styled(Box)`
-  input {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-`;
 
 const notificationOpts = () => ({
   success: {
@@ -154,11 +137,6 @@ export class FormLogin extends Component {
         }
       })
       .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
-        // console.log('graphQLErrors: ', graphQLErrors);
-        // console.log('message: ', message);
-        // console.log('networkError: ', networkError);
-        // console.log('rest: ', rest);
-        // console.log('error: ', error);
 
         setNotificationError(notificationOpts().error);
 
@@ -204,7 +182,7 @@ export class FormLogin extends Component {
         <FormLogo />
 
         <Box mb={'100px'}>
-          <BoxFirst>
+          <TextFieldFirstWrapper>
             <Field
               name="uname"
               component={TextFieldWithTooltip}
@@ -213,16 +191,16 @@ export class FormLogin extends Component {
               left={'45%'}
               // validate={[required, isEmail]}
             />
-          </BoxFirst>
+          </TextFieldFirstWrapper>
 
-          <BoxSecond>
+          <TextFieldLastWrapper>
             <Field
               name={'ups'}
               placeholder={'Пароль'}
               // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
-          </BoxSecond>
+          </TextFieldLastWrapper>
         </Box>
 
         <FormButtonSubmit
