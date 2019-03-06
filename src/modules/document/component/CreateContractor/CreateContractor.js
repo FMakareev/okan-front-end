@@ -16,7 +16,7 @@ export class CreateContractor extends Component {
     return (<Box>
       <TextFieldFirstWrapper>
         <Field
-          name={names[0]}
+          name={names.organizationname}
           component={TextFieldWithTooltip}
           placeholder={'Наименование организации'}
           type={"text"}
@@ -26,7 +26,7 @@ export class CreateContractor extends Component {
         />
       </TextFieldFirstWrapper>
       <Field
-        name={names[1]}
+        name={names.position}
         component={TextFieldWithTooltip}
         placeholder={'Должность'}
         type={"text"}
@@ -36,7 +36,7 @@ export class CreateContractor extends Component {
         validate={required}
       />
       <Field
-        name={names[2]}
+        name={names.firstname}
         component={TextFieldWithTooltip}
         placeholder={'Фамилия'}
         type={"text"}
@@ -46,7 +46,7 @@ export class CreateContractor extends Component {
         validate={required}
       />
       <Field
-        name={names[3]}
+        name={names.lastname}
         component={TextFieldWithTooltip}
         placeholder={'Имя'}
         type={"text"}
@@ -56,7 +56,7 @@ export class CreateContractor extends Component {
         validate={required}
       />
       <Field
-        name={names[4]}
+        name={names.patronymic}
         component={TextFieldWithTooltip}
         placeholder={'Отчество'}
         type={"text"}
@@ -66,9 +66,9 @@ export class CreateContractor extends Component {
         validate={required}
       />
       <Field
-        name={names[5]}
-        component={DayPickerField}
-        placeholder={'Дата'}
+        name={names.signature}
+        component={TextFieldWithTooltip}
+        placeholder={'Подпись'}
         type={"text"}
         size={'sm'}
         variant={'primary'}
@@ -77,11 +77,12 @@ export class CreateContractor extends Component {
       />
       <TextFieldLastWrapper>
         <Field
-          name={names[6]}
-          component={TextFieldWithTooltip}
-          placeholder={'Подпись'}
+          name={names.approvaldate}
+          component={DayPickerField}
+          placeholder={'Дата согласования'}
           type={"text"}
           size={'sm'}
+          variant={'primary'}
           fontFamily={'secondary'}
           validate={required}
         />
