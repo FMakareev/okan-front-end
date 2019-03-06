@@ -25,6 +25,7 @@ export class SelectContractorFromInnerUserList extends Component {
             data.userlist.map(item => ({
               id: item.id,
               name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
+              role: item.role,
             }))
           }
         />)
