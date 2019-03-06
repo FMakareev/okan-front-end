@@ -21,7 +21,9 @@ query ($id: String) {
         patronymic
         position
         organizationname
+        signature
         role{
+          id
           name
         }
       }
@@ -36,7 +38,9 @@ query ($id: String) {
         patronymic
         position
         organizationname
+        signature
         role{
+          id
           name
         }
       }
