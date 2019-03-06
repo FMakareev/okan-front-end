@@ -4,10 +4,12 @@ import dayjs from 'dayjs';
 
 import PropTypes from 'prop-types';
 import { color } from 'styled-system';
+
 /**View */
 import Text from '@lib/ui/Text/Text';
 import Box from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
+import Link from '@lib/ui/Link/Link';
 
 /** Styles property */
 import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
@@ -27,6 +29,7 @@ const TextStyled = styled(Text)`
 `;
 
 const FlexStyled = styled(Flex)`
+  width: 50%;
   padding: 5px;
   border-left: 1px solid;
   border-bottom: 1px solid;
@@ -45,19 +48,34 @@ const FlexStyled = styled(Flex)`
   @media (min-width: 768px) {
     display: inline-flex;
   }
-
 `;
 // TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
-export const ProfileNotificationItem = ({ message,sender, name, createat }) => {
+export const ProfileNotificationItem = ({ message, sender, name, createat, comment, document, cell }) => {
+  // to={`http://okan.localhost/app/project/${document.project}/${document.id}`}
+
+  let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
+
+  console.log(document.name)
+
   return (
     <Box mb={[4]}>
       <TextStyled fontSize={6} lineHeight={8} color={'color11'} fontFamily={'secondary'}>
-        {message}
+        Добавлен&nbsp;
+        <Link to={link} color={'color7'}>
+          комментарий&nbsp;
+          "{comment.message || message}"
+        </Link>
       </TextStyled>
 
       <FlexStyled>
-        <Text>{sender.firstname} {sender.lastname}</Text>/
-        <Text>{dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}</Text>
+        <Text>
+          Создан: {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
+        </Text>
+      </FlexStyled>
+      <FlexStyled>
+        <Text>
+          Автор: {sender.firstname} {sender.lastname}
+        </Text>
       </FlexStyled>
     </Box>
   );

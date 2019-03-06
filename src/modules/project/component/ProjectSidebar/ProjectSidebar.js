@@ -1,24 +1,22 @@
-import React, {Component, Fragment} from 'react';
-
+import React, { Component, Fragment } from 'react';
 
 /** View */
-import {DocumentTree} from '../DocumentTree/DocumentTree';
+import { DocumentTree } from '../DocumentTree/DocumentTree';
 import FormCreateDocument from '../FormCreateDocument/FormCreateDocument';
-import {PROJECT_MODE_RW, withProject} from '../ProjectContext/ProjectContext';
-
+import { PROJECT_MODE_RW, withProject } from '../ProjectContext/ProjectContext';
 
 /** PropTypes */
-import ProjectModeState from "../ProjectContext/ProjectModeState";
+import ProjectModeState from '../ProjectContext/ProjectModeState';
 
 const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />);
 const FormCreateDocumentWithProject = withProject(props => <FormCreateDocument {...props} />);
 
 export class ProjectSidebar extends Component {
-  static propTypes = {
-  };
+  static propTypes = {};
 
   render() {
-    const {documents, id,} = this.props;
+    const { documents, id } = this.props;
+
     return (
       <Fragment>
         {documents &&

@@ -772,17 +772,26 @@ export class DocumentTree extends Component {
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
         let parentNode = objectPath.get([tree], pathToParentNode);
+        console.log(5, pathToParentNode);
+        console.log(6, parentNode);
 
         if (parentNode && Array.isArray(parentNode.children)) {
+          console.log(7, parentNode.children);
           let result = parentNode.children.findIndex(
             item => item.verify === CELL_STATUS_CHANGED || item.verify === CELL_STATUS_NOT_CHECKED,
           );
+          console.log(8, result);
+          if (result === 0) {
+            parentNode.verify = CELL_STATUS_CHANGED;
+          }
 
           if (result === -1) {
             parentNode = {
               ...parentNode,
               verify: status,
             };
+
+            console.log(9, parentNode);
             objectPath.set([tree], pathToParentNode, parentNode);
             await this.updateCell({
               id: parentNode.id,
@@ -790,6 +799,7 @@ export class DocumentTree extends Component {
             });
 
             if (parentNode.parent) {
+              console.log(10, parentNode.parent);
               await this.changeParentVerifyStatus(parentNode.parent, tree, status);
             }
           }

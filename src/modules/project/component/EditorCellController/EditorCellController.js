@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-dom';
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+
 import CheckForCellChangesQuery from '../SidebarApprovalStatus/CheckForCellChangesQuery.graphql';
 
 /** Components */
@@ -156,7 +158,7 @@ export class EditorCellController extends Component {
         },
         //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
         update: (store, { data: { updatecell } }) => {
-          let cell = { cellitem: {} };
+          let data = { cellitem: {} };
           const options = {
             query: CellItemQuery,
             variables: {
@@ -164,9 +166,9 @@ export class EditorCellController extends Component {
             },
           };
           try {
-            cell = store.readQuery(options);
-            cell.cellitem.parent.verify = this.props.data.verify;
-            cell.cellitem.verify = this.props.data.verify;
+            data = store.readQuery(options);
+            data.cellitem.parent.verify = updatecell.cell.verify;
+            data.cellitem.verify = updatecell.cell.verify;
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
@@ -174,39 +176,38 @@ export class EditorCellController extends Component {
             store.writeQuery({
               ...options,
               data: {
-                cellitem: {
-                  ...cell.cellitem,
-                },
+                ...data,
               },
             });
+            // console.log(123456, store.data);
           } catch (e) {
             console.log(e);
           }
 
-          let checkChanges = { checkForCellChanges: {} };
-          const dataCheckForCellChanges = {
-            query: CheckForCellChangesQuery,
-            variables: {
-              id: this.props.data.parent.id,
-            },
-          };
+          // let checkChanges = { checkForCellChanges: {} };
+          // const dataCheckForCellChanges = {
+          //   query: CheckForCellChangesQuery,
+          //   variables: {
+          //     id: this.props.data.parent.id,
+          //   },
+          // };
 
-          try {
-            checkChanges = store.readQuery(dataCheckForCellChanges);
-            checkChanges.checkForCellChanges.answer = true;
-            this.props.cellCheckStatusChange(id, data.cellitem.verify);
-          } catch (error) {
-            console.warn('Warning UpdateCellInCache read: ', error);
-          }
+          // try {
+          //   checkChanges = store.readQuery(dataCheckForCellChanges);
+          //   checkChanges.checkForCellChanges.answer = true;
+          //   this.props.cellCheckStatusChange(id, data.cellitem.verify);
+          // } catch (error) {
+          //   console.warn('Warning UpdateCellInCache read: ', error);
+          // }
 
-          try {
-            store.writeQuery({
-              ...dataCheckForCellChanges,
-              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
-            });
-          } catch (e) {
-            console.log(e);
-          }
+          // try {
+          //   store.writeQuery({
+          //     ...dataCheckForCellChanges,
+          //     data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
+          //   });
+          // } catch (e) {
+          //   console.log(e);
+          // }
         },
       })
       .then(response => {
@@ -401,7 +402,11 @@ export class EditorCellController extends Component {
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
               <Box mx={2}>
-                <EditorCellCommentController {...this.props.project} {...data} />
+                <EditorCellCommentController 
+                  {...this.props.project} 
+                  {...data} 
+                  location={this.props.location} 
+                />
               </Box>
             </ProjectModeState>
           </Flex>

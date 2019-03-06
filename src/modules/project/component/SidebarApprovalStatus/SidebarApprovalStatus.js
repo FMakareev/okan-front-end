@@ -103,7 +103,6 @@ export class SidebarApprovalStatus extends Component {
           try {
             checkChanges = store.readQuery(dataCheckForCellChanges);
             checkChanges.checkForCellChanges.answer = false;
-            //  this.props.cellCheckStatusChange(id, data.cellitem.verify);
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
@@ -141,10 +140,8 @@ export class SidebarApprovalStatus extends Component {
       if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
           ({ data }) => {
-            // console.log('initSubscribe: ', data.cellitem,node);
             this.props.updateNode(node.id, data.cellitem);
-            // console.log(1, node.id, data.cellitem.verify);
-            this.props.cellCheckStatusChange(node.id, data.cellitem.verify);
+            this.props.cellCheckStatusChange(node.parent.id, data.cellitem.verify);
           },
         );
       }
@@ -181,7 +178,6 @@ export class SidebarApprovalStatus extends Component {
     return (
       <Query skip={false} query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {
-          // console.log(100, data);
           return (
             <ButtonBase
               title={'Статус проверки блока'}

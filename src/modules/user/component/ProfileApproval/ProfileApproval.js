@@ -51,7 +51,6 @@ const TdStyle = styled(Td)`
 `;
 
 export const ProfileApproval = ({ data }) => {
-  console.log(1, data);
   return (
     <Fragment>
       <Text
