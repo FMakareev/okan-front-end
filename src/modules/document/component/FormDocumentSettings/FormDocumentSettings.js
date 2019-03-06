@@ -74,7 +74,6 @@ export class FormDocumentSettings extends Component {
       userid: value.user.id,
       ...value.user,
     };
-    console.log('submitCreateContractorApproval: ', variables);
     // TODO: заменить заглушку на мутацию
     return this.props.client.mutate({
       mutation: CreateContractorApprovalMutation,
@@ -126,20 +125,12 @@ export class FormDocumentSettings extends Component {
       return await value.map(async (item) => {
         let contractorapproval = {};
 
-        if (item.user.role.name === ROLE_EXTERNALCONTRACTOR) {
-
-        } else if (item.user.role.name === ROLE_USER) {
-
-        }
-
         /** создаем/обновляем объект ContractorApproval */
         if (has.call(item, 'id')) {
           const {data: {updatecontractorapproval}} = await this.submitUpdateContractorApproval(item);
-          console.log('updatecontractorapproval: ', updatecontractorapproval);
           contractorapproval = updatecontractorapproval.contractorapproval;
         } else {
           const {data: {createcontractorapproval}} = await this.submitCreateContractorApproval(item);
-          console.log('createcontractorapproval: ', createcontractorapproval.contractorapproval);
           contractorapproval = createcontractorapproval.contractorapproval;
         }
 
@@ -169,7 +160,6 @@ export class FormDocumentSettings extends Component {
       if (has.call(value, 'externalconform') && Array.isArray(value.externalconform)) {
         newDate.externalconform = await  this.createContractorApprovalList(value.externalconform)
       }
-      console.log('newDate: ', newDate);
 
       /** резолвим промисы */
       if (newDate.externalapprove.length) {
@@ -179,7 +169,6 @@ export class FormDocumentSettings extends Component {
         newDate.externalconform = await Promise.all(newDate.externalconform)
       }
 
-      console.log('newDate: ', newDate);
       return newDate;
     } catch (error) {
       console.error('Error transformDocumentApproval: ', error);
@@ -203,7 +192,6 @@ export class FormDocumentSettings extends Component {
     const {setNotificationError, setNotificationSuccess, history} = this.props;
 
     const documentApproval = await this.transformDocumentApproval(value);
-    console.log('updateDocument documentApproval:', documentApproval);
 
     if (documentApproval.message) {
       setNotificationError(notificationOpts().error);
@@ -234,12 +222,11 @@ export class FormDocumentSettings extends Component {
         }
       },
     };
-    console.log('updateDocument options: ', options);
 
     return this.props['@apollo/update'](options)
       .then(response => {
         setNotificationSuccess(notificationOpts().success);
-        // history.push(`/app/project/${options.variables.project}`);
+        history.push(`/app/project/${options.variables.project}`);
         return response;
       })
       .catch(({graphQLErrors, message, networkError, ...rest}) => {
