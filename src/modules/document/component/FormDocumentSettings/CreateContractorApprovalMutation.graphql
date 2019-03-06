@@ -1,0 +1,16 @@
+mutation($position:String,$firstname:String,$lastname:String,$patronymic:String,$signature:String,$approvaldate:String, $userid: String){
+  createcontractorapproval(position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate, userid: $userid){
+    contractorapproval {
+      id
+      user {
+        id
+        firstname
+        lastname
+        patronymic
+        position
+        organizationname
+      }
+      approvaldate
+    }
+  }
+}
