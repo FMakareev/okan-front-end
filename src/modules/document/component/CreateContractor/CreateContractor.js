@@ -31,6 +31,7 @@ export class CreateContractor extends Component {
         placeholder={'Должность'}
         type={"text"}
         size={'sm'}
+        variant={'primary'}
         fontFamily={'secondary'}
         validate={required}
       />
@@ -40,6 +41,7 @@ export class CreateContractor extends Component {
         placeholder={'Фамилия'}
         type={"text"}
         size={'sm'}
+        variant={'primary'}
         fontFamily={'secondary'}
         validate={required}
       />
@@ -49,6 +51,7 @@ export class CreateContractor extends Component {
         placeholder={'Имя'}
         type={"text"}
         size={'sm'}
+        variant={'primary'}
         fontFamily={'secondary'}
         validate={required}
       />
@@ -58,6 +61,7 @@ export class CreateContractor extends Component {
         placeholder={'Отчество'}
         type={"text"}
         size={'sm'}
+        variant={'primary'}
         fontFamily={'secondary'}
         validate={required}
       />
