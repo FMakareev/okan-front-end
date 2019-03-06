@@ -15,7 +15,6 @@ export const InnerApprovalPartnersQuery = ({projectid, name}) => ( <Query
   }}
 >
   {({ loading, error, data }) => {
-    console.log('FormDocumentSettings', data);
     if (loading) {
       return 'Загрузка...';
     }

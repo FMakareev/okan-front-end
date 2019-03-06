@@ -1,7 +1,4 @@
-// FroalaReduxForm
 import React, { Component } from 'react';
-import dynamic from 'next/dynamic';
-import { DefineIcons } from './DefineIcons';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -12,10 +9,14 @@ import '../../assets/style/froalaname-theme.css';
 
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
+import {asyncComponent} from "react-async-component";
+import {Box} from "@lib/ui/Box/Box";
 
-// That's where the styled-components
-const FroalaEditorName = dynamic(import('react-froala-wysiwyg'), {
-  ssr: false,
+
+const FroalaEditorName = asyncComponent({
+  resolve: () => import('react-froala-wysiwyg'),
+  LoadingComponent: ()=>(<Box border={'1px solid #848484'} px={'12px'} py={'10px'}>Загрузка</Box>),
+  serverMode: 'defer'
 });
 
 export class FroalaReduxFormName extends Component {
@@ -35,7 +36,7 @@ export class FroalaReduxFormName extends Component {
   }
 
   componentWillMount() {
-    
+
     let EditorConfig = {
       placeholderText: 'Введите название блока',
       theme: 'froalaname',

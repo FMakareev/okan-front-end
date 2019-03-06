@@ -1,11 +1,34 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Select, { components } from 'react-select';
+import Select, {components} from 'react-select';
 import DeepEqual from 'fast-deep-equal';
 
 /** Component */
-import { SvgTriangle } from '@lib/ui/Icons/SvgTriangle';
-import { Text } from '@lib/ui/Text/Text';
+import {SvgTriangle} from '@lib/ui/Icons/SvgTriangle';
+import {Text} from '@lib/ui/Text/Text';
+import {InputVariant} from '../../styles/variants/InputVariant';
+import has from '../../utils/has';
+
+/**
+ * @param {object} theme - объект варианта из темы, импортируем напрямую из папки styles/variant
+ * @param {string} themeKey - Название варианта который хотим использовать
+ * @param {string} component - название компонета react-select который хотим стилизовать
+ * @return {object} возвращает объект с css стилями
+ * */
+const getStyleVariant = (theme, themeKey, component) => {
+  try {
+    if (has.call(theme, themeKey)) {
+      if (has.call(theme[themeKey], 'rs') && has.call(theme[themeKey]['rs'], component)) {
+        return theme[themeKey]['rs'][component];
+      }
+    }
+    return {};
+  } catch (e) {
+    console.error('Error getStyleVariant: ', e);
+    return {};
+  }
+};
+
 
 export const SelectStyles = {
   control: (style, props) => {
@@ -14,21 +37,22 @@ export const SelectStyles = {
       padding: '0 0 0 10px',
       border: '1px solid #848484',
       minHeight: '30px',
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'control'),
       ':hover': {
         // border: "none",
         // boxShadow: "none"
       },
       ...(props.isFocused
         ? {
-            // border: "none",
-            // boxShadow: "none"
-          }
+          // border: "none",
+          // boxShadow: "none"
+        }
         : {}),
       ...(props.menuIsOpen
         ? {
-            borderRadius: '5px 5px 0 0',
-            borderBottom: 'none',
-          }
+          borderRadius: '5px 5px 0 0',
+          borderBottom: 'none',
+        }
         : {}),
     };
   },
@@ -36,26 +60,30 @@ export const SelectStyles = {
     return {
       ...style,
       padding: 0,
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'selectContainer'),
     };
   },
-  valueContainer: style => {
+  valueContainer: (style, props) => {
     return {
       ...style,
       padding: 0,
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'valueContainer'),
     };
   },
-  dropdownIndicator: style => {
+  dropdownIndicator: (style, props) => {
     return {
       ...style,
       padding: '0 10px',
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'dropdownIndicator'),
     };
   },
-  menu: style => {
+  menu: (style, props) => {
     return {
       ...style,
       margin: 0,
       border: '1px solid #848484',
       borderRadius: '0 0 5px 5px',
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'menu'),
     };
   },
   option: (style, props) => {
@@ -67,19 +95,21 @@ export const SelectStyles = {
       textAlign: 'center',
       ...(props.isSelected
         ? {
-            backgroundColor: 'rgba(0,127,175,.2)',
-            color: '#333333',
-          }
+          backgroundColor: 'rgba(0,127,175,.2)',
+          color: '#333333',
+        }
         : null),
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'option'),
     };
   },
-  indicatorSeparator: style => {
+  indicatorSeparator: (style, props) => {
     return {
       ...style,
       display: 'none',
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'indicatorSeparator'),
     };
   },
-  singleValue: style => {
+  singleValue: (style, props) => {
     return {
       ...style,
       top: '50%',
@@ -87,6 +117,7 @@ export const SelectStyles = {
       transform: 'translate(-50%, -50%)',
       '-webkit-transform': 'translate(-50%, -50%)',
       '-ms-transform': 'translate(-50%, -50%)',
+      ...getStyleVariant(InputVariant, props.selectProps.variant, 'singleValue'),
     };
   },
 };
@@ -99,7 +130,7 @@ const DropdownIndicator = props => {
           transform: props.isFocused ? 'rotate(90deg)' : 'rotate(0)',
         }}
         fill={'#333333'}>
-        <SvgTriangle />
+        <SvgTriangle/>
       </Text>
     </components.DropdownIndicator>
   );
@@ -121,9 +152,15 @@ export class SelectBase extends Component {
     loading: PropTypes.bool,
     defaultOptions: PropTypes.object,
     placeholder: PropTypes.string,
+    optionsFilter: PropTypes.func,
   };
 
-  static defaultProps = { mods: false, options: [], placeholder: '' }; // valueKey: 'id', // labelKey: 'name',
+  static defaultProps = {
+    mods: false,
+    options: [],
+    placeholder: '',
+    optionsFilter: (options) => options,
+  }; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
     super(props);
@@ -133,11 +170,11 @@ export class SelectBase extends Component {
   //перестраиваются элементы в вирт.доме
   shouldComponentUpdate(nextProps, nextState) {
     const {
-      input: { value },
+      input: {value},
       isLoading,
       options,
     } = this.props;
-    const { selectedOption } = this.state;
+    const {selectedOption} = this.state;
 
     if (
       nextProps.input.value !== this.props.value ||
@@ -154,7 +191,7 @@ export class SelectBase extends Component {
   //Когда будет изменено вирт. дом (устаревший)
   componentWillReceiveProps = nextProps => {
     const {
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = nextProps;
@@ -173,7 +210,7 @@ export class SelectBase extends Component {
   componentDidUpdate(prevProps) {
     const {
       // then options is update - we must update selectedOption at state
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = this.props;
@@ -186,15 +223,15 @@ export class SelectBase extends Component {
 
   get initialState() {
     const {
-      input: { value },
+      input: {value},
       valueKey,
       options,
     } = this.props;
 
     if (value) {
-      return { selectedOption: this.getSelectedValueFromOptions(options, value, valueKey) };
+      return {selectedOption: this.getSelectedValueFromOptions(options, value, valueKey)};
     }
-    return { selectedOption: null };
+    return {selectedOption: null};
   }
 
   getSelectedValueFromOptions = (options, value, valueKey) => {
@@ -214,9 +251,9 @@ export class SelectBase extends Component {
   };
 
   onChange = selectedOption => {
-    const { input, valueKey } = this.props;
+    const {input, valueKey} = this.props;
     this.setState(
-      () => ({ selectedOption }),
+      () => ({selectedOption}),
       () => {
         input.onChange(this.state.selectedOption ? this.state.selectedOption[valueKey] : null);
       },
@@ -233,15 +270,16 @@ export class SelectBase extends Component {
       valueKey,
       placeholder,
       isLoading,
+      optionsFilter,
       ...rest
     } = this.props;
-    const { selectedOption } = this.state;
+    const {selectedOption} = this.state;
 
     return (
       <Select
         value={selectedOption}
         name={input.name}
-        options={options}
+        options={optionsFilter(options)}
         isLoading={isLoading}
         onChange={this.onChange}
         disabled={disabled}
@@ -250,7 +288,7 @@ export class SelectBase extends Component {
         getOptionLabel={option => option[labelKey]}
         getOptionValue={option => option[valueKey]}
         styles={SelectStyles}
-        components={{ DropdownIndicator, ...components }}
+        components={{DropdownIndicator, ...components}}
         {...rest}
       />
     );
