@@ -29,7 +29,6 @@ const TextStyled = styled(Text)`
 `;
 
 const FlexStyled = styled(Flex)`
-  width: 50%;
   padding: 5px;
   border-left: 1px solid;
   border-bottom: 1px solid;
@@ -68,13 +67,11 @@ export const ProfileNotificationItem = ({ message, sender, name, createat, comme
       </TextStyled>
 
       <FlexStyled>
+        <Text pr={'8px'}>
+          Автор: {sender.firstname} {sender.lastname}
+        </Text>
         <Text>
           Создан: {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
-        </Text>
-      </FlexStyled>
-      <FlexStyled>
-        <Text>
-          Автор: {sender.firstname} {sender.lastname}
         </Text>
       </FlexStyled>
     </Box>
