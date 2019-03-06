@@ -69,7 +69,7 @@ export const BasicDocumentSettings = props => {
           fontFamily={'secondary'}
         />
       </BoxStyled>
-      <BoxStyled mb={'180px'}>
+      <BoxStyled>
         <Field
           {...props.customercode.input}
           component={TextFieldWithTooltip}
