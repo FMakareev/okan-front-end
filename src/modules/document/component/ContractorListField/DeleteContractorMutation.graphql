@@ -1,7 +1,12 @@
-mutation($id: String) {
-  deletecontractorapproval(id: $id){
-    contractorapproval{
+mutation ($id: String!) {
+  deletecontractorapproval(id: $id) {
+    contractorapproval {
       id
+      approvaldate
+      user {
+        firstname
+        lastname
+      }
     }
   }
 }
