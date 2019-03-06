@@ -5,6 +5,7 @@ mutation ($equipmentname: String, $approvalstatus: String, $children: String, $c
       name
       okancode
       customercode
+      equipmentname
       project
       partners {
         id
@@ -21,8 +22,10 @@ mutation ($equipmentname: String, $approvalstatus: String, $children: String, $c
           patronymic
           position
           organizationname
+          signature
           role{
             name
+            id
           }
         }
         approvaldate
@@ -36,8 +39,10 @@ mutation ($equipmentname: String, $approvalstatus: String, $children: String, $c
           patronymic
           position
           organizationname
+          signature
           role{
             name
+            id
           }
         }
         approvaldate
