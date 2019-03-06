@@ -90,7 +90,7 @@ export class NotificationsListObserver extends Component {
             children: (
                 <Box>
                     <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
-                        {createat}
+                        {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
                     </Text>
                     <Text fontWeight={700} color={'color11'} cursor={'default'}>
                         Добавлен&nbsp;
