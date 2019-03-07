@@ -158,24 +158,24 @@ export class EditorCellCommentController extends Component {
     const { comments, project, user } = this.props;
 
     /** @desc скрываю кнопку комментариев для автора проекта если коментариев нет */
-    if (
-      project &&
-      project.author &&
-      project.author.id === user.id &&
-      (!comments || comments.length === 0)
-    ) {
-      return null;
-    }
+    // if (
+    //   project &&
+    //   project.author &&
+    //   project.author.id === user.id &&
+    //   (!comments || comments.length === 0)
+    // ) {
+    //   return null;
+    // }
 
-    const comment = this.partnersList ? this.partnersList : null;
+    // const comment = this.partnersList ? this.partnersList : null;
     return (
       <Relative>
         <EditorCellCommentButton status={status} onClick={this.onClick} />
-        {Array.isArray(comments) && comments.length > 0 && isOpen && (
+        {isOpen && (
           <Absolute zIndex={5} className={'EditorCellCommentWrapper'} top={'20px'} right={0}>
             <EditorCellCommentItem
               cell={this.props}
-              commentsList={comment}
+              commentsList={this.partnersList}
               key={`FormCommentEditor`}
             />
           </Absolute>

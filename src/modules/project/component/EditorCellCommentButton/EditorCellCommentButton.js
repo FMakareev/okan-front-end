@@ -17,7 +17,6 @@ const ButtonBaseStyled = styled(ButtonBase)`
 
 export const EditorCellCommentButton = props => {
   const { onClick, status } = props;
-
   return (
     <ButtonBaseStyled
       btnComment={status}

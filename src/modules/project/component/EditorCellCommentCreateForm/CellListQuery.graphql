@@ -1,0 +1,14 @@
+query ($parent: String!) {
+  celllist(parent: $parent) {
+    id
+    name
+    comments {
+      id
+      message
+    }
+    content {
+      id
+      name
+    }
+  }
+}

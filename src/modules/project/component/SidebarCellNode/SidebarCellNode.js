@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {graphql, compose, withApollo} from 'react-apollo';
-import {success, error} from 'react-notification-system-redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { graphql, compose, withApollo } from 'react-apollo';
+import { success, error } from 'react-notification-system-redux';
 import ReactDOM from 'react-dom';
 
 /** View */
@@ -25,6 +25,7 @@ import BindingCellMutation from './BindingCellMutation.graphql';
 import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import ChangeStatusMutation from '../SidebarApprovalStatus/ChangeStatusMutation.graphql';
 
 /** Redux action to remove BlockId from store */
 import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
@@ -35,6 +36,9 @@ import ProjectModeState from '../ProjectContext/ProjectModeState';
 
 /** Utils */
 import { sortingCells } from '../../utils/sortingCells';
+
+/** Constants */
+import { CELL_STATUS_CHANGED } from '@lib/shared/approvalStatus';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -163,8 +167,47 @@ export class SidebarCellNode extends Component {
     }
     changeNodeFocus(node.id, !node.focused);
     this.setState(() => ({ focused: !node.focused, prevName: node.name }));
-  };
+    node.verify = CELL_STATUS_CHANGED;
+    this.props.cellCheckStatusChange(node.id, node.verify);
 
+    this.props.client.mutate({
+      mutation: ChangeStatusMutation,
+      variables: {
+        id: node.id,
+        status: node.verify,
+      },
+      update: (store, { data: { changestatus } }) => {
+        let cell = { celllist: {} };
+        const options = { query: CellListQuery, variables: { parent: node.id } };
+
+        try {
+          UpdateCellInCache(store, { ...changestatus.cell });
+        } catch (e) {
+          console.error('Error in SidebarApprovalStatus change status: ', e);
+        }
+
+        try {
+          cell = store.readQuery(options);
+
+          cell.celllist.map(item => {
+            return (item.verify = changestatus.cell.verify);
+          });
+        } catch (e) {
+          console.error('Error in readQuery change status: ', e);
+        }
+        try {
+          store.writeQuery({
+            ...options,
+            data: {
+              ...cell,
+            },
+          });
+        } catch (e) {
+          console.error('Error in writeQuery change status: ', e);
+        }
+      },
+    });
+  };
   /**
    * @param {object} node - Объект узла
    * @desc метод возвращает значение нумерации по сути это селектор как в redux
@@ -199,7 +242,7 @@ export class SidebarCellNode extends Component {
   };
 
   onMouseUp = () => {
-    const {node, bindAfterCopy} = this.props;
+    const { node, bindAfterCopy } = this.props;
     if (this.props.cellToCopy) {
       this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
     }
@@ -253,9 +296,9 @@ export class SidebarCellNode extends Component {
             },
           });
           data.cellitem.lastChildren = {};
-          data.cellitem.lastChildren.id = createcell.cell.id; 
-          data.cellitem.lastChildren.name = createcell.cell.name; 
-          data.cellitem.lastChildren.__typename = "Cell"; 
+          data.cellitem.lastChildren.id = createcell.cell.id;
+          data.cellitem.lastChildren.name = createcell.cell.name;
+          data.cellitem.lastChildren.__typename = 'Cell';
           store.writeQuery({
             query: CellItemQuery,
             variables: {
@@ -341,7 +384,6 @@ export class SidebarCellNode extends Component {
     const { hover, name, prevName } = this.state;
     const isHead = childcellIsCategory(node);
     // const nameSectionLetter = node.prevcell && node.prevcell.name; // Получение имени прьюселл ячейки
-
     return (
       <Wrapper
         active={node.active}

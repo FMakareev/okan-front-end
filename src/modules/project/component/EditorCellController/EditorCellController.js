@@ -172,6 +172,7 @@ export class EditorCellController extends Component {
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
+          // console.log(1111, data);
           try {
             store.writeQuery({
               ...options,
@@ -179,7 +180,7 @@ export class EditorCellController extends Component {
                 ...data,
               },
             });
-            // console.log(123456, store.data);
+            console.log(2222, store);
           } catch (e) {
             console.log(e);
           }
@@ -287,6 +288,7 @@ export class EditorCellController extends Component {
       project,
       parentLetterNumber,
     } = this.props;
+    // console.log(1, this.props);
 
     const { toggleAdditionalMenu } = this.state;
 

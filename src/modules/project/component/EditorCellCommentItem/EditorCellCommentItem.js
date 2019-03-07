@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { graphql } from 'react-apollo';
@@ -22,6 +22,9 @@ import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 /** Style css */
 import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
 import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
+
+/** Components */
+import EditorCellCommentCreateForm from '../EditorCellCommentCreateForm/EditorCellCommentCreateForm';
 
 const Message = styled(Text)`
   width: 550px;
@@ -126,35 +129,44 @@ export class EditorCellCommentItem extends Component {
   }
 
   render() {
-    const { commentsList } = this.props;
+    const {
+      commentsList,
+      cell: { parent, user, id },
+    } = this.props;
+
+    // console.log(1, this.props);
+
     return (
-      commentsList &&
-      commentsList.map(item => {
-        return (
-          <Wrapper flexDirection={'column'} alignItems={'flex-end'}>
-            <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
-              {item.message}
-            </Message>
-            <Flex alignItems={'flex-end'}>
-              <Text
-                px={'10px'}
-                fontFamily={'secondary'}
-                fontSize={'14px'}
-                lineHeight={'20px'}
-                color={'color4'}>
-                {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
-                {dayjs(item.createdate).format('DD.MM.YYYY HH:mm:ss')}
-              </Text>
-              <ButtonBaseComment
-                onClick={() => this.onDelete(item.id)}
-                mt={'-1px'}
-                variant={'empty'}>
-                <SvgDeleteComment />
-              </ButtonBaseComment>
-            </Flex>
-          </Wrapper>
-        );
-      })
+      <Fragment>
+        {commentsList &&
+          commentsList.map((item, index) => {
+            return (
+              <Wrapper flexDirection={'column'} alignItems={'flex-end'} key={`${index}comment`}>
+                <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
+                  {item.message}
+                </Message>
+                <Flex alignItems={'flex-end'}>
+                  <Text
+                    px={'10px'}
+                    fontFamily={'secondary'}
+                    fontSize={'14px'}
+                    lineHeight={'20px'}
+                    color={'color4'}>
+                    {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
+                    {dayjs(item.createdate).format('DD.MM.YYYY HH:mm:ss')}
+                  </Text>
+                  <ButtonBaseComment
+                    onClick={() => this.onDelete(item.id)}
+                    mt={'-1px'}
+                    variant={'empty'}>
+                    <SvgDeleteComment />
+                  </ButtonBaseComment>
+                </Flex>
+              </Wrapper>
+            );
+          })}
+        <EditorCellCommentCreateForm userId={user && user.id} cellId={parent && parent.id} />
+      </Fragment>
     );
   }
 }

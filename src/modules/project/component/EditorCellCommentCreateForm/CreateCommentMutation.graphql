@@ -1,0 +1,16 @@
+mutation ($cell: String!, $message: String!, $sender: String!) {
+  createcomment(cell: $cell, message: $message, sender: $sender) {
+    comment {
+      cell
+      createdate
+      id
+      message
+      sender {
+        firstname
+        lastname
+        patronymic
+      }
+      updatedate
+    }
+  }
+}

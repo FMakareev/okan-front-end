@@ -1,0 +1,11 @@
+query ($id: String) {
+  cellitem(id: $id) {
+    id
+    name
+    comments {
+      id
+      cell
+      message
+    }
+  }
+}
