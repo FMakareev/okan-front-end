@@ -4,6 +4,7 @@ import { Absolute } from 'rebass';
 import { connect } from 'react-redux';
 import { Field, Form, reduxForm } from 'redux-form';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 /** Components */
 import EditorCellCommentButton from '../EditorCellCommentButton/EditorCellCommentButton';
@@ -70,6 +71,37 @@ export class EditorCellCommentController extends Component {
       status: this.getCurrentStatus(),
     };
   }
+
+  componentDidMount() {
+    this.checkIfRedirected();
+  }
+
+  /** @desc Метод проверяет, есть ли в uri значения cellid и сommentid.
+   * Если есть, то пользователь был перенаправлен по клику на уведомление,
+   * тогда открываем комментарий
+  */
+  checkIfRedirected = () => {
+    const cellId = this.getCellId(),
+          commentId = this.getCommentId();
+    
+    cellId && cellId == this.props.id && commentId ? this.onClick() : null;
+  };
+
+  getCellId = () => {
+    try {
+      return queryString.parse(this.props.location.search).cellid;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  getCommentId = () => {
+    try {
+      return queryString.parse(this.props.location.search).сommentid;
+    } catch (e) {
+      return null;
+    }
+  };
 
   /**
    * @return {string}

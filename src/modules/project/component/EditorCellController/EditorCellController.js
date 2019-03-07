@@ -404,7 +404,11 @@ export class EditorCellController extends Component {
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
               <Box mx={2}>
-                <EditorCellCommentController {...this.props.project} {...data} />
+                <EditorCellCommentController 
+                  {...this.props.project} 
+                  {...data} 
+                  location={this.props.location} 
+                />
               </Box>
             </ProjectModeState>
           </Flex>

@@ -3,6 +3,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import fetch from 'isomorphic-fetch';
+import https from 'https';
 // import mocksClient from './mocksClient';
 
 export const client = req => {
@@ -17,6 +18,10 @@ export const client = req => {
       fetch,
       headers: {
         Cookie: req.header('Cookie'),
+      },
+      /** @desc https://stackoverflow.com/questions/14262986/node-js-hostname-ip-doesnt-match-certificates-altnames */
+      fetchOptions: {
+        agent: new https.Agent({ rejectUnauthorized: false }),
       },
     }),
     queryDeduplication: true,

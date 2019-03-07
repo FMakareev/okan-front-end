@@ -22,8 +22,8 @@
 * [Структура проекта](docs/sourceStructure.md)
 * [Структура модуля](./docs/module.md)
 * [Стили](./docs/style.md)
-* [Стили](./docs/style.md)
 
 
+* [FAQ](./docs/faq.md)
 
 * [Todo](./docs/todo.md)

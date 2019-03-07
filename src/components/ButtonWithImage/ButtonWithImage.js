@@ -63,6 +63,7 @@ ButtonWithImage.propTypes = {
   mr: PropTypes.number,
   /**css value - margin-left */
   ml: PropTypes.number,
+  isLoading: PropTypes.bool,
 };
 
 export default ButtonWithImage;

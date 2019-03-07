@@ -189,7 +189,7 @@ export class SidebarApprovalStatus extends Component {
               }}>
               <SvgStatus
                 fill={GetStatusColor(
-                  data.checkForCellChanges && data.checkForCellChanges.answer
+                  data && data.checkForCellChanges && data.checkForCellChanges.answer
                     ? CELL_STATUS_CHANGED
                     : node.verify,
                 )}

@@ -4,13 +4,8 @@ import { Absolute } from 'rebass';
 import styled from 'styled-components';
 
 /** View */
-import Flex from '@lib/ui/Flex/Flex';
 import Relative from '@lib/ui/Relative/Relative';
-import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
-
-/** validation */
-import required from '../../../../utils/validation/required';
 
 /** Image */
 import { SvgEye } from '@lib/ui/Icons/SvgEye';
@@ -46,7 +41,6 @@ export class FieldInputPassword extends Component {
 
   render() {
     const { type, isOpen } = this.state;
-    const { name, placeholder, TextFieldInput } = this.props;
 
     return (
       <Relative width={'100%'}>

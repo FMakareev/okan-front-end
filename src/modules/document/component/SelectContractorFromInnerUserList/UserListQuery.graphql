@@ -1,0 +1,12 @@
+query{
+  userlist{
+    id
+    firstname
+    lastname
+    patronymic
+    role{
+      id
+      name
+    }
+  }
+}

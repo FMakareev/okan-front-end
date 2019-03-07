@@ -56,7 +56,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         hidden: has.call(modulesRoutes[i], 'hidden') && modulesRoutes[i].hidden,
         component: asyncComponent({
           resolve: modulesRoutes[i].load,
-          LoadingComponent: () => <div>Loading...</div>,
+          LoadingComponent: () => <div>Загрузка...</div>,
           ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
         }),
         exactResolvers:
