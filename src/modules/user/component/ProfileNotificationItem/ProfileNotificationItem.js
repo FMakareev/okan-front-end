@@ -49,20 +49,24 @@ const FlexStyled = styled(Flex)`
   }
 `;
 // TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
-export const ProfileNotificationItem = ({ message, sender, name, createat, comment, document, cell }) => {
-  // to={`http://okan.localhost/app/project/${document.project}/${document.id}`}
-
-  let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
-
-  console.log(document.name)
+export const ProfileNotificationItem = ({
+  message,
+  sender,
+  name,
+  createat,
+  comment,
+  document,
+  cell,
+}) => {
+  let link = `/app/project/${document.project}/${document.id}/${cell.parent &&
+    cell.parent.id}?cellid=${comment && comment.cell}&сommentid=${comment && comment.id}`;
 
   return (
     <Box mb={[4]}>
       <TextStyled fontSize={6} lineHeight={8} color={'color11'} fontFamily={'secondary'}>
         Добавлен&nbsp;
         <Link to={link} color={'color7'}>
-          комментарий&nbsp;
-          "{comment.message || message}"
+          комментарий&nbsp; "{comment.message || message}"
         </Link>
       </TextStyled>
 
@@ -70,9 +74,7 @@ export const ProfileNotificationItem = ({ message, sender, name, createat, comme
         <Text pr={'8px'}>
           Автор: {sender.firstname} {sender.lastname}
         </Text>
-        <Text>
-          Создан: {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
-        </Text>
+        <Text>Создан: {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}</Text>
       </FlexStyled>
     </Box>
   );
