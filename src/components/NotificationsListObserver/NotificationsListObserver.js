@@ -52,7 +52,7 @@ export class NotificationsListObserver extends Component {
   observeNotifications = () => {
     this.subscribeInstanceToNotifications = this.props.client.watchQuery({
       query: NotificationListQuery,
-      pollInterval: 30000,
+      pollInterval: 60000,
       fetchPolicy: 'no-cache',
       variables: {
         user: this.props.user.id,
@@ -60,13 +60,13 @@ export class NotificationsListObserver extends Component {
       }
     }).subscribe(({data}) => {
       this.showNotifications(data.notificationslist);
-      return response;
+      return data;
     })
   };
 
   /**
    * @desc метод устанавливает опции отображения уведомления
-   * @augments { свойства объекта Notification, элемента массива notificationlist из бд  }
+   * @augments {object} свойства объекта Notification, элемента массива notificationlist из бд
    * */
   setOptions = ({sender, createat, comment, document, cell}) => {
     let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
