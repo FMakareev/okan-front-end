@@ -1,15 +1,25 @@
 mutation ($approvalstatus: String, $id: String!) {
   updatedocument(approvalstatus: $approvalstatus, id: $id) {
     document {
-      approvalstatus
+      # mongoid
       id
-      name
-      okancode
+      # id project
       project
+      # название шаблона
+      name
+      # id корневого элемента от которого строится граф разделов
       childcell: children {
         id
         name
         isHead
+      }
+      # null, на согласовании, согласован, не согласован
+      approvalstatus
+      partners {
+        id
+        lastname
+        firstname
+        email
       }
     }
   }
