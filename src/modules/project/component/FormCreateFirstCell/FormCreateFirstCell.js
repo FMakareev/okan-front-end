@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -37,6 +38,16 @@ const notificationOpts = name => {
 };
 
 export class FormCreateFirstCell extends Component {
+
+  static propTypes = {
+    document: PropTypes.object,
+    handleSubmit: PropTypes.func,
+    project: PropTypes.object,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    submitting: PropTypes.bool
+  };
+
   SubmitCreateCell = value => {
     const { project } = this.props;
     return this.props['CreateCellMutation']({

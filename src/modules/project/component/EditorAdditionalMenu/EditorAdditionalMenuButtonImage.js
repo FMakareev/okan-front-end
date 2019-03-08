@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
 
-/** Image */
-import pictureIcon from '../../../../assets/image/pictureIcon.png';
-
 /** View */
 import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
 import Text from '@lib/ui/Text/Text';
@@ -28,7 +25,9 @@ export const EditorAdditionalMenuButtonImage = props => {
   );
 };
 
-EditorAdditionalMenuButtonImage.propTypes = {};
+EditorAdditionalMenuButtonImage.propTypes = {
+  handleButtonPress: PropTypes.func.isRequired
+};
 
 EditorAdditionalMenuButtonImage.defaultProps = {};
 

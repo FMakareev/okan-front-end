@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 
 /** View */
@@ -22,7 +23,9 @@ export const SidebarChangeCell = ({ onClick }) => {
   );
 };
 
-SidebarChangeCell.propTypes = {};
+SidebarChangeCell.propTypes = {
+  onClick: PropTypes.func.isRequired
+}
 
 SidebarChangeCell.defaultProps = {};
 

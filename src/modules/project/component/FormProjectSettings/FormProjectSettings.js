@@ -62,7 +62,16 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectSettings extends Component {
-  static propTypes = { ...formPropTypes, mb: PropTypes.string };
+
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    invalid: PropTypes.bool,
+    mb: PropTypes.string,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    submitting: PropTypes.bool,
+    ...formPropTypes,
+  };
 
   state = this.initialState;
 
@@ -72,7 +81,6 @@ export class FormProjectSettings extends Component {
 
   submit = value => {
     const data = { variables: Object.assign({}, value) };
-    console.log('ProjectSettings', data);
 
     return this.props['@apollo/update'](data)
       .then(response => {
@@ -83,10 +91,6 @@ export class FormProjectSettings extends Component {
         return response;
       })
       .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        console.log('graphQLErrors: ', graphQLErrors);
-        console.log('message: ', message);
-        console.log('networkError: ', networkError);
-        console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });

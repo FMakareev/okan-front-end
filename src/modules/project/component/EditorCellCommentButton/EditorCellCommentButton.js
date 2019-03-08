@@ -34,8 +34,9 @@ export const EditorCellCommentButton = props => {
 };
 
 EditorCellCommentButton.propTypes = {
-  status: PropTypes.string,
-};
+  onClick: PropTypes.func,
+  status: PropTypes.string
+}
 
 EditorCellCommentButton.defaultProps = {
   status: 'emptyComment',

@@ -52,6 +52,7 @@ export class DocumentTree extends Component {
         name: PropTypes.string,
         childcell: PropTypes.object,
         approvalstatus: PropTypes.string,
+        __typename: PropTypes.string
       }),
       id: PropTypes.string,
       name: PropTypes.string,

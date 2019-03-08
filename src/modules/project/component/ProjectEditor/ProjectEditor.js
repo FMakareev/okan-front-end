@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
@@ -49,6 +50,10 @@ const EditorCellControllerWithProject = withProject(props => <EditorCellControll
 
 export class ProjectEditor extends Component {
   static propTypes = {
+    client: PropTypes.object,
+    location: PropTypes.object,
+    project: PropTypes.object,
+    sectionid: PropTypes.string,
     ...ProjectContextPropTypes,
   };
 

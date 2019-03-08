@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 import styled from 'styled-components';
 import ReactHTMLParser from 'react-html-parser';
@@ -59,6 +60,15 @@ export const EditorCellTitle = ({
       </Flex>
     </Text>
   );
+};
+
+EditorCellTitle.propTypes = {
+  content: PropTypes.object,
+  contenttype: PropTypes.string,
+  editable: PropTypes.bool,
+  onClick: PropTypes.func,
+  parentLetterNumber: PropTypes.string,
+  textAlign: PropTypes.string
 };
 
 export default EditorCellTitle;

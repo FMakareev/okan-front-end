@@ -39,9 +39,17 @@ const notificationOpts = name => {
       autoDismiss: 6,
     },
   });
-}
+};
 
 export class SidebarCommentingDocumentToApproval extends Component {
+
+  static propTypes = {
+    client: PropTypes.object,
+    document: PropTypes.object,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -151,14 +159,6 @@ export class SidebarCommentingDocumentToApproval extends Component {
     );
   }
 }
-
-SidebarCommentingDocumentToApproval.propTypes = {
-  document: PropTypes.object.isRequired,
-};
-
-SidebarCommentingDocumentToApproval.defaultProps = {};
-
-
 
 SidebarCommentingDocumentToApproval = withApollo(SidebarCommentingDocumentToApproval);
 

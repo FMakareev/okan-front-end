@@ -14,9 +14,9 @@ const Button = styled(ButtonBase)`
   border: 1px solid;
 `;
 
-export const EditorAdditionalMenuButtonText = props => {
+export const EditorAdditionalMenuButtonText = ({handleButtonPress}) => {
   return (
-    <Button variant={'empty'} width={'100px'} onClick={() => props.handleButtonPress(BLOCK_TEXT)}>
+    <Button variant={'empty'} width={'100px'} onClick={() => handleButtonPress(BLOCK_TEXT)}>
       <Text color={'color4'} fontSize={5} lineHeight={6}>
         Tекст
       </Text>
@@ -24,7 +24,9 @@ export const EditorAdditionalMenuButtonText = props => {
   );
 };
 
-EditorAdditionalMenuButtonText.propTypes = {};
+EditorAdditionalMenuButtonText.propTypes = {
+  handleButtonPress: PropTypes.func.isRequired
+};
 
 EditorAdditionalMenuButtonText.defaultProps = {};
 

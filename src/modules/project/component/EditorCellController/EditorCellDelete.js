@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import {graphql} from 'react-apollo';
 
@@ -176,7 +177,7 @@ export class EditorCellDelete extends Component {
         this.props.setNotificationError(notificationOpts().error);
         throw error;
       });
-  }
+  };
 
   render() {
     return (
@@ -205,3 +206,10 @@ EditorCellDelete = connect(
 )(EditorCellDelete);
 
 export default EditorCellDelete
+
+EditorCellDelete.propTypes = {
+  id: PropTypes.string.isRequired,
+  sectionid: PropTypes.string.isRequired,
+  setNotificationError: PropTypes.func.isRequired,
+  setNotificationSuccess: PropTypes.func.isRequired
+}

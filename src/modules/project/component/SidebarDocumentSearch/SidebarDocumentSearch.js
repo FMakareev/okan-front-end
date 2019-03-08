@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import {Flex} from "@lib/ui/Flex/Flex";
 import {Field, Form, reduxForm} from "redux-form";
@@ -76,4 +77,10 @@ export class SidebarDocumentSearch extends Component {
 SidebarDocumentSearch = reduxForm({
   form: 'SidebarDocumentSearch',
 })(SidebarDocumentSearch);
+export default SidebarDocumentSearch;
+
+SidebarDocumentSearch.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired
+};
 export default SidebarDocumentSearch;

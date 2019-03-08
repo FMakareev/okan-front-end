@@ -57,8 +57,15 @@ const notificationOpts = () => ({
 
 export class EditorCellController extends Component {
   static propTypes = {
-    /** data for components */
     data: PropTypes.string,
+    location: PropTypes.object,
+    parentLetterNumber: PropTypes.string,
+    project: PropTypes.object,
+    removeBlock: PropTypes.func,
+    sectionNumber: PropTypes.string,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    values: PropTypes.object,
     ...ProjectContextPropTypes,
   };
 
@@ -254,24 +261,6 @@ export class EditorCellController extends Component {
     }
   };
 
-  // async startBinding() {
-  //   await this.toggleDraggable();
-  // }
-
-  // toggleDraggable = () => {
-  //   this.setState((state) => ({
-  //     ...state,
-  //     draggable: !state.draggable,
-  //   }))
-  //   // this.onDrag = () => {
-  //   //   console.log('dragging')
-  //   // }
-  // }
-
-  // onDragBlock = (event) => {
-  //   console.log(event)
-  // }
-
   onHover = toggle => {
     this.setState(state => ({
       ...state,
@@ -404,10 +393,10 @@ export class EditorCellController extends Component {
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
               <Box mx={2}>
-                <EditorCellCommentController 
-                  {...this.props.project} 
-                  {...data} 
-                  location={this.props.location} 
+                <EditorCellCommentController
+                  {...this.props.project}
+                  {...data}
+                  location={this.props.location}
                 />
               </Box>
             </ProjectModeState>

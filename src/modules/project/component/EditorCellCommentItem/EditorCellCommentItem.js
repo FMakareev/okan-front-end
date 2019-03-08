@@ -72,19 +72,17 @@ export const EditorCellCommentItem = ({onDelete, message, sender, createdate, id
   </Wrapper>);
 
 EditorCellCommentItem.propTypes = {
-  /** метод для удаления комментария */
-  onDelete: PropTypes.func,
-  /** отвечает за включение прелоадера у кнопки удаления */
+  createdate: PropTypes.string.isRequired,
+  footerAlignItems: PropTypes.oneOf(['flex-end', 'flex-start']),
+  id: PropTypes.string.isRequired,
   isLoadingOnDelete: PropTypes.bool,
   message: PropTypes.string.isRequired,
+  onDelete: PropTypes.func,
   sender: PropTypes.shape({
     firstname: PropTypes.string,
     lastname: PropTypes.string,
-    patronymic: PropTypes.string,
-  }),
-  createdate: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  footerAlignItems: PropTypes.oneOf(['flex-end', 'flex-start'])
+    patronymic: PropTypes.string
+  })
 };
 
 EditorCellCommentItem.defaultProps = {

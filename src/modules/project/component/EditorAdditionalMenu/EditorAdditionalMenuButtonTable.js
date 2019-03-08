@@ -25,7 +25,9 @@ export const EditorAdditionalMenuButtonTable = props => {
   );
 };
 
-EditorAdditionalMenuButtonTable.propTypes = {};
+EditorAdditionalMenuButtonTable.propTypes = {
+  handleButtonPress: PropTypes.func
+}
 
 EditorAdditionalMenuButtonTable.defaultProps = {};
 

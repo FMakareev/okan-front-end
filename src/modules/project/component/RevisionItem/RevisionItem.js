@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
@@ -48,6 +49,13 @@ export const RevisionItem = ({ id, name, createrevisiondate, authorrevision }) =
       </TdStyled>
     </Tr>
   );
+};
+
+RevisionItem.propTypes = {
+  authorrevision: PropTypes.object.isRequired,
+  createrevisiondate: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default RevisionItem;

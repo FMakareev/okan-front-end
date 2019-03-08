@@ -102,14 +102,14 @@ const createCellNotification = (contentType, messageType) => {
  * */
 export class EditorAdditionalMenu extends Component {
   static propTypes = {
-    /** func submit for Form */
+    client: PropTypes.any,
     handleClick: PropTypes.func,
-    /** open window */
     isOpen: PropTypes.bool,
-    /** id парента */
     parentid: PropTypes.string.isRequired,
     prevcell: PropTypes.string,
-  };
+    setNotificationError: PropTypes.any,
+    setNotificationSuccess: PropTypes.any
+  }
 
   constructor(props) {
     super(props);

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react';
 
 /** View */
@@ -13,7 +14,10 @@ const DocumentTreeWithProject = withProject(props => <DocumentTree {...props} />
 const FormCreateDocumentWithProject = withProject(props => <FormCreateDocument {...props} />);
 
 export class ProjectSidebar extends Component {
-  static propTypes = {};
+  static propTypes = {
+    documents: PropTypes.array,
+    id: PropTypes.string
+  }
 
   render() {
     const { documents, id } = this.props;
