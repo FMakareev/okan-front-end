@@ -15,6 +15,12 @@ mutation($id: String!,$children:String){
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
+      partners {
+        id
+        lastname
+        firstname
+        email
+      }
     }
   }
 }
