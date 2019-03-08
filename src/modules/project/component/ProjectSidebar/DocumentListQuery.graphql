@@ -1,11 +1,24 @@
 query ($projectid: String) {
   documentlist(projectid: $projectid) {
+    # mongoid
     id
+    # id project
+    project
+    # название шаблона
     name
+    # id корневого элемента от которого строится граф разделов
     childcell: children {
       id
       name
+      isHead
     }
+    # null, на согласовании, согласован, не согласован
     approvalstatus
+    partners {
+      id
+      lastname
+      firstname
+      email
+    }
   }
 }

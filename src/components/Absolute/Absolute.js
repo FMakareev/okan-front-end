@@ -1,13 +1,16 @@
 import styled from 'styled-components';
-import { zIndex, position } from 'styled-system';
+import { zIndex, position, top,left,right,bottom } from 'styled-system';
 import PropTypes from 'prop-types';
 
 /** View*/
 import Box from '../Box/Box';
 
 export const Absolute = styled(Box)`
-  ${position}
   ${zIndex};
+  ${top};
+  ${left};
+  ${right};
+  ${bottom};
 `;
 
 Absolute.propTypes = {

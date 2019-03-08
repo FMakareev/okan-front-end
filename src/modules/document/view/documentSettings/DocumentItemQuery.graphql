@@ -1,0 +1,50 @@
+query ($id: String) {
+  documentitem(id: $id) {
+    id
+    name
+    okancode
+    customercode
+    equipmentname
+    project
+    partners {
+      id
+      firstname
+      lastname
+      patronymic
+    }
+    externalapprove {
+      id
+      user {
+        id
+        firstname
+        lastname
+        patronymic
+        position
+        organizationname
+        signature
+        role{
+          id
+          name
+        }
+      }
+      approvaldate
+    }
+    externalconform {
+      id
+      user {
+        id
+        firstname
+        lastname
+        patronymic
+        position
+        organizationname
+        signature
+        role{
+          id
+          name
+        }
+      }
+      approvaldate
+    }
+  }
+}

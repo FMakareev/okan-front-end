@@ -17,7 +17,6 @@ const ButtonBaseStyled = styled(ButtonBase)`
 
 export const EditorCellCommentButton = props => {
   const { onClick, status } = props;
-
   return (
     <ButtonBaseStyled
       btnComment={status}
@@ -26,7 +25,9 @@ export const EditorCellCommentButton = props => {
       lineHeight={5}
       position={'relative'}
       borderRadius={'4px'}
-      onClick={onClick}>
+      onClick={onClick}
+      {...props}
+    >
       <SvgDocumentComment />
     </ButtonBaseStyled>
   );

@@ -1,43 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { graphql } from 'react-apollo';
-import { withApollo } from 'react-apollo';
+import React from 'react';
 import dayjs from 'dayjs';
+import styled from "styled-components";
+import PropTypes from 'prop-types';
 
-/** View */
-import Text from '@lib/ui/Text/Text';
-import { Flex } from '@lib/ui/Flex/Flex';
-import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
+import {Flex} from "@lib/ui/Flex/Flex";
+import Text from "@lib/ui/Text/Text";
+import {SvgDeleteComment} from "@lib/ui/Icons/SvgDeleteComment";
+import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
+import {EditorCellCommentItemMessage} from "./EditorCellCommentItemMessage";
 
-/** Image */
-import { SvgDeleteComment } from '@lib/ui/Icons/SvgDeleteComment';
-
-/** Graphql schema */
-import UpdateCommentMutation from './UpdateCommentMutation.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-
-/** Style css */
-import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
-import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
-
-const Message = styled(Text)`
-  width: 550px;
-  border: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
-  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-`;
-
-const ButtonBaseComment = styled(ButtonBase)`
-  fill: #848484;
-
-  & :active {
-    fill: #df4624;
-  }
-`;
 
 const Wrapper = styled(Flex)`
   position: relative;
@@ -57,95 +28,68 @@ const Wrapper = styled(Flex)`
   }
 `;
 
-export class EditorCellCommentItem extends Component {
-  static propTypes = {
-    cell: PropTypes.string,
-    createdate: PropTypes.string,
-    document: PropTypes.string,
-    id: PropTypes.string,
-    isdelete: PropTypes.bool,
-    message: PropTypes.string,
-    sender: {
-      id: PropTypes.string,
-      firstname: PropTypes.string,
-      lastname: PropTypes.string,
-      patronymic: PropTypes.string,
-    },
-    updatedate: PropTypes.string,
-  };
 
-  onDelete(id) {
-    // console.log(1, this.props);
-    return this.props[`@apollo/update`]({
-      variables: { id, isdelete: true },
-      update: (store, { data: { updatecomment } }) => {
-        try {
-          const options = {
-            query: CellListQuery,
-            variables: { parent: this.props.cell.parent.id },
-          };
-          const data = store.readQuery(options);
 
-          data.celllist.map(item => {
-            let documentIndex =
-              item.comments &&
-              item.comments.findIndex(items => items.id === updatecomment.comment.id);
-            return item.comments && item.comments.splice(documentIndex, 1);
-          });
+export const EditorCellCommentItem = ({onDelete, message, sender, createdate, id, isLoadingOnDelete, footerAlignItems}) => (
+  <Wrapper
+    flexDirection={'column'}
+    alignItems={'flex-end'}
+  >
+    <EditorCellCommentItemMessage
+      px={'8px'}
+      py={'4px'}
+      fontSize={6}
+      lineHeight={8}
+      color={'color7'}
+      footerAlignItems={footerAlignItems}
+    >
+      {message}
+    </EditorCellCommentItemMessage>
+    <Flex width={'100%'} justifyContent={footerAlignItems}>
+      <Text
+        px={'8px'}
+        py={'4px'}
+        fontFamily={'secondary'}
+        fontSize={5}
+        lineHeight={7}
+        color={'color4'}>
+        {sender.firstname} {sender.lastname} {sender.patronymic} /{' '}
+        {dayjs(createdate).format('DD.MM.YYYY HH:mm:ss')}
+      </Text>
+      {
+        onDelete &&
+        <ButtonWithImage
+          fontSize={7}
+          lineHeight={7}
+          isLoading={isLoadingOnDelete}
+          onClick={() => onDelete(id)}
+          mt={'-1px'}
+          variant={'empty'}>
+          <SvgDeleteComment/>
+        </ButtonWithImage>
+      }
+    </Flex>
+  </Wrapper>);
 
-          store.writeQuery({ ...options, data });
-        } catch (error) {
-          console.error('Error createRevision.update: ', error);
-        }
-      },
-    })
-      .then(response => {
-        // console.log(1, response);
-        return response;
-      })
-      .catch(error => {
-        console.error('Error onDelete:', error);
-      });
-  }
+EditorCellCommentItem.propTypes = {
+  /** метод для удаления комментария */
+  onDelete: PropTypes.func,
+  /** отвечает за включение прелоадера у кнопки удаления */
+  isLoadingOnDelete: PropTypes.bool,
+  message: PropTypes.string.isRequired,
+  sender: PropTypes.shape({
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    patronymic: PropTypes.string,
+  }),
+  createdate: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  footerAlignItems: PropTypes.oneOf(['flex-end', 'flex-start'])
+};
 
-  render() {
-    const { commentsList } = this.props;
-    return (
-      commentsList &&
-      commentsList.map(item => {
-        return (
-          <Wrapper flexDirection={'column'} alignItems={'flex-end'}>
-            <Message px={'10px'} fontSize={5} lineHeight={8} color={'color7'}>
-              {item.message}
-            </Message>
-            <Flex alignItems={'flex-end'}>
-              <Text
-                px={'10px'}
-                fontFamily={'secondary'}
-                fontSize={'14px'}
-                lineHeight={'20px'}
-                color={'color4'}>
-                {item.sender.firstname} {item.sender.lastname} {item.sender.patronymic} /{' '}
-                {dayjs(item.createdate).format('DD.MM.YYYY HH:mm:ss')}
-              </Text>
-              <ButtonBaseComment
-                onClick={() => this.onDelete(item.id)}
-                mt={'-1px'}
-                variant={'empty'}>
-                <SvgDeleteComment />
-              </ButtonBaseComment>
-            </Flex>
-          </Wrapper>
-        );
-      })
-    );
-  }
-}
-
-EditorCellCommentItem = withApollo(EditorCellCommentItem);
-
-EditorCellCommentItem = graphql(UpdateCommentMutation, {
-  name: `@apollo/update`,
-})(EditorCellCommentItem);
+EditorCellCommentItem.defaultProps = {
+  onDelete: null,
+  footerAlignItems: 'flex-end'
+};
 
 export default EditorCellCommentItem;

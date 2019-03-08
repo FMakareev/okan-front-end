@@ -4,10 +4,12 @@ import dayjs from 'dayjs';
 
 import PropTypes from 'prop-types';
 import { color } from 'styled-system';
+
 /**View */
 import Text from '@lib/ui/Text/Text';
 import Box from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
+import Link from '@lib/ui/Link/Link';
 
 /** Styles property */
 import BackgroundColorProperty from '../../../../styles/styleProperty/BackgroundColorProperty';
@@ -45,19 +47,34 @@ const FlexStyled = styled(Flex)`
   @media (min-width: 768px) {
     display: inline-flex;
   }
-
 `;
 // TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
-export const ProfileNotificationItem = ({ message,sender, name, createat }) => {
+export const ProfileNotificationItem = ({
+  message,
+  sender,
+  name,
+  createat,
+  comment,
+  document,
+  cell,
+}) => {
+  let link = `/app/project/${document.project}/${document.id}/${cell.parent &&
+    cell.parent.id}?cellid=${comment && comment.cell}&сommentid=${comment && comment.id}`;
+
   return (
     <Box mb={[4]}>
       <TextStyled fontSize={6} lineHeight={8} color={'color11'} fontFamily={'secondary'}>
-        {message}
+        Добавлен&nbsp;
+        <Link to={link} color={'color7'}>
+          комментарий&nbsp; "{comment.message || message}"
+        </Link>
       </TextStyled>
 
       <FlexStyled>
-        <Text>{sender.firstname} {sender.lastname}</Text>/
-        <Text>{dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}</Text>
+        <Text pr={'8px'}>
+          Автор: {sender.firstname} {sender.lastname}
+        </Text>
+        <Text>Создан: {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}</Text>
       </FlexStyled>
     </Box>
   );

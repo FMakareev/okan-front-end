@@ -36,10 +36,12 @@ query ($id: String) {
     prevcell {
       id
       name
+      verify
     }
     parent {
       id
       name
+      verify
     }
     verify
     lastChildren {

@@ -102,7 +102,7 @@ export class SideBarDocumentDelete extends Component {
         fontSize={'15px'}
         onClick={event => {
           event.stopPropagation();
-          if (confirm('Вы уверены что хотите удалить раздел?')) {
+          if (confirm('Вы уверены что хотите удалить документ?')) {
             this.deleteDocument();
           }
         }}

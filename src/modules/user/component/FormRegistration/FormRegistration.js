@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { graphql, withApollo } from 'react-apollo';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 /** View */
@@ -33,6 +32,8 @@ import { jsonToUrlEncoded } from '@lib/utils/jsontools/jsonToUrlEncoded';
 
 /** Constatnts */
 import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
+import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
+import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
 
 const validate = ({ log, password, retryPas }) => {
   const errors = {};
@@ -64,19 +65,6 @@ const validate = ({ log, password, retryPas }) => {
   return errors;
 };
 
-const BoxFirst = styled(Box)`
-  input {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-`;
-
-const BoxSecond = styled(Box)`
-  input {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-`;
 
 const notificationOpts = () => ({
   success: {
@@ -224,7 +212,7 @@ export class FormRegistration extends Component {
         <FormLogo />
 
         <Box mb={'100px'}>
-          <BoxFirst>
+          <TextFieldFirstWrapper>
             <Field
               name={'email'}
               component={TextFieldWithTooltip}
@@ -233,23 +221,22 @@ export class FormRegistration extends Component {
               left={'40%'}
               // validate={[required, isEmail]}
             />
-          </BoxFirst>
+          </TextFieldFirstWrapper>
 
           <Field
             name={'password'}
             placeholder={'Пароль'}
-            // TextFieldInput={TextFieldWithTooltip}
+            variant={'secondary'}
             component={FieldInputPassword}
           />
 
-          <BoxSecond>
+          <TextFieldLastWrapper>
             <Field
               name={'retryPas'}
               placeholder={'Потвердите пароль'}
-              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
-          </BoxSecond>
+          </TextFieldLastWrapper>
         </Box>
         <TooltipBase isActive={error} warning={error}>
           <FormButtonSubmit

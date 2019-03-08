@@ -23,6 +23,12 @@ query($id: String!){
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
+      partners {
+        id
+        lastname
+        firstname
+        email
+      }
     }
     # дата создания
     createdate

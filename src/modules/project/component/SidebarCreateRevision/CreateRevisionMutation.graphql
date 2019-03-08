@@ -3,6 +3,8 @@ mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
     document {
       # mongoid
       id
+      # id project
+      project
       # название шаблона
       name
       # id корневого элемента от которого строится граф разделов
@@ -13,6 +15,12 @@ mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
+      partners {
+        id
+        lastname
+        firstname
+        email
+      }
     }
   }
 }

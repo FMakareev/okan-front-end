@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Textarea as DefaultTextArea } from 'rebass';
 import styled from 'styled-components';
-import { color, space } from 'styled-system';
+import { color, space, variant } from 'styled-system';
+
+const inputSize = variant({
+  key: 'variant.inputSize',
+  prop: 'size',
+});
 
 const NewTextArea = styled(DefaultTextArea)`
-  /* background-color: ${props => props.theme.colors.color0}; */
+  ${color};
+  ${inputSize};
+  background-color: ${props => props.theme.colors.color0};
   /* ${BorderRadiusProperty};
   /* box-shadow: ${props => props.theme.boxShadow[2]}; */
   /* ${FontSizeProperty};  */
@@ -46,6 +53,7 @@ export class TextAreaBase extends Component {
         type={type}
         {...input}
         aria-required={required || false}
+        {...this.props}
       />
     );
   }
