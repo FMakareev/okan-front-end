@@ -169,18 +169,12 @@ export class EditorCellController extends Component {
             data = store.readQuery(options);
             data.cellitem.parent.verify = updatecell.cell.verify;
             data.cellitem.verify = updatecell.cell.verify;
+            // this.props.cellCheckStatusChange(data.cellitem.id, data.cellitem.verify);
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
-          // console.log(1111, data);
           try {
-            store.writeQuery({
-              ...options,
-              data: {
-                ...data,
-              },
-            });
-            console.log(2222, store);
+            store.writeQuery({ ...options, data: { cellitem: data.cellitem } });
           } catch (e) {
             console.log(e);
           }
@@ -288,7 +282,7 @@ export class EditorCellController extends Component {
       project,
       parentLetterNumber,
     } = this.props;
-    // console.log(1, this.props);
+    // console.log(122, this.props);
 
     const { toggleAdditionalMenu } = this.state;
 
@@ -404,10 +398,10 @@ export class EditorCellController extends Component {
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
               <Box mx={2}>
-                <EditorCellCommentController 
-                  {...this.props.project} 
-                  {...data} 
-                  location={this.props.location} 
+                <EditorCellCommentController
+                  {...this.props.project}
+                  {...data}
+                  location={this.props.location}
                 />
               </Box>
             </ProjectModeState>

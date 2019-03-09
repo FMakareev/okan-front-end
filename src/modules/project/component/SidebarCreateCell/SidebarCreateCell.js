@@ -135,15 +135,15 @@ export class SidebarCreateCell extends Component {
    * */
   createSubCellStateMachine = async ({ prevcell, nextcell, parent, isHead, contenttype, node }) => {
     try {
-      console.log(
-        'createSubCellStateMachine:',
-        prevcell,
-        nextcell,
-        parent,
-        isHead,
-        contenttype,
-        node,
-      );
+      // console.log(
+      //   'createSubCellStateMachine:',
+      //   prevcell,
+      //   nextcell,
+      //   parent,
+      //   isHead,
+      //   contenttype,
+      //   node,
+      // );
       /**
        * 1) если нет дочерних разделов и контента
        * 2) если есть дочернии разделы
@@ -193,7 +193,7 @@ export class SidebarCreateCell extends Component {
         variables,
         update: (store, { data: { createsubcell } }) => {
           try {
-            console.log('createsubcell: ', createsubcell);
+            // console.log('createsubcell: ', createsubcell);
             /** записываем в кеш аполо только что созданную ячейку */
             UpdateCellInCache(store, createsubcell.cell);
 
@@ -221,7 +221,7 @@ export class SidebarCreateCell extends Component {
                 console.error('Error createSubCell update read celllist', error);
               }
               try {
-                console.log('update: ', data);
+                // console.log('update: ', data);
                 data.celllist = data.celllist.map(item => {
                   if (item.prevcell.id === item.parent.id) {
                     item.prevcell = createsubcell.cell;
@@ -229,7 +229,7 @@ export class SidebarCreateCell extends Component {
                   item.parent = createsubcell.cell;
                   return item;
                 });
-                console.log('update: ', data);
+                // console.log('update: ', data);
 
                 store.writeQuery({
                   ...options,
@@ -287,7 +287,7 @@ export class SidebarCreateCell extends Component {
   createCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
 
-    console.log('createCell:', prevcell, nextcell, parent, isHead, contenttype);
+    // console.log('createCell:', prevcell, nextcell, parent, isHead, contenttype);
 
     const variables = {
       ...(prevcell ? { prevcell } : null),
@@ -317,7 +317,7 @@ export class SidebarCreateCell extends Component {
         },
       })
       .then(response => {
-        console.log('SidebarCreateCell response: ', response.data.createcell);
+        // console.log('SidebarCreateCell response: ', response.data.createcell);
         this.props.addNodeInTree(response.data.createcell.cell);
         this.props.cellCheckStatusChange(
           // response.data.createcell.cell.parent.id,
