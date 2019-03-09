@@ -32,6 +32,7 @@ import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 /** Utils */
 import {sortingCells} from '../../utils/sortingCells';
 import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
+import {findClassInPath} from "../../utils/findClassInPath";
 
 // TODO: три компонента кнопок превратить в один и тип и название передавать пропсами
 const EditorAdditionalMenuButton = props => {
@@ -137,25 +138,12 @@ export class EditorAdditionalMenu extends Component {
   }
 
   /**
-   * @param {array} path - массив объекто дом элементов начиная от того на котором сработало событие и до корня документа
-   * @param {string} className - название класса который
-   * @desc метод ищет в массиве класс и возвращает его индекс.
-   * */
-  findClassInPath = (path, className) => {
-    try {
-      return path.findIndex(item => item.className && item.className.indexOf(className) >= 0);
-    } catch (error) {
-      return null;
-    }
-  };
-
-  /**
    * @desc метод является callback обработчиком для прослушивания дом
    * */
   eventHandle = event => {
     try {
       if (Array.isArray(event.path)) {
-        if (this.findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0) {
+        if (findClassInPath(event.path, `EditorAdditionalMenuButton`) >= 0) {
           return null;
         } else {
           if (this.state.active) {

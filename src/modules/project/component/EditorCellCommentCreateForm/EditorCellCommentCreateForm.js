@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Field, reduxForm, Form, getFormValues } from 'redux-form';
-import { graphql } from 'react-apollo';
-import { connect } from 'react-redux';
-import { error, success } from 'react-notification-system-redux';
-import { Query, withApollo } from 'react-apollo';
+import React, {Component} from 'react';
+import {Field, reduxForm, Form} from 'redux-form';
+import {graphql} from 'react-apollo';
+import {connect} from 'react-redux';
+import {error, success} from 'react-notification-system-redux';
+import {withApollo} from 'react-apollo';
 
 /** View */
 import TextAreaBase from '../../../../components/TextAreaBase/TextAreaBase';
@@ -11,9 +11,26 @@ import TextAreaBase from '../../../../components/TextAreaBase/TextAreaBase';
 /** Graphql Schema */
 import CreateCommentMutation from './CreateCommentMutation.graphql';
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from './CellItemQuery.graphql';
+import {Box} from "@lib/ui/Box/Box";
+import {Flex} from "@lib/ui/Flex/Flex";
+import styled from "styled-components";
+import BackgroundColorProperty from "@lib/styles/styleProperty/BackgroundColorProperty";
+import BorderColorProperty from "@lib/styles/styleProperty/BorderColorProperty";
+import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+import has from '../../../../utils/has';
 
-const notificationOpts = () => ({
+
+const FormStyled = styled(Form)`
+  width: 550px;
+  border: 1px solid;
+  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
+  ${props => BackgroundColorProperty({...props, backgroundColor: 'color0'})};
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+`;
+
+const createCommentNotification = () => ({
   success: {
     title: 'Комментарий создан',
     position: 'tr',
@@ -26,70 +43,111 @@ const notificationOpts = () => ({
   },
 });
 
-const sleep = ms =>
-  new Promise(resolve => {
-    return setInterval(resolve, ms);
-  });
-
 export class EditorCellCommentCreateForm extends Component {
-  onClickCreateComment = value => {
+
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+  }
+
+  get initialState() {
+    return {
+      isLoading: false,
+    };
+  }
+
+  createComment = value => {
+    if(!has.call(value, 'message')) return;
+    if (!value.message.length) return;
+    const {setNotificationSuccess, reset, setNotificationError, user, cell} = this.props;
+    console.log('createComment: ', value, user, cell);
+    this.toggleLoading();
     return this.props['@apollo/create']({
       variables: {
-        message: value.comment,
-        sender: this.props.userId,
-        cell: this.props.cellId,
+        message: value.message,
+        sender: user.id,
+        cell: cell.id,
       },
-      /** @link https://www.apollographql.com/docs/angular/features/cache-updates.html#directAccess */
-      update: (store, { data: { createcomment } }) => {
-        // считываем из локального кеша аполо по запросу данные
+      update: (store, {data: {createcomment}}) => {
 
-        const options = { query: CellListQuery, variables: { parent: this.props.cellId } };
+        const options = {query: CellListQuery, variables: {parent: cell.parent.id}};
+        let data = null;
 
-        let data = store.readQuery(options);
+        try {
+          data = store.readQuery(options);
+        } catch (error) {
+          console.error('Error createComment update.readQuery: ', error);
+        }
 
-        // пушим наш только что созданный документ в список всех документов
-        data.celllist.map(item => item.comments.push(createcomment.comment));
-        console.log(111, data.celllist.map(item => item.comments));
+        if (!data) {
+          return null;
+        }
 
-        // // записываем в кеш обновленный список документов
-        store.writeQuery({ ...options, data });
+        try {
+          data.celllist.map(item => {
+            if (item.id === this.props.cell.id) {
+              if(Array.isArray(item.comments)){
+                item.comments.push(createcomment.comment);
+              } else {
+                item.comments = [createcomment.comment];
+              }
+            }
+            return item;
+          });
+        } catch (error) {
+          console.error('Error createComment update.change: ', error);
+        }
+
+        try {
+          store.writeQuery({...options, data});
+        } catch (error) {
+          console.error('Error createComment update.writeQuery: ', error);
+        }
+
       },
     })
       .then(response => {
-        // console.log(response);
-        this.props.setNotificationSuccess(notificationOpts().success);
-        this.props.reset();
-        return sleep(30000);
+        console.log(response);
+        this.toggleLoading();
+        setNotificationSuccess(createCommentNotification().success);
+        reset();
       })
       .catch(error => {
-        this.props.setNotificationError(notificationOpts().error);
-
-        console.log(error);
+        console.error('Error createComment submit:', error);
+        this.toggleLoading();
+        setNotificationError(createCommentNotification().error);
       });
   };
 
-  componentWillUnmount() {
-    clearInterval(sleep);
-  }
+
+  toggleLoading = () => {
+    this.setState((state) => ({
+      isLoading: !state.isLoading,
+    }))
+  };
 
   render() {
-    const { handleSubmit } = this.props;
-    return (
-      <Form onSubmit={handleSubmit(this.onClickCreateComment)}>
+    const {handleSubmit} = this.props;
+    const {isLoading} = this.state;
+    console.log('EditorCellCommentCreateForm: ', this.props);
+    return (<Box zIndex={1} right={'10px'} top={'10px'}>
+      <FormStyled onSubmit={() => {
+      }}>
         <Field
-          name={'comment'}
-          component={TextAreaBase}
+          disabled={isLoading}
+          onBlur={handleSubmit(this.createComment)}
+          name={'message'}
           size={'md'}
           color={'color7'}
-          onBlur={handleSubmit(this.onClickCreateComment)}
-        />
-      </Form>
-    );
+          component={TextAreaBase}/>
+      </FormStyled>
+      <Flex justifyContent={'flex-end'}/>
+    </Box>)
   }
 }
 
 EditorCellCommentCreateForm = reduxForm({
-  form: 'EditorCellCommentCreateForm',
+  form: `EditorCellCommentCreateForm`,
 })(EditorCellCommentCreateForm);
 
 EditorCellCommentCreateForm = graphql(CreateCommentMutation, {
@@ -97,9 +155,9 @@ EditorCellCommentCreateForm = graphql(CreateCommentMutation, {
 })(EditorCellCommentCreateForm);
 
 EditorCellCommentCreateForm = connect(
-  state => {
-    return { values: getFormValues('EditorCellCommentCreateForm')(state) };
-  },
+  store => ({
+    user: getUserFromStore(store),
+  }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

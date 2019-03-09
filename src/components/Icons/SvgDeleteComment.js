@@ -3,8 +3,8 @@ import React from 'react';
 export const SvgDeleteComment = () => {
   return (
     <svg
-      width="20"
-      height="21"
+      width="1.25em"
+      height="1.313em"
       viewBox="0 0 20 21"
       fill="inherit"
       xmlns="http://www.w3.org/2000/svg">
