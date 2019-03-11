@@ -333,13 +333,7 @@ export class EditorAdditionalMenu extends Component {
 
     try {
       const lastCellId = await this.getLastCellId(parentid);
-      console.log('createCellStateMachine: ',);
-      console.table({
-        contenttype,
-        lastCellId,
-        parentid,
-        prevcell,
-      })
+
       prevcell = !prevcell && lastCellId ? lastCellId : prevcell;
       this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
 
