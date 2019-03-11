@@ -96,6 +96,7 @@ export class FormCreateDocument extends Component {
                     type={'text'}
                     borderRadius={'4px'}
                     onBlur={handleSubmit(this.createDocument)}
+                    autoComplete="off"
                   />
                 );
               }}
