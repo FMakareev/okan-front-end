@@ -293,45 +293,49 @@ export class EditorCellController extends Component {
     return (
       <Relative onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
         <Flex pl={'10px'} alignItems="flex-start">
-          <Relative pl={'10px'}>
-            <Box mt={'-20px'} opacity={toggleAdditionalMenu ? 1 : 0}>
-              <ProjectModeState is={PROJECT_MODE_RW}>
-                <EditorAdditionalMenu
-                  prevcell={data.prevcell ? data.prevcell.id : null}
-                  nextcell={data.id}
-                  parentid={getPosition(project, 'sectionid')}
-                />
-              </ProjectModeState>
-            </Box>
-            <Text
-              width={'100px'}
-              fontFamily={'secondary'}
-              lineHeight={'22px'}
-              fontSize={6}
-              color={'color4'}
-              mt={'2px'}>
-              {/** иконка редактора */}
-              {editable && data.content.contenttype !== BLOCK_TEXT && (
-                <EditorTypeIcon type={data.content.contenttype} />
-              )}
+          {parentLetterNumber ? null : (
+            <Relative pl={'10px'}>
+              <Box mt={'-20px'} opacity={toggleAdditionalMenu ? 1 : 0}>
+                <ProjectModeState is={PROJECT_MODE_RW}>
+                  <EditorAdditionalMenu
+                    prevcell={data.prevcell ? data.prevcell.id : null}
+                    nextcell={data.id}
+                    parentid={getPosition(project, 'sectionid')}
+                  />
+                </ProjectModeState>
+              </Box>
 
-              {/** номер текстового блока */}
-              {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
-                <Fragment> {sectionNumber}</Fragment>
-              )}
-            </Text>
-            <Box opacity={toggleAdditionalMenu ? 1 : 0}>
-              <ProjectModeState is={PROJECT_MODE_RW}>
-                <EditorAdditionalMenu
-                  prevcell={data.id}
-                  nextcell={data.nextcell ? data.nextcell.id : null}
-                  parentid={getPosition(project, 'sectionid')}
-                />
-              </ProjectModeState>
-            </Box>
-          </Relative>
+              <Text
+                width={'100px'}
+                fontFamily={'secondary'}
+                lineHeight={'22px'}
+                fontSize={6}
+                color={'color4'}
+                mt={'2px'}>
+                {/** иконка редактора */}
+                {editable && data.content.contenttype !== BLOCK_TEXT && (
+                  <EditorTypeIcon type={data.content.contenttype} />
+                )}
 
-          <Box width={'calc(100% - 160px)'}>
+                {/** номер текстового блока */}
+                {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
+                  <Fragment> {sectionNumber}</Fragment>
+                )}
+              </Text>
+
+              <Box opacity={toggleAdditionalMenu ? 1 : 0}>
+                <ProjectModeState is={PROJECT_MODE_RW}>
+                  <EditorAdditionalMenu
+                    prevcell={data.id}
+                    nextcell={data.nextcell ? data.nextcell.id : null}
+                    parentid={getPosition(project, 'sectionid')}
+                  />
+                </ProjectModeState>
+              </Box>
+            </Relative>
+          )}
+
+          <Box width={parentLetterNumber ? 'calc(100% - 70px)' : 'calc(100% - 160px)'}>
             {/** заголовок таблицы */}
             <EditorCellTitle
               textAlign={'left'}
@@ -359,7 +363,9 @@ export class EditorCellController extends Component {
                     data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'),
                   )}
                 {data.content && !data.content.content && (
-                  <Text color={'color14'}>Нажмите чтобы начать редактирование раздела</Text>
+                  <Text backgroundColor={'color14'}>
+                    Нажмите чтобы начать редактирование раздела
+                  </Text>
                 )}
               </Text>
             )}

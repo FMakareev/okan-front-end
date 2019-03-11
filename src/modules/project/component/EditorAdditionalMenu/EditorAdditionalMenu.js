@@ -1,12 +1,12 @@
-import React, {Component, Fragment} from 'react';
-import {Absolute} from 'rebass';
+import React, { Component, Fragment } from 'react';
+import { Absolute } from 'rebass';
 import PropTypes from 'prop-types';
-import {graphql, Query, withApollo} from 'react-apollo';
-import {connect} from 'react-redux';
-import {error, success} from 'react-notification-system-redux';
+import { graphql, Query, withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
+import { error, success } from 'react-notification-system-redux';
 
 /** Image */
-import {SvgSidebarAdd} from '@lib/ui/Icons/SvgSidebarAdd';
+import { SvgSidebarAdd } from '@lib/ui/Icons/SvgSidebarAdd';
 
 /** View */
 import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
@@ -24,15 +24,15 @@ import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** New block types */
-import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType';
+import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT } from '../../../../shared/blockType';
 
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
 /** Utils */
-import {sortingCells} from '../../utils/sortingCells';
-import {UpdateCellInCache} from "../../utils/UpdateCellInCache";
-import {findClassInPath} from "../../utils/findClassInPath";
+import { sortingCells } from '../../utils/sortingCells';
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
+import { findClassInPath } from '../../utils/findClassInPath';
 
 // TODO: три компонента кнопок превратить в один и тип и название передавать пропсами
 const EditorAdditionalMenuButton = props => {
@@ -89,7 +89,8 @@ const createCellNotification = (contentType, messageType) => {
     default: {
       return {
         title: 'Ошибка',
-        message: 'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
+        message:
+          'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
         position: 'tr',
         autoDismiss: 3,
       };
@@ -179,7 +180,7 @@ export class EditorAdditionalMenu extends Component {
           parent: parentid,
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         let lastCellId = null;
         if (data && Array.isArray(data.celllist) && data.celllist.length > 0) {
           lastCellId = data.celllist[data.celllist.length - 1].id;
@@ -201,120 +202,122 @@ export class EditorAdditionalMenu extends Component {
    * nextcell равный id созданной ячейки
    * */
   createNewCell = (contenttype, parentid, prevcell) => {
-    this.props
-      .client.mutate({
-      mutation: CreateCellMutation,
-      variables: {
-        contentname: '',
-        prevcell: prevcell,
-        parent: parentid,
-        contenttype: contenttype,
-        isHead: false,
-        content: '',
-      },
-      update: (store, {data: {createcell}}) => {
-        console.log(createcell);
-        let data = {celllist: []};
-        let parent = null;
-        try {
-          data = store.readQuery({
-            query: CellListQuery,
-            variables: {
-              parent: parentid,
-            },
-          });
-
-          parent = store.readQuery({
-            query: CellItemQuery,
-            variables: {
-              id: parentid,
-            },
-          });
-        } catch (error) {
-          console.error('Error: ', error);
-          this.props.setNotificationError(createCellNotification());
-        }
-
-        try {
-          if (data && data.celllist.length > 0) {
-
-            let nextCellIndex = createcell.cell.nextcell ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id) : -1;
-            let prevCellIndex = data.celllist.findIndex(item => item.id === createcell.cell.prevcell.id);
-            console.table({
-              nextCellIndex,
-              prevCellIndex,
+    this.props.client
+      .mutate({
+        mutation: CreateCellMutation,
+        variables: {
+          contentname: '',
+          prevcell: prevcell,
+          parent: parentid,
+          contenttype: contenttype,
+          isHead: false,
+          content: '',
+        },
+        update: (store, { data: { createcell } }) => {
+          console.log(createcell);
+          let data = { celllist: [] };
+          let parent = null;
+          try {
+            data = store.readQuery({
+              query: CellListQuery,
+              variables: {
+                parent: parentid,
+              },
             });
 
-            if (nextCellIndex >= 0 && prevCellIndex >= 0) {
-              /** ячейка добавляется между ячейками */
-              data.celllist[prevCellIndex].nextcell = createcell.cell;
-              data.celllist[nextCellIndex].prevcell = createcell.cell;
+            parent = store.readQuery({
+              query: CellItemQuery,
+              variables: {
+                id: parentid,
+              },
+            });
+          } catch (error) {
+            console.error('Error: ', error);
+            this.props.setNotificationError(createCellNotification());
+          }
 
+          try {
+            if (data && data.celllist.length > 0) {
+              let nextCellIndex = createcell.cell.nextcell
+                ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id)
+                : -1;
+              let prevCellIndex = data.celllist.findIndex(
+                item => item.id === createcell.cell.prevcell.id,
+              );
+              console.table({
+                nextCellIndex,
+                prevCellIndex,
+              });
 
-            } else if (prevCellIndex >= 0) {
-              /** ячейка добавляется в конец */
-              data.celllist[prevCellIndex].nextcell = createcell.cell;
+              if (nextCellIndex >= 0 && prevCellIndex >= 0) {
+                /** ячейка добавляется между ячейками */
+                data.celllist[prevCellIndex].nextcell = createcell.cell;
+                data.celllist[nextCellIndex].prevcell = createcell.cell;
+              } else if (prevCellIndex >= 0) {
+                /** ячейка добавляется в конец */
+                data.celllist[prevCellIndex].nextcell = createcell.cell;
 
-              /** последняя в списке ячеек родителя */
-              parent.cellitem.lastChildren = createcell.cell;
-            } else if (createcell.cell.prevcell && createcell.cell.prevcell.id === createcell.cell.parent.id) {
+                /** последняя в списке ячеек родителя */
+                parent.cellitem.lastChildren = createcell.cell;
+              } else if (
+                createcell.cell.prevcell &&
+                createcell.cell.prevcell.id === createcell.cell.parent.id
+              ) {
+                /** ячейка первая в списке ячеек родителя  */
+                parent.cellitem.children = createcell.cell;
+                data.celllist[nextCellIndex].prevcell = createcell.cell;
+              }
+
+              data.celllist.splice(prevCellIndex, 0, createcell.cell);
+            } else {
+              /** первая ячейка потомок */
+              data.celllist.push(createcell.cell);
 
               /** ячейка первая в списке ячеек родителя  */
               parent.cellitem.children = createcell.cell;
-              data.celllist[nextCellIndex].prevcell = createcell.cell;
+
+              /** ячейка последняя в списке ячеек родителя  */
+              parent.cellitem.lastChildren = createcell.cell;
+              data.celllist = sortingCells(data.celllist);
             }
-
-            data.celllist.splice(prevCellIndex, 0, createcell.cell);
-
-          } else {
-            /** первая ячейка потомок */
-            data.celllist.push(createcell.cell);
-
-            /** ячейка первая в списке ячеек родителя  */
-            parent.cellitem.children = createcell.cell;
-
-            /** ячейка последняя в списке ячеек родителя  */
-            parent.cellitem.lastChildren = createcell.cell;
-            data.celllist = sortingCells(data.celllist);
+          } catch (error) {
+            console.error('Error: ', error);
+            this.props.setNotificationError(createCellNotification());
           }
-        } catch (error) {
-          console.error('Error: ', error);
-          this.props.setNotificationError(createCellNotification());
-        }
 
-        /** запись новой ячейки в кеш */
-        UpdateCellInCache(store, createcell.cell);
+          /** запись новой ячейки в кеш */
+          UpdateCellInCache(store, createcell.cell);
 
-        try {
-          /** запись в кеш данных родителя */
-          store.writeQuery({
-            query: CellItemQuery,
-            variables: {
-              id: createcell.cell.parent.id,
-            },
-            data: parent,
-          });
-        } catch (error) {
-          console.error('Error: ', error);
-          this.props.setNotificationError(createCellNotification());
-        }
+          try {
+            /** запись в кеш данных родителя */
+            store.writeQuery({
+              query: CellItemQuery,
+              variables: {
+                id: createcell.cell.parent.id,
+              },
+              data: parent,
+            });
+          } catch (error) {
+            console.error('Error: ', error);
+            this.props.setNotificationError(createCellNotification());
+          }
 
-        try {
-          /** запись в кеш обновленного списка ячеек */
-          store.writeQuery({
-            query: CellListQuery,
-            variables: {
-              parent: parentid,
-            },
-            data,
-          });
-        } catch (error) {
-          console.error('Error: ', error);
-          this.props.setNotificationError(createCellNotification());
-        }
-      },
-    })
-      .then(({data}) => {
+          try {
+            /** запись в кеш обновленного списка ячеек */
+            store.writeQuery({
+              query: CellListQuery,
+              variables: {
+                parent: parentid,
+              },
+              data,
+            });
+          } catch (error) {
+            console.error('Error: ', error);
+            this.props.setNotificationError(createCellNotification());
+          }
+        },
+      })
+      .then(({ data }) => {
         console.log('got data', data);
         this.props.setNotificationSuccess(createCellNotification(contenttype, 'success'));
       })
@@ -324,52 +327,58 @@ export class EditorAdditionalMenu extends Component {
       });
   };
 
-
-  createCellStateMachine = async (contenttype) => {
-    let {
-      parentid,
-      prevcell,
-    } = this.props;
+  createCellStateMachine = async contenttype => {
+    let { parentid, prevcell } = this.props;
 
     try {
       const lastCellId = await this.getLastCellId(parentid);
-      console.log('createCellStateMachine: ',);
+      console.log('createCellStateMachine: ');
       console.table({
         contenttype,
         lastCellId,
         parentid,
         prevcell,
-      })
+      });
       prevcell = !prevcell && lastCellId ? lastCellId : prevcell;
       this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
-
     } catch (error) {
       console.error('Error createCellStateMachine: ', error);
     }
-
   };
 
-
   render() {
-    const {active} = this.state;
+    const { active } = this.state;
+    const { activeMenu } = this.props;
 
     return (
-      <Box position={'relative'}>
-        <ButtonBase
-          variant={'outlineGray'}
-          p={'2px'}
-          fontSize={'15px'}
-          onClick={this.toggleMenu}>
-          <SvgSidebarAdd/>
-        </ButtonBase>
-        {active && (
-          <EditorAdditionalMenuButton
-            handleButtonPress={blockType => {
-              this.createCellStateMachine(blockType);
-            }}
-          />
+      <Fragment>
+        {activeMenu ? (
+          <Box position={'relative'} ml={'-30px'}>
+            <EditorAdditionalMenuButton
+              handleButtonPress={blockType => {
+                this.createCellStateMachine(blockType);
+              }}
+            />
+          </Box>
+        ) : (
+          <Box position={'relative'}>
+            <ButtonBase
+              variant={'outlineGray'}
+              p={'2px'}
+              fontSize={'15px'}
+              onClick={this.toggleMenu}>
+              <SvgSidebarAdd />
+            </ButtonBase>
+            {active && (
+              <EditorAdditionalMenuButton
+                handleButtonPress={blockType => {
+                  this.createCellStateMachine(blockType);
+                }}
+              />
+            )}
+          </Box>
         )}
-      </Box>
+      </Fragment>
     );
   }
 }
@@ -385,4 +394,3 @@ EditorAdditionalMenu = connect(
 )(EditorAdditionalMenu);
 
 export default RenderOpenWindow(EditorAdditionalMenu);
-

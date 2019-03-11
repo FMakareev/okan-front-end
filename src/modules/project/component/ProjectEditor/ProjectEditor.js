@@ -274,7 +274,7 @@ export class ProjectEditor extends Component {
           }}
         </Query>
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <EditorAdditionalMenu parentid={getPosition(project, 'sectionid')} />
+          <EditorAdditionalMenu parentid={getPosition(project, 'sectionid')} activeMenu />
         </ProjectModeState>
       </Flex>
     );
