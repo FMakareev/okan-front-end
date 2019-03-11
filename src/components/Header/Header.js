@@ -38,12 +38,12 @@ export class Header extends Component {
     super(props);
     this.state = this.initialState;
 
-    this.handleMouseOut = this.handleMouseOut.bind(this);
+    // this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
   get openMenu() {
     return (
-      <AbsoluteStyled top={'33px'} right={'-15px'} onMouseLeave={this.handleMouseOut}>
+      <AbsoluteStyled top={'33px'} right={'-15px'}>
         <ProfileLink to="/app/profile" activeClassName="active">
           <BoxTop>Профиль</BoxTop>
         </ProfileLink>
@@ -58,11 +58,13 @@ export class Header extends Component {
     return { isOpen: false };
   }
 
-  handleMouseOut() {
+  handleMouseOut = event => {
+    // event = event || window.event;
     this.setState(({ isOpen }) => {
       return { isOpen: false };
     });
-  }
+    // event.stopPropagation();
+  };
 
   componentDidMount() {
     this.nv.addEventListener('click', this.handleClick);
@@ -76,15 +78,16 @@ export class Header extends Component {
     window.removeEventListener('click', this.handleWindow);
   }
 
-  handleClick = e => {
-    e = e || window.event;
+  handleClick = event => {
+    event = event || window.event;
     this.setState(({ isOpen }) => {
       return { isOpen: true };
     });
-    e.stopPropagation();
+    console.log(2);
+    event.stopPropagation();
   };
 
-  handleWindow = e => {
+  handleWindow = () => {
     this.setState(({ isOpen }) => {
       return { isOpen: false };
     });

@@ -1,6 +1,8 @@
 .editor-cell_content {
   /* line-height: 1.0; */
   text-rendering: optimizeLegibility;
+  word-wrap: break-word;
+
 }
 
 /* http://paulirish.com/2012/box-sizing-border-box-ftw/ */

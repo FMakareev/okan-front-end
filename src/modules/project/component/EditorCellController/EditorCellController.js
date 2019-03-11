@@ -158,6 +158,8 @@ export class EditorCellController extends Component {
         },
         //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
         update: (store, { data: { updatecell } }) => {
+          console.log(1, updatecell.cell.verify);
+          console.log(2, this.props.data.verify);
           let data = { cellitem: {} };
           const options = {
             query: CellItemQuery,
@@ -167,6 +169,8 @@ export class EditorCellController extends Component {
           };
           try {
             data = store.readQuery(options);
+            console.log(3, data.cellitem.verify);
+
             data.cellitem.parent.verify = updatecell.cell.verify;
             data.cellitem.verify = updatecell.cell.verify;
             // this.props.cellCheckStatusChange(data.cellitem.id, data.cellitem.verify);
@@ -174,7 +178,7 @@ export class EditorCellController extends Component {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
           try {
-            store.writeQuery({ ...options, data: { cellitem: data.cellitem } });
+            store.writeQuery({ ...options, data: { cellitem: { ...data.cellitem } } });
           } catch (e) {
             console.log(e);
           }
@@ -354,9 +358,9 @@ export class EditorCellController extends Component {
                   ReactHTMLParser(
                     data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'),
                   )}
-                {data.content &&
-                  !data.content.content &&
-                  'Нажмите чтобы начать редактирование раздела.'}
+                {data.content && !data.content.content && (
+                  <Text color={'color14'}>Нажмите чтобы начать редактирование раздела</Text>
+                )}
               </Text>
             )}
 

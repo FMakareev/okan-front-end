@@ -88,8 +88,7 @@ export class SidebarCreateRevision extends Component {
         }}
         variant={'outlineGray'}
         p={'3px'}
-        fontSize={'13px'}
-      >
+        fontSize={'13px'}>
         <SvgSidebarSave />
       </ButtonBase>
     );

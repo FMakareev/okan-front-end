@@ -10,7 +10,7 @@ import { LineHeightProperty } from '../../styles/styleProperty/LineHeightPropert
 
 /** View */
 import { Box } from '../Box/Box';
-import {WordBreakProperty} from "@lib/styles/styleProperty/WordBreakProperty";
+import { WordWrapProperty } from '@lib/styles/styleProperty/WordWrapProperty';
 
 const textVariant = variant({
   key: 'variant.text',
@@ -26,7 +26,7 @@ export const Text = styled(Box)`
   ${FontFamilyProperty};
   ${textVariant};
   ${display};
-  ${WordBreakProperty};
+  ${WordWrapProperty};
   ${letterSpacing};
   ${LineHeightProperty};
   ${textAlign};

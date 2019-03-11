@@ -7,8 +7,8 @@ import { ButtonVariant } from './variants/buttonVariant';
 import { ButtonSize } from './variants/buttonSize';
 import { ButtonComment } from './variants/buttonComment';
 import { TextVariant } from './variants/textVariant';
-import {InputSize} from "@lib/styles/variants/InputSize";
-import {InputVariant} from "@lib/styles/variants/InputVariant";
+import { InputSize } from '@lib/styles/variants/InputSize';
+import { InputVariant } from '@lib/styles/variants/InputVariant';
 
 export const ColorPallet = {
   color0: '#FFFFFF',
@@ -25,6 +25,7 @@ export const ColorPallet = {
   color11: '#333333',
   color12: '#DF4624',
   color13: '#f2f2f2',
+  color14: '#fff3c1',
 };
 
 const Space = [
@@ -83,7 +84,7 @@ export const StyledThemeProvider = ({ children }) => (
         buttonComment: ButtonComment,
         text: TextVariant,
         inputSize: InputSize,
-        inputVariant:InputVariant,
+        inputVariant: InputVariant,
       },
       fontFamily: {
         primary300: 'Museo Sans 300',

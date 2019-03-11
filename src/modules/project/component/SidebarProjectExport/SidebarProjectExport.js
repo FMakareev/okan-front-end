@@ -13,8 +13,7 @@ export const SidebarProjectExport = () => (
     onClick={event => event.stopPropagation()}
     variant={'outlineGray'}
     p={'2px'}
-    fontSize={'15px'}
-  >
+    fontSize={'15px'}>
     <SvgSidebarExport />
   </ButtonBase>
 );
