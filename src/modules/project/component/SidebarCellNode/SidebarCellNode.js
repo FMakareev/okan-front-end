@@ -242,13 +242,13 @@ export class SidebarCellNode extends Component {
   };
 
   onMouseUp = () => {
-    const { node, bindAfterCopy } = this.props;
-    if (this.props.cellToCopy) {
-      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
+    const { node, bindAfterCopy, cellToCopy } = this.props;
+    if (cellToCopy) {
+      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy, cellToCopy);
     }
   };
 
-  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
+  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {  
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
@@ -259,9 +259,9 @@ export class SidebarCellNode extends Component {
     this.props
       .createCopy({
         variables: {
-          contentname: this.props.cellToCopy.content.name,
-          content: this.props.cellToCopy.content.content,
-          contenttype: this.props.cellToCopy.content.contenttype,
+          contentname: cellToCopy.content.name,
+          content: cellToCopy.content.content,
+          contenttype: cellToCopy.content.contenttype,
           prevcell: lastChildren ? lastChildren.id : parentCellId,
           parent: parentCellId,
           isHead: false,
@@ -309,7 +309,7 @@ export class SidebarCellNode extends Component {
         },
       })
       .then(({ data }) => {
-        if (bindAfterCopy) this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
+        if (bindAfterCopy) this.bindBlock(data.createcell.cell, cellToCopy.id);
         else {
           this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
@@ -394,6 +394,7 @@ export class SidebarCellNode extends Component {
         ml={'-5px'}
         onClick={this.handleClick}
         justifyContent={'flex-start'}
+        className={'SidebarCellNode'}
         alignItems={'flex-start'}>
         <Flex width={'calc(100% - 72px)'} ml={'10px'}>
           {isHead && <NodeToggle toggled={node.toggled} />}

@@ -11,7 +11,7 @@ export function DefineIcons(props) {
     template: 'image',
   });
   $.FroalaEditor.RegisterCommand('copy', {
-    title: 'copy something',
+    title: 'Copy block',
     focus: true,
     undo: false,
   });
