@@ -504,7 +504,7 @@ export class SidebarCreateCell extends Component {
                   isAttachment: true,
                 });
               }}>
-              Создать приложение
+              Приложение
             </BoxStyled>
           </AbsoluteStyled>
         )}
@@ -529,7 +529,7 @@ export class SidebarCreateCell extends Component {
                   isAttachment: true,
                 });
               }}>
-              Создать приложение
+              Приложение
             </BoxStyled>
 
             <BoxStyled
