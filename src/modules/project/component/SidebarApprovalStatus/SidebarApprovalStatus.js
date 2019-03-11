@@ -104,7 +104,7 @@ export class SidebarApprovalStatus extends Component {
             checkChanges = store.readQuery(dataCheckForCellChanges);
             checkChanges.checkForCellChanges.answer = false;
           } catch (error) {
-            console.warn('Warning UpdateCellInCache read: ', error);
+            console.warn('Warning checkForCellChanges read: ', error);
           }
 
           try {
@@ -141,7 +141,7 @@ export class SidebarApprovalStatus extends Component {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
           ({ data }) => {
             this.props.updateNode(node.id, data.cellitem);
-            this.props.cellCheckStatusChange(node.parent.id, data.cellitem.verify);
+            this.props.cellCheckStatusChange(node.parent && node.parent.id, data.cellitem.verify);
           },
         );
       }
@@ -189,7 +189,7 @@ export class SidebarApprovalStatus extends Component {
               }}>
               <SvgStatus
                 fill={GetStatusColor(
-                  data.checkForCellChanges && data.checkForCellChanges.answer
+                  data && data.checkForCellChanges && data.checkForCellChanges.answer
                     ? CELL_STATUS_CHANGED
                     : node.verify,
                 )}

@@ -739,6 +739,7 @@ export class DocumentTree extends Component {
    * если у всех соседей статус такой же  то меняет на него парента и так до корня
    * */
   cellCheckStatusChange = async (cellid, status) => {
+    // console.log(152, cellid, status);
     try {
       let tree = Object.assign({}, this.state.tree);
       let pathToCurrentNode = this.getPathToNode(tree, cellid) || '0';
@@ -772,16 +773,19 @@ export class DocumentTree extends Component {
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
         let parentNode = objectPath.get([tree], pathToParentNode);
-        console.log(5, pathToParentNode);
-        console.log(6, parentNode);
+        // console.log(5, pathToParentNode);
+        // console.log(6, parentNode);
 
         if (parentNode && Array.isArray(parentNode.children)) {
-          console.log(7, parentNode.children);
+          // console.log(7, parentNode.children);
           let result = parentNode.children.findIndex(
             item => item.verify === CELL_STATUS_CHANGED || item.verify === CELL_STATUS_NOT_CHECKED,
           );
-          console.log(8, result);
+          // console.log(8, result);
           if (result === 0) {
+            objectPath.set([tree], pathToParentNode, parentNode);
+            // console.log(123456, parentNode.id, status);
+            await this.updateCell({ id: parentNode.id, verify: status });
             parentNode.verify = CELL_STATUS_CHANGED;
           }
 
@@ -791,7 +795,7 @@ export class DocumentTree extends Component {
               verify: status,
             };
 
-            console.log(9, parentNode);
+            // console.log(9, parentNode);
             objectPath.set([tree], pathToParentNode, parentNode);
             await this.updateCell({
               id: parentNode.id,
@@ -799,7 +803,7 @@ export class DocumentTree extends Component {
             });
 
             if (parentNode.parent) {
-              console.log(10, parentNode.parent);
+              // console.log(10, parentNode.parent);
               await this.changeParentVerifyStatus(parentNode.parent, tree, status);
             }
           }
@@ -1129,7 +1133,6 @@ export class DocumentTree extends Component {
 
   render() {
     // console.log(`DocumentTree name=${this.state.tree.name}:`, this.state);
-
     return (
       <Box
         style={{

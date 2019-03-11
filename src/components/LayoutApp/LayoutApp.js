@@ -3,6 +3,7 @@ import { matchRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 
 import Header from '../Header/Header';
+import NotificationsListObserver from '../NotificationsListObserver/NotificationsListObserver';
 import {Head} from "@lib/ui/Head/Head";
 
 export class LayoutApp extends Component {
@@ -48,7 +49,7 @@ export class LayoutApp extends Component {
         <Head
           name={this.state.name}
         />
-
+        <NotificationsListObserver {...this.props} />
         <Header {...this.state} {...this.props} />
         {this.renderRoutes(routes, location.pathname)}
       </div>

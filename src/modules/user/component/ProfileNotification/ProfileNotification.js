@@ -1,14 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
 /**View */
 import Text from '@lib/ui/Text/Text';
+import Flex from '@lib/ui/Flex/Flex';
 
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
 export const ProfileNotification = ({ data }) => {
+  const [currentPage, setPage] = useState(1);
+  const [dataPerPage, setPetPage] = useState(10);
+
+  const handleClick = event => {
+    return setPage(Number(event.target.id));
+  };
+
+  const indexOfLastTodo = currentPage * dataPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - dataPerPage;
+  const currentTodos = data.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const renderTodos = currentTodos.map((data, index) => {
+    return <ProfileNotificationItem key={`ProfileNotificationItem-${index}`} {...data} />;
+  });
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(data.length / dataPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const renderPageNumbers = pageNumbers.map(number => {
+    return (
+      <div key={number} id={number} onClick={handleClick}>
+        {number}
+      </div>
+    );
+  });
+
   return (
     <Fragment>
       <Text
@@ -21,10 +50,14 @@ export const ProfileNotification = ({ data }) => {
         Оповещения
       </Text>
 
-      {data &&
+      {/*data &&
         data.map((item, index) => (
           <ProfileNotificationItem key={`ProfileNotificationItem-${index}`} {...item} />
-        ))}
+        ))*/}
+
+      {renderTodos}
+
+      <Flex> {renderPageNumbers}</Flex>
     </Fragment>
   );
 };
