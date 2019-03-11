@@ -23,15 +23,13 @@ import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
 
 /** Context */
 import {
-  PROJECT_MODE_READ,
-  PROJECT_MODE_RW,
-  ProjectContext,
   withProject,
 } from '../../component/ProjectContext/ProjectContext';
 
 /** Redux action to remove BlockId from store */
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import ProjectStore from "../../component/ProjectStore/ProjectStore";
 
 const SideBarWrapper = styled.div`
   position: relative;
@@ -55,6 +53,7 @@ const EditorWrapper = styled.div`
 `;
 
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
+const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
 
 export class ProjectEditorPage extends Component {
   static propTypes = {
@@ -73,19 +72,6 @@ export class ProjectEditorPage extends Component {
     super(props);
     this.state = {};
   }
-
-  currentUserProjectAuthor = (currentUser, projectAuthor) => {
-    try {
-      if (currentUser.id === projectAuthor.id) {
-        return PROJECT_MODE_RW;
-      } else {
-        return PROJECT_MODE_READ;
-      }
-    } catch (error) {
-      console.error('Error currentUserProjectAuthor: ', error);
-      return PROJECT_MODE_READ;
-    }
-  };
 
   render() {
     const {
@@ -106,24 +92,19 @@ export class ProjectEditorPage extends Component {
           return (
             <ErrorCatch>
               <Wrapper flexDirection={'row'}>
-                <ProjectContext.Provider
-                  value={{
-                    // объект с параметрами роутера
-                    position: params,
-                    // объект с данными о проекте
-                    project: data.projectitem,
-
-                    mode: this.currentUserProjectAuthor(user, data.projectitem.author),
-                  }}>
+                <ProjectStore
+                  params={params}
+                  projectitem={data.projectitem}
+                >
                   <SideBarWrapper width={'320px'}>
-                    <ProjectSidebar {...data.projectitem} />
+                    <ProjectSidebarWithProject/>
                   </SideBarWrapper>
                   <EditorWrapper
                     style={this.props.cellToCopy ? {opacity: '0.4'} : {}}
                   >
                     <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </EditorWrapper>
-                </ProjectContext.Provider>
+                </ProjectStore>
               </Wrapper>
             </ErrorCatch>
           );
@@ -133,15 +114,13 @@ export class ProjectEditorPage extends Component {
   }
 }
 
-// export default ProjectEditorPage;
-const mapStateToProps = state => {
-  return {
+
+ProjectEditorPage = connect(
+  (state) => ({
     ...state.blocksBinding,
     user: getUserFromStore(state),
-  };
-};
-
-export default connect(
-  mapStateToProps,
+  }),
   {removeBlock},
 )(ProjectEditorPage);
+
+export default ProjectEditorPage
