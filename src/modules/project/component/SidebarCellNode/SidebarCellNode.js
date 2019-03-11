@@ -405,7 +405,7 @@ export class SidebarCellNode extends Component {
             width={'calc(100% - 28px)'}>
             {!node.isAttachment && (
               <Text fontWeight={'inherit'} color={'color11'}>
-                {node.number}
+                {node.number}&nbsp;
               </Text>
             )}
             <TextStyled fontWeight={'inherit'} color={'color11'} mr={1}>
