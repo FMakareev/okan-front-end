@@ -37,10 +37,13 @@ export class EditorCellForm extends Component {
   };
 
   static propTypes = {
-    /** func submit for Form */
+    data: PropTypes.string,
     handleSubmit: PropTypes.func,
+    id: PropTypes.string,
+    instantSave: PropTypes.func,
+    onBlurForm: PropTypes.func,
     ...formPropTypes,
-  };
+  }
 
   static defaultProps = {
     handleSubmit: () => {},

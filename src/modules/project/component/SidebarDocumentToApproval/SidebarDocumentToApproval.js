@@ -44,6 +44,12 @@ const notificationOpts = name => {
 };
 
 export class SidebarDocumentToApproval extends Component {
+  static propTypes = {
+    client: PropTypes.object,
+    document: PropTypes.object,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func
+  }
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -145,12 +151,6 @@ export class SidebarDocumentToApproval extends Component {
     );
   }
 }
-
-SidebarDocumentToApproval.propTypes = {
-  document: PropTypes.object.isRequired,
-};
-
-SidebarDocumentToApproval.defaultProps = {};
 
 SidebarDocumentToApproval = graphql(UpdateDocumentMutation, {
   name: `@apollo/update`,

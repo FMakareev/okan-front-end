@@ -43,7 +43,13 @@ const GetStatusColor = status => {
 };
 
 export class SidebarApprovalStatus extends Component {
-  static propTypes = { updateNode: PropTypes.func };
+
+  static propTypes = {
+    cellCheckStatusChange: PropTypes.func,
+    client: PropTypes.object,
+    node: PropTypes.object,
+    updateNode: PropTypes.func
+  };
 
   static defaultProps = {};
 

@@ -97,11 +97,20 @@ const notificationDelete = name => {
 
 export class SidebarCreateCell extends Component {
   static propTypes = {
-    /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
-    prevcell: PropTypes.string,
+    addNodeInTree: PropTypes.func,
+    cellCheckStatusChange: PropTypes.number,
+    changeActiveNode: PropTypes.func,
+    client: PropTypes.object,
+    history: PropTypes.object,
+    node: PropTypes.object,
     /** @desc id ячейки родетеля это общее для ячейки prevcell и той что будет создана следом */
     parent: PropTypes.string,
+    /** @desc id предыдущей ячейки, той после которой будет добавлен раздел, этот id будет являтся parent для подраздела */
+    prevcell: PropTypes.string,
+    project: PropTypes.object,
     removeNodeInTree: PropTypes.func,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
     ...ProjectContextPropTypes,
   };
 

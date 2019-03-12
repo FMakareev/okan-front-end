@@ -62,7 +62,16 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectCreate extends Component {
-  static propTypes = { ...formPropTypes };
+  static propTypes = {
+    client: PropTypes.object,
+    handleSubmit: PropTypes.func,
+    history: PropTypes.object,
+    invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    submitting: PropTypes.bool
+  }
 
   constructor(props) {
     super(props);

@@ -1,0 +1,13 @@
+query($name: String!, $projectid: String!){
+  cellbyname(name: $name, projectid: $projectid){
+    cells{
+      id
+      parent {
+        id
+      }
+    }
+    documents{
+      id
+    }
+  }
+}

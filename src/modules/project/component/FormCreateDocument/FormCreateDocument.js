@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react';
 import { graphql, Mutation } from 'react-apollo';
 import { error, success } from 'react-notification-system-redux';
@@ -31,6 +32,17 @@ const notificationOpts = () => ({
 });
 
 export class FormCreateDocument extends Component {
+
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    project: PropTypes.object,
+    reset: PropTypes.func,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    submitSucceeded: PropTypes.bool,
+    submitting: PropTypes.bool
+  };
+
   createDocument = (value, event) => {
     console.log('createDocument: ', value);
     if (!value.name || !value.name.length) return;

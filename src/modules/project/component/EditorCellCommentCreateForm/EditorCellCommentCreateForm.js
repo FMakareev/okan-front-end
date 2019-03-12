@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react';
 import {Field, reduxForm, Form} from 'redux-form';
 import {graphql} from 'react-apollo';
@@ -44,6 +45,15 @@ const createCommentNotification = () => ({
 });
 
 export class EditorCellCommentCreateForm extends Component {
+
+  static propTypes = {
+    cell: PropTypes.object,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    setNotificationError: PropTypes.func,
+    setNotificationSuccess: PropTypes.func,
+    user: PropTypes.object
+  };
 
   constructor(props) {
     super(props);
@@ -167,3 +177,4 @@ EditorCellCommentCreateForm = connect(
 EditorCellCommentCreateForm = withApollo(EditorCellCommentCreateForm);
 
 export default EditorCellCommentCreateForm;
+

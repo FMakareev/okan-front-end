@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 /** View */
-import { TooltipBase } from '../TooltipBase/TooltipBase';
-import { TextFieldBase } from '../TextFieldBase/TextFieldBase';
+import {TooltipBase} from '../TooltipBase/TooltipBase';
+import {TextFieldBase} from '../TextFieldBase/TextFieldBase';
 
 /**
  * Компонент инпута с тултипом (Text Field With Tooltip)
@@ -27,15 +27,22 @@ export class TextFieldWithTooltip extends PureComponent {
     disabled: PropTypes.bool,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    onChangeHOC: (event)=>{return event},
+  };
 
   render() {
-    const { meta, input } = this.props;
+    const {meta, input, onChangeHOC} = this.props;
     return (
       <TooltipBase isActive={meta.touched && meta.error} warning={meta.error}>
-        <TextFieldBase {...this.props} {...input} />
+        <TextFieldBase
+          {...this.props}
+          {...input}
+          onChange={(event)=>input.onChange(onChangeHOC(event))}
+        />
       </TooltipBase>
     );
   }
 }
+
 export default TextFieldWithTooltip;

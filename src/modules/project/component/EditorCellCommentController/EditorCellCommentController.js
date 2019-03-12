@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react';
 import {Absolute} from 'rebass';
 import {connect} from 'react-redux';
@@ -64,7 +65,18 @@ const commentDeletionNotifications = () => ({
 export class EditorCellCommentController extends Component {
   state = {};
 
-  static propTypes = {};
+  static propTypes = {
+    comments: PropTypes.array,
+    id: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
+    parent: PropTypes.object,
+    position: PropTypes.object,
+    project: PropTypes.object,
+    setNotificationError: PropTypes.func.isRequired,
+    setNotificationSuccess: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+  }
 
   static defaultProps = {};
 
