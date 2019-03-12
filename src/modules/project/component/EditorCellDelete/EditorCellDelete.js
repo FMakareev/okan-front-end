@@ -9,7 +9,7 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import deleteIcon from '../../../../assets/image/deleteIcon.png';
 
 /** Mutation */
-import DeleteCellMutation from '../EditorCellController/DeleteCellMutation.graphql';
+import DeleteCellMutation from './DeleteCellMutation.graphql';
 
 /** Graphql query */
 import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
