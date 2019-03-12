@@ -20,7 +20,7 @@ import {
   PROJECT_MODE_RW,
   ProjectContextPropTypes,
 } from '../ProjectContext/ProjectContext';
-import EditorCellDelete from './EditorCellDelete';
+import EditorCellDelete from '../EditorCellDelete/EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
