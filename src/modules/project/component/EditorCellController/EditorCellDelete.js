@@ -149,7 +149,7 @@ export class EditorCellDelete extends Component {
           });
 
           if (data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id) {
-            if(deletecell.cell.prevcell.id != deletecell.cell.parent.id){
+            if(deletecell.cell.prevcell.id !== deletecell.cell.parent.id){
               data.cellitem.lastChildren.id = deletecell.cell.prevcell.id;
               data.cellitem.lastChildren.name = deletecell.cell.prevcell.name;
             } else {
@@ -205,11 +205,11 @@ EditorCellDelete = connect(
   }),
 )(EditorCellDelete);
 
-export default EditorCellDelete
-
 EditorCellDelete.propTypes = {
   id: PropTypes.string.isRequired,
   sectionid: PropTypes.string.isRequired,
   setNotificationError: PropTypes.func.isRequired,
   setNotificationSuccess: PropTypes.func.isRequired
-}
+};
+
+export default EditorCellDelete
