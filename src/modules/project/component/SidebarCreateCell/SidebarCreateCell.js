@@ -492,20 +492,22 @@ export class SidebarCreateCell extends Component {
               Удалить {parent ? 'подраздел' : 'раздел'}
             </BoxStyled>
 
-            <BoxStyled
-              onClick={event => {
-                this.onToggle(event);
-                this.createAttachment({
-                  prevcell: id,
-                  parent: parent !== null ? parent.id : null,
-                  isHead: true,
-                  contenttype: null,
-                  nextcell: null,
-                  isAttachment: true,
-                });
-              }}>
-              Приложение
-            </BoxStyled>
+            {!parent && (
+              <BoxStyled
+                onClick={event => {
+                  this.onToggle(event);
+                  this.createAttachment({
+                    prevcell: id,
+                    parent: parent !== null ? parent.id : null,
+                    isHead: true,
+                    contenttype: null,
+                    nextcell: null,
+                    isAttachment: true,
+                  });
+                }}>
+                Приложение
+              </BoxStyled>
+            )}
           </AbsoluteStyled>
         )}
 
