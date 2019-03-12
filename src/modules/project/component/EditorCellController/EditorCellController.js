@@ -36,12 +36,13 @@ import {error, success} from 'react-notification-system-redux';
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TABLE, BLOCK_TEXT} from '../../../../shared/blockType';
+import {BLOCK_IMAGE, BLOCK_TABLE} from '../../../../shared/blockType';
 import {ProjectModeState} from '../ProjectContext/ProjectModeState';
 import {Relative} from '@lib/ui/Relative/Relative';
 import {getPosition} from '../ProjectContext/ProjectContextSelectors';
-import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
 import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
+import {EditorCellContent} from "../EditorCellContent/EditorCellContent";
+import EditorCellControllerNumber from "../EditorCellControllerNumber/EditorCellControllerNumber";
 
 const notificationOpts = () => ({
   success: {
@@ -295,51 +296,16 @@ export class EditorCellController extends Component {
     const {toggleAdditionalMenu} = this.state;
 
     return (
-      <Relative style={{
-        // backgroundColor: project.searchCursor.cell && project.searchCursor.cell.id === data.id ? 'red' : 'transparent', // TODO: это для тестов
-      }} onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
+      <Relative onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
         <Flex pl={'10px'} alignItems="flex-start">
           {
             parentLetterNumber ? null : (
-              <Relative pl={'10px'}>
-                <Box mt={'-20px'} opacity={toggleAdditionalMenu ? 1 : 0}>
-                  <ProjectModeState is={PROJECT_MODE_RW}>
-                    <EditorAdditionalMenu
-                      prevcell={data.prevcell ? data.prevcell.id : null}
-                      nextcell={data.id}
-                      parentid={getPosition(project, 'sectionid')}
-                    />
-                  </ProjectModeState>
-                </Box>
-
-                <Text
-                  width={'100px'}
-                  fontFamily={'secondary'}
-                  lineHeight={'22px'}
-                  fontSize={6}
-                  color={'color4'}
-                  mt={'2px'}>
-                  {/** иконка редактора */}
-                  {editable && data.content.contenttype !== BLOCK_TEXT && (
-                    <EditorTypeIcon type={data.content.contenttype}/>
-                  )}
-
-                  {/** номер текстового блока */}
-                  {data.content.contenttype === BLOCK_TEXT && data.parent && data.prevcell && (
-                    <Fragment> {sectionNumber}</Fragment>
-                  )}
-                </Text>
-
-                <Box opacity={toggleAdditionalMenu ? 1 : 0}>
-                  <ProjectModeState is={PROJECT_MODE_RW}>
-                    <EditorAdditionalMenu
-                      prevcell={data.id}
-                      nextcell={data.nextcell ? data.nextcell.id : null}
-                      parentid={getPosition(project, 'sectionid')}
-                    />
-                  </ProjectModeState>
-                </Box>
-              </Relative>
+              <EditorCellControllerNumber
+                {...data}
+                toggleAdditionalMenu={toggleAdditionalMenu}
+                sectionid={getPosition(project, 'sectionid')}
+                sectionNumber={sectionNumber}
+              />
             )
           }
 
@@ -355,38 +321,14 @@ export class EditorCellController extends Component {
             />
 
             {/** текстовый контент */}
-            {!editable && (
-              <Text
-                className={'editor-cell_content'}
+            {
+              !editable && (<EditorCellContent
                 onClick={() => (project.mode === PROJECT_MODE_RW ? this.openEditor() : null)}
-                fontSize={5}
                 textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
-                wordBreak={'break-all'}
-                lineHeight={6}
-                color={'color11'}
-                fontFamily={'primary300'}>
-                {
-                  data.content &&
-                  typeof data.content.content === 'string' &&
-                  ReactHTMLParser(
-                    data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'),
-                  )
-                }
-
-                {
-                  data.content && !data.content.content && (
-                    <Text backgroundColor={'color14'}>
-                      Нажмите чтобы начать редактирование раздела
-                    </Text>
-                  )
-                }
-
-                {
-                  project.searchCursor.cell && project.searchCursor.cell.id === data.id &&
-                  ReactHTMLParser(this.highlightedContent(data.content.content.replace('data-f-id="pbf"', 'style="display:none;"'), project.searchPhrase))
-                }
-              </Text>
-            )}
+                project={project}
+                {...data}
+              />)
+            }
 
             {/** форма редактора */}
             <ProjectModeState is={PROJECT_MODE_RW}>
