@@ -207,7 +207,7 @@ export class ProjectEditor extends Component {
           query={CellListQuery}
           variables={{ parent: getPosition(project, 'sectionid') }}>
           {({ data, loading, error }) => {
-            console.log(1, data);
+            // console.log(1, data);
             if (loading) {
               return `Загрузка`;
             }
