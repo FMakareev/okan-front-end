@@ -119,6 +119,8 @@ export class RichTextEditor extends Component {
     let nodePreview = node.cloneNode(true);
     {/** Получаем ячейку, содержащую узел */}
     let wholeCell = node.parentNode.parentNode.parentNode;
+    {/** Получаем узел сайдбара для скролла по нему */}
+    let sidebarWrapper = document.getElementById('SideBarWrapper');
 
     {/** Предотвращаем стандартную реакцию браузера на событие dragstart */}
     node.ondragstart = (e) => {
@@ -139,6 +141,9 @@ export class RichTextEditor extends Component {
       document.onmousemove = (e) => {
         this.movePreviewAt(nodePreview, e);
       }
+      sidebarWrapper.onmousemove = (e) => {
+        this.scrollSidebar(e, sidebarWrapper);
+      } 
       {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
       document.onmouseup = (e) => {
         console.log('mouseup')
@@ -158,32 +163,24 @@ export class RichTextEditor extends Component {
   movePreviewAt = (node, e) => {
     node.style.left = e.pageX + 8 + 'px';
     node.style.top = e.pageY + 8 + 'px';
-
-    {/** Кроссбраузерное нахождение высоты всей страницы */}
-    var scrollHeight = Math.max(
-      document.body.scrollHeight, document.documentElement.scrollHeight,
-      document.body.offsetHeight, document.documentElement.offsetHeight,
-      document.body.clientHeight, document.documentElement.clientHeight
-    );
-    
-    {/** Сравниваем с высотой клиента */}
-    if (scrollHeight > document.documentElement.clientHeight) {
-      {/** Наведение на верх страницы (50 пикселей сверху) */}
-      if (e.clientY < 50) {
-        window.scrollBy(0,-10);
-      }
-      /**
-       * Наведение на низ страницы (50 пикселей снизу) &&
-       * Предотвращение лишнего скролла вниз
-       */
-      if (
-        e.clientY > document.documentElement.clientHeight - 50 &&
-        e.offsetY < document.documentElement.offsetHeight
-      ) {
-        window.scrollBy(0,10);
-      }
-    }
   }
+
+  scrollSidebar = (e, sidebarWrapper) => {
+    /** Наведение на верх страницы (100 пикселей сверху) */
+    if (e.clientY < 100) {
+      sidebarWrapper.scrollBy(0,-10);
+    }
+    /**
+     * Наведение на низ страницы (100 пикселей снизу) &&
+     * Предотвращение лишнего скролла вниз
+     */
+    if (
+      e.clientY > document.documentElement.clientHeight - 100 &&
+      e.offsetY < document.documentElement.offsetHeight
+    ) {
+      sidebarWrapper.scrollBy(0,10);
+    }
+  };
   
   releaseButton = (node, cell, e, button) => {
     {/** удаляем копию узла */}
@@ -193,6 +190,10 @@ export class RichTextEditor extends Component {
     document.onmouseup = null;
     button.onmouseup = null;
 
+    if(!event.target.closest('.SidebarCellNode')){
+      this.props.removeBlock();
+    };
+    
     cell.style.opacity = 1;
   }
 

@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
+import {Absolute} from '@lib/ui/Absolute/Absolute';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
@@ -53,9 +54,9 @@ const Wrapper = styled(Flex)`
 `;
 
 const TextStyled = styled(Text)`
-  max-width: 150px;
   width: 100%;
   word-wrap: break-word;
+  margin-right: 38px;
 `;
 
 const notificationOpts = cellText => ({
@@ -242,13 +243,13 @@ export class SidebarCellNode extends Component {
   };
 
   onMouseUp = () => {
-    const { node, bindAfterCopy } = this.props;
-    if (this.props.cellToCopy) {
-      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy);
+    const { node, bindAfterCopy, cellToCopy } = this.props;
+    if (cellToCopy) {
+      this.createBindingBlockCopy(node.id, node.lastChildren, bindAfterCopy, cellToCopy);
     }
   };
 
-  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy) => {
+  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {  
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
@@ -259,9 +260,9 @@ export class SidebarCellNode extends Component {
     this.props
       .createCopy({
         variables: {
-          contentname: this.props.cellToCopy.content.name,
-          content: this.props.cellToCopy.content.content,
-          contenttype: this.props.cellToCopy.content.contenttype,
+          contentname: cellToCopy.content.name,
+          content: cellToCopy.content.content,
+          contenttype: cellToCopy.content.contenttype,
           prevcell: lastChildren ? lastChildren.id : parentCellId,
           parent: parentCellId,
           isHead: false,
@@ -309,7 +310,7 @@ export class SidebarCellNode extends Component {
         },
       })
       .then(({ data }) => {
-        if (bindAfterCopy) this.bindBlock(data.createcell.cell, this.props.cellToCopy.id);
+        if (bindAfterCopy) this.bindBlock(data.createcell.cell, cellToCopy.id);
         else {
           this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
@@ -394,20 +395,23 @@ export class SidebarCellNode extends Component {
         ml={'-5px'}
         onClick={this.handleClick}
         justifyContent={'flex-start'}
-        alignItems={'flex-start'}>
-        <Flex width={'calc(100% - 72px)'} ml={'10px'}>
+        className={'SidebarCellNode'}
+        alignItems={'flex-start'}
+        position={'relative'}>
+        <Flex width={'100%'} ml={'10px'}>
           {isHead && <NodeToggle toggled={node.toggled} />}
           <Flex
             fontWeight={isHead ? 500 : 300}
             ml={isHead ? '' : '20px'}
             color={'color11'}
-            width={'calc(100% - 28px)'}>
+            width={'100%'}
+            >
             {!node.isAttachment && (
               <Text fontWeight={'inherit'} color={'color11'}>
-                {node.number}
+                {node.number}&nbsp;
               </Text>
             )}
-            <TextStyled fontWeight={'inherit'} color={'color11'} mr={1}>
+            <TextStyled fontWeight={'inherit'} color={'color11'}>
               {node.isAttachment && ' ' + `Приложение ${node.letterNumber} `}
               {/*node.isAttachment && ' ' + `Приложение ${node.letterNumber} ${nameSectionLetter}` - тут выволдится с прьюселл именем ячекйи*/}
               <SidebarCellNodeEditable
@@ -429,31 +433,33 @@ export class SidebarCellNode extends Component {
           </Flex>
         </Flex>
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <Flex mr={'10px'}>
-            <Box opacity={hover ? '1' : '0'} px={1}>
-              <SidebarChangeCell onClick={this.onToggleEditable} />
-            </Box>
-            <Box opacity={hover ? '1' : '0'} px={1}>
-              <SidebarCreateCell
-                cellCheckStatusChange={this.props.cellCheckStatusChange}
-                node={node}
-                changeActiveNode={id =>
-                  this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))
-                }
-                addNodeInTree={this.props.addNodeInTree}
-                changeNodeFocus={this.props.changeNodeFocus}
-                removeNodeInTree={this.props.removeNodeInTree}
-                project={project}
-              />
-            </Box>
-            <Box px={1}>
-              <SidebarApprovalStatus
-                cellCheckStatusChange={this.props.cellCheckStatusChange}
-                updateNode={this.props.updateNode}
-                node={node}
-              />
-            </Box>
-          </Flex>
+          <Absolute right={'0'} top={'0'}>
+            <Flex mr={'10px'}>
+              <Box opacity={hover ? '1' : '0'} px={1}>
+                <SidebarChangeCell onClick={this.onToggleEditable} />
+              </Box>
+              <Box opacity={hover ? '1' : '0'} px={1}>
+                <SidebarCreateCell
+                  cellCheckStatusChange={this.props.cellCheckStatusChange}
+                  node={node}
+                  changeActiveNode={id =>
+                    this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))
+                  }
+                  addNodeInTree={this.props.addNodeInTree}
+                  changeNodeFocus={this.props.changeNodeFocus}
+                  removeNodeInTree={this.props.removeNodeInTree}
+                  project={project}
+                />
+              </Box>
+              <Box px={1}>
+                <SidebarApprovalStatus
+                  cellCheckStatusChange={this.props.cellCheckStatusChange}
+                  updateNode={this.props.updateNode}
+                  node={node}
+                />
+              </Box>
+            </Flex>
+          </Absolute>
         </ProjectModeState>
       </Wrapper>
     );

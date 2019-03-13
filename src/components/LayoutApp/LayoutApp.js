@@ -51,6 +51,7 @@ export class LayoutApp extends Component {
         />
         <NotificationsListObserver {...this.props} />
         <Header {...this.state} {...this.props} />
+        <div style={{height: 40 + 'px'}}></div>
         {this.renderRoutes(routes, location.pathname)}
       </div>
     );
