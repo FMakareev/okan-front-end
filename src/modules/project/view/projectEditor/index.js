@@ -36,9 +36,13 @@ const SideBarWrapper = styled.div`
   padding-top: 10px;
   width: 340px;
   min-height: calc(100vh - 40px);
+  padding-top: 10px;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  overflow-y: scroll;
+  height: 100vh;
 `;
 
 const Wrapper = styled(Flex)`
@@ -48,6 +52,7 @@ const Wrapper = styled(Flex)`
 `;
 
 const EditorWrapper = styled.div`
+  margin-left: 340px;
   width: calc(100% - 380px);
   min-height: calc(100vh - 40px);
 `;
@@ -96,12 +101,10 @@ export class ProjectEditorPage extends Component {
                   params={params}
                   projectitem={data.projectitem}
                 >
-                  <SideBarWrapper width={'320px'}>
+                  <SideBarWrapper width={'320px'}  id={'SideBarWrapper'}>
                     <ProjectSidebarWithProject/>
                   </SideBarWrapper>
-                  <EditorWrapper
-                    style={this.props.cellToCopy ? {opacity: '0.4'} : {}}
-                  >
+                  <EditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </EditorWrapper>
                 </ProjectStore>
@@ -117,7 +120,6 @@ export class ProjectEditorPage extends Component {
 
 ProjectEditorPage = connect(
   (state) => ({
-    ...state.blocksBinding,
     user: getUserFromStore(state),
   }),
   {removeBlock},

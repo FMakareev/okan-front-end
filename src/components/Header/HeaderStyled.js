@@ -24,6 +24,8 @@ const Wrapper = styled.header`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: fixed;
+  z-index: 999;
   ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color5' })};
   ${props => BoxShadowProperty({ ...props, boxShadow: 2 })};
 `;
