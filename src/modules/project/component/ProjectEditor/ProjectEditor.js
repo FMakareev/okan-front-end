@@ -174,6 +174,37 @@ export class ProjectEditor extends Component {
     });
   };
 
+  /**
+   * @param {string} parentNumber - Номер подраздела
+   * @param {string} parentLetterNumber - Буквенный номер приложения
+   * @param {string} childName - Имя ячейки подраздела
+   * @param {string} section - Номер раздела
+   * @param {string} parentName - Имя ячейки раздела
+   * @desc метод для получения заголовков
+   * */
+  getMainSection = (parentNumber, parentLetterNumber, childName, section, parentName) => {
+    return parentNumber && parentNumber.length === 2 ? (
+      <Fragment>{`${parentNumber || parentLetterNumber} ${childName || ''}`}</Fragment>
+    ) : (
+      <Fragment>{`${section} ${!parentLetterNumber ? parentName : ''}`}</Fragment>
+    );
+  };
+
+  /**
+   * @param {string} parentNumber - Номер подраздела
+   * @param {string} parentLetterNumber - Буквенный номер приложения
+   * @param {string} childName - Имя ячейки подраздела
+   * @desc метод для получения подзаголовков
+   * */
+  getMainSubsection = (parentNumber, parentLetterNumber, childName) => {
+    return parentNumber && parentNumber.length <= 2 ? null : (
+      <Fragment>{`${parentNumber ||
+        (parentLetterNumber && parentLetterNumber
+          ? `Приложение ${parentLetterNumber} `
+          : null)} ${childName || ''}`}</Fragment>
+    );
+  };
+
   render() {
     const {
       location: { search },
@@ -181,13 +212,6 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
-    // console.log(
-    //   12345,
-    //   childName,
-    //   parentName,
-    //   parentNumber,
-    //   parentLetterNumber,
-    // );
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -207,7 +231,6 @@ export class ProjectEditor extends Component {
           query={CellListQuery}
           variables={{ parent: getPosition(project, 'sectionid') }}>
           {({ data, loading, error }) => {
-            // console.log(1, data);
             if (loading) {
               return `Загрузка`;
             }
@@ -219,13 +242,13 @@ export class ProjectEditor extends Component {
             if (data && data.celllist) {
               const section = parentNumber ? parentNumber.slice(0, -2) : '';
 
-              const sectionMain =
-                data.celllist.length !== 0
-                  ? data.celllist &&
-                    data.celllist[0].parent &&
-                    data.celllist[0].parent.parent &&
-                    data.celllist[0].parent.parent.number.join('.')
-                  : section;
+              // const sectionMain =
+              //   data.celllist.length !== 0
+              //     ? data.celllist &&
+              //       data.celllist[0].parent &&
+              //       data.celllist[0].parent.parent &&
+              //       data.celllist[0].parent.parent.number.join('.')
+              //     : '';
 
               const sectionSubsection =
                 data.celllist.length !== 0
@@ -245,7 +268,13 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    <Fragment>{parentLetterNumber ? '' : `${sectionMain} ${parentName}`}</Fragment>
+                    {this.getMainSection(
+                      parentNumber,
+                      parentLetterNumber,
+                      childName,
+                      section,
+                      parentName,
+                    )}
                   </Text>
                   <ContentWrapper>
                     <Text
@@ -257,16 +286,7 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'10px'}>
-                      {/* {parentNumber && parentNumber.length <= 2 ? null : (
-                        <Fragment>{`${parentNumber ||
-                          (parentLetterNumber && parentLetterNumber
-                            ? `Приложение ${parentLetterNumber} `
-                            : null)} ${childName || ''}`}</Fragment>
-                          )}*/}
-
-                      <Fragment>{`${(parentLetterNumber && parentLetterNumber
-                        ? `Приложение ${sectionSubsection} `
-                        : '') || sectionSubsection} ${childName || ''}`}</Fragment>
+                      {this.getMainSubsection(parentNumber, parentLetterNumber, childName)}
                     </Text>
 
                     {sortingCells(data.celllist).map((item, index) => {

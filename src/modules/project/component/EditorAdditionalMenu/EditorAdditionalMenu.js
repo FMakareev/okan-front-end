@@ -89,7 +89,8 @@ const createCellNotification = (contentType, messageType) => {
     default: {
       return {
         title: 'Ошибка',
-        message: 'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
+        message:
+          'Произошла неизвестная ошибка, попробуйте перезагрузить страницу и повторить операцию.',
         position: 'tr',
         autoDismiss: 3,
       };
@@ -108,8 +109,8 @@ export class EditorAdditionalMenu extends Component {
     parentid: PropTypes.string.isRequired,
     prevcell: PropTypes.string,
     setNotificationError: PropTypes.any,
-    setNotificationSuccess: PropTypes.any
-  }
+    setNotificationSuccess: PropTypes.any,
+  };
 
   constructor(props) {
     super(props);
@@ -158,12 +159,22 @@ export class EditorAdditionalMenu extends Component {
   };
 
   /**
-   * @desc переключатель состояния списка вкл/выкл
+   * @desc метод состояния списка выкл
    * */
   toggleMenu = () => {
     this.setState(state => ({
       ...state,
       active: !state.active,
+    }));
+  };
+
+  /**
+   * @desc переключатель состояния списка вкл/выкл
+   * */
+  closeMenu = () => {
+    this.setState(state => ({
+      ...state,
+      active: false,
     }));
   };
 
@@ -179,7 +190,7 @@ export class EditorAdditionalMenu extends Component {
           parent: parentid,
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         let lastCellId = null;
         if (data && Array.isArray(data.celllist) && data.celllist.length > 0) {
           lastCellId = data.celllist[data.celllist.length - 1].id;
@@ -201,39 +212,39 @@ export class EditorAdditionalMenu extends Component {
    * nextcell равный id созданной ячейки
    * */
   createNewCell = (contenttype, parentid, prevcell) => {
-    this.props
-      .client.mutate({
-      mutation: CreateCellMutation,
-      variables: {
-        contentname: '',
-        prevcell: prevcell,
-        parent: parentid,
-        contenttype: contenttype,
-        isHead: false,
-        content: '',
-      },
-      update: (store, {data: {createcell}}) => {
-        console.log(createcell);
-        let data = {celllist: []};
-        let parent = null;
-        try {
-          data = store.readQuery({
-            query: CellListQuery,
-            variables: {
-              parent: parentid,
-            },
-          });
+    this.props.client
+      .mutate({
+        mutation: CreateCellMutation,
+        variables: {
+          contentname: '',
+          prevcell: prevcell,
+          parent: parentid,
+          contenttype: contenttype,
+          isHead: false,
+          content: '',
+        },
+        update: (store, { data: { createcell } }) => {
+          console.log(createcell);
+          let data = { celllist: [] };
+          let parent = null;
+          try {
+            data = store.readQuery({
+              query: CellListQuery,
+              variables: {
+                parent: parentid,
+              },
+            });
 
-          parent = store.readQuery({
-            query: CellItemQuery,
-            variables: {
-              id: parentid,
-            },
-          });
-        } catch (error) {
-          console.error('Error: ', error);
-          this.props.setNotificationError(createCellNotification());
-        }
+            parent = store.readQuery({
+              query: CellItemQuery,
+              variables: {
+                id: parentid,
+              },
+            });
+          } catch (error) {
+            console.error('Error: ', error);
+            this.props.setNotificationError(createCellNotification());
+          }
 
           try {
             if (data && data.celllist.length > 0) {
@@ -326,25 +337,18 @@ export class EditorAdditionalMenu extends Component {
       });
   };
 
-
-  createCellStateMachine = async (contenttype) => {
-    let {
-      parentid,
-      prevcell,
-    } = this.props;
+  createCellStateMachine = async contenttype => {
+    let { parentid, prevcell } = this.props;
 
     try {
       const lastCellId = await this.getLastCellId(parentid);
 
       prevcell = !prevcell && lastCellId ? lastCellId : prevcell;
       this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
-
     } catch (error) {
       console.error('Error createCellStateMachine: ', error);
     }
-
   };
-
 
   render() {
     const { active } = this.state;
@@ -361,12 +365,12 @@ export class EditorAdditionalMenu extends Component {
             />
           </Box>
         ) : (
-          <Box position={'relative'}>
+          <Box position={'relative'} onMouseLeave={this.closeMenu}>
             <ButtonBase
               variant={'outlineGray'}
               p={'2px'}
               fontSize={'15px'}
-              onClick={this.toggleMenu}>
+              onMouseEnter={this.toggleMenu}>
               <SvgSidebarAdd />
             </ButtonBase>
             {active && (

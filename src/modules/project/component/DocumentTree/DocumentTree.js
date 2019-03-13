@@ -524,6 +524,7 @@ export class DocumentTree extends Component {
 
       if (project.mode === PROJECT_MODE_READ || project.mode === PROJECT_MODE_RW) {
         if (projectid && documentid && sectionid && cellLetterNumber) {
+          // console.log(3, projectid, documentid, sectionid, cellLetterNumber);
           history.push({
             pathname: `/app/project/${projectid}/${documentid}/${sectionid}`,
             search: joinQueryString(location.search, {
