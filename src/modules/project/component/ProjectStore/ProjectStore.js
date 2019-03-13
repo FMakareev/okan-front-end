@@ -1,12 +1,16 @@
-import PropTypes from 'prop-types'
-import React, {Component} from 'react';
-import {PROJECT_MODE_READ, PROJECT_MODE_RW, ProjectContext} from "../ProjectContext/ProjectContext";
-import {connect} from "react-redux";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import {
+  PROJECT_MODE_READ,
+  PROJECT_MODE_RW,
+  ProjectContext,
+} from '../ProjectContext/ProjectContext';
+import { connect } from 'react-redux';
 import shallowequal from 'shallowequal'; // ES6
 
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
-import {joinQueryString} from "@lib/utils/joinQueryString";
-import {withRouter} from "react-router-dom";
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import { joinQueryString } from '@lib/utils/joinQueryString';
+import { withRouter } from 'react-router-dom';
 
 /**
  * @typedef {Object} Position
@@ -23,14 +27,12 @@ import {withRouter} from "react-router-dom";
  * @property {string} mode
  */
 
-
 export class ProjectStore extends Component {
-
   static propTypes = {
     children: PropTypes.any.isRequired,
     params: PropTypes.object.isRequired,
     projectitem: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -39,7 +41,7 @@ export class ProjectStore extends Component {
   }
 
   get initialState() {
-    const {user, projectitem, params} = this.props;
+    const { user, projectitem, params } = this.props;
     return {
       /** объект с параметрами роутера */
       position: params,
@@ -55,14 +57,16 @@ export class ProjectStore extends Component {
         cellIndex: 0,
         cell: null,
       },
-    }
+    };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !shallowequal(this.props.params, nextProps.params) ||
+    return (
+      !shallowequal(this.props.params, nextProps.params) ||
       !shallowequal(this.props.projectitem, nextProps.projectitem) ||
       !shallowequal(this.state.searchCursor, nextState.searchCursor) ||
       this.state.searchResult.length !== nextState.searchResult
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,8 +75,8 @@ export class ProjectStore extends Component {
     if (!shallowequal(this.props.params, nextProps.params)) {
       newState = {
         ...newState,
-        position: nextProps.params
-      }
+        position: nextProps.params,
+      };
     }
 
     if (!shallowequal(this.props.projectitem, nextProps.projectitem)) {
@@ -87,14 +91,13 @@ export class ProjectStore extends Component {
       this.setState(state => ({
         ...state,
         ...newState,
-      }))
+      }));
     }
   }
 
   componentDidCatch(error, warning) {
     console.log('componentDidCatch: ', error, warning);
   }
-
 
   /**
    * @desc метод по текущему авторизованному пользователю и авторму проекта определяет режим работы редактора
@@ -115,15 +118,15 @@ export class ProjectStore extends Component {
   /**
    * @param {string} searchPhrase новый параметр
    * @desc изенение в адресной строки параметра поиска searchPhrase */
-  changeSearchPhraseInLocationSearch = (searchPhrase) => {
-    try{
+  changeSearchPhraseInLocationSearch = searchPhrase => {
+    try {
       this.props.history.push({
         search: joinQueryString(this.props.location.search, {
-          searchPhrase: searchPhrase
+          searchPhrase: searchPhrase,
         }),
       });
-    } catch(error){
-      console.log('changeSearchPhraseInLocationSearch: ',error);
+    } catch (error) {
+      console.log('changeSearchPhraseInLocationSearch: ', error);
     }
   };
 
@@ -131,8 +134,7 @@ export class ProjectStore extends Component {
    * @desc метод сбрасываетпараметры поиска
    * */
   resetSearchCondition = () => {
-    try{
-
+    try {
       this.setState(state => ({
         ...state,
         searchResult: [],
@@ -146,7 +148,6 @@ export class ProjectStore extends Component {
       }));
 
       this.changeSearchPhraseInLocationSearch(null);
-
     } catch (error) {
       console.log(error);
     }
@@ -159,14 +160,17 @@ export class ProjectStore extends Component {
    * */
   updateSearchResults = (result, searchPhrase) => {
     try {
-      this.setState(state => ({
-        ...state,
-        searchResult: result,
-        searchPhrase: searchPhrase,
-      }), ()=> {
-        this.changeSearchPhraseInLocationSearch(searchPhrase);
-        this.initSearchCursor();
-      })
+      this.setState(
+        state => ({
+          ...state,
+          searchResult: result,
+          searchPhrase: searchPhrase,
+        }),
+        () => {
+          this.changeSearchPhraseInLocationSearch(searchPhrase);
+          this.initSearchCursor();
+        },
+      );
     } catch (e) {
       console.error(e);
     }
@@ -208,17 +212,17 @@ export class ProjectStore extends Component {
    * */
   getNextCellFromSearch = (documentIndex, cellIndex) => {
     try {
-      const {searchResult} = this.state;
+      const { searchResult } = this.state;
       if (cellIndex < searchResult[documentIndex].cells.length - 1) {
         return {
           cellIndex: cellIndex + 1,
           cell: searchResult[documentIndex].cells[cellIndex + 1],
-        }
+        };
       } else {
         return {
           cellIndex: 0,
           cell: searchResult[documentIndex].cells[0],
-        }
+        };
       }
     } catch (error) {
       console.error('Error: ', error);
@@ -233,23 +237,23 @@ export class ProjectStore extends Component {
    * */
   getCurrentDocumentFromSearch = (documentIndex, cellIndex) => {
     try {
-      const {searchResult} = this.state;
+      const { searchResult } = this.state;
 
       if (cellIndex < searchResult[documentIndex].cells.length - 1) {
         return {
           documentIndex: documentIndex,
           document: searchResult[documentIndex].documents,
-        }
+        };
       } else if (documentIndex < searchResult.length - 1) {
         return {
           documentIndex: documentIndex + 1,
           document: searchResult[documentIndex + 1].documents,
-        }
+        };
       } else {
         return {
           documentIndex: 0,
           document: searchResult[0].documents,
-        }
+        };
       }
     } catch (error) {
       console.error('Error: ', error);
@@ -261,14 +265,18 @@ export class ProjectStore extends Component {
    * */
   initSearchCursor = () => {
     try {
-      const {searchResult, position} = Object.assign({}, this.state);
+      const { searchResult, position } = Object.assign({}, this.state);
       if (position.sectionid && position.documentid) {
-        const documentIndex = searchResult.findIndex(document => document.documents.id === position.documentid);
+        const documentIndex = searchResult.findIndex(
+          document => document.documents.id === position.documentid,
+        );
 
-        if(documentIndex >= 0) {
-          const cellIndex = searchResult[documentIndex].cells.findIndex(cell => cell.parent.id === position.sectionid);
+        if (documentIndex >= 0) {
+          const cellIndex = searchResult[documentIndex].cells.findIndex(
+            cell => cell.parent.id === position.sectionid,
+          );
 
-          if(cellIndex >= 0){
+          if (cellIndex >= 0) {
             const document = this.getCurrentDocumentFromSearch(documentIndex, cellIndex - 1);
             const cell = this.getNextCellFromSearch(documentIndex, cellIndex - 1);
 
@@ -277,13 +285,13 @@ export class ProjectStore extends Component {
               searchCursor: {
                 ...document,
                 ...cell,
-              }
+              },
             }));
           }
         }
       }
     } catch (e) {
-      console.error('Error initSearchCursor:',e);
+      console.error('Error initSearchCursor:', e);
     }
   };
 
@@ -291,13 +299,10 @@ export class ProjectStore extends Component {
    * @desc смещение курсора поиска
    * */
   changeSearchCursor = (moved = 'forward') => {
-    const {searchResult, searchCursor, position} = Object.assign({}, this.state);
+    const { searchResult, searchCursor, position } = Object.assign({}, this.state);
 
     if (searchResult.length) {
-
-
       if (moved === 'forward') {
-
         let newSearchCursor = {
           ...searchCursor,
           ...this.getCurrentDocumentFromSearch(searchCursor.documentIndex, searchCursor.cellIndex),
@@ -310,12 +315,12 @@ export class ProjectStore extends Component {
 
         this.setState(state => ({
           ...state,
-          searchCursor: newSearchCursor
+          searchCursor: newSearchCursor,
         }));
       } else if (moved === 'backward') {
         this.setState(state => ({
           ...state,
-          searchCursor: this.cursorBackward(searchResult, searchCursor)
+          searchCursor: this.cursorBackward(searchResult, searchCursor),
         }));
       }
     }
@@ -328,30 +333,28 @@ export class ProjectStore extends Component {
      * 3.
      *
      * */
-
   };
 
   render() {
-    const {children} = this.props;
-    console.log('ProjectStore this.state: ', this.state);
-    return (<ProjectContext.Provider
-      value={{
-        ...this.state,
-        updateSearchResults: this.updateSearchResults,
-        changeSearchCursor: this.changeSearchCursor,
-        resetSearchCondition: this.resetSearchCondition,
-      }}
-    >
-      {children}
-    </ProjectContext.Provider>)
+    const { children } = this.props;
+    // console.log('ProjectStore this.state: ', this.state);
+    return (
+      <ProjectContext.Provider
+        value={{
+          ...this.state,
+          updateSearchResults: this.updateSearchResults,
+          changeSearchCursor: this.changeSearchCursor,
+          resetSearchCondition: this.resetSearchCondition,
+        }}>
+        {children}
+      </ProjectContext.Provider>
+    );
   }
 }
 ProjectStore = withRouter(ProjectStore);
 
-ProjectStore = connect(
-  (state) => ({
-    user: getUserFromStore(state),
-  }),
-)(ProjectStore);
+ProjectStore = connect(state => ({
+  user: getUserFromStore(state),
+}))(ProjectStore);
 
 export default ProjectStore;

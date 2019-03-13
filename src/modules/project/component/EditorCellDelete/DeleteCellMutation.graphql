@@ -11,6 +11,9 @@ mutation ($id: String!) {
       }
       parent {
         id
+        name
+        number 
+        verify
       }
       content {
         id,

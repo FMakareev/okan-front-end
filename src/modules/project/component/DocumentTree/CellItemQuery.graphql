@@ -41,6 +41,7 @@ query ($id: String) {
     parent {
       id
       name
+      number
       verify
     }
     verify

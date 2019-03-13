@@ -37,7 +37,9 @@ mutation ($nextcell: String, $prevcell: String, $parent: String, $isHead: Boolea
         id
       }
       parent {
+        name
         id
+        number
       }
       lastChildren {
         id
@@ -66,6 +68,7 @@ mutation ($nextcell: String, $prevcell: String, $parent: String, $isHead: Boolea
         }
       }
       verify
+      number
     }
   }
 }

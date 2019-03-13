@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
@@ -181,6 +181,13 @@ export class ProjectEditor extends Component {
     } = this.props;
 
     const { childName, parentName, parentNumber, parentLetterNumber } = this.state;
+    // console.log(
+    //   12345,
+    //   childName,
+    //   parentName,
+    //   parentNumber,
+    //   parentLetterNumber,
+    // );
 
     if (!getPosition(project, 'sectionid')) {
       return (
@@ -200,6 +207,7 @@ export class ProjectEditor extends Component {
           query={CellListQuery}
           variables={{ parent: getPosition(project, 'sectionid') }}>
           {({ data, loading, error }) => {
+            console.log(1, data);
             if (loading) {
               return `Загрузка`;
             }
@@ -210,6 +218,22 @@ export class ProjectEditor extends Component {
 
             if (data && data.celllist) {
               const section = parentNumber ? parentNumber.slice(0, -2) : '';
+
+              const sectionMain =
+                data.celllist.length !== 0
+                  ? data.celllist &&
+                    data.celllist[0].parent &&
+                    data.celllist[0].parent.parent &&
+                    data.celllist[0].parent.parent.number.join('.')
+                  : section;
+
+              const sectionSubsection =
+                data.celllist.length !== 0
+                  ? data.celllist &&
+                    data.celllist[0].parent &&
+                    data.celllist[0].parent.number.join('.').toUpperCase()
+                  : parentNumber;
+
               let childCellIndex = 0;
               return (
                 <Fragment>
@@ -221,13 +245,7 @@ export class ProjectEditor extends Component {
                     color={'color11'}
                     mt={'15px'}
                     ml={'15px'}>
-                    {/** TODO: для формирования нумерации гавного заголовка лучше сделай отдельный метод чтобы этой каши тут небыло */}
-                    {parentNumber && parentNumber.length === 2 ? (
-                      <Fragment>{`${parentNumber || parentLetterNumber} ${childName ||
-                        ''}`}</Fragment>
-                    ) : (
-                      <Fragment>{`${section} ${!parentLetterNumber ? parentName : ''}`}</Fragment>
-                    )}
+                    <Fragment>{parentLetterNumber ? '' : `${sectionMain} ${parentName}`}</Fragment>
                   </Text>
                   <ContentWrapper>
                     <Text
@@ -239,18 +257,23 @@ export class ProjectEditor extends Component {
                       mt={'7px'}
                       ml={'5px'}
                       mb={'10px'}>
-                      {parentNumber && parentNumber.length <= 2 ? null : (
+                      {/* {parentNumber && parentNumber.length <= 2 ? null : (
                         <Fragment>{`${parentNumber ||
                           (parentLetterNumber && parentLetterNumber
                             ? `Приложение ${parentLetterNumber} `
                             : null)} ${childName || ''}`}</Fragment>
-                      )}
+                          )}*/}
+
+                      <Fragment>{`${(parentLetterNumber && parentLetterNumber
+                        ? `Приложение ${sectionSubsection} `
+                        : '') || sectionSubsection} ${childName || ''}`}</Fragment>
                     </Text>
 
                     {sortingCells(data.celllist).map((item, index) => {
                       if (item.content && item.content.contenttype === BLOCK_TEXT) {
                         childCellIndex += 1;
                       }
+
                       return (
                         <Box
                           pb={6}
@@ -264,7 +287,7 @@ export class ProjectEditor extends Component {
                             editable={
                               item.content.parentNumber === 0 // редактирование первого блока и не запускает автосохранение // TODO: эта штука работает не так, проблема в том что она каждый раз включает
                             }
-                            sectionNumber={`${parentNumber || parentLetterNumber}${childCellIndex}`}
+                            sectionNumber={`${sectionSubsection}.${childCellIndex}`}
                             parentLetterNumber={parentLetterNumber}
                           />
                         </Box>

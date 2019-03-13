@@ -38,9 +38,12 @@ query ($parent: String) {
     parent {
       name
       id
+      number
+      verify
       parent {
         name
         id
+        number
       }
     }
     lastChildren {

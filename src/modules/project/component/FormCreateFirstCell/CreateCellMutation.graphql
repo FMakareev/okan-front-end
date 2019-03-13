@@ -38,6 +38,9 @@ mutation ($isHead: Boolean, $name: String, $isAttachment: Boolean) {
       }
       parent {
         id
+        name
+        number
+        verify
       }
       verify
     }
