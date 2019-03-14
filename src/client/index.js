@@ -12,8 +12,7 @@ import { ConfigRouter } from '../routes';
 import {CreateStore} from '../store';
 import { StyledThemeProvider } from '../styles/StyledThemeProvider';
 import { GlobalStyle } from '../styles/GlobalStyle';
-
-
+import '../utils/dom/documentOffsetTop';
 
 const Store = CreateStore();
 
