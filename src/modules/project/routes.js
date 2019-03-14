@@ -42,11 +42,12 @@ export const routes = [
     load: () => import(/* webpackChunkName: 'revisionList'  */ './view/revisionList'),
     roles: [ROLE_ADMIN, ROLE_USER],
   },
+
   {
     layout: LAYOUT_APP,
     exact: true,
     name: 'Просмотр ревизии',
-    path: '/revision-item/:revisionid/:sectionid',
+    path: '/revision-item/:projectid/:revisionid/:sectionid',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'RevisionItem'  */ './view/RevisionItem'),
@@ -56,7 +57,7 @@ export const routes = [
     layout: LAYOUT_APP,
     exact: true,
     name: 'Просмотр ревизии',
-    path: '/revision-item/:revisionid',
+    path: '/revision-item/:projectid/:revisionid',
     order: 0,
     hidden: false,
     load: () => import(/* webpackChunkName: 'RevisionItem'  */ './view/RevisionItem'),
@@ -83,6 +84,8 @@ export const routes = [
     load: () => import(/* webpackChunkName: 'DocumentCommenting'  */ './view/DocumentCommenting'),
     roles: [ROLE_ADMIN, ROLE_USER],
   },
+
+
   {
     layout: LAYOUT_APP,
     exact: true,
