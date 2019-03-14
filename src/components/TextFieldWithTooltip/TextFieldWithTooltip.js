@@ -28,17 +28,17 @@ export class TextFieldWithTooltip extends PureComponent {
   };
 
   static defaultProps = {
-    onChangeHOC: (event)=>{return event},
+    onChangeHOC: (event) => event,
   };
 
   render() {
-    const {meta, input, onChangeHOC} = this.props;
+    const {meta, input, onChangeHOC, tooltipPosition} = this.props;
     return (
-      <TooltipBase isActive={meta.touched && meta.error} warning={meta.error}>
+      <TooltipBase position={tooltipPosition} isActive={meta.touched && meta.error} warning={meta.error}>
         <TextFieldBase
           {...this.props}
           {...input}
-          onChange={(event)=>input.onChange(onChangeHOC(event))}
+          onChange={(event) => input.onChange(onChangeHOC(event))}
         />
       </TooltipBase>
     );
