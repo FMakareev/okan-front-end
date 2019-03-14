@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import {Flex} from "@lib/ui/Flex/Flex";
 import {connect} from 'react-redux';
-import {Field, getFormValues, reduxForm} from "redux-form";
+import {Field, getFormValues, reduxForm, SubmissionError} from "redux-form";
 import {Box} from "@lib/ui/Box/Box";
 import TextFieldWithTooltip from "@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip";
 import throttle from "lodash/throttle";
@@ -102,6 +102,10 @@ export class SidebarDocumentSearch extends Component {
     }
 
     this.toggleLoading();
+
+    if(data && !data.cellbyname.length){
+      throw new SubmissionError({ name: `По вашему запросу совпадений не найдено.` });
+    }
   };
 
   /** @desc Обработчик ввода с клавиатуры, проверет нажатие enter */
@@ -162,6 +166,7 @@ export class SidebarDocumentSearch extends Component {
           <Field
             name={'name'}
             disabled={isLoading}
+            tooltipPosition={'top'}
             component={TextFieldWithTooltip}
             placeholder={'Введите название документа...'}
             size={'xs'}
