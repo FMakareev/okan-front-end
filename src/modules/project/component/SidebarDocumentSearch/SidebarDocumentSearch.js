@@ -12,6 +12,7 @@ import {withApollo} from "react-apollo";
 import has from "@lib/utils/has";
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
 import {withRouter} from "react-router-dom";
+import {getPosition, getProject} from "../ProjectContext/ProjectContextSelectors";
 
 const WrapperStyled = styled(Flex)`
   position: absolute;
@@ -74,7 +75,10 @@ export class SidebarDocumentSearch extends Component {
    * @desc выполнение запроса на сервер
    * */
   documentSearch = async (value) => {
-    const {project, client, project: {updateSearchResults, resetSearchCondition, searchResult, searchPhrase}} = this.props;
+    const {project, client} = this.props;
+
+    const {updateSearchResults, resetSearchCondition, searchResult, searchPhrase} = project;
+
     if (!has.call(value, 'name') || typeof value.name === 'string' && value.name.length < 4) {
       resetSearchCondition();
       return
@@ -83,28 +87,31 @@ export class SidebarDocumentSearch extends Component {
     } else {
       resetSearchCondition();
     }
+
     this.toggleLoading();
 
     const {data} = await client.query({
       query: CellByNameQuery,
-      fetchPolicy: 'no-cache', // TODO: потестить есть ли смысл отключать кеш или лучше всегда перезапрашивать данные
+      fetchPolicy: 'no-cache',
       variables: {
         ...value,
-        projectid: project.project.id,
+        projectid: getProject(project, 'id'),
+        revision: getPosition(project, 'revisionid'),
+        document: getPosition(project, 'documentid'),
       }
     }).catch(error => {
       console.error('Error documentSearch: ', error);
       return error;
     });
 
-    if(data){
+    if (data) {
       updateSearchResults(data.cellbyname, value.name);
     }
 
     this.toggleLoading();
 
-    if(data && !data.cellbyname.length){
-      throw new SubmissionError({ name: `По вашему запросу совпадений не найдено.` });
+    if (data && !data.cellbyname.length) {
+      throw new SubmissionError({name: `По вашему запросу совпадений не найдено.`});
     }
   };
 
