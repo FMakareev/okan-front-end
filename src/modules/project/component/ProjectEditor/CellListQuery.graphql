@@ -27,6 +27,7 @@ query ($parent: String) {
     isHead
     isAttachment
     name
+    number
     nextcell {
       name
       id
@@ -40,6 +41,9 @@ query ($parent: String) {
       id
       number
       verify
+      isHead
+      isAttachment
+      name
       parent {
         name
         id
@@ -74,5 +78,78 @@ query ($parent: String) {
     verify
   }
 
-  
+  cellitem(id: $parent) {
+    childcell: children {
+      id
+      name
+      isHead
+    }
+    comments {
+      id
+      createdate
+      isdelete
+      message
+      sender {
+        id
+        firstname
+        lastname
+        patronymic
+      }
+      updatedate
+    }
+    content {
+      id
+      name
+      content
+      contenttype
+      number
+    }
+    id
+    isHead
+    isAttachment
+    name
+    number
+    nextcell {
+      id
+      name
+    }
+    prevcell {
+      id
+      name
+      verify
+    }
+    parent {
+      id
+      name
+      number
+      verify
+    }
+    verify
+    lastChildren {
+      id
+      name
+    }
+    pull {
+      id
+      nextcell {
+        name
+        id
+      }
+      prevcell {
+        name
+        id
+      }
+      parent {
+        name
+        id
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
+    }
+  }
 }
