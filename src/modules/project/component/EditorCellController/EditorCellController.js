@@ -1,20 +1,16 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ReactHTMLParser from 'react-html-parser';
-import { graphql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { findAll } from 'highlight-words-core';
+import {graphql} from 'react-apollo';
+import {withRouter} from 'react-router-dom';
+import {findAll} from 'highlight-words-core';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
 import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-
-import CheckForCellChangesQuery from '../SidebarApprovalStatus/CheckForCellChangesQuery.graphql';
 
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
-import { EditorCellTitle } from '../EditorCellTitle/EditorCellTitle';
+import {EditorCellTitle} from '../EditorCellTitle/EditorCellTitle';
 import {
   PROJECT_MODE_RC,
   PROJECT_MODE_RW,
@@ -24,25 +20,25 @@ import EditorCellDelete from '../EditorCellDelete/EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import Text from '../../../../components/Text/Text';
-import { Flex } from '@lib/ui/Flex/Flex';
+import {Flex} from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
-import EditorTypeIcon from '../../../../components/EditorTypeIcon/EditorTypeIcon';
 
 /** Redux */
-import { connect } from 'react-redux';
-import { getFormValues } from 'redux-form';
-import { error, success } from 'react-notification-system-redux';
-import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
+import {connect} from 'react-redux';
+import {getFormValues} from 'redux-form';
+import {error, success} from 'react-notification-system-redux';
+import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
-import { BLOCK_IMAGE, BLOCK_TABLE } from '../../../../shared/blockType';
-import { ProjectModeState } from '../ProjectContext/ProjectModeState';
-import { Relative } from '@lib/ui/Relative/Relative';
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
-import { CELL_STATUS_CHANGED } from '@lib/shared/approvalStatus';
-import { EditorCellContent } from '../EditorCellContent/EditorCellContent';
+import {BLOCK_IMAGE, BLOCK_TABLE} from '../../../../shared/blockType';
+import {ProjectModeState} from '../ProjectContext/ProjectModeState';
+import {Relative} from '@lib/ui/Relative/Relative';
+import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
+import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
+import {EditorCellContent} from '../EditorCellContent/EditorCellContent';
 import EditorCellControllerNumber from '../EditorCellControllerNumber/EditorCellControllerNumber';
+import shallowequal from "shallowequal";
+import scrollTo, {linearTween} from "@lib/utils/dom/scrollTo";
 
 const notificationOpts = () => ({
   success: {
@@ -71,11 +67,13 @@ export class EditorCellController extends Component {
     ...ProjectContextPropTypes,
   };
 
-  static defaultProps = { data: '' };
+  static defaultProps = {data: ''};
 
   constructor(props) {
     super(props);
     this.state = this.initialState;
+
+    this.currentCellRef = React.createRef();
   }
 
   get initialState() {
@@ -87,21 +85,59 @@ export class EditorCellController extends Component {
     };
   }
 
+  handleScrollToElement = (event) => {
+    try {
+      const top = this.currentCellRef.current.documentOffsetTop() - (window.innerHeight / 2);
+      scrollTo(top, 50, linearTween)
+    } catch (e) {
+      console.log('handleScrollToElement error: ', e);
+    }
+  };
+
+  componentWillReceiveProps(nextProps) {
+
+    let nextSearchResult = getProject(nextProps, 'searchResult');
+    let nextSearchCursor = getProject(nextProps, 'searchCursor');
+    let prevSearchCursor = getProject(this.props, 'searchCursor');
+
+    if (nextSearchResult.length) {
+      /** если есть результаты поиска */
+
+      if (!shallowequal(nextSearchCursor, prevSearchCursor)) {
+        /** если предыдущее состояние курсора поиска не такое же как новое */
+        if (this.props.data.id === nextSearchCursor.cell.id) {
+          if (isBrowser) {
+            this.handleScrollToElement();
+          }
+        }
+      }
+    }
+  }
+
   componentDidMount() {
-    const { data } = this.props;
+    const {data} = this.props;
     if (
       this.state.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
     ) {
       this.openEditor();
     }
+
+    if (isBrowser) {
+      let searchCursor = getProject(this.props, 'searchCursor');
+      if (searchCursor && this.props.data.id === searchCursor.cell.id) {
+        this.handleScrollToElement();
+      }
+    }
+
   }
+
 
   /**
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const { values, data } = this.props;
+    const {values, data} = this.props;
     if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
@@ -166,8 +202,8 @@ export class EditorCellController extends Component {
           verify: CELL_STATUS_CHANGED,
         },
         //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
-        update: (store, { data: { updatecell } }) => {
-          let data = { cellitem: {} };
+        update: (store, {data: {updatecell}}) => {
+          let data = {cellitem: {}};
           const options = {
             query: CellItemQuery,
             variables: {
@@ -183,7 +219,7 @@ export class EditorCellController extends Component {
           }
           // console.log(1111, data);
           try {
-            store.writeQuery({ ...options, data: { cellitem: { ...data.cellitem } } });
+            store.writeQuery({...options, data: {cellitem: {...data.cellitem}}});
           } catch (e) {
             console.log(e);
           }
@@ -239,7 +275,7 @@ export class EditorCellController extends Component {
   };
 
   startSave = () => {
-    const { values, data } = this.props;
+    const {values, data} = this.props;
     this.stopAutoSave();
     if (values && (values.content || values.name)) {
       this.saveCellContent()
@@ -272,7 +308,7 @@ export class EditorCellController extends Component {
 
     return chunks
       .map(chunk => {
-        const { end, highlight, start } = chunk;
+        const {end, highlight, start} = chunk;
         const text = textToHighlight.substr(start, end - start);
         if (highlight) {
           return `<mark>${text}</mark>`;
@@ -286,16 +322,16 @@ export class EditorCellController extends Component {
   render() {
     const {
       data,
-      location: { search },
+      location: {search},
       sectionNumber,
       project,
       parentLetterNumber,
     } = this.props;
 
-    const { toggleAdditionalMenu, editable } = this.state;
+    const {toggleAdditionalMenu, editable} = this.state;
 
     return (
-      <Relative onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
+      <Relative ref={this.currentCellRef} onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
         <Flex pl={'10px'} alignItems="flex-start">
           {/** Отвечает за нумерацию разделов ячеек в эдиторе (1.1.1 Текст)*/}
           {parentLetterNumber ? null : (
@@ -361,7 +397,7 @@ export class EditorCellController extends Component {
           <Flex width={'60px'}>
             <ProjectModeState is={PROJECT_MODE_RW}>
               <Box mx={2}>
-                <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
+                <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
               </Box>
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
@@ -384,7 +420,7 @@ EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
-  (state, { data }) => ({
+  (state, {data}) => ({
     values: getFormValues('EditorCellForm-' + data.id)(state),
   }),
   dispatch => ({
