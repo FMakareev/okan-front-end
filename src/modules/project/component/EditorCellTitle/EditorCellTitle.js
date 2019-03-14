@@ -36,20 +36,24 @@ export const EditorCellTitle = ({
       width={'100%'}
       textAlign={textAlign}>
       <Flex width={'100%'} justifyContent={textAlign} alignItems={'flex-start'}>
-        {parentLetterNumber && (
-          <Box>
-            {contenttype === BLOCK_TABLE && 'Таблица '}
-            {contenttype === BLOCK_IMAGE && 'Рисунок '}
-            {parentLetterNumber} {content.number}.
-          </Box>
-        )}
-        {!parentLetterNumber && (
-          <Box>
-            {contenttype === BLOCK_TABLE && 'Таблица '}
-            {contenttype === BLOCK_IMAGE && 'Рисунок '}
-            {content.number}.
-          </Box>
-        )}
+        {
+          parentLetterNumber && (
+            <Box>
+              {contenttype === BLOCK_TABLE && 'Таблица '}
+              {contenttype === BLOCK_IMAGE && 'Рисунок '}
+              {parentLetterNumber}{content.number}&nbsp;
+            </Box>
+          )
+        }
+        {
+          !parentLetterNumber && (
+            <Box>
+              {contenttype === BLOCK_TABLE && 'Таблица '}
+              {contenttype === BLOCK_IMAGE && 'Рисунок '}
+              {content.number}.
+            </Box>
+          )
+        }
         <NameStyled>
           {
             content.name &&
