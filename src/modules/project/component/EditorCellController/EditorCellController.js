@@ -124,7 +124,7 @@ export class EditorCellController extends Component {
 
     if (isBrowser) {
       let searchCursor = getProject(this.props, 'searchCursor');
-      if (searchCursor && this.props.data.id === searchCursor.cell.id) {
+      if (searchCursor && searchCursor.cell && this.props.data.id === searchCursor.cell.id) {
         this.handleScrollToElement();
       }
     }
