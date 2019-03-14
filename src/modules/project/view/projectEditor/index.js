@@ -30,32 +30,12 @@ import {
 import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 import ProjectStore from "../../component/ProjectStore/ProjectStore";
+import {SideBarWrapper} from "../../component/SideBarWrapper/SideBarWrapper";
+import {ProjectPageWrapper} from "../../component/ProjectPageWrapper/ProjectPageWrapper";
+import {ProjectEditorWrapper} from "../../component/ProjectEditorWrapper/ProjectEditorWrapper";
 
-const SideBarWrapper = styled.div`
-  position: relative;
-  padding-top: 10px;
-  width: 340px;
-  min-height: calc(100vh - 40px);
-  padding-top: 10px;
-  background-color: #ffffff;
-  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  position: fixed;
-  overflow-y: scroll;
-  height: 100vh;
-`;
 
-const Wrapper = styled(Flex)`
-  width: 100%;
-  min-height: calc(100vh - 40px);
-  background-color: #e8e8e8;
-`;
 
-const EditorWrapper = styled.div`
-  margin-left: 340px;
-  width: calc(100% - 380px);
-  min-height: calc(100vh - 40px);
-`;
 
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
 const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
@@ -96,19 +76,26 @@ export class ProjectEditorPage extends Component {
           }
           return (
             <ErrorCatch>
-              <Wrapper flexDirection={'row'}>
+
+              <ProjectPageWrapper>
+
                 <ProjectStore
                   params={params}
                   projectitem={data.projectitem}
                 >
-                  <SideBarWrapper width={'320px'}  id={'SideBarWrapper'}>
+
+                  <SideBarWrapper id={'SideBarWrapper'}>
                     <ProjectSidebarWithProject/>
                   </SideBarWrapper>
-                  <EditorWrapper>
+
+                  <ProjectEditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid}/>
-                  </EditorWrapper>
+                  </ProjectEditorWrapper>
+
                 </ProjectStore>
-              </Wrapper>
+
+              </ProjectPageWrapper>
+
             </ErrorCatch>
           );
         }}
