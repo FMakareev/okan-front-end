@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   PROJECT_MODE_READ,
   PROJECT_MODE_RW,
   ProjectContext,
 } from '../ProjectContext/ProjectContext';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import shallowequal from 'shallowequal'; // ES6
 
-import { getUserFromStore } from '../../../../store/reducers/user/selectors';
-import { joinQueryString } from '@lib/utils/joinQueryString';
-import { withRouter } from 'react-router-dom';
+import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import {joinQueryString} from '@lib/utils/joinQueryString';
+import {withRouter} from 'react-router-dom';
 
 /**
  * @typedef {Object} Position
@@ -41,7 +41,7 @@ export class ProjectStore extends Component {
   }
 
   get initialState() {
-    const { user, projectitem, params } = this.props;
+    const {user, projectitem, params} = this.props;
 
     return {
       /** объект с параметрами роутера */
@@ -105,7 +105,7 @@ export class ProjectStore extends Component {
    * */
   getCurrentEditorMode = (currentUser, projectAuthor) => {
     try {
-      if(this.props.mode) return this.props.mode;
+      if (this.props.mode) return this.props.mode;
       if (currentUser.id === projectAuthor.id) {
         return PROJECT_MODE_RW;
       } else {
@@ -214,16 +214,23 @@ export class ProjectStore extends Component {
    * */
   getNextCellFromSearch = (documentIndex, cellIndex) => {
     try {
-      const { searchResult } = this.state;
-      if (cellIndex < searchResult[documentIndex].cells.length - 1) {
-        return {
-          cellIndex: cellIndex + 1,
-          cell: searchResult[documentIndex].cells[cellIndex + 1],
-        };
+      const {searchResult} = this.state;
+      if (searchResult && searchResult.length) {
+        if (cellIndex < searchResult[documentIndex].cells.length - 1) {
+          return {
+            cellIndex: cellIndex + 1,
+            cell: searchResult[documentIndex].cells[cellIndex + 1],
+          };
+        } else {
+          return {
+            cellIndex: 0,
+            cell: searchResult[documentIndex].cells[0],
+          };
+        }
       } else {
         return {
           cellIndex: 0,
-          cell: searchResult[documentIndex].cells[0],
+          cell: null,
         };
       }
     } catch (error) {
@@ -239,22 +246,28 @@ export class ProjectStore extends Component {
    * */
   getCurrentDocumentFromSearch = (documentIndex, cellIndex) => {
     try {
-      const { searchResult } = this.state;
-
-      if (cellIndex < searchResult[documentIndex].cells.length - 1) {
-        return {
-          documentIndex: documentIndex,
-          document: searchResult[documentIndex].documents,
-        };
-      } else if (documentIndex < searchResult.length - 1) {
-        return {
-          documentIndex: documentIndex + 1,
-          document: searchResult[documentIndex + 1].documents,
-        };
+      const {searchResult} = this.state;
+      if (searchResult && searchResult.length) {
+        if (cellIndex < searchResult[documentIndex].cells.length - 1) {
+          return {
+            documentIndex: documentIndex,
+            document: searchResult[documentIndex].documents,
+          };
+        } else if (documentIndex < searchResult.length - 1) {
+          return {
+            documentIndex: documentIndex + 1,
+            document: searchResult[documentIndex + 1].documents,
+          };
+        } else {
+          return {
+            documentIndex: 0,
+            document: searchResult[0].documents,
+          };
+        }
       } else {
         return {
           documentIndex: 0,
-          document: searchResult[0].documents,
+          document: null,
         };
       }
     } catch (error) {
@@ -267,7 +280,7 @@ export class ProjectStore extends Component {
    * */
   initSearchCursor = () => {
     try {
-      const { searchResult, position } = Object.assign({}, this.state);
+      const {searchResult, position} = Object.assign({}, this.state);
       if (position.sectionid && position.documentid) {
         const documentIndex = searchResult.findIndex(
           document => document.documents.id === position.documentid,
@@ -312,7 +325,7 @@ export class ProjectStore extends Component {
    * @desc смещение курсора поиска
    * */
   changeSearchCursor = (moved = 'forward') => {
-    const { searchResult, searchCursor, position } = Object.assign({}, this.state);
+    const {searchResult, searchCursor, position} = Object.assign({}, this.state);
 
     if (searchResult.length) {
       if (moved === 'forward') {
@@ -349,7 +362,7 @@ export class ProjectStore extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const {children} = this.props;
     // console.log('ProjectStore this.state: ', this.state);
     return (
       <ProjectContext.Provider
@@ -364,6 +377,7 @@ export class ProjectStore extends Component {
     );
   }
 }
+
 ProjectStore = withRouter(ProjectStore);
 
 ProjectStore = connect(state => ({
