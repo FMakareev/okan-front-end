@@ -1,5 +1,5 @@
-query($name: String!, $projectid: String!){
-  cellbyname(name: $name, projectid: $projectid){
+query($name: String!, $projectid: String!, $document: String, $revision: String){
+  cellbyname(name: $name, projectid: $projectid, document: $document, revision: $revision){
     cells{
       id
       parent {
