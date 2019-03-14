@@ -185,11 +185,9 @@ export class DocumentTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
     const {project: nextProject} = nextProps;
     if (nextProject.searchResult.length) {
       /** если есть результаты поиска */
-
       if (!shallowequal(nextProject.searchCursor, this.props.project.searchCursor)) {
         /** если предыдущее состояние курсора поиска не такое же как новое */
 
