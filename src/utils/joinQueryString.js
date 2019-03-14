@@ -1,5 +1,7 @@
 import queryString from 'query-string';
 
+/** helpers */
+import { changeQueryString } from './changeQueryString';
 
 /**
  * @param {string} currentQS
@@ -8,5 +10,6 @@ import queryString from 'query-string';
  * */
 export const joinQueryString = (currentQS = '', targetQS = {}) => {
   let objectCurrentQS = queryString.parse(currentQS);
-  return queryString.stringify({...objectCurrentQS, ...targetQS});
+  return queryString.stringify(changeQueryString(objectCurrentQS, targetQS));
+  // return queryString.stringify(...objectCurrentQS, ...targetQS);
 };

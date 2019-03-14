@@ -6,7 +6,7 @@ import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 import { getUserFromStore } from '../../store/reducers/user/selectors';
 import { Text } from '../Text/Text';
 import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
-import {withApollo} from "react-apollo";
+import { withApollo } from 'react-apollo';
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
