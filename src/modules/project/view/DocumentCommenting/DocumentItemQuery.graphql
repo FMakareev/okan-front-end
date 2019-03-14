@@ -38,6 +38,8 @@ query ($documentid: String!, $projectid: String!) {
       }
     }
     name
+
+    project
     partners {
       id
       lastname

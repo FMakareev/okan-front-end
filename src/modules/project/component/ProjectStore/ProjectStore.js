@@ -42,6 +42,7 @@ export class ProjectStore extends Component {
 
   get initialState() {
     const { user, projectitem, params } = this.props;
+
     return {
       /** объект с параметрами роутера */
       position: params,
@@ -104,6 +105,7 @@ export class ProjectStore extends Component {
    * */
   getCurrentEditorMode = (currentUser, projectAuthor) => {
     try {
+      if(this.props.mode) return this.props.mode;
       if (currentUser.id === projectAuthor.id) {
         return PROJECT_MODE_RW;
       } else {
