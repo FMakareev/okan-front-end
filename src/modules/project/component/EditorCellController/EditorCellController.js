@@ -60,7 +60,6 @@ export class EditorCellController extends Component {
     parentLetterNumber: PropTypes.string,
     project: PropTypes.object,
     removeBlock: PropTypes.func,
-    sectionNumber: PropTypes.string,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
     values: PropTypes.object,
@@ -328,19 +327,24 @@ export class EditorCellController extends Component {
     } = this.props;
 
     const {toggleAdditionalMenu, editable} = this.state;
-
     return (
-      <Relative ref={this.currentCellRef} onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
+      <Relative
+        ref={this.currentCellRef}
+        onMouseEnter={() => this.onHover(true)}
+        onMouseLeave={() => this.onHover(false)}
+      >
         <Flex pl={'10px'} alignItems="flex-start">
           {/** Отвечает за нумерацию разделов ячеек в эдиторе (1.1.1 Текст)*/}
-          {parentLetterNumber ? null : (
-            <EditorCellControllerNumber
-              {...data}
-              toggleAdditionalMenu={toggleAdditionalMenu}
-              sectionid={getPosition(project, 'sectionid')}
-              sectionNumber={sectionNumber}
-            />
-          )}
+          {
+            parentLetterNumber ? null : (
+              <EditorCellControllerNumber
+                {...data}
+                toggleAdditionalMenu={toggleAdditionalMenu}
+                sectionid={getPosition(project, 'sectionid')}
+                sectionNumber={sectionNumber}
+              />
+            )
+          }
 
           <Box width={parentLetterNumber ? 'calc(100% - 70px)' : 'calc(100% - 160px)'}>
             {/** заголовок таблицы */}
@@ -354,14 +358,16 @@ export class EditorCellController extends Component {
             />
 
             {/** текстовый контент */}
-            {!editable && (
-              <EditorCellContent
-                onClick={() => (project.mode === PROJECT_MODE_RW ? this.openEditor() : null)}
-                textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
-                project={project}
-                {...data}
-              />
-            )}
+            {
+              !editable && (
+                <EditorCellContent
+                  onClick={() => (project.mode === PROJECT_MODE_RW ? this.openEditor() : null)}
+                  textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
+                  project={project}
+                  {...data}
+                />
+              )
+            }
 
             {/** форма редактора */}
             <ProjectModeState is={PROJECT_MODE_RW}>
