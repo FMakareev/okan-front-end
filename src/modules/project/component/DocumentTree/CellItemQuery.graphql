@@ -29,6 +29,7 @@ query ($id: String) {
     isHead
     isAttachment
     name
+    number
     nextcell {
       id
       name
