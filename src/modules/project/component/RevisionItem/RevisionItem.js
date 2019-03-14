@@ -22,7 +22,7 @@ const TdStyled = styled(Td)`
   ${props => BorderColorProperty({ ...props, borderColor: 'color7' })}
 `;
 
-export const RevisionItem = ({ id, name, createrevisiondate, authorrevision }) => {
+export const RevisionItem = ({ id, name, createrevisiondate,project, authorrevision }) => {
   return (
     <Tr>
       <TdStyled fontFamily={'primary300'} py={4}>
@@ -36,7 +36,7 @@ export const RevisionItem = ({ id, name, createrevisiondate, authorrevision }) =
       </TdStyled>
       <TdStyled fontFamily={'primary300'}>
         <Flex justifyContent={'center'}>
-          <Link title={'Просмотреть ревизию документа'} to={`/app/revision-item/${id}`}>
+          <Link title={'Просмотреть ревизию документа'} to={`/app/revision-item/${project}/${id}`}>
             <ButtonBase variant={'empty'}>
               <SvgFolder />
             </ButtonBase>
