@@ -198,7 +198,7 @@ export class DocumentTree extends Component {
           nextProject.searchCursor.document.id === this.props.data.id
         ) {
           if (nextProject.searchCursor.cell.parent.id !== nextProject.position.sectionid) {
-            if(this.isThereCellInTheDocumentTree(nextProject.searchCursor.cell.parent.id)){
+            if (this.isThereCellInTheDocumentTree(nextProject.searchCursor.cell.parent.id)) {
               /** если курсор поиска в текущем документа */
               this.initTree(nextProject.searchCursor.cell.parent.id, null, this.state.tree);
             } else {
@@ -524,29 +524,13 @@ export class DocumentTree extends Component {
                    projectid,
                    revisionid,
                    documentid,
-                   sectionid,
-                   cellNumber,
-                   cellLetterNumber,
+                   sectionid
                  }) => {
     try {
       const {project, history, location} = this.props;
-
+      // TODO: сократить
       if (project.mode === PROJECT_MODE_READ || project.mode === PROJECT_MODE_RW) {
-        if (projectid && documentid && sectionid && cellLetterNumber) {
-          history.push({
-            pathname: `/app/project/${projectid}/${documentid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionLetterNumber: cellLetterNumber,
-            }),
-          });
-        } else if (projectid && documentid && sectionid && cellNumber) {
-          history.push({
-            pathname: `/app/project/${projectid}/${documentid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionNumber: cellNumber,
-            }),
-          });
-        } else if (projectid && documentid && sectionid) {
+        if (projectid && documentid && sectionid) {
           history.push({
             pathname: `/app/project/${projectid}/${documentid}/${sectionid}`,
             search: location.search,
@@ -558,21 +542,8 @@ export class DocumentTree extends Component {
           });
         }
       } else if (project.mode === PROJECT_MODE_RC) {
-        if (documentid && sectionid && cellLetterNumber) {
-          history.push({
-            pathname: `/app/document-commenting/${projectid}/${documentid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionLetterNumber: cellLetterNumber,
-            }),
-          });
-        } else if (documentid && sectionid && cellNumber) {
-          history.push({
-            pathname: `/app/document-commenting/${projectid}/${documentid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionNumber: cellNumber,
-            }),
-          });
-        } else if (documentid && sectionid) {
+
+        if (documentid && sectionid) {
           history.push({
             pathname: `/app/document-commenting/${projectid}/${documentid}/${sectionid}`,
             search: location.search,
@@ -584,21 +555,7 @@ export class DocumentTree extends Component {
           });
         }
       } else if (project.mode === PROJECT_MODE_REVISION) {
-        if (revisionid && sectionid && cellLetterNumber) {
-          history.push({
-            pathname: `/app/revision-item/${projectid}/${revisionid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionLetterNumber: cellLetterNumber,
-            }),
-          });
-        } else if (revisionid && sectionid && cellNumber) {
-          history.push({
-            pathname: `/app/revision-item/${projectid}/${revisionid}/${sectionid}`,
-            search: joinQueryString(location.search, {
-              sectionNumber: cellNumber,
-            }),
-          });
-        } else if (revisionid && sectionid) {
+        if (revisionid && sectionid) {
           history.push({
             pathname: `/app/revision-item/${projectid}/${revisionid}/${sectionid}`,
             search: location.search,
