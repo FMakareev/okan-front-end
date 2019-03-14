@@ -12,6 +12,7 @@ query ($id: String!) {
     id
     name
     okancode
+    project
     partners {
       id
       lastname

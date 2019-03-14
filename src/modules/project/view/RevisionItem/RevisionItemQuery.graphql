@@ -38,6 +38,7 @@ query ($id: String!) {
       }
     }
     name
+    project
     partners {
       id
       firstname
