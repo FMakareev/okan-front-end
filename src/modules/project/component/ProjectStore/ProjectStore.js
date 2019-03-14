@@ -291,6 +291,17 @@ export class ProjectStore extends Component {
             }));
           }
         }
+      } else {
+        const document = this.getCurrentDocumentFromSearch(0, 0);
+        const cell = this.getNextCellFromSearch(0, 0);
+
+        this.setState(state => ({
+          ...state,
+          searchCursor: {
+            ...document,
+            ...cell,
+          },
+        }));
       }
     } catch (e) {
       console.error('Error initSearchCursor:', e);
