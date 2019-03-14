@@ -81,7 +81,6 @@ export class EditorCellController extends Component {
       editable: false,
       timer: null,
       toggleAdditionalMenu: false,
-      // draggable: false,
     };
   }
 
