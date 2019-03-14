@@ -7,40 +7,15 @@ import {EditorCellController} from "../EditorCellController/EditorCellController
 const EditorCellControllerWithProject = withProject(props => <EditorCellController {...props} />);
 
 
-const getParentLetterNumber = ({item, tableNumber, imageNumber, parentNumber}) => {
-  try {
-    let parentLetterNumber = '';
-    if (item.parent.isAttachment && item.content) {
-      parentLetterNumber = `${parentNumber}`;
-      if (item.content.contenttype === BLOCK_TABLE) {
-        tableNumber += 1;
-        parentLetterNumber = `${parentLetterNumber}${tableNumber} `;
-      }
-      if (item.content.contenttype === BLOCK_IMAGE) {
-        imageNumber += 1;
-        parentLetterNumber = `${parentLetterNumber}${imageNumber} `;
-      }
-    }
-    return parentLetterNumber;
-  } catch (error) {
-    console.log(error);
-    return '';
-  }
-};
-
 export const ProjectEditorCellList = ({celllist, childCellIndex, parentNumber}) => {
-  let imageNumber = 0;
-  let tableNumber = 0;
+
   return (<Box>
     {
       celllist.map((item, index) => {
-        let parentLetterNumber = getParentLetterNumber({
-          imageNumber,
-          tableNumber,
-          item,
-          parentNumber
-        });
-
+        let parentLetterNumber = '';
+        if (item.parent.isAttachment && item.content) {
+          parentLetterNumber = `${parentNumber}`;
+        }
         return (
           <Box
             key={`ProjectEditorCellList-${index}`}
