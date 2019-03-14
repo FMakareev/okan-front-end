@@ -43,8 +43,8 @@ export class TooltipBase extends PureComponent {
       <RelativeStyled>
         {isActive && (
           <Wrapper position={position}>
-            <OutsideTriangle />
-            <InsideTriangle />
+            <OutsideTriangle position={position} />
+            <InsideTriangle position={position} />
             <Warning>{warning}</Warning>
           </Wrapper>
         )}
