@@ -9,10 +9,15 @@ import { Text } from '../Text/Text';
 import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
 
 /** Constants */
-import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
+import { LAYOUT_ADMIN, LAYOUT_APP } from '../../shared/layout';
 
 /** Redux */
 import { getUserFromStore } from '../../store/reducers/user/selectors';
+
+
+
+
+
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
@@ -20,8 +25,6 @@ export class LayoutBase extends PureComponent {
   constructor(props) {
     super(props);
     this.state = this.initialState;
-    // listen
-    // this.props.client.initQueryManager();
   }
 
   get initialState() {
@@ -91,14 +94,14 @@ export class LayoutBase extends PureComponent {
           </PreloaderWrapper>
         )}
         {user && !user.initLoading && Layout && <Layout {...this.props} route={routes} />}
-        <Portal>
-          <div>1</div>
+        <Portal portalContainerId={'notification-portal'}>
           <Notifications notifications={notifications} />
         </Portal>
       </Fragment>
     );
   }
 }
+
 LayoutBase = connect(state => ({
   user: getUserFromStore(state),
   notifications: state.notifications,
