@@ -106,7 +106,7 @@ export class ProjectEditor extends Component {
    * */
   getCellItem = id => {
     return this.props.client.query({query: CellItemQuery, variables: {id}}).catch(error => {
-      console.log('Error getCellItem: ', error);
+      console.error('Error getCellItem: ', error);
     });
   };
 
@@ -170,7 +170,6 @@ export class ProjectEditor extends Component {
             if (error) {
               return null;
             }
-            console.log('data.cellitem: ', data.cellitem);
 
             const {
               firstTitle,

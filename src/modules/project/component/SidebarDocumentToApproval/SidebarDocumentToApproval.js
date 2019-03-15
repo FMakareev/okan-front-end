@@ -76,8 +76,7 @@ export class SidebarDocumentToApproval extends Component {
           id: id,
         },
       })
-      .then(response => {
-        console.log('Success checkForChangesInDoc: ', response);
+      .then(() => {
         return response.data;
       })
       .catch(error => {
@@ -98,7 +97,6 @@ export class SidebarDocumentToApproval extends Component {
       variables: { approvalstatus: TO_APPROVAL, id: id },
     })
       .then(response => {
-        console.log('Success updateApprovalDocumentStatus: ', response);
         setNotificationSuccess(notificationOpts(document.name).success);
         return response.data;
       })

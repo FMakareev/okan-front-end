@@ -10,7 +10,6 @@ export class ProjectModeState extends Component {
 
   render() {
     const { is, children, project } = this.props;
-    // console.log(this.props);
     if (Array.isArray(is)) {
       if (is.findIndex(item => item === project.mode) >= 0) {
         return children;

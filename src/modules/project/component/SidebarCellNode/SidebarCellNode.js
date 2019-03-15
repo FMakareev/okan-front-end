@@ -231,7 +231,7 @@ export class SidebarCellNode extends Component {
         );
       }
     } catch (error) {
-      console.log(`Error node=${node && node.id}: `, error);
+      console.error(`Error node=${node && node.id}: `, error);
     }
   };
 
@@ -249,7 +249,7 @@ export class SidebarCellNode extends Component {
     }
   };
 
-  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {  
+  createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
@@ -319,7 +319,7 @@ export class SidebarCellNode extends Component {
       })
       .catch(error => {
         this.props.setNotificationError(notificationCopy(null).error);
-        console.log('there was an error sending the query', error);
+        console.error('there was an error sending the query', error);
       });
   };
 
@@ -375,7 +375,7 @@ export class SidebarCellNode extends Component {
         this.props.removeBlock();
       })
       .catch(error => {
-        console.log('there was an error sending the query', error);
+        console.error('there was an error sending the query', error);
         this.props.setNotificationError(notificationOpts(null).error);
       });
   };
@@ -420,7 +420,7 @@ export class SidebarCellNode extends Component {
                 setNotificationSuccess={setNotificationSuccess}
                 setNotificationError={setNotificationError}
                 onError={() => {
-                  console.log('onError:');
+                  console.error('onError:');
                   this.setState(() => this.initialState);
                 }}
                 ref={this.contentEditable}

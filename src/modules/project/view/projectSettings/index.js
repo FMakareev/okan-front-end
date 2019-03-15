@@ -41,7 +41,6 @@ export class ProjectSettingsPage extends Component {
                 id: params.id,
               }}>
               {({ data, error, loading }) => {
-                console.log(data, error, loading);
 
                 if (loading) {
                   console.error('loading:', loading);

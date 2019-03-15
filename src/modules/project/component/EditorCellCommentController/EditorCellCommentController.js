@@ -145,7 +145,7 @@ export class EditorCellCommentController extends Component {
         }
       }
     } catch (error) {
-      console.log('Error eventHandle: ', error);
+      console.error('Error eventHandle: ', error);
     }
   };
 

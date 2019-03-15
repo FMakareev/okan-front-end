@@ -90,7 +90,6 @@ export class FormProjectCreate extends Component {
           } = response;
 
           const data = store.readQuery({ query: ProjectListQuery });
-          console.log(1, data);
 
           data.projectList.push(createproject.project);
 
@@ -103,7 +102,6 @@ export class FormProjectCreate extends Component {
 
     return this.props['@apollo/create'](data)
       .then(response => {
-        console.log('response: ', response);
         const { data, error } = response;
         if (data && data.createproject && data.createproject.project) {
           this.props.setNotificationSuccess(notificationOpts().success);

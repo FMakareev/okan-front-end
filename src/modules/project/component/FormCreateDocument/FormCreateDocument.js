@@ -43,8 +43,7 @@ export class FormCreateDocument extends Component {
     submitting: PropTypes.bool
   };
 
-  createDocument = (value, event) => {
-    console.log('createDocument: ', value);
+  createDocument = (value) => {
     if (!value.name || !value.name.length) return;
     const { project } = this.props;
 
@@ -75,27 +74,26 @@ export class FormCreateDocument extends Component {
         });
       },
     })
-      .then(response => {
-        console.log(response);
+      .then(() => {
         this.props.setNotificationSuccess(notificationOpts().success);
         this.props.reset();
       })
       .catch(error => {
         this.props.setNotificationError(notificationOpts().error);
 
-        console.log(error);
+        console.error('Error createDocument: ',error);
       });
   };
 
   render() {
-    const { submitting, handleSubmit, submitSucceeded, project } = this.props;
+    const { submitting, handleSubmit,  } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.createDocument)}>
         <Flex py={4} pl={'10px'} pr={'12px'} alignItems={'center'} mb={'150px'}>
           <Box mt={'-6px'} height={'20px'} width={'100%'}>
             <Mutation mutation={CreateDocumentQuery}>
-              {(mutate, { loading, error, data }) => {
+              {(mutate, { loading }) => {
                 if (loading) return <p>Loading...</p>;
 
                 return (

@@ -154,7 +154,7 @@ export class EditorAdditionalMenu extends Component {
         }
       }
     } catch (error) {
-      console.log('Error eventHandle: ', error);
+      console.error('Error eventHandle: ', error);
     }
   };
 
@@ -198,7 +198,7 @@ export class EditorAdditionalMenu extends Component {
         return lastCellId;
       })
       .catch(error => {
-        console.log('there was an error sending the query', error);
+        console.error('there was an error sending the query', error);
         return null;
       });
   };
@@ -224,7 +224,6 @@ export class EditorAdditionalMenu extends Component {
           content: '',
         },
         update: (store, { data: { createcell } }) => {
-          console.log(createcell);
           let data = { celllist: [] };
           let parent = null;
           try {
@@ -327,8 +326,7 @@ export class EditorAdditionalMenu extends Component {
           }
         },
       })
-      .then(({ data }) => {
-        console.log('got data', data);
+      .then(() => {
         this.props.setNotificationSuccess(createCellNotification(contenttype, 'success'));
       })
       .catch(error => {
