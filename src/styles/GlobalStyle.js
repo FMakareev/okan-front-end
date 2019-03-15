@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     width: 100%;
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #e8e8e8;
   }
 
   @font-face {
