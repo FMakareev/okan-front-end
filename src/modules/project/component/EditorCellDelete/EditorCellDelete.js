@@ -166,7 +166,7 @@ export class EditorCellDelete extends Component {
       })
       .then(response => {
         console.log('response2334', response);
-        console.log(1, this.props.setNotificationSuccess(notificationOpts().success));
+        // console.log(1, this.props.setNotificationSuccess(notificationOpts().success));
         this.props.setNotificationSuccess(notificationOpts().success);
 
         return response;
@@ -179,7 +179,7 @@ export class EditorCellDelete extends Component {
   };
 
   render() {
-    console.log(123, this.props);
+    // console.log(123, this.props);
     return (
       <ButtonBase
         p={2}

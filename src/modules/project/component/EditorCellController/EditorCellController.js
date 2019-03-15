@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
-import {withRouter} from 'react-router-dom';
-import {findAll} from 'highlight-words-core';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { findAll } from 'highlight-words-core';
 
 /** Mutation */
 import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
@@ -10,7 +10,7 @@ import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
 
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
-import {EditorCellTitle} from '../EditorCellTitle/EditorCellTitle';
+import { EditorCellTitle } from '../EditorCellTitle/EditorCellTitle';
 import {
   PROJECT_MODE_RC,
   PROJECT_MODE_RW,
@@ -20,25 +20,25 @@ import EditorCellDelete from '../EditorCellDelete/EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 
 /** Redux */
-import {connect} from 'react-redux';
-import {getFormValues} from 'redux-form';
-import {error, success} from 'react-notification-system-redux';
-import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
+import { connect } from 'react-redux';
+import { getFormValues } from 'redux-form';
+import { error, success } from 'react-notification-system-redux';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TABLE} from '../../../../shared/blockType';
-import {ProjectModeState} from '../ProjectContext/ProjectModeState';
-import {Relative} from '@lib/ui/Relative/Relative';
-import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
-import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
-import {EditorCellContent} from '../EditorCellContent/EditorCellContent';
+import { BLOCK_IMAGE, BLOCK_TABLE } from '../../../../shared/blockType';
+import { ProjectModeState } from '../ProjectContext/ProjectModeState';
+import { Relative } from '@lib/ui/Relative/Relative';
+import { getPosition, getProject } from '../ProjectContext/ProjectContextSelectors';
+import { CELL_STATUS_CHANGED } from '@lib/shared/approvalStatus';
+import { EditorCellContent } from '../EditorCellContent/EditorCellContent';
 import EditorCellControllerNumber from '../EditorCellControllerNumber/EditorCellControllerNumber';
-import shallowequal from "shallowequal";
-import scrollTo, {linearTween} from "@lib/utils/dom/scrollTo";
+import shallowequal from 'shallowequal';
+import scrollTo, { linearTween } from '@lib/utils/dom/scrollTo';
 
 const notificationOpts = () => ({
   success: {
@@ -66,7 +66,7 @@ export class EditorCellController extends Component {
     ...ProjectContextPropTypes,
   };
 
-  static defaultProps = {data: ''};
+  static defaultProps = { data: '' };
 
   constructor(props) {
     super(props);
@@ -85,15 +85,14 @@ export class EditorCellController extends Component {
 
   handleScrollToCurrentCell(currentCellRef) {
     try {
-      const top = currentCellRef.documentOffsetTop() - (window.innerHeight / 2);
-      scrollTo(top, 50, linearTween)
+      const top = currentCellRef.documentOffsetTop() - window.innerHeight / 2;
+      scrollTo(top, 50, linearTween);
     } catch (e) {
       console.log('handleScrollToCurrentCell error: ', e);
     }
-  };
+  }
 
   componentWillReceiveProps(nextProps) {
-
     let nextSearchResult = getProject(nextProps, 'searchResult');
     let nextSearchCursor = getProject(nextProps, 'searchCursor');
     let prevSearchCursor = getProject(this.props, 'searchCursor');
@@ -113,7 +112,7 @@ export class EditorCellController extends Component {
   }
 
   componentDidMount() {
-    const {data} = this.props;
+    const { data } = this.props;
     if (
       this.state.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
@@ -127,15 +126,13 @@ export class EditorCellController extends Component {
         this.handleScrollToCurrentCell(this.currentCellRef.current);
       }
     }
-
   }
-
 
   /**
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
@@ -200,8 +197,8 @@ export class EditorCellController extends Component {
           verify: CELL_STATUS_CHANGED,
         },
         //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
-        update: (store, {data: {updatecell}}) => {
-          let data = {cellitem: {}};
+        update: (store, { data: { updatecell } }) => {
+          let data = { cellitem: {} };
           const options = {
             query: CellItemQuery,
             variables: {
@@ -215,9 +212,8 @@ export class EditorCellController extends Component {
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
-          // console.log(1111, data);
           try {
-            store.writeQuery({...options, data: {cellitem: {...data.cellitem}}});
+            store.writeQuery({ ...options, data: { cellitem: { ...data.cellitem } } });
           } catch (e) {
             console.log(e);
           }
@@ -273,7 +269,7 @@ export class EditorCellController extends Component {
   };
 
   startSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     this.stopAutoSave();
     if (values && (values.content || values.name)) {
       this.saveCellContent()
@@ -306,7 +302,7 @@ export class EditorCellController extends Component {
 
     return chunks
       .map(chunk => {
-        const {end, highlight, start} = chunk;
+        const { end, highlight, start } = chunk;
         const text = textToHighlight.substr(start, end - start);
         if (highlight) {
           return `<mark>${text}</mark>`;
@@ -320,31 +316,27 @@ export class EditorCellController extends Component {
   render() {
     const {
       data,
-      location: {search},
+      location: { search },
       sectionNumber,
       project,
       parentLetterNumber,
     } = this.props;
-    console.log('this: ', this);
-    const {toggleAdditionalMenu, editable} = this.state;
+    const { toggleAdditionalMenu, editable } = this.state;
     return (
       <Relative
         ref={this.currentCellRef}
         onMouseEnter={() => this.onHover(true)}
-        onMouseLeave={() => this.onHover(false)}
-      >
+        onMouseLeave={() => this.onHover(false)}>
         <Flex pl={'10px'} alignItems="flex-start">
           {/** Отвечает за нумерацию разделов ячеек в эдиторе (1.1.1 Текст)*/}
-          {
-            parentLetterNumber ? null : (
-              <EditorCellControllerNumber
-                {...data}
-                toggleAdditionalMenu={toggleAdditionalMenu}
-                sectionid={getPosition(project, 'sectionid')}
-                sectionNumber={sectionNumber}
-              />
-            )
-          }
+          {parentLetterNumber ? null : (
+            <EditorCellControllerNumber
+              {...data}
+              toggleAdditionalMenu={toggleAdditionalMenu}
+              sectionid={getPosition(project, 'sectionid')}
+              sectionNumber={sectionNumber}
+            />
+          )}
 
           <Box width={parentLetterNumber ? 'calc(100% - 70px)' : 'calc(100% - 160px)'}>
             {/** заголовок таблицы */}
@@ -358,16 +350,14 @@ export class EditorCellController extends Component {
             />
 
             {/** текстовый контент */}
-            {
-              !editable && (
-                <EditorCellContent
-                  onClick={() => (project.mode === PROJECT_MODE_RW ? this.openEditor() : null)}
-                  textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
-                  project={project}
-                  {...data}
-                />
-              )
-            }
+            {!editable && (
+              <EditorCellContent
+                onClick={() => (project.mode === PROJECT_MODE_RW ? this.openEditor() : null)}
+                textAlign={data.content.contenttype === BLOCK_IMAGE ? 'center' : 'left'}
+                project={project}
+                {...data}
+              />
+            )}
 
             {/** форма редактора */}
             <ProjectModeState is={PROJECT_MODE_RW}>
@@ -402,7 +392,7 @@ export class EditorCellController extends Component {
           <Flex width={'60px'}>
             <ProjectModeState is={PROJECT_MODE_RW}>
               <Box mx={2}>
-                <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+                <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
               </Box>
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
@@ -426,7 +416,7 @@ EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
-  (state, {data}) => ({
+  (state, { data }) => ({
     values: getFormValues('EditorCellForm-' + data.id)(state),
   }),
   dispatch => ({
