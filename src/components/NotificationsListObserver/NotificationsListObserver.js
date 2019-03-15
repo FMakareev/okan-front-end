@@ -56,7 +56,7 @@ export class NotificationsListObserver extends Component {
       fetchPolicy: 'no-cache',
       variables: {
         user: this.props.user.id,
-        messageread: true
+        messageread: false
       }
     }).subscribe(({data}) => {
       this.showNotifications(data.notificationslist);
@@ -69,7 +69,7 @@ export class NotificationsListObserver extends Component {
    * @augments {object} свойства объекта Notification, элемента массива notificationlist из бд
    * */
   setOptions = ({sender, createat, comment, document, cell}) => {
-    let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&сommentid=${comment.id}`;
+    let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&commentid=${comment.id}`;
 
     return {
       position: 'br',
