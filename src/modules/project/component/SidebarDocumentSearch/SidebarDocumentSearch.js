@@ -15,7 +15,8 @@ import {withRouter} from "react-router-dom";
 import {getPosition, getProject} from "../ProjectContext/ProjectContextSelectors";
 
 const WrapperStyled = styled(Flex)`
-  position: absolute;
+  position: fixed;
+  max-width: 323px;
   bottom: 0;
   left: 0;
   right: 0;
