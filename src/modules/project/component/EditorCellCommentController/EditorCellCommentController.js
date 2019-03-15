@@ -85,6 +85,7 @@ export class EditorCellCommentController extends Component {
     this.state = this.initialState;
     if (isBrowser) {
       this.app = document.getElementById('app');
+      this.currentCommentRef = React.createRef();
     }
   }
 
@@ -157,6 +158,7 @@ export class EditorCellCommentController extends Component {
     const commentId = this.getCommentIdFromSearchParam();
     if (cellId === this.props.id && this.getCommentById(this.props.comments, commentId)) {
       this.handleClickForButtonComment();
+      this.props.handleScrollToCurrentCell(this.currentCommentRef.current);
       return true;
     } else {
       return false;
@@ -288,7 +290,6 @@ export class EditorCellCommentController extends Component {
       if (
         user && user.isAuth &&
         (mode === PROJECT_MODE_RW || mode === PROJECT_MODE_RC)
-
       ) {
         /** если пользователь автор проекта */
         if (project.author.id === user.id) {
@@ -400,7 +401,7 @@ export class EditorCellCommentController extends Component {
     }
 
     return (
-      <Relative>
+      <Relative ref={this.currentCommentRef}>
         <EditorCellCommentButton
           className={'EditorCellCommentButton'}
           status={buttonStatus}
