@@ -85,10 +85,17 @@ export class EditorCellController extends Component {
 
   handleScrollToCurrentCell(currentCellRef) {
     try {
+<<<<<<< HEAD
       const top = currentCellRef.documentOffsetTop() - window.innerHeight / 2;
       scrollTo(top, 50, linearTween);
     } catch (e) {
       console.log('handleScrollToCurrentCell error: ', e);
+=======
+      const top = currentCellRef.documentOffsetTop() - (window.innerHeight / 2);
+      scrollTo(top, 50, linearTween)
+    } catch (error) {
+      console.error('handleScrollToCurrentCell error: ', error);
+>>>>>>> 3b9c89b5d5c3c452886a22efe55ef22efb31445c
     }
   }
 
@@ -143,7 +150,6 @@ export class EditorCellController extends Component {
 
   /** @desc запуск автосохранения */
   startAutoSave = () => {
-    // console.log('startAutoSave...');
     const timer = setInterval(this.createAutoSave, 30000);
     this.setState(state => ({
       ...state,
@@ -153,7 +159,6 @@ export class EditorCellController extends Component {
 
   /** @desc стоп автосохранения */
   stopAutoSave = () => {
-    // console.log('stopAutoSave...');
     clearInterval(this.state.timer);
     this.setState(state => ({
       ...state,
@@ -165,7 +170,6 @@ export class EditorCellController extends Component {
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
-    // console.log('onToggleForm');
     this.setState(state => ({
       ...state,
       editable: !state.editable,
@@ -213,9 +217,9 @@ export class EditorCellController extends Component {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
           try {
-            store.writeQuery({ ...options, data: { cellitem: { ...data.cellitem } } });
-          } catch (e) {
-            console.log(e);
+            store.writeQuery({...options, data: {cellitem: {...data.cellitem}}});
+          } catch (error) {
+            console.error(error);
           }
 
           // let checkChanges = { checkForCellChanges: {} };
@@ -245,11 +249,10 @@ export class EditorCellController extends Component {
         },
       })
       .then(response => {
-        // console.log('got data', response);
         return response;
       })
       .catch(error => {
-        console.log('Error saveCellContent: ', error);
+        console.error('Error saveCellContent: ', error);
         throw error;
       });
   }
@@ -273,12 +276,12 @@ export class EditorCellController extends Component {
     this.stopAutoSave();
     if (values && (values.content || values.name)) {
       this.saveCellContent()
-        .then(response => {
+        .then(() => {
           this.props.setNotificationSuccess(notificationOpts().success);
           this.onToggleForm();
         })
         .catch(error => {
-          console.log('Error onBlurForm: ', error);
+          console.error('Error onBlurForm: ', error);
           this.props.setNotificationError(notificationOpts().error);
           this.onToggleForm();
         });
@@ -321,7 +324,7 @@ export class EditorCellController extends Component {
       project,
       parentLetterNumber,
     } = this.props;
-    const { toggleAdditionalMenu, editable } = this.state;
+    const {toggleAdditionalMenu, editable} = this.state;
     return (
       <Relative
         ref={this.currentCellRef}

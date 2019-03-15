@@ -97,7 +97,7 @@ export class ProjectStore extends Component {
   }
 
   componentDidCatch(error, warning) {
-    console.log('componentDidCatch: ', error, warning);
+    console.error('componentDidCatch: ', error, warning);
   }
 
   /**
@@ -128,7 +128,7 @@ export class ProjectStore extends Component {
         }),
       });
     } catch (error) {
-      console.log('changeSearchPhraseInLocationSearch: ', error);
+      console.error('Error changeSearchPhraseInLocationSearch: ', error);
     }
   };
 
@@ -151,7 +151,7 @@ export class ProjectStore extends Component {
 
       this.changeSearchPhraseInLocationSearch(null);
     } catch (error) {
-      console.log(error);
+      console.error('Error resetSearchCondition',error);
     }
   };
 
@@ -363,7 +363,6 @@ export class ProjectStore extends Component {
 
   render() {
     const {children} = this.props;
-    // console.log('ProjectStore this.state: ', this.state);
     return (
       <ProjectContext.Provider
         value={{

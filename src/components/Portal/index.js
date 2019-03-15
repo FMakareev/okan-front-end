@@ -1,29 +1,37 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 /** Components */
 import CheckIsBrowser from '../CheckIsBrowser/CheckIsBrowser';
 
 export class Portal extends Component {
+
+  static propTypes = {
+    portalContainerId: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
-    this.el = document.createElement('div');
-    this.portal = document.getElementById('portal');
+    this.portalContainer = document.createElement('div');
+    this.portalContainer.setAttribute('id', this.props.portalContainerId);
+    this.portalList= document.getElementById('portal');
   }
 
   componentDidMount() {
-    this.portal.appendChild(this.el);
+    this.portalList.appendChild(this.portalContainer);
   }
 
   componentWillUnmount() {
-    this.portal.removeChild(this.el);
+    this.portalList.removeChild(this.portalContainer);
   }
 
   render() {
-    return ReactDOM.createPortal(this.props.children, this.el);
+    return ReactDOM.createPortal(this.props.children, this.portalContainer);
   }
 }
 
 Portal = CheckIsBrowser()(Portal);
 
 export default Portal;
+

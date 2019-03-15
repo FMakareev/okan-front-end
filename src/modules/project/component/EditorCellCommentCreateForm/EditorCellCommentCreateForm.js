@@ -70,7 +70,6 @@ export class EditorCellCommentCreateForm extends Component {
     if(!has.call(value, 'message')) return;
     if (!value.message.length) return;
     const {setNotificationSuccess, reset, setNotificationError, user, cell} = this.props;
-    console.log('createComment: ', value, user, cell);
     this.toggleLoading();
     return this.props['@apollo/create']({
       variables: {
@@ -116,8 +115,7 @@ export class EditorCellCommentCreateForm extends Component {
 
       },
     })
-      .then(response => {
-        console.log(response);
+      .then(() => {
         this.toggleLoading();
         setNotificationSuccess(createCommentNotification().success);
         reset();
@@ -139,7 +137,6 @@ export class EditorCellCommentCreateForm extends Component {
   render() {
     const {handleSubmit} = this.props;
     const {isLoading} = this.state;
-    console.log('EditorCellCommentCreateForm: ', this.props);
     return (<Box zIndex={1} right={'10px'} top={'10px'}>
       <FormStyled onSubmit={() => {
       }}>

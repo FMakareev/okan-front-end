@@ -117,13 +117,12 @@ export class SidebarApprovalStatus extends Component {
               ...dataCheckForCellChanges,
               data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
             });
-          } catch (e) {
-            console.log(e);
+          } catch (error) {
+            console.error('Error changeStatus: ',error);
           }
         },
       })
       .then(async response => {
-        // console.log(10, id, status);
         await this.props.cellCheckStatusChange(id, status);
       })
       .catch(error => {
@@ -151,7 +150,7 @@ export class SidebarApprovalStatus extends Component {
         );
       }
     } catch (error) {
-      console.log('Error initSubscribe: ', error);
+      console.error('Error initSubscribe: ', error);
     }
   };
 

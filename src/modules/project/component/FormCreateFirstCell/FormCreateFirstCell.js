@@ -57,7 +57,7 @@ export class FormCreateFirstCell extends Component {
         projectid: project.project.id,
       },
     }).catch(error => {
-      console.log('Error SubmitCreateCell:', error);
+      console.error('Error SubmitCreateCell:', error);
     });
   };
 
@@ -74,7 +74,6 @@ export class FormCreateFirstCell extends Component {
         children: children,
       },
       update: (store, { data: { updatedocument } }) => {
-        console.log('FormCreateFirstCell updatedocument.document: ', updatedocument.document);
         const data = store.readQuery({
           query: ProjectItemQuery,
           variables: {
@@ -97,7 +96,7 @@ export class FormCreateFirstCell extends Component {
         setNotificationSuccess(notificationOpts(updatedocument.document.name).success);
       },
     }).catch(error => {
-      console.log('Error SubmitUpdateDocument:', error);
+      console.error('Error SubmitUpdateDocument:', error);
       setNotificationError(notificationOpts(document.name).error);
     });
   };

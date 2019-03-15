@@ -84,13 +84,12 @@ export class FormProjectSettings extends Component {
 
     return this.props['@apollo/update'](data)
       .then(response => {
-        console.log(response);
         this.props.setNotificationSuccess(notificationOpts().success);
         this.setState(() => ({ redirect: '/app/project-list' }));
 
         return response;
       })
-      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+      .catch(({ graphQLErrors, message, }) => {
         this.props.setNotificationError(notificationOpts().error);
 
         throw new SubmissionError({ _error: message });
@@ -132,7 +131,6 @@ export class FormProjectSettings extends Component {
         <Box mb={'45px'}>
           <Query query={UserListQuery}>
             {({ loading, data }) => {
-              // console.log('FormProjectSettings', data);
 
               return (
                 <Field

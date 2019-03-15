@@ -34,7 +34,6 @@ export class EditorCellControllerNumber extends Component {
       sectionNumber,
       parent,
     } = this.props;
-    // console.log(this.props);
     return (
       <Relative pl={'10px'}>
         <Box mt={'-20px'} opacity={toggleAdditionalMenu ? 1 : 0}>

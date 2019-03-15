@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Query, withApollo } from 'react-apollo';
 
 /** Components */
-import { PROJECT_MODE_RW, ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
+import { PROJECT_MODE_RW } from '../ProjectContext/ProjectContext';
 import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
@@ -58,7 +58,6 @@ export class ProjectEditor extends Component {
     location: PropTypes.object,
     project: PropTypes.object,
     sectionid: PropTypes.string,
-    ...ProjectContextPropTypes,
   };
 
   state = {
@@ -105,7 +104,7 @@ export class ProjectEditor extends Component {
    * */
   getCellItem = id => {
     return this.props.client.query({ query: CellItemQuery, variables: { id } }).catch(error => {
-      console.log('Error getCellItem: ', error);
+      console.error('Error getCellItem: ', error);
     });
   };
 
@@ -164,7 +163,6 @@ export class ProjectEditor extends Component {
             if (error) {
               return null;
             }
-            // console.log('data.cellitem: ', data.cellitem);
 
             const { firstTitle, secondTitle, sectionNumber } = this.getSectionTitle(data.cellitem);
             if (data && data.celllist) {

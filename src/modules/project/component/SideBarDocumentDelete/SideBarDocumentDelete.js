@@ -20,7 +20,6 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Context */
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
-import { ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
 
 const notificationOpts = name => ({
   success: {
@@ -38,7 +37,6 @@ const notificationOpts = name => ({
 
 export class SideBarDocumentDelete extends Component {
   static propTypes = {
-    ...ProjectContextPropTypes,
     documentId: PropTypes.string.isRequired,
     documentName: PropTypes.string.isRequired,
   };

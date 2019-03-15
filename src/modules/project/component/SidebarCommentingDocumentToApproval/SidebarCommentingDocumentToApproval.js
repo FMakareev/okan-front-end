@@ -76,7 +76,6 @@ export class SidebarCommentingDocumentToApproval extends Component {
       }
     })
       .then(response => {
-        console.log('Success checkForCommentsInCells: ', response);
         return response.data;
       })
       .catch(error => {
@@ -102,7 +101,6 @@ export class SidebarCommentingDocumentToApproval extends Component {
       },
     })
       .then(response => {
-        console.log('Success updateApprovalDocumentStatus: ', response);
         return response.data;
       })
       .catch(error => {
@@ -142,7 +140,6 @@ export class SidebarCommentingDocumentToApproval extends Component {
 
   render() {
     const {isLoading} = this.state;
-    console.log(this.props);
     return (
       <ButtonWithImage
         isLoading={isLoading}

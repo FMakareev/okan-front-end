@@ -38,7 +38,6 @@ export class SidebarCreateRevision extends Component {
 
   createRevision = () => {
     const { documentid, setNotificationSuccess, setNotificationError } = this.props;
-    console.log(1, this.props);
 
     return this.props[`@apollo/create`]({
       variables: {

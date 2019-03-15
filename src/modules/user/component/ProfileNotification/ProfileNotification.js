@@ -9,9 +9,10 @@ import Flex from '@lib/ui/Flex/Flex';
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
+
 export const ProfileNotification = ({ data }) => {
   const [currentPage, setPage] = useState(1);
-  const [dataPerPage, setPetPage] = useState(10);
+  const [dataPerPage, setPetPage] = useState(5);
 
   const handleClick = event => {
     return setPage(Number(event.target.id));
@@ -30,6 +31,9 @@ export const ProfileNotification = ({ data }) => {
     pageNumbers.push(i);
   }
 
+  // TODO: во первых стилизуй кнопки иначе это выглядит как ошибка
+  // TODO: id={number} - id Должен быть уникальным, просто цифра не уникальный id
+  // TODO: если страница всего дня нет смысла выводить кнпоку паганиции
   const renderPageNumbers = pageNumbers.map(number => {
     return (
       <div key={number} id={number} onClick={handleClick}>

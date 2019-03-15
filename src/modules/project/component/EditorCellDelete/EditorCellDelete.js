@@ -122,7 +122,6 @@ export class EditorCellDelete extends Component {
                 /**
                  * @desc Если ячейка в конце списка, то меняем указатель у предыдущей
                  * */
-                console.log('last');
                 data.celllist[cellIndex - 1].nextcell = null;
               }
               data.celllist.splice(cellIndex, 1);
@@ -165,21 +164,18 @@ export class EditorCellDelete extends Component {
         },
       })
       .then(response => {
-        console.log('response2334', response);
-        // console.log(1, this.props.setNotificationSuccess(notificationOpts().success));
         this.props.setNotificationSuccess(notificationOpts().success);
 
         return response;
       })
       .catch(error => {
-        console.log('Error saveCellContent: ', error);
+        console.error('Error saveCellContent: ', error);
         this.props.setNotificationError(notificationOpts().error);
         throw error;
       });
   };
 
   render() {
-    // console.log(123, this.props);
     return (
       <ButtonBase
         p={2}

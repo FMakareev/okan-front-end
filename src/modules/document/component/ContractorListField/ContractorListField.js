@@ -49,6 +49,7 @@ export class ContractorListField extends Component {
     const {client} = this.props;
     return client.mutate({
       mutation: DeleteContractorMutation,
+      fetchPolicy: 'no-cache',
       variables: {
         id: id,
       }
@@ -81,7 +82,7 @@ export class ContractorListField extends Component {
       const response = await this.removeContractorApprovalMutation(contractor.id);
       this.loadingRemoveToggle();
 
-      if(response && response.message){
+      if (response && response.message) {
         setNotificationError(ContractorListFieldNotificationList().error);
         return null;
       }
