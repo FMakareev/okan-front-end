@@ -6,7 +6,6 @@ import {Query, withApollo} from 'react-apollo';
 /** Components */
 import {
   PROJECT_MODE_RW,
-  ProjectContextPropTypes,
 } from '../ProjectContext/ProjectContext';
 import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
@@ -60,7 +59,6 @@ export class ProjectEditor extends Component {
     location: PropTypes.object,
     project: PropTypes.object,
     sectionid: PropTypes.string,
-    ...ProjectContextPropTypes,
   };
 
   state = {
