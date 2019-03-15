@@ -1,12 +1,11 @@
 import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
-import { asyncComponent } from 'react-async-component';
+import Notifications from 'react-notification-system-redux';
 
 /** View */
 import Portal from '../Portal';
 import { Text } from '../Text/Text';
-import Notifications from '../ReactNotificationRedux/src/notifications';
 import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
 
 /** Constants */
@@ -14,14 +13,6 @@ import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
 
 /** Redux */
 import { getUserFromStore } from '../../store/reducers/user/selectors';
-
-// const Portal = () =>
-//   asyncComponent({
-//     resolve: () => import(/* webpackChunkName: 'chunk-name-portal'  */ '../Portal'),
-//     ErrorComponent: ({ error }) => <div>{error.message}</div>,
-//     LoadingComponent: () => <div>Загрузка...</div>,
-//     serverMode: 'defer',
-//   });
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
