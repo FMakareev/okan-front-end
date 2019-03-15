@@ -71,7 +71,7 @@ export class EditorCellController extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
-
+    this.handleScrollToCurrentCell = this.handleScrollToCurrentCell.bind(this);
     this.currentCellRef = React.createRef();
   }
 
@@ -83,12 +83,12 @@ export class EditorCellController extends Component {
     };
   }
 
-  handleScrollToElement = (event) => {
+  handleScrollToCurrentCell(currentCellRef) {
     try {
-      const top = this.currentCellRef.current.documentOffsetTop() - (window.innerHeight / 2);
+      const top = currentCellRef.documentOffsetTop() - (window.innerHeight / 2);
       scrollTo(top, 50, linearTween)
     } catch (e) {
-      console.log('handleScrollToElement error: ', e);
+      console.log('handleScrollToCurrentCell error: ', e);
     }
   };
 
@@ -105,7 +105,7 @@ export class EditorCellController extends Component {
         /** если предыдущее состояние курсора поиска не такое же как новое */
         if (this.props.data.id === nextSearchCursor.cell.id) {
           if (isBrowser) {
-            this.handleScrollToElement();
+            this.handleScrollToCurrentCell(this.currentCellRef.current);
           }
         }
       }
@@ -124,7 +124,7 @@ export class EditorCellController extends Component {
     if (isBrowser) {
       let searchCursor = getProject(this.props, 'searchCursor');
       if (searchCursor && searchCursor.cell && this.props.data.id === searchCursor.cell.id) {
-        this.handleScrollToElement();
+        this.handleScrollToCurrentCell(this.currentCellRef.current);
       }
     }
 
@@ -325,7 +325,7 @@ export class EditorCellController extends Component {
       project,
       parentLetterNumber,
     } = this.props;
-
+    console.log('this: ', this);
     const {toggleAdditionalMenu, editable} = this.state;
     return (
       <Relative
@@ -410,6 +410,7 @@ export class EditorCellController extends Component {
                 <EditorCellCommentController
                   {...this.props.project}
                   {...data}
+                  handleScrollToCurrentCell={this.handleScrollToCurrentCell}
                   location={this.props.location}
                 />
               </Box>
