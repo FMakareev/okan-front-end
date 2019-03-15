@@ -1,12 +1,27 @@
 import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import Notifications from 'react-notification-system-redux';
-
-import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
-import { getUserFromStore } from '../../store/reducers/user/selectors';
-import { Text } from '../Text/Text';
-import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
 import { withApollo } from 'react-apollo';
+import { asyncComponent } from 'react-async-component';
+
+/** View */
+import Portal from '../Portal';
+import { Text } from '../Text/Text';
+import Notifications from '../ReactNotificationRedux/src/notifications';
+import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
+
+/** Constants */
+import { LAYOUT_ADMIN, LAYOUT_APP, LAYOUT_AUTH } from '../../shared/layout';
+
+/** Redux */
+import { getUserFromStore } from '../../store/reducers/user/selectors';
+
+// const Portal = () =>
+//   asyncComponent({
+//     resolve: () => import(/* webpackChunkName: 'chunk-name-portal'  */ '../Portal'),
+//     ErrorComponent: ({ error }) => <div>{error.message}</div>,
+//     LoadingComponent: () => <div>Загрузка...</div>,
+//     serverMode: 'defer',
+//   });
 
 export class LayoutBase extends PureComponent {
   static propTypes = {};
@@ -85,8 +100,10 @@ export class LayoutBase extends PureComponent {
           </PreloaderWrapper>
         )}
         {user && !user.initLoading && Layout && <Layout {...this.props} route={routes} />}
-
-        <Notifications notifications={notifications} />
+        <Portal>
+          <div>1</div>
+          <Notifications notifications={notifications} />
+        </Portal>
       </Fragment>
     );
   }
