@@ -46,7 +46,6 @@ export class ButtonWithImage extends Component {
       isLoading,
       ...props
     } = this.props;
-    console.log('ButtonWithImage render: ');
     return (
       <ButtonBase variant={variant} size={size} width={width} {...props}>
         <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
