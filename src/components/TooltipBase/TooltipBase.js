@@ -46,7 +46,6 @@ export class TooltipBase extends Component {
 
   render() {
     const { warning, position, isActive, children } = this.props;
-    console.log('TooltipBase render', this.props);
     return (
       <RelativeStyled>
         {isActive && (
