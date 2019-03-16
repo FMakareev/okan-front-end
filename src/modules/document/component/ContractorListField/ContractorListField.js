@@ -11,27 +11,11 @@ import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
 import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
 import required from "@lib/utils/validation/required";
 import DayPickerField from "@lib/ui/DayPickerField/DayPickerField";
-import DeleteContractorMutation from './DeleteContractorMutation.graphql';
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
-import {error, success} from "react-notification-system-redux";
 import {connect} from "react-redux";
 import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
 import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 import shallowequal from "shallowequal";
-
-const ContractorListFieldNotificationList = () => ({
-  success: {
-    title: 'Настройки проекта успешно обновлены',
-    position: 'tr',
-    autoDismiss: 2,
-  },
-  error: {
-    title: 'Ошибка',
-    message: 'Удаление пользователя не было выполнено, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
-    position: 'tr',
-    autoDismiss: 5,
-  },
-});
 
 export class ContractorListField extends Component {
 
@@ -66,18 +50,6 @@ export class ContractorListField extends Component {
     return false;
   }
 
-  removeContractorApprovalMutation = (id) => {
-    const {client} = this.props;
-    return client.mutate({
-      mutation: DeleteContractorMutation,
-      fetchPolicy: 'no-cache',
-      variables: {
-        id: id,
-      }
-    }).catch(error => {
-      return error;
-    })
-  };
 
   /**
    * @desc метод для изменения статуса прелоатера
@@ -86,32 +58,6 @@ export class ContractorListField extends Component {
     this.setState((state) => ({
       loadingRemove: !state.loadingRemove
     }));
-  };
-
-  /**
-   * @param {object} contractor
-   * @param {string} contractor.id
-   * @param {object} contractor.user
-   * @param {function} callBack метод который будет вызван после выполнения асинхронного запроса
-   * @desc метод для удаления ContractorApproval из документа
-   * */
-  removeContractorApprovalFromField = async (contractor, callBack) => {
-    const {setNotificationError} = this.props;
-    /** если есть id значит ContractorApproval создан в БД */
-    if (contractor.id) {
-      this.loadingRemoveToggle();
-      const response = await this.removeContractorApprovalMutation(contractor.id);
-      this.loadingRemoveToggle();
-
-      if (response && response.message) {
-        setNotificationError(ContractorListFieldNotificationList().error);
-        return null;
-      }
-    }
-
-    if (typeof callBack === 'function') {
-      callBack();
-    }
   };
 
   /**
@@ -202,7 +148,7 @@ export class ContractorListField extends Component {
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => this.removeContractorApprovalFromField(fields.get(index), () => fields.remove(index))}
+                  onClick={() => fields.remove(index)}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
                 </ButtonWithImage>
@@ -231,7 +177,7 @@ export class ContractorListField extends Component {
                   title={'Удалить контрагента'}
                   p={'4px'}
                   fontSize={'20px'}
-                  onClick={() => this.removeContractorApprovalFromField(fields.get(index), () => fields.remove(index))}
+                  onClick={() => fields.remove(index)}
                   variant={'outlineGray'}>
                   <SvgSidebarDelete/>
                 </ButtonWithImage>
@@ -270,10 +216,6 @@ ContractorListField = withApollo(ContractorListField);
 ContractorListField = connect(
   state => ({
     values: getFormValues('FormDocumentSettings')(state),
-  }),
-  dispatch => ({
-    setNotificationSuccess: message => dispatch(success(message)),
-    setNotificationError: message => dispatch(error(message)),
   }),
 )(ContractorListField);
 
