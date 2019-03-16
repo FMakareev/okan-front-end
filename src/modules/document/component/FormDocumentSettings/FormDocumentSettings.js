@@ -28,6 +28,7 @@ import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
 import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
 import CreateContractorApprovalMutation from './CreateContractorApprovalMutation.graphql';
 import UpdateContractorApprovalMutation from './UpdateContractorApprovalMutation.graphql';
+import DeleteContractorMutation from '../FormDocumentSettings/DeleteContractorMutation.graphql';
 
 const notificationOpts = () => ({
   success: {
@@ -50,8 +51,17 @@ export class FormDocumentSettings extends Component {
   state = this.initialState;
 
   get initialState() {
-    return {redirect: null};
+    return {isLoading: false};
   }
+
+  /**
+   * @desc метод для изменения статуса прелоатера
+   * */
+  loadingToggle = () => {
+    this.setState((state) => ({
+      isLoading: !state.isLoading
+    }));
+  };
 
   /**
    * @param {object} value
@@ -81,6 +91,90 @@ export class FormDocumentSettings extends Component {
     })
   };
 
+
+  removeContractorApprovalMutation = (id) => {
+    const {client} = this.props;
+    return client.mutate({
+      mutation: DeleteContractorMutation,
+      fetchPolicy: 'no-cache',
+      variables: {
+        id: id,
+      }
+    }).catch(error => {
+      return error;
+    })
+  };
+
+  /**
+   * @param {array} nextContractors - новый список контракторов
+   * @param {array} prevContractors - значения
+   * @return {array}
+   * @desc метод получает на вход новый список и старый, сравнивает их и выдает разницу между новым списком и старым
+   * */
+  getDeletedContractor = (nextContractors, prevContractors) => {
+    try {
+      let differenceBetweenThePreviousAndTheNext = [];
+
+      prevContractors.forEach((prevContractor) => {
+        let result = nextContractors.find(nextContractor => prevContractor.id === nextContractor.id)
+        if (!result) {
+          differenceBetweenThePreviousAndTheNext.push(prevContractor);
+        }
+      });
+      return differenceBetweenThePreviousAndTheNext;
+    } catch (error) {
+      console.error('Error transformDocumentApproval: ', error);
+      return error;
+    }
+  };
+
+  createRequestListForRemoveContractorApproval = async (value) => {
+    try {
+      return await value.map(async (item) => {
+
+        const {data: {deleteContractorApproval}} = await this.removeContractorApprovalMutation(item.id);
+
+        return deleteContractorApproval;
+      })
+    } catch (error) {
+      console.error('Error createContractorApprovalList: ', error);
+    }
+  };
+
+  removeContractorApproval = async (value) => {
+    try {
+      const newDate = {
+        externalapprove: [],
+        externalconform: []
+      };
+      const promiseLists = {
+        externalapprove: [],
+        externalconform: []
+      };
+
+      if (has.call(value, 'externalapprove') && Array.isArray(value.externalapprove)) {
+        newDate.externalapprove = this.getDeletedContractor(value.externalapprove, this.props.initialValues.externalapprove);
+        promiseLists.externalapprove = await this.createRequestListForRemoveContractorApproval(newDate.externalapprove)
+      }
+      if (has.call(value, 'externalconform') && Array.isArray(value.externalconform)) {
+        newDate.externalconform = this.getDeletedContractor(value.externalconform, this.props.initialValues.externalconform);
+        promiseLists.externalconform = await this.createRequestListForRemoveContractorApproval(newDate.externalconform)
+      }
+
+      /** резолвим промисы */
+      if (promiseLists.externalapprove.length) {
+        newDate.externalapprove = await Promise.all(promiseLists.externalapprove)
+      }
+      if (promiseLists.externalconform.length) {
+        newDate.externalconform = await Promise.all(promiseLists.externalconform)
+      }
+      return newDate;
+    } catch (error) {
+      console.error('Error removeContractorApproval: ', error);
+      return error;
+    }
+  };
+
   /**
    * @param {object} value
    * @param {object} value.id
@@ -105,7 +199,6 @@ export class FormDocumentSettings extends Component {
       approvaldate: value.approvaldate,
       userid: value.user.id,
     };
-    console.log('submitUpdateContractorApproval: ', variables);
     // TODO: заменить заглушку на мутацию
     return this.props.client.mutate({
       mutation: UpdateContractorApprovalMutation,
@@ -140,6 +233,7 @@ export class FormDocumentSettings extends Component {
       console.error('Error createContractorApprovalList: ', error);
     }
   };
+
 
   /**
    * @param {object} value
@@ -190,6 +284,12 @@ export class FormDocumentSettings extends Component {
    * */
   updateDocument = async value => {
     const {setNotificationError, setNotificationSuccess, history} = this.props;
+    this.loadingToggle();
+    const removeContractorApproval = await this.removeContractorApproval(value);
+    if (removeContractorApproval.message) {
+      setNotificationError(notificationOpts().error);
+      throw new SubmissionError({_error: removeContractorApproval.message});
+    }
 
     const documentApproval = await this.transformDocumentApproval(value);
 
@@ -225,12 +325,13 @@ export class FormDocumentSettings extends Component {
 
     return this.props['@apollo/update'](options)
       .then(response => {
+        this.loadingToggle();
         setNotificationSuccess(notificationOpts().success);
         history.push(`/app/project/${options.variables.project}`);
         return response;
       })
       .catch(({graphQLErrors, message, networkError, ...rest}) => {
-
+        this.loadingToggle();
         setNotificationError(notificationOpts().error);
         throw new SubmissionError({_error: message});
       });
@@ -243,7 +344,7 @@ export class FormDocumentSettings extends Component {
       invalid,
       initialValues: {project},
     } = this.props;
-
+    console.log(this.props);
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
@@ -302,6 +403,7 @@ export class FormDocumentSettings extends Component {
 
         <Flex justifyContent={'center'} mb={'200px'}>
           <ButtonWithImage
+            isLoading={this.state.isLoading}
             type={"submit"}
             variant={'large'}
             size={'medium'}
