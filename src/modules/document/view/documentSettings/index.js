@@ -36,13 +36,13 @@ class DocumentSettingsPage extends Component {
   state = {};
 
   /**
-   * @param {array} approvallist - список согласующиъ/утверждающих externalapprove, externalconform
+   * @param {array} approvalList - список согласующиъ/утверждающих externalapprove, externalconform
    * @param {array} userList - просто список пользователей
    * @desc метод преобразует данные из списков externalapprove, externalconform в валидную для формы структуру
    * */
-  createContractorApprovalList = (approvallist, userList) => {
+  createContractorApprovalList = (approvalList, userList) => {
     const newApprovalList = [];
-    approvallist.forEach(item => {
+    approvalList.forEach(item => {
       const indexUser = userList.findIndex(user => user.id === item.user);
       if (indexUser >= 0) {
         newApprovalList.push({
