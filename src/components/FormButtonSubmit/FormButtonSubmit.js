@@ -41,6 +41,7 @@ export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) =
       <ButtonWithImageStyled
         type="submit"
         disabled={disabled}
+        isLoading={isLoading}
         variant={'large'}
         size={'large'}
         rightIcon={buttonIconRender}
