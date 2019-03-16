@@ -10,7 +10,6 @@ export class SelectContractorFromInnerUserList extends PureComponent {
   onChange = () => {}
 
   render(){
-    console.log('SelectContractorFromInnerUserList render', this.props);
     return (<Query query={UserListQuery}>
       {({ loading, data }) => {
 
