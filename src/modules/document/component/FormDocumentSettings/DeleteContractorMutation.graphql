@@ -1,5 +1,5 @@
 mutation ($id: String!) {
-  deletecontractorapproval(id: $id) {
+  deleteContractorApproval: deletecontractorapproval(id: $id) {
     contractorapproval {
       id
       approvaldate
