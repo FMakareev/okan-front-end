@@ -29,8 +29,6 @@ class DayPickerField extends Component {
 
   render() {
     const { placeholder, input } = this.props;
-    console.log('DayPickerField render', this.props);
-
     return (
       <FlexStyled justifyContent={'space-between'} width={'100%'}>
         <Text color={'#848484'} fontSize={5} lineHeight={6} width={'100%'}>
