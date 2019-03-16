@@ -254,10 +254,6 @@ export class FormDocumentSettings extends Component {
                 projectid={project}
               />
             </Container>
-            {/**
-             modified:   system/config/parts/server.py
-             modified:   system/includes/lib/database.py
-             */}
             <Container maxWidth={'500px'} width={'100%'}>
               <Fields
                 names={['name', 'customercode', 'okancode', 'equipmentname']}

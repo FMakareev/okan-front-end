@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Relative } from 'rebass';
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ const RelativeStyled = styled(Relative)`
  * @example ./TooltipBase.example.md
  */
 
-export class TooltipBase extends PureComponent {
+export class TooltipBase extends Component {
   static propTypes = {
     /** message text */
     warning: PropTypes.string,
@@ -37,8 +37,16 @@ export class TooltipBase extends PureComponent {
     isActive: false,
   };
 
+  shouldComponentUpdate(nextProps){
+    if(nextProps.isActive !== this.props.isActive){
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { warning, position, isActive, children } = this.props;
+    console.log('TooltipBase render', this.props);
     return (
       <RelativeStyled>
         {isActive && (

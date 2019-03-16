@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react';
 import {withApollo} from "react-apollo";
 import {Field, getFormValues} from "redux-form";
@@ -16,6 +17,7 @@ import {error, success} from "react-notification-system-redux";
 import {connect} from "react-redux";
 import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
 import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
+import shallowequal from "shallowequal";
 
 const ContractorListFieldNotificationList = () => ({
   success: {
@@ -43,6 +45,25 @@ export class ContractorListField extends Component {
     return {
       loadingRemove: false,
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.loadingRemove !== this.state.loadingRemove) {
+      return true;
+    }
+    if(nextProps.compareUsers.length !== this.props.compareUsers.length){
+      return true;
+    }
+
+    let result = nextProps.compareUsers.map(item => {
+      return !shallowequal(nextProps.values[item], this.props.values[item])
+    });
+
+    if(result.find(item => item === true)){
+      return true;
+    }
+
+    return false;
   }
 
   removeContractorApprovalMutation = (id) => {
@@ -146,7 +167,7 @@ export class ContractorListField extends Component {
   render() {
     const {fields, values, compareUsers} = this.props;
     const {loadingRemove} = this.state;
-
+    console.log('ContractorListField render', this.props);
     return (<Box>
       {
         fields.map((member, index) => {
@@ -236,6 +257,14 @@ export class ContractorListField extends Component {
   }
 }
 
+ContractorListField.propTypes = {
+  client: PropTypes.object,
+  compareUsers: PropTypes.array,
+  fields: PropTypes.object,
+  setNotificationError: PropTypes.func,
+  values: PropTypes.object
+};
+
 ContractorListField = withApollo(ContractorListField);
 
 ContractorListField = connect(
@@ -249,3 +278,4 @@ ContractorListField = connect(
 )(ContractorListField);
 
 export default ContractorListField;
+

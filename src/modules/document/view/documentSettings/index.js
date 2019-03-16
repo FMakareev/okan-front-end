@@ -20,42 +20,6 @@ import DocumentItemQuery from './DocumentItemQuery.graphql';
 import {error, success} from "react-notification-system-redux";
 
 const has = Object.prototype.hasOwnProperty;
-const testData = {
-  documentitem: {
-    customercode: null,
-    equipmentname: null,
-    id: "5c76a94f9adb4973cf701b3d",
-    name: "afsfa",
-    okancode: null,
-    partners: [],
-    project: "5c76931c9adb4973cf701b29",
-    externalapprove: [
-      {
-        user: '5c76c63d335cf439ffd8148e',
-        approvaldate: '2019-03-01T00:59:08.468Z',
-      },
-      {
-        user: '5c76c63d335cf439ffd8148f',
-        approvaldate: '2019-02-01T00:59:08.468Z',
-      },
-      {
-        user: '5c76c63d335cf439ffd81490',
-        approvaldate: '2019-01-01T00:59:08.468Z',
-      },
-    ],
-    externalconform: [
-      {
-        user: '5c76c63d335cf439ffd81498',
-        approvaldate: '2019-02-22T00:59:08.468Z',
-      },
-      {
-        user: '5c76c63d335cf439ffd814a1',
-        approvaldate: '2019-02-22T00:59:08.468Z',
-      },
-    ],
-    __typename: "Document",
-  }
-};
 
 const notificationDocumentSettingsPage = () => ({
   error: {
@@ -73,24 +37,24 @@ class DocumentSettingsPage extends Component {
 
   /**
    * @param {array} approvallist - список согласующиъ/утверждающих externalapprove, externalconform
-   * @param {array} userlist - просто список пользователей
+   * @param {array} userList - просто список пользователей
    * @desc метод преобразует данные из списков externalapprove, externalconform в валидную для формы структуру
    * */
-  createContractorApprovalList = (approvallist, userlist) => {
-    const newapprovallist = [];
+  createContractorApprovalList = (approvallist, userList) => {
+    const newApprovalList = [];
     approvallist.forEach(item => {
-      const indexUser = userlist.findIndex(user => user.id === item.user);
+      const indexUser = userList.findIndex(user => user.id === item.user);
       if (indexUser >= 0) {
-        newapprovallist.push({
+        newApprovalList.push({
           user: {
-            ...userlist[indexUser],
-            role: userlist[indexUser].role.name
+            ...userList[indexUser],
+            role: userList[indexUser].role.name
           },
           approvaldate: item.approvaldate
         });
       }
     });
-    return newapprovallist;
+    return newApprovalList;
   };
 
   /**

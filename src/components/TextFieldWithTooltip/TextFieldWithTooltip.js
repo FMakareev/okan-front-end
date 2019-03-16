@@ -35,7 +35,11 @@ export class TextFieldWithTooltip extends PureComponent {
   render() {
     const {meta, input, onChangeHOC, tooltipPosition, ...rest} = this.props;
     return (
-      <TooltipBase position={tooltipPosition} isActive={meta.touched && meta.error} warning={meta.error}>
+      <div
+        style={{
+          position: 'relative'
+        }}
+      >
         <TextFieldBase
           {...rest}
           {...input}
@@ -47,7 +51,12 @@ export class TextFieldWithTooltip extends PureComponent {
             }
           }}
         />
-      </TooltipBase>
+        <TooltipBase
+          position={tooltipPosition}
+          isActive={meta.touched && meta.error}
+          warning={meta.error}
+        />
+      </div>
     );
   }
 }

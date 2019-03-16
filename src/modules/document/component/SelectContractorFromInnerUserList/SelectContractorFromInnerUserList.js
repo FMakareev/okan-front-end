@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Query} from 'react-apollo';
-import {SelectBase, SelectStyles} from "@lib/ui/SelectBase/SelectBase";
+import {SelectBase} from "@lib/ui/SelectBase/SelectBase";
 import UserListQuery from './UserListQuery.graphql';
 
 
 
-export class SelectContractorFromInnerUserList extends Component {
+export class SelectContractorFromInnerUserList extends PureComponent {
 
   onChange = () => {}
 
   render(){
+    console.log('SelectContractorFromInnerUserList render', this.props);
     return (<Query query={UserListQuery}>
       {({ loading, data }) => {
 

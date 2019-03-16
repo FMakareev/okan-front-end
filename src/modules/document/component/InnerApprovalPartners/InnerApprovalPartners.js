@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Field } from 'redux-form';
+import {Field} from 'redux-form';
 
 /**View */
 import Flex from '@lib/ui/Flex/Flex';
@@ -14,7 +14,7 @@ import BorderColorProperty from '../../../../styles/styleProperty/BorderColorPro
 
 const FlexStyled = styled(Flex)`
   border-top: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color7' })};
+  ${props => BorderColorProperty({...props, borderColor: 'color7'})};
   padding-bottom: 12px;
   min-height: 45px;
 `;
@@ -25,9 +25,23 @@ export class InnerApprovalPartners extends Component {
     data: PropTypes.element,
   };
 
+  static defaultProps = {
+    options: [],
+  };
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.options.length !== this.props.options.length) {
+      return true;
+    }
+    if (nextProps.input.value.length !== this.props.input.value.length) {
+      return true;
+    }
+    return false;
+  }
+
   onChange = id => {
     const {
-      input: { value, onChange },
+      input: {value, onChange},
     } = this.props;
 
     let indexCurrentId = this.findUserInValue(value, id); // Возвращаем индекс id
@@ -52,15 +66,14 @@ export class InnerApprovalPartners extends Component {
     let arrayOfIndexes = slice.call(arguments, 1); // В переменную arrayOfIndexes одалжили метод, который копирует массив от arg(id) на +1. И получили новый массив в котором вырезали id
     // console.log(1, arr, indexes, arrayOfIndexes, arguments);
     // arr - массив indexes - индекс по которому кликнули 2 раз arrayofIndex - Новый массив arg - id
-    return arr.filter(function(item, index) {
+    return arr.filter(function (item, index) {
       // И в итоге возращаем новый массив
       return arrayOfIndexes.indexOf(index) === -1; //Возвращает индекс id по которому был найден, иначе -1
     });
   }
 
   render() {
-    const { options, input } = this.props;
-
+    const {options, input} = this.props;
     return (
       <Fragment>
         <Box mb={'100px'}>
@@ -76,7 +89,7 @@ export class InnerApprovalPartners extends Component {
 
           {options.length > 0 ? (
             options.map((item, index) => {
-              const { id } = item;
+              const {id} = item;
               return (
                 <FlexStyled
                   key={`InnerApprovalPartners-${index}`}
