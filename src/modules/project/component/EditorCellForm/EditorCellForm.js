@@ -37,7 +37,7 @@ export class EditorCellForm extends Component {
   };
 
   static propTypes = {
-    data: PropTypes.string,
+    data: PropTypes.object,
     handleSubmit: PropTypes.func,
     id: PropTypes.string,
     instantSave: PropTypes.func,

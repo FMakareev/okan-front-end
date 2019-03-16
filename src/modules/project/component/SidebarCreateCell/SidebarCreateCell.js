@@ -27,7 +27,6 @@ import DeleteCellMutation from './DeleteCellMutation.graphql';
 import CreateSubCellMutation from './CreateSubCellMutation.graphql';
 
 /** Context */
-import { ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 
 /** Utils */
@@ -98,7 +97,7 @@ const notificationDelete = name => {
 export class SidebarCreateCell extends Component {
   static propTypes = {
     addNodeInTree: PropTypes.func,
-    cellCheckStatusChange: PropTypes.number,
+    cellCheckStatusChange: PropTypes.func,
     changeActiveNode: PropTypes.func,
     client: PropTypes.object,
     history: PropTypes.object,
@@ -111,7 +110,6 @@ export class SidebarCreateCell extends Component {
     removeNodeInTree: PropTypes.func,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
-    ...ProjectContextPropTypes,
   };
 
   constructor(props) {

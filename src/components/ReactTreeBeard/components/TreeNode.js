@@ -110,7 +110,7 @@ export class TreeNode extends Component {
       return result;
     };
     return (
-      <propDecorators.TreeNodeList ref={ref => (this.subtreeRef = ref)}>
+      <propDecorators.TreeNodeList>
         {children.map((child, index) => {
           if (child.isAttachment) {
 

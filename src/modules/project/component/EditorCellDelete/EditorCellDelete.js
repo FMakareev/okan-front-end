@@ -189,6 +189,12 @@ export class EditorCellDelete extends Component {
     );
   }
 }
+EditorCellDelete.propTypes = {
+  id: PropTypes.string,
+  sectionid: PropTypes.string,
+  setNotificationError: PropTypes.func,
+  setNotificationSuccess: PropTypes.func,
+};
 
 EditorCellDelete = graphql(DeleteCellMutation)(EditorCellDelete);
 
@@ -200,11 +206,5 @@ EditorCellDelete = connect(
   }),
 )(EditorCellDelete);
 
-EditorCellDelete.propTypes = {
-  id: PropTypes.string.isRequired,
-  sectionid: PropTypes.string.isRequired,
-  setNotificationError: PropTypes.func.isRequired,
-  setNotificationSuccess: PropTypes.func.isRequired,
-};
 
 export default EditorCellDelete;

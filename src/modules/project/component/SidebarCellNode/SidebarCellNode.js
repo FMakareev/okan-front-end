@@ -31,7 +31,7 @@ import ChangeStatusMutation from '../SidebarApprovalStatus/ChangeStatusMutation.
 /** Redux action to remove BlockId from store */
 import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
-import { PROJECT_MODE_RW, ProjectContextPropTypes } from '../ProjectContext/ProjectContext';
+import { PROJECT_MODE_RW } from '../ProjectContext/ProjectContext';
 import { childcellIsCategory } from '../../utils/childcellIsCategory';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
 
@@ -106,8 +106,6 @@ export class SidebarCellNode extends Component {
     createCopy: PropTypes.func.isRequired,
     /** @desc изменил статус фокуса у ячейки */
     changeNodeFocus: PropTypes.func.isRequired,
-
-    ...ProjectContextPropTypes,
 
     decorators: PropTypes.shape({
       Container: PropTypes.any,

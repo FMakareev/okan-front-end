@@ -40,20 +40,20 @@ Text.propTypes = {
   /**  children React element  */
   children: PropTypes.any,
   /** CSS: mb - margin - bottom */
-  mb: PropTypes.PropTypes.arrayOf(PropTypes.string),
+  mb: PropTypes.any,
   /** CSS : color */
   color: PropTypes.string,
   whiteSpace: PropTypes.string,
   textOverflow: PropTypes.string,
   overflow: PropTypes.string,
   /** CSS : fontSize */
-  fontSize: PropTypes.number,
+  fontSize: PropTypes.any,
   /** CSS : fontSize */
-  fz: PropTypes.number,
+  fz: PropTypes.any,
   /** CSS : lineHeight */
-  lineHeight: PropTypes.number,
+  lineHeight: PropTypes.any,
   /** CSS : lineHeight */
-  lh: PropTypes.number,
+  lh: PropTypes.any,
 
   ...display.propTypes,
   ...fontWeight.propTypes,

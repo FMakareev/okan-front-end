@@ -14,7 +14,6 @@ import {EditorCellTitle} from '../EditorCellTitle/EditorCellTitle';
 import {
   PROJECT_MODE_RC,
   PROJECT_MODE_RW,
-  ProjectContextPropTypes,
 } from '../ProjectContext/ProjectContext';
 import EditorCellDelete from '../EditorCellDelete/EditorCellDelete';
 
@@ -55,7 +54,7 @@ const notificationOpts = () => ({
 
 export class EditorCellController extends Component {
   static propTypes = {
-    data: PropTypes.string,
+    data: PropTypes.object,
     location: PropTypes.object,
     parentLetterNumber: PropTypes.string,
     project: PropTypes.object,
@@ -63,7 +62,6 @@ export class EditorCellController extends Component {
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
     values: PropTypes.object,
-    ...ProjectContextPropTypes,
   };
 
   static defaultProps = {data: ''};
