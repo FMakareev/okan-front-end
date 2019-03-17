@@ -210,6 +210,11 @@ export class DocumentTree extends Component {
     }
   }
 
+  /**
+   * @param {string} cellid id ячейки которую надо проверить
+   * @return {bool}
+   * @desc метод проверяет есть ли ячейка в дереве и возвраает true/false
+   * */
   isThereCellInTheDocumentTree = (cellid) => {
     try {
       let tree = Object.assign({}, this.state.tree);
@@ -217,7 +222,7 @@ export class DocumentTree extends Component {
     } catch (error) {
       console.error(`Error isThereCellInTheDocumentTree, cellid='${cellid}': `, error);
     }
-  }
+  };
 
   /**
    * @param {string} id искомой ноды
@@ -514,8 +519,6 @@ export class DocumentTree extends Component {
    * @param {string} props.revisionid - id документа доступен в случае когда документ просматривается как ревизия
    * @param {string} props.documentid - id Документа доступен в режиме редактирования и комментирования
    * @param {string} props.sectionid - id активной ячейки в документе
-   * @param {string} props.cellNumber - номер активной ячейки
-   * @param {string} props.cellLetterNumber - номер активной ячейки
    * @desc метод для изменения маршрута в проекте
    * */
   changeRoute = ({
@@ -617,6 +620,7 @@ export class DocumentTree extends Component {
    * @desc метод для обновления стейта
    * */
   updateTree = props => {
+    console.log('updateTree: ', props);
     this.setState(state => ({
       ...state,
       ...props,
@@ -630,6 +634,7 @@ export class DocumentTree extends Component {
    * */
   onToggle = (node, toggled) => {
     try {
+
       if (node.loading) {
         return;
       }
@@ -638,21 +643,29 @@ export class DocumentTree extends Component {
       if (node.childcell && !node.loading && toggled) {
         node.loading = true;
         let childList = [];
-        // Запрашиваем данные для открывшейся ветки
-        this.branchDownload(node.childcell.id, childList)
-          .then(response => {
-            if (childList.length) {
-              this.addNodeListInBranch(childList);
-            }
-            this.changeStatusLoadingsNode(node.id, false);
-          })
-          .catch(error => {
-            console.error(`Error onToggle/branchDownload, node=${node.name}: `, error);
-            return null;
-          });
+
+        /**  Проверяем есть ли ячейка в дереве, нужно чтобы не пересобирать ветки если они и так уже есть */
+        if (!this.isThereCellInTheDocumentTree(node.childcell.id)) {
+
+          /**  Запрашиваем данные для открывшейся ветки */
+          this.branchDownload(node.childcell.id, childList)
+            .then(() => {
+              if (childList.length) {
+                this.addNodeListInBranch(childList);
+              }
+              this.changeStatusLoadingsNode(node.id, false);
+            })
+            .catch(error => {
+              console.error(`Error onToggle/branchDownload, node=${node.name}: `, error);
+              return null;
+            });
+        } else {
+          node.loading = false;
+        }
       } else {
         node.loading = false;
       }
+      console.log('onToggle');
       this.updateTree({cursor: node});
     } catch (error) {
       console.error('Error onToggle:', error);
@@ -662,7 +675,7 @@ export class DocumentTree extends Component {
   /**
    * @param {string} id ячейки
    * @param {array} nodes - массив ячеек, передается в каждый вызов рекурсивно и по завершению этот массив пишется в state.tree.*
-   * @param {string} prevcell  [somebody]  - id предыдущей ячейки, нужен в том случае когда обходим дерево в обе стороны
+   * @param {string} [prevcell] - id предыдущей ячейки, нужен в том случае когда обходим дерево в обе стороны
    * @desc метод выполняет загрузку ячеек по id
    * */
   branchDownload = (id, nodes, prevcell) => {
@@ -718,7 +731,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, status);
-
+      console.log('changeStatusLoadingsNode');
       this.updateTree({
         tree,
         cursor:
@@ -747,6 +760,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, focused);
+      console.log('changeNodeFocus');
       this.updateTree({
         tree,
         cursor:
@@ -796,7 +810,8 @@ export class DocumentTree extends Component {
    * @desc метод для изменения статуса проверки ячеек
    * */
   changeParentVerifyStatus = (parent, tree, status) => {
-    return new Promise(async (resolve, reject) => {
+    console.log('changeParentVerifyStatus: ',parent, tree ,status);
+    return new Promise(async (resolve) => {
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
         let parentNode = objectPath.get([tree], pathToParentNode);
@@ -806,7 +821,7 @@ export class DocumentTree extends Component {
           let result = parentNode.children.findIndex(
             item => item.verify === CELL_STATUS_CHANGED || item.verify === CELL_STATUS_NOT_CHECKED,
           );
-          if (result === 0) {
+          if (result >= 0) {
             objectPath.set([tree], pathToParentNode, parentNode);
             await this.updateCell({id: parentNode.id, verify: status});
             parentNode.verify = CELL_STATUS_CHANGED;
@@ -888,7 +903,7 @@ export class DocumentTree extends Component {
       let newChildren = cellList.map(cell => this.createCellNode(cell));
 
       objectPath.set([tree], pathToParent, newChildren);
-
+      console.log('addNodeListInBranch', tree);
       this.updateTree({tree});
     } catch (error) {
       console.error(`Error addNodeListInBranch`, error);
@@ -1019,6 +1034,7 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToParentCell, parentCell);
     }
 
+    console.log('addNodeInTree');
     this.updateTree({tree});
   };
 
@@ -1048,6 +1064,7 @@ export class DocumentTree extends Component {
       const currentNode = objectPath.get([tree], pathToCurrentNode);
 
       objectPath.set([tree], pathToCurrentNode, {...currentNode, ...newData});
+      console.log('updateNode');
       this.updateTree({tree});
     } catch (error) {
       console.error('Error updateNode: ', error);

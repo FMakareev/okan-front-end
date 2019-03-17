@@ -1,5 +1,5 @@
 mutation ($id: String!, $name: String, $isAttachment: Boolean) {
-  updatecell(id: $id, name: $name, isAttachment: $isAttachment) {
+  updateCell: updatecell(id: $id, name: $name, isAttachment: $isAttachment) {
     cell {
       childcell: children {
         id

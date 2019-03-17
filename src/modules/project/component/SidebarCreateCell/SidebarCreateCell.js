@@ -178,7 +178,7 @@ export class SidebarCreateCell extends Component {
    * */
   createSubCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
     const { setNotificationSuccess, setNotificationError, project, history, client } = this.props;
-
+    console.log('createSubCell');
     const variables = {
       parent: parent,
       contenttype: null,
@@ -280,6 +280,7 @@ export class SidebarCreateCell extends Component {
    * */
   createCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
+    console.log('createCell');
 
 
     const variables = {
