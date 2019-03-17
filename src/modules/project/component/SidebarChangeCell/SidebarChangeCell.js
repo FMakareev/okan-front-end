@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
-import {SvgSettings} from "@lib/ui/Icons/SvgSettings";
-
+import { SvgSettings } from '@lib/ui/Icons/SvgSettings';
 
 export const SidebarChangeCell = ({ onClick }) => {
   return (
@@ -16,16 +15,15 @@ export const SidebarChangeCell = ({ onClick }) => {
       }}
       variant={'outlineGray'}
       p={'2px'}
-      fontSize={'15px'}
-    >
-      <SvgSettings/>
+      fontSize={'15px'}>
+      <SvgSettings />
     </ButtonBase>
   );
 };
 
 SidebarChangeCell.propTypes = {
-  onClick: PropTypes.func.isRequired
-}
+  onClick: PropTypes.func.isRequired,
+};
 
 SidebarChangeCell.defaultProps = {};
 

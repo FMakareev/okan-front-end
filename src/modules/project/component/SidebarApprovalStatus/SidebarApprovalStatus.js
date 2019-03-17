@@ -118,7 +118,7 @@ export class SidebarApprovalStatus extends Component {
               data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
             });
           } catch (error) {
-            console.error('Error changeStatus: ',error);
+            console.error('Error changeStatus: ', error);
           }
         },
       })
@@ -145,7 +145,12 @@ export class SidebarApprovalStatus extends Component {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
           ({ data }) => {
             this.props.updateNode(node.id, data.cellitem);
-            this.props.cellCheckStatusChange(node.parent && node.parent.id, data.cellitem.verify);
+            // console.log(1, data.cellitem);
+            // console.log(2, node);
+
+            if (data.cellitem.verify === 'changed') {
+              this.props.cellCheckStatusChange(node && node.id, data.cellitem.verify);
+            }
           },
         );
       }
@@ -180,8 +185,9 @@ export class SidebarApprovalStatus extends Component {
   render() {
     const { node, client } = this.props;
     return (
-      <Query skip={false} query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
+      <Query query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
         {({ loading, error, data }) => {
+          // console.log(111, data && data.checkForCellChanges && data.checkForCellChanges.answer);
           return (
             <ButtonBase
               title={'Статус проверки блока'}
@@ -195,7 +201,7 @@ export class SidebarApprovalStatus extends Component {
                 fill={GetStatusColor(
                   data && data.checkForCellChanges && data.checkForCellChanges.answer
                     ? CELL_STATUS_CHANGED
-                    : node.verify,
+                    : CELL_STATUS_CHECKED,
                 )}
                 bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
               />

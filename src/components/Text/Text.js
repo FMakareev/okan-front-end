@@ -51,7 +51,7 @@ Text.propTypes = {
   /** CSS : fontSize */
   fz: PropTypes.number,
   /** CSS : lineHeight */
-  lineHeight: PropTypes.number,
+  lineHeight: PropTypes.any,
   /** CSS : lineHeight */
   lh: PropTypes.number,
 

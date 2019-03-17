@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import {Absolute} from '@lib/ui/Absolute/Absolute';
+import { Absolute } from '@lib/ui/Absolute/Absolute';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
@@ -180,7 +180,6 @@ export class SidebarCellNode extends Component {
       update: (store, { data: { changestatus } }) => {
         let cell = { celllist: {} };
         const options = { query: CellListQuery, variables: { parent: node.id } };
-
         try {
           UpdateCellInCache(store, { ...changestatus.cell });
         } catch (e) {
@@ -189,10 +188,12 @@ export class SidebarCellNode extends Component {
 
         try {
           cell = store.readQuery(options);
+          console.log(22, cell.celllist, changestatus.cell.verify);
 
-          cell.celllist.map(item => {
-            return (item.verify = changestatus.cell.verify);
-          });
+          cell.celllist &&
+            cell.celllist.map(item => {
+              return (item.verify = changestatus.cell.verify);
+            });
         } catch (e) {
           console.error('Error in readQuery change status: ', e);
         }
@@ -404,8 +405,7 @@ export class SidebarCellNode extends Component {
             fontWeight={isHead ? 500 : 300}
             ml={isHead ? '' : '20px'}
             color={'color11'}
-            width={'100%'}
-            >
+            width={'100%'}>
             {!node.isAttachment && (
               <Text fontWeight={'inherit'} color={'color11'}>
                 {node.number}&nbsp;

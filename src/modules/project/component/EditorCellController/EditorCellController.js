@@ -39,6 +39,7 @@ import { EditorCellContent } from '../EditorCellContent/EditorCellContent';
 import EditorCellControllerNumber from '../EditorCellControllerNumber/EditorCellControllerNumber';
 import shallowequal from 'shallowequal';
 import scrollTo, { linearTween } from '@lib/utils/dom/scrollTo';
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 
 const notificationOpts = () => ({
   success: {
@@ -55,13 +56,12 @@ const notificationOpts = () => ({
 
 export class EditorCellController extends Component {
   static propTypes = {
-    data: PropTypes.string,
+    data: PropTypes.object,
     location: PropTypes.object,
     parentLetterNumber: PropTypes.string,
     project: PropTypes.object,
-    removeBlock: PropTypes.func,
-    setNotificationError: PropTypes.func,
-    setNotificationSuccess: PropTypes.func,
+    removeBlock: PropTypes.func, // setNotificationError: PropTypes.func,
+    // setNotificationSuccess: PropTypes.func,
     values: PropTypes.object,
     ...ProjectContextPropTypes,
   };
@@ -76,26 +76,15 @@ export class EditorCellController extends Component {
   }
 
   get initialState() {
-    return {
-      editable: false,
-      timer: null,
-      toggleAdditionalMenu: false,
-    };
+    return { editable: false, timer: null, toggleAdditionalMenu: false };
   }
 
   handleScrollToCurrentCell(currentCellRef) {
     try {
-<<<<<<< HEAD
       const top = currentCellRef.documentOffsetTop() - window.innerHeight / 2;
       scrollTo(top, 50, linearTween);
-    } catch (e) {
-      console.log('handleScrollToCurrentCell error: ', e);
-=======
-      const top = currentCellRef.documentOffsetTop() - (window.innerHeight / 2);
-      scrollTo(top, 50, linearTween)
     } catch (error) {
       console.error('handleScrollToCurrentCell error: ', error);
->>>>>>> 3b9c89b5d5c3c452886a22efe55ef22efb31445c
     }
   }
 
@@ -151,29 +140,20 @@ export class EditorCellController extends Component {
   /** @desc запуск автосохранения */
   startAutoSave = () => {
     const timer = setInterval(this.createAutoSave, 30000);
-    this.setState(state => ({
-      ...state,
-      timer: timer,
-    }));
+    this.setState(state => ({ ...state, timer: timer }));
   };
 
   /** @desc стоп автосохранения */
   stopAutoSave = () => {
     clearInterval(this.state.timer);
-    this.setState(state => ({
-      ...state,
-      timer: null,
-    }));
+    this.setState(state => ({ ...state, timer: null }));
   };
 
   /**
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
-    this.setState(state => ({
-      ...state,
-      editable: !state.editable,
-    }));
+    this.setState(state => ({ ...state, editable: !state.editable }));
   };
 
   /**
@@ -203,49 +183,56 @@ export class EditorCellController extends Component {
         //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
         update: (store, { data: { updatecell } }) => {
           let data = { cellitem: {} };
+          console.log(1, updatecell);
           const options = {
             query: CellItemQuery,
             variables: {
               id: this.props.data.parent.id,
             },
           };
+
+          try {
+            UpdateCellInCache(store, { ...updatecell.cell });
+          } catch (e) {
+            console.error('Error in SidebarApprovalStatus change status: ', e);
+          }
+
           try {
             data = store.readQuery(options);
-            data.cellitem.parent.verify = updatecell.cell.verify;
             data.cellitem.verify = updatecell.cell.verify;
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
           try {
-            store.writeQuery({...options, data: {cellitem: {...data.cellitem}}});
+            store.writeQuery({ ...options, data: { ...data } });
           } catch (error) {
             console.error(error);
           }
 
-          // let checkChanges = { checkForCellChanges: {} };
-          // const dataCheckForCellChanges = {
-          //   query: CheckForCellChangesQuery,
-          //   variables: {
-          //     id: this.props.data.parent.id,
-          //   },
-          // };
+          let checkChanges = { checkForCellChanges: {} };
+          const dataCheckForCellChanges = {
+            query: CheckForCellChangesQuery,
+            variables: {
+              id: this.props.data.parent.id,
+            },
+          };
 
-          // try {
-          //   checkChanges = store.readQuery(dataCheckForCellChanges);
-          //   checkChanges.checkForCellChanges.answer = true;
-          //   this.props.cellCheckStatusChange(id, data.cellitem.verify);
-          // } catch (error) {
-          //   console.warn('Warning UpdateCellInCache read: ', error);
-          // }
+          try {
+            checkChanges = store.readQuery(dataCheckForCellChanges);
+            checkChanges.checkForCellChanges.answer = false;
+            // this.props.cellCheckStatusChange(id, data.cellitem.verify);
+          } catch (error) {
+            console.warn('Warning UpdateCellInCache read: ', error);
+          }
 
-          // try {
-          //   store.writeQuery({
-          //     ...dataCheckForCellChanges,
-          //     data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
-          //   });
-          // } catch (e) {
-          //   console.log(e);
-          // }
+          try {
+            store.writeQuery({
+              ...dataCheckForCellChanges,
+              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
+            });
+          } catch (e) {
+            console.log(e);
+          }
         },
       })
       .then(response => {
@@ -291,17 +278,11 @@ export class EditorCellController extends Component {
   };
 
   onHover = toggle => {
-    this.setState(state => ({
-      ...state,
-      toggleAdditionalMenu: toggle,
-    }));
+    this.setState(state => ({ ...state, toggleAdditionalMenu: toggle }));
   };
 
   highlightedContent = (textToHighlight, searchWords) => {
-    const chunks = findAll({
-      searchWords: [searchWords],
-      textToHighlight,
-    });
+    const chunks = findAll({ searchWords: [searchWords], textToHighlight });
 
     return chunks
       .map(chunk => {
@@ -324,7 +305,7 @@ export class EditorCellController extends Component {
       project,
       parentLetterNumber,
     } = this.props;
-    const {toggleAdditionalMenu, editable} = this.state;
+    const { toggleAdditionalMenu, editable } = this.state;
     return (
       <Relative
         ref={this.currentCellRef}

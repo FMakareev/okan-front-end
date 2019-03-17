@@ -34,7 +34,7 @@ const ProjectEditorSecondTitle = ({ children }) => (
     color={'color11'}
     mt={'7px'}
     ml={'5px'}
-    mb={'10px'}>
+    mb={['10px']}>
     {children}
   </Text>
 );

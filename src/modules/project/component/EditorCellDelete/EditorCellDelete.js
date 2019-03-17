@@ -203,8 +203,8 @@ EditorCellDelete = connect(
 EditorCellDelete.propTypes = {
   id: PropTypes.string.isRequired,
   sectionid: PropTypes.string.isRequired,
-  setNotificationError: PropTypes.func.isRequired,
-  setNotificationSuccess: PropTypes.func.isRequired,
+  // setNotificationError: PropTypes.func.isRequired,
+  // setNotificationSuccess: PropTypes.func.isRequired,
 };
 
 export default EditorCellDelete;

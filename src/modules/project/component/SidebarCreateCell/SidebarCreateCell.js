@@ -98,7 +98,7 @@ const notificationDelete = name => {
 export class SidebarCreateCell extends Component {
   static propTypes = {
     addNodeInTree: PropTypes.func,
-    cellCheckStatusChange: PropTypes.number,
+    cellCheckStatusChange: PropTypes.func,
     changeActiveNode: PropTypes.func,
     client: PropTypes.object,
     history: PropTypes.object,
@@ -180,12 +180,12 @@ export class SidebarCreateCell extends Component {
    * */
   createSubCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
     const { setNotificationSuccess, setNotificationError, project, history, client } = this.props;
-
     const variables = {
       parent: parent,
       contenttype: null,
       isHead,
     };
+    console.log(2, 'createSubCell');
 
     client
       .mutate({
@@ -246,6 +246,10 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createsubcell.cell);
+        this.props.cellCheckStatusChange(
+          response.data.createcell.cell.id,
+          response.data.createcell.cell.verify,
+        );
 
         setNotificationSuccess(
           notificationCreate({
@@ -283,7 +287,6 @@ export class SidebarCreateCell extends Component {
   createCell = ({ prevcell, parent, isHead, contenttype, nextcell }) => {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
 
-
     const variables = {
       ...(prevcell ? { prevcell } : null),
       ...(nextcell ? { nextcell } : null),
@@ -313,8 +316,8 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createcell.cell);
+
         this.props.cellCheckStatusChange(
-          // response.data.createcell.cell.parent.id,
           response.data.createcell.cell.id,
           response.data.createcell.cell.verify,
         );
@@ -339,6 +342,7 @@ export class SidebarCreateCell extends Component {
 
   createAttachment = ({ prevcell, parent, isHead, contenttype, nextcell, isAttachment }) => {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
+    console.log(3, 'createAttachment');
 
     const variables = {
       ...(prevcell ? { prevcell } : null),
@@ -370,6 +374,10 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createcell.cell);
+        this.props.cellCheckStatusChange(
+          response.data.createcell.cell.id,
+          response.data.createcell.cell.verify,
+        );
         setNotificationSuccess(
           notificationCreate({ prevcell, parent: null, isHead, contenttype, isAttachment }).success,
         );
@@ -404,7 +412,7 @@ export class SidebarCreateCell extends Component {
           try {
             client.optimisticData.data = deleteQueryFromCache(client.optimisticData.data, id);
           } catch (error) {
-            console.error('Error deleteCell deleteQueryFromCache',error);
+            console.error('Error deleteCell deleteQueryFromCache', error);
           }
         },
       })
