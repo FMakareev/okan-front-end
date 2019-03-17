@@ -244,6 +244,10 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createsubcell.cell);
+        this.props.cellCheckStatusChange(
+          response.data.createcell.cell.id,
+          response.data.createcell.cell.verify,
+        );
 
         setNotificationSuccess(
           notificationCreate({
@@ -282,7 +286,6 @@ export class SidebarCreateCell extends Component {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
     console.log('createCell');
 
-
     const variables = {
       ...(prevcell ? { prevcell } : null),
       ...(nextcell ? { nextcell } : null),
@@ -312,8 +315,8 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createcell.cell);
+
         this.props.cellCheckStatusChange(
-          // response.data.createcell.cell.parent.id,
           response.data.createcell.cell.id,
           response.data.createcell.cell.verify,
         );
@@ -338,6 +341,7 @@ export class SidebarCreateCell extends Component {
 
   createAttachment = ({ prevcell, parent, isHead, contenttype, nextcell, isAttachment }) => {
     const { setNotificationSuccess, project, setNotificationError } = this.props;
+    console.log(3, 'createAttachment');
 
     const variables = {
       ...(prevcell ? { prevcell } : null),
@@ -369,6 +373,10 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createcell.cell);
+        this.props.cellCheckStatusChange(
+          response.data.createcell.cell.id,
+          response.data.createcell.cell.verify,
+        );
         setNotificationSuccess(
           notificationCreate({ prevcell, parent: null, isHead, contenttype, isAttachment }).success,
         );
@@ -403,7 +411,7 @@ export class SidebarCreateCell extends Component {
           try {
             client.optimisticData.data = deleteQueryFromCache(client.optimisticData.data, id);
           } catch (error) {
-            console.error('Error deleteCell deleteQueryFromCache',error);
+            console.error('Error deleteCell deleteQueryFromCache', error);
           }
         },
       })

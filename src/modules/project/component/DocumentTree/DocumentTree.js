@@ -222,7 +222,7 @@ export class DocumentTree extends Component {
     } catch (error) {
       console.error(`Error isThereCellInTheDocumentTree, cellid='${cellid}': `, error);
     }
-  };
+  }
 
   /**
    * @param {string} id искомой ноды
@@ -528,7 +528,7 @@ export class DocumentTree extends Component {
                    sectionid
                  }) => {
     try {
-      const {project, history, location} = this.props;
+      const { project, history, location } = this.props;
       // TODO: сократить
       if (project.mode === PROJECT_MODE_READ || project.mode === PROJECT_MODE_RW) {
         if (projectid && documentid && sectionid) {
@@ -543,7 +543,6 @@ export class DocumentTree extends Component {
           });
         }
       } else if (project.mode === PROJECT_MODE_RC) {
-
         if (documentid && sectionid) {
           history.push({
             pathname: `/app/document-commenting/${projectid}/${documentid}/${sectionid}`,
@@ -568,7 +567,9 @@ export class DocumentTree extends Component {
           });
         }
       } else {
-        console.warn(`There is no suitable route for the current mode of operation - ${project.mode}`)
+        console.warn(
+          `There is no suitable route for the current mode of operation - ${project.mode}`,
+        );
       }
     } catch (error) {
       console.error('Error changeRoute: ', error);

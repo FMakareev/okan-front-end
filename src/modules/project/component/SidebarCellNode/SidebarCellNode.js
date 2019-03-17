@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import {Absolute} from '@lib/ui/Absolute/Absolute';
+import { Absolute } from '@lib/ui/Absolute/Absolute';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
