@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import {error, success} from 'react-notification-system-redux';
 
 /** graphql Schema */
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import CheckForCommentsInCellsQuery from './CheckForCommentsInCellsQuery.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import CheckForCommentsInCellsQuery from '../../graphql/CheckForCommentsInCellsQuery.graphql';
 
 
 /** Image */
