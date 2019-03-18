@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { Absolute } from 'rebass';
+import React, {Component, Fragment} from 'react';
+import {Absolute} from 'rebass';
 import PropTypes from 'prop-types';
-import { graphql, Query, withApollo } from 'react-apollo';
-import { connect } from 'react-redux';
-import { error, success } from 'react-notification-system-redux';
+import {withApollo} from 'react-apollo';
+import {connect} from 'react-redux';
+import {error, success} from 'react-notification-system-redux';
 
 /** Image */
-import { SvgSidebarAdd } from '@lib/ui/Icons/SvgSidebarAdd';
+import {SvgSidebarAdd} from '@lib/ui/Icons/SvgSidebarAdd';
 
 /** View */
 import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
@@ -19,20 +19,21 @@ import EditorAdditionalMenuButtonImage from './EditorAdditionalMenuButtonImage';
 import EditorAdditionalMenuButtonText from './EditorAdditionalMenuButtonText';
 
 /** Graphql schema */
-import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import CreateCellMutation from '../../graphql/CreateCellMutation.graphql';
+import CellListQuery from '../../graphql/CellListQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** New block types */
-import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT } from '../../../../shared/blockType';
+import {BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT} from '../../../../shared/blockType';
 
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
 /** Utils */
-import { sortingCells } from '../../utils/sortingCells';
-import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
-import { findClassInPath } from '../../utils/findClassInPath';
+import {sortingCells} from '../../utils/sortingCells';
+import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import {findClassInPath} from '../../utils/findClassInPath';
+import {CELL_STATUS_CHANGED, CELL_STATUS_CHECKED} from "@lib/shared/approvalStatus";
 
 // TODO: три компонента кнопок превратить в один и тип и название передавать пропсами
 const EditorAdditionalMenuButton = props => {
@@ -190,7 +191,7 @@ export class EditorAdditionalMenu extends Component {
           parent: parentid,
         },
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         let lastCellId = null;
         if (data && Array.isArray(data.celllist) && data.celllist.length > 0) {
           lastCellId = data.celllist[data.celllist.length - 1].id;
@@ -222,9 +223,10 @@ export class EditorAdditionalMenu extends Component {
           contenttype: contenttype,
           isHead: false,
           content: '',
+          verify: CELL_STATUS_CHANGED,
         },
-        update: (store, { data: { createcell } }) => {
-          let data = { celllist: [] };
+        update: (store, {data: {createcell}}) => {
+          let data = {celllist: []};
           let parent = null;
           try {
             data = store.readQuery({
@@ -247,16 +249,14 @@ export class EditorAdditionalMenu extends Component {
 
           try {
             if (data && data.celllist.length > 0) {
+
               let nextCellIndex = createcell.cell.nextcell
                 ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id)
                 : -1;
+
               let prevCellIndex = data.celllist.findIndex(
                 item => item.id === createcell.cell.prevcell.id,
               );
-              console.table({
-                nextCellIndex,
-                prevCellIndex,
-              });
 
               if (nextCellIndex >= 0 && prevCellIndex >= 0) {
                 /** ячейка добавляется между ячейками */
@@ -267,13 +267,13 @@ export class EditorAdditionalMenu extends Component {
                 data.celllist[prevCellIndex].nextcell = createcell.cell;
 
                 /** последняя в списке ячеек родителя */
-                parent.cellitem.lastChildren = createcell.cell;
+                parent.cellItem.lastChildren = createcell.cell;
               } else if (
                 createcell.cell.prevcell &&
                 createcell.cell.prevcell.id === createcell.cell.parent.id
               ) {
                 /** ячейка первая в списке ячеек родителя  */
-                parent.cellitem.children = createcell.cell;
+                parent.cellItem.children = createcell.cell;
                 data.celllist[nextCellIndex].prevcell = createcell.cell;
               }
 
@@ -283,10 +283,10 @@ export class EditorAdditionalMenu extends Component {
               data.celllist.push(createcell.cell);
 
               /** ячейка первая в списке ячеек родителя  */
-              parent.cellitem.children = createcell.cell;
+              parent.cellItem.childcell = createcell.cell;
 
               /** ячейка последняя в списке ячеек родителя  */
-              parent.cellitem.lastChildren = createcell.cell;
+              parent.cellItem.lastChildren = createcell.cell;
               data.celllist = sortingCells(data.celllist);
             }
           } catch (error) {
@@ -297,15 +297,21 @@ export class EditorAdditionalMenu extends Component {
           /** запись новой ячейки в кеш */
           UpdateCellInCache(store, createcell.cell);
 
+
           try {
+            /** проверяем статус изменения у парента и если он не желтый то меняем на желтый */
+            if (parent.cellItem.verify === CELL_STATUS_CHECKED) {
+              parent.cellItem.verify = CELL_STATUS_CHANGED;
+            }
+          } catch (error) {
+            console.error('Error: ',error);
+          }
+
+          try {
+
             /** запись в кеш данных родителя */
-            store.writeQuery({
-              query: CellItemQuery,
-              variables: {
-                id: createcell.cell.parent.id,
-              },
-              data: parent,
-            });
+            UpdateCellInCache(store, parent.cellItem);
+
           } catch (error) {
             console.error('Error: ', error);
             this.props.setNotificationError(createCellNotification());
@@ -336,7 +342,7 @@ export class EditorAdditionalMenu extends Component {
   };
 
   createCellStateMachine = async contenttype => {
-    let { parentid, prevcell } = this.props;
+    let {parentid, prevcell} = this.props;
 
     try {
       const lastCellId = await this.getLastCellId(parentid);
@@ -349,9 +355,8 @@ export class EditorAdditionalMenu extends Component {
   };
 
   render() {
-    const { active } = this.state;
-    const { activeMenu } = this.props;
-
+    const {active} = this.state;
+    const {activeMenu} = this.props;
     return (
       <Fragment>
         {activeMenu ? (
@@ -369,7 +374,7 @@ export class EditorAdditionalMenu extends Component {
               p={'2px'}
               fontSize={'15px'}
               onMouseEnter={this.toggleMenu}>
-              <SvgSidebarAdd />
+              <SvgSidebarAdd/>
             </ButtonBase>
             {active && (
               <EditorAdditionalMenuButton
