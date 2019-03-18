@@ -19,15 +19,14 @@ import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatu
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from '../NodeToggle/NodeToggle';
 import {SidebarCellNodeEditable} from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
-import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
-import BindingCellMutation from './BindingCellMutation.graphql';
-import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import ChangeStatusMutation from '../SidebarApprovalStatus/ChangeStatusMutation.graphql';
-import UpdateCellMutation from './UpdateCellMutation.graphql';
+import BindingCellMutation from '../../graphql/BindingCellMutation.graphql';
+import CreateCellMutation from '../../graphql/CreateCellMutation.graphql';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
+import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
 
 
 /** Redux action to remove BlockId from store */
@@ -233,7 +232,7 @@ export class SidebarCellNode extends Component {
         id: this.props.node.id,
       },
     });
-    lastChildren = newNode.cellitem.lastChildren;
+    lastChildren = newNode.cellItem.lastChildren;
     this.props
       .createCopy({
         variables: {
@@ -273,10 +272,10 @@ export class SidebarCellNode extends Component {
               id: this.props.node.id,
             },
           });
-          data.cellitem.lastChildren = {};
-          data.cellitem.lastChildren.id = createcell.cell.id;
-          data.cellitem.lastChildren.name = createcell.cell.name;
-          data.cellitem.lastChildren.__typename = 'Cell';
+          data.cellItem.lastChildren = {};
+          data.cellItem.lastChildren.id = createcell.cell.id;
+          data.cellItem.lastChildren.name = createcell.cell.name;
+          data.cellItem.lastChildren.__typename = 'Cell';
           store.writeQuery({
             query: CellItemQuery,
             variables: {
@@ -380,7 +379,7 @@ export class SidebarCellNode extends Component {
       variables: {
         id,
         name,
-        status: CELL_STATUS_CHANGED,
+        verify: CELL_STATUS_CHANGED,
       },
       update: (store, {data: {updateCell}}) => {
         try {
@@ -393,7 +392,7 @@ export class SidebarCellNode extends Component {
           store.writeQuery({
             ...options,
             data: {
-              cellitem: updateCell.cell,
+              cellItem: updateCell.cell,
             },
           });
         } catch (error) {
@@ -443,11 +442,11 @@ export class SidebarCellNode extends Component {
           >
             {!node.isAttachment && (
               <Text fontWeight={'inherit'} color={'color11'}>
-                {node.number}&nbsp;
+                {node.number.join('.')}.&nbsp;
               </Text>
             )}
             <TextStyled fontWeight={'inherit'} color={'color11'}>
-              {node.isAttachment && ' ' + `Приложение ${node.letterNumber} `}
+              {node.isAttachment && ' ' + `Приложение ${node.letterNumber.toUpperCase()} `}
               {/*node.isAttachment && ' ' + `Приложение ${node.letterNumber} ${nameSectionLetter}` - тут выволдится с прьюселл именем ячекйи*/}
               <SidebarCellNodeEditable
                 id={node.id}
