@@ -18,10 +18,10 @@ export const getListOfParentCells = (client, id, nodes) => {
     .then(response => {
       // console.log(response);
       const {data} = response;
-      if (data && data.cellitem) {
-        nodes.push(data.cellitem);
-        if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
-          return getListOfParentCells(client, data.cellitem.nextcell.id, nodes);
+      if (data && data.cellItem) {
+        nodes.push(data.cellItem);
+        if (data.cellItem.nextcell && has.call(data.cellItem.nextcell, 'id')) {
+          return getListOfParentCells(client, data.cellItem.nextcell.id, nodes);
         }
         return nodes;
       } else {
