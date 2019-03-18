@@ -78,7 +78,7 @@ query ($parent: String) {
     verify
   }
 
-  cellitem(id: $parent) {
+  cellItem: cellitem(id: $parent) {
     childcell: children {
       id
       name
@@ -128,6 +128,7 @@ query ($parent: String) {
     lastChildren {
       id
       name
+      verify
     }
     pull {
       id

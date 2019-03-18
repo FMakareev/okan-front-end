@@ -1,9 +1,8 @@
-query ($id: String) {
-  cellitem(id: $id) {
+query ($parent: String) {
+
+  celllist(parent: $parent) {
     childcell: children {
       id
-      name
-      isHead
     }
     comments {
       id
@@ -31,24 +30,29 @@ query ($id: String) {
     name
     number
     nextcell {
-      id
       name
+      id
     }
     prevcell {
-      id
       name
-      verify
+      id
     }
     parent {
-      id
       name
+      id
       number
       verify
+      isHead
+      isAttachment
+      name
+      parent {
+        name
+        id
+        number
+      }
     }
-    verify
     lastChildren {
       id
-      name
     }
     pull {
       id
@@ -72,5 +76,7 @@ query ($id: String) {
         number
       }
     }
+    verify
   }
+
 }

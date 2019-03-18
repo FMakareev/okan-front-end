@@ -1,5 +1,5 @@
-mutation($id: String!,$children:String){
-  updatedocument(id: $id, children:$children){
+mutation($id: String!,$children:String,$approvalstatus: String,){
+  updatedocument(id: $id, children:$children,approvalstatus: $approvalstatus){
     document{
       # mongoid
       id

@@ -1,5 +1,5 @@
-query ($id: String!) {
-  cellitem(id: $id) {
+query ($id: String) {
+  cellItem: cellitem(id: $id) {
     childcell: children {
       id
       name
@@ -27,7 +27,9 @@ query ($id: String!) {
     }
     id
     isHead
+    isAttachment
     name
+    number
     nextcell {
       id
       name
@@ -35,10 +37,13 @@ query ($id: String!) {
     prevcell {
       id
       name
+      verify
     }
     parent {
       id
       name
+      number
+      verify
     }
     verify
     lastChildren {
@@ -68,5 +73,4 @@ query ($id: String!) {
       }
     }
   }
-
 }
