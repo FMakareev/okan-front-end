@@ -5,11 +5,9 @@ import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 
 /** graphql Schema */
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import CheckForChangesInDocQuery from './CheckForChangesInDocQuery.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import CheckForChangesInDocQuery from '../../graphql/CheckForChangesInDocQuery.graphql';
 
-/** View */
-import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /** Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
