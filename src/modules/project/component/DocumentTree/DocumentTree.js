@@ -24,10 +24,10 @@ import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
 
 /** Graphql schema */
-import CellItemQuery from './CellItemQuery.graphql';
-import UpdateCellMutation from './UpdateCellMutation.graphql';
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
+import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 
 /** PropTypes  */
 import {ProjectPropTypes} from '../../../../propTypes/ProjectPropTypes';
@@ -666,7 +666,6 @@ export class DocumentTree extends Component {
       } else {
         node.loading = false;
       }
-      console.log('onToggle');
       this.updateTree({cursor: node});
     } catch (error) {
       console.error('Error onToggle:', error);
@@ -684,28 +683,28 @@ export class DocumentTree extends Component {
     return this.getNode(id)
       .then(async response => {
         const {data} = response;
-        if (data && data.cellitem) {
-          nodes.push(data.cellitem);
+        if (data && data.cellItem) {
+          nodes.push(data.cellItem);
 
           // Это перегрузка метода
           if (typeof prevcell !== 'undefined') {
             if (
-              data.cellitem.prevcell &&
-              has.call(data.cellitem.prevcell, 'id') &&
-              data.cellitem.prevcell.id !== prevcell
+              data.cellItem.prevcell &&
+              has.call(data.cellItem.prevcell, 'id') &&
+              data.cellItem.prevcell.id !== prevcell
             ) {
-              await this.branchDownload(data.cellitem.prevcell.id, nodes, data.cellitem.id);
+              await this.branchDownload(data.cellItem.prevcell.id, nodes, data.cellItem.id);
             }
             if (
-              data.cellitem.nextcell &&
-              has.call(data.cellitem.nextcell, 'id') &&
-              data.cellitem.nextcell.id !== prevcell
+              data.cellItem.nextcell &&
+              has.call(data.cellItem.nextcell, 'id') &&
+              data.cellItem.nextcell.id !== prevcell
             ) {
-              return await this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
+              return await this.branchDownload(data.cellItem.nextcell.id, nodes, data.cellItem.id);
             }
           } else {
-            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
-              return this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
+            if (data.cellItem.nextcell && has.call(data.cellItem.nextcell, 'id')) {
+              return this.branchDownload(data.cellItem.nextcell.id, nodes, data.cellItem.id);
             }
             return response;
           }
@@ -732,7 +731,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, status);
-      console.log('changeStatusLoadingsNode');
+      // console.log('changeStatusLoadingsNode');
       this.updateTree({
         tree,
         cursor:
@@ -1148,8 +1147,8 @@ export class DocumentTree extends Component {
       .mutate({
         mutation: UpdateCellMutation,
         variables: value,
-        update: (store, {data: {updatecell}}) => {
-          UpdateCellInCache(store, updatecell.cell);
+        update: (store, {data: {updateCell}}) => {
+          UpdateCellInCache(store, updateCell.cell);
         },
       })
       .catch(error => {
