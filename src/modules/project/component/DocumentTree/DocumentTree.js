@@ -621,7 +621,6 @@ export class DocumentTree extends Component {
    * @desc метод для обновления стейта
    * */
   updateTree = props => {
-    console.log('updateTree: ', props);
     this.setState(state => ({
       ...state,
       ...props,
@@ -731,7 +730,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, status);
-      // console.log('changeStatusLoadingsNode');
+
       this.updateTree({
         tree,
         cursor:
@@ -760,7 +759,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, focused);
-      console.log('changeNodeFocus');
+
       this.updateTree({
         tree,
         cursor:
@@ -810,7 +809,6 @@ export class DocumentTree extends Component {
    * @desc метод для изменения статуса проверки ячеек
    * */
   changeParentVerifyStatus = (parent, tree, status) => {
-    console.log('changeParentVerifyStatus: ',parent, tree ,status);
     return new Promise(async (resolve) => {
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
@@ -903,7 +901,6 @@ export class DocumentTree extends Component {
       let newChildren = cellList.map(cell => this.createCellNode(cell));
 
       objectPath.set([tree], pathToParent, newChildren);
-      console.log('addNodeListInBranch', tree);
       this.updateTree({tree});
     } catch (error) {
       console.error(`Error addNodeListInBranch`, error);
@@ -1034,7 +1031,6 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToParentCell, parentCell);
     }
 
-    console.log('addNodeInTree');
     this.updateTree({tree});
   };
 
@@ -1064,7 +1060,6 @@ export class DocumentTree extends Component {
       const currentNode = objectPath.get([tree], pathToCurrentNode);
 
       objectPath.set([tree], pathToCurrentNode, {...currentNode, ...newData});
-      console.log('updateNode');
       this.updateTree({tree});
     } catch (error) {
       console.error('Error updateNode: ', error);
