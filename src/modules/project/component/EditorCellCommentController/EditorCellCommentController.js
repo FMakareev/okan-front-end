@@ -21,8 +21,8 @@ import {Relative} from '@lib/ui/Relative/Relative';
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 
 /** graphql query|mutation*/
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import UpdateCommentMutation from './UpdateCommentMutation.graphql';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
+import UpdateCommentMutation from '../../graphql/UpdateCommentMutation.graphql';
 
 /** constants */
 import {
