@@ -315,7 +315,6 @@ export class SidebarCreateCell extends Component {
       })
       .then(response => {
         this.props.addNodeInTree(response.data.createcell.cell);
-
         this.props.cellCheckStatusChange(
           response.data.createcell.cell.id,
           response.data.createcell.cell.verify,

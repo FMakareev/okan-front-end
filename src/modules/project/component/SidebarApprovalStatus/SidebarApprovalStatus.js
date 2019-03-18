@@ -202,7 +202,7 @@ export class SidebarApprovalStatus extends Component {
                 fill={GetStatusColor(
                   data && data.checkForCellChanges && data.checkForCellChanges.answer
                     ? CELL_STATUS_CHANGED
-                    : CELL_STATUS_CHECKED,
+                    : node.verify,
                 )}
                 bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
               />

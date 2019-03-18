@@ -92,13 +92,7 @@ export const ProfileApproval = ({ data }) => {
 };
 
 ProfileApproval.propTypes = {
-  data: PropTypes.arrayOf({
-    id: PropTypes.string,
-    /** name document */
-    name: PropTypes.string,
-    /** number document*/
-    documentnumber: PropTypes.string,
-  }),
+  data: PropTypes.any,
 };
 
 export default ProfileApproval;

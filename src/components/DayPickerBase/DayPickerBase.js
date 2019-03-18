@@ -1,19 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {variant} from 'styled-system';
-import {ru} from 'date-fns/locale/ru';
+import { variant } from 'styled-system';
+import { ru } from 'date-fns/locale/ru';
 import styled from 'styled-components';
-import {asyncComponent} from 'react-async-component';
+import { asyncComponent } from 'react-async-component';
 
 /** PropTypes */
-import {fieldInputPropTypes} from '../../propTypes/Forms/FormPropTypes';
+import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 /** Css */
 import '../../assets/style/react-datepicker-big.css';
-import {Box} from "@lib/ui/Box/Box";
-import {InputVariant} from "@lib/styles/variants/InputVariant";
-import {InputSize} from "@lib/styles/variants/InputSize";
-
+import { Box } from '@lib/ui/Box/Box';
+import { InputVariant } from '@lib/styles/variants/InputVariant';
+import { InputSize } from '@lib/styles/variants/InputSize';
 
 const inputSize = variant({
   key: 'variant.inputSize',
@@ -24,24 +23,29 @@ const inputVariant = variant({
   prop: 'variant',
 });
 
-const DatePicker = () => asyncComponent({
-  resolve: () => import(/* webpackChunkName: 'chunk-name-react-datepicker'  */ 'react-datepicker'),
-  ErrorComponent: ({error}) => (<div>{error.message}</div>),
-  LoadingComponent: ({variant, size}) => (
-    <Box border={'1px solid #848484'} {...InputVariant[variant]} {...InputSize[size]}>Загрузка...</Box>),
-  serverMode: 'defer',
-});
-
+const DatePicker = () =>
+  asyncComponent({
+    resolve: () =>
+      import(/* webpackChunkName: 'chunk-name-react-datepicker'  */ 'react-datepicker'),
+    ErrorComponent: ({ error }) => <div>{error.message}</div>,
+    LoadingComponent: ({ variant, size }) => (
+      <Box border={'1px solid #848484'} {...InputVariant[variant]} {...InputSize[size]}>
+        Загрузка...
+      </Box>
+    ),
+    serverMode: 'defer',
+  });
 
 export class DayPickerBase extends Component {
   static propTypes = {
     /**placeholder */
-    placeholder: PropTypes.string /**input */,
-    ...fieldInputPropTypes,
+    placeholder: PropTypes.string,
+    /**input */
+    // ...fieldInputPropTypes,
   };
 
   static defaultProps = {
-    input: {onChange: () => null, value: null},
+    input: { onChange: () => null, value: null },
     size: 'md',
     variant: 'default',
   };
@@ -65,9 +69,9 @@ export class DayPickerBase extends Component {
   }
 
   get initialState() {
-    const {input} = this.props;
+    const { input } = this.props;
 
-    return {startDate: input.value};
+    return { startDate: input.value };
   }
 
   /**
@@ -76,10 +80,10 @@ export class DayPickerBase extends Component {
   onChangeDatePicker(date) {
     try {
       console.log(date);
-      this.setState({startDate: new Date(date).toISOString()});
+      this.setState({ startDate: new Date(date).toISOString() });
 
       const {
-        input: {onChange},
+        input: { onChange },
       } = this.props;
 
       onChange(new Date(date).toISOString());
@@ -89,8 +93,8 @@ export class DayPickerBase extends Component {
   }
 
   render() {
-    const {placeholder, input} = this.props;
-    const {startDate} = this.state;
+    const { placeholder, input } = this.props;
+    const { startDate } = this.state;
 
     return (
       <this.DatePickerStyled
@@ -105,7 +109,7 @@ export class DayPickerBase extends Component {
         input={input}
         locale={'ru'}
         popperPlacement="top-end"
-        popperModifiers={{offset: {enabled: true, offset: '-130px, 0px'}}}
+        popperModifiers={{ offset: { enabled: true, offset: '-130px, 0px' } }}
         {...this.props}
       />
     );

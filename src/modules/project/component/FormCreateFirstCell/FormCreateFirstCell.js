@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -38,14 +38,13 @@ const notificationOpts = name => {
 };
 
 export class FormCreateFirstCell extends Component {
-
   static propTypes = {
     document: PropTypes.object,
     handleSubmit: PropTypes.func,
     project: PropTypes.object,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
-    submitting: PropTypes.bool
+    submitting: PropTypes.bool,
   };
 
   SubmitCreateCell = value => {
@@ -68,6 +67,7 @@ export class FormCreateFirstCell extends Component {
    * */
   SubmitUpdateDocument = children => {
     const { project, document, setNotificationSuccess, setNotificationError } = this.props;
+    console.log(1, this.props);
     return this.props['UpdateDocumentMutation']({
       variables: {
         id: document.id,
@@ -102,10 +102,9 @@ export class FormCreateFirstCell extends Component {
   };
 
   submit = value => {
-    this.SubmitCreateCell(value)
-      .then(response => {
+    this.SubmitCreateCell(value).then(response => {
       const { data } = response;
-        this.SubmitUpdateDocument(data.createcell.cell.id);
+      this.SubmitUpdateDocument(data.createcell.cell.id);
     });
   };
 
