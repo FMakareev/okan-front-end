@@ -172,7 +172,7 @@ export class EditorCellController extends Component {
    * @desc Метод для сохранения ячейки
    * */
   saveCellContent() {
-    const content = typeof this.props.values.content ? this.props.values.content.replace(FROALA_WATER_MARK) : this.props.values.content;
+    const content = typeof this.props.values.content ? this.props.values.content.replace(FROALA_WATER_MARK) : '';
     return this.props
       .mutate({
         variables: {
