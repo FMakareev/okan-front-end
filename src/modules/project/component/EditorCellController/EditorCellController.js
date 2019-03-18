@@ -52,6 +52,9 @@ const notificationOpts = () => ({
   },
 });
 
+/** этот контент froala добавляет в разметку когда запускается на https соединении */
+const FROALA_WATER_MARK = `<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>`
+
 export class EditorCellController extends Component {
   static propTypes = {
     data: PropTypes.object,
@@ -169,11 +172,12 @@ export class EditorCellController extends Component {
    * @desc Метод для сохранения ячейки
    * */
   saveCellContent() {
+    const content = typeof this.props.values.content ? this.props.values.content.replace(FROALA_WATER_MARK) : this.props.values.content;
     return this.props
       .mutate({
         variables: {
           id: this.props.data.id,
-          content: this.props.values.content,
+          content: content,
           contentname: this.props.values.name,
           verify: CELL_STATUS_CHANGED,
         },
