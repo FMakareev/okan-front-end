@@ -16,9 +16,9 @@ import { Box } from '@lib/ui/Box/Box';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Graphql Schema */
-import CreateCellMutation from './CreateCellMutation.graphql';
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import CreateCellMutation from '../../graphql/CreateCellMutation.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 
 const notificationOpts = name => {
   return {
