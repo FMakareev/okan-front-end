@@ -100,7 +100,7 @@ export class TreeNode extends Component {
     let count = 0;
     let result = [];
 
-    const alphabet = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+    const alphabet = 'абвгдеёжзийклмнопрстуфхцчшщыэюя';
 
     const createAbc = (str, count, cursor) => {
       let result = '';
@@ -123,7 +123,8 @@ export class TreeNode extends Component {
             }
 
           } else {
-            child.number = `${node.number}${index + 1}.`;
+            // child.number = `${node.number}${index + 1}.`;
+            child.number = [...node.number, `${index + 1}`]
           }
 
           return (
