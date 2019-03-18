@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
+import { sortingCells } from '../../utils/sortingCells';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
@@ -9,12 +10,11 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import deleteIcon from '../../../../assets/image/deleteIcon.png';
 
 /** Mutation */
-import DeleteCellMutation from './DeleteCellMutation.graphql';
+import DeleteCellMutation from '../../graphql/DeleteCellMutation.graphql';
 
 /** Graphql query */
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import { sortingCells } from '../../utils/sortingCells';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** Redux */
 import { connect } from 'react-redux';
@@ -96,12 +96,12 @@ export class EditorCellDelete extends Component {
               if (deletecell.cell.nextcell) {
                 /** если поле удаляемой ячейки есть еще ячейка */
                 data.celllist.splice(cellIndex, 1);
-                data.celllist[0].prevcell = parent.cellitem;
-                parent.cellitem.childcell = data.celllist[0];
+                data.celllist[0].prevcell = parent.cellItem;
+                parent.cellItem.childcell = data.celllist[0];
               } else {
                 /** если ячейка одна в списке */
                 data.celllist = [];
-                parent.cellitem.childcell = null;
+                parent.cellItem.childcell = null;
               }
 
               store.writeQuery({ ...options, data: parent });
@@ -145,12 +145,12 @@ export class EditorCellDelete extends Component {
             },
           });
 
-          if (data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id) {
+          if (data.cellItem.lastChildren && data.cellItem.lastChildren.id === deletecell.cell.id) {
             if (deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
-              data.cellitem.lastChildren.id = deletecell.cell.prevcell.id;
-              data.cellitem.lastChildren.name = deletecell.cell.prevcell.name;
+              data.cellItem.lastChildren.id = deletecell.cell.prevcell.id;
+              data.cellItem.lastChildren.name = deletecell.cell.prevcell.name;
             } else {
-              data.cellitem.lastChildren = null;
+              data.cellItem.lastChildren = null;
             }
           }
 
