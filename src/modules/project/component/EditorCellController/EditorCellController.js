@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { findAll } from 'highlight-words-core';
 
 /** Mutation */
-import UpdateCellMutation from '../EditorCellController/UpdateCellMutation.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
@@ -178,10 +178,8 @@ export class EditorCellController extends Component {
           contentname: this.props.values.name,
           verify: CELL_STATUS_CHANGED,
         },
-        //update cellitem=id ^ CheckForCellChangesQuery===false, cellitem aprent - data.cellitem.verify
-        update: (store, { data: { updatecell } }) => {
-          let data = { cellitem: {} };
-          console.log(1, updatecell);
+        update: (store, { data: { updateCell } }) => {
+          let data = { cellItem: {} };
           const options = {
             query: CellItemQuery,
             variables: {
@@ -190,14 +188,14 @@ export class EditorCellController extends Component {
           };
 
           try {
-            UpdateCellInCache(store, { ...updatecell.cell });
+            UpdateCellInCache(store, { ...updateCell.cell });
           } catch (e) {
             console.error('Error in SidebarApprovalStatus change status: ', e);
           }
 
           try {
             data = store.readQuery(options);
-            data.cellitem.verify = updatecell.cell.verify;
+            data.cellItem.verify = updateCell.cell.verify;
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
           }
@@ -207,30 +205,8 @@ export class EditorCellController extends Component {
             console.error(error);
           }
 
-          let checkChanges = { checkForCellChanges: {} };
-          const dataCheckForCellChanges = {
-            query: CheckForCellChangesQuery,
-            variables: {
-              id: this.props.data.parent.id,
-            },
-          };
 
-          try {
-            checkChanges = store.readQuery(dataCheckForCellChanges);
-            checkChanges.checkForCellChanges.answer = false;
-            // this.props.cellCheckStatusChange(id, data.cellitem.verify);
-          } catch (error) {
-            console.warn('Warning UpdateCellInCache read: ', error);
-          }
 
-          try {
-            store.writeQuery({
-              ...dataCheckForCellChanges,
-              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
-            });
-          } catch (e) {
-            console.log(e);
-          }
         },
       })
       .then(response => {
