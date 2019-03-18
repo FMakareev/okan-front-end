@@ -15,8 +15,8 @@ import { Box } from '@lib/ui/Box/Box';
 import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 
 /** Graphql schema */
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
-import CreateDocumentQuery from './CreateDocumentQuery.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
+import CreateDocumentQuery from '../../graphql/CreateDocumentQuery.graphql';
 
 const notificationOpts = () => ({
   success: {
