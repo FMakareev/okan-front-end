@@ -1,31 +1,31 @@
 import PropTypes from 'prop-types';
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Query, withApollo } from 'react-apollo';
+import React, {Component, Fragment} from 'react';
+import {withRouter} from 'react-router-dom';
+import {Query, withApollo} from 'react-apollo';
 
 /** Components */
-import { PROJECT_MODE_RW } from '../ProjectContext/ProjectContext';
-import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
+import {PROJECT_MODE_RW} from '../ProjectContext/ProjectContext';
+import {EditorAdditionalMenu} from '../EditorAdditionalMenu/EditorAdditionalMenu';
 
 /**View */
-import { Flex } from '@lib/ui/Flex/Flex';
-import { Text } from '@lib/ui/Text/Text';
+import {Flex} from '@lib/ui/Flex/Flex';
+import {Text} from '@lib/ui/Text/Text';
 
 /** Graphql */
-import CellListQuery from './CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
+import CellListQuery from '../../graphql/CellListQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** Utils */
-import { sortingCells } from '../../utils/sortingCells';
+import {sortingCells} from '../../utils/sortingCells';
 
 /** Context */
-import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
-import { ProjectEditorNoSectionSelected } from '../ProjectEditorNoSectionSelected/ProjectEditorNoSectionSelected';
-import { ProjectEditorContentWrapper } from '../ProjectEditorContentWrapper/ProjectEditorContentWrapper';
+import {ProjectEditorNoSectionSelected} from '../ProjectEditorNoSectionSelected/ProjectEditorNoSectionSelected';
+import {ProjectEditorContentWrapper} from '../ProjectEditorContentWrapper/ProjectEditorContentWrapper';
 import ProjectEditorCellList from '../ProjectEditorCellList/ProjectEditorCellList';
 
-const ProjectEditorSecondTitle = ({ children }) => (
+const ProjectEditorSecondTitle = ({children}) => (
   <Text
     width={'100%'}
     fontFamily={'secondary'}
@@ -39,7 +39,7 @@ const ProjectEditorSecondTitle = ({ children }) => (
   </Text>
 );
 
-const ProjectEditorFirstTitle = ({ children }) => (
+const ProjectEditorFirstTitle = ({children}) => (
   <Text
     width={'100%'}
     fontFamily={'secondary'}
@@ -91,7 +91,7 @@ export class ProjectEditor extends Component {
     try {
       return this.props.client.watchQuery({
         query: CellItemQuery,
-        variables: { id: id },
+        variables: {id: id},
       });
     } catch (error) {
       console.error('Error: ', error);
@@ -103,7 +103,7 @@ export class ProjectEditor extends Component {
    * @desc метод выполняет получение данные по ячейке
    * */
   getCellItem = id => {
-    return this.props.client.query({ query: CellItemQuery, variables: { id } }).catch(error => {
+    return this.props.client.query({query: CellItemQuery, variables: {id}}).catch(error => {
       console.error('Error getCellItem: ', error);
     });
   };
@@ -111,28 +111,28 @@ export class ProjectEditor extends Component {
   /**
    * @desc метод для получения заголовков
    * */
-  getSectionTitle = cellitem => {
-    if (!cellitem) {
+  getSectionTitle = cellItem => {
+    if (!cellItem) {
       return {};
     }
-    if (cellitem.isAttachment) {
+    if (cellItem.isAttachment) {
       return {
-        firstTitle: `Приложение ${cellitem.number.join('.').toUpperCase()}. ${cellitem.name}`,
+        firstTitle: `Приложение ${cellItem.number.join('.').toUpperCase()}. ${cellItem.name}`,
         secondTitle: null,
-        sectionNumber: `${cellitem.number.join('.').toUpperCase()}.`,
+        sectionNumber: `${cellItem.number.join('.').toUpperCase()}.`,
       };
-    } else if (!cellitem.isAttachment) {
-      if (cellitem.parent) {
+    } else if (!cellItem.isAttachment) {
+      if (cellItem.parent) {
         return {
-          firstTitle: `${cellitem.parent.number.join('.')}. ${cellitem.parent.name}`,
-          secondTitle: `${cellitem.number.join('.')}. ${cellitem.name}`,
-          sectionNumber: `${cellitem.number.join('.')}.`,
+          firstTitle: `${cellItem.parent.number.join('.')}. ${cellItem.parent.name}`,
+          secondTitle: `${cellItem.number.join('.')}. ${cellItem.name}`,
+          sectionNumber: `${cellItem.number.join('.')}.`,
         };
       } else {
         return {
-          firstTitle: `${cellitem.number.join('.')}. ${cellitem.name}`,
+          firstTitle: `${cellItem.number.join('.')}. ${cellItem.name}`,
           secondTitle: null,
-          sectionNumber: `${cellitem.number.join('.')}.`,
+          sectionNumber: `${cellItem.number.join('.')}.`,
         };
       }
     }
@@ -141,54 +141,68 @@ export class ProjectEditor extends Component {
 
   render() {
     const {
-      location: { search },
+      location: {search},
       project,
     } = this.props;
 
-    const { parentLetterNumber } = this.state;
+    const {parentLetterNumber} = this.state;
     const sectionid = getPosition(project, 'sectionid');
 
     if (!sectionid) {
-      return <ProjectEditorNoSectionSelected />;
+      return <ProjectEditorNoSectionSelected/>;
     }
 
     return (
       <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'5px'} flexDirection={'column'}>
-        <Query skip={!sectionid} query={CellListQuery} variables={{ parent: sectionid }}>
-          {({ data, loading, error }) => {
-            if (loading) {
+        <Query skip={!sectionid} query={CellListQuery} variables={{parent: sectionid}}>
+          {({data:dataCellList, loading: loadingCellList, error: errorCellList}) => {
+            if (loadingCellList) {
               return `Загрузка`;
             }
 
-            if (error) {
-              return null;
+            if (errorCellList) {
+              return `Ошибка`;
             }
 
-            const { firstTitle, secondTitle, sectionNumber } = this.getSectionTitle(data.cellitem);
-            if (data && data.celllist) {
-              return (
-                <Fragment>
-                  {firstTitle && <ProjectEditorFirstTitle>{firstTitle}</ProjectEditorFirstTitle>}
-                  <ProjectEditorContentWrapper>
-                    {secondTitle && (
-                      <ProjectEditorSecondTitle>{secondTitle}</ProjectEditorSecondTitle>
-                    )}
-                    <ProjectEditorCellList
-                      childCellIndex={0}
-                      parentNumber={sectionNumber}
-                      parentLetterNumber={parentLetterNumber}
-                      celllist={sortingCells(data.celllist)}
-                    />
-                  </ProjectEditorContentWrapper>
-                </Fragment>
-              );
-            }
+            return (<Query skip={!sectionid} query={CellItemQuery} variables={{id: sectionid}}>
+              {({data: dataParent, loading: loadingParent, error: errorParent}) => {
 
-            return null;
+                if (loadingParent) {
+                  return `Загрузка`;
+                }
+
+                if (errorParent) {
+                  return `Ошибка`;
+                }
+
+                const {firstTitle, secondTitle, sectionNumber} = this.getSectionTitle(dataParent.cellItem);
+                if (dataCellList && dataCellList.celllist) {
+                  return (
+                    <Fragment>
+                      {firstTitle && <ProjectEditorFirstTitle>{firstTitle}</ProjectEditorFirstTitle>}
+                      <ProjectEditorContentWrapper>
+                        {secondTitle && (
+                          <ProjectEditorSecondTitle>{secondTitle}</ProjectEditorSecondTitle>
+                        )}
+                        <ProjectEditorCellList
+                          childCellIndex={0}
+                          parentNumber={sectionNumber}
+                          parentLetterNumber={parentLetterNumber}
+                          celllist={sortingCells(dataCellList.celllist)}
+                        />
+                      </ProjectEditorContentWrapper>
+                    </Fragment>
+                  );
+                }
+
+                return null;
+              }}
+            </Query>);
+
           }}
         </Query>
         <ProjectModeState is={PROJECT_MODE_RW}>
-          <EditorAdditionalMenu parentid={getPosition(project, 'sectionid')} activeMenu />
+          <EditorAdditionalMenu parentid={getPosition(project, 'sectionid')} activeMenu/>
         </ProjectModeState>
       </Flex>
     );
