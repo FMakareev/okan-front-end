@@ -12,8 +12,8 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import { SvgSidebarDelete } from '../../../../components/Icons/SvgSidebarDelete';
 
 /** Graphql schema */
-import DeleteDocumentMutation from './DeleteDocumentMutation.graphql';
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import DeleteDocumentMutation from '../../graphql/DeleteDocumentMutation.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
