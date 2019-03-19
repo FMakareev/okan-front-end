@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
+import 'froala-editor/js/languages/ru.js';
 
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
@@ -82,7 +83,8 @@ export class FroalaReduxFormName extends Component {
           onModelChange={this.handleModelChange}
           model={input.value}
           tag={'textarea'}
-          config={{ ...config, ...this.state.EditorConfig }}
+          config={{ ...config, ...this.state.EditorConfig,
+            language: 'ru' }}
         />
       </div>
     );
