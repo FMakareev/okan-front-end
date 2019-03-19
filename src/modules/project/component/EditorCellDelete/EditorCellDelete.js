@@ -20,6 +20,7 @@ import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { BLOCK_TEXT } from '@lib/shared/blockType';
+import {UnbindCellHOC} from "../../hoc/UnbindCellHOC/UnbindCellHOC";
 
 const notificationOpts = () => ({
   success: {
@@ -34,16 +35,20 @@ const notificationOpts = () => ({
   },
 });
 
+
+
+
+
 export class EditorCellDelete extends Component {
   constructor(props) {
     super(props);
   }
 
-  deleteCell = () => {
+  deleteCell = (id) => {
     return this.props
       .mutate({
         variables: {
-          id: this.props.id,
+          id: id,
         },
         update: (store, { data: { deletecell } }) => {
           let data = store.readQuery({
@@ -175,20 +180,25 @@ export class EditorCellDelete extends Component {
       });
   };
 
+  onClick = async () => {
+    if (confirm('Вы уверены что хотите удалить блок?')) {
+      await this.props.unbindCellSubmit(this.props.id, false);
+      await this.deleteCell(this.props.id);
+    }
+  };
+
+
   render() {
     return (
       <ButtonBase
         p={2}
-        onClick={() => {
-          if (confirm('Вы уверены что хотите удалить блок?')) {
-            this.deleteCell();
-          }
-        }}>
+        onClick={this.onClick}>
         <img src={deleteIcon} width={'13px'} />
       </ButtonBase>
     );
   }
 }
+
 EditorCellDelete.propTypes = {
   id: PropTypes.string,
   sectionid: PropTypes.string,
@@ -197,6 +207,7 @@ EditorCellDelete.propTypes = {
 };
 
 EditorCellDelete = graphql(DeleteCellMutation)(EditorCellDelete);
+EditorCellDelete = UnbindCellHOC()(EditorCellDelete);
 
 EditorCellDelete = connect(
   null,
