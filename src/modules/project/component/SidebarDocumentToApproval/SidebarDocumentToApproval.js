@@ -74,7 +74,7 @@ export class SidebarDocumentToApproval extends Component {
           id: id,
         },
       })
-      .then(() => {
+      .then((response) => {
         return response.data;
       })
       .catch(error => {
@@ -109,10 +109,10 @@ export class SidebarDocumentToApproval extends Component {
    * @desc метод объединяет проверку наличия изменений в документе и изенение статуса
    * */
   submitDocumentToApproval = async () => {
-    const { document, setNotificationSuccess, setNotificationError } = this.props;
+    const { document, setNotificationError } = this.props;
     this.setState({ isLoading: true });
 
-    const { checkForChangesInDoc, graphQLErrors, networkError } = await this.checkForChangesInDoc(
+    const { checkForChangesInDoc, graphQLErrors, networkError }  = await this.checkForChangesInDoc(
       document.id,
     );
 
@@ -123,7 +123,7 @@ export class SidebarDocumentToApproval extends Component {
       /** если есть измененния в документе то выдаем ошибку */
       setNotificationError(notificationOpts(document.name).validError);
     } else {
-      /** если есть нет измененний в документе то меняем статус согласования */
+      /** если  нет измененний в документе то меняем статус согласования */
       const { updatedocument } = await this.updateApprovalDocumentStatus(document.id);
     }
     this.setState({ isLoading: false });
