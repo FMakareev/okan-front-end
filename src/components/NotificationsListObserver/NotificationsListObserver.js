@@ -82,7 +82,7 @@ export class NotificationsListObserver extends Component {
           </Text>
           <Text fontWeight={700} color={'color11'} cursor={'default'}>
             Добавлен&nbsp;
-            <Link to={link} color={'color7'}>
+            <Link target={'_blank'} to={link} color={'color7'}>
               комментарий&nbsp;
               "{comment.message}"
             </Link>
