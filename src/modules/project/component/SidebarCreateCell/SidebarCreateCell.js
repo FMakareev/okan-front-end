@@ -461,6 +461,7 @@ export class SidebarCreateCell extends Component {
             }}
             top={'20px'}
             right={'0'}>
+
             <BoxStyled
               onClick={event => {
                 this.onToggle(event);
@@ -499,7 +500,7 @@ export class SidebarCreateCell extends Component {
               Удалить {parent ? 'подраздел' : 'раздел'}
             </BoxStyled>
 
-            {!parent && (
+            {!parent && (!nextcell || nextcell.isAttachment) &&    (
               <BoxStyled
                 onClick={event => {
                   this.onToggle(event);
