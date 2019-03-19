@@ -82,7 +82,7 @@ export class EditorCellController extends Component {
   handleScrollToCurrentCell(currentCellRef) {
     try {
       const top = currentCellRef.documentOffsetTop() - window.innerHeight / 2;
-      scrollTo(top, 50, linearTween);
+      scrollTo(top, 150, linearTween);
     } catch (error) {
       console.error('handleScrollToCurrentCell error: ', error);
     }
