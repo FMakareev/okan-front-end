@@ -49,7 +49,7 @@ export class GetNameProject extends Component {
   render() {
     const { name } = this.state;
 
-    return <Fragment>{name}</Fragment>;
+    return <span title={name}>{name}</span>;
   }
 }
 
