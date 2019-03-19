@@ -59,7 +59,7 @@ export const ProfileNotificationItem = ({
   cell,
 }) => {
   let link = `/app/project/${document.project}/${document.id}/${cell.parent &&
-    cell.parent.id}?cellid=${comment && comment.cell}&сommentid=${comment && comment.id}`;
+    cell.parent.id}?cellid=${comment && comment.cell}&commentid=${comment && comment.id}`;
 
   return (
     <Box mb={[4]}>
