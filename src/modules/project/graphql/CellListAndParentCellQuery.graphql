@@ -1,7 +1,12 @@
 query ($parent: String) {
   celllist(parent: $parent) {
-    childcell: children {
+    childcell: children  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     comments {
       id
@@ -29,12 +34,20 @@ query ($parent: String) {
     name
     number
     nextcell {
-      name
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     prevcell {
-      name
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     parent {
       name
@@ -44,28 +57,48 @@ query ($parent: String) {
       isHead
       isAttachment
       name
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
         number
       }
     }
-    lastChildren {
+    lastChildren  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     pull {
       id
-      nextcell {
-        name
+      nextcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      prevcell {
-        name
+      prevcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       content {
         id
@@ -79,10 +112,13 @@ query ($parent: String) {
   }
 
   cellItem: cellitem(id: $parent) {
-    childcell: children {
+    childcell: children  {
       id
       name
+      verify
       isHead
+      isAttachment
+      number
     }
     comments {
       id
@@ -109,40 +145,64 @@ query ($parent: String) {
     isAttachment
     name
     number
-    nextcell {
-      id
-      name
-    }
-    prevcell {
+    nextcell  {
       id
       name
       verify
-    }
-    parent {
-      id
-      name
+      isHead
+      isAttachment
       number
+    }
+    prevcell  {
+      id
+      name
       verify
+      isHead
+      isAttachment
+      number
+    }
+    parent  {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     verify
-    lastChildren {
+    lastChildren  {
       id
       name
       verify
+      isHead
+      isAttachment
+      number
     }
     pull {
       id
-      nextcell {
-        name
+      nextcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      prevcell {
-        name
+      prevcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       content {
         id

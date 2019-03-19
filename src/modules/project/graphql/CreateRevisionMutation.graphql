@@ -11,7 +11,10 @@ mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus

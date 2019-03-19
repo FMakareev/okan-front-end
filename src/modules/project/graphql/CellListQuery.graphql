@@ -1,8 +1,13 @@
 query ($parent: String) {
 
   celllist(parent: $parent) {
-    childcell: children {
+    childcell: children  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     comments {
       id
@@ -29,13 +34,21 @@ query ($parent: String) {
     isAttachment
     name
     number
-    nextcell {
-      name
+    nextcell  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
-    prevcell {
-      name
+    prevcell  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     parent {
       name
@@ -45,28 +58,48 @@ query ($parent: String) {
       isHead
       isAttachment
       name
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
         number
       }
     }
-    lastChildren {
+    lastChildren  {
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
     }
     pull {
       id
-      nextcell {
-        name
+      nextcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      prevcell {
-        name
+      prevcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       content {
         id

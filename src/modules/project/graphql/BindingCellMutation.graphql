@@ -2,13 +2,33 @@ mutation ($target: [String]!, $parent: String!) {
   bindingcell(target: $target, parent: $parent) {
     cell {
       id
-      parent {
+      name
+      verify
+      isHead
+      isAttachment
+      number
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       pull {
         id
-        parent {
+        name
+        verify
+        isHead
+        isAttachment
+        number
+        parent  {
           id
+          name
+          verify
+          isHead
+          isAttachment
+          number
         }
         content {
           id

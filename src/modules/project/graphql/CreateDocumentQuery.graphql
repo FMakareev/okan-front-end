@@ -11,7 +11,10 @@ mutation($name: String!, $projectid: String) {
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
