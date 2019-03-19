@@ -224,11 +224,14 @@ export class EditorCellController extends Component {
    * @desc метод для отключения фокуса формы
    * */
   onBlurForm = e => {
-    let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
-    if (!currentTarget.contains(document.activeElement)) {
-      this.props.removeBlock();
-      this.startSave();
-    }
+    /** setTimeout нужен для того чтобы при переключении фокуса из контента в заголовок и обратно не успевало срабатывать событие сохранения */
+    setTimeout(() => {
+      let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
+      if (!currentTarget.contains(document.activeElement)) {
+        this.props.removeBlock();
+        this.startSave();
+      }
+    }, 100);
   };
 
   startSave = () => {
