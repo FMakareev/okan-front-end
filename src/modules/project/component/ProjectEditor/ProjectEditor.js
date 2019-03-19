@@ -153,7 +153,7 @@ export class ProjectEditor extends Component {
     }
 
     return (
-      <Flex pl={'10px'} pr={'40px'} mb={'20px'} pt={'5px'} flexDirection={'column'}>
+      <Flex pl={'10px'} pr={'40px'} mb={'100px'} pt={'5px'} flexDirection={'column'}>
         <Query skip={!sectionid} query={CellListQuery} variables={{parent: sectionid}}>
           {({data:dataCellList, loading: loadingCellList, error: errorCellList}) => {
             if (loadingCellList) {
