@@ -1,8 +1,14 @@
 
 
 export const documentOffsetTop = ()=>{
-  Element.prototype.documentOffsetTop = function () {
-    return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop() : 0 );
-  };
+  try{
+    if(Element){
+      Element.prototype.documentOffsetTop = function () {
+        return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop() : 0 );
+      };
+    }
+  } catch (e) {
+    console.log('Error documentOffsetTop: ',e);
+  }
 
 }
