@@ -15,10 +15,10 @@ import { FroalaReduxFormName } from '@lib/ui/FroalaReduxForm/FroalaReduxFormName
 
 /** Graphql */
 import { graphql } from 'react-apollo';
-import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+import UnbindingCellMutation from '../../modules/project/hoc/UnbindCellHOC/UnbindingCellMutation.graphql';
 
 // Require block types
-import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
+import { BLOCK_NAME } from '../../shared/blockType';
 
 const Wrapper = styled.div`
   ${space};
@@ -40,10 +40,11 @@ const notificationOpts = () => ({
   },
 });
 
-/**
- * Компонент Rich Text Editor
- * @example ./RichTextEditor.example.md
- */
+
+
+export const FROALA_BTN_TITLE_COPY= 'copy';
+export const FROALA_BTN_TITLE_BIND= 'bind';
+export const FROALA_BTN_TITLE_UNBIND= 'unbind';
 
 export class RichTextEditor extends Component {
   static propTypes = {
@@ -93,12 +94,12 @@ export class RichTextEditor extends Component {
    * @desc Получаем dom-узлы кнопок и передаем методу createDragEvent
    * */
   initButtonsCallbacks = () => {
-    if (this.props.contenttype != BLOCK_NAME) {
+    if (this.props.contenttype !== BLOCK_NAME) {
       const node = ReactDOM.findDOMNode(this);
       const buttons = node.getElementsByTagName('button');
       let bindingButton = buttons[1];
       let copyButton = buttons[0];
-      
+
       if (bindingButton) {
         this.createDragEvent(bindingButton, node, true);
       }
@@ -132,7 +133,7 @@ export class RichTextEditor extends Component {
       nodePreview.style.position = 'absolute';
       nodePreview.style.zIndex = 1000;
       nodePreview.style.width = node.offsetWidth + 'px';
-      
+
       this.copyCell(bind);
 
       this.movePreviewAt(nodePreview, e);
@@ -143,7 +144,7 @@ export class RichTextEditor extends Component {
       }
       sidebarWrapper.onmousemove = (e) => {
         this.scrollSidebar(e, sidebarWrapper);
-      } 
+      }
       {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
       document.onmouseup = (e) => {
         console.log('mouseup')
@@ -156,7 +157,7 @@ export class RichTextEditor extends Component {
       }
     }
   }
-  
+
   /**
    * @desc Перемещаем копию узла к курсору
    * */
@@ -181,7 +182,7 @@ export class RichTextEditor extends Component {
       sidebarWrapper.scrollBy(0,10);
     }
   };
-  
+
   releaseButton = (node, cell, e, button) => {
     {/** удаляем копию узла */}
     document.body.removeChild(node);
@@ -193,20 +194,20 @@ export class RichTextEditor extends Component {
     if(!event.target.closest('.SidebarCellNode')){
       this.props.removeBlock();
     };
-    
+
     cell.style.opacity = 1;
   }
 
 
   getButtonClick = action => {
     switch (action) {
-      case 'bind':
+      case FROALA_BTN_TITLE_BIND:
         this.copyCell(true);
         break;
-      case 'unbind':
+      case FROALA_BTN_TITLE_UNBIND:
         this.unbindBlock();
         break;
-      case 'copy':
+      case FROALA_BTN_TITLE_COPY:
         this.copyCell(false);
         break;
     }
