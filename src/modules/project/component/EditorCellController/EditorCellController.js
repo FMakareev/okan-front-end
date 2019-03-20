@@ -231,7 +231,7 @@ export class EditorCellController extends Component {
         this.props.removeBlock();
         this.startSave();
       }
-    }, 0);
+    }, 50);
   };
 
   startSave = () => {

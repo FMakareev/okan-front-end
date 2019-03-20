@@ -21,6 +21,7 @@ export class EditorCellForm extends Component {
 
     events: {
       'froalaEditor.blur': (event, editor) => {
+        this.props.onBlurForm(event);
       },
       'froalaEditor.initialized': (e, editor) => {
         // this.initFroala();
@@ -66,7 +67,6 @@ export class EditorCellForm extends Component {
       <Form
         onSubmit={() => console.log('submit')}
         onBlur={(event) => {
-          this.props.onBlurForm(event);
         }}
       >
         {data.content.contenttype === BLOCK_TABLE ?
