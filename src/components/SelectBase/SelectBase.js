@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select, {components} from 'react-select';
+import Select, { components } from 'react-select';
 import DeepEqual from 'fast-deep-equal';
 
 /** Component */
-import {SvgTriangle} from '@lib/ui/Icons/SvgTriangle';
-import {Text} from '@lib/ui/Text/Text';
-import {InputVariant} from '../../styles/variants/InputVariant';
+import { SvgTriangle } from '@lib/ui/Icons/SvgTriangle';
+import { Text } from '@lib/ui/Text/Text';
+import { InputVariant } from '../../styles/variants/InputVariant';
 import has from '../../utils/has';
 
 /**
@@ -29,7 +29,6 @@ const getStyleVariant = (theme, themeKey, component) => {
   }
 };
 
-
 export const SelectStyles = {
   control: (style, props) => {
     return {
@@ -44,15 +43,15 @@ export const SelectStyles = {
       },
       ...(props.isFocused
         ? {
-          // border: "none",
-          // boxShadow: "none"
-        }
+            // border: "none",
+            // boxShadow: "none"
+          }
         : {}),
       ...(props.menuIsOpen
         ? {
-          borderRadius: '5px 5px 0 0',
-          borderBottom: 'none',
-        }
+            borderRadius: '5px 5px 0 0',
+            borderBottom: 'none',
+          }
         : {}),
     };
   },
@@ -95,9 +94,9 @@ export const SelectStyles = {
       textAlign: 'center',
       ...(props.isSelected
         ? {
-          backgroundColor: 'rgba(0,127,175,.2)',
-          color: '#333333',
-        }
+            backgroundColor: 'rgba(0,127,175,.2)',
+            color: '#333333',
+          }
         : null),
       ...getStyleVariant(InputVariant, props.selectProps.variant, 'option'),
     };
@@ -130,7 +129,7 @@ const DropdownIndicator = props => {
           transform: props.isFocused ? 'rotate(90deg)' : 'rotate(0)',
         }}
         fill={'#333333'}>
-        <SvgTriangle/>
+        <SvgTriangle />
       </Text>
     </components.DropdownIndicator>
   );
@@ -159,7 +158,7 @@ export class SelectBase extends Component {
     mods: false,
     options: [],
     placeholder: '',
-    optionsFilter: (options) => options,
+    optionsFilter: options => options,
   }; // valueKey: 'id', // labelKey: 'name',
 
   constructor(props) {
@@ -170,11 +169,11 @@ export class SelectBase extends Component {
   //перестраиваются элементы в вирт.доме
   shouldComponentUpdate(nextProps, nextState) {
     const {
-      input: {value},
+      input: { value },
       isLoading,
       options,
     } = this.props;
-    const {selectedOption} = this.state;
+    const { selectedOption } = this.state;
 
     if (
       nextProps.input.value !== this.props.value ||
@@ -191,7 +190,7 @@ export class SelectBase extends Component {
   //Когда будет изменено вирт. дом (устаревший)
   componentWillReceiveProps = nextProps => {
     const {
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = nextProps;
@@ -210,7 +209,7 @@ export class SelectBase extends Component {
   componentDidUpdate(prevProps) {
     const {
       // then options is update - we must update selectedOption at state
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = this.props;
@@ -223,15 +222,15 @@ export class SelectBase extends Component {
 
   get initialState() {
     const {
-      input: {value},
+      input: { value },
       valueKey,
       options,
     } = this.props;
 
     if (value) {
-      return {selectedOption: this.getSelectedValueFromOptions(options, value, valueKey)};
+      return { selectedOption: this.getSelectedValueFromOptions(options, value, valueKey) };
     }
-    return {selectedOption: null};
+    return { selectedOption: null };
   }
 
   getSelectedValueFromOptions = (options, value, valueKey) => {
@@ -251,9 +250,9 @@ export class SelectBase extends Component {
   };
 
   onChange = selectedOption => {
-    const {input, valueKey} = this.props;
+    const { input, valueKey } = this.props;
     this.setState(
-      () => ({selectedOption}),
+      () => ({ selectedOption }),
       () => {
         input.onChange(this.state.selectedOption ? this.state.selectedOption[valueKey] : null);
       },
@@ -273,7 +272,7 @@ export class SelectBase extends Component {
       optionsFilter,
       ...rest
     } = this.props;
-    const {selectedOption} = this.state;
+    const { selectedOption } = this.state;
 
     return (
       <Select
@@ -288,7 +287,7 @@ export class SelectBase extends Component {
         getOptionLabel={option => option[labelKey]}
         getOptionValue={option => option[valueKey]}
         styles={SelectStyles}
-        components={{DropdownIndicator, ...components}}
+        components={{ DropdownIndicator, ...components }}
         {...rest}
       />
     );
