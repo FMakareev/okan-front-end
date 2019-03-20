@@ -621,7 +621,6 @@ export class DocumentTree extends Component {
    * @desc метод для обновления стейта
    * */
   updateTree = props => {
-    console.log('updateTree: ', props);
     this.setState(state => ({
       ...state,
       ...props,
