@@ -225,13 +225,13 @@ export class EditorCellController extends Component {
    * */
   onBlurForm = e => {
     /** setTimeout нужен для того чтобы при переключении фокуса из контента в заголовок и обратно не успевало срабатывать событие сохранения */
+    let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
     setTimeout(() => {
-      let currentTarget = e.currentTarget.parentNode.parentNode.parentNode;
       if (!currentTarget.contains(document.activeElement)) {
         this.props.removeBlock();
         this.startSave();
       }
-    }, 100);
+    }, 0);
   };
 
   startSave = () => {
