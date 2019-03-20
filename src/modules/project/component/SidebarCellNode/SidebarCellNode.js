@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import { Absolute } from '@lib/ui/Absolute/Absolute';
+import {Absolute} from '@lib/ui/Absolute/Absolute';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
@@ -87,6 +87,12 @@ const notificationCopy = cellText => ({
     message: 'Не удалось скопировать блок',
     position: 'tr',
     autoDismiss: 2,
+  },
+  targetTypeError: {
+    title: 'Ошибка',
+    message: 'Невозможно привязать текстовый/таблицу/каринку блок к разделу с разделами',
+    position: 'tr',
+    autoDismiss: 5,
   },
 });
 
@@ -194,7 +200,7 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const {onClick, node, history, document, cellToCopy, bindAfterCopy} = this.props;
+      const {onClick, node} = this.props;
 
       const isHead = childcellIsCategory(node);
 
@@ -226,6 +232,17 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {
+    const {node} = this.props;
+    console.log('createBindingBlockCopy: ', this.props);
+    console.table({parentCellId, lastChildren, bindAfterCopy, cellToCopy});
+
+    if (node.childcell && node.childcell.isHead) {
+      /** Удаляет id блока из кэша */
+      this.props.removeBlock();
+      this.props.setNotificationError(notificationCopy(null).targetTypeError);
+      return false;
+    }
+
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
@@ -286,8 +303,9 @@ export class SidebarCellNode extends Component {
         },
       })
       .then(({data}) => {
-        if (bindAfterCopy) this.bindBlock(data.createcell.cell, cellToCopy.id);
-        else {
+        if (bindAfterCopy) {
+          this.bindBlock(data.createcell.cell, cellToCopy.id);
+        } else {
           this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
           this.props.removeBlock();
@@ -401,11 +419,14 @@ export class SidebarCellNode extends Component {
       }
     }).then(({data}) => {
 
-      setNotificationSuccess(notificationUpdateCell().success); /** вызываем уведомление об успешном изменении ячейки */
+      setNotificationSuccess(notificationUpdateCell().success);
+      /** вызываем уведомление об успешном изменении ячейки */
 
-      updateNode(data.updateCell.cell.id, data.updateCell.cell); /** обновляем яейку в дереве */
+      updateNode(data.updateCell.cell.id, data.updateCell.cell);
+      /** обновляем яейку в дереве */
 
-      cellCheckStatusChange(node.id, CELL_STATUS_CHANGED);  /** обновляем статус яейки в дереве */
+      cellCheckStatusChange(node.id, CELL_STATUS_CHANGED);
+      /** обновляем статус яейки в дереве */
 
     }).catch(error => {
       console.log(error);
