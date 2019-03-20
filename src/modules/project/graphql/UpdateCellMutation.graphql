@@ -2,20 +2,12 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
   updateCell:updatecell(children: $children, comments: $comments, content: $content, contentname: $contentname, contenttype: $contenttype, id: $id, isHead: $isHead, name: $name, nextcell: $nextcell, parent: $parent, prevcell: $prevcell, verify: $verify, isAttachment: $isAttachment) {
     cell {
       id
-      name
-      verify
       isHead
       isAttachment
+      name
       number
+      verify
       childcell: children {
-        id
-        name
-        verify
-        isHead
-        isAttachment
-        number
-      }
-      lastChildren {
         id
         name
         verify
@@ -43,7 +35,6 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
         contenttype
         number
       }
-
       nextcell {
         id
         name
@@ -67,6 +58,48 @@ mutation ($children: String, $comments: [String], $content: String, $contentname
         isHead
         isAttachment
         number
+      }
+      lastChildren {
+        id
+        name
+        verify
+        isHead
+        isAttachment
+        number
+      }
+      pull {
+        id
+        nextcell  {
+          id
+          name
+          verify
+          isHead
+          isAttachment
+          number
+        }
+        prevcell  {
+          id
+          name
+          verify
+          isHead
+          isAttachment
+          number
+        }
+        parent  {
+          id
+          name
+          verify
+          isHead
+          isAttachment
+          number
+        }
+        content {
+          id
+          name
+          content
+          contenttype
+          number
+        }
       }
     }
   }

@@ -189,6 +189,7 @@ export class EditorCellController extends Component {
               id: this.props.data.parent.id,
             },
           };
+          console.log('updateCell : ', updateCell);
 
           try {
             UpdateCellInCache(store, {...updateCell.cell});
