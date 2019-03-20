@@ -33,7 +33,7 @@ export class EditorCellContent extends PureComponent {
   thisCellMatchesTheSearchQuery = () => {
     try {
       const {project, id} = this.props;
-      if (project.searchCursor.cell && project.searchCursor.cell.id === id) {
+      if (project.searchResult.length) {
         return {
           searchWords: [project.searchPhrase]
         };
@@ -47,7 +47,7 @@ export class EditorCellContent extends PureComponent {
   };
 
   render() {
-    const {onClick, textAlign, content} = this.props;
+    const {onClick, textAlign, content, id} = this.props;
 
     return (<Text
       className={'editor-cell_content'}
@@ -61,6 +61,7 @@ export class EditorCellContent extends PureComponent {
       {
         content.content &&
         <ReactHighlightedHTML
+          markClassName={`highlightedContentMark-${id}`}
           textToHighlight={this.changeContent(content.content)}
           {...this.thisCellMatchesTheSearchQuery()}
         />
