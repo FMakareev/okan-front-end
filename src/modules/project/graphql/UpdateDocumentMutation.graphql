@@ -1,5 +1,5 @@
-mutation($name: String!, $projectid: String) {
-  createdocument(name:$name,projectid: $projectid){
+mutation($id: String!,$children:String,$approvalstatus: String,){
+  updatedocument(id: $id, children:$children,approvalstatus: $approvalstatus){
     document{
       # mongoid
       id
@@ -11,7 +11,10 @@ mutation($name: String!, $projectid: String) {
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus

@@ -80,7 +80,12 @@ const Title = styled.div`
   ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
   border-radius: 5px;
   margin-right: 17px;
-
+  
+  max-width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
   &:before {
     content: '';
     width: 6px;

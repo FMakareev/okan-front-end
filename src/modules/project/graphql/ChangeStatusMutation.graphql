@@ -1,34 +1,52 @@
 mutation ($id: String!, $status: String!) {
   changestatus(id: $id, status: $status) {
     cell {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
       childcell: children {
         id
+        name
+        verify
         isHead
+        isAttachment
+        number
       }
-      id
-      isHead
       lastChildren {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
-      name
       nextcell {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       parent {
         id
-        isHead
         name
+        verify
+        isHead
+        isAttachment
+        number
       }
       prevcell {
         id
-        isHead
         name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      verify
     }
   }
 }

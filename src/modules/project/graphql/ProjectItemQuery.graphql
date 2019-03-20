@@ -1,6 +1,14 @@
-mutation($name: String!, $projectid: String) {
-  createdocument(name:$name,projectid: $projectid){
-    document{
+query($id: String!){
+  projectitem(id: $id){
+    # mongoid
+    id
+    # название проекта
+    name
+    # пользователь создавший проект
+    author {
+      id
+    }
+    documents{
       # mongoid
       id
       # id project
@@ -11,7 +19,10 @@ mutation($name: String!, $projectid: String) {
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
@@ -22,5 +33,18 @@ mutation($name: String!, $projectid: String) {
         email
       }
     }
+    # дата создания
+    createdate
+    # дата обновления
+    updatedate
+    # archive or working
+    status
+    partners{
+      id
+      lastname
+      firstname
+      email
+    }
   }
 }
+

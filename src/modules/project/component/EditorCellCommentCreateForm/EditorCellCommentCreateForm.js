@@ -10,8 +10,8 @@ import {withApollo} from 'react-apollo';
 import TextAreaBase from '../../../../components/TextAreaBase/TextAreaBase';
 
 /** Graphql Schema */
-import CreateCommentMutation from './CreateCommentMutation.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import CreateCommentMutation from '../../graphql/CreateCommentMutation.graphql';
+import CellListQuery from '../../graphql/CellListQuery.graphql';
 import {Box} from "@lib/ui/Box/Box";
 import {Flex} from "@lib/ui/Flex/Flex";
 import styled from "styled-components";

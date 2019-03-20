@@ -1,15 +1,27 @@
 mutation ($id: String!) {
   deletecell(id: $id) {
     cell {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       lastChildren {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       comments {
         id
@@ -31,35 +43,68 @@ mutation ($id: String!) {
         contenttype
         number
       }
-      id
-      isHead
-      isAttachment
-      name
       nextcell {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       prevcell {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       parent {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       lastChildren {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       pull {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
         nextcell {
-          name
           id
+          name
+          verify
+          isHead
+          isAttachment
+          number
         }
         prevcell {
-          name
           id
+          name
+          verify
+          isHead
+          isAttachment
+          number
         }
         parent {
-          name
           id
+          name
+          verify
+          isHead
+          isAttachment
+          number
         }
         content {
           id
@@ -69,7 +114,6 @@ mutation ($id: String!) {
           number
         }
       }
-      verify
     }
   }
 }

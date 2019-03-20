@@ -1,14 +1,6 @@
-query($id: String!){
-  projectitem(id: $id){
-    # mongoid
-    id
-    # название проекта
-    name
-    # пользователь создавший проект
-    author {
-      id
-    }
-    documents{
+mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
+  createrevision(id: $id, authorrevision: $authorrevision, createrevisiondate: $createrevisiondate) {
+    document {
       # mongoid
       id
       # id project
@@ -19,7 +11,10 @@ query($id: String!){
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
@@ -30,18 +25,9 @@ query($id: String!){
         email
       }
     }
-    # дата создания
-    createdate
-    # дата обновления
-    updatedate
-    # archive or working
-    status
-    partners{
-      id
-      lastname
-      firstname
-      email
-    }
   }
 }
+
+
+
 

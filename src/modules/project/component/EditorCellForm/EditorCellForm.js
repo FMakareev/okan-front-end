@@ -20,8 +20,8 @@ export class EditorCellForm extends Component {
     fileUploadMethod: 'POST',
 
     events: {
-      'froalaEditor.blur': (e, editor) => {
-        this.props.onBlurForm(e);
+      'froalaEditor.blur': (event, editor) => {
+        this.props.onBlurForm(event);
       },
       'froalaEditor.initialized': (e, editor) => {
         // this.initFroala();
@@ -66,6 +66,8 @@ export class EditorCellForm extends Component {
     return (
       <Form
         onSubmit={() => console.log('submit')}
+        onBlur={(event) => {
+        }}
       >
         {data.content.contenttype === BLOCK_TABLE ?
           (

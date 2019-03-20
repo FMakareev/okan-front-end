@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Query, withApollo } from 'react-apollo';
-import queryString from 'query-string';
+import {Query, withApollo} from 'react-apollo';
+import objectPath from 'object-path';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
-import { SvgStatus } from '../../../../components/Icons/SvgStatus';
+import {SvgStatus} from '../../../../components/Icons/SvgStatus';
 
 /**Graphql schema */
-import ChangeStatusMutation from './ChangeStatusMutation.graphql';
-import CheckForCellChangesQuery from './CheckForCellChangesQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
+import ChangeStatusMutation from '../../graphql/ChangeStatusMutation.graphql';
+import CheckForCellChangesQuery from '../../graphql/CheckForCellChangesQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
 
 /** Constants */
 import {
@@ -23,7 +23,8 @@ import {
 } from '@lib/shared/approvalStatus';
 
 /** Utils */
-import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
+import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import * as shallowequal from "shallowequal";
 
 const GetStatusColor = status => {
   switch (status) {
@@ -65,8 +66,8 @@ export class SidebarApprovalStatus extends Component {
           id,
           status,
         },
-        update: (store, { data: { changestatus } }) => {
-          let cell = { celllist: {} };
+        update: (store, {data: {changestatus}}) => {
+          let cell = {celllist: {}};
           const options = {
             query: CellListQuery,
             variables: {
@@ -75,7 +76,7 @@ export class SidebarApprovalStatus extends Component {
           };
 
           try {
-            UpdateCellInCache(store, { ...changestatus.cell });
+            UpdateCellInCache(store, {...changestatus.cell});
           } catch (e) {
             console.error('Error in SidebarApprovalStatus change status: ', e);
           }
@@ -97,7 +98,7 @@ export class SidebarApprovalStatus extends Component {
             console.error('Error in writeQuery change status: ', e);
           }
 
-          let checkChanges = { checkForCellChanges: {} };
+          let checkChanges = {checkForCellChanges: {}};
           const dataCheckForCellChanges = {
             query: CheckForCellChangesQuery,
             variables: {
@@ -115,7 +116,7 @@ export class SidebarApprovalStatus extends Component {
           try {
             store.writeQuery({
               ...dataCheckForCellChanges,
-              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
+              data: {checkForCellChanges: {...checkChanges.checkForCellChanges}},
             });
           } catch (error) {
             console.error('Error changeStatus: ', error);
@@ -138,19 +139,47 @@ export class SidebarApprovalStatus extends Component {
     this.initSubscribe();
   }
 
+  /**
+   * @param {object} prevCell - сюда может принимать и node из дерева, в методе предусмотрен фильтр для удаления полей которых нет в типе ячейки
+   * @param {object} nextCell - новая версия ячейки
+   * @return {boolean} true - равны, false - не равны
+   * @desc метод сравнивает две ячейки отвечает равны они или нет.
+   * */
+  equalPrevCellAndNextCell = (prevCell, nextCell) => {
+    try {
+      let removeProps = [];
+      let newPrevCell = Object.assign({}, prevCell);
+      /** ищем каких свойств нет в nextCell */
+      Object.entries(prevCell).map(([prevKey]) => {
+        let result = Object.entries(nextCell).findIndex(([nextKey]) =>prevKey === nextKey);
+        if (result === -1) {
+          removeProps.push(prevKey);
+        }
+      });
+      /** удоляем из prevCell те свойства которых нет в nextCell чтобы привести prevCell к типу Cell*/
+      removeProps.forEach(item => {
+        objectPath.del(newPrevCell, item);
+      });
+      return shallowequal(newPrevCell, nextCell);
+    } catch (error) {
+      console.error('Error comparePrevAndNext: ', error);
+    }
+  };
+
+
   initSubscribe = () => {
-    const { node } = this.props;
+    const {node} = this.props;
     try {
       if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
-          ({ data }) => {
-            console.log('subscribeInstanceToCellItem', data);
-            this.props.updateNode(node.id, data.cellitem);
-            // console.log(1, data.cellitem);
-            // console.log(2, node);
-
-            if (data.cellitem.verify === 'changed') {
-              this.props.cellCheckStatusChange(node && node.id, data.cellitem.verify);
+          ({data}) => {
+            if(!this.equalPrevCellAndNextCell(node, data.cellItem)){
+              // console.log('subscribeInstanceToCellItem', data);
+              // console.log('subscribeInstanceToCellItem => updateNode');
+              this.props.updateNode(node.id, data.cellItem);
+              if (data.cellItem.verify === CELL_STATUS_CHANGED) {
+                this.props.cellCheckStatusChange(node && node.id, data.cellItem.verify);
+              }
             }
           },
         );
@@ -176,7 +205,7 @@ export class SidebarApprovalStatus extends Component {
       // this.changeStatus(id, CELL_STATUS_CHANGED);
       return this.props.client.watchQuery({
         query: CellItemQuery,
-        variables: { id: id },
+        variables: {id: id},
       });
     } catch (error) {
       console.error('Error: ', error);
@@ -184,11 +213,10 @@ export class SidebarApprovalStatus extends Component {
   };
 
   render() {
-    const { node, client } = this.props;
+    const {node, client} = this.props;
     return (
-      <Query query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
-        {({ loading, error, data }) => {
-          // console.log(111, data && data.checkForCellChanges && data.checkForCellChanges.answer);
+      <Query query={CheckForCellChangesQuery} variables={{id: node && node.id}}>
+        {({loading, error, data}) => {
           return (
             <ButtonBase
               title={'Статус проверки блока'}

@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import Flex from '../../../../components/Flex/Flex';
 import Box from '../../../../components/Box/Box';
 import Text from '../../../../components/Text/Text';
-import { Absolute } from '@lib/ui/Absolute/Absolute';
+import {Absolute} from '@lib/ui/Absolute/Absolute';
 
 /** Components */
 import SidebarCreateCell from '../SidebarCreateCell/SidebarCreateCell';
@@ -19,15 +19,14 @@ import SidebarApprovalStatus from '../SidebarApprovalStatus/SidebarApprovalStatu
 import SidebarChangeCell from '../SidebarChangeCell/SidebarChangeCell';
 import NodeToggle from '../NodeToggle/NodeToggle';
 import {SidebarCellNodeEditable} from '../SidebarCellNodeEditable/SidebarCellNodeEditable';
-import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
+import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 
 /** Graphql schema */
-import BindingCellMutation from './BindingCellMutation.graphql';
-import CreateCellMutation from '../SidebarCreateCell/CreateCellMutation.graphql';
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import ChangeStatusMutation from '../SidebarApprovalStatus/ChangeStatusMutation.graphql';
-import UpdateCellMutation from './UpdateCellMutation.graphql';
+import BindingCellMutation from '../../graphql/BindingCellMutation.graphql';
+import CreateCellMutation from '../../graphql/CreateCellMutation.graphql';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
+import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
 
 
 /** Redux action to remove BlockId from store */
@@ -88,6 +87,12 @@ const notificationCopy = cellText => ({
     message: 'Не удалось скопировать блок',
     position: 'tr',
     autoDismiss: 2,
+  },
+  targetTypeError: {
+    title: 'Ошибка',
+    message: 'Невозможно привязать текстовый/таблицу/каринку блок к разделу с разделами',
+    position: 'tr',
+    autoDismiss: 5,
   },
 });
 
@@ -195,7 +200,7 @@ export class SidebarCellNode extends Component {
 
   handleClick = () => {
     try {
-      const {onClick, node, history, document, cellToCopy, bindAfterCopy} = this.props;
+      const {onClick, node} = this.props;
 
       const isHead = childcellIsCategory(node);
 
@@ -227,13 +232,24 @@ export class SidebarCellNode extends Component {
   };
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {
+    const {node} = this.props;
+    console.log('createBindingBlockCopy: ', this.props);
+    console.table({parentCellId, lastChildren, bindAfterCopy, cellToCopy});
+
+    if (node.childcell && node.childcell.isHead) {
+      /** Удаляет id блока из кэша */
+      this.props.removeBlock();
+      this.props.setNotificationError(notificationCopy(null).targetTypeError);
+      return false;
+    }
+
     let newNode = this.props.client.readQuery({
       query: CellItemQuery,
       variables: {
         id: this.props.node.id,
       },
     });
-    lastChildren = newNode.cellitem.lastChildren;
+    lastChildren = newNode.cellItem.lastChildren;
     this.props
       .createCopy({
         variables: {
@@ -273,10 +289,10 @@ export class SidebarCellNode extends Component {
               id: this.props.node.id,
             },
           });
-          data.cellitem.lastChildren = {};
-          data.cellitem.lastChildren.id = createcell.cell.id;
-          data.cellitem.lastChildren.name = createcell.cell.name;
-          data.cellitem.lastChildren.__typename = 'Cell';
+          data.cellItem.lastChildren = {};
+          data.cellItem.lastChildren.id = createcell.cell.id;
+          data.cellItem.lastChildren.name = createcell.cell.name;
+          data.cellItem.lastChildren.__typename = 'Cell';
           store.writeQuery({
             query: CellItemQuery,
             variables: {
@@ -287,8 +303,9 @@ export class SidebarCellNode extends Component {
         },
       })
       .then(({data}) => {
-        if (bindAfterCopy) this.bindBlock(data.createcell.cell, cellToCopy.id);
-        else {
+        if (bindAfterCopy) {
+          this.bindBlock(data.createcell.cell, cellToCopy.id);
+        } else {
           this.props.setNotificationSuccess(notificationCopy(this.props.node.name).success);
           /** Удаляет id блока из кэша */
           this.props.removeBlock();
@@ -380,7 +397,7 @@ export class SidebarCellNode extends Component {
       variables: {
         id,
         name,
-        status: CELL_STATUS_CHANGED,
+        verify: CELL_STATUS_CHANGED,
       },
       update: (store, {data: {updateCell}}) => {
         try {
@@ -393,7 +410,7 @@ export class SidebarCellNode extends Component {
           store.writeQuery({
             ...options,
             data: {
-              cellitem: updateCell.cell,
+              cellItem: updateCell.cell,
             },
           });
         } catch (error) {
@@ -402,11 +419,14 @@ export class SidebarCellNode extends Component {
       }
     }).then(({data}) => {
 
-      setNotificationSuccess(notificationUpdateCell().success); /** вызываем уведомление об успешном изменении ячейки */
+      setNotificationSuccess(notificationUpdateCell().success);
+      /** вызываем уведомление об успешном изменении ячейки */
 
-      updateNode(data.updateCell.cell.id, data.updateCell.cell); /** обновляем яейку в дереве */
+      updateNode(data.updateCell.cell.id, data.updateCell.cell);
+      /** обновляем яейку в дереве */
 
-      cellCheckStatusChange(node.id, CELL_STATUS_CHANGED);  /** обновляем статус яейки в дереве */
+      cellCheckStatusChange(node.id, CELL_STATUS_CHANGED);
+      /** обновляем статус яейки в дереве */
 
     }).catch(error => {
       console.log(error);
@@ -443,11 +463,11 @@ export class SidebarCellNode extends Component {
           >
             {!node.isAttachment && (
               <Text fontWeight={'inherit'} color={'color11'}>
-                {node.number}&nbsp;
+                {node.number.join('.')}.&nbsp;
               </Text>
             )}
             <TextStyled fontWeight={'inherit'} color={'color11'}>
-              {node.isAttachment && ' ' + `Приложение ${node.letterNumber} `}
+              {node.isAttachment && ' ' + `Приложение ${node.letterNumber.toUpperCase()} `}
               {/*node.isAttachment && ' ' + `Приложение ${node.letterNumber} ${nameSectionLetter}` - тут выволдится с прьюселл именем ячекйи*/}
               <SidebarCellNodeEditable
                 id={node.id}

@@ -7,7 +7,7 @@ import {Field, getFormValues, reduxForm, SubmissionError} from "redux-form";
 import {Box} from "@lib/ui/Box/Box";
 import TextFieldWithTooltip from "@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip";
 import throttle from "lodash/throttle";
-import CellByNameQuery from './CellByNameQuery.graphql';
+import CellByNameQuery from '../../graphql/CellByNameQuery.graphql';
 import {withApollo} from "react-apollo";
 import has from "@lib/utils/has";
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";

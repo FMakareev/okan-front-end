@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { DefineIcons } from './DefineIcons';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
+import 'froala-editor/js/languages/ru.js';
 
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
@@ -16,6 +17,11 @@ import 'font-awesome/css/font-awesome.css';
 import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
 import {asyncComponent} from "react-async-component";
 import {Box} from "@lib/ui/Box/Box";
+import {
+  FROALA_BTN_TITLE_BIND,
+  FROALA_BTN_TITLE_COPY,
+  FROALA_BTN_TITLE_UNBIND
+} from "@lib/ui/RichTextEditor/RichTextEditor";
 
 
 const FroalaEditor = asyncComponent({
@@ -46,9 +52,9 @@ export class FroalaReduxForm extends Component {
     switch (contentType) {
       case BLOCK_IMAGE:
         toolbarButtons = [
-          'copy',
-          'bind',
-          'unbind',
+          FROALA_BTN_TITLE_COPY,
+          FROALA_BTN_TITLE_BIND,
+          FROALA_BTN_TITLE_UNBIND,
           '|',
           'insertImage',
           'bold',
@@ -56,11 +62,8 @@ export class FroalaReduxForm extends Component {
           'underline',
           'fontSize',
           'color',
+          'lineHeight',
           'clearFormatting',
-          'specialCharacters',
-          'paragraphFormat',
-          'paragraphStyle',
-          'quote',
           'align',
           'formatOL',
           'formatUL',
@@ -68,16 +71,14 @@ export class FroalaReduxForm extends Component {
           'indent',
           'insertLink',
           'specialCharacters',
-          'emoticons',
-          'print',
           'help',
         ];
         break;
       case BLOCK_TABLE:
         toolbarButtons = [
-          'copy',
-          'bind',
-          'unbind',
+          FROALA_BTN_TITLE_COPY,
+          FROALA_BTN_TITLE_BIND,
+          FROALA_BTN_TITLE_UNBIND,
           '|',
           'insertTable',
           'bold',
@@ -85,11 +86,8 @@ export class FroalaReduxForm extends Component {
           'underline',
           'fontSize',
           'color',
+          'lineHeight',
           'clearFormatting',
-          'specialCharacters',
-          'paragraphFormat',
-          'paragraphStyle',
-          'quote',
           'align',
           'formatOL',
           'formatUL',
@@ -97,27 +95,22 @@ export class FroalaReduxForm extends Component {
           'indent',
           'insertLink',
           'specialCharacters',
-          'emoticons',
-          'print',
           'help',
         ];
         break;
       case BLOCK_TEXT:
         toolbarButtons = [
-          'copy',
-          'bind',
-          'unbind',
+          FROALA_BTN_TITLE_COPY,
+          FROALA_BTN_TITLE_BIND,
+          FROALA_BTN_TITLE_UNBIND,
           '|',
           'bold',
           'italic',
           'underline',
           'fontSize',
           'color',
+          'lineHeight',
           'clearFormatting',
-          'specialCharacters',
-          'paragraphFormat',
-          'paragraphStyle',
-          'quote',
           'align',
           'formatOL',
           'formatUL',
@@ -125,8 +118,6 @@ export class FroalaReduxForm extends Component {
           'indent',
           'insertLink',
           'specialCharacters',
-          'emoticons',
-          'print',
           'help',
         ];
         break;
@@ -140,6 +131,7 @@ export class FroalaReduxForm extends Component {
       charCounterCount: false,
       toolbarButtons: toolbarButtons,
       autofocus: true,
+      language: 'ru'
     };
     this.setState({
       ...this.state,
@@ -184,7 +176,8 @@ export class FroalaReduxForm extends Component {
           onModelChange={this.handleModelChange}
           model={input.value}
           tag={'textarea'}
-          config={{ ...config, ...this.state.EditorConfig }}
+          config={{ ...config, ...this.state.EditorConfig,
+            language: 'ru' }}
         />
       </div>
     );

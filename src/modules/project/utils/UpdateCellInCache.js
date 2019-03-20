@@ -1,4 +1,4 @@
-import CellItemQuery from './CellItemQuery.graphql';
+import CellItemQuery from '../graphql/CellItemQuery.graphql';
 
 /**
  * @param {object} client - apollo client instance
@@ -6,7 +6,7 @@ import CellItemQuery from './CellItemQuery.graphql';
  * @desc
  * */
 export const UpdateCellInCache = (client, data) => {
-  let cell = {cellitem: {}};
+  let cell = {cellItem: {}};
   let options = {
     query: CellItemQuery,
     variables: {
@@ -22,8 +22,8 @@ export const UpdateCellInCache = (client, data) => {
     client.writeQuery({
       ...options,
       data: {
-        cellitem: {
-          ...cell.cellitem,
+        cellItem: {
+          ...cell.cellItem,
           ...data,
         }
       }

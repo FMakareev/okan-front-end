@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import '../../../../assets/style/editor-cell_content.css';
 
 /** Graphql schema */
-import ProjectItemQuery from './ProjectItemQuery.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 
 /**PropTypes */
 import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';

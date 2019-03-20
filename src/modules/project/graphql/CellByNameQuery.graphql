@@ -2,8 +2,18 @@ query($name: String!, $projectid: String!, $document: String, $revision: String)
   cellbyname(name: $name, projectid: $projectid, document: $document, revision: $revision){
     cells{
       id
+      name
+      verify
+      isHead
+      isAttachment
+      number
       parent {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
     }
     documents{

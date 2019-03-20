@@ -1,0 +1,115 @@
+query ($parent: String) {
+
+  celllist(parent: $parent) {
+    childcell: children  {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
+    }
+    comments {
+      id
+      createdate
+      isdelete
+      message
+      sender {
+        id
+        firstname
+        lastname
+        patronymic
+      }
+      updatedate
+    }
+    content {
+      id
+      name
+      content
+      contenttype
+      number
+    }
+    id
+    isHead
+    isAttachment
+    name
+    number
+    nextcell  {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
+    }
+    prevcell  {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
+    }
+    parent {
+      name
+      id
+      number
+      verify
+      isHead
+      isAttachment
+      name
+      parent  {
+        id
+        name
+        verify
+        isHead
+        isAttachment
+        number
+      }
+    }
+    lastChildren  {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
+    }
+    pull {
+      id
+      nextcell  {
+        id
+        name
+        verify
+        isHead
+        isAttachment
+        number
+      }
+      prevcell  {
+        id
+        name
+        verify
+        isHead
+        isAttachment
+        number
+      }
+      parent  {
+        id
+        name
+        verify
+        isHead
+        isAttachment
+        number
+      }
+      content {
+        id
+        name
+        content
+        contenttype
+        number
+      }
+    }
+    verify
+  }
+
+}

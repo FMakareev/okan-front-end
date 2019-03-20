@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
+import { sortingCells } from '../../utils/sortingCells';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
@@ -9,17 +10,17 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import deleteIcon from '../../../../assets/image/deleteIcon.png';
 
 /** Mutation */
-import DeleteCellMutation from './DeleteCellMutation.graphql';
+import DeleteCellMutation from '../../graphql/DeleteCellMutation.graphql';
 
 /** Graphql query */
-import CellListQuery from '../ProjectEditor/CellListQuery.graphql';
-import CellItemQuery from '../DocumentTree/CellItemQuery.graphql';
-import { sortingCells } from '../../utils/sortingCells';
+import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** Redux */
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { BLOCK_TEXT } from '@lib/shared/blockType';
+import {UnbindCellHOC} from "../../hoc/UnbindCellHOC/UnbindCellHOC";
 
 const notificationOpts = () => ({
   success: {
@@ -34,16 +35,20 @@ const notificationOpts = () => ({
   },
 });
 
+
+
+
+
 export class EditorCellDelete extends Component {
   constructor(props) {
     super(props);
   }
 
-  deleteCell = () => {
+  deleteCell = (id) => {
     return this.props
       .mutate({
         variables: {
-          id: this.props.id,
+          id: id,
         },
         update: (store, { data: { deletecell } }) => {
           let data = store.readQuery({
@@ -96,12 +101,12 @@ export class EditorCellDelete extends Component {
               if (deletecell.cell.nextcell) {
                 /** если поле удаляемой ячейки есть еще ячейка */
                 data.celllist.splice(cellIndex, 1);
-                data.celllist[0].prevcell = parent.cellitem;
-                parent.cellitem.childcell = data.celllist[0];
+                data.celllist[0].prevcell = parent.cellItem;
+                parent.cellItem.childcell = data.celllist[0];
               } else {
                 /** если ячейка одна в списке */
                 data.celllist = [];
-                parent.cellitem.childcell = null;
+                parent.cellItem.childcell = null;
               }
 
               store.writeQuery({ ...options, data: parent });
@@ -145,12 +150,12 @@ export class EditorCellDelete extends Component {
             },
           });
 
-          if (data.cellitem.lastChildren && data.cellitem.lastChildren.id === deletecell.cell.id) {
+          if (data.cellItem.lastChildren && data.cellItem.lastChildren.id === deletecell.cell.id) {
             if (deletecell.cell.prevcell.id !== deletecell.cell.parent.id) {
-              data.cellitem.lastChildren.id = deletecell.cell.prevcell.id;
-              data.cellitem.lastChildren.name = deletecell.cell.prevcell.name;
+              data.cellItem.lastChildren.id = deletecell.cell.prevcell.id;
+              data.cellItem.lastChildren.name = deletecell.cell.prevcell.name;
             } else {
-              data.cellitem.lastChildren = null;
+              data.cellItem.lastChildren = null;
             }
           }
 
@@ -175,20 +180,25 @@ export class EditorCellDelete extends Component {
       });
   };
 
+  onClick = async () => {
+    if (confirm('Вы уверены что хотите удалить блок?')) {
+      await this.props.unbindCellSubmit(this.props.id, false);
+      await this.deleteCell(this.props.id);
+    }
+  };
+
+
   render() {
     return (
       <ButtonBase
         p={2}
-        onClick={() => {
-          if (confirm('Вы уверены что хотите удалить блок?')) {
-            this.deleteCell();
-          }
-        }}>
+        onClick={this.onClick}>
         <img src={deleteIcon} width={'13px'} />
       </ButtonBase>
     );
   }
 }
+
 EditorCellDelete.propTypes = {
   id: PropTypes.string,
   sectionid: PropTypes.string,
@@ -197,6 +207,7 @@ EditorCellDelete.propTypes = {
 };
 
 EditorCellDelete = graphql(DeleteCellMutation)(EditorCellDelete);
+EditorCellDelete = UnbindCellHOC()(EditorCellDelete);
 
 EditorCellDelete = connect(
   null,

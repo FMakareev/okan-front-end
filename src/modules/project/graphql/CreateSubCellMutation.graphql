@@ -1,15 +1,27 @@
 mutation ($parent: String!, $isHead: Boolean, $contenttype: String, $content: String) {
-  createsubcell(parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content) {
+  createSubCell: createsubcell(parent: $parent, isHead: $isHead, contenttype: $contenttype, content: $content) {
     cell {
+      id
+      name
+      verify
+      isHead
+      isAttachment
+      number
       childcell: children {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       lastChildren {
         id
         name
+        verify
         isHead
+        isAttachment
+        number
       }
       comments {
         id
@@ -31,23 +43,38 @@ mutation ($parent: String!, $isHead: Boolean, $contenttype: String, $content: St
         contenttype
         number
       }
-      id
-      isHead
-      isAttachment
-      name
       nextcell {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       prevcell {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       parent {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       lastChildren {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      verify
     }
   }
 }

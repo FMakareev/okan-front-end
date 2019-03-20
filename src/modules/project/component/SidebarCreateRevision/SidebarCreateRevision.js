@@ -11,7 +11,7 @@ import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 import { SvgSidebarSave } from '../../../../components/Icons/SvgSidebarSave';
 
 /** graphql Schema */
-import CreateRevisionMutation from './CreateRevisionMutation.graphql';
+import CreateRevisionMutation from '../../graphql/CreateRevisionMutation.graphql';
 import RevisionListQuery from '../../view/revisionList/RevisionListQuery.graphql';
 
 /** store */

@@ -24,10 +24,10 @@ import { getPosition } from '../ProjectContext/ProjectContextSelectors';
 import FormCreateFirstCell from '../FormCreateFirstCell/FormCreateFirstCell';
 
 /** Graphql schema */
-import CellItemQuery from './CellItemQuery.graphql';
-import UpdateCellMutation from './UpdateCellMutation.graphql';
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import ProjectItemQuery from '../../view/projectEditor/ProjectItemQuery.graphql';
+import CellItemQuery from '../../graphql/CellItemQuery.graphql';
+import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 
 /** PropTypes  */
 import { ProjectPropTypes } from '../../../../propTypes/ProjectPropTypes';
@@ -617,7 +617,6 @@ export class DocumentTree extends Component {
    * @desc метод для обновления стейта
    * */
   updateTree = props => {
-    console.log('updateTree: ', props);
     this.setState(state => ({
       ...state,
       ...props,
@@ -660,8 +659,12 @@ export class DocumentTree extends Component {
       } else {
         node.loading = false;
       }
+<<<<<<< HEAD
       console.log('onToggle');
       this.updateTree({ cursor: node });
+=======
+      this.updateTree({cursor: node});
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
     } catch (error) {
       console.error('Error onToggle:', error);
     }
@@ -677,29 +680,35 @@ export class DocumentTree extends Component {
     if (!id) return;
     return this.getNode(id)
       .then(async response => {
+<<<<<<< HEAD
         const { data } = response;
         if (data && data.cellitem) {
           nodes.push(data.cellitem);
+=======
+        const {data} = response;
+        if (data && data.cellItem) {
+          nodes.push(data.cellItem);
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
 
           // Это перегрузка метода
           if (typeof prevcell !== 'undefined') {
             if (
-              data.cellitem.prevcell &&
-              has.call(data.cellitem.prevcell, 'id') &&
-              data.cellitem.prevcell.id !== prevcell
+              data.cellItem.prevcell &&
+              has.call(data.cellItem.prevcell, 'id') &&
+              data.cellItem.prevcell.id !== prevcell
             ) {
-              await this.branchDownload(data.cellitem.prevcell.id, nodes, data.cellitem.id);
+              await this.branchDownload(data.cellItem.prevcell.id, nodes, data.cellItem.id);
             }
             if (
-              data.cellitem.nextcell &&
-              has.call(data.cellitem.nextcell, 'id') &&
-              data.cellitem.nextcell.id !== prevcell
+              data.cellItem.nextcell &&
+              has.call(data.cellItem.nextcell, 'id') &&
+              data.cellItem.nextcell.id !== prevcell
             ) {
-              return await this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
+              return await this.branchDownload(data.cellItem.nextcell.id, nodes, data.cellItem.id);
             }
           } else {
-            if (data.cellitem.nextcell && has.call(data.cellitem.nextcell, 'id')) {
-              return this.branchDownload(data.cellitem.nextcell.id, nodes, data.cellitem.id);
+            if (data.cellItem.nextcell && has.call(data.cellItem.nextcell, 'id')) {
+              return this.branchDownload(data.cellItem.nextcell.id, nodes, data.cellItem.id);
             }
             return response;
           }
@@ -726,7 +735,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, status);
-      console.log('changeStatusLoadingsNode');
+
       this.updateTree({
         tree,
         cursor:
@@ -755,7 +764,7 @@ export class DocumentTree extends Component {
 
       // по пути обновили значение статуса
       objectPath.set([tree], pathToNode, focused);
-      console.log('changeNodeFocus');
+
       this.updateTree({
         tree,
         cursor:
@@ -805,8 +814,12 @@ export class DocumentTree extends Component {
    * @desc метод для изменения статуса проверки ячеек
    * */
   changeParentVerifyStatus = (parent, tree, status) => {
+<<<<<<< HEAD
     console.log('changeParentVerifyStatus: ', parent, tree, status);
     return new Promise(async resolve => {
+=======
+    return new Promise(async (resolve) => {
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
       try {
         let pathToParentNode = this.getPathToNode(tree, parent.id) || '0';
         let parentNode = objectPath.get([tree], pathToParentNode);
@@ -897,8 +910,12 @@ export class DocumentTree extends Component {
       let newChildren = cellList.map(cell => this.createCellNode(cell));
 
       objectPath.set([tree], pathToParent, newChildren);
+<<<<<<< HEAD
       console.log('addNodeListInBranch', tree);
       this.updateTree({ tree });
+=======
+      this.updateTree({tree});
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
     } catch (error) {
       console.error(`Error addNodeListInBranch`, error);
     }
@@ -1028,8 +1045,12 @@ export class DocumentTree extends Component {
       objectPath.set([tree], pathToParentCell, parentCell);
     }
 
+<<<<<<< HEAD
     console.log('addNodeInTree');
     this.updateTree({ tree });
+=======
+    this.updateTree({tree});
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
   };
 
   /**
@@ -1057,9 +1078,14 @@ export class DocumentTree extends Component {
       const pathToCurrentNode = this.getPathToNode(tree, cellid);
       const currentNode = objectPath.get([tree], pathToCurrentNode);
 
+<<<<<<< HEAD
       objectPath.set([tree], pathToCurrentNode, { ...currentNode, ...newData });
       console.log('updateNode');
       this.updateTree({ tree });
+=======
+      objectPath.set([tree], pathToCurrentNode, {...currentNode, ...newData});
+      this.updateTree({tree});
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
     } catch (error) {
       console.error('Error updateNode: ', error);
     }
@@ -1141,8 +1167,13 @@ export class DocumentTree extends Component {
       .mutate({
         mutation: UpdateCellMutation,
         variables: value,
+<<<<<<< HEAD
         update: (store, { data: { updatecell } }) => {
           UpdateCellInCache(store, updatecell.cell);
+=======
+        update: (store, {data: {updateCell}}) => {
+          UpdateCellInCache(store, updateCell.cell);
+>>>>>>> 7ee30cd8ced53d4fd4fa4f3d8b7e6c917cdd8039
         },
       })
       .catch(error => {

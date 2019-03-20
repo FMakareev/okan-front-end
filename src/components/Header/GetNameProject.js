@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Query, withApollo } from 'react-apollo';
 
 /** Graphql schema */
-import ProjectItemQuery from '../../modules/project/view/projectEditor/ProjectItemQuery.graphql';
+import ProjectItemQuery from '../../modules/project/graphql/ProjectItemQuery.graphql';
 
 export class GetNameProject extends Component {
   state = { name: '' };
@@ -49,7 +49,7 @@ export class GetNameProject extends Component {
   render() {
     const { name } = this.state;
 
-    return <Fragment>{name}</Fragment>;
+    return <span title={name}>{name}</span>;
   }
 }
 

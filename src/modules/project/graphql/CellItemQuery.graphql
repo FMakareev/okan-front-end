@@ -1,9 +1,12 @@
 query ($id: String) {
-  cellitem(id: $id) {
+  cellItem: cellitem(id: $id) {
     childcell: children {
       id
       name
+      verify
       isHead
+      isAttachment
+      number
     }
     comments {
       id
@@ -33,36 +36,61 @@ query ($id: String) {
     nextcell {
       id
       name
+      verify
+      isHead
+      isAttachment
+      number
     }
     prevcell {
       id
       name
       verify
+      isHead
+      isAttachment
+      number
     }
-    parent {
+    parent  {
       id
       name
-      number
       verify
+      isHead
+      isAttachment
+      number
     }
     verify
     lastChildren {
       id
       name
+      verify
+      isHead
+      isAttachment
+      number
     }
     pull {
       id
-      nextcell {
-        name
+      nextcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      prevcell {
-        name
+      prevcell  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
-      parent {
-        name
+      parent  {
         id
+        name
+        verify
+        isHead
+        isAttachment
+        number
       }
       content {
         id

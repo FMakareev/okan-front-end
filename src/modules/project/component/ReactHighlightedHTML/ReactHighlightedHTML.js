@@ -25,7 +25,7 @@ export class ReactHighlightedHTML extends Component {
         const {end, highlight, start} = chunk;
         const text = textToHighlight.substr(start, end - start);
         if (highlight) {
-          return `<mark>${text}</mark>`;
+          return `<mark style="background-color:#ff9632;">${text}</mark>`;
         } else {
           return text;
         }
