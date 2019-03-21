@@ -1,5 +1,5 @@
-query ($user: String, $messageread: Boolean) {
-  notificationslist(user: $user, messageread: $messageread) {
+query ($user: String, $pageSize: Int, $pageNumber: Int, $messageread: Boolean) {
+  notificationslist(user: $user, pageSize: $pageSize, pageNumber: $pageNumber, messageread: $messageread) {
     cell {
       id
       name

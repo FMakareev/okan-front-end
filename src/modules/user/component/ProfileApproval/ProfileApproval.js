@@ -1,17 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-/**Components */
+/**View */
 import Text from '@lib/ui/Text/Text';
 import Flex from '@lib/ui/Flex/Flex';
 import Tbody from '@lib/ui/Table/Tbody';
 import Td from '@lib/ui/Table/Td';
 import Tr from '@lib/ui/Table/Tr';
 import Link from '@lib/ui/Link/Link';
+import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
 /** Constants */
 import { TO_APPROVAL } from '../../../../shared/approvalStatus';
+
+/** Components */
+import ProfileApprovalItem from '../ProfileApprovalItem/ProfileApprovalItem';
 
 const TrStyled = styled(Tr)`
   display: -webkit-box;
@@ -52,7 +56,7 @@ const TdStyle = styled(Td)`
 
 export const ProfileApproval = ({ data }) => {
   return (
-    <Fragment>
+    <>
       <Text
         fontSize={6}
         lineHeight={8}
@@ -62,32 +66,9 @@ export const ProfileApproval = ({ data }) => {
         fontFamily={'primary500'}>
         На согласование
       </Text>
-      <Tbody>
-        <Flex justifyContent={'space-around'}>
-          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-            Номер документа
-          </Text>
 
-          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-            Название документа
-          </Text>
-        </Flex>
-      </Tbody>
-      {Array.isArray(data) &&
-        data.map(
-          item =>
-            item.approvalstatus === TO_APPROVAL && (
-              <LinkStyled to={`/app/document-commenting/${item.project}/${item.id}`}>
-                <TbodyStyled>
-                  <TrStyled>
-                    <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
-                    <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
-                  </TrStyled>
-                </TbodyStyled>
-              </LinkStyled>
-            ),
-        )}
-    </Fragment>
+      <PaginationPage data={data} Component={ProfileApprovalItem} />
+    </>
   );
 };
 
@@ -96,3 +77,7 @@ ProfileApproval.propTypes = {
 };
 
 export default ProfileApproval;
+
+{
+  /*<PaginationPage data={data} Component={ProfileApprovalItem} />*/
+}

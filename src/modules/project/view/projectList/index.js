@@ -55,6 +55,7 @@ export class ProjectListPage extends Component {
                 if (!data || (data && !has.call(data, 'projectList'))) {
                   return null;
                 }
+
                 return <ProjectList data={data && data.projectList} />;
               }}
             </Query>

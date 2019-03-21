@@ -30,6 +30,8 @@ import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
 import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
 
+import Page from './Page';
+
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
 
@@ -73,6 +75,7 @@ export class ProfilePage extends Component {
                     if (id && data && !data.documentsforapproval) {
                       return null;
                     }
+
                     return <ProfileApproval data={data && data.documentsforapproval} />;
                   }}
                 </Query>
@@ -115,9 +118,12 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole
                 targetRole={[ROLE_USER, ROLE_ADMIN]}
                 userRole={role && role}>
-                <Query query={NotificationListQuery}>
-                  {({ loading, error, data }) => {
-                    // console.log('notificationslist', data);
+                <Query
+                  query={NotificationListQuery}
+                  variables={{ pageSize: 2, pageNumber: 1 }}
+                  notifyOnNetworkStatusChange>
+                  {({ loading, error, data, fetchMore }) => {
+                    console.log('notificationslist', data.notificationslist);
 
                     if (id && loading) {
                       return <SmallPreloader />;
@@ -130,7 +136,27 @@ export class ProfilePage extends Component {
                     if (id && data && !data.notificationslist) {
                       return null;
                     }
-                    return <ProfileNotification data={data.notificationslist} />;
+
+                    return (
+                      <ProfileNotification
+                        data={data.notificationslist}
+                        pageSize={2}
+                        pageNumber={1}
+                        onLoadMore={() =>
+                          fetchMore({
+                            updateQuery: (prev, { fetchMoreResult }) => {
+                              if (!fetchMoreResult) return prev;
+                              return Object.assign({}, prev, {
+                                notificationslist: [
+                                  ...prev.notificationslist,
+                                  ...fetchMoreResult.notificationslist,
+                                ],
+                              });
+                            },
+                          })
+                        }
+                      />
+                    );
                   }}
                 </Query>
               </CheckComponentAccessByRole>
