@@ -261,45 +261,66 @@ export class SidebarCellNode extends Component {
           isHead: false,
         },
         update: (store, {data: {createcell}}) => {
-          let data = store.readQuery({
+
+          const cellListOptions = {
             query: CellListQuery,
             variables: {
-              parent: this.props.node.id,
+              parent: parentCellId,
             },
-          });
-          if (data.celllist.length > 0) {
-            data.celllist[data.celllist.length - 1].nextcell = createcell.cell;
+          };
+          let cellListData = {celllist:[]};
+
+          /** чтение и запись в отдельных try/catch потому что если celllist нет в кеше то аполо выдаст ошибку эту
+           * ошибку надо отловить чтобу далее создать запись в кеше
+           */
+          try {
+            cellListData = store.readQuery(cellListOptions);
+          } catch (error) {
+            console.error('Error readQuery celllist in createCopy:', error);
           }
-          data.celllist = sortingCells(data.celllist);
-          data.celllist.push(createcell.cell);
 
-          store.writeQuery({
-            query: CellListQuery,
-            variables: {
-              parent: this.props.node.id,
-            },
-            data,
-          });
+          try {
+            if (cellListData.celllist.length > 0) {
+              cellListData.celllist[cellListData.celllist.length - 1].nextcell = createcell.cell;
+            }
+            cellListData.celllist = sortingCells(cellListData.celllist);
+            cellListData.celllist.push(createcell.cell);
 
-          data = null;
+            store.writeQuery({
+              ...cellListOptions,
+              data: cellListData,
+            });
+          } catch (error) {
+            console.error('Error writeQuery celllist in createCopy:', error);
+          }
 
-          data = store.readQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id,
-            },
-          });
-          data.cellItem.lastChildren = {};
-          data.cellItem.lastChildren.id = createcell.cell.id;
-          data.cellItem.lastChildren.name = createcell.cell.name;
-          data.cellItem.lastChildren.__typename = 'Cell';
-          store.writeQuery({
-            query: CellItemQuery,
-            variables: {
-              id: this.props.node.id,
-            },
-            data: data,
-          });
+          /** Обновляем указатели на новую ячейку у родителя*/
+          try {
+            const parentCellOptions = {
+              query: CellItemQuery,
+              variables: {
+                id: parentCellId,
+              },
+            };
+
+            let parentCellData = store.readQuery(parentCellOptions);
+            console.log('parentCellData: ',parentCellData);
+            /** если у родителя нет детей то созданная при копировании/связывании ячейка становится его потомком */
+            if(!parentCellData.cellItem.childcell){
+              parentCellData.cellItem.childcell = createcell.cell;
+            }
+
+            parentCellData.cellItem.lastChildren = createcell.cell;
+
+            console.log('parentCellData: ',parentCellData);
+            store.writeQuery({
+              ...parentCellOptions,
+              data: parentCellData,
+            });
+          } catch (error) {
+            console.error('Error update parent cell list in createCopy:', error);
+          }
+
         },
       })
       .then(({data}) => {

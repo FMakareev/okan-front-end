@@ -14,7 +14,7 @@ export class ReactHighlightedHTML extends Component {
     searchWords: [],
   };
 
-  highlightedContent = (textToHighlight, searchWords) => {
+  highlightedContent = (textToHighlight, searchWords, markClassName = "highlightedContentMark") => {
     const chunks = findAll({
       searchWords: [searchWords],
       textToHighlight
@@ -25,7 +25,7 @@ export class ReactHighlightedHTML extends Component {
         const {end, highlight, start} = chunk;
         const text = textToHighlight.substr(start, end - start);
         if (highlight) {
-          return `<mark style="background-color:#ff9632;">${text}</mark>`;
+          return `<mark class="${markClassName}" style="background-color:#ff9632;">${text}</mark>`;
         } else {
           return text;
         }
@@ -34,10 +34,10 @@ export class ReactHighlightedHTML extends Component {
   };
 
   render() {
-    const {textToHighlight, searchWords} = this.props;
+    const {textToHighlight, searchWords,markClassName} = this.props;
 
     if(searchWords.length){
-      return ReactHTMLParser(this.highlightedContent(textToHighlight, searchWords));
+      return ReactHTMLParser(this.highlightedContent(textToHighlight, searchWords,markClassName));
     } else {
       return ReactHTMLParser(textToHighlight);
     }

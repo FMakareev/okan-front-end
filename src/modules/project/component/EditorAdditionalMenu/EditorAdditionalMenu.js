@@ -298,15 +298,7 @@ export class EditorAdditionalMenu extends Component {
           UpdateCellInCache(store, createcell.cell);
 
 
-          try {
-            /** проверяем статус изменения у парента и если он не желтый то меняем на желтый */
-            if (parent.cellItem.verify === CELL_STATUS_CHECKED) {
-              parent.cellItem.verify = CELL_STATUS_CHANGED;
-            }
-          } catch (error) {
-            console.error('Error: ',error);
-          }
-
+          parent.cellItem.verify = CELL_STATUS_CHANGED;
           try {
 
             /** запись в кеш данных родителя */

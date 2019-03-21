@@ -79,6 +79,32 @@ export class EditorCellController extends Component {
     return {editable: false, timer: null, toggleAdditionalMenu: false};
   }
 
+
+  /**
+   * @param {object} currentCellRef объект DOM элемента
+   * @return {object} объект DOM элемента
+   * @desc метод ищет в доме элементы которые отмечены поиском и возвращает первый из массива элементов найденный
+   * внутри текущего компонента если же не чего не найдено то вернет ref ссылку на сам компонент
+   * */
+  getDOMElementCurrentMark = (currentCellRef) => {
+    let markList = [];
+    try{
+      markList = document.getElementsByClassName(`highlightedContentMark-${this.props.data.id}`);
+      if(markList.length){
+        return markList[0];
+      } else {
+        return currentCellRef
+      }
+    } catch (e) {
+      console.log('objectPath: ',e);
+      return currentCellRef
+    }
+  };
+
+  /**
+   * @param {object} currentCellRef объект DOM элемента
+   * @desc метод получает дом элемент просчитывает +- его середину си выполняет плавный скрол к ней.
+   * */
   handleScrollToCurrentCell(currentCellRef) {
     try {
       const top = currentCellRef.documentOffsetTop() - window.innerHeight / 2;
@@ -100,7 +126,8 @@ export class EditorCellController extends Component {
         /** если предыдущее состояние курсора поиска не такое же как новое */
         if (this.props.data.id === nextSearchCursor.cell.id) {
           if (isBrowser) {
-            this.handleScrollToCurrentCell(this.currentCellRef.current);
+            this.handleScrollToCurrentCell(this.getDOMElementCurrentMark(this.currentCellRef.current));
+
           }
         }
       }
@@ -119,7 +146,7 @@ export class EditorCellController extends Component {
     if (isBrowser) {
       let searchCursor = getProject(this.props, 'searchCursor');
       if (searchCursor && searchCursor.cell && this.props.data.id === searchCursor.cell.id) {
-        this.handleScrollToCurrentCell(this.currentCellRef.current);
+        this.handleScrollToCurrentCell(this.getDOMElementCurrentMark(this.currentCellRef.current));
       }
     }
   }
@@ -189,6 +216,7 @@ export class EditorCellController extends Component {
               id: this.props.data.parent.id,
             },
           };
+          console.log('updateCell : ', updateCell);
 
           try {
             UpdateCellInCache(store, {...updateCell.cell});
