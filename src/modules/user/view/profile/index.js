@@ -56,7 +56,7 @@ export class ProfilePage extends Component {
 
     return (
       <ErrorCatch>
-        <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
+        <Flex ml={'10%'} mr={'70px'} my={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
