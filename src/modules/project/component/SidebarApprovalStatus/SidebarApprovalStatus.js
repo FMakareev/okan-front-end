@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Query, withApollo} from 'react-apollo';
 import objectPath from 'object-path';
+import styled from 'styled-components';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -42,6 +43,20 @@ const GetStatusColor = status => {
     }
   }
 };
+
+
+const CircleIcon = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0.5px solid #848484;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  
+  ${({fill})=>`background-color: ${fill};`}
+`;
 
 export class SidebarApprovalStatus extends Component {
   static propTypes = {
@@ -220,19 +235,22 @@ export class SidebarApprovalStatus extends Component {
           return (
             <ButtonBase
               title={'Статус проверки блока'}
-              variant={'empty'}
+              variant={'outlineGray'}
+              p={'10px'}
               disabled={node.childcell && node.childcell.isHead}
+              styled={{
+                backgroundColor: node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff',
+              }}
               onClick={event => {
                 event.stopPropagation();
                 return this.changeStatus(node.id, CELL_STATUS_CHECKED);
               }}>
-              <SvgStatus
+              <CircleIcon
                 fill={GetStatusColor(
                   data && data.checkForCellChanges && data.checkForCellChanges.answer
                     ? CELL_STATUS_CHANGED
                     : node.verify,
                 )}
-                bgfill={node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff'}
               />
             </ButtonBase>
           );
