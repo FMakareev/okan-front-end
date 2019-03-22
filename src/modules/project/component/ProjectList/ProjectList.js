@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 /** Components */
 import ProjectItem from './ProjectItem';
 
-/** View */
-import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
-
 export const ProjectList = ({ data }) => {
   return (
-    <>
-      <PaginationPage data={data} Component={ProjectItem} />
-    </>
+    <Fragment>
+      {Array.isArray(data) &&
+        data.map((item, index) => <ProjectItem {...item} key={`ProjectItem-${index}`} />)}
+    </Fragment>
   );
 };
 
 ProjectList.propTypes = {
-  /** data */
-  data: PropTypes.any,
+  /** Data */
+  data: PropTypes.arrayOf({
+    /** id project */
+    id: PropTypes.string,
+    /** name project */
+    name: PropTypes.string,
+  }),
 };
 
 export default ProjectList;

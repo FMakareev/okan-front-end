@@ -12,6 +12,9 @@ import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
 import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { Link } from '@lib/ui/Link/Link';
+import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
+import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
+import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 
 /** components */
 import ProjectList from '../../component/ProjectList/ProjectList';
@@ -34,31 +37,69 @@ export class ProjectListPage extends Component {
 
   render() {
     const { user } = this.props;
+    const pageSize = 3;
 
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'500px'} width={'100%'}>
-            <Query
-              variables={{
-                id: user && user.id,
-              }}
-              query={ProjectListQuery}>
-              {({ loading, error, data }) => {
-                if (loading) {
-                  return 'Загрузка...';
-                }
-                if (error) {
-                  return 'Произошла ошибка.';
-                }
+            <PaginationPageHOC>
+              {(props, increment, dicrement) => {
+                return (
+                  <Query
+                    variables={{
+                      id: user && user.id,
+                      pageSize: pageSize,
+                      pageNumber: props.pageNumber,
+                    }}
+                    query={ProjectListQuery}>
+                    {({ loading, error, data, fetchMore }) => {
+                      if (user && user.id && loading) {
+                        return <SmallPreloader />;
+                      }
+                      if (error) {
+                        console.error(`Error projectListQuery: `, error);
+                        return null;
+                      }
+                      if (user && user.id && data && !data.projectList) {
+                        return null;
+                      }
+                      const dataLength = data.projectList.length < pageSize;
 
-                if (!data || (data && !has.call(data, 'projectList'))) {
-                  return null;
-                }
-
-                return <ProjectList data={data && data.projectList} />;
+                      return (
+                        <PaginationPage
+                          pageNumber={props.pageNumber}
+                          increment={increment}
+                          dicrement={dicrement}
+                          data={data && data.projectList}
+                          dataLength={dataLength}>
+                          {prop => {
+                            return (
+                              <ProjectList
+                                data={data && data.projectList}
+                                onLoadMore={() =>
+                                  fetchMore({
+                                    updateQuery: (prev, { fetchMoreResult }) => {
+                                      if (!fetchMoreResult) return prev;
+                                      return Object.assign({}, prev, {
+                                        projectList: [
+                                          ...prev.projectList,
+                                          ...fetchMoreResult.projectList,
+                                        ],
+                                      });
+                                    },
+                                  })
+                                }
+                              />
+                            );
+                          }}
+                        </PaginationPage>
+                      );
+                    }}
+                  </Query>
+                );
               }}
-            </Query>
+            </PaginationPageHOC>
 
             <Link mr={6} to={`/app/project-create`} textDecoration={'none'}>
               <ButtonWithImage

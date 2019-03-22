@@ -9,13 +9,9 @@ import Tbody from '@lib/ui/Table/Tbody';
 import Td from '@lib/ui/Table/Td';
 import Tr from '@lib/ui/Table/Tr';
 import Link from '@lib/ui/Link/Link';
-import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
 /** Constants */
 import { TO_APPROVAL } from '../../../../shared/approvalStatus';
-
-/** Components */
-import ProfileApprovalItem from '../ProfileApprovalItem/ProfileApprovalItem';
 
 const TrStyled = styled(Tr)`
   display: -webkit-box;
@@ -67,7 +63,31 @@ export const ProfileApproval = ({ data }) => {
         На согласование
       </Text>
 
-      <PaginationPage data={data} Component={ProfileApprovalItem} />
+      <Tbody>
+        <Flex justifyContent={'space-around'}>
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Номер документа
+          </Text>
+
+          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+            Название документа
+          </Text>
+        </Flex>
+      </Tbody>
+      {Array.isArray(data) &&
+        data.map(
+          item =>
+            item.approvalstatus === TO_APPROVAL && (
+              <LinkStyled to={`/app/document-commenting/${item.project}/${item.id}`}>
+                <TbodyStyled>
+                  <TrStyled>
+                    <TdStyle fontFamily={'primary500'}>{item.okancode}</TdStyle>
+                    <TdStyle fontFamily={'secondaryBold'}>{item.name}</TdStyle>
+                  </TrStyled>
+                </TbodyStyled>
+              </LinkStyled>
+            ),
+        )}
     </>
   );
 };
@@ -77,7 +97,3 @@ ProfileApproval.propTypes = {
 };
 
 export default ProfileApproval;
-
-{
-  /*<PaginationPage data={data} Component={ProfileApprovalItem} />*/
-}

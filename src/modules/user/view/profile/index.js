@@ -8,6 +8,8 @@ import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
 import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
+import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
+import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
 /**Components Admin*/
 import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
@@ -56,29 +58,68 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
+    const pageSize = 3;
+
     return (
       <ErrorCatch>
         <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
-                  {({ loading, error, data }) => {
-                    // console.log(1, data);
-                    if (id && loading) {
-                      return <SmallPreloader />;
-                    }
-                    if (error) {
-                      console.error(`Error DocumentsForApprovalQuery: `, error);
-                      return null;
-                    }
-                    if (id && data && !data.documentsforapproval) {
-                      return null;
-                    }
+                <PaginationPageHOC>
+                  {(props, increment, dicrement) => {
+                    return (
+                      <Query
+                        skip={!id}
+                        query={DocumentsForApprovalQuery}
+                        variables={{ user: id, pageSize: pageSize, pageNumber: props.pageNumber }}>
+                        {({ loading, error, data, fetchMore }) => {
+                          if (id && loading) {
+                            return <SmallPreloader />;
+                          }
+                          if (error) {
+                            console.error(`Error DocumentsForApprovalQuery: `, error);
+                            return null;
+                          }
+                          if (id && data && !data.documentsforapproval) {
+                            return null;
+                          }
+                          const dataLength = data.documentsforapproval.length < pageSize;
 
-                    return <ProfileApproval data={data && data.documentsforapproval} />;
+                          return (
+                            <PaginationPage
+                              pageNumber={props.pageNumber}
+                              increment={increment}
+                              dicrement={dicrement}
+                              data={data && data.documentsforapproval}
+                              dataLength={dataLength}>
+                              {prop => {
+                                return (
+                                  <ProfileApproval
+                                    data={data && data.documentsforapproval}
+                                    onLoadMore={() =>
+                                      fetchMore({
+                                        updateQuery: (prev, { fetchMoreResult }) => {
+                                          if (!fetchMoreResult) return prev;
+                                          return Object.assign({}, prev, {
+                                            documentsforapproval: [
+                                              ...prev.documentsforapproval,
+                                              ...fetchMoreResult.documentsforapproval,
+                                            ],
+                                          });
+                                        },
+                                      })
+                                    }
+                                  />
+                                );
+                              }}
+                            </PaginationPage>
+                          );
+                        }}
+                      </Query>
+                    );
                   }}
-                </Query>
+                </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>
 
@@ -90,8 +131,6 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
                 <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
-                    // console.log('useritem', data);
-
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
@@ -118,47 +157,60 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole
                 targetRole={[ROLE_USER, ROLE_ADMIN]}
                 userRole={role && role}>
-                <Query
-                  query={NotificationListQuery}
-                  variables={{ pageSize: 2, pageNumber: 1 }}
-                  notifyOnNetworkStatusChange>
-                  {({ loading, error, data, fetchMore }) => {
-                    console.log('notificationslist', data.notificationslist);
-
-                    if (id && loading) {
-                      return <SmallPreloader />;
-                    }
-
-                    if (error) {
-                      console.error(`Error NotificationListQuery: `, error);
-                      return null;
-                    }
-                    if (id && data && !data.notificationslist) {
-                      return null;
-                    }
-
+                <PaginationPageHOC>
+                  {(props, increment, dicrement) => {
                     return (
-                      <ProfileNotification
-                        data={data.notificationslist}
-                        pageSize={2}
-                        pageNumber={1}
-                        onLoadMore={() =>
-                          fetchMore({
-                            updateQuery: (prev, { fetchMoreResult }) => {
-                              if (!fetchMoreResult) return prev;
-                              return Object.assign({}, prev, {
-                                notificationslist: [
-                                  ...prev.notificationslist,
-                                  ...fetchMoreResult.notificationslist,
-                                ],
-                              });
-                            },
-                          })
-                        }
-                      />
+                      <Query
+                        query={NotificationListQuery}
+                        variables={{ pageSize: pageSize, pageNumber: props.pageNumber }}>
+                        {({ loading, error, data, fetchMore }) => {
+                          console.log('notificationslist', data.notificationslist);
+                          if (id && loading) {
+                            return <SmallPreloader />;
+                          }
+                          const dataLength = data.notificationslist.length < pageSize;
+
+                          if (error) {
+                            console.error(`Error NotificationListQuery: `, error);
+                            return null;
+                          }
+                          if (id && data && !data.notificationslist) {
+                            return null;
+                          }
+
+                          return (
+                            <PaginationPage
+                              pageNumber={props.pageNumber}
+                              increment={increment}
+                              dicrement={dicrement}
+                              dataLength={dataLength}>
+                              {prop => {
+                                return (
+                                  <ProfileNotification
+                                    data={data.notificationslist}
+                                    onLoadMore={() =>
+                                      fetchMore({
+                                        updateQuery: (prev, { fetchMoreResult }) => {
+                                          if (!fetchMoreResult) return prev;
+                                          return Object.assign({}, prev, {
+                                            notificationslist: [
+                                              ...prev.notificationslist,
+                                              ...fetchMoreResult.notificationslist,
+                                            ],
+                                          });
+                                        },
+                                      })
+                                    }
+                                  />
+                                );
+                              }}
+                            </PaginationPage>
+                          );
+                        }}
+                      </Query>
                     );
                   }}
-                </Query>
+                </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>
 

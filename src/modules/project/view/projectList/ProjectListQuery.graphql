@@ -1,5 +1,5 @@
-{
-  projectList {
+query ($pageSize: Int, $pageNumber: Int) {
+  projectList(pageSize: $pageSize, pageNumber: $pageNumber) {
     id
     name
     author {

@@ -11,8 +11,8 @@ import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
-export const ProfileNotification = ({ data, pageNumber, pageSize }) => {
-  console.log(1, data);
+export const ProfileNotification = ({ data, pageNumber, pageSize }, props) => {
+  console.log(props);
   return (
     <>
       <Box mb={[8]}>
@@ -26,12 +26,7 @@ export const ProfileNotification = ({ data, pageNumber, pageSize }) => {
           Оповещения
         </Text>
       </Box>
-      <PaginationPage
-        pageNumber={pageNumber}
-        pageSize={pageSize}
-        data={data}
-        Component={ProfileNotificationItem}
-      />
+      {data && data.map(item => <ProfileNotificationItem {...item} />)}
     </>
   );
 };
@@ -43,6 +38,4 @@ ProfileNotification.propTypes = {
 
 export default ProfileNotification;
 
-// {
-//   data && data.map(item => <ProfileNotificationItem {...item} />);
-// }
+// <PaginationPage pageNumber={pageNumber} pageSize={pageSize} data={data} Component={ProfileNotificationItem} />;

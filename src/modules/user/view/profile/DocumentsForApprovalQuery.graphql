@@ -1,5 +1,5 @@
-query ($user: String) {
-  documentsforapproval(user: $user) {
+query ($user: String,$pageSize: Int, $pageNumber: Int) {
+  documentsforapproval(user: $user,pageSize: $pageSize, pageNumber: $pageNumber) {
     id
     name
     okancode
