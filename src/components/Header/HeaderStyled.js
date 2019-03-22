@@ -81,11 +81,6 @@ const Title = styled.div`
   border-radius: 5px;
   margin-right: 17px;
   
-  max-width: 400px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  
   &:before {
     content: '';
     width: 6px;

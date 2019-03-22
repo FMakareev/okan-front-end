@@ -24,7 +24,7 @@ import { ProfileLogo, ProjectListLogo } from './Logos';
 import GetNameProject from './GetNameProject';
 
 /** HOC */
-import RenderOpenWindow from '../../utils/helpers/RenderOpenWindow';
+import {TitleWrapper} from "@lib/ui/Header/GetNameProject";
 
 export class Header extends Component {
   static propTypes = {
@@ -107,7 +107,7 @@ export class Header extends Component {
         <LineWrapper />
         <ControlsWrapper>
           <Title onMouseOver={this.handleMouseOut}>
-            {str.indexOf(beginString) === 0 ? <GetNameProject /> : name}
+            {str.indexOf(beginString) === 0 ? <GetNameProject /> :<TitleWrapper>{name}</TitleWrapper>     }
           </Title>
 
           <ButtonBaseStyled
