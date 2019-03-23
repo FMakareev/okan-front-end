@@ -3,8 +3,8 @@ import React from 'react';
 export const SvgPlay = () => {
   return (
     <svg
-      width="16"
-      height="20"
+      width="1em"
+      height="1.250em"
       viewBox="0 0 16 20"
       fill="inherit"
       xmlns="http://www.w3.org/2000/svg">

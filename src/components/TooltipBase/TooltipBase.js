@@ -22,9 +22,9 @@ export class TooltipBase extends Component {
     /** tooltip position */
     position: PropTypes.string,
     /** top position % */
-    top: PropTypes.number,
+    top: PropTypes.any,
     /** right position % */
-    left: PropTypes.number,
+    left: PropTypes.any,
     /** active or not */
     isActive: PropTypes.bool,
     /** the element whose tooltip is displayed */
@@ -37,8 +37,8 @@ export class TooltipBase extends Component {
     isActive: false,
   };
 
-  shouldComponentUpdate(nextProps){
-    if(nextProps.isActive !== this.props.isActive){
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.isActive !== this.props.isActive) {
       return true;
     }
     return false;

@@ -8,6 +8,8 @@ import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
 import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
+import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
+import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
 /**Components Admin*/
 import ProfileApproval from '../../component/ProfileApproval/ProfileApproval';
@@ -29,6 +31,7 @@ import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
 import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
 import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
+
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -56,26 +59,27 @@ export class ProfilePage extends Component {
 
     return (
       <ErrorCatch>
-        <Flex ml={'10%'} mr={'70px'} my={9} flexDirection={'column'}>
+        <Flex ml={'10%'} mr={'70px'} mt={9} mb={12} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <Query skip={!id} query={DocumentsForApprovalQuery} variables={{ user: id }}>
-                  {({ loading, error, data }) => {
-                    // console.log(1, data);
-                    if (id && loading) {
-                      return <SmallPreloader />;
-                    }
-                    if (error) {
-                      console.error(`Error DocumentsForApprovalQuery: `, error);
-                      return null;
-                    }
-                    if (id && data && !data.documentsforapproval) {
-                      return null;
-                    }
-                    return <ProfileApproval data={data && data.documentsforapproval} />;
+                <PaginationPageHOC
+                  queryName={'documentsForApproval'}
+                  queryVariables={{
+                    user: id,
                   }}
-                </Query>
+                  pageSize={5}
+                  pageNumber={1}
+                  query={DocumentsForApprovalQuery}
+                >
+                  {(props) => (
+                    <PaginationPage
+                      {...props}
+                      data={props.data && props.data.documentsForApproval}
+                      Consumer={ProfileApproval}
+                    />
+                  )}
+                </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>
 
@@ -87,8 +91,6 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
                 <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
                   {({ loading, error, data }) => {
-                    // console.log('useritem', data);
-
                     if (id && loading) {
                       return <SmallPreloader />;
                     }
@@ -115,24 +117,21 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole
                 targetRole={[ROLE_USER, ROLE_ADMIN]}
                 userRole={role && role}>
-                <Query query={NotificationListQuery}>
-                  {({ loading, error, data }) => {
-                    // console.log('notificationslist', data);
-
-                    if (id && loading) {
-                      return <SmallPreloader />;
-                    }
-
-                    if (error) {
-                      console.error(`Error NotificationListQuery: `, error);
-                      return null;
-                    }
-                    if (id && data && !data.notificationslist) {
-                      return null;
-                    }
-                    return <ProfileNotification data={data.notificationslist} />;
-                  }}
-                </Query>
+                <PaginationPageHOC
+                  queryName={'notificationsList'}
+                  queryVariables={{}}
+                  pageSize={5}
+                  pageNumber={1}
+                  query={NotificationListQuery}
+                >
+                  {(props) => (
+                    <PaginationPage
+                      {...props}
+                      data={props.data && props.data.notificationsList}
+                      Consumer={ProfileNotification}
+                    />
+                  )}
+                </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>
 

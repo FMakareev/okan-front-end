@@ -33,9 +33,9 @@ class MaskedInputs extends Component {
     label: PropTypes.string,
     type: PropTypes.string,
     mask: PropTypes.string,
-    name: PropTypes.bool,
-    ...fieldInputPropTypes,
-    ...fieldMetaPropTypes,
+    name: PropTypes.string,
+    // ...fieldInputPropTypes,
+    // ...fieldMetaPropTypes,
   };
 
   static defaultProps = {
@@ -59,16 +59,7 @@ class MaskedInputs extends Component {
   }
 
   render() {
-    const {
-      input,
-      meta,
-      mask,
-      placeholder,
-      required,
-      disabled,
-      loading,
-      name,
-    } = this.props;
+    const { input, meta, mask, placeholder, required, disabled, loading, name } = this.props;
 
     const { masked } = this.state;
 

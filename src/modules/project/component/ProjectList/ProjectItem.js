@@ -23,36 +23,37 @@ const FlexStyled = styled(Flex)`
   ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
-
-export let ProjectItem = ({ id, name, history }) => (
-  <Link mr={6} to={`/app/project/${id}`} textDecoration={'none'}>
-    <FlexStyled
-      alignItems={'center'}
-      justifyContent={'space-between'}
-      pr={'20px'}
-      pl={'50px'}
-      py={3}
-      mb={4}>
-      <Text color={'color11'} fontFamily={'secondaryBold'} fontSize={6} lineHeight={8}>
-        {name}
-      </Text>
-      <ButtonWithImage
-        onClick={event => {
-          try {
-            event.stopPropagation();
-            event.preventDefault();
-            history.push(`/app/project-settings/${id}`);
-          } catch (error) {
-            console.error(`Error ProjectItem id=${id}:`, error);
-          }
-        }}
-        type="button"
-        variant={'empty'}>
-        <Image src={settings} />
-      </ButtonWithImage>
-    </FlexStyled>
-  </Link>
-);
+export let ProjectItem = ({ id, name, history }) => {
+  return (
+    <Link mr={6} to={`/app/project/${id}`} textDecoration={'none'}>
+      <FlexStyled
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        pr={'20px'}
+        pl={'50px'}
+        py={3}
+        mb={4}>
+        <Text color={'color11'} fontFamily={'secondaryBold'} fontSize={6} lineHeight={8}>
+          {name}
+        </Text>
+        <ButtonWithImage
+          onClick={event => {
+            try {
+              event.stopPropagation();
+              event.preventDefault();
+              history.push(`/app/project-settings/${id}`);
+            } catch (error) {
+              console.error(`Error ProjectItem id=${id}:`, error);
+            }
+          }}
+          type="button"
+          variant={'empty'}>
+          <Image src={settings} />
+        </ButtonWithImage>
+      </FlexStyled>
+    </Link>
+  );
+};
 
 ProjectItem.propTypes = {
   /** id project */

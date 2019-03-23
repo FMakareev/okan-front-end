@@ -13,13 +13,13 @@ export class MaskedInputField extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
     type: PropTypes.string,
-    lineHeight: PropTypes.string,
+    lineHeight: PropTypes.any,
     fontFamily: PropTypes.string,
-    fontSize: PropTypes.string,
+    fontSize: PropTypes.any,
     mask: PropTypes.string,
-    name: PropTypes.bool,
-    ...fieldInputPropTypes,
-    ...fieldMetaPropTypes,
+    name: PropTypes.string,
+    // ...fieldInputPropTypes,
+    // ...fieldMetaPropTypes,
   };
 
   constructor(props) {
