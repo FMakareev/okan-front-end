@@ -63,17 +63,16 @@ export const ProfileApproval = ({ data }) => {
         На согласование
       </Text>
 
-      <Tbody>
-        <Flex justifyContent={'space-around'}>
-          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-            Номер документа
-          </Text>
 
-          <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
-            Название документа
-          </Text>
-        </Flex>
-      </Tbody>
+      <Flex justifyContent={'space-around'}>
+        <Text width={'50%'} textAlign={'center'}  fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+          Номер документа
+        </Text>
+
+        <Text width={'50%'} textAlign={'center'} fontSize={6} lineHeight={8} fontFamily={'primary500'}>
+          Название документа
+        </Text>
+      </Flex>
       {Array.isArray(data) &&
         data.map(
           item =>

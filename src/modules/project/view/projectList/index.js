@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
-import { connect } from 'react-redux';
+import {Query} from 'react-apollo';
+import {connect} from 'react-redux';
 
 /**PropTypes */
-import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
-import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import { Link } from '@lib/ui/Link/Link';
+import {ButtonWithImage} from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import {Link} from '@lib/ui/Link/Link';
 import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
 import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
@@ -20,85 +20,44 @@ import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ProjectList from '../../component/ProjectList/ProjectList';
 
 /** Image */
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
 
 /** Graphql schema */
 import ProjectListQuery from './ProjectListQuery.graphql';
 
 /** Redux reducers*/
-import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 
 const has = Object.prototype.hasOwnProperty;
 
 export class ProjectListPage extends Component {
-  static propTypes = { ...ReactRoutePropTypes };
+  static propTypes = {...ReactRoutePropTypes};
 
   state = {};
 
   render() {
-    const { user } = this.props;
-    const pageSize = 3;
+    const {user} = this.props;
 
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'500px'} width={'100%'}>
-            <PaginationPageHOC>
-              {(props, increment, dicrement) => {
-                return (
-                  <Query
-                    variables={{
-                      id: user && user.id,
-                      pageSize: pageSize,
-                      pageNumber: props.pageNumber,
-                    }}
-                    query={ProjectListQuery}>
-                    {({ loading, error, data, fetchMore }) => {
-                      if (user && user.id && loading) {
-                        return <SmallPreloader />;
-                      }
-                      if (error) {
-                        console.error(`Error projectListQuery: `, error);
-                        return null;
-                      }
-                      if (user && user.id && data && !data.projectList) {
-                        return null;
-                      }
-                      const dataLength = data.projectList.length < pageSize;
-
-                      return (
-                        <PaginationPage
-                          pageNumber={props.pageNumber}
-                          increment={increment}
-                          dicrement={dicrement}
-                          data={data && data.projectList}
-                          dataLength={dataLength}>
-                          {prop => {
-                            return (
-                              <ProjectList
-                                data={data && data.projectList}
-                                onLoadMore={() =>
-                                  fetchMore({
-                                    updateQuery: (prev, { fetchMoreResult }) => {
-                                      if (!fetchMoreResult) return prev;
-                                      return Object.assign({}, prev, {
-                                        projectList: [
-                                          ...prev.projectList,
-                                          ...fetchMoreResult.projectList,
-                                        ],
-                                      });
-                                    },
-                                  })
-                                }
-                              />
-                            );
-                          }}
-                        </PaginationPage>
-                      );
-                    }}
-                  </Query>
-                );
+            <PaginationPageHOC
+              queryName={'projectList'}
+              pageSize={5}
+              pageNumber={1}
+              queryVariables={{
+                id: user && user.id
               }}
+              query={ProjectListQuery}
+            >
+              {(props) => (
+                <PaginationPage
+                  {...props}
+                  data={props.data && props.data.projectList}
+                  Consumer={ProjectList}
+                />
+              )}
             </PaginationPageHOC>
 
             <Link mr={6} to={`/app/project-create`} textDecoration={'none'}>
@@ -107,7 +66,7 @@ export class ProjectListPage extends Component {
                 variant={'large'}
                 size={'medium'}
                 children={'Создать проект'}
-                rightIcon={<SvgPlay />}
+                rightIcon={<SvgPlay/>}
                 ml={9}
                 width={'100%'}
                 widthIcon={'10px'}
@@ -119,6 +78,7 @@ export class ProjectListPage extends Component {
     );
   }
 }
+
 ProjectListPage = connect(state => ({
   user: getUserFromStore(state),
 }))(ProjectListPage);

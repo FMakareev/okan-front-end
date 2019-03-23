@@ -32,7 +32,6 @@ import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
 import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
 
-import Page from './Page';
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -58,67 +57,28 @@ export class ProfilePage extends Component {
       user: { role, id },
     } = this.props;
 
-    const pageSize = 3;
-
     return (
       <ErrorCatch>
-        <Flex ml={'10%'} mr={'70px'} mt={9} flexDirection={'column'}>
+        <Flex ml={'10%'} mr={'70px'} mt={9} mb={12} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
               <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <PaginationPageHOC>
-                  {(props, increment, dicrement) => {
-                    return (
-                      <Query
-                        skip={!id}
-                        query={DocumentsForApprovalQuery}
-                        variables={{ user: id, pageSize: pageSize, pageNumber: props.pageNumber }}>
-                        {({ loading, error, data, fetchMore }) => {
-                          if (id && loading) {
-                            return <SmallPreloader />;
-                          }
-                          if (error) {
-                            console.error(`Error DocumentsForApprovalQuery: `, error);
-                            return null;
-                          }
-                          if (id && data && !data.documentsforapproval) {
-                            return null;
-                          }
-                          const dataLength = data.documentsforapproval.length < pageSize;
-
-                          return (
-                            <PaginationPage
-                              pageNumber={props.pageNumber}
-                              increment={increment}
-                              dicrement={dicrement}
-                              data={data && data.documentsforapproval}
-                              dataLength={dataLength}>
-                              {prop => {
-                                return (
-                                  <ProfileApproval
-                                    data={data && data.documentsforapproval}
-                                    onLoadMore={() =>
-                                      fetchMore({
-                                        updateQuery: (prev, { fetchMoreResult }) => {
-                                          if (!fetchMoreResult) return prev;
-                                          return Object.assign({}, prev, {
-                                            documentsforapproval: [
-                                              ...prev.documentsforapproval,
-                                              ...fetchMoreResult.documentsforapproval,
-                                            ],
-                                          });
-                                        },
-                                      })
-                                    }
-                                  />
-                                );
-                              }}
-                            </PaginationPage>
-                          );
-                        }}
-                      </Query>
-                    );
+                <PaginationPageHOC
+                  queryName={'documentsForApproval'}
+                  queryVariables={{
+                    user: id,
                   }}
+                  pageSize={5}
+                  pageNumber={1}
+                  query={DocumentsForApprovalQuery}
+                >
+                  {(props) => (
+                    <PaginationPage
+                      {...props}
+                      data={props.data && props.data.documentsForApproval}
+                      Consumer={ProfileApproval}
+                    />
+                  )}
                 </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>
@@ -157,59 +117,20 @@ export class ProfilePage extends Component {
               <CheckComponentAccessByRole
                 targetRole={[ROLE_USER, ROLE_ADMIN]}
                 userRole={role && role}>
-                <PaginationPageHOC>
-                  {(props, increment, dicrement) => {
-                    return (
-                      <Query
-                        query={NotificationListQuery}
-                        variables={{ pageSize: pageSize, pageNumber: props.pageNumber }}>
-                        {({ loading, error, data, fetchMore }) => {
-                          console.log('notificationslist', data.notificationslist);
-                          if (id && loading) {
-                            return <SmallPreloader />;
-                          }
-                          const dataLength = data.notificationslist.length < pageSize;
-
-                          if (error) {
-                            console.error(`Error NotificationListQuery: `, error);
-                            return null;
-                          }
-                          if (id && data && !data.notificationslist) {
-                            return null;
-                          }
-
-                          return (
-                            <PaginationPage
-                              pageNumber={props.pageNumber}
-                              increment={increment}
-                              dicrement={dicrement}
-                              dataLength={dataLength}>
-                              {prop => {
-                                return (
-                                  <ProfileNotification
-                                    data={data.notificationslist}
-                                    onLoadMore={() =>
-                                      fetchMore({
-                                        updateQuery: (prev, { fetchMoreResult }) => {
-                                          if (!fetchMoreResult) return prev;
-                                          return Object.assign({}, prev, {
-                                            notificationslist: [
-                                              ...prev.notificationslist,
-                                              ...fetchMoreResult.notificationslist,
-                                            ],
-                                          });
-                                        },
-                                      })
-                                    }
-                                  />
-                                );
-                              }}
-                            </PaginationPage>
-                          );
-                        }}
-                      </Query>
-                    );
-                  }}
+                <PaginationPageHOC
+                  queryName={'notificationsList'}
+                  queryVariables={{}}
+                  pageSize={5}
+                  pageNumber={1}
+                  query={NotificationListQuery}
+                >
+                  {(props) => (
+                    <PaginationPage
+                      {...props}
+                      data={props.data && props.data.notificationsList}
+                      Consumer={ProfileNotification}
+                    />
+                  )}
                 </PaginationPageHOC>
               </CheckComponentAccessByRole>
             </LeftColumn>

@@ -1,31 +1,37 @@
-import React, { Component, useState, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
+import React, {Component} from 'react';
+
 
 /**View */
 import Text from '@lib/ui/Text/Text';
 import Flex from '@lib/ui/Flex/Flex';
 import Box from '@lib/ui/Box/Box';
-import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
+import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
+import SmallPreloader from "@lib/ui/SmallPreloader/SmallPreloader";
 
 export class PaginationPage extends Component {
   render() {
-    const { pageNumber, dataLength, increment, dicrement } = this.props;
-    const variantDicrement = pageNumber === 1 ? 'disabled' : 'xsmall';
-    const variantIncrement = dataLength ? 'disabled' : 'xsmall';
-
+    const {pagination, data, loading, Consumer} = this.props;
     return (
       <Box>
-        {this.props.children({ ...this.props, ...this.state })}
+        {
+          loading && <SmallPreloader />
+        }
+        {
+          !loading && <Consumer data={data}/>
+        }
+
         <Flex justifyContent={'center'} mt={[4]}>
-          <ButtonBase
-            onClick={dicrement}
+          <ButtonWithImage
+            fontSize={4}
+            onClick={pagination.prevPage}
+            disabled={pagination.disabledToPrevPage}
             size={'xsmall'}
-            variant={variantDicrement}
-            style={{ transform: 'rotate(180deg)' }}>
-            {SvgPlay()}
-          </ButtonBase>
+            variant={'large'}
+            style={{transform: 'rotate(180deg)'}}
+          >
+            <SvgPlay/>
+          </ButtonWithImage>
 
           <Text
             fontSize={6}
@@ -34,12 +40,18 @@ export class PaginationPage extends Component {
             textAlign={'center'}
             px={[4]}
             fontFamily={'primary500'}>
-            {pageNumber}
+            {pagination.pageNumber}
           </Text>
 
-          <ButtonBase onClick={increment} size={'xsmall'} variant={variantIncrement}>
-            {SvgPlay()}
-          </ButtonBase>
+          <ButtonWithImage
+            fontSize={4}
+            onClick={pagination.nextPage}
+            disabled={pagination.disabledToNextPage}
+            size={'xsmall'}
+            variant={'large'}
+          >
+            <SvgPlay/>
+          </ButtonWithImage>
         </Flex>
       </Box>
     );

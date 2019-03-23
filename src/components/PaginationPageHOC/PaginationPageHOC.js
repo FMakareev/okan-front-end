@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
@@ -7,33 +7,123 @@ import Flex from '@lib/ui/Flex/Flex';
 import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
 import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
+import {Query} from "react-apollo";
 
 export class PaginationPageHOC extends Component {
-  constructor() {
-    super();
-    this.state = { pageNumber: 1 };
+
+
+  static propTypes = {
+    queryName: PropTypes.string,
+    pageSize: PropTypes.number,
+    pageNumber: PropTypes.number,
+    query: PropTypes.any,
+    queryVariables: PropTypes.any,
   }
 
-  dicrement = () => {
-    this.state.pageNumber === 1 ? 1 : this.setState({ pageNumber: this.state.pageNumber - 1 });
+  static defaultProps = {
+    pageSize: 10,
+    pageNumber: 1,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = this.initialState;
+  }
+
+
+  get initialState() {
+    const {pageNumber, pageSize} = this.props;
+    return {
+      pageNumber,
+      pageSize,
+    }
+  }
+
+  reFetchAfterSetState = (fetchMore,) => () => {
+    const {pageSize, pageNumber} = this.state;
+    const {queryName, query, queryVariables} = this.props;
+    fetchMore({
+      query: query,
+      variables: {
+        ...queryVariables,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      },
+      updateQuery: (previousResult, {fetchMoreResult}) => {
+        if (!fetchMoreResult) return {[queryName]: []};
+        return fetchMoreResult
+      }
+    })
   };
 
-  increment = () => {
-    this.state.pageNumber >= 1
-      ? this.setState({ pageNumber: this.state.pageNumber + 1 })
-      : this.state.pageNumber;
+  prevPage = (fetchMore) => {
+    const {pageNumber} = this.state;
+    try {
+      if (pageNumber >= 1) {
+        this.setState((state) => ({
+          ...state,
+          pageNumber: pageNumber - 1,
+        }), this.reFetchAfterSetState(fetchMore))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  nextPage = (fetchMore) => {
+    const {pageNumber} = this.state;
+    try {
+      this.setState((state) => ({
+        ...state,
+        pageNumber: pageNumber + 1,
+      }), this.reFetchAfterSetState(fetchMore))
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
-    const { pageNumber } = this.state;
+    const {query, queryVariables, queryName} = this.props;
+    const {pageNumber, pageSize} = this.state;
 
-    return (
-      <>{this.props.children({ ...this.props, ...this.state }, this.increment, this.dicrement)}</>
-    );
+    return (<Query
+      skip={!query}
+      variables={{
+        ...queryVariables,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      }}
+      query={query}>
+      {
+        ({loading, error, data, fetchMore}) => {
+          const Children = this.props.children;
+          return <Children
+            data={data}
+            loading={loading}
+            error={error}
+            pagination={{
+              pageSize: pageSize,
+              pageNumber: pageNumber,
+              nextPage: () => {
+                this.nextPage(fetchMore, data)
+              },
+              disabledToNextPage: loading ||
+              (data[queryName] &&
+                data[queryName].length === 0) ||
+              (data[queryName]
+                && data[queryName].length < pageSize
+              ),
+              prevPage: () => {
+                this.prevPage(fetchMore, data)
+              },
+              disabledToPrevPage: (pageNumber - 1) < 1
+            }}
+          />
+        }
+      }
+    </Query>)
   }
 }
 
 export default PaginationPageHOC;
-
-// <PaginationPage dicrement={this.dicrement} increment={this.increment} pageNumber={pageNumber} />;
