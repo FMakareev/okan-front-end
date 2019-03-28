@@ -100,7 +100,7 @@ export class TreeNode extends Component {
     let count = 0;
     let result = [];
 
-    const alphabet = 'абвгдеёжзийклмнопрстуфхцчшщыэюя';
+    const alphabet = 'абвгдежиклмнпрстуфхцшщэюя';
 
     const createAbc = (str, count, cursor) => {
       let result = '';
