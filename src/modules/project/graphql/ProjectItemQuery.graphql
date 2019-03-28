@@ -15,6 +15,7 @@ query($id: String!){
       project
       # название шаблона
       name
+      okancode
       # id корневого элемента от которого строится граф разделов
       childcell: children {
         id
