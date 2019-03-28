@@ -43,6 +43,7 @@ export class TextFieldWithTooltip extends PureComponent {
         <TextFieldBase
           {...rest}
           {...input}
+          autoComplete={'off'}
           onChange={(event) => {
             if (onChangeHOC) {
               input.onChange(onChangeHOC(event))
