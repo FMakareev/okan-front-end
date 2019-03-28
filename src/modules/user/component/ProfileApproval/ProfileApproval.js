@@ -66,7 +66,6 @@ export const ProfileApproval = ({data}) => {
         fontFamily={'primary500'}>
         На согласование
       </Text>
-      <Tbody>
       <Flex justifyContent={'space-around'}>
         <Text fontSize={6} lineHeight={8} fontFamily={'primary500'}>
           Номер документа
@@ -76,7 +75,6 @@ export const ProfileApproval = ({data}) => {
           Название документа
         </Text>
       </Flex>
-      </Tbody>
       {Array.isArray(data) &&
       data.map(
         item =>
