@@ -160,9 +160,57 @@ export class SidebarDocumentSearch extends Component {
     return event;
   };
 
+  /** @desc метод считает сколько всего результатов по всем документам */
+  getNumberOfSearchResults = () => {
+    let count = 0;
+    try {
+      const {project: {searchResult}} = this.props;
+      if (Array.isArray(searchResult)) {
+        searchResult.forEach(item => {
+          count += item.cells.length;
+        });
+      }
+      return count || '';
+    } catch (e) {
+      console.error('Error getNumberOfSearchResults: ', e);
+      return '';
+    }
+  };
+
+  /** @desc метод считает сколько всего результатов по всем документам и какой порядковый номер
+   * у результата на котором курсор и возвращает объект с этими данными. */
+  getNumberOfSearchCursor = () => {
+    let resultCount = 0;
+    let cursorIndex = 0;
+    try {
+      const {project: {searchResult, searchCursor}} = this.props;
+
+      if (Array.isArray(searchResult) && searchCursor.cell) {
+        searchResult.forEach(item => {
+          cursorIndex = item.cells.findIndex(cell => cell.id === searchCursor.cell.id);
+          if (cursorIndex >= 0) {
+            cursorIndex += resultCount + 1;
+          }
+          resultCount += item.cells.length;
+        });
+      }
+
+      return {
+        resultCount: resultCount,
+        resultCursorIndex: cursorIndex
+      };
+    } catch (e) {
+      console.error('Error getNumberOfSearchResults: ', e);
+      return {
+        resultCount: 0,
+        resultCursorIndex: 0,
+      };
+    }
+  };
+
   render() {
     const {isLoading} = this.state;
-
+    const {resultCount, resultCursorIndex} = this.getNumberOfSearchCursor();
     return (
       <WrapperStyled
         py={4}
@@ -180,10 +228,18 @@ export class SidebarDocumentSearch extends Component {
             size={'xs'}
             type={'search'}
             borderRadius={'4px'}
+            pr={'50px'}
             onChangeHOC={this.onResetSearchField}
             onKeyUp={this.onKeyUp}
           />
         </Box>
+        {
+          (resultCursorIndex > 0 && resultCount > 0) &&
+          <Box m={0} height={'20px'} width={'auto'} position={'absolute'} right={'75px'} lineHeight={'20px'}
+               zIndex={10}>
+            {resultCursorIndex}/{resultCount}
+          </Box>
+        }
         <Box ml={'3'} height={'20px'}>
           <ButtonWithImage
             type={'submit'}
