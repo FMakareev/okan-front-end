@@ -348,7 +348,7 @@ export class FormDocumentSettings extends Component {
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
-          <Box width={'50%'}>
+          <Box px={5} width={'50%'}>
             <Container maxWidth={'500px'} width={'100%'}>
               <InnerApprovalPartnersQuery
                 name={'partners'}
@@ -362,7 +362,7 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
           </Box>
-          <Box width={'50%'}>
+          <Box px={5} width={'50%'}>
 
             <Container mb={9} maxWidth={'500px'} width={'100%'}>
               <Text
@@ -372,7 +372,7 @@ export class FormDocumentSettings extends Component {
                 textAlign={'center'}
                 mb={6}
                 fontFamily={'primary500'}>
-                Утверждающие документа
+                Внешние утверждающие
               </Text>
               <FieldArray
                 name={"externalapprove"}
@@ -390,7 +390,7 @@ export class FormDocumentSettings extends Component {
                 textAlign={'center'}
                 mb={6}
                 fontFamily={'primary500'}>
-                Внешние согласующие документа
+                Внешние согласующие
               </Text>
               <FieldArray
                 name={"externalconform"}

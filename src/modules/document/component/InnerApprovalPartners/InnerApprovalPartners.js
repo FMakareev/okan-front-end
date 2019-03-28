@@ -84,7 +84,7 @@ export class InnerApprovalPartners extends Component {
             textAlign={'center'}
             mb={6}
             fontFamily={'primary500'}>
-            Согласующие документа
+            Согласующие ОКАН
           </Text>
 
           {options.length > 0 ? (

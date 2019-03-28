@@ -117,7 +117,8 @@ export class ContractorListField extends Component {
     return (<Box>
       {
         fields.map((member, index) => {
-          if (fields.get(index).user.role.name === ROLE_USER) {
+          let role = fields.get(index).user.role;
+          if (role && role.name === ROLE_USER) {
             return (<Flex mb={6}>
               <Box width={'100%'}>
                 <TextFieldFirstWrapper>
@@ -154,7 +155,7 @@ export class ContractorListField extends Component {
                 </ButtonWithImage>
               </Box>
             </Flex>)
-          } else if (fields.get(index).user.role.name === ROLE_EXTERNALCONTRACTOR) {
+          } else if (role && role.name === ROLE_EXTERNALCONTRACTOR) {
             return (<Flex mb={6}>
               <Box width={'100%'}>
                 <CreateContractor

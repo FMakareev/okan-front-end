@@ -55,7 +55,7 @@ export class BasicDocumentSettings extends Component {
           textAlign={'center'}
           mb={6}
           fontFamily={'primary500'}>
-          Название документа
+          Параметры документа
         </Text>
 
         <BoxStyled mb={4}>

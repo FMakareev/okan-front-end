@@ -32,7 +32,6 @@ class MaskedInputs extends Component {
     placeholder: PropTypes.string,
     label: PropTypes.string,
     type: PropTypes.string,
-    mask: PropTypes.string,
     name: PropTypes.string,
     // ...fieldInputPropTypes,
     // ...fieldMetaPropTypes,

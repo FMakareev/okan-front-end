@@ -9,6 +9,12 @@ import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirs
 import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
 
 
+const fioValid = (value) => {
+  let mask = /[А-ЯЁ][.][А-ЯЁ][.] [А-ЯЁ][а-яА-ЯёЁ]/;
+  console.log(mask.test(value));
+  return mask.test(value)? null: 'Неверный формат, ФИО должно соответствовать маске "И.О. Фамилия"';
+};
+
 export class CreateContractor extends Component {
   render() {
 
@@ -39,37 +45,17 @@ export class CreateContractor extends Component {
       <Field
         name={names.firstname}
         component={TextFieldWithTooltip}
-        placeholder={'Фамилия'}
+        placeholder={'Введите ФИО в формате "И.О. Фамилия"'}
         type={"text"}
         size={'sm'}
         variant={'primary'}
         fontFamily={'secondary'}
-        validate={required}
-      />
-      <Field
-        name={names.lastname}
-        component={TextFieldWithTooltip}
-        placeholder={'Имя'}
-        type={"text"}
-        size={'sm'}
-        variant={'primary'}
-        fontFamily={'secondary'}
-        validate={required}
-      />
-      <Field
-        name={names.patronymic}
-        component={TextFieldWithTooltip}
-        placeholder={'Отчество'}
-        type={"text"}
-        size={'sm'}
-        variant={'primary'}
-        fontFamily={'secondary'}
-        validate={required}
+        validate={[required, fioValid]}
       />
       <Field
         name={names.signature}
         component={TextFieldWithTooltip}
-        placeholder={'Подпись'}
+        placeholder={'Номер согласующего письма'}
         type={"text"}
         size={'sm'}
         variant={'primary'}
@@ -85,7 +71,6 @@ export class CreateContractor extends Component {
           size={'sm'}
           variant={'primary'}
           fontFamily={'secondary'}
-          validate={required}
         />
       </TextFieldLastWrapper>
     </Box>)
