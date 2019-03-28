@@ -81,7 +81,7 @@ export const SidebarCellRoot = props => {
           <NodeToggle toggled={node.toggled} fill={'inherit'}/>
         </Box>
         <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'inherit'}>
-          {node.name}
+          {node.okancode }
         </Text>
       </Flex>
 
