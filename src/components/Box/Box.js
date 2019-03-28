@@ -1,4 +1,4 @@
-import { space, width, color, fontSize, height, position, zIndex, border,opacity, minHeight, borderRadius, borderColor, borders, overflow } from 'styled-system';
+import { space, width, color, fontSize, height, position, zIndex, border,opacity, minHeight, borderRadius, borderColor, borders, overflow, right, lineHeight } from 'styled-system';
 import styled from 'styled-components';
 
 /** Style property */
@@ -9,11 +9,13 @@ export const Box = styled.div`
   ${space};
   ${opacity};
   ${position};
+  ${right};
   ${zIndex};
   ${width};
   ${height};
   ${minHeight};
   ${fontSize};
+  ${lineHeight};
   ${border};
   ${borders};
   ${borderColor};
