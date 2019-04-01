@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
-import Text from '@lib/ui/Text/Text';
-import Flex from '@lib/ui/Flex/Flex';
-import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
-import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
-
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 import { Query } from 'react-apollo';
 
 export class PaginationPageHOC extends Component {
