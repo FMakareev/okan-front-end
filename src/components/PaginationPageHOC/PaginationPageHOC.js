@@ -101,7 +101,7 @@ export class PaginationPageHOC extends Component {
         query={query}>
         {({ loading, error, data, fetchMore }) => {
           const Children = this.props.children;
-          return data ? (
+          return (
             <Children
               data={data}
               loading={loading}
@@ -122,8 +122,6 @@ export class PaginationPageHOC extends Component {
                 disabledToPrevPage: pageNumber - 1 < 1,
               }}
             />
-          ) : (
-            <h1>Проблема при загрузке</h1>
           );
         }}
       </Query>
