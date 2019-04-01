@@ -60,7 +60,6 @@ export class CreateContractor extends Component {
         size={'sm'}
         variant={'primary'}
         fontFamily={'secondary'}
-        validate={required}
       />
       <TextFieldLastWrapper>
         <Field
