@@ -15,8 +15,6 @@ import {Text} from '@lib/ui/Text/Text';
 import CellListQuery from '../../graphql/CellListQuery.graphql';
 import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
-/** Utils */
-import {sortingCells} from '../../utils/sortingCells';
 
 /** Context */
 import {getPosition} from '../ProjectContext/ProjectContextSelectors';
@@ -188,7 +186,7 @@ export class ProjectEditor extends Component {
                           childCellIndex={0}
                           parentNumber={sectionNumber}
                           parentLetterNumber={parentLetterNumber}
-                          celllist={sortingCells(dataCellList.celllist)}
+                          celllist={dataCellList.celllist}
                         />
                       </ProjectEditorContentWrapper>
                     </Fragment>

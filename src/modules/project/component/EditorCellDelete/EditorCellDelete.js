@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
-import { sortingCells } from '../../utils/sortingCells';
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
@@ -58,8 +57,7 @@ export class EditorCellDelete extends Component {
             },
           });
 
-          /** сортирую список ячеек по указателям, бекенд присылает этот список в разнобой */
-          data.celllist = sortingCells(data.celllist);
+
 
           /**
            * @desc получаем id удаляемой ячейки
