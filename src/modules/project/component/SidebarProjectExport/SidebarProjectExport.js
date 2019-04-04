@@ -26,8 +26,8 @@ export class SidebarProjectExport extends React.Component {
   };
   static defaultProps = {};
 
-  exportDocument = id => {
-    return fetch(`${ENDPOINT_CLIENT}/docx_converter/convert`, {
+  exportDocument = document => {
+    return fetch(`curl -X ${ENDPOINT_CLIENT}/docx_converter/convert`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
@@ -36,7 +36,7 @@ export class SidebarProjectExport extends React.Component {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Type': 'multipart/form-data',
       },
-      body: jsonToUrlEncoded({ id }),
+      body: jsonToUrlEncoded({ document }),
     })
       .then(response => {
         console.log(1, response);
