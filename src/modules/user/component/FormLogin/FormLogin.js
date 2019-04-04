@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {withApollo} from 'react-apollo';
-import {withRouter} from 'react-router-dom';
-import {Field, reduxForm, SubmissionError, Form} from 'redux-form';
-import {success, error} from 'react-notification-system-redux';
+import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
+import { success, error } from 'react-notification-system-redux';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -21,19 +21,18 @@ import required from '../../../../utils/validation/required';
 import minLength from '../../../../utils/validation/minLength';
 
 /** json method */
-import {jsonToUrlEncoded} from '../../../../utils/jsontools/jsonToUrlEncoded';
-
+import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
 /** ac */
-import {USER_ADD} from '../../../../store/reducers/user/actionTypes';
+import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-import {withPreLoader} from "@lib/ui/withPreLoader/withPreLoader";
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { withPreLoader } from '@lib/ui/withPreLoader/withPreLoader';
 
-const validate = ({uname, ups}) => {
+const validate = ({ uname, ups }) => {
   const errors = {};
 
   if (uname === undefined) {
@@ -54,7 +53,6 @@ const validate = ({uname, ups}) => {
   return errors;
 };
 
-
 const notificationOpts = () => ({
   success: {
     title: 'Вход выполнен',
@@ -70,10 +68,6 @@ const notificationOpts = () => ({
   },
 });
 
-
-
-
-
 export class FormLogin extends Component {
   static propTypes = {
     addUser: PropTypes.func,
@@ -85,8 +79,8 @@ export class FormLogin extends Component {
     preLoaderToggle: PropTypes.func,
     pristine: PropTypes.any,
     setNotificationError: PropTypes.func,
-    setNotificationSuccess: PropTypes.func
-  }
+    setNotificationSuccess: PropTypes.func,
+  };
 
   constructor(props) {
     super(props);
@@ -97,13 +91,13 @@ export class FormLogin extends Component {
   }
 
   get initialState() {
-    return {submitting: false, apolloError: null};
+    return { submitting: false, apolloError: null };
   }
 
   submit(value) {
     this.props.preLoaderToggle();
-    this.setState(({submitting}) => ({
-      submitting: !submitting
+    this.setState(({ submitting }) => ({
+      submitting: !submitting,
     }));
 
     return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
@@ -124,28 +118,28 @@ export class FormLogin extends Component {
           return this.getUser(value.email);
         }
       })
-      .catch(({status, statusText}) => {
+      .catch(({ status, statusText }) => {
         this.props.preLoaderToggle();
-        this.setState(() => ({submitting: false, apolloError: null}));
+        this.setState(() => ({ submitting: false, apolloError: null }));
 
         if (status === 401 || status === 403) {
-          throw new SubmissionError({_error: 'Не верно введен логин или пароль'});
+          throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
         } else {
-          throw new SubmissionError({_error: 'Пользователь не найден'});
+          throw new SubmissionError({ _error: 'Пользователь не найден' });
         }
       });
   }
 
   getUser = email => {
-    const {client, history, setNotificationSuccess, setNotificationError} = this.props;
+    const { client, history, setNotificationSuccess, setNotificationError } = this.props;
     return client
-      .query({query: UserEmailItemQuery, variables: {email: email}})
+      .query({ query: UserEmailItemQuery, variables: { email: email } })
       .then(result => {
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
         } else {
-          this.setState(() => ({apolloError: null, isLoading: false}));
+          this.setState(() => ({ apolloError: null, isLoading: false }));
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
@@ -153,8 +147,7 @@ export class FormLogin extends Component {
           return Promise.resolve(result);
         }
       })
-      .catch(({graphQLErrors, message, error, networkError, ...rest}) => {
-
+      .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
         setNotificationError(notificationOpts().error);
 
         this.setState(() => ({
@@ -167,19 +160,19 @@ export class FormLogin extends Component {
 
   setUser = props => {
     const {
-      data: {currentuseritem},
+      data: { currentuseritem },
     } = props;
 
-    const {addUser} = this.props;
+    const { addUser } = this.props;
 
     addUser(currentuseritem);
 
-    localStorage.setItem('user', JSON.stringify({...currentuseritem}));
+    localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
   };
 
   mockSubmit = value => {
-    this.setState(({submitting, isLoading}) => {
-      return {submitting: !submitting, isLoading: !isLoading};
+    this.setState(({ submitting, isLoading }) => {
+      return { submitting: !submitting, isLoading: !isLoading };
     });
 
     return new Promise((resolve, reject) => {
@@ -191,11 +184,14 @@ export class FormLogin extends Component {
   };
 
   render() {
-    const {handleSubmit, pristine, isLoading, error} = this.props;
-    const {apolloError} = this.state;
+    const { handleSubmit, pristine, isLoading, error } = this.props;
+    const { apolloError } = this.state;
+
+    console.log(123, pristine);
+
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <FormLogo/>
+        <FormLogo />
 
         <Box mb={'100px'}>
           <TextFieldFirstWrapper>
@@ -239,7 +235,7 @@ FormLogin = withPreLoader()(FormLogin);
 FormLogin = connect(
   null,
   dispatch => ({
-    addUser: user => dispatch({type: USER_ADD, user: user}),
+    addUser: user => dispatch({ type: USER_ADD, user: user }),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),
