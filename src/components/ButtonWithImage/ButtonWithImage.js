@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /** View */
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
-import {PreloaderWrapper, SpeedingWheel} from "@lib/ui/SmallPreloader/SmallPreloader";
+import { PreloaderWrapper, SpeedingWheel } from '@lib/ui/SmallPreloader/SmallPreloader';
 
 export class ButtonWithImage extends Component {
   static propTypes = {
@@ -19,14 +19,14 @@ export class ButtonWithImage extends Component {
     size: PropTypes.string,
     variant: PropTypes.string,
     width: PropTypes.any,
-    widthIcon: PropTypes.any
-  }
+    widthIcon: PropTypes.any,
+  };
 
-  shouldComponentUpdate(nextProps){
-    if(nextProps.isLoading !== this.props.isLoading){
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.isLoading !== this.props.isLoading) {
       return true;
     }
-    if(nextProps.disabled !== this.props.disabled){
+    if (nextProps.disabled !== this.props.disabled) {
       return true;
     }
     return false;
@@ -50,23 +50,32 @@ export class ButtonWithImage extends Component {
       <ButtonBase variant={variant} size={size} width={width} {...props}>
         <Flex justifyContent={'center'} alignItems={'space-around'} width={'100%'}>
           {leftIcon && (
-            <Flex position={'relative'} mr={mr} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
+            <Flex
+              position={'relative'}
+              mr={mr}
+              justifyContent={'center'}
+              alignItems={'center'}
+              width={widthIcon}>
               {leftIcon}
             </Flex>
           )}
 
           <Flex justifyContent={'center'} alignItems={'center'}>
             {children}
-            {
-              isLoading &&
+            {isLoading && (
               <PreloaderWrapper>
-                <SpeedingWheel/>
+                <SpeedingWheel />
               </PreloaderWrapper>
-            }
+            )}
           </Flex>
 
           {rightIcon && (
-            <Flex position={'relative'} ml={ml} justifyContent={'center'} alignItems={'center'} width={widthIcon}>
+            <Flex
+              position={'relative'}
+              ml={ml}
+              justifyContent={'center'}
+              alignItems={'center'}
+              width={widthIcon}>
               {rightIcon}
             </Flex>
           )}
@@ -75,6 +84,5 @@ export class ButtonWithImage extends Component {
     );
   }
 }
-
 
 export default ButtonWithImage;

@@ -1,0 +1,20 @@
+mutation ($id: String!) {
+  exportdocument(id: $id) {
+    document {
+      createrevisiondate
+      documentnumber
+      equipmentname
+      id
+      name
+      okancode
+      project
+      partners {
+        id
+        firstname
+        lastname
+        email
+      }
+      version
+    }
+  }
+}

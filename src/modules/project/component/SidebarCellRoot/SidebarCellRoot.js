@@ -16,12 +16,11 @@ import SideBarDocumentDelete from '../SideBarDocumentDelete/SideBarDocumentDelet
 import SidebarDocumentToApproval from '../SidebarDocumentToApproval/SidebarDocumentToApproval';
 
 /** Styles property */
-import {NodeToggle} from '../NodeToggle/NodeToggle';
-import {PROJECT_MODE_RC, PROJECT_MODE_RW, withProject} from '../ProjectContext/ProjectContext';
-import {getPosition} from '../ProjectContext/ProjectContextSelectors';
-import {ProjectModeState} from '../ProjectContext/ProjectModeState';
-import SidebarCommentingDocumentToApproval
-  from '../SidebarCommentingDocumentToApproval/SidebarCommentingDocumentToApproval';
+import { NodeToggle } from '../NodeToggle/NodeToggle';
+import { PROJECT_MODE_RC, PROJECT_MODE_RW, withProject } from '../ProjectContext/ProjectContext';
+import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import { ProjectModeState } from '../ProjectContext/ProjectModeState';
+import SidebarCommentingDocumentToApproval from '../SidebarCommentingDocumentToApproval/SidebarCommentingDocumentToApproval';
 
 const FlexStyled = styled(Flex)`
   cursor: pointer;
@@ -30,9 +29,9 @@ const FlexStyled = styled(Flex)`
   -o-transition: all 0.225s;
   transition: all 0.225s;
 
-  ${({active, ...rest}) => {
-  return active
-    ? `
+  ${({ active, ...rest }) => {
+    return active
+      ? `
     {
       fill: #FFFFFF;
       color: #FFFFFF;
@@ -45,7 +44,7 @@ const FlexStyled = styled(Flex)`
       }
     }
   `
-    : `
+      : `
     {
       fill: #848484;
       color: #848484;
@@ -57,13 +56,13 @@ const FlexStyled = styled(Flex)`
       }
     }
   `;
-}}
+  }}
 `;
 
 const SideBarDocumentDeleteWithProject = withProject(props => <SideBarDocumentDelete {...props} />);
 
 export const SidebarCellRoot = props => {
-  const {project, document, onClick, node} = props;
+  const { project, document, onClick, node } = props;
   return (
     <FlexStyled
       style={{
@@ -75,20 +74,19 @@ export const SidebarCellRoot = props => {
       onClick={onClick}
       alignItems={'center'}
       justifyContent={'space-between'}>
-
       <Flex alignItems={'center'}>
         <Box mx={2}>
-          <NodeToggle toggled={node.toggled} fill={'inherit'}/>
+          <NodeToggle toggled={node.toggled} fill={'inherit'} />
         </Box>
         <Text fontFamily={'secondary'} lineHeight={7} fontSize={5} color={'inherit'}>
-          {node.okancode }
+          {node.okancode}
         </Text>
       </Flex>
 
       <Flex height={'20px'}>
         <ProjectModeState is={PROJECT_MODE_RC}>
           <Box px={1}>
-            <SidebarCommentingDocumentToApproval document={document}/>
+            <SidebarCommentingDocumentToApproval document={document} />
           </Box>
         </ProjectModeState>
 
@@ -100,7 +98,7 @@ export const SidebarCellRoot = props => {
             />
           </Box>
           <Box px={1}>
-            <SidebarCreateRevision documentid={document}/>
+            <SidebarCreateRevision documentid={document} />
           </Box>
           <Box px={1}>
             <SidebarRevisionList
@@ -109,17 +107,16 @@ export const SidebarCellRoot = props => {
             />
           </Box>
           <Box px={1}>
-            <SidebarDocumentToApproval document={document}/>
+            <SidebarDocumentToApproval document={document} />
           </Box>
           <Box px={1}>
-            <SidebarProjectExport/>
+            <SidebarProjectExport document={document} />
           </Box>
           <Box px={1}>
-            <SideBarDocumentDeleteWithProject documentId={node.id} documentName={node.name}/>
+            <SideBarDocumentDeleteWithProject documentId={node.id} documentName={node.name} />
           </Box>
         </ProjectModeState>
       </Flex>
-
     </FlexStyled>
   );
 };
