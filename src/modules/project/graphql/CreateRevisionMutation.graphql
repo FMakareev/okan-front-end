@@ -19,7 +19,7 @@ mutation ($id: String!, $authorrevision: String, $createrevisiondate: String) {
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
-      partners {
+      internalMatching: partners {
         id
         lastname
         firstname

@@ -17,18 +17,18 @@ import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
-import InnerApprovalPartnersQuery from "../InnerApprovalPartnersQuery/InnerApprovalPartnersQuery";
 import ContractorListField from "../ContractorListField/ContractorListField";
 import {Text} from "@lib/ui/Text/Text";
 import {SvgSave} from '@lib/ui/Icons/SvgSave';
-import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
 
 /** Graphql schema */
-import UpdateDocumentMutation from './UpdateDocumentMutation.graphql';
-import DocumentItemQuery from '../../view/documentSettings/DocumentItemQuery.graphql';
-import CreateContractorApprovalMutation from './CreateContractorApprovalMutation.graphql';
-import UpdateContractorApprovalMutation from './UpdateContractorApprovalMutation.graphql';
-import DeleteContractorMutation from '../FormDocumentSettings/DeleteContractorMutation.graphql';
+import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
+import DocumentItemQuery from '../../graphql/DocumentItemQuery.graphql';
+import CreateContractorApprovalMutation from '../../graphql/CreateContractorApprovalMutation.graphql';
+import UpdateContractorApprovalMutation from '../../graphql/UpdateContractorApprovalMutation.graphql';
+import DeleteContractorMutation from '../../graphql/DeleteContractorMutation.graphql';
+import FieldArrayInternalUser from "../FieldArrayInternalUser/FieldArrayInternalUser";
+import {FieldArrayExternalUser} from "../FieldArrayExternalUser/FieldArrayExternalUser";
 
 const notificationOpts = () => ({
   success: {
@@ -83,6 +83,7 @@ export class FormDocumentSettings extends Component {
       approvaldate: value.approvaldate,
       userid: value.user.id,
       ...value.user,
+      role: value.user.role.name,
     };
     // TODO: заменить заглушку на мутацию
     return this.props.client.mutate({
@@ -144,29 +145,29 @@ export class FormDocumentSettings extends Component {
   removeContractorApproval = async (value) => {
     try {
       const newDate = {
-        externalapprove: [],
-        externalconform: []
+        externalAndInternalApprove: [],
+        externalMatching: []
       };
       const promiseLists = {
-        externalapprove: [],
-        externalconform: []
+        externalAndInternalApprove: [],
+        externalMatching: []
       };
 
-      if (has.call(value, 'externalapprove') && Array.isArray(value.externalapprove)) {
-        newDate.externalapprove = this.getDeletedContractor(value.externalapprove, this.props.initialValues.externalapprove);
-        promiseLists.externalapprove = await this.createRequestListForRemoveContractorApproval(newDate.externalapprove)
+      if (has.call(value, 'externalAndInternalApprove') && Array.isArray(value.externalAndInternalApprove)) {
+        newDate.externalAndInternalApprove = this.getDeletedContractor(value.externalAndInternalApprove, this.props.initialValues.externalAndInternalApprove);
+        promiseLists.externalAndInternalApprove = await this.createRequestListForRemoveContractorApproval(newDate.externalAndInternalApprove)
       }
-      if (has.call(value, 'externalconform') && Array.isArray(value.externalconform)) {
-        newDate.externalconform = this.getDeletedContractor(value.externalconform, this.props.initialValues.externalconform);
-        promiseLists.externalconform = await this.createRequestListForRemoveContractorApproval(newDate.externalconform)
+      if (has.call(value, 'externalMatching') && Array.isArray(value.externalMatching)) {
+        newDate.externalMatching = this.getDeletedContractor(value.externalMatching, this.props.initialValues.externalMatching);
+        promiseLists.externalMatching = await this.createRequestListForRemoveContractorApproval(newDate.externalMatching)
       }
 
       /** резолвим промисы */
-      if (promiseLists.externalapprove.length) {
-        newDate.externalapprove = await Promise.all(promiseLists.externalapprove)
+      if (promiseLists.externalAndInternalApprove.length) {
+        newDate.externalAndInternalApprove = await Promise.all(promiseLists.externalAndInternalApprove)
       }
-      if (promiseLists.externalconform.length) {
-        newDate.externalconform = await Promise.all(promiseLists.externalconform)
+      if (promiseLists.externalMatching.length) {
+        newDate.externalMatching = await Promise.all(promiseLists.externalMatching)
       }
       return newDate;
     } catch (error) {
@@ -237,30 +238,30 @@ export class FormDocumentSettings extends Component {
 
   /**
    * @param {object} value
-   * @param {array} value.externalapprove
-   * @param {array} value.externalconform
+   * @param {array} value.externalAndInternalApprove
+   * @param {array} value.externalMatching
    * @return {Promise}
    * @desc метод для преобразования данные формы к виду массивов gql типов ContractorApproval
    * */
   transformDocumentApproval = async (value) => {
     try {
       const newDate = {
-        externalapprove: [],
-        externalconform: []
+        externalAndInternalApprove: [],
+        externalMatching: []
       };
-      if (has.call(value, 'externalapprove') && Array.isArray(value.externalapprove)) {
-        newDate.externalapprove = await this.createContractorApprovalList(value.externalapprove)
+      if (has.call(value, 'externalAndInternalApprove') && Array.isArray(value.externalAndInternalApprove)) {
+        newDate.externalAndInternalApprove = await this.createContractorApprovalList(value.externalAndInternalApprove)
       }
-      if (has.call(value, 'externalconform') && Array.isArray(value.externalconform)) {
-        newDate.externalconform = await  this.createContractorApprovalList(value.externalconform)
+      if (has.call(value, 'externalMatching') && Array.isArray(value.externalMatching)) {
+        newDate.externalMatching = await  this.createContractorApprovalList(value.externalMatching)
       }
 
       /** резолвим промисы */
-      if (newDate.externalapprove.length) {
-        newDate.externalapprove = await Promise.all(newDate.externalapprove)
+      if (newDate.externalAndInternalApprove.length) {
+        newDate.externalAndInternalApprove = await Promise.all(newDate.externalAndInternalApprove)
       }
-      if (newDate.externalconform.length) {
-        newDate.externalconform = await Promise.all(newDate.externalconform)
+      if (newDate.externalMatching.length) {
+        newDate.externalMatching = await Promise.all(newDate.externalMatching)
       }
 
       return newDate;
@@ -272,8 +273,8 @@ export class FormDocumentSettings extends Component {
 
   /**
    * @param {object} value
-   * @param {array} value.externalapprove
-   * @param {array} value.externalconform
+   * @param {array} value.externalAndInternalApprove
+   * @param {array} value.externalMatching
    * @param {array} value.partners
    * @param {string} value.name
    * @param {string} value.customercode
@@ -349,16 +350,26 @@ export class FormDocumentSettings extends Component {
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
           <Box px={5} width={'50%'}>
-            <Container maxWidth={'500px'} width={'100%'}>
-              <InnerApprovalPartnersQuery
-                name={'partners'}
-                projectid={project}
-              />
-            </Container>
-            <Container maxWidth={'500px'} width={'100%'}>
+            <Container mb={9} maxWidth={'500px'} width={'100%'}>
               <Fields
                 names={['name', 'customercode', 'okancode', 'equipmentname']}
                 component={BasicDocumentSettings}
+              />
+            </Container>
+
+            <Container maxWidth={'500px'} width={'100%'}>
+              <Text
+                fontSize={6}
+                lineHeight={8}
+                color={'color7'}
+                textAlign={'center'}
+                mb={6}
+                fontFamily={'primary500'}>
+                Внутренние согласующие ОКАН
+              </Text>
+              <FieldArray
+                name={"internalMatching"}
+                component={FieldArrayInternalUser}
               />
             </Container>
           </Box>
@@ -372,11 +383,10 @@ export class FormDocumentSettings extends Component {
                 textAlign={'center'}
                 mb={6}
                 fontFamily={'primary500'}>
-                Внешние утверждающие
+                Утверждающие внешние и внутренние
               </Text>
               <FieldArray
-                name={"externalapprove"}
-                compareUsers={["externalconform", "externalapprove"]}
+                name={"externalAndInternalApprove"}
                 component={ContractorListField}
               />
             </Container>
@@ -393,9 +403,8 @@ export class FormDocumentSettings extends Component {
                 Внешние согласующие
               </Text>
               <FieldArray
-                name={"externalconform"}
-                compareUsers={["externalconform", "externalapprove"]}
-                component={ContractorListField}
+                name={"externalMatching"}
+                component={FieldArrayExternalUser}
               />
             </Container>
           </Box>

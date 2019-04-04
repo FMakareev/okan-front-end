@@ -257,7 +257,7 @@ export class EditorCellCommentController extends Component {
    * */
   userOneOfDocumentPartners = (document, userId) => {
     try {
-      return document.partners ? document.partners.find(item => item.id === userId) : null;
+      return document.internalMatching ? document.internalMatching.find(item => item.id === userId) : null;
     } catch (error) {
       console.error('Error userOneOfDocumentPartners: ', error);
       return null;

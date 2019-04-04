@@ -18,7 +18,7 @@ query ($projectid: String) {
     }
     # null, на согласовании, согласован, не согласован
     approvalstatus
-    partners {
+    internalMatching: partners {
       id
       lastname
       firstname

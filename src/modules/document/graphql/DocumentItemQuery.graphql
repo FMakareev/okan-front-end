@@ -6,13 +6,13 @@ query ($id: String) {
     customercode
     equipmentname
     project
-    partners {
+    internalMatching: partners {
       id
       firstname
       lastname
       patronymic
     }
-    externalapprove {
+    externalAndInternalApprove: externalapprove {
       id
       user {
         id
@@ -29,7 +29,7 @@ query ($id: String) {
       }
       approvaldate
     }
-    externalconform {
+    externalMatching: externalconform {
       id
       user {
         id

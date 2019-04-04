@@ -27,3 +27,13 @@
 * [FAQ](./docs/faq.md)
 
 * [Todo](./docs/todo.md)
+
+
+
+# Документ
+
+
+
+* externalAndInternalApprove - Утверждающие внешние и внутренние
+* externalMatching - Внешние согласующие 
+* internalMatching - Внутренние согласующие 

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Query} from 'react-apollo';
 import {SelectBase} from "@lib/ui/SelectBase/SelectBase";
-import UserListQuery from './UserListQuery.graphql';
+import UserListQuery from '../../graphql/UserListQuery.graphql';
 
 
 
@@ -21,8 +21,8 @@ export class SelectContractorFromInnerUserList extends PureComponent {
           valueKey={'id'}
           options={
             data &&
-            data.userlist &&
-            data.userlist.map(item => ({
+            data.userList &&
+            data.userList.map(item => ({
               id: item.id,
               name: `${item.firstname} ${item.lastname} ${item.patronymic}`,
               role: item.role,
