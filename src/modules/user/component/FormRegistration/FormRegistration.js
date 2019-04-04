@@ -32,8 +32,8 @@ import { jsonToUrlEncoded } from '@lib/utils/jsontools/jsonToUrlEncoded';
 
 /** Constatnts */
 import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 
 const validate = ({ log, password, retryPas }) => {
   const errors = {};
@@ -64,7 +64,6 @@ const validate = ({ log, password, retryPas }) => {
 
   return errors;
 };
-
 
 const notificationOpts = () => ({
   success: {
@@ -238,15 +237,15 @@ export class FormRegistration extends Component {
             />
           </TextFieldLastWrapper>
         </Box>
-        <TooltipBase isActive={error} warning={error}>
-          <FormButtonSubmit
-            disabled={pristine || submitting || invalid}
-            children={'Войти'}
-            ml={9}
-            isLoading={isLoading}
-            error={error || apolloError}
-          />
-        </TooltipBase>
+        <FormButtonSubmit
+          disabled={pristine || submitting || invalid}
+          ml={9}
+          isLoading={isLoading}
+          error={error || apolloError}>
+          <TooltipBase isActive={error} warning={error}>
+            Войти
+          </TooltipBase>
+        </FormButtonSubmit>
       </Form>
     );
   }
