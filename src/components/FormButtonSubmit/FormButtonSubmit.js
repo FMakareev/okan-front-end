@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { color } from 'styled-system';
@@ -6,7 +6,6 @@ import { color } from 'styled-system';
 /** View */
 import Flex from '../Flex/Flex';
 import ButtonWithImage from '../ButtonWithImage/ButtonWithImage';
-import SmallPreloader from '../SmallPreloader/SmallPreloader';
 
 /** Image */
 import { SvgPlay } from '../Icons/SvgPlay';
@@ -33,7 +32,6 @@ const ButtonWithImageStyled = styled(ButtonWithImage)`
 `;
 
 export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) => {
-  const buttonIconRender = isLoading ? <SmallPreloader /> : SvgPlay();
 
   return (
     <Flex flexDirection={'column'} justifyContent={'center'}>
@@ -44,7 +42,7 @@ export const FormButtonSubmit = ({ disabled, children, ml, error, isLoading }) =
         isLoading={isLoading}
         variant={'large'}
         size={'large'}
-        rightIcon={buttonIconRender}
+        rightIcon={<SvgPlay/>}
         ml={ml}>
         {children}
       </ButtonWithImageStyled>

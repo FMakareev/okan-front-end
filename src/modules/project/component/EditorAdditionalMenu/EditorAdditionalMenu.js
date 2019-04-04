@@ -30,8 +30,7 @@ import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT } from '../../../../shared/blockTy
 /** HOC */
 import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 
-/** Utils */
-import { sortingCells } from '../../utils/sortingCells';
+
 import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 import { findClassInPath } from '../../utils/findClassInPath';
 import { CELL_STATUS_CHANGED, CELL_STATUS_CHECKED } from '@lib/shared/approvalStatus';
@@ -257,13 +256,17 @@ export class EditorAdditionalMenu extends Component {
 
           try {
             if (data && data.celllist.length > 0) {
-              let nextCellIndex = createcell.cell.nextcell
-                ? data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id)
-                : -1;
+              let nextCellIndex = -1;
+              let prevCellIndex = -1;
+              if(createcell.cell.nextcell){
+                nextCellIndex =data.celllist.findIndex(item => item.id === createcell.cell.nextcell.id)
+              }
 
-              let prevCellIndex = data.celllist.findIndex(
-                item => item.id === createcell.cell.prevcell.id,
-              );
+              if(createcell.cell.prevcell){
+                prevCellIndex = data.celllist.findIndex(item => item.id === createcell.cell.prevcell.id);
+              }
+
+
 
               if (nextCellIndex >= 0 && prevCellIndex >= 0) {
                 /** ячейка добавляется между ячейками */
@@ -284,7 +287,7 @@ export class EditorAdditionalMenu extends Component {
                 data.celllist[nextCellIndex].prevcell = createcell.cell;
               }
 
-              data.celllist.splice(prevCellIndex, 0, createcell.cell);
+              data.celllist.splice(prevCellIndex + 1, 0, createcell.cell);
             } else {
               /** первая ячейка потомок */
               data.celllist.push(createcell.cell);
@@ -294,7 +297,6 @@ export class EditorAdditionalMenu extends Component {
 
               /** ячейка последняя в списке ячеек родителя  */
               parent.cellItem.lastChildren = createcell.cell;
-              data.celllist = sortingCells(data.celllist);
             }
           } catch (error) {
             console.error('Error: ', error);

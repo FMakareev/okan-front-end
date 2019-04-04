@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
-import Text from '@lib/ui/Text/Text';
-import Flex from '@lib/ui/Flex/Flex';
-import ButtonBase from '@lib/ui/ButtonBase/ButtonBase';
-import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
-
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 import { Query } from 'react-apollo';
 
 export class PaginationPageHOC extends Component {
@@ -101,7 +95,7 @@ export class PaginationPageHOC extends Component {
         query={query}>
         {({ loading, error, data, fetchMore }) => {
           const Children = this.props.children;
-          return data ? (
+          return (
             <Children
               data={data}
               loading={loading}
@@ -122,8 +116,6 @@ export class PaginationPageHOC extends Component {
                 disabledToPrevPage: pageNumber - 1 < 1,
               }}
             />
-          ) : (
-            <h1>Проблема при загрузке</h1>
           );
         }}
       </Query>

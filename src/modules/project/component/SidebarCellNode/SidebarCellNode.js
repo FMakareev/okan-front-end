@@ -36,8 +36,6 @@ import {PROJECT_MODE_RW} from '../ProjectContext/ProjectContext';
 import {childcellIsCategory} from '../../utils/childcellIsCategory';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
 
-/** Utils */
-import {sortingCells} from '../../utils/sortingCells';
 
 /** Constants */
 import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
@@ -283,7 +281,6 @@ export class SidebarCellNode extends Component {
             if (cellListData.celllist.length > 0) {
               cellListData.celllist[cellListData.celllist.length - 1].nextcell = createcell.cell;
             }
-            cellListData.celllist = sortingCells(cellListData.celllist);
             cellListData.celllist.push(createcell.cell);
 
             store.writeQuery({
