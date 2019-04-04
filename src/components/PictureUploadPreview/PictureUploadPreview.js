@@ -61,15 +61,18 @@ export class PictureUploadPreview extends Component {
       this.setState(() => ({ error: null }));
     }
 
-    this.setState({
-      files,
+    this.setState(({ files }) => {
+      files: files;
     });
+    console.log(11, this.state.files);
 
     const preview = files[0].preview;
 
     this.setState({
-      preview,
+      // this.state.preview: preview,
     });
+    // console.log(11, this.state.preview);
+
     this.getBase64(files[0]);
   }
 

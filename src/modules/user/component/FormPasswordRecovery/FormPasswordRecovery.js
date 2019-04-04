@@ -20,8 +20,8 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** GraphQl schema */
 import UserPasswordRecoveryMutation from './UserPasswordRecoveryMutation.graphql';
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 
 const validate = ({ password, newpassword, confirmnewpassword }) => {
   const errors = {};
@@ -55,8 +55,6 @@ const validate = ({ password, newpassword, confirmnewpassword }) => {
   }
   return errors;
 };
-
-
 
 const notificationOpts = () => ({
   success: {
@@ -126,11 +124,7 @@ class FormPasswordRecovery extends Component {
 
         <Box mb={'100px'}>
           <TextFieldFirstWrapper>
-            <Field
-              name={'password'}
-              placeholder={'Старый пароль'}
-              component={FieldInputPassword}
-            />
+            <Field name={'password'} placeholder={'Старый пароль'} component={FieldInputPassword} />
           </TextFieldFirstWrapper>
 
           <Field
@@ -149,15 +143,15 @@ class FormPasswordRecovery extends Component {
           </TextFieldLastWrapper>
         </Box>
 
-        <TooltipBase isActive={error} warning={error}>
-          <FormButtonSubmit
-            disabled={pristine || submitting || invalid}
-            children={'Сменить пароль'}
-            ml={9}
-            isLoading={isLoading}
-            error={error || apolloError}
-          />
-        </TooltipBase>
+        <FormButtonSubmit
+          disabled={pristine || submitting || invalid}
+          ml={9}
+          isLoading={isLoading}
+          error={error || apolloError}>
+          <TooltipBase isActive={error} warning={error}>
+            Сменить пароль
+          </TooltipBase>
+        </FormButtonSubmit>
       </Form>
     );
   }

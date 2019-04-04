@@ -32,14 +32,14 @@ import { jsonToUrlEncoded } from '@lib/utils/jsontools/jsonToUrlEncoded';
 
 /** Constatnts */
 import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 
-const validate = ({ log, password, retryPas }) => {
+const validate = ({ email, password, retryPas }) => {
   const errors = {};
 
-  if (!log) {
-    errors.log = 'Обязательно для заполнения';
+  if (!email) {
+    errors.email = 'Обязательно для заполнения';
   }
 
   if (!password) {
@@ -64,7 +64,6 @@ const validate = ({ log, password, retryPas }) => {
 
   return errors;
 };
-
 
 const notificationOpts = () => ({
   success: {
@@ -175,6 +174,7 @@ export class FormRegistration extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
+    console.log(123, value);
 
     this.setState(({ submitting, isLoading }) => {
       return { submitting: !submitting, isLoading: !isLoading };
@@ -206,6 +206,7 @@ export class FormRegistration extends Component {
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { isLoading, apolloError, submitting } = this.state;
+    console.log(pristine, submitting, invalid);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
@@ -219,7 +220,6 @@ export class FormRegistration extends Component {
               placeholder={'Логин'}
               type="text"
               left={'40%'}
-              // validate={[required, isEmail]}
             />
           </TextFieldFirstWrapper>
 
@@ -234,19 +234,20 @@ export class FormRegistration extends Component {
             <Field
               name={'retryPas'}
               placeholder={'Потвердите пароль'}
+              variant={'secondary'}
               component={FieldInputPassword}
             />
           </TextFieldLastWrapper>
         </Box>
-        <TooltipBase isActive={error} warning={error}>
-          <FormButtonSubmit
-            disabled={pristine || submitting || invalid}
-            children={'Войти'}
-            ml={9}
-            isLoading={isLoading}
-            error={error || apolloError}
-          />
-        </TooltipBase>
+        <FormButtonSubmit
+          disabled={pristine || submitting || invalid}
+          ml={9}
+          isLoading={isLoading}
+          error={error || apolloError}>
+          <TooltipBase isActive={error} warning={error}>
+            Войти
+          </TooltipBase>
+        </FormButtonSubmit>
       </Form>
     );
   }
@@ -276,3 +277,5 @@ FormRegistration = reduxForm({
 })(FormRegistration);
 
 export default FormRegistration;
+
+// validate={[required, isEmail]}
