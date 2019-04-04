@@ -239,9 +239,8 @@ export class FormRegistration extends Component {
             />
           </TextFieldLastWrapper>
         </Box>
-
         <FormButtonSubmit
-          disabled={submitting || invalid || pristine}
+          disabled={pristine || submitting || invalid}
           ml={9}
           isLoading={isLoading}
           error={error || apolloError}>
