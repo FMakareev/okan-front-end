@@ -11,6 +11,7 @@ import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
 import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
 import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
 import {ButtonBase} from "@lib/ui/ButtonBase/ButtonBase";
+import required from "@lib/utils/validation/required";
 
 
 /** Внутренние согласующие ОКАН*/
@@ -35,6 +36,7 @@ export class FieldArrayInternalUser extends Component {
               <Field
                 name={member}
                 component={SelectContractorFromInnerUserList}
+                validate={[required]}
               />
             </Box>
             <Box pl={6}>
