@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
+import FileSaver from 'file-saver';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -12,12 +13,6 @@ import { SvgSidebarExport } from '../../../../components/Icons/SvgSidebarExport'
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
-/** json method */
-import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
-
-/** graphQL schema */
-import ExportDocumentMutation from '../../graphql/ExportDocumentMutation.graphql';
-
 export class SidebarProjectExport extends React.Component {
   static propTypes = {
     document: PropTypes.object,
@@ -26,20 +21,20 @@ export class SidebarProjectExport extends React.Component {
   };
   static defaultProps = {};
 
-  exportDocument = document => {
-    return fetch(`curl -X ${ENDPOINT_CLIENT}/docx_converter/convert`, {
+  exportDocument = () => {
+    let formData = new FormData();
+    formData.append('document', '5c8b95069adb491a1d087df7');
+    return fetch(`${ENDPOINT_CLIENT}/docx_converter/convert`, {
       method: 'POST',
       credentials: 'include',
       mode: 'no-cors',
-      headers: {
-        Accept: 'text/plain,text/html,application/xhtml+xml,application/xml',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Type': 'multipart/form-data',
-      },
-      body: jsonToUrlEncoded({ document }),
+      body: formData,
     })
       .then(response => {
-        console.log(1, response);
+        return response.blob();
+      })
+      .then(blob => {
+        FileSaver.saveAs(blob, 'document.docx');
       })
       .catch(error => {
         console.error(error);
