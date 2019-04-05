@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 import Text from '@lib/ui/Text/Text';
 import Flex from '@lib/ui/Flex/Flex';
 import Tbody from '@lib/ui/Table/Tbody';
-
+import { Box } from '@lib/ui/Box/Box';
 import Link from '@lib/ui/Link/Link';
 
 /** Constants */
-import {TO_APPROVAL} from '../../../../shared/approvalStatus';
-import {Box} from "@lib/ui/Box/Box";
+import { TO_APPROVAL } from '../../../../shared/approvalStatus';
 
 const TrStyled = styled(Box)`
   display: -webkit-box;
@@ -50,10 +49,10 @@ const TdStyle = styled(Box)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #4F4F4F;
+  color: #4f4f4f;
 `;
 
-export const ProfileApproval = ({data}) => {
+export const ProfileApproval = ({ data }) => {
   console.log('ProfileApproval: ', data);
   return (
     <Fragment>
@@ -76,31 +75,39 @@ export const ProfileApproval = ({data}) => {
         </Text>
       </Flex>
       {Array.isArray(data) &&
-      data.map(
-        item =>
-          item.approvalstatus === TO_APPROVAL && (
-            <LinkStyled key={`ProfileApproval-${item.id}`} to={`/app/document-commenting/${item.project}/${item.id}`}>
-              <TbodyStyled>
-                <TrStyled>
-                  <TdStyle title={item.okancode} fontFamily={'primary500'}>{item.okancode}</TdStyle>
-                  <TdStyle title={item.name} fontFamily={'secondaryBold'}>{item.name}</TdStyle>
-                </TrStyled>
-              </TbodyStyled>
-            </LinkStyled>
-          ),
-      )}
+        data.map(
+          item =>
+            item.approvalstatus === TO_APPROVAL && (
+              <LinkStyled
+                key={`ProfileApproval-${item.id}`}
+                to={`/app/document-commenting/${item.project}/${item.id}`}>
+                <TbodyStyled>
+                  <TrStyled>
+                    <TdStyle title={item.okancode} fontFamily={'primary500'}>
+                      {item.okancode}
+                    </TdStyle>
+                    <TdStyle title={item.name} fontFamily={'secondaryBold'}>
+                      {item.name}
+                    </TdStyle>
+                  </TrStyled>
+                </TbodyStyled>
+              </LinkStyled>
+            ),
+        )}
     </Fragment>
   );
 };
 
 ProfileApproval.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    /** name document */
-    name: PropTypes.string,
-    /** number document*/
-    documentnumber: PropTypes.string,
-  })),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      /** name document */
+      name: PropTypes.string,
+      /** number document*/
+      documentnumber: PropTypes.string,
+    }),
+  ),
 };
 
 export default ProfileApproval;

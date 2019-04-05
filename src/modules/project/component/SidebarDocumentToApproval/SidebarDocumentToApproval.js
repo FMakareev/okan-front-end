@@ -8,7 +8,6 @@ import { error, success } from 'react-notification-system-redux';
 import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
 import CheckForChangesInDocQuery from '../../graphql/CheckForChangesInDocQuery.graphql';
 
-
 /** Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
@@ -46,8 +45,8 @@ export class SidebarDocumentToApproval extends Component {
     client: PropTypes.object,
     document: PropTypes.object,
     setNotificationError: PropTypes.func,
-    setNotificationSuccess: PropTypes.func
-  }
+    setNotificationSuccess: PropTypes.func,
+  };
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -74,7 +73,7 @@ export class SidebarDocumentToApproval extends Component {
           id: id,
         },
       })
-      .then((response) => {
+      .then(response => {
         return response.data;
       })
       .catch(error => {
@@ -112,7 +111,7 @@ export class SidebarDocumentToApproval extends Component {
     const { document, setNotificationError } = this.props;
     this.setState({ isLoading: true });
 
-    const { checkForChangesInDoc, graphQLErrors, networkError }  = await this.checkForChangesInDoc(
+    const { checkForChangesInDoc, graphQLErrors, networkError } = await this.checkForChangesInDoc(
       document.id,
     );
 

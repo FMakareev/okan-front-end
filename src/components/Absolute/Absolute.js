@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { zIndex, position, top,left,right,bottom } from 'styled-system';
+import { zIndex, position, top, left, right, bottom } from 'styled-system';
 import PropTypes from 'prop-types';
 
 /** View*/

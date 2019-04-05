@@ -111,6 +111,7 @@ export class FormLogin extends Component {
       body: jsonToUrlEncoded(value),
     })
       .then(response => {
+        console.log(22, response);
         this.props.preLoaderToggle();
         if (response.status >= 400 || !document.cookie) {
           throw response;
@@ -186,9 +187,6 @@ export class FormLogin extends Component {
   render() {
     const { handleSubmit, pristine, isLoading, error } = this.props;
     const { apolloError } = this.state;
-
-    console.log(123, pristine);
-
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
