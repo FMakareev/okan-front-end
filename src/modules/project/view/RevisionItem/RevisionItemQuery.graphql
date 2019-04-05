@@ -39,7 +39,7 @@ query ($id: String!) {
     }
     name
     project
-    partners {
+    internalMatching:partners {
       id
       firstname
       lastname

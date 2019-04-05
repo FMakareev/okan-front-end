@@ -35,8 +35,6 @@ import {ProjectPageWrapper} from "../../component/ProjectPageWrapper/ProjectPage
 import {ProjectEditorWrapper} from "../../component/ProjectEditorWrapper/ProjectEditorWrapper";
 
 
-
-
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
 const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
 
@@ -65,17 +63,17 @@ export class ProjectEditorPage extends Component {
     } = this.props;
 
     return (
-      <Query query={ProjectItemQuery} variables={{id: params.projectid}}>
-        {({loading, data, error, ...rest}) => {
-          if (loading) {
-            return 'Загрузка...';
-          }
-          if (error) {
-            console.error('Error:', error);
-            return 'Ошибка...';
-          }
-          return (
-            <ErrorCatch>
+      <ErrorCatch>
+        <Query query={ProjectItemQuery} variables={{id: params.projectid}}>
+          {({loading, data, error, ...rest}) => {
+            if (loading) {
+              return 'Загрузка...';
+            }
+            if (error) {
+              console.error('Error:', error);
+              throw Error(error);
+            }
+            return (
 
               <ProjectPageWrapper>
 
@@ -96,10 +94,10 @@ export class ProjectEditorPage extends Component {
 
               </ProjectPageWrapper>
 
-            </ErrorCatch>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ErrorCatch>
     );
   }
 }

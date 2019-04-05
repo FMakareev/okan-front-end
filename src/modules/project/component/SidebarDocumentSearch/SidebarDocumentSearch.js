@@ -13,6 +13,7 @@ import has from "@lib/utils/has";
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
 import {withRouter} from "react-router-dom";
 import {getPosition, getProject} from "../ProjectContext/ProjectContextSelectors";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const WrapperStyled = styled(Flex)`
   position: fixed;
@@ -102,6 +103,7 @@ export class SidebarDocumentSearch extends Component {
       }
     }).catch(error => {
       console.error('Error documentSearch: ', error);
+      captureException(error);
       return error;
     });
 
@@ -171,8 +173,9 @@ export class SidebarDocumentSearch extends Component {
         });
       }
       return count || '';
-    } catch (e) {
-      console.error('Error getNumberOfSearchResults: ', e);
+    } catch (error) {
+      console.error('Error getNumberOfSearchResults: ', error);
+      captureException(error);
       return '';
     }
   };
@@ -199,8 +202,9 @@ export class SidebarDocumentSearch extends Component {
         resultCount: resultCount,
         resultCursorIndex: cursorIndex
       };
-    } catch (e) {
-      console.error('Error getNumberOfSearchResults: ', e);
+    } catch (error) {
+      captureException(error);
+      console.error('Error getNumberOfSearchResults: ', error);
       return {
         resultCount: 0,
         resultCursorIndex: 0,

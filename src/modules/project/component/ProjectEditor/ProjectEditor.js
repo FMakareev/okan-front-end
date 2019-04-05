@@ -22,6 +22,7 @@ import ProjectModeState from '../ProjectContext/ProjectModeState';
 import {ProjectEditorNoSectionSelected} from '../ProjectEditorNoSectionSelected/ProjectEditorNoSectionSelected';
 import {ProjectEditorContentWrapper} from '../ProjectEditorContentWrapper/ProjectEditorContentWrapper';
 import ProjectEditorCellList from '../ProjectEditorCellList/ProjectEditorCellList';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const ProjectEditorSecondTitle = ({children}) => (
   <Text
@@ -93,6 +94,7 @@ export class ProjectEditor extends Component {
       });
     } catch (error) {
       console.error('Error: ', error);
+      captureException(error);
     }
   };
 
@@ -101,8 +103,10 @@ export class ProjectEditor extends Component {
    * @desc метод выполняет получение данные по ячейке
    * */
   getCellItem = id => {
-    return this.props.client.query({query: CellItemQuery, variables: {id}}).catch(error => {
+    return this.props.client.query({query: CellItemQuery, variables: {id}})
+      .catch(error => {
       console.error('Error getCellItem: ', error);
+      captureException(error);
     });
   };
 
@@ -170,7 +174,7 @@ export class ProjectEditor extends Component {
                 }
 
                 if (errorParent) {
-                  return `Ошибка`;
+                  throw Error(errorParent);
                 }
 
                 const {firstTitle, secondTitle, sectionNumber} = this.getSectionTitle(dataParent.cellItem);

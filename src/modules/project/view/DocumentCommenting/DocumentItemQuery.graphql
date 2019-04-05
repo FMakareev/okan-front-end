@@ -40,7 +40,7 @@ query ($documentid: String!, $projectid: String!) {
     name
 
     project
-    partners {
+    internalMatching: partners {
       id
       lastname
       firstname
@@ -72,7 +72,7 @@ query ($documentid: String!, $projectid: String!) {
        }
        # null, на согласовании, согласован, не согласован
        approvalstatus
-       partners {
+      internalMatching: partners {
          id
          lastname
          firstname
@@ -85,7 +85,7 @@ query ($documentid: String!, $projectid: String!) {
     updatedate
     # archive or working
     status
-    partners{
+     internalMatching: partners{
       id
       lastname
       firstname

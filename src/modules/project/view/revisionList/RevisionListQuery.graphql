@@ -13,7 +13,7 @@ query ($id: String!) {
     name
     okancode
     project
-    partners {
+    internalMatching: partners {
       id
       lastname
       firstname

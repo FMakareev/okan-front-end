@@ -19,6 +19,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import CreateCellMutation from '../../graphql/CreateCellMutation.graphql';
 import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
 import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = name => {
   return {
@@ -57,6 +58,7 @@ export class FormCreateFirstCell extends Component {
       },
     }).catch(error => {
       console.error('Error SubmitCreateCell:', error);
+      captureException(error);
     });
   };
 
@@ -97,6 +99,7 @@ export class FormCreateFirstCell extends Component {
       },
     }).catch(error => {
       console.error('Error SubmitUpdateDocument:', error);
+      captureException(error);
       setNotificationError(notificationOpts(document.name).error);
     });
   };

@@ -1,0 +1,52 @@
+mutation ($equipmentname: String, $approvalstatus: String, $children: String, $customercode: String, $documentnumber: String, $id: String!, $name: String, $okancode: String, $internalMatching: [String], $externalAndInternalApprove: [String], $externalMatching: [String]) {
+  updatedocument(equipmentname: $equipmentname, approvalstatus: $approvalstatus, children: $children, customercode: $customercode, documentnumber: $documentnumber, id: $id, name: $name, okancode: $okancode, partners: $internalMatching, externalapprove: $externalAndInternalApprove,externalconform: $externalMatching) {
+    document {
+      id
+      name
+      okancode
+      customercode
+      equipmentname
+      project
+      internalMatching: partners {
+        id
+        firstname
+        lastname
+        patronymic
+      }
+      externalAndInternalApprove: externalapprove {
+        id
+        user {
+          id
+          firstname
+          lastname
+          patronymic
+          position
+          organizationname
+          signature
+          role{
+            name
+            id
+          }
+        }
+        approvaldate
+      }
+      externalMatching: externalconform {
+        id
+        user {
+          id
+          firstname
+          lastname
+          patronymic
+          position
+          organizationname
+          signature
+          role{
+            name
+            id
+          }
+        }
+        approvaldate
+      }
+    }
+  }
+}

@@ -26,6 +26,7 @@ import {
 /** Utils */
 import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
 import * as shallowequal from "shallowequal";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const GetStatusColor = status => {
   switch (status) {
@@ -92,15 +93,17 @@ export class SidebarApprovalStatus extends Component {
 
           try {
             UpdateCellInCache(store, {...changestatus.cell});
-          } catch (e) {
-            console.error('Error in SidebarApprovalStatus change status: ', e);
+          } catch (error) {
+            console.error('Error in SidebarApprovalStatus change status: ', error);
+            captureException(error);
           }
 
           try {
             cell = store.readQuery(options);
             cell.celllist.map(item => (item.verify = changestatus.cell.verify));
-          } catch (e) {
-            console.error('Error in readQuery change status: ', e);
+          } catch (error) {
+            console.error('Error in readQuery change status: ', error);
+            captureException(error);
           }
           try {
             store.writeQuery({
@@ -109,8 +112,9 @@ export class SidebarApprovalStatus extends Component {
                 ...cell,
               },
             });
-          } catch (e) {
-            console.error('Error in writeQuery change status: ', e);
+          } catch (error) {
+            console.error('Error in writeQuery change status: ', error);
+            captureException(error);
           }
 
           let checkChanges = {checkForCellChanges: {}};
@@ -126,6 +130,7 @@ export class SidebarApprovalStatus extends Component {
             checkChanges.checkForCellChanges.answer = false;
           } catch (error) {
             console.warn('Warning checkForCellChanges read: ', error);
+            captureException(error);
           }
 
           try {
@@ -135,6 +140,7 @@ export class SidebarApprovalStatus extends Component {
             });
           } catch (error) {
             console.error('Error changeStatus: ', error);
+            captureException(error);
           }
         },
       })
@@ -143,6 +149,7 @@ export class SidebarApprovalStatus extends Component {
       })
       .catch(error => {
         console.error(error);
+        captureException(error);
       });
   };
 
@@ -178,6 +185,7 @@ export class SidebarApprovalStatus extends Component {
       return shallowequal(newPrevCell, nextCell);
     } catch (error) {
       console.error('Error comparePrevAndNext: ', error);
+      captureException(error);
     }
   };
 
@@ -201,6 +209,7 @@ export class SidebarApprovalStatus extends Component {
       }
     } catch (error) {
       console.error('Error initSubscribe: ', error);
+      captureException(error);
     }
   };
 
@@ -224,6 +233,7 @@ export class SidebarApprovalStatus extends Component {
       });
     } catch (error) {
       console.error('Error: ', error);
+      captureException(error);
     }
   };
 

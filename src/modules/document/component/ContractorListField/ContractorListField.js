@@ -19,6 +19,9 @@ import shallowequal from "shallowequal";
 
 export class ContractorListField extends Component {
 
+  static defaultProps = {
+    compareUsers: [],
+  };
 
   constructor(props) {
     super(props);
@@ -26,39 +29,8 @@ export class ContractorListField extends Component {
   }
 
   get initialState() {
-    return {
-      loadingRemove: false,
-    }
+    return {}
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.loadingRemove !== this.state.loadingRemove) {
-      return true;
-    }
-    if(nextProps.compareUsers.length !== this.props.compareUsers.length){
-      return true;
-    }
-
-    let result = nextProps.compareUsers.map(item => {
-      return !shallowequal(nextProps.values[item], this.props.values[item])
-    });
-
-    if(result.find(item => item === true)){
-      return true;
-    }
-
-    return false;
-  }
-
-
-  /**
-   * @desc метод для изменения статуса прелоатера
-   * */
-  loadingRemoveToggle = () => {
-    this.setState((state) => ({
-      loadingRemove: !state.loadingRemove
-    }));
-  };
 
   /**
    * @params {Array) options массив пользователей
@@ -112,8 +84,6 @@ export class ContractorListField extends Component {
 
   render() {
     const {fields, values, compareUsers} = this.props;
-    const {loadingRemove} = this.state;
-    console.log('ContractorListField render', this.props);
     return (<Box>
       {
         fields.map((member, index) => {
@@ -143,8 +113,6 @@ export class ContractorListField extends Component {
               </Box>
               <Box pl={6}>
                 <ButtonWithImage
-                  isLoading={loadingRemove}
-                  disabled={loadingRemove}
                   type={'button'}
                   title={'Удалить контрагента'}
                   p={'4px'}
@@ -172,8 +140,6 @@ export class ContractorListField extends Component {
               </Box>
               <Box pl={6}>
                 <ButtonWithImage
-                  isLoading={loadingRemove}
-                  disabled={loadingRemove}
                   type={'button'}
                   title={'Удалить контрагента'}
                   p={'4px'}

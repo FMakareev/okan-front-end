@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Query} from 'react-apollo';
 
@@ -16,7 +15,7 @@ import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import FormDocumentSettings from '../../component/FormDocumentSettings/FormDocumentSettings';
 
 /** Graphql schema */
-import DocumentItemQuery from './DocumentItemQuery.graphql';
+import DocumentItemQuery from '../../graphql/DocumentItemQuery.graphql';
 import {error, success} from "react-notification-system-redux";
 
 const has = Object.prototype.hasOwnProperty;
@@ -36,9 +35,9 @@ class DocumentSettingsPage extends Component {
   state = {};
 
   /**
-   * @param {array} approvalList - список согласующиъ/утверждающих externalapprove, externalconform
+   * @param {array} approvalList - список согласующиъ/утверждающих externalAndInternalApprove, externalMatching
    * @param {array} userList - просто список пользователей
-   * @desc метод преобразует данные из списков externalapprove, externalconform в валидную для формы структуру
+   * @desc метод преобразует данные из списков externalAndInternalApprove, externalMatching в валидную для формы структуру
    * */
   createContractorApprovalList = (approvalList, userList) => {
     const newApprovalList = [];
@@ -69,8 +68,8 @@ class DocumentSettingsPage extends Component {
     try {
       return {
         ...documentitem,
-        partners: documentitem
-          ? documentitem.partners.map(item => item.id)
+        internalMatching: documentitem
+          ? documentitem.internalMatching.map(item => item.id)
           : [],
       };
     } catch (error) {

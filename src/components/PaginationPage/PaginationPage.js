@@ -15,7 +15,10 @@ export class PaginationPage extends Component {
   }
 
   render() {
-    const {pagination, data, loading, Consumer} = this.props;
+    const {pagination, data, loading, error, Consumer} = this.props;
+    if(error){
+      throw Error(error);
+    }
     return (
       <Box>
         {

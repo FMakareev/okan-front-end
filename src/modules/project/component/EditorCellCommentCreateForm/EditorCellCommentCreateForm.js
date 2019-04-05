@@ -19,6 +19,7 @@ import BackgroundColorProperty from "@lib/styles/styleProperty/BackgroundColorPr
 import BorderColorProperty from "@lib/styles/styleProperty/BorderColorProperty";
 import {getUserFromStore} from "../../../../store/reducers/user/selectors";
 import has from '../../../../utils/has';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 
 const FormStyled = styled(Form)`
@@ -86,6 +87,7 @@ export class EditorCellCommentCreateForm extends Component {
           data = store.readQuery(options);
         } catch (error) {
           console.error('Error createComment update.readQuery: ', error);
+          captureException(error);
         }
 
         if (!data) {
@@ -105,12 +107,14 @@ export class EditorCellCommentCreateForm extends Component {
           });
         } catch (error) {
           console.error('Error createComment update.change: ', error);
+          captureException(error);
         }
 
         try {
           store.writeQuery({...options, data});
         } catch (error) {
           console.error('Error createComment update.writeQuery: ', error);
+          captureException(error);
         }
 
       },
@@ -124,6 +128,7 @@ export class EditorCellCommentCreateForm extends Component {
         console.error('Error createComment submit:', error);
         this.toggleLoading();
         setNotificationError(createCommentNotification().error);
+        captureException(error);
       });
   };
 

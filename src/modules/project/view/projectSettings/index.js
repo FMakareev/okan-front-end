@@ -28,7 +28,6 @@ export class ProjectSettingsPage extends Component {
   render() {
     const {
       match: { params },
-      user,
     } = this.props;
 
     return (
@@ -48,7 +47,7 @@ export class ProjectSettingsPage extends Component {
                 }
                 if (error) {
                   console.error('Error:', error);
-                  return 'Ошибка ...';
+                  throw Error(error);
                 }
 
                 if (!data || (data && !has.call(data, 'projectitem'))) {

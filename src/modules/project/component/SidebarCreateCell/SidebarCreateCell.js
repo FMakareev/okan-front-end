@@ -32,6 +32,7 @@ import {getPosition} from '../ProjectContext/ProjectContextSelectors';
 /** Utils */
 import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
 import deleteQueryFromCache from '../../utils/deleteQueryFromCache';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationCreate = ({prevcell, parent, isHead, contenttype}) => {
   let title = '';
@@ -164,6 +165,7 @@ export class SidebarCreateCell extends Component {
         });
       }
     } catch (error) {
+      captureException(error);
       console.error('Error createCellStateMachine: ', error);
     }
   };
@@ -214,6 +216,7 @@ export class SidebarCreateCell extends Component {
               try {
                 data = store.readQuery(options);
               } catch (error) {
+                captureException(error);
                 console.error('Error createSubCell update read celllist', error);
               }
               try {
@@ -238,6 +241,7 @@ export class SidebarCreateCell extends Component {
                   });
                 }
               } catch (error) {
+                captureException(error);
                 console.error('Error createSubCell update write celllist', error);
               }
             }
@@ -248,6 +252,7 @@ export class SidebarCreateCell extends Component {
 
           } catch (error) {
             console.error('Error createCell: ', error);
+            captureException(error);
           }
         },
       })
@@ -273,11 +278,13 @@ export class SidebarCreateCell extends Component {
             }
           }
         } catch (error) {
+          captureException(error);
           console.error('Error: ', error);
         }
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
+        captureException(error);
 
         setNotificationError(notificationCreate({prevcell, parent, isHead, contenttype}).error);
       });
@@ -318,6 +325,7 @@ export class SidebarCreateCell extends Component {
             }
           } catch (error) {
             console.error('Error createCell: ', error);
+            captureException(error);
           }
         },
       })
@@ -339,6 +347,7 @@ export class SidebarCreateCell extends Component {
       })
       .catch(error => {
         console.error('Error SidebarCreateCell: ', error);
+        captureException(error);
 
         setNotificationError(
           notificationCreate({prevcell, parent: null, isHead, contenttype}).error,
@@ -375,6 +384,7 @@ export class SidebarCreateCell extends Component {
             }
           } catch (error) {
             console.error('Error createCell: ', error);
+            captureException(error);
           }
         },
       })
@@ -395,6 +405,7 @@ export class SidebarCreateCell extends Component {
       })
       .catch(error => {
         console.error('Error createAttachment: ', error);
+        captureException(error);
         setNotificationError(
           notificationCreate({prevcell, parent: null, isHead, contenttype}).error,
         );
@@ -419,6 +430,7 @@ export class SidebarCreateCell extends Component {
             client.optimisticData.data = deleteQueryFromCache(client.optimisticData.data, id);
           } catch (error) {
             console.error('Error deleteCell deleteQueryFromCache', error);
+            captureException(error);
           }
         },
       })
@@ -429,6 +441,7 @@ export class SidebarCreateCell extends Component {
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
+        captureException(error);
 
         setNotificationError(notificationDelete(name).error);
       });

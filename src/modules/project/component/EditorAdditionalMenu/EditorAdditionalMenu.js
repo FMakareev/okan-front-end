@@ -34,6 +34,7 @@ import RenderOpenWindow from '../../../../utils/helpers/RenderOpenWindow';
 import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 import { findClassInPath } from '../../utils/findClassInPath';
 import { CELL_STATUS_CHANGED, CELL_STATUS_CHECKED } from '@lib/shared/approvalStatus';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const AbsoluteStyled = styled(Absolute)`
   min-height: 40px;
@@ -162,6 +163,7 @@ export class EditorAdditionalMenu extends Component {
         }
       }
     } catch (error) {
+      captureException(error);
       console.error('Error eventHandle: ', error);
     }
   };
@@ -207,6 +209,7 @@ export class EditorAdditionalMenu extends Component {
       })
       .catch(error => {
         console.error('there was an error sending the query', error);
+        captureException(error);
         return null;
       });
   };
@@ -251,6 +254,8 @@ export class EditorAdditionalMenu extends Component {
             });
           } catch (error) {
             console.error('Error: ', error);
+
+            captureException(error);
             this.props.setNotificationError(createCellNotification());
           }
 
@@ -300,6 +305,7 @@ export class EditorAdditionalMenu extends Component {
             }
           } catch (error) {
             console.error('Error: ', error);
+            captureException(error);
             this.props.setNotificationError(createCellNotification());
           }
 
@@ -312,6 +318,7 @@ export class EditorAdditionalMenu extends Component {
             UpdateCellInCache(store, parent.cellItem);
           } catch (error) {
             console.error('Error: ', error);
+            captureException(error);
             this.props.setNotificationError(createCellNotification());
           }
 
@@ -326,6 +333,7 @@ export class EditorAdditionalMenu extends Component {
             });
           } catch (error) {
             console.error('Error: ', error);
+            captureException(error);
             this.props.setNotificationError(createCellNotification());
           }
         },
@@ -336,6 +344,7 @@ export class EditorAdditionalMenu extends Component {
       .catch(error => {
         this.props.setNotificationError(createCellNotification(contenttype, 'error'));
         console.error('there was an error sending the query', error);
+        captureException(error);
       });
   };
 
@@ -349,6 +358,7 @@ export class EditorAdditionalMenu extends Component {
       this.createNewCell(contenttype, parentid, prevcell ? prevcell : parentid);
     } catch (error) {
       console.error('Error createCellStateMachine: ', error);
+      captureException(error);
     }
   };
 

@@ -1,5 +1,5 @@
 query{
-  userlist{
+  userList: userlist{
     id
     firstname
     lastname

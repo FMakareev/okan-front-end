@@ -38,6 +38,7 @@ import EditorCellControllerNumber from '../EditorCellControllerNumber/EditorCell
 import shallowequal from 'shallowequal';
 import scrollTo, {linearTween} from '@lib/utils/dom/scrollTo';
 import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = () => ({
   success: {
@@ -95,8 +96,9 @@ export class EditorCellController extends Component {
       } else {
         return currentCellRef
       }
-    } catch (e) {
-      console.log('objectPath: ',e);
+    } catch (error) {
+      console.log('objectPath: ',error);
+      captureException(error);
       return currentCellRef
     }
   };
@@ -111,6 +113,7 @@ export class EditorCellController extends Component {
       scrollTo(top, 150, linearTween);
     } catch (error) {
       console.error('handleScrollToCurrentCell error: ', error);
+      captureException(error);
     }
   }
 
@@ -192,6 +195,7 @@ export class EditorCellController extends Component {
       this.onToggleForm();
     } catch (error) {
       console.error('Error openEditor:', error);
+      captureException(error);
     }
   };
 
@@ -222,6 +226,7 @@ export class EditorCellController extends Component {
             UpdateCellInCache(store, {...updateCell.cell});
           } catch (e) {
             console.error('Error in SidebarApprovalStatus change status: ', e);
+            captureException(error);
           }
 
           try {
@@ -229,11 +234,13 @@ export class EditorCellController extends Component {
             data.cellItem.verify = updateCell.cell.verify;
           } catch (error) {
             console.warn('Warning UpdateCellInCache read: ', error);
+            captureException(error);
           }
           try {
             store.writeQuery({...options, data: {...data}});
           } catch (error) {
             console.error(error);
+            captureException(error);
           }
 
 
@@ -244,6 +251,7 @@ export class EditorCellController extends Component {
       })
       .catch(error => {
         console.error('Error saveCellContent: ', error);
+        captureException(error);
         throw error;
       });
   }
@@ -273,6 +281,7 @@ export class EditorCellController extends Component {
         console.error('Error onBlurForm: ', error);
         this.props.setNotificationError(notificationOpts().error);
         this.onToggleForm();
+        captureException(error);
       });
   };
 

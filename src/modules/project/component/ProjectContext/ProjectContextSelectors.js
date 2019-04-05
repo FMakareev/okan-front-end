@@ -1,3 +1,5 @@
+import {captureException} from "../../../../hocs/withSentry/withSentry";
+
 const has = Object.prototype.hasOwnProperty;
 
 export const getPosition = (object, key) => {
@@ -10,6 +12,7 @@ export const getPosition = (object, key) => {
     return null
   } catch (error) {
     console.error('Error in getPosition',error);
+    captureException(error);
     return null
   }
 };
@@ -24,6 +27,7 @@ export const getProject = (object, key) => {
     return null
   } catch (error) {
     console.error('Error in getProject',error);
+    captureException(error);
     return null
   }
 };
