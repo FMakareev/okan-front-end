@@ -30,11 +30,6 @@
 
 
 
-# Документ
-
-* externalAndInternalApprove - Утверждающие внешние и внутренние
-* externalMatching - Внешние согласующие 
-* internalMatching - Внутренние согласующие 
 
 
 # Отлов ошибок

@@ -167,8 +167,7 @@ export class SidebarCellNode extends Component {
         hover: false,
       };
     } catch (error) {
-      console.error(error);
-      captureException(error);
+      captureException(error, 'Error SidebarCellNode: initialState');
     }
   }
 
@@ -213,7 +212,7 @@ export class SidebarCellNode extends Component {
       }
     } catch (error) {
       console.error(`Error node=${node && node.id}: `, error);
-      captureException(error);
+      captureException(error, `Error SidebarCellNode: handleClick node=${node && node.id}: `);
     }
   };
 
@@ -276,8 +275,7 @@ export class SidebarCellNode extends Component {
           try {
             cellListData = store.readQuery(cellListOptions);
           } catch (error) {
-            console.error('Error readQuery celllist in createCopy:', error);
-            captureException(error);
+            captureException(error, 'Error createBindingBlockCopy: readQuery celllist in createCopy');
           }
 
           try {
@@ -291,8 +289,7 @@ export class SidebarCellNode extends Component {
               data: cellListData,
             });
           } catch (error) {
-            console.error('Error writeQuery celllist in createCopy:', error);
-            captureException(error);
+            captureException(error, 'Error createBindingBlockCopy: writeQuery celllist in createCopy');
           }
 
           /** Обновляем указатели на новую ячейку у родителя*/
@@ -319,8 +316,7 @@ export class SidebarCellNode extends Component {
               data: parentCellData,
             });
           } catch (error) {
-            console.error('Error update parent cell list in createCopy:', error);
-            captureException(error);
+            captureException(error, 'Error createBindingBlockCopy: update parent cell list in createCopy');
           }
 
         },
@@ -336,8 +332,7 @@ export class SidebarCellNode extends Component {
       })
       .catch(error => {
         this.props.setNotificationError(notificationCopy(null).error);
-        console.error('there was an error sending the query', error);
-        captureException(error);
+        captureException(error, 'Error createBindingBlockCopy: fetch');
       });
   };
 
@@ -383,7 +378,7 @@ export class SidebarCellNode extends Component {
             this.props.updateNode(this.props.node.id, {lastChildren: target});
           } catch (error) {
             console.error('Error bindBlock: ', error);
-            captureException(error);
+            captureException(error, 'Error bindBlock: updateNode');
           }
         },
       })
@@ -396,7 +391,7 @@ export class SidebarCellNode extends Component {
       .catch(error => {
         console.error('there was an error sending the query', error);
         this.props.setNotificationError(notificationOpts(null).error);
-        captureException(error);
+        captureException(error, 'Error bindBlock: fetch');
       });
   };
 
@@ -440,8 +435,7 @@ export class SidebarCellNode extends Component {
             },
           });
         } catch (error) {
-          console.error('Error UpdateCache: ', error);
-          captureException(error);
+          captureException(error, 'Error updateCellMutation: update');
         }
       }
     }).then(({data}) => {
@@ -456,9 +450,8 @@ export class SidebarCellNode extends Component {
       /** обновляем статус яейки в дереве */
 
     }).catch(error => {
-      console.log(error);
       setNotificationError(notificationUpdateCell().error);
-      captureException(error);
+      captureException(error, 'Error updateCellMutation: fetch');
     })
   };
 
