@@ -11,6 +11,7 @@ import shallowequal from 'shallowequal'; // ES6
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 import {joinQueryString} from '@lib/utils/joinQueryString';
 import {withRouter} from 'react-router-dom';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 /**
  * @typedef {Object} Position
@@ -96,9 +97,6 @@ export class ProjectStore extends Component {
     }
   }
 
-  componentDidCatch(error, warning) {
-    console.error('componentDidCatch: ', error, warning);
-  }
 
   /**
    * @desc метод по текущему авторизованному пользователю и авторму проекта определяет режим работы редактора
@@ -113,6 +111,7 @@ export class ProjectStore extends Component {
       }
     } catch (error) {
       console.error('Error getCurrentEditorMode: ', error);
+      captureException(error);
       return PROJECT_MODE_READ;
     }
   };
@@ -128,6 +127,7 @@ export class ProjectStore extends Component {
         }),
       });
     } catch (error) {
+      captureException(error);
       console.error('Error changeSearchPhraseInLocationSearch: ', error);
     }
   };
@@ -151,6 +151,7 @@ export class ProjectStore extends Component {
 
       this.changeSearchPhraseInLocationSearch(null);
     } catch (error) {
+      captureException(error);
       console.error('Error resetSearchCondition',error);
     }
   };
@@ -173,8 +174,9 @@ export class ProjectStore extends Component {
           this.initSearchCursor();
         },
       );
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      captureException(error);
+      console.error(error);
     }
   };
 
@@ -234,6 +236,7 @@ export class ProjectStore extends Component {
         };
       }
     } catch (error) {
+      captureException(error);
       console.error('Error: ', error);
     }
   };
@@ -271,6 +274,7 @@ export class ProjectStore extends Component {
         };
       }
     } catch (error) {
+      captureException(error);
       console.error('Error: ', error);
     }
   };
@@ -316,8 +320,9 @@ export class ProjectStore extends Component {
           },
         }));
       }
-    } catch (e) {
-      console.error('Error initSearchCursor:', e);
+    } catch (error) {
+      captureException(error);
+      console.error('Error initSearchCursor:', error);
     }
   };
 

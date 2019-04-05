@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { BLOCK_TEXT } from '@lib/shared/blockType';
 import {UnbindCellHOC} from "../../hoc/UnbindCellHOC/UnbindCellHOC";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = () => ({
   success: {
@@ -79,6 +80,7 @@ export class EditorCellDelete extends Component {
             }
           } catch (error) {
             console.error('Error update content.number: ', error);
+            captureException(error);
           }
 
           try {
@@ -131,6 +133,7 @@ export class EditorCellDelete extends Component {
             }
           } catch (error) {
             console.error('Error update celllist: ', error);
+            captureException(error);
           }
 
           store.writeQuery({
@@ -173,6 +176,7 @@ export class EditorCellDelete extends Component {
       })
       .catch(error => {
         console.error('Error saveCellContent: ', error);
+        captureException(error);
         this.props.setNotificationError(notificationOpts().error);
         throw error;
       });

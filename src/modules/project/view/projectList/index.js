@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import * as Sentry from '@sentry/browser';
+
 import {connect} from 'react-redux';
 
 /**PropTypes */
@@ -29,6 +29,10 @@ import ProjectListQuery from './ProjectListQuery.graphql';
 import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 
 const has = Object.prototype.hasOwnProperty;
+
+
+
+
 
 export class ProjectListPage extends Component {
   static propTypes = {...ReactRoutePropTypes};
@@ -72,6 +76,8 @@ export class ProjectListPage extends Component {
                 widthIcon={'10px'}
               />
             </Link>
+
+
           </Container>
         </Flex>
       </ErrorCatch>

@@ -39,6 +39,7 @@ import ProjectModeState from '../ProjectContext/ProjectModeState';
 
 /** Constants */
 import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -165,8 +166,9 @@ export class SidebarCellNode extends Component {
         focused: this.props.node.focused,
         hover: false,
       };
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
+      captureException(error);
     }
   }
 
@@ -211,6 +213,7 @@ export class SidebarCellNode extends Component {
       }
     } catch (error) {
       console.error(`Error node=${node && node.id}: `, error);
+      captureException(error);
     }
   };
 
@@ -274,6 +277,7 @@ export class SidebarCellNode extends Component {
             cellListData = store.readQuery(cellListOptions);
           } catch (error) {
             console.error('Error readQuery celllist in createCopy:', error);
+            captureException(error);
           }
 
           try {
@@ -288,6 +292,7 @@ export class SidebarCellNode extends Component {
             });
           } catch (error) {
             console.error('Error writeQuery celllist in createCopy:', error);
+            captureException(error);
           }
 
           /** Обновляем указатели на новую ячейку у родителя*/
@@ -315,6 +320,7 @@ export class SidebarCellNode extends Component {
             });
           } catch (error) {
             console.error('Error update parent cell list in createCopy:', error);
+            captureException(error);
           }
 
         },
@@ -331,6 +337,7 @@ export class SidebarCellNode extends Component {
       .catch(error => {
         this.props.setNotificationError(notificationCopy(null).error);
         console.error('there was an error sending the query', error);
+        captureException(error);
       });
   };
 
@@ -376,6 +383,7 @@ export class SidebarCellNode extends Component {
             this.props.updateNode(this.props.node.id, {lastChildren: target});
           } catch (error) {
             console.error('Error bindBlock: ', error);
+            captureException(error);
           }
         },
       })
@@ -388,6 +396,7 @@ export class SidebarCellNode extends Component {
       .catch(error => {
         console.error('there was an error sending the query', error);
         this.props.setNotificationError(notificationOpts(null).error);
+        captureException(error);
       });
   };
 
@@ -432,6 +441,7 @@ export class SidebarCellNode extends Component {
           });
         } catch (error) {
           console.error('Error UpdateCache: ', error);
+          captureException(error);
         }
       }
     }).then(({data}) => {
@@ -448,6 +458,7 @@ export class SidebarCellNode extends Component {
     }).catch(error => {
       console.log(error);
       setNotificationError(notificationUpdateCell().error);
+      captureException(error);
     })
   };
 

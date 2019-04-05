@@ -17,6 +17,7 @@ import SvgSidebarAdd from '@lib/ui/Icons/SvgSidebarAdd';
 /** Graphql schema */
 import ProjectItemQuery from '../../graphql/ProjectItemQuery.graphql';
 import CreateDocumentQuery from '../../graphql/CreateDocumentQuery.graphql';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = () => ({
   success: {
@@ -82,6 +83,7 @@ export class FormCreateDocument extends Component {
         this.props.setNotificationError(notificationOpts().error);
 
         console.error('Error createDocument: ',error);
+        captureException(error);
       });
   };
 

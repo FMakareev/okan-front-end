@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import {Query} from 'react-apollo';
 
 /** Graphql schema */
 import RevisionItemQuery from './RevisionItemQuery.graphql';
@@ -16,13 +16,12 @@ import {
 } from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
-import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 import {ProjectPageWrapper} from "../../component/ProjectPageWrapper/ProjectPageWrapper";
 import {ProjectStore} from "../../component/ProjectStore/ProjectStore";
 import {SideBarWrapper} from "../../component/SideBarWrapper/SideBarWrapper";
 import {ProjectEditorWrapper} from "../../component/ProjectEditorWrapper/ProjectEditorWrapper";
 import {ProjectSidebar} from "../../component/ProjectSidebar/ProjectSidebar";
-
 
 
 const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
@@ -45,22 +44,22 @@ export class RevisionItem extends Component {
 
   render() {
     const {
-      match: { params },
+      match: {params},
     } = this.props;
 
     return (
-      <Query query={RevisionItemQuery} variables={{ id: params.revisionid }}>
-        {({ loading, data, error }) => {
-          if (loading) {
-            return 'Загрузка...';
-          }
-          if (error) {
-            console.error('Error:', error);
-            return 'Ошибка...';
-          }
-          return (
-            <ErrorCatch>
+      <ErrorCatch>
 
+        <Query query={RevisionItemQuery} variables={{id: params.revisionid}}>
+          {({loading, data, error}) => {
+            if (loading) {
+              return 'Загрузка...';
+            }
+            if (error) {
+              console.error('Error:', error);
+              throw Error(error);
+            }
+            return (
               <ProjectPageWrapper>
 
                 <ProjectStore
@@ -73,20 +72,20 @@ export class RevisionItem extends Component {
                 >
 
                   <SideBarWrapper id={'SideBarWrapper'}>
-                    <ProjectSidebarWithProject  documentitem={data.revisionItem}/>
+                    <ProjectSidebarWithProject documentitem={data.revisionItem}/>
                   </SideBarWrapper>
                   <ProjectEditorWrapper>
-                    <ProjectEditorWithProject sectionid={params.sectionid} />
+                    <ProjectEditorWithProject sectionid={params.sectionid}/>
                   </ProjectEditorWrapper>
 
                 </ProjectStore>
 
               </ProjectPageWrapper>
 
-            </ErrorCatch>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
+      </ErrorCatch>
     );
   }
 }

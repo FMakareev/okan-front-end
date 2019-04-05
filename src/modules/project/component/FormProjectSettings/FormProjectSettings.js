@@ -30,6 +30,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const BoxStyled = styled(Box)`
   input {
@@ -92,6 +93,7 @@ export class FormProjectSettings extends Component {
       .catch(({ graphQLErrors, message, }) => {
         this.props.setNotificationError(notificationOpts().error);
 
+        captureException(error);
         throw new SubmissionError({ _error: message });
       });
   };

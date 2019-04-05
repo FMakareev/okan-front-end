@@ -57,7 +57,7 @@ const createRoutes = (modulesRoutes, newRoutes, moduleName) => {
         component: asyncComponent({
           resolve: modulesRoutes[i].load,
           LoadingComponent: () => <div>Загрузка...</div>,
-          ErrorComponent: ({ error }) => <ErrorCatch>{error.message}</ErrorCatch>,
+          ErrorComponent: ({ error }) => <ErrorCatch error={error}>{error.message}</ErrorCatch>,
         }),
         exactResolvers:
           modulesRoutes[i].exactResolvers !== undefined ? modulesRoutes[i].exactResolvers : true,

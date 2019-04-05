@@ -18,6 +18,7 @@ import {getUserFromStore} from '../../../../store/reducers/user/selectors';
 /** Constants */
 import {APPROVAL, NOT_APPROVAL, TO_APPROVAL} from '@lib/shared/approvalStatus';
 import ButtonWithImage from "@lib/ui/ButtonWithImage/ButtonWithImage";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = name => {
   return ({
@@ -81,6 +82,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
       .catch(error => {
         console.error(`Error checkForCommentsInCells:`, error);
         setNotificationError(notificationOpts(document.name).submitError);
+        captureException(error);
         return error;
       })
   };
@@ -106,6 +108,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
       .catch(error => {
         console.error(`Error updateApprovalDocumentStatus: `, error);
         setNotificationError(notificationOpts(document.name).submitError);
+        captureException(error);
         return error;
       });
   };

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, {PureComponent} from 'react';
 import {ReactHighlightedHTML} from "../ReactHighlightedHTML/ReactHighlightedHTML";
 import {Text} from "@lib/ui/Text/Text";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 export class EditorCellContent extends PureComponent {
 
@@ -26,6 +27,7 @@ export class EditorCellContent extends PureComponent {
       return content ? content.replace('data-f-id="pbf"', 'style="display:none;"') : null;
     } catch (error) {
       console.error('Error changeContent: ',error);
+      captureException(error);
       return null;
     }
   };
@@ -42,6 +44,7 @@ export class EditorCellContent extends PureComponent {
       }
     } catch (error) {
       console.error('Error thisCellMatchesTheSearchQuery: ',error);
+      captureException(error);
       return null;
     }
   };

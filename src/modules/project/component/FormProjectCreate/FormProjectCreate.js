@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { graphql, Query, withApollo } from 'react-apollo';
 import styled from 'styled-components';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 
 import { withRouter } from 'react-router-dom';
@@ -18,8 +18,6 @@ import SelectBase from '@lib/ui/SelectBase/SelectBase';
 /**Image */
 import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
-/**PropTypes */
-import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
@@ -31,6 +29,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 import TemplateListQuery from './TemplateListQuery.graphql';
 import CreateProjectMutation from './CreateProjectMutation.graphql';
 import ProjectListQuery from '../../view/projectList/ProjectListQuery.graphql';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const BoxStyled = styled(Box)`
   input {
@@ -94,8 +93,9 @@ export class FormProjectCreate extends Component {
           data.projectList.push(createproject.project);
 
           store.writeQuery({ query: ProjectListQuery, data });
-        } catch (e) {
-          console.error('Error in FormProjectCreate, method submit : ', e);
+        } catch (error) {
+          console.error('Error in FormProjectCreate, method submit : ', error);
+          captureException(error);
         }
       },
     };
@@ -111,8 +111,11 @@ export class FormProjectCreate extends Component {
           throw error;
         }
       })
-      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+      .catch((error) => {
+        const { message } = error;
         this.props.setNotificationError(notificationOpts().error);
+        captureException(error);
+
         throw new SubmissionError({ _error: message });
       });
   }

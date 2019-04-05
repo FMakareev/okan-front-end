@@ -44,7 +44,7 @@ export class RevisionListPage extends Component {
                   return <SmallPreloader />;
                 }
                 if (error) {
-                  throw error;
+                  throw new Error(error);
                 }
                 if (!data || (data && !has.call(data, 'revisionList'))) {
                   return null;

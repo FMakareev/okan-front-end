@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import GraphQLError from './GraphQLError';
 import RenderError from '../RenderError/RenderError';
 
@@ -16,7 +17,9 @@ export class ErrorCatch extends Component {
     notifications: PropTypes.array,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+    error: null,
+  };
 
   constructor(props) {
     super(props);
@@ -25,16 +28,34 @@ export class ErrorCatch extends Component {
       error: null,
     };
     this.findOfTheTypeError = this.findOfTheTypeError.bind(this);
+    if (this.props.error) {
+      Sentry.withScope(scope => {
+        Object.keys(this.props.error).forEach(key => {
+          scope.setExtra(key, this.props.error[key]);
+        });
+        Sentry.captureException(this.props.error);
+      });
+      this.setState(() => ({
+        error: this.props.error,
+      }));
+    }
   }
 
-  componentDidCatch(error, info) {
-    console.log(error, info);
+
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
 
     const Error = this.findOfTheTypeError(error);
     this.setState(() => ({
       error: Error,
-      info,
+      info: errorInfo,
     }));
+    Sentry.withScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+      Sentry.captureException(error);
+    });
   }
 
   findOfTheTypeError(error) {
@@ -51,13 +72,15 @@ export class ErrorCatch extends Component {
   }
 
   render() {
-    const { children } = this.props;
-    const { error } = this.state;
+    const {children} = this.props;
+    const {error} = this.state;
     if (error) {
       if (error.redirect) {
-        return <Redirect to={error.redirect} />;
+        return <Redirect to={error.redirect}/>;
       }
-      return <RenderError {...error} />;
+      return <div>
+        <RenderError {...error} />
+      </div>
     }
     if (!children) {
       return null;

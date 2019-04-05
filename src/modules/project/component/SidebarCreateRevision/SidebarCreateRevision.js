@@ -16,6 +16,7 @@ import RevisionListQuery from '../../view/revisionList/RevisionListQuery.graphql
 
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = name => ({
   success: {
@@ -63,6 +64,7 @@ export class SidebarCreateRevision extends Component {
             data,
           });
         } catch (error) {
+          captureException(error);
           console.error('Error createRevision.update: ', error);
         }
       },
@@ -73,6 +75,7 @@ export class SidebarCreateRevision extends Component {
       })
       .catch(error => {
         console.error(`Error SidebarCreateRevision:`, error);
+        captureException(error);
         setNotificationError(notificationOpts(documentid.name).error);
       });
   };

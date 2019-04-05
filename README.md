@@ -32,8 +32,34 @@
 
 # Документ
 
-
-
 * externalAndInternalApprove - Утверждающие внешние и внутренние
 * externalMatching - Внешние согласующие 
 * internalMatching - Внутренние согласующие 
+
+
+# Отлов ошибок
+
+В проект подключен модуль [sentry](https://sentry.io) для логирования ошибок и формирования отетов в облаке. 
+
+Этот модуль работает только в режиме `production` т.к. бесплатное кол-во запросов в месяц ограничено.
+
+Для упрощения контроля запросов были созданы следующие методы:
+
+* [captureException]('src\hocs\withSentry\withSentry.js') - логирует объект ошибки ([документация](https://docs.sentry.io/error-reporting/capturing/?platform=javascript#capturing-errors--exceptions))
+
+Пример использования:
+
+```js
+try{
+  // ваш код
+} catch(error) {
+  captureException(error)
+}
+```
+
+* [captureMessage]('src\hocs\withSentry\withSentry.js') - просто для отправки сообщения ([документация](https://docs.sentry.io/error-reporting/capturing/?platform=javascript#capturing-messages))
+
+### Доступы к аккаунту на котором можо смотреть статистику:
+
+login: fmakareev@code-artel.com
+password: kFBVZuJGdVNw6kb

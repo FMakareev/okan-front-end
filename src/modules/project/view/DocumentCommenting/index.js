@@ -50,6 +50,7 @@ export class DocumentCommenting extends Component {
     } = this.props;
 
     return (
+      <ErrorCatch>
       <Query
         query={DocumentItemQuery}
         variables={{ documentid: params.documentid, projectid: params.projectid }}>
@@ -59,10 +60,9 @@ export class DocumentCommenting extends Component {
           }
           if (error) {
             console.error('Error:', error);
-            return 'Ошибка...';
+            throw Error(error);
           }
           return (
-            <ErrorCatch>
               <ProjectPageWrapper>
 
                 <ProjectStore
@@ -82,10 +82,10 @@ export class DocumentCommenting extends Component {
                 </ProjectStore>
 
               </ProjectPageWrapper>
-            </ErrorCatch>
           );
         }}
       </Query>
+      </ErrorCatch>
     );
   }
 }

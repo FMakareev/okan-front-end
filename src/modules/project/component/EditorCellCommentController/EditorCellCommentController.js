@@ -34,6 +34,7 @@ import {
 import {PROJECT_MODE_RC, PROJECT_MODE_RW} from "../ProjectContext/ProjectContext";
 import {findClassInPath} from "../../utils/findClassInPath";
 import {withRouter} from "react-router-dom";
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 
 const CommentRegistry = new RegistryFactory({
@@ -129,6 +130,7 @@ export class EditorCellCommentController extends Component {
       this.app && this.app.addEventListener('click', this.eventHandle);
     } catch (error) {
       console.error('Error handleClickForButtonComment: ', error);
+      captureException(error);
     }
   };
 
@@ -146,6 +148,7 @@ export class EditorCellCommentController extends Component {
       }
     } catch (error) {
       console.error('Error eventHandle: ', error);
+      captureException(error);
     }
   };
 
@@ -179,6 +182,7 @@ export class EditorCellCommentController extends Component {
 
     } catch (error) {
       console.error('Error getCommentById: ', error);
+      captureException(error);
       return null;
     }
   };
@@ -190,7 +194,8 @@ export class EditorCellCommentController extends Component {
   getCellIdFromSearchParam = () => {
     try {
       return queryString.parse(this.props.location.search).cellid;
-    } catch (e) {
+    } catch (error) {
+      captureException(error);
       return null;
     }
   };
@@ -202,7 +207,8 @@ export class EditorCellCommentController extends Component {
   getCommentIdFromSearchParam = () => {
     try {
       return queryString.parse(this.props.location.search).commentid;
-    } catch (e) {
+    } catch (error) {
+      captureException(error);
       return null;
     }
   };
@@ -228,6 +234,7 @@ export class EditorCellCommentController extends Component {
       }
     } catch (error) {
       console.error(`Error getCurrentStatus id=$:`, error);
+      captureException(error);
       return 'emptyComment';
     }
   };
@@ -245,6 +252,7 @@ export class EditorCellCommentController extends Component {
       })
     } catch (error) {
       console.error('Error getDocumentToWhichTheCellBelongs: ', error);
+      captureException(error);
       return null;
     }
   };
@@ -260,6 +268,7 @@ export class EditorCellCommentController extends Component {
       return document.internalMatching ? document.internalMatching.find(item => item.id === userId) : null;
     } catch (error) {
       console.error('Error userOneOfDocumentPartners: ', error);
+      captureException(error);
       return null;
     }
   };
@@ -275,6 +284,7 @@ export class EditorCellCommentController extends Component {
       return Array.isArray(comments) ? comments.find(item => item.sender.id === userId) : null;
     } catch (error) {
       console.error('Error getUserComment: ', error);
+      captureException(error);
       return null;
     }
   };
@@ -310,6 +320,7 @@ export class EditorCellCommentController extends Component {
       return COMMENTS_HIDE;
     } catch (error) {
       console.error('Error getCurrentCommentMode: ', error);
+      captureException(error);
       return COMMENTS_HIDE;
     }
   };
@@ -338,6 +349,7 @@ export class EditorCellCommentController extends Component {
       }
     } catch (error) {
       console.error('Error commentListFilter: ', error);
+      captureException(error);
       return {};
     }
   };
@@ -356,6 +368,7 @@ export class EditorCellCommentController extends Component {
           data = store.readQuery(options);
         } catch (error) {
           console.error('Error onDeletionNotifications update.read: ', error);
+          captureException(error);
         }
         try {
           if (data) {
@@ -371,11 +384,13 @@ export class EditorCellCommentController extends Component {
           }
         } catch (error) {
           console.error('Error onDeletionNotifications update.change: ', error);
+          captureException(error);
         }
         try {
           store.writeQuery({...options, data});
         } catch (error) {
           console.error('Error onDeletionNotifications update.write: ', error);
+          captureException(error);
         }
       },
     })
@@ -387,6 +402,7 @@ export class EditorCellCommentController extends Component {
       .catch(error => {
         this.props.setNotificationError(commentDeletionNotifications().error);
         console.error('Error onDelete:', error);
+        captureException(error);
       });
   };
 

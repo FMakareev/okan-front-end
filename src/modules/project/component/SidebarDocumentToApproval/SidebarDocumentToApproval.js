@@ -18,6 +18,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 /** Constants */
 import { TO_APPROVAL } from '@lib/shared/approvalStatus';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = name => {
   return {
@@ -79,6 +80,7 @@ export class SidebarDocumentToApproval extends Component {
       })
       .catch(error => {
         console.error(`Error checkForChangesInDoc:`, error);
+        captureException(error);
         setNotificationError(notificationOpts(document.name).submitError);
         return error;
       });
@@ -100,6 +102,7 @@ export class SidebarDocumentToApproval extends Component {
       })
       .catch(error => {
         console.error(`Error updateApprovalDocumentStatus: `, error);
+        captureException(error);
         setNotificationError(notificationOpts(document.name).submitError);
         return error;
       });

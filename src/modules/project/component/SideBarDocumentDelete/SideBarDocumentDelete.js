@@ -20,6 +20,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Context */
 import { getPosition } from '../ProjectContext/ProjectContextSelectors';
+import {captureException} from "../../../../hocs/withSentry/withSentry";
 
 const notificationOpts = name => ({
   success: {
@@ -72,6 +73,7 @@ export class SideBarDocumentDelete extends Component {
               data,
             });
           } catch (error) {
+            captureException(error);
             console.error('Error update cache after deletedocument: ', error);
           }
           try {
@@ -79,6 +81,7 @@ export class SideBarDocumentDelete extends Component {
               history.push(`/app/project/${getPosition(project, 'projectid')}`);
             }
           } catch (error) {
+            captureException(error);
             console.error('Error change path after deletedocument: ', error);
           }
         },
@@ -88,6 +91,7 @@ export class SideBarDocumentDelete extends Component {
       })
       .catch(error => {
         console.error('Error deleteCell: ', error);
+        captureException(error);
         setNotificationError(notificationOpts(documentName).error);
       });
   };

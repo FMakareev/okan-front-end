@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import {captureException} from "../../hocs/withSentry/withSentry";
 
 /**
  * @param {array} role - массив ролей у которых есть доступ к компоненту
@@ -21,6 +22,7 @@ export let CheckAuthorization = (role = [], AccessDeniedCallback = null) => Wrap
       }
     } catch (error) {
       console.error(error);
+      captureException(error);
     }
     return <WrappedComponent {...props} />;
   };
