@@ -5,6 +5,7 @@ import { graphql } from 'react-apollo';
 import styled from 'styled-components';
 import Notifications, { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /**View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -71,6 +72,7 @@ export class FormProfileRecoveryEmail extends Component {
         // console.log('networkError: ', networkError);
         // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
+        captureException({ networkError, message });
 
         throw new SubmissionError({ _error: message });
       });

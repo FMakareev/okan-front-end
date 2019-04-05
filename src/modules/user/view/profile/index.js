@@ -32,6 +32,8 @@ import UserItemQuery from './UserItemQuery.graphql';
 import NotificationListQuery from './NotificationListQuery.graphql';
 import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
 
+/** HOCS */
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -70,9 +72,8 @@ export class ProfilePage extends Component {
                   }}
                   pageSize={5}
                   pageNumber={1}
-                  query={DocumentsForApprovalQuery}
-                >
-                  {(props) => (
+                  query={DocumentsForApprovalQuery}>
+                  {props => (
                     <PaginationPage
                       {...props}
                       data={props.data && props.data.documentsForApproval}
@@ -96,6 +97,7 @@ export class ProfilePage extends Component {
                     }
                     if (error) {
                       console.error(`Error UserItemQuery: `, error);
+                      captureException(error);
                       return null;
                     }
                     if (id && data && !data.useritem) {
@@ -122,9 +124,8 @@ export class ProfilePage extends Component {
                   queryVariables={{}}
                   pageSize={5}
                   pageNumber={1}
-                  query={NotificationListQuery}
-                >
-                  {(props) => (
+                  query={NotificationListQuery}>
+                  {props => (
                     <PaginationPage
                       {...props}
                       data={props.data && props.data.notificationsList}

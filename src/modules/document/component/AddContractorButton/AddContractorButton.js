@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {DropdownMenuList} from "../DropdownMenuList/DropdownMenuList";
-import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
-import {ButtonBase} from "@lib/ui/ButtonBase/ButtonBase";
-import {Relative} from "@lib/ui/Relative/Relative";
-import {Absolute} from "@lib/ui/Absolute/Absolute";
+import React, { Component } from 'react';
+import { DropdownMenuList } from '../DropdownMenuList/DropdownMenuList';
+import { ROLE_EXTERNALCONTRACTOR, ROLE_USER } from '@lib/shared/roles';
+import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
+import { Relative } from '@lib/ui/Relative/Relative';
+import { Absolute } from '@lib/ui/Absolute/Absolute';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 export class AddContractorButton extends Component {
   state = {
@@ -22,7 +23,6 @@ export class AddContractorButton extends Component {
     }
   }
 
-
   /**
    * @param {array} path - массив объекто дом элементов начиная от того на котором сработало событие и до корня документа
    * @param {string} className - название класса который
@@ -32,6 +32,7 @@ export class AddContractorButton extends Component {
     try {
       return path.findIndex(item => item.className && item.className.indexOf(className) >= 0);
     } catch (error) {
+      captureException(error);
       return null;
     }
   };
@@ -44,8 +45,8 @@ export class AddContractorButton extends Component {
       if (Array.isArray(event.path)) {
         if (
           this.findClassInPath(event.path, `AbsoluteDropdownMenuList`) >= 0 ||
-          this.findClassInPath(event.path, `AddContractorButton`
-          ) >= 0) {
+          this.findClassInPath(event.path, `AddContractorButton`) >= 0
+        ) {
           return null;
         } else {
           if (this.state.isOpen) {
@@ -55,59 +56,60 @@ export class AddContractorButton extends Component {
         }
       }
     } catch (error) {
+      captureException(error);
       console.log('Error eventHandle: ', error);
     }
   };
 
   onToggleMenu = () => {
     this.setState(state => ({
-      isOpen: !state.isOpen
-    }))
+      isOpen: !state.isOpen,
+    }));
   };
 
   render() {
-    const {isOpen} = this.state;
-    const {onChange} = this.props;
-    return (<Relative>
-      <ButtonBase
-        className={'AddContractorButton'}
-        type={'button'}
-        variant={'large'}
-        size={'medium'}
-        width={'100%'}
-        onClick={() => this.onToggleMenu()}
-      >
-        Добавить контрагента
-      </ButtonBase>
-      {
-        isOpen &&
-        <Absolute
-          className={'AbsoluteDropdownMenuList'}
-          left={0}
-          right={0}
-          top={'calc(100% + 4px)'}
-          zIndex={1}
-        >
-          <DropdownMenuList
-            onChange={(value) => {
-              console.log('onChange: ', value);
-              onChange(value);
-              this.onToggleMenu(false);
-            }}
-            valueKey={'role'}
-            options={[
-              {
-                label: 'Выбрать из списка',
-                role: ROLE_USER,
-              }, {
-                label: 'Ввести информацию вручную',
-                role: ROLE_EXTERNALCONTRACTOR,
-              },
-            ]}
-          />
-        </Absolute>
-      }
-    </Relative>)
+    const { isOpen } = this.state;
+    const { onChange } = this.props;
+    return (
+      <Relative>
+        <ButtonBase
+          className={'AddContractorButton'}
+          type={'button'}
+          variant={'large'}
+          size={'medium'}
+          width={'100%'}
+          onClick={() => this.onToggleMenu()}>
+          Добавить контрагента
+        </ButtonBase>
+        {isOpen && (
+          <Absolute
+            className={'AbsoluteDropdownMenuList'}
+            left={0}
+            right={0}
+            top={'calc(100% + 4px)'}
+            zIndex={1}>
+            <DropdownMenuList
+              onChange={value => {
+                console.log('onChange: ', value);
+                onChange(value);
+                this.onToggleMenu(false);
+              }}
+              valueKey={'role'}
+              options={[
+                {
+                  label: 'Выбрать из списка',
+                  role: ROLE_USER,
+                },
+                {
+                  label: 'Ввести информацию вручную',
+                  role: ROLE_EXTERNALCONTRACTOR,
+                },
+              ]}
+            />
+          </Absolute>
+        )}
+      </Relative>
+    );
   }
 }
 

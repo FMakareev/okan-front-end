@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {Field} from 'redux-form';
+import { Field } from 'redux-form';
 
 /**View */
 import Text from '@lib/ui/Text/Text';
@@ -16,21 +16,20 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 const BoxStyled = styled(Box)`
   input {
-    ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
-    ${props => FontSizeProperty({...props, fontSize: 6})};
-    ${props => LineHeightProperty({...props, lineHeight: 8})};
+    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
+    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
     padding: 3px 7px;
     border: 0;
     text-align: center;
   }
 
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
-  ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
 `;
 
 export class BasicDocumentSettings extends Component {
-
   shouldComponentUpdate(nextProps) {
     if (nextProps.name.input.value !== this.props.name.input.value) {
       return true;
@@ -45,7 +44,6 @@ export class BasicDocumentSettings extends Component {
   }
 
   render() {
-
     return (
       <Box>
         <Text
@@ -98,7 +96,6 @@ export class BasicDocumentSettings extends Component {
     );
   }
 }
-
 
 BasicDocumentSettings.propTypes = {
   customercode: PropTypes.object,

@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Query} from 'react-apollo';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Query } from 'react-apollo';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** Redux user */
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
@@ -16,21 +17,22 @@ import FormDocumentSettings from '../../component/FormDocumentSettings/FormDocum
 
 /** Graphql schema */
 import DocumentItemQuery from '../../graphql/DocumentItemQuery.graphql';
-import {error, success} from "react-notification-system-redux";
+import { error, success } from 'react-notification-system-redux';
 
 const has = Object.prototype.hasOwnProperty;
 
 const notificationDocumentSettingsPage = () => ({
   error: {
     title: 'Ошибка инициализации.',
-    message: 'Во время инициализации формы произошла ошибка, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
+    message:
+      'Во время инициализации формы произошла ошибка, попробуйте перезагрузит страницу если это не поможет обратитесь в поддержку.',
     position: 'tr',
     autoDismiss: 2,
   },
 });
 
 class DocumentSettingsPage extends Component {
-  static propTypes = {...ReactRoutePropTypes};
+  static propTypes = { ...ReactRoutePropTypes };
 
   state = {};
 
@@ -47,9 +49,9 @@ class DocumentSettingsPage extends Component {
         newApprovalList.push({
           user: {
             ...userList[indexUser],
-            role: userList[indexUser].role.name
+            role: userList[indexUser].role.name,
           },
-          approvaldate: item.approvaldate
+          approvaldate: item.approvaldate,
         });
       }
     });
@@ -62,17 +64,16 @@ class DocumentSettingsPage extends Component {
    * @return {object} возвращает объект с данными для формы
    * @desc метод формирует объект для инициализации формы
    * */
-  createInitialValues = ({documentitem}) => {
-    const {setNotificationError} = this.props;
+  createInitialValues = ({ documentitem }) => {
+    const { setNotificationError } = this.props;
 
     try {
       return {
         ...documentitem,
-        internalMatching: documentitem
-          ? documentitem.internalMatching.map(item => item.id)
-          : [],
+        internalMatching: documentitem ? documentitem.internalMatching.map(item => item.id) : [],
       };
     } catch (error) {
+      captureException(error);
       console.error('Error createInitialValues: ', error);
       setNotificationError(notificationDocumentSettingsPage().error);
       return {};
@@ -82,15 +83,14 @@ class DocumentSettingsPage extends Component {
   render() {
     const {
       match: {
-        params: {id},
+        params: { id },
       },
     } = this.props;
 
     return (
       <ErrorCatch>
-        <Query query={DocumentItemQuery} variables={{id: id}}>
-          {({data, error, loading}) => {
-
+        <Query query={DocumentItemQuery} variables={{ id: id }}>
+          {({ data, error, loading }) => {
             if (loading) {
               console.error('loading:', loading);
               return 'Загрузка ...';
@@ -104,11 +104,7 @@ class DocumentSettingsPage extends Component {
               return null;
             }
 
-            return (
-              <FormDocumentSettings
-                initialValues={this.createInitialValues(data)}
-              />
-            );
+            return <FormDocumentSettings initialValues={this.createInitialValues(data)} />;
           }}
         </Query>
       </ErrorCatch>

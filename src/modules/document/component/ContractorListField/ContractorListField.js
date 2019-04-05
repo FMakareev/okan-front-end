@@ -1,24 +1,24 @@
-import PropTypes from 'prop-types'
-import React, {Component} from 'react';
-import {withApollo} from "react-apollo";
-import {Field, getFormValues} from "redux-form";
-import {Box} from "@lib/ui/Box/Box";
-import AddContractorButton from "../AddContractorButton/AddContractorButton";
-import CreateContractor from "../CreateContractor/CreateContractor";
-import {ROLE_EXTERNALCONTRACTOR, ROLE_USER} from "@lib/shared/roles";
-import {Flex} from "@lib/ui/Flex/Flex";
-import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
-import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
-import required from "@lib/utils/validation/required";
-import DayPickerField from "@lib/ui/DayPickerField/DayPickerField";
-import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
-import {connect} from "react-redux";
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-import shallowequal from "shallowequal";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withApollo } from 'react-apollo';
+import { Field, getFormValues } from 'redux-form';
+import { Box } from '@lib/ui/Box/Box';
+import AddContractorButton from '../AddContractorButton/AddContractorButton';
+import CreateContractor from '../CreateContractor/CreateContractor';
+import { ROLE_EXTERNALCONTRACTOR, ROLE_USER } from '@lib/shared/roles';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
+import { SelectContractorFromInnerUserList } from '../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList';
+import required from '@lib/utils/validation/required';
+import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
+import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { connect } from 'react-redux';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import shallowequal from 'shallowequal';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 export class ContractorListField extends Component {
-
   static defaultProps = {
     compareUsers: [],
   };
@@ -29,7 +29,7 @@ export class ContractorListField extends Component {
   }
 
   get initialState() {
-    return {}
+    return {};
   }
 
   /**
@@ -44,29 +44,32 @@ export class ContractorListField extends Component {
    * */
   userListFilterByFormFields = (options, values, compareUsers) => {
     try {
-
       /** ищем в объекте формы свойства по которым будет фильтроватся options */
-      let listOfSelectedUsers = Object.entries(values).filter(([key]) => {
-        if (compareUsers.findIndex(item => item === key) >= 0) {
-          return values[key];
-        }
-      }).map(([key, value]) => value);
+      let listOfSelectedUsers = Object.entries(values)
+        .filter(([key]) => {
+          if (compareUsers.findIndex(item => item === key) >= 0) {
+            return values[key];
+          }
+        })
+        .map(([key, value]) => value);
 
       let updatedListOfOptions = Object.assign([], options);
 
       listOfSelectedUsers.forEach(item => {
         updatedListOfOptions = updatedListOfOptions.filter(option => {
-          return !(item.findIndex(value => value.user.id ? value.user.id === option.id : false) >= 0);
+          return !(
+            item.findIndex(value => (value.user.id ? value.user.id === option.id : false)) >= 0
+          );
         });
       });
 
-      return updatedListOfOptions
+      return updatedListOfOptions;
     } catch (error) {
       console.error('Error: ', error);
+      captureException(error);
       return options;
     }
   };
-
 
   /**
    * @param {array} options
@@ -76,97 +79,108 @@ export class ContractorListField extends Component {
    * */
   userListFilterByRole = (options = [], roles = []) => {
     if (roles.length && options.length) {
-      return options.filter(user => !roles.find(role => user.role ? role === user.role.name : true))
+      return options.filter(
+        user => !roles.find(role => (user.role ? role === user.role.name : true)),
+      );
     } else {
       return [];
     }
   };
 
   render() {
-    const {fields, values, compareUsers} = this.props;
-    return (<Box>
-      {
-        fields.map((member, index) => {
+    const { fields, values, compareUsers } = this.props;
+    return (
+      <Box>
+        {fields.map((member, index) => {
           let role = fields.get(index).user.role;
           if (role && role.name === ROLE_USER) {
-            return (<Flex mb={6}>
-              <Box width={'100%'}>
-                <TextFieldFirstWrapper>
-                  <Field
-                    name={member + '.user.id'}
-                    variant={'firstField'}
-                    component={SelectContractorFromInnerUserList}
-                    optionsFilter={(options) => this.userListFilterByFormFields(this.userListFilterByRole(options, ['admin']), values, compareUsers)}
-                  />
-                </TextFieldFirstWrapper>
-                <TextFieldLastWrapper>
-                  <Field
-                    name={member + ".approvaldate"}
-                    component={DayPickerField}
-                    placeholder={'Дата'}
-                    type={"text"}
-                    size={'sm'}
-                    fontFamily={'secondary'}
-                    validate={required}
-                  />
-                </TextFieldLastWrapper>
-              </Box>
-              <Box pl={6}>
-                <ButtonWithImage
-                  type={'button'}
-                  title={'Удалить контрагента'}
-                  p={'4px'}
-                  fontSize={'20px'}
-                  onClick={() => fields.remove(index)}
-                  variant={'outlineGray'}>
-                  <SvgSidebarDelete/>
-                </ButtonWithImage>
-              </Box>
-            </Flex>)
+            return (
+              <Flex mb={6}>
+                <Box width={'100%'}>
+                  <TextFieldFirstWrapper>
+                    <Field
+                      name={member + '.user.id'}
+                      variant={'firstField'}
+                      component={SelectContractorFromInnerUserList}
+                      optionsFilter={options =>
+                        this.userListFilterByFormFields(
+                          this.userListFilterByRole(options, ['admin']),
+                          values,
+                          compareUsers,
+                        )
+                      }
+                    />
+                  </TextFieldFirstWrapper>
+                  <TextFieldLastWrapper>
+                    <Field
+                      name={member + '.approvaldate'}
+                      component={DayPickerField}
+                      placeholder={'Дата'}
+                      type={'text'}
+                      size={'sm'}
+                      fontFamily={'secondary'}
+                      validate={required}
+                    />
+                  </TextFieldLastWrapper>
+                </Box>
+                <Box pl={6}>
+                  <ButtonWithImage
+                    type={'button'}
+                    title={'Удалить контрагента'}
+                    p={'4px'}
+                    fontSize={'20px'}
+                    onClick={() => fields.remove(index)}
+                    variant={'outlineGray'}>
+                    <SvgSidebarDelete />
+                  </ButtonWithImage>
+                </Box>
+              </Flex>
+            );
           } else if (role && role.name === ROLE_EXTERNALCONTRACTOR) {
-            return (<Flex mb={6}>
-              <Box width={'100%'}>
-                <CreateContractor
-                  names={{
-                    organizationname: member + '.user.organizationname',
-                    position: member + '.user.position',
-                    firstname: member + '.user.firstname',
-                    lastname: member + '.user.lastname',
-                    patronymic: member + '.user.patronymic',
-                    approvaldate: member + '.approvaldate',
-                    signature: member + '.user.signature',
-                  }}
-                />
-              </Box>
-              <Box pl={6}>
-                <ButtonWithImage
-                  type={'button'}
-                  title={'Удалить контрагента'}
-                  p={'4px'}
-                  fontSize={'20px'}
-                  onClick={() => fields.remove(index)}
-                  variant={'outlineGray'}>
-                  <SvgSidebarDelete/>
-                </ButtonWithImage>
-              </Box>
-            </Flex>)
+            return (
+              <Flex mb={6}>
+                <Box width={'100%'}>
+                  <CreateContractor
+                    names={{
+                      organizationname: member + '.user.organizationname',
+                      position: member + '.user.position',
+                      firstname: member + '.user.firstname',
+                      lastname: member + '.user.lastname',
+                      patronymic: member + '.user.patronymic',
+                      approvaldate: member + '.approvaldate',
+                      signature: member + '.user.signature',
+                    }}
+                  />
+                </Box>
+                <Box pl={6}>
+                  <ButtonWithImage
+                    type={'button'}
+                    title={'Удалить контрагента'}
+                    p={'4px'}
+                    fontSize={'20px'}
+                    onClick={() => fields.remove(index)}
+                    variant={'outlineGray'}>
+                    <SvgSidebarDelete />
+                  </ButtonWithImage>
+                </Box>
+              </Flex>
+            );
           }
-        })
-      }
+        })}
 
-
-      <AddContractorButton
-        onChange={(value) => {
-          fields.push({
-            user: {
-              role: {
-                name: value,
+        <AddContractorButton
+          onChange={value => {
+            fields.push({
+              user: {
+                role: {
+                  name: value,
+                },
               },
-            }
-          });
-        }}
-      />
-    </Box>)
+            });
+          }}
+        />
+      </Box>
+    );
   }
 }
 
@@ -175,16 +189,13 @@ ContractorListField.propTypes = {
   compareUsers: PropTypes.array,
   fields: PropTypes.object,
   setNotificationError: PropTypes.func,
-  values: PropTypes.object
+  values: PropTypes.object,
 };
 
 ContractorListField = withApollo(ContractorListField);
 
-ContractorListField = connect(
-  state => ({
-    values: getFormValues('FormDocumentSettings')(state),
-  }),
-)(ContractorListField);
+ContractorListField = connect(state => ({
+  values: getFormValues('FormDocumentSettings')(state),
+}))(ContractorListField);
 
 export default ContractorListField;
-

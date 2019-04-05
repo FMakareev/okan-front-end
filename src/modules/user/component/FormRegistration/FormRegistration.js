@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { graphql, withApollo } from 'react-apollo';
 import { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -114,8 +115,9 @@ export class FormRegistration extends Component {
           return this.getUser(value.uname);
         }
       })
-      .catch(({ status, ...rest }) => {
+      .catch(({ status, statusText, ...rest }) => {
         this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
+        captureException({ status, statusText });
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });

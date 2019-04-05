@@ -5,6 +5,7 @@ import { withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
 import { success, error } from 'react-notification-system-redux';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -122,6 +123,7 @@ export class FormLogin extends Component {
       .catch(({ status, statusText }) => {
         this.props.preLoaderToggle();
         this.setState(() => ({ submitting: false, apolloError: null }));
+        captureException({ status, statusText });
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
@@ -150,7 +152,7 @@ export class FormLogin extends Component {
       })
       .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
         setNotificationError(notificationOpts().error);
-
+        captureException(error);
         this.setState(() => ({
           submitting: false,
           apolloError: 'Ошибка входа',

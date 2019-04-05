@@ -5,6 +5,7 @@ import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { success, error } from 'react-notification-system-redux';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
@@ -106,6 +107,7 @@ class FormPasswordRecovery extends Component {
       })
       .catch(({ errors, message }) => {
         this.props.setNotificationError(notificationOpts().error);
+        captureException({ errors, message });
         this.setState(() => ({
           submitting: false,
           apolloError: 'Ошибка смена пароля',

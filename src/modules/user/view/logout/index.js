@@ -8,6 +8,7 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import SmallPreloader from '../../../../components/SmallPreloader/SmallPreloader';
 import { withApollo } from 'react-apollo';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 export class LogOut extends Component {
   static propTypes = {
@@ -39,6 +40,7 @@ export class LogOut extends Component {
       try {
         this.props.client.resetStore();
       } catch (error) {
+        captureException(error);
         console.error('Error reset store in logout: ', error);
       }
       return new Promise((resolve, reject) => {
@@ -59,6 +61,7 @@ export class LogOut extends Component {
             resolve(response);
           })
           .catch(error => {
+            captureException(error);
             this.props.removeUser();
             this.setState(() => ({
               redirect: '/login',

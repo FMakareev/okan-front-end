@@ -5,6 +5,7 @@ import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-fo
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import Notifications, { success, error } from 'react-notification-system-redux';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
@@ -25,9 +26,8 @@ import isEmail from '../../../../utils/validation/isEmail';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
-import {TextFieldFirstWrapper} from "@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper";
-import {TextFieldLastWrapper} from "@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper";
-
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
 
 const notificationOpts = () => ({
   success: {
@@ -70,6 +70,7 @@ export class FormProfileCreateUser extends Component {
         // console.log('networkError: ', networkError);
         // console.log('rest: ', rest);
         this.props.setNotificationError(notificationOpts().error);
+        captureException({ networkError, message });
 
         throw new SubmissionError({ _error: message });
       });
