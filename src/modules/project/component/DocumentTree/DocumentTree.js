@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 import objectPath from 'object-path';
 import { withRouter } from 'react-router-dom';
-import shallowequal from 'shallowequal'; // ES6
+import shallowequal from 'shallowequal';
 
 /** View */
 import { Treebeard, decorators } from '@lib/ui/ReactTreeBeard/index';
@@ -37,7 +37,6 @@ import { CELL_STATUS_CHANGED, CELL_STATUS_NOT_CHECKED } from '@lib/shared/approv
 import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
 import { childcellIsCategory } from '../../utils/childcellIsCategory';
 import ProjectModeState from '../ProjectContext/ProjectModeState';
-import { joinQueryString } from '@lib/utils/joinQueryString';
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -88,8 +87,8 @@ export class DocumentTree extends Component {
         document={this.props.data}
         changeNodeFocus={this.changeNodeFocus}
         updateNode={this.updateNode}
-        changeActiveNode={(id, prevCursor) =>
-          this.changeActiveNode(id, prevCursor, this.state.tree.children)
+        changeActiveNode={(id) =>
+          this.changeActiveNode(id, this.state.tree.children)
         }
         cellCheckStatusChange={this.cellCheckStatusChange}
         addNodeInTree={this.addNodeInTree}
@@ -288,7 +287,7 @@ export class DocumentTree extends Component {
           let newNodes = [];
           this.createBranch(this.state.tree.childcell.id, nodes, newNodes);
           this.createTree(newNodes, nodes);
-          this.changeActiveNode(cellid, null, newNodes);
+          this.changeActiveNode(cellid, newNodes);
         }
         return response;
       })
@@ -453,17 +452,17 @@ export class DocumentTree extends Component {
 
   /**
    * @params {string} cellid - id выбранного раздела
-   * @params {string} cursorid - id предыдущего раздела
    * @params {array} nodes - дерево навигации
    * @desc метод активирует переданный раздел и по цепочке всех его предков, и отключает всех
    * */
-  changeActiveNode = (cellid, cursorid, nodes) => {
+  changeActiveNode = (cellid, nodes) => {
     try {
+      const {cursor} = this.state;
       const { data, history } = this.props;
       let pathToCurrentNode = this.getPathToNode(nodes, cellid) || '0';
       let currentNode = objectPath.get(nodes, pathToCurrentNode);
 
-      let pathToPrevCursorNode = cursorid ? this.getPathToNode(nodes, cursorid) || '0' : null;
+      let pathToPrevCursorNode = cursor ? this.getPathToNode(nodes, cursor.id) || '0' : null;
       let prevCursorNode = pathToPrevCursorNode
         ? objectPath.get(nodes, pathToPrevCursorNode)
         : null;

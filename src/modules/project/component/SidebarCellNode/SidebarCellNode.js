@@ -207,7 +207,6 @@ export class SidebarCellNode extends Component {
       } else {
         this.props.changeActiveNode(
           node ? node.id : null,
-          getPosition(this.props.project, 'sectionid'),
         );
       }
     } catch (error) {
@@ -511,7 +510,7 @@ export class SidebarCellNode extends Component {
                   cellCheckStatusChange={this.props.cellCheckStatusChange}
                   node={node}
                   changeActiveNode={id =>
-                    this.props.changeActiveNode(id, getPosition(this.props.project, 'sectionid'))
+                    this.props.changeActiveNode(id)
                   }
                   addNodeInTree={this.props.addNodeInTree}
                   changeNodeFocus={this.props.changeNodeFocus}
