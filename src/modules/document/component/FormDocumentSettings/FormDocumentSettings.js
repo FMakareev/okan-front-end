@@ -419,7 +419,7 @@ export class FormDocumentSettings extends Component {
             children={'Сохранить настройки'}
             leftIcon={SvgSave()}
             mr={9}
-            disabled={submitting || invalid}
+            // disabled={submitting || invalid}
             width={'500px'}
             widthIcon={'16px'}
           />
