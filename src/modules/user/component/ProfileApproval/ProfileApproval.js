@@ -53,7 +53,6 @@ const TdStyle = styled(Box)`
 `;
 
 export const ProfileApproval = ({ data }) => {
-  console.log('ProfileApproval: ', data);
   return (
     <Fragment>
       <Text

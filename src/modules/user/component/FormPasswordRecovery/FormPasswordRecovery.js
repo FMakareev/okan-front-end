@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Field, reduxForm, Form } from 'redux-form';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -105,9 +104,10 @@ class FormPasswordRecovery extends Component {
           return Promise.resolve(response);
         }
       })
-      .catch(({ errors, message }) => {
+      .catch((error) => {
+        const { errors, message } = error;
         this.props.setNotificationError(notificationOpts().error);
-        captureException({ errors, message });
+        captureException(error);
         this.setState(() => ({
           submitting: false,
           apolloError: 'Ошибка смена пароля',

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Field} from 'redux-form';
 
 /**View */
 import Flex from '@lib/ui/Flex/Flex';
@@ -9,7 +8,6 @@ import Box from '@lib/ui/Box/Box';
 /** Styles property */
 import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
 import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
-import {SelectContractorFromInnerUserList} from "../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList";
 import {ButtonBase} from "@lib/ui/ButtonBase/ButtonBase";
 import {CreateContractor} from "../CreateContractor/CreateContractor";
 import {ROLE_EXTERNALCONTRACTOR} from "@lib/shared/roles";

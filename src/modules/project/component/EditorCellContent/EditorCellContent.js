@@ -26,8 +26,7 @@ export class EditorCellContent extends PureComponent {
     try {
       return content ? content.replace('data-f-id="pbf"', 'style="display:none;"') : null;
     } catch (error) {
-      console.error('Error changeContent: ',error);
-      captureException(error);
+      captureException(error, 'Error changeContent: ');
       return null;
     }
   };
@@ -43,8 +42,7 @@ export class EditorCellContent extends PureComponent {
         return null;
       }
     } catch (error) {
-      console.error('Error thisCellMatchesTheSearchQuery: ',error);
-      captureException(error);
+      captureException(error, 'Error thisCellMatchesTheSearchQuery: ');
       return null;
     }
   };

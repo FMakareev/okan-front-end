@@ -61,7 +61,7 @@ export class LogOut extends Component {
             resolve(response);
           })
           .catch(error => {
-            captureException(error);
+            captureException(error,'Error logout: ');
             this.props.removeUser();
             this.setState(() => ({
               redirect: '/login',

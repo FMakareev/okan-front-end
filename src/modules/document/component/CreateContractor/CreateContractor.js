@@ -10,7 +10,6 @@ import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLast
 
 const fioValid = value => {
   let mask = /[А-ЯЁ][.][А-ЯЁ][.] [А-ЯЁ][а-яА-ЯёЁ]/;
-  console.log(mask.test(value));
   return mask.test(value)
     ? null
     : 'Неверный формат, ФИО должно соответствовать маске "И.О. Фамилия"';

@@ -28,7 +28,7 @@ import UpdateContractorApprovalMutation from '../../graphql/UpdateContractorAppr
 import DeleteContractorMutation from '../../graphql/DeleteContractorMutation.graphql';
 import FieldArrayInternalUser from '../FieldArrayInternalUser/FieldArrayInternalUser';
 import { FieldArrayExternalUser } from '../FieldArrayExternalUser/FieldArrayExternalUser';
-import { captureException, captureMessage } from '../../../../hocs/withSentry/withSentry';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = () => ({
   success: {
@@ -85,7 +85,6 @@ export class FormDocumentSettings extends Component {
       ...value.user,
       role: value.user.role.name,
     };
-    // TODO: заменить заглушку на мутацию
     return this.props.client.mutate({
       mutation: CreateContractorApprovalMutation,
       variables,
@@ -103,7 +102,7 @@ export class FormDocumentSettings extends Component {
         },
       })
       .catch(error => {
-        captureException(error);
+        captureException(error, 'Error removeContractorApprovalMutation: ');
         return error;
       });
   };
@@ -128,8 +127,7 @@ export class FormDocumentSettings extends Component {
       });
       return differenceBetweenThePreviousAndTheNext;
     } catch (error) {
-      console.error('Error transformDocumentApproval: ', error);
-      captureException(error);
+      captureException(error, 'Error transformDocumentApproval: ');
       return error;
     }
   };
@@ -144,8 +142,7 @@ export class FormDocumentSettings extends Component {
         return deleteContractorApproval;
       });
     } catch (error) {
-      console.error('Error createContractorApprovalList: ', error);
-      captureException(error);
+      captureException(error, 'Error createContractorApprovalList: ');
     }
   };
 
@@ -193,8 +190,7 @@ export class FormDocumentSettings extends Component {
       }
       return newDate;
     } catch (error) {
-      console.error('Error removeContractorApproval: ', error);
-      captureException(error);
+      captureException(error, 'Error removeContractorApproval: ');
       return error;
     }
   };
@@ -258,8 +254,7 @@ export class FormDocumentSettings extends Component {
         return contractorapproval.id;
       });
     } catch (error) {
-      console.error('Error createContractorApprovalList: ', error);
-      captureException(error);
+      captureException(error, 'Error createContractorApprovalList: ');
     }
   };
 
@@ -298,8 +293,7 @@ export class FormDocumentSettings extends Component {
 
       return newDate;
     } catch (error) {
-      console.error('Error transformDocumentApproval: ', error);
-      captureException(error);
+      captureException(error, 'Error transformDocumentApproval: ');
 
       return error;
     }
@@ -353,9 +347,7 @@ export class FormDocumentSettings extends Component {
 
           store.writeQuery({ ...documentItemOptions, data: documentItem });
         } catch (e) {
-          captureException(e);
-
-          console.error('Error in FormProjectCreate, method updateDocument : ', e);
+          captureException(e, 'Error in FormProjectCreate, method updateDocument : ');
         }
       },
     };
@@ -367,10 +359,11 @@ export class FormDocumentSettings extends Component {
         history.push(`/app/project/${options.variables.project}`);
         return response;
       })
-      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
+      .catch((error) => {
+        const { message }= error;
         this.loadingToggle();
         setNotificationError(notificationOpts().error);
-        captureMessage(message);
+        captureException(error);
 
         throw new SubmissionError({ _error: message });
       });
@@ -379,11 +372,7 @@ export class FormDocumentSettings extends Component {
   render() {
     const {
       handleSubmit,
-      submitting,
-      invalid,
-      initialValues: { project },
     } = this.props;
-    console.log(this.props);
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
@@ -446,7 +435,6 @@ export class FormDocumentSettings extends Component {
             children={'Сохранить настройки'}
             leftIcon={SvgSave()}
             mr={9}
-            // disabled={submitting || invalid}
             width={'500px'}
             widthIcon={'16px'}
           />

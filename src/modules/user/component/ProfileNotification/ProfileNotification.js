@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
 
 /**View */
 import Text from '@lib/ui/Text/Text';
-import Flex from '@lib/ui/Flex/Flex';
 import Box from '@lib/ui/Box/Box';
-import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
-export const ProfileNotification = ({ data, pageNumber, pageSize }, props) => {
-  console.log(props);
+export const ProfileNotification = ({ data }) => {
   return (
     <>
       <Box mb={[8]}>
@@ -37,5 +33,3 @@ ProfileNotification.propTypes = {
 };
 
 export default ProfileNotification;
-
-// <PaginationPage pageNumber={pageNumber} pageSize={pageSize} data={data} Component={ProfileNotificationItem} />;

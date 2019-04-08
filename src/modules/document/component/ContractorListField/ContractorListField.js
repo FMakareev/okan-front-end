@@ -15,7 +15,6 @@ import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { connect } from 'react-redux';
 import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
-import shallowequal from 'shallowequal';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 export class ContractorListField extends Component {

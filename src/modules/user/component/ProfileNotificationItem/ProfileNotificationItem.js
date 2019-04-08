@@ -44,7 +44,6 @@ const FlexStyled = styled(Flex)`
     display: inline-flex;
   }
 `;
-// TODO: для сообщений добавить руссификацию или на беке сразу на русском подробный месдж
 export const ProfileNotificationItem = ({
   message,
   sender,

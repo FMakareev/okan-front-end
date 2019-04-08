@@ -97,7 +97,7 @@ export class ProfilePage extends Component {
                     }
                     if (error) {
                       console.error(`Error UserItemQuery: `, error);
-                      captureException(error);
+                      captureException(error, `Error UserItemQuery: `);
                       return null;
                     }
                     if (id && data && !data.useritem) {

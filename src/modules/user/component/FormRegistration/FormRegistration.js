@@ -115,9 +115,10 @@ export class FormRegistration extends Component {
           return this.getUser(value.uname);
         }
       })
-      .catch(({ status, statusText, ...rest }) => {
+      .catch((error) => {
+        const { status } = error;
         this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
-        captureException({ status, statusText });
+        captureException(error);
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });

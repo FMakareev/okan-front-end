@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -113,9 +113,7 @@ export class FormPersonData extends Component {
 }
 
 FormPersonData = connect(
-  state => {
-    ({ values: getFormValues('FormPersonData')(state) });
-  },
+  state => ({ values: getFormValues('FormPersonData')(state) }),
   null,
 )(FormPersonData);
 

@@ -27,7 +27,6 @@ export class FieldArrayInternalUser extends Component {
 
   render() {
     const {fields} = this.props;
-    console.log(fields);
     return (
       <Box mb={'100px'}>
         {

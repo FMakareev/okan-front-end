@@ -30,7 +30,7 @@ export const UpdateCellInCache = (client, data) => {
     });
 
   } catch (error) {
-    console.error('Error UpdateCellInCache write: ', error);
+    captureException(error, 'Error UpdateCellInCache write: ')
   }
 };
 export default UpdateCellInCache;

@@ -1,33 +1,30 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { graphql } from 'react-apollo';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {graphql} from 'react-apollo';
 import styled from 'styled-components';
-import Notifications, { success, error } from 'react-notification-system-redux';
-import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
-import { captureException } from '../../../../hocs/withSentry/withSentry';
+import {success, error} from 'react-notification-system-redux';
+import {Field, reduxForm, SubmissionError, Form, getFormValues} from 'redux-form';
+import {captureException} from '../../../../hocs/withSentry/withSentry';
 
 /**View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
+import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
 import Box from '@lib/ui/Box/Box';
 
 /**PropTypes */
-import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
+import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Styles property */
 import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
 
-/** Validation */
-import isEmail from '../../../../utils/validation/isEmail';
 
 /** GraphQL schema */
 import RecoveryPasswordMutation from './RecoveryPasswordMutation.graphql';
 
 const BoxStyled = styled(Box)`
   input {
-    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
+    ${props => BorderRadiusProperty({...props, borderRadius: '5px'})};
   }
 `;
 
@@ -47,7 +44,7 @@ const notificationOpts = email => ({
 });
 
 export class FormProfileRecoveryEmail extends Component {
-  static propTypes = { ...formPropTypes };
+  static propTypes = {...formPropTypes};
 
   constructor(props) {
     super(props);
@@ -58,7 +55,7 @@ export class FormProfileRecoveryEmail extends Component {
   }
 
   submit(value) {
-    const data = { variables: Object.assign({}, value) };
+    const data = {variables: Object.assign({}, value)};
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -66,19 +63,17 @@ export class FormProfileRecoveryEmail extends Component {
         this.props.reset();
         return response;
       })
-      .catch(({ graphQLErrors, message, networkError, ...rest }) => {
-        // console.log('graphQLErrors: ', graphQLErrors);
-        // console.log('message: ', message);
-        // console.log('networkError: ', networkError);
-        // console.log('rest: ', rest);
+      .catch((error) => {
+        const {message} = error;
         this.props.setNotificationError(notificationOpts().error);
-        captureException({ networkError, message });
+        captureException(error);
 
-        throw new SubmissionError({ _error: message });
+        throw new SubmissionError({_error: message});
       });
   }
+
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const {handleSubmit, pristine, submitting, invalid} = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>

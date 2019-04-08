@@ -16,11 +16,6 @@ import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTool
 import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
 
-/** Validation */
-import isEmail from '../../../../utils/validation/isEmail';
-import required from '../../../../utils/validation/required';
-import minLength from '../../../../utils/validation/minLength';
-
 /** json method */
 import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
 
@@ -120,10 +115,11 @@ export class FormLogin extends Component {
           return this.getUser(value.email);
         }
       })
-      .catch(({ status, statusText }) => {
+      .catch((error) => {
+        const { status } = error;
         this.props.preLoaderToggle();
         this.setState(() => ({ submitting: false, apolloError: null }));
-        captureException({ status, statusText });
+        captureException(error);
 
         if (status === 401 || status === 403) {
           throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });

@@ -29,7 +29,7 @@ export const getListOfParentCells = (client, id, nodes) => {
       }
     })
     .catch(error => {
-      console.error('Error getListOfParentCells: ', error);
+      captureException(error, 'Error getListOfParentCells: ');
       return [];
     });
 };

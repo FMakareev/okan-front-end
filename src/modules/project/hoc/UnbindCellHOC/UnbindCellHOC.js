@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {error, success} from "react-notification-system-redux";
 import { graphql } from 'react-apollo';
 import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const UnbindCellOptions = () => ({
   success: {
@@ -45,7 +46,7 @@ export const UnbindCellHOC = ()=> WrappedComponent => {
           return response;
         })
         .catch(error => {
-          console.log('there was an error sending the query', error);
+          captureException(error, 'Error unbindCellSubmit: ');
           if(isNotification){
             this.props.setNotificationError(UnbindCellOptions().error);
           }
