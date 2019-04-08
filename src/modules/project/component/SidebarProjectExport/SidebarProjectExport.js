@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import FileSaver from 'file-saver';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
@@ -22,8 +23,12 @@ export class SidebarProjectExport extends React.Component {
   static defaultProps = {};
 
   exportDocument = () => {
+    const {
+      document: { name, id },
+    } = this.props;
+
     let formData = new FormData();
-    formData.append('document', '5c8b95069adb491a1d087df7');
+    formData.append('document', id);
     return fetch(`${ENDPOINT_CLIENT}/docx_converter/convert`, {
       method: 'POST',
       credentials: 'include',
@@ -34,10 +39,10 @@ export class SidebarProjectExport extends React.Component {
         return response.blob();
       })
       .then(blob => {
-        FileSaver.saveAs(blob, 'document.docx');
+        FileSaver.saveAs(blob, `${name || 'document'}.docx`);
       })
       .catch(error => {
-        console.error(error);
+        captureException(error, 'Error exportDocument: ');
       });
   };
 
@@ -45,7 +50,7 @@ export class SidebarProjectExport extends React.Component {
     const {
       document: { id },
     } = this.props;
-
+    console.log('SidebarProjectExport: ', this.props);
     return (
       <ButtonBase
         title={'Эспортировать документ'}
