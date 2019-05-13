@@ -10,21 +10,15 @@ import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
 import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
-import {
-  PROJECT_MODE_RC,
-  withProject,
-} from '../../component/ProjectContext/ProjectContext';
+import { PROJECT_MODE_RC, withProject } from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
-import {ProjectPageWrapper} from "../../component/ProjectPageWrapper/ProjectPageWrapper";
-import {SideBarWrapper} from "../../component/SideBarWrapper/SideBarWrapper";
-import {ProjectStore} from "../../component/ProjectStore/ProjectStore";
-import {ProjectEditorWrapper} from "../../component/ProjectEditorWrapper/ProjectEditorWrapper";
-import {ProjectSidebar} from "../../component/ProjectSidebar/ProjectSidebar";
-
-
-
+import { ProjectPageWrapper } from '../../component/ProjectPageWrapper/ProjectPageWrapper';
+import { SideBarWrapper } from '../../component/SideBarWrapper/SideBarWrapper';
+import { ProjectStore } from '../../component/ProjectStore/ProjectStore';
+import { ProjectEditorWrapper } from '../../component/ProjectEditorWrapper/ProjectEditorWrapper';
+import { ProjectSidebar } from '../../component/ProjectSidebar/ProjectSidebar';
 
 const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
 const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
@@ -51,40 +45,32 @@ export class DocumentCommenting extends Component {
 
     return (
       <ErrorCatch>
-      <Query
-        query={DocumentItemQuery}
-        variables={{ documentid: params.documentid, projectid: params.projectid }}>
-        {({ loading, data, error, ...rest }) => {
-          if (loading) {
-            return 'Загрузка...';
-          }
-          if (error) {
-            console.error('Error:', error);
-            throw Error(error);
-          }
-          return (
+        <Query
+          query={DocumentItemQuery}
+          variables={{ documentid: params.documentid, projectid: params.projectid }}>
+          {({ loading, data, error, ...rest }) => {
+            if (loading) {
+              return 'Загрузка...';
+            }
+            if (error) {
+              console.error('Error:', error);
+              throw Error(error);
+            }
+            return (
               <ProjectPageWrapper>
-
-                <ProjectStore
-                  mode={PROJECT_MODE_RC}
-                  params={params}
-                  projectitem={data.projectitem}
-                >
-
+                <ProjectStore mode={PROJECT_MODE_RC} params={params} projectitem={data.projectitem}>
                   <SideBarWrapper id={'SideBarWrapper'}>
-                    <ProjectSidebarWithProject  documentitem={data.documentitem}/>
+                    <ProjectSidebarWithProject documentitem={data.documentitem} />
                   </SideBarWrapper>
 
                   <ProjectEditorWrapper>
                     <ProjectEditorWithProject sectionid={params.sectionid} />
                   </ProjectEditorWrapper>
-
                 </ProjectStore>
-
               </ProjectPageWrapper>
-          );
-        }}
-      </Query>
+            );
+          }}
+        </Query>
       </ErrorCatch>
     );
   }

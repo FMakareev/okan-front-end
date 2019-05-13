@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Field } from 'redux-form';
 
 /**View */
@@ -8,26 +7,8 @@ import Text from '@lib/ui/Text/Text';
 import Box from '@lib/ui/Box/Box';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 
-/** Styles property */
-import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
-import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
-import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
-import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
-
-const BoxStyled = styled(Box)`
-  input {
-    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
-    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
-    padding: 3px 7px;
-    border: 0;
-    text-align: center;
-  }
-
-  border: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
-  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-`;
+/** CSS style in other Component */
+import { BoxStyled } from '../../../project/component/FormProjectCreate/FormProjectCreate';
 
 export class BasicDocumentSettings extends Component {
   shouldComponentUpdate(nextProps) {

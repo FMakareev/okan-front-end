@@ -30,7 +30,7 @@ import CreateProjectMutation from './CreateProjectMutation.graphql';
 import ProjectListQuery from '../../view/projectList/ProjectListQuery.graphql';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
-const BoxStyled = styled(Box)`
+export const BoxStyled = styled(Box)`
   input {
     padding: 3px 7px;
     border: 0;

@@ -33,7 +33,7 @@ export class PaginationPage extends Component {
             <SvgPlay />
           </ButtonWithImage>
 
-          <Text variant={'documentTitle'} mb={4}>
+          <Text variant={'documentTitle'} mx={4}>
             {pagination.pageNumber}
           </Text>
 

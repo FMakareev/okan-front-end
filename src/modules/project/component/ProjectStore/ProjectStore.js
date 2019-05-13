@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   PROJECT_MODE_READ,
   PROJECT_MODE_RW,
   ProjectContext,
 } from '../ProjectContext/ProjectContext';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import shallowequal from 'shallowequal'; // ES6
 
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
-import {joinQueryString} from '@lib/utils/joinQueryString';
-import {withRouter} from 'react-router-dom';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+import { joinQueryString } from '@lib/utils/joinQueryString';
+import { withRouter } from 'react-router-dom';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /**
  * @typedef {Object} Position
@@ -42,7 +42,7 @@ export class ProjectStore extends Component {
   }
 
   get initialState() {
-    const {user, projectitem, params} = this.props;
+    const { user, projectitem, params } = this.props;
 
     return {
       /** объект с параметрами роутера */
@@ -96,7 +96,6 @@ export class ProjectStore extends Component {
       }));
     }
   }
-
 
   /**
    * @desc метод по текущему авторизованному пользователю и авторму проекта определяет режим работы редактора
@@ -152,7 +151,7 @@ export class ProjectStore extends Component {
       this.changeSearchPhraseInLocationSearch(null);
     } catch (error) {
       captureException(error);
-      console.error('Error resetSearchCondition',error);
+      console.error('Error resetSearchCondition', error);
     }
   };
 
@@ -180,6 +179,13 @@ export class ProjectStore extends Component {
     }
   };
 
+  searchCellInDocument = (cursor, result) => {
+    cursor.document = result[cursor.documentIndex].documents;
+    cursor.cellIndex = result[cursor.documentIndex].cells.length - 1;
+    cursor.cell = result[cursor.documentIndex].cells[cursor.cellIndex];
+    return cursor.cell;
+  };
+
   /**
    * @param {array} searchResult
    * @param {object} searchCursor
@@ -193,14 +199,16 @@ export class ProjectStore extends Component {
     } else {
       if (searchCursor.documentIndex > 0) {
         searchCursor.documentIndex -= 1;
-        searchCursor.document = searchResult[searchCursor.documentIndex].documents;
-        searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
-        searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
+        // searchCursor.document = searchResult[searchCursor.documentIndex].documents;
+        // searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
+        // searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
+        searchCellInDocument(searchCursor, searchResult);
       } else {
         searchCursor.documentIndex = searchResult.length - 1;
-        searchCursor.document = searchResult[searchCursor.documentIndex].documents;
-        searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
-        searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
+        // searchCursor.document = searchResult[searchCursor.documentIndex].documents;
+        // searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
+        // searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
+        searchCellInDocument(searchCursor, searchResult);
       }
     }
     return searchCursor;
@@ -216,7 +224,7 @@ export class ProjectStore extends Component {
    * */
   getNextCellFromSearch = (documentIndex, cellIndex) => {
     try {
-      const {searchResult} = this.state;
+      const { searchResult } = this.state;
       if (searchResult && searchResult.length) {
         if (cellIndex < searchResult[documentIndex].cells.length - 1) {
           return {
@@ -249,7 +257,7 @@ export class ProjectStore extends Component {
    * */
   getCurrentDocumentFromSearch = (documentIndex, cellIndex) => {
     try {
-      const {searchResult} = this.state;
+      const { searchResult } = this.state;
       if (searchResult && searchResult.length) {
         if (cellIndex < searchResult[documentIndex].cells.length - 1) {
           return {
@@ -284,7 +292,7 @@ export class ProjectStore extends Component {
    * */
   initSearchCursor = () => {
     try {
-      const {searchResult, position} = Object.assign({}, this.state);
+      const { searchResult, position } = Object.assign({}, this.state);
       if (position.sectionid && position.documentid) {
         const documentIndex = searchResult.findIndex(
           document => document.documents.id === position.documentid,
@@ -330,7 +338,7 @@ export class ProjectStore extends Component {
    * @desc смещение курсора поиска
    * */
   changeSearchCursor = (moved = 'forward') => {
-    const {searchResult, searchCursor, position} = Object.assign({}, this.state);
+    const { searchResult, searchCursor, position } = Object.assign({}, this.state);
 
     if (searchResult.length) {
       if (moved === 'forward') {
@@ -367,7 +375,7 @@ export class ProjectStore extends Component {
   };
 
   render() {
-    const {children} = this.props;
+    const { children } = this.props;
     return (
       <ProjectContext.Provider
         value={{
