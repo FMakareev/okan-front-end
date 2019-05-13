@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
@@ -6,12 +6,12 @@ import Flex from '@lib/ui/Flex/Flex';
 import Box from '@lib/ui/Box/Box';
 
 /** Styles property */
-import {ButtonWithImage} from "@lib/ui/ButtonWithImage/ButtonWithImage";
-import {SvgSidebarDelete} from "@lib/ui/Icons/SvgSidebarDelete";
-import {ButtonBase} from "@lib/ui/ButtonBase/ButtonBase";
-import {CreateContractor} from "../CreateContractor/CreateContractor";
-import {ROLE_EXTERNALCONTRACTOR} from "@lib/shared/roles";
-
+import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
+import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
+import { CreateContractor } from '../CreateContractor/CreateContractor';
+import { ROLE_EXTERNALCONTRACTOR } from '@lib/shared/roles';
+import CreateContractorHelpers from '../helpers/CreateContractorHelpers';
 
 /** Внутренние согласующие ОКАН*/
 export class FieldArrayExternalUser extends Component {
@@ -25,25 +25,14 @@ export class FieldArrayExternalUser extends Component {
   };
 
   render() {
-    const {fields} = this.props;
-    console.log(fields);
+    const { fields } = this.props;
+
     return (
       <Box mb={'100px'}>
-        {
-          fields.map((member, index) => (<Flex key={`FieldArrayExternalUser-${fields.name}-${index}`} mb={6}>
-            <Box width={'100%'}>
-              <CreateContractor
-                names={{
-                  organizationname: member + '.user.organizationname',
-                  position: member + '.user.position',
-                  firstname: member + '.user.firstname',
-                  lastname: member + '.user.lastname',
-                  patronymic: member + '.user.patronymic',
-                  approvaldate: member + '.approvaldate',
-                  signature: member + '.user.signature',
-                }}
-              />
-            </Box>
+        {fields.map((member, index) => (
+          <Flex key={`FieldArrayExternalUser-${fields.name}-${index}`} mb={6}>
+            {CreateContractorHelpers(member)}
+
             <Box pl={6}>
               <ButtonWithImage
                 type={'button'}
@@ -52,11 +41,11 @@ export class FieldArrayExternalUser extends Component {
                 fontSize={'20px'}
                 onClick={() => fields.remove(index)}
                 variant={'outlineGray'}>
-                <SvgSidebarDelete/>
+                <SvgSidebarDelete />
               </ButtonWithImage>
             </Box>
-          </Flex>))
-        }
+          </Flex>
+        ))}
         <ButtonBase
           type={'button'}
           variant={'large'}
@@ -68,13 +57,11 @@ export class FieldArrayExternalUser extends Component {
                 role: {
                   name: ROLE_EXTERNALCONTRACTOR,
                 },
-              }
+              },
             });
-          }}
-        >
+          }}>
           Добавить контрагента
         </ButtonBase>
-
       </Box>
     );
   }
