@@ -1,3 +1,4 @@
+import React from 'react';
 import FileSaver from 'file-saver';
 
 export const exportDocument = (id, name) => {
