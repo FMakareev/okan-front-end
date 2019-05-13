@@ -55,13 +55,7 @@ const TdStyle = styled(Box)`
 export const ProfileApproval = ({ data }) => {
   return (
     <Fragment>
-      <Text
-        fontSize={6}
-        lineHeight={8}
-        color={'color7'}
-        textAlign={'center'}
-        mb={[13]}
-        fontFamily={'primary500'}>
+      <Text variant={'documentTitle'} mb={13}>
         На согласование
       </Text>
       <Flex justifyContent={'space-around'}>

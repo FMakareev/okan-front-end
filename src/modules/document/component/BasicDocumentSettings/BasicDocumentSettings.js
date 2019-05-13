@@ -46,13 +46,7 @@ export class BasicDocumentSettings extends Component {
   render() {
     return (
       <Box>
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={6}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={6}>
           Параметры документа
         </Text>
 

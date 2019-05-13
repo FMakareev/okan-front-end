@@ -30,7 +30,7 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const BoxStyled = styled(Box)`
   input {
@@ -63,7 +63,6 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectSettings extends Component {
-
   static propTypes = {
     handleSubmit: PropTypes.func,
     invalid: PropTypes.bool,
@@ -90,7 +89,7 @@ export class FormProjectSettings extends Component {
 
         return response;
       })
-      .catch(({ graphQLErrors, message, }) => {
+      .catch(({ graphQLErrors, message }) => {
         this.props.setNotificationError(notificationOpts().error);
 
         captureException(error);
@@ -120,20 +119,13 @@ export class FormProjectSettings extends Component {
           />
         </BoxStyled>
 
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={4}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={4}>
           Согласующие
         </Text>
 
         <Box mb={'45px'}>
           <Query query={UserListQuery}>
             {({ loading, data }) => {
-
               return (
                 <Field
                   isLoading={loading}
