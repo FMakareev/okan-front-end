@@ -9,10 +9,7 @@ import Link from '../../../../components/Link/Link';
 import { SvgSidebarList } from '../../../../components/Icons/SvgSidebarList';
 
 export const SidebarRevisionList = ({ documentid }) => (
-  <Link
-    title={'Список ревизий'}
-    onClick={event => event.stopPropagation()}
-    to={`/app/revision-list/${documentid}`}>
+  <Link title={'Список ревизий'} to={`/app/revision-list/${documentid}`}>
     <ButtonBase variant={'outlineGray'} p={'3px'} fontSize={'13px'}>
       <SvgSidebarList />
     </ButtonBase>

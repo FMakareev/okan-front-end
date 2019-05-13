@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { exportDocument } from '../../../../hocs/withExportDocument/withExportDocument';
 
 /** View */
 import { Tr } from '@lib/ui/Table/Tr';
@@ -22,7 +23,7 @@ const TdStyled = styled(Td)`
   ${props => BorderColorProperty({ ...props, borderColor: 'color7' })}
 `;
 
-export const RevisionItem = ({ id, name, createrevisiondate,project, authorrevision }) => {
+export const RevisionItem = ({ id, name, createrevisiondate, project, authorrevision }) => {
   return (
     <Tr>
       <TdStyled fontFamily={'primary300'} py={4}>
@@ -42,7 +43,13 @@ export const RevisionItem = ({ id, name, createrevisiondate,project, authorrevis
             </ButtonBase>
           </Link>
 
-          <ButtonBase title={'Эскпортировать ревизию документа'} variant={'empty'}>
+          <ButtonBase
+            title={'Эскпортировать ревизию документа'}
+            onClick={event => {
+              event.stopPropagation();
+              exportDocument(id, name);
+            }}
+            variant={'empty'}>
             <SvgExport />
           </ButtonBase>
         </Flex>
@@ -55,7 +62,7 @@ RevisionItem.propTypes = {
   authorrevision: PropTypes.object.isRequired,
   createrevisiondate: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 
 export default RevisionItem;
