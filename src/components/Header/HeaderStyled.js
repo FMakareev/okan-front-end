@@ -17,7 +17,6 @@ import FontSizeProperty from '../../styles/styleProperty/FontSizeProperty';
 import LineHeightProperty from '../../styles/styleProperty/LineHeightProperty';
 
 const Wrapper = styled.header`
-  position: relative;
   width: 100%;
   min-width: 1024px;
   height: 40px;
