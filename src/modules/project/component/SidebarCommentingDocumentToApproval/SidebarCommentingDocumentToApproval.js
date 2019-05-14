@@ -1,27 +1,26 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {graphql, withApollo} from 'react-apollo';
-import {connect} from 'react-redux';
-import {error, success} from 'react-notification-system-redux';
+import { graphql, withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
+import { error, success } from 'react-notification-system-redux';
 
 /** graphql Schema */
 import UpdateDocumentMutation from '../../graphql/UpdateDocumentMutation.graphql';
 import CheckForCommentsInCellsQuery from '../../graphql/CheckForCommentsInCellsQuery.graphql';
 
-
 /** Image */
-import {SvgSidebarComment} from '../../../../components/Icons/SvgSidebarComment';
+import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
 /** store */
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constants */
-import {APPROVAL, NOT_APPROVAL, TO_APPROVAL} from '@lib/shared/approvalStatus';
-import ButtonWithImage from "@lib/ui/ButtonWithImage/ButtonWithImage";
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { APPROVAL, NOT_APPROVAL, TO_APPROVAL } from '@lib/shared/approvalStatus';
+import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = name => {
-  return ({
+  return {
     success: {
       title: `Документ "${name}" согласован.`,
       position: 'tr',
@@ -39,16 +38,15 @@ const notificationOpts = name => {
       position: 'tr',
       autoDismiss: 6,
     },
-  });
+  };
 };
 
 export class SidebarCommentingDocumentToApproval extends Component {
-
   static propTypes = {
     client: PropTypes.object,
     document: PropTypes.object,
     setNotificationError: PropTypes.func,
-    setNotificationSuccess: PropTypes.func
+    setNotificationSuccess: PropTypes.func,
   };
 
   constructor(props) {
@@ -66,16 +64,17 @@ export class SidebarCommentingDocumentToApproval extends Component {
    * @param {string} id
    * @desc запрос на получение информации о наличии изменений в документе, проверяет ячейки
    * */
-  checkForCommentsInCells = (id) => {
-    const {setNotificationError,document, client} = this.props;
+  checkForCommentsInCells = id => {
+    const { setNotificationError, document, client } = this.props;
 
-    return client.query({
-      query: CheckForCommentsInCellsQuery,
-      fetchPolicy: 'no-cache',
-      variables: {
-        id: id,
-      }
-    })
+    return client
+      .query({
+        query: CheckForCommentsInCellsQuery,
+        fetchPolicy: 'no-cache',
+        variables: {
+          id: id,
+        },
+      })
       .then(response => {
         return response.data;
       })
@@ -84,7 +83,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
         setNotificationError(notificationOpts(document.name).submitError);
         captureException(error);
         return error;
-      })
+      });
   };
 
   /**
@@ -95,13 +94,14 @@ export class SidebarCommentingDocumentToApproval extends Component {
   updateApprovalDocumentStatus = (id, approvalstatus) => {
     const { document, setNotificationError } = this.props;
 
-    return this.props.client.mutate({
-      mutation: UpdateDocumentMutation,
-      variables: {
-        approvalstatus: approvalstatus,
-        id: id,
-      },
-    })
+    return this.props.client
+      .mutate({
+        mutation: UpdateDocumentMutation,
+        variables: {
+          approvalstatus: approvalstatus,
+          id: id,
+        },
+      })
       .then(response => {
         return response.data;
       })
@@ -113,36 +113,42 @@ export class SidebarCommentingDocumentToApproval extends Component {
       });
   };
 
-
   /**
    * @desc метод объединяет проверку наличия изменений в документе и изенение статуса
    * */
   submitDocumentToApproval = async () => {
-    const {document, setNotificationSuccess, setNotificationError} = this.props;
-    this.setState({isLoading: true});
+    const { document, setNotificationSuccess, setNotificationError } = this.props;
+    this.setState({ isLoading: true });
 
-    const {checkForCommentsInCells, graphQLErrors, networkError} = await this.checkForCommentsInCells(document.id);
+    const {
+      checkForCommentsInCells,
+      graphQLErrors,
+      networkError,
+    } = await this.checkForCommentsInCells(document.id);
 
-    if (graphQLErrors && graphQLErrors.length || networkError) {
+    if ((graphQLErrors && graphQLErrors.length) || networkError) {
       /** Проверяем наличие ошибок при вызове метода checkForCommentsInCells */
       setNotificationError(notificationOpts(document.name).submitError);
     } else if (checkForCommentsInCells.answer) {
       /** если есть комментарии в документе то выдаем ошибку */
       setNotificationError(notificationOpts(document.name).validError);
-      const {updatedocument} = await this.updateApprovalDocumentStatus(document.id, NOT_APPROVAL);
+      const { updatedocument } = await this.updateApprovalDocumentStatus(document.id, NOT_APPROVAL);
     } else {
       /** если есть нет измененний в документе то меняем статус согласования */
-      const {updatedocument, networkError, graphQLErrors} = await this.updateApprovalDocumentStatus(document.id, APPROVAL);
+      const {
+        updatedocument,
+        networkError,
+        graphQLErrors,
+      } = await this.updateApprovalDocumentStatus(document.id, APPROVAL);
       if (!graphQLErrors || !networkError) {
         setNotificationSuccess(notificationOpts(document.name).success);
       }
     }
-    this.setState({isLoading: false});
-
+    this.setState({ isLoading: false });
   };
 
   render() {
-    const {isLoading} = this.state;
+    const { isLoading } = this.state;
     return (
       <ButtonWithImage
         isLoading={isLoading}
@@ -154,7 +160,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
         }}
         title={'Согласованть.'}
         variant={'outlineGray'}>
-        <SvgSidebarComment/>
+        <SvgSidebarComment />
       </ButtonWithImage>
     );
   }
@@ -163,7 +169,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
 SidebarCommentingDocumentToApproval = withApollo(SidebarCommentingDocumentToApproval);
 
 SidebarCommentingDocumentToApproval = connect(
-  state => ({user: getUserFromStore(state)}),
+  state => ({ user: getUserFromStore(state) }),
   dispatch => ({
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),

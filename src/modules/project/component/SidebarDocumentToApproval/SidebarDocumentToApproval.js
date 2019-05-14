@@ -17,7 +17,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 /** Constants */
 import { TO_APPROVAL } from '@lib/shared/approvalStatus';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = name => {
   return {

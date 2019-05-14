@@ -1,50 +1,54 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { space } from 'styled-system';
 import { connect } from 'react-redux';
-import { copyCell, removeBlock } from '../../store/reducers/blocksBinding/actions';
+import { graphql } from 'react-apollo';
+
+/** Notification */
 import Notifications, { success, error } from 'react-notification-system-redux';
-import ReactDOM from 'react-dom';
+
+/** Store */
+import { copyCell, removeBlock } from '../../store/reducers/blocksBinding/actions';
 
 /**View */
 import Message from '../Message/Message';
-
 import { FroalaReduxForm } from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 import { FroalaReduxFormName } from '@lib/ui/FroalaReduxForm/FroalaReduxFormName';
 
 /** Graphql */
-import { graphql } from 'react-apollo';
 import UnbindingCellMutation from '../../modules/project/hoc/UnbindCellHOC/UnbindingCellMutation.graphql';
 
-// Require block types
+// Constants
 import { BLOCK_NAME } from '../../shared/blockType';
+
+/** Notification */
+import { messageNotificationBlock } from '../../utils/messageNotification';
 
 const Wrapper = styled.div`
   ${space};
   width: 100%;
 `;
 
-const notificationOpts = () => ({
-  success: {
-    title: 'Блок отвязан',
-    message: 'Вы отвязали блок от всех разделов',
-    position: 'tr',
-    autoDismiss: 2,
-  },
-  error: {
-    title: 'Ошибка',
-    message: 'Не удалось отвязать блок',
-    position: 'tr',
-    autoDismiss: 2,
-  },
-});
+// const messageNotificationBlock = () => ({
+//   success: {
+//     title: 'Блок отвязан',
+//     message: 'Вы отвязали блок от всех разделов',
+//     position: 'tr',
+//     autoDismiss: 2,
+//   },
+//   error: {
+//     title: 'Ошибка',
+//     message: 'Не удалось отвязать блок',
+//     position: 'tr',
+//     autoDismiss: 2,
+//   },
+// });
 
-
-
-export const FROALA_BTN_TITLE_COPY= 'copy';
-export const FROALA_BTN_TITLE_BIND= 'bind';
-export const FROALA_BTN_TITLE_UNBIND= 'unbind';
+export const FROALA_BTN_TITLE_COPY = 'copy';
+export const FROALA_BTN_TITLE_BIND = 'bind';
+export const FROALA_BTN_TITLE_UNBIND = 'unbind';
 
 export class RichTextEditor extends Component {
   static propTypes = {
@@ -84,11 +88,11 @@ export class RichTextEditor extends Component {
    * @desc Ждем инициализации Фроалы
    * */
   componentDidUpdate(prevProps) {
-    if(prevProps.froalaLoaded !== this.props.froalaLoaded && this.props.froalaLoaded) {
-      console.log('updated')
+    if (prevProps.froalaLoaded !== this.props.froalaLoaded && this.props.froalaLoaded) {
+      console.log('updated');
       this.initButtonsCallbacks();
     }
-  };
+  }
 
   /**
    * @desc Получаем dom-узлы кнопок и передаем методу createDragEvent
@@ -116,20 +120,30 @@ export class RichTextEditor extends Component {
    * @argument bind - bool, параметр, определяющий, будет ли ячейка связана с копией
    * */
   createDragEvent = (button, node, bind) => {
-    {/** Инициализируем копию компонента */}
+    {
+      /** Инициализируем копию компонента */
+    }
     let nodePreview = node.cloneNode(true);
-    {/** Получаем ячейку, содержащую узел */}
+    {
+      /** Получаем ячейку, содержащую узел */
+    }
     let wholeCell = node.parentNode.parentNode.parentNode;
-    {/** Получаем узел сайдбара для скролла по нему */}
+    {
+      /** Получаем узел сайдбара для скролла по нему */
+    }
     let sidebarWrapper = document.getElementById('SideBarWrapper');
 
-    {/** Предотвращаем стандартную реакцию браузера на событие dragstart */}
-    node.ondragstart = (e) => {
+    {
+      /** Предотвращаем стандартную реакцию браузера на событие dragstart */
+    }
+    node.ondragstart = e => {
       e.preventDefault();
     };
-    button.onmousedown = (e) => {
+    button.onmousedown = e => {
       wholeCell.style.opacity = 0.5;
-      {/** Стилизуем копию узла и позиционируем абсолютно */}
+      {
+        /** Стилизуем копию узла и позиционируем абсолютно */
+      }
       nodePreview.style.position = 'absolute';
       nodePreview.style.zIndex = 1000;
       nodePreview.style.width = node.offsetWidth + 'px';
@@ -139,24 +153,28 @@ export class RichTextEditor extends Component {
       this.movePreviewAt(nodePreview, e);
       document.body.appendChild(nodePreview);
 
-      document.onmousemove = (e) => {
+      document.onmousemove = e => {
         this.movePreviewAt(nodePreview, e);
-      }
-      sidebarWrapper.onmousemove = (e) => {
+      };
+      sidebarWrapper.onmousemove = e => {
         this.scrollSidebar(e, sidebarWrapper);
+      };
+      {
+        /** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */
       }
-      {/** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */}
-      document.onmouseup = (e) => {
-        console.log('mouseup')
+      document.onmouseup = e => {
+        console.log('mouseup');
         this.releaseButton(nodePreview, wholeCell, e, button);
+      };
+      {
+        /** Вешаем mouseup на кнопку, т.к. предыдущий обработчик не срабатывает на кнопке */
       }
-      {/** Вешаем mouseup на кнопку, т.к. предыдущий обработчик не срабатывает на кнопке */}
-      button.onmouseup = (e) => {
-        console.log('mouseup on button')
+      button.onmouseup = e => {
+        console.log('mouseup on button');
         this.releaseButton(nodePreview, wholeCell, e, button);
-      }
-    }
-  }
+      };
+    };
+  };
 
   /**
    * @desc Перемещаем копию узла к курсору
@@ -164,12 +182,12 @@ export class RichTextEditor extends Component {
   movePreviewAt = (node, e) => {
     node.style.left = e.pageX + 8 + 'px';
     node.style.top = e.pageY + 8 + 'px';
-  }
+  };
 
   scrollSidebar = (e, sidebarWrapper) => {
     /** Наведение на верх страницы (100 пикселей сверху) */
     if (e.clientY < 100) {
-      sidebarWrapper.scrollBy(0,-10);
+      sidebarWrapper.scrollBy(0, -10);
     }
     /**
      * Наведение на низ страницы (100 пикселей снизу) &&
@@ -179,25 +197,28 @@ export class RichTextEditor extends Component {
       e.clientY > document.documentElement.clientHeight - 100 &&
       e.offsetY < document.documentElement.offsetHeight
     ) {
-      sidebarWrapper.scrollBy(0,10);
+      sidebarWrapper.scrollBy(0, 10);
     }
   };
 
   releaseButton = (node, cell, e, button) => {
-    {/** удаляем копию узла */}
+    {
+      /** удаляем копию узла */
+    }
     document.body.removeChild(node);
-    {/** обнуляем обработчики */}
+    {
+      /** обнуляем обработчики */
+    }
     document.onmousemove = null;
     document.onmouseup = null;
     button.onmouseup = null;
 
-    if(!event.target.closest('.SidebarCellNode')){
+    if (!event.target.closest('.SidebarCellNode')) {
       this.props.removeBlock();
-    };
+    }
 
     cell.style.opacity = 1;
-  }
-
+  };
 
   getButtonClick = action => {
     switch (action) {
@@ -225,11 +246,11 @@ export class RichTextEditor extends Component {
       })
       .then(({ data }) => {
         console.log('got data', data);
-        this.props.setNotificationSuccess(notificationOpts().success);
+        this.props.setNotificationSuccess(messageNotificationBlock().success);
       })
       .catch(error => {
         console.log('there was an error sending the query', error);
-        this.props.setNotificationError(notificationOpts().error);
+        this.props.setNotificationError(messageNotificationBlock().error);
       });
   };
 
