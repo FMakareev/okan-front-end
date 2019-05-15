@@ -31,8 +31,10 @@ export class FieldArrayExternalUser extends Component {
       <Box mb={'100px'}>
         {fields.map((member, index) => (
           <Flex key={`FieldArrayExternalUser-${fields.name}-${index}`} mb={6}>
-            {CreateContractorHelpers(member)}
 
+            <CreateContractor
+              names={CreateContractorHelpers(member)}
+            />
             <Box pl={6}>
               <ButtonWithImage
                 type={'button'}

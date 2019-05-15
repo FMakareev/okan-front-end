@@ -30,6 +30,7 @@ import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** Helpers */
 import CreateContractorHelpers from '../helpers/CreateContractorHelpers';
+import {CreateContractor} from "../CreateContractor/CreateContractor";
 
 export class ContractorListField extends Component {
   static defaultProps = {
@@ -152,7 +153,9 @@ export class ContractorListField extends Component {
           } else if (role && role.name === ROLE_EXTERNALCONTRACTOR) {
             return (
               <Flex mb={6}>
-                {CreateContractorHelpers(member)}
+                <CreateContractor
+                  names={CreateContractorHelpers(member)}
+                />
                 <Box pl={6}>
                   <ButtonWithImage
                     type={'button'}
