@@ -35,9 +35,12 @@ import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 
 const validate = ({ email, password, retryPas }) => {
   const errors = {};
-
+  console.log('validate: ',email, password, retryPas);
   if (!email) {
     errors.email = 'Обязательно для заполнения';
+  }
+  if (!isEmail(errors.email)) {
+    errors.email = isEmail(errors.email);
   }
 
   if (!password) {

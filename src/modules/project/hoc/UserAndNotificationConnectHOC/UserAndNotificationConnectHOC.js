@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { error, success } from 'react-notification-system-redux';
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
-export const ConnectHOC = () => WrappedComponent => {
+export const UserAndNotificationConnectHOC = () => WrappedComponent => {
   return connect(
     store => ({
       user: getUserFromStore(store),
@@ -14,4 +14,4 @@ export const ConnectHOC = () => WrappedComponent => {
   )(WrappedComponent);
 };
 
-export default ConnectHOC;
+export default UserAndNotificationConnectHOC;

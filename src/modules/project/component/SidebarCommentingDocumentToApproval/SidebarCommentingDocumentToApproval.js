@@ -18,7 +18,7 @@ import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import ButtonDocumentToApproval from '../../utils/ButtonDocumentToApproval';
 
 /** Constants */
-import { APPROVAL, NOT_APPROVAL, TO_APPROVAL } from '@lib/shared/approvalStatus';
+import { APPROVAL, NOT_APPROVAL } from '@lib/shared/approvalStatus';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = name => {
@@ -155,7 +155,7 @@ export class SidebarCommentingDocumentToApproval extends Component {
     return (
       <ButtonDocumentToApproval
         isLoading={isLoading}
-        handleSubmit={event => {
+        onClick={event => {
           event.stopPropagation();
           this.submitDocumentToApproval();
         }}

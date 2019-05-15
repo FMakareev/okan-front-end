@@ -9,22 +9,8 @@ import UnbindingCellMutation from './UnbindingCellMutation.graphql';
 /** HOC */
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
-import { messageNotificationBlock } from '../../../../utils/messageNotification';
+import { messageNotificationUnbindCell } from './messageNotificationUnbindCell';
 
-// const messageNotificationBlock = () => ({
-//   success: {
-//     title: 'Блок отвязан',
-//     message: 'Вы отвязали блок от всех разделов',
-//     position: 'tr',
-//     autoDismiss: 2,
-//   },
-//   error: {
-//     title: 'Ошибка',
-//     message: 'Не удалось отвязать блок',
-//     position: 'tr',
-//     autoDismiss: 2,
-//   },
-// });
 
 export const UnbindCellHOC = () => WrappedComponent => {
   class UnbindCell extends Component {
@@ -46,14 +32,14 @@ export const UnbindCellHOC = () => WrappedComponent => {
         })
         .then(response => {
           if (isNotification) {
-            this.props.setNotificationSuccess(messageNotificationBlock().success);
+            this.props.setNotificationSuccess(messageNotificationUnbindCell().success);
           }
           return response;
         })
         .catch(error => {
           captureException(error, 'Error unbindCellSubmit: ');
           if (isNotification) {
-            this.props.setNotificationError(messageNotificationBlock().error);
+            this.props.setNotificationError(messageNotificationUnbindCell().error);
           }
           return error;
         });

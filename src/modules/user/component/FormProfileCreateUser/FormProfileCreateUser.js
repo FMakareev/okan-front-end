@@ -19,6 +19,7 @@ import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
+import isEmail from '../../../../utils/validation/isEmail';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
@@ -149,6 +150,7 @@ export class FormProfileCreateUser extends Component {
           type="text"
           size={'md'}
           variant={'primary'}
+          validate={[required, isEmail]}
         />
 
         <TextFieldLastWrapper mb={11}>

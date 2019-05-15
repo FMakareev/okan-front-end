@@ -1,4 +1,4 @@
-export const messageNotificationBlock = () => {
+export const messageNotificationUnbindCell = () => {
   return {
     success: {
       title: 'Блок отвязан',

@@ -139,7 +139,7 @@ export class SidebarDocumentToApproval extends Component {
     return (
       <ButtonDocumentToApproval
         isLoading={isLoading}
-        handleSubmit={event => {
+        onClick={event => {
           event.stopPropagation();
           this.submitDocumentToApproval();
         }}

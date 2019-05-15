@@ -24,7 +24,7 @@ import UnbindingCellMutation from '../../modules/project/hoc/UnbindCellHOC/Unbin
 import { BLOCK_NAME } from '../../shared/blockType';
 
 /** Notification */
-import { messageNotificationBlock } from '../../utils/messageNotification';
+import { messageNotificationBlock } from '../../modules/project/hoc/UnbindCellHOC/messageNotificationUnbindCell';
 
 const Wrapper = styled.div`
   ${space};

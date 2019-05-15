@@ -179,7 +179,7 @@ export class ProjectStore extends Component {
     }
   };
 
-  searchCellInDocument = (cursor, result) => {
+  searchCellInSearchResult = (cursor, result) => {
     cursor.document = result[cursor.documentIndex].documents;
     cursor.cellIndex = result[cursor.documentIndex].cells.length - 1;
     cursor.cell = result[cursor.documentIndex].cells[cursor.cellIndex];
@@ -199,16 +199,10 @@ export class ProjectStore extends Component {
     } else {
       if (searchCursor.documentIndex > 0) {
         searchCursor.documentIndex -= 1;
-        // searchCursor.document = searchResult[searchCursor.documentIndex].documents;
-        // searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
-        // searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
-        searchCellInDocument(searchCursor, searchResult);
+        this.searchCellInSearchResult(searchCursor, searchResult);
       } else {
         searchCursor.documentIndex = searchResult.length - 1;
-        // searchCursor.document = searchResult[searchCursor.documentIndex].documents;
-        // searchCursor.cellIndex = searchResult[searchCursor.documentIndex].cells.length - 1;
-        // searchCursor.cell = searchResult[searchCursor.documentIndex].cells[searchCursor.cellIndex];
-        searchCellInDocument(searchCursor, searchResult);
+        this.searchCellInSearchResult(searchCursor, searchResult);
       }
     }
     return searchCursor;
@@ -338,7 +332,7 @@ export class ProjectStore extends Component {
    * @desc смещение курсора поиска
    * */
   changeSearchCursor = (moved = 'forward') => {
-    const { searchResult, searchCursor, position } = Object.assign({}, this.state);
+    const { searchResult, searchCursor } = Object.assign({}, this.state);
 
     if (searchResult.length) {
       if (moved === 'forward') {
