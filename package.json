@@ -180,6 +180,7 @@
     "build:ssr:dev": "babel-node scripts/build.ssr.js --port=3006 --ENDPOINT_SERVER='\"https://127.0.0.1:5002\"' --ENDPOINT_CLIENT='\"\"' --mode=development  --watch=false --ssr_fetch=false",
     "start:ssr": "babel-node scripts/start.ssr.js --port=3006 --ENDPOINT_SERVER='\"https://okan.test.code-artel.com\"' --ENDPOINT_CLIENT='\"\"' --mode=development --watch=true --ssr_fetch=false",
     "start:ssr:server": "node public/server.js",
+
     "test": "jest",
     "test:snapshot:update": "jest --updateSnapshot",
     "lint:js": "eslint ./src ./tools --color --format stylish --fix",
