@@ -34,7 +34,7 @@ import { PROJECT_MODE_RC, PROJECT_MODE_RW } from '../ProjectContext/ProjectConte
 import { findClassInPath } from '../../utils/findClassInPath';
 import { withRouter } from 'react-router-dom';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
-import ConnectHOC from '../../hoc/ConnectHOC/ConnectHOC';
+import UserAndNotificationConnectHOC from '../../hoc/UserAndNotificationConnectHOC/UserAndNotificationConnectHOC';
 
 const CommentRegistry = new RegistryFactory({
   components: {
@@ -453,16 +453,6 @@ EditorCellCommentController = graphql(UpdateCommentMutation, {
   name: `@apollo/deletionNotification`,
 })(EditorCellCommentController);
 
-// EditorCellCommentController = connect(
-//   store => ({
-//     user: getUserFromStore(store),
-//   }),
-//   dispatch => ({
-//     setNotificationSuccess: message => dispatch(success(message)),
-//     setNotificationError: message => dispatch(error(message)),
-//   }),
-// )(EditorCellCommentController);
-
-EditorCellCommentController = ConnectHOC()(EditorCellCommentController);
+EditorCellCommentController = UserAndNotificationConnectHOC()(EditorCellCommentController);
 
 export default EditorCellCommentController;
