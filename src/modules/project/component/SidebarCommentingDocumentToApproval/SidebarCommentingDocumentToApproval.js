@@ -14,9 +14,11 @@ import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarCommen
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
+/** View */
+import ButtonDocumentToApproval from '../../utils/ButtonDocumentToApproval';
+
 /** Constants */
 import { APPROVAL, NOT_APPROVAL, TO_APPROVAL } from '@lib/shared/approvalStatus';
-import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = name => {
@@ -149,19 +151,19 @@ export class SidebarCommentingDocumentToApproval extends Component {
 
   render() {
     const { isLoading } = this.state;
+
     return (
-      <ButtonWithImage
+      <ButtonDocumentToApproval
         isLoading={isLoading}
-        p={'2px'}
-        fontSize={'15px'}
-        onClick={event => {
+        handleSubmit={event => {
           event.stopPropagation();
           this.submitDocumentToApproval();
         }}
-        title={'Согласованть.'}
-        variant={'outlineGray'}>
-        <SvgSidebarComment />
-      </ButtonWithImage>
+        title={'Согласовать'}
+        size={'toApproval'}
+        variant={'outlineGray'}
+        children={<SvgSidebarComment />}
+      />
     );
   }
 }

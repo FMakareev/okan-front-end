@@ -28,4 +28,8 @@ export const ButtonSize = {
     fontFamily: 'Circe Bold',
     padding: '8px 60px',
   },
+  toApproval: {
+    padding: '2px',
+    fontSize: '15px',
+  },
 };
