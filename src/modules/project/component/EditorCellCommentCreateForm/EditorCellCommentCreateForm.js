@@ -17,10 +17,9 @@ import { Flex } from '@lib/ui/Flex/Flex';
 import styled from 'styled-components';
 import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
 import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
-// import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 import has from '../../../../utils/has';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
-import ConnectHOC from '../../hoc/ConnectHOC/ConnectHOC';
+import UserAndNotificationConnectHOC from '../../hoc/UserAndNotificationConnectHOC/UserAndNotificationConnectHOC';
 
 const FormStyled = styled(Form)`
   width: 550px;
@@ -164,17 +163,8 @@ EditorCellCommentCreateForm = graphql(CreateCommentMutation, {
   name: '@apollo/create',
 })(EditorCellCommentCreateForm);
 
-// EditorCellCommentCreateForm = connect(
-//   store => ({
-//     user: getUserFromStore(store),
-//   }),
-//   dispatch => ({
-//     setNotificationSuccess: message => dispatch(success(message)),
-//     setNotificationError: message => dispatch(error(message)),
-//   }),
-// )(EditorCellCommentCreateForm);
 
-EditorCellCommentCreateForm = ConnectHOC()(EditorCellCommentCreateForm);
+EditorCellCommentCreateForm = UserAndNotificationConnectHOC()(EditorCellCommentCreateForm);
 
 EditorCellCommentCreateForm = withApollo(EditorCellCommentCreateForm);
 
