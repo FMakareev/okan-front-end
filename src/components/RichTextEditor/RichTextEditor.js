@@ -24,27 +24,12 @@ import UnbindingCellMutation from '../../modules/project/hoc/UnbindCellHOC/Unbin
 import { BLOCK_NAME } from '../../shared/blockType';
 
 /** Notification */
-import { messageNotificationBlock } from '../../modules/project/hoc/UnbindCellHOC/messageNotificationUnbindCell';
+import { messageNotificationUnbindCell } from '../../modules/project/hoc/UnbindCellHOC/messageNotificationUnbindCell';
 
 const Wrapper = styled.div`
   ${space};
   width: 100%;
 `;
-
-// const messageNotificationBlock = () => ({
-//   success: {
-//     title: 'Блок отвязан',
-//     message: 'Вы отвязали блок от всех разделов',
-//     position: 'tr',
-//     autoDismiss: 2,
-//   },
-//   error: {
-//     title: 'Ошибка',
-//     message: 'Не удалось отвязать блок',
-//     position: 'tr',
-//     autoDismiss: 2,
-//   },
-// });
 
 export const FROALA_BTN_TITLE_COPY = 'copy';
 export const FROALA_BTN_TITLE_BIND = 'bind';
@@ -246,11 +231,11 @@ export class RichTextEditor extends Component {
       })
       .then(({ data }) => {
         console.log('got data', data);
-        this.props.setNotificationSuccess(messageNotificationBlock().success);
+        this.props.setNotificationSuccess(messageNotificationUnbindCell().success);
       })
       .catch(error => {
         console.log('there was an error sending the query', error);
-        this.props.setNotificationError(messageNotificationBlock().error);
+        this.props.setNotificationError(messageNotificationUnbindCell().error);
       });
   };
 
