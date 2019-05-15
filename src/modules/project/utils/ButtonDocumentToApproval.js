@@ -1,8 +1,4 @@
 import React from 'react';
-
-/** Image */
-// import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
-
 /** View */
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
@@ -10,14 +6,14 @@ export const ButtonDocumentToApproval = ({
   title,
   variant,
   size,
-  handleSubmit,
+  onClick,
   isLoading,
   children,
 }) => {
   return (
     <ButtonWithImage
       isLoading={isLoading}
-      onClick={handleSubmit}
+      onClick={onClick}
       title={title}
       size={size}
       variant={variant}>
