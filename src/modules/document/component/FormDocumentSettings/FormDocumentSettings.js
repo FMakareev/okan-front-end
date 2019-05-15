@@ -17,8 +17,7 @@ import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
-import ContractorListField from '../ContractorListField/ContractorListField';
-import ItemTitle from './ItemTitle';
+import FieldArrayInternalUserWithTitle from './FieldArrayInternalUserWithTitle';
 
 /** Image */
 import { SvgSave } from '@lib/ui/Icons/SvgSave';
@@ -29,8 +28,6 @@ import DocumentItemQuery from '../../graphql/DocumentItemQuery.graphql';
 import CreateContractorApprovalMutation from '../../graphql/CreateContractorApprovalMutation.graphql';
 import UpdateContractorApprovalMutation from '../../graphql/UpdateContractorApprovalMutation.graphql';
 import DeleteContractorMutation from '../../graphql/DeleteContractorMutation.graphql';
-import FieldArrayInternalUser from '../FieldArrayInternalUser/FieldArrayInternalUser';
-import { FieldArrayExternalUser } from '../FieldArrayExternalUser/FieldArrayExternalUser';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = () => ({
@@ -385,16 +382,16 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
 
-            <ItemTitle name={'internalMatching'} title={'Внутренние согласующие ОКАН'} />
+            <FieldArrayInternalUserWithTitle name={'internalMatching'} title={'Внутренние согласующие ОКАН'} />
           </Box>
           
           <Box px={5} width={'50%'}>
-            <ItemTitle
+            <FieldArrayInternalUserWithTitle
               name={'externalAndInternalApprove'}
               title={'Утверждающие внешние и внутренние'}
             />
 
-            <ItemTitle name={'externalMatching'} title={'Внешние согласующие'} />
+            <FieldArrayInternalUserWithTitle name={'externalMatching'} title={'Внешние согласующие'} />
           </Box>
         </Flex>
 
