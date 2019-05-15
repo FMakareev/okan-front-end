@@ -8,7 +8,7 @@ import Container from '@lib/ui/Container/Container';
 /** Component */
 import FieldArrayInternalUser from '../FieldArrayInternalUser/FieldArrayInternalUser';
 
-export const ItemTitle = ({ name, title }) => {
+export const FieldArrayInternalUserWithTitle = ({ name, title }) => {
   return (
     <Container maxWidth={'500px'} width={'100%'}>
       <Text variant={'documentTitle'} mb={6}>
@@ -19,4 +19,4 @@ export const ItemTitle = ({ name, title }) => {
   );
 };
 
-export default ItemTitle;
+export default FieldArrayInternalUserWithTitle;
