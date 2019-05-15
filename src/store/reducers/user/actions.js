@@ -13,6 +13,7 @@ import {
 import { client as browserClient } from '../../../apollo/index.client';
 import { client as serverClient } from '../../../apollo/index.server';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
+import { resetUserToken } from './resetUserToken';
 
 /**
  * @desc метод инициализации пользователя в системе
@@ -115,15 +116,18 @@ export const userRemove = () => dispatch => {
   return new Promise((resolve, reject) => {
     try {
       if (isBrowser) {
-        window.localStorage.clear();
-        const cookies = document.cookie.split(';');
+        // window.localStorage.clear();
+        // const cookies = document.cookie.split(';');
 
-        for (let i = 0; i < cookies.length; i += 1) {
-          const cookie = cookies[i];
-          const eqPos = cookie.indexOf('=');
-          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-          document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-        }
+        // for (let i = 0; i < cookies.length; i += 1) {
+        //   const cookie = cookies[i];
+        //   const eqPos = cookie.indexOf('=');
+        //   const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        //   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        // }
+
+        resetUserToken();
+
         dispatch(USER_REMOVE);
         resolve(true);
       }

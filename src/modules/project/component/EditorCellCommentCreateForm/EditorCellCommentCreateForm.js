@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types'
-import React, {Component} from 'react';
-import {Field, reduxForm, Form} from 'redux-form';
-import {graphql} from 'react-apollo';
-import {connect} from 'react-redux';
-import {error, success} from 'react-notification-system-redux';
-import {withApollo} from 'react-apollo';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Field, reduxForm, Form } from 'redux-form';
+import { graphql } from 'react-apollo';
+// import { connect } from 'react-redux';
+// import { error, success } from 'react-notification-system-redux';
+import { withApollo } from 'react-apollo';
 
 /** View */
 import TextAreaBase from '../../../../components/TextAreaBase/TextAreaBase';
@@ -12,21 +12,20 @@ import TextAreaBase from '../../../../components/TextAreaBase/TextAreaBase';
 /** Graphql Schema */
 import CreateCommentMutation from '../../graphql/CreateCommentMutation.graphql';
 import CellListQuery from '../../graphql/CellListQuery.graphql';
-import {Box} from "@lib/ui/Box/Box";
-import {Flex} from "@lib/ui/Flex/Flex";
-import styled from "styled-components";
-import BackgroundColorProperty from "@lib/styles/styleProperty/BackgroundColorProperty";
-import BorderColorProperty from "@lib/styles/styleProperty/BorderColorProperty";
-import {getUserFromStore} from "../../../../store/reducers/user/selectors";
+import { Box } from '@lib/ui/Box/Box';
+import { Flex } from '@lib/ui/Flex/Flex';
+import styled from 'styled-components';
+import BackgroundColorProperty from '@lib/styles/styleProperty/BackgroundColorProperty';
+import BorderColorProperty from '@lib/styles/styleProperty/BorderColorProperty';
 import has from '../../../../utils/has';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
-
+import { captureException } from '../../../../hocs/withSentry/withSentry';
+import UserAndNotificationConnectHOC from '../../hoc/UserAndNotificationConnectHOC/UserAndNotificationConnectHOC';
 
 const FormStyled = styled(Form)`
   width: 550px;
   border: 1px solid;
-  ${props => BorderColorProperty({...props, borderColor: 'color4'})};
-  ${props => BackgroundColorProperty({...props, backgroundColor: 'color0'})};
+  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
+  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -46,14 +45,13 @@ const createCommentNotification = () => ({
 });
 
 export class EditorCellCommentCreateForm extends Component {
-
   static propTypes = {
     cell: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
-    user: PropTypes.object
+    user: PropTypes.object,
   };
 
   constructor(props) {
@@ -68,9 +66,9 @@ export class EditorCellCommentCreateForm extends Component {
   }
 
   createComment = value => {
-    if(!has.call(value, 'message')) return;
+    if (!has.call(value, 'message')) return;
     if (!value.message.length) return;
-    const {setNotificationSuccess, reset, setNotificationError, user, cell} = this.props;
+    const { setNotificationSuccess, reset, setNotificationError, user, cell } = this.props;
     this.toggleLoading();
     return this.props['@apollo/create']({
       variables: {
@@ -78,9 +76,8 @@ export class EditorCellCommentCreateForm extends Component {
         sender: user.id,
         cell: cell.id,
       },
-      update: (store, {data: {createcomment}}) => {
-
-        const options = {query: CellListQuery, variables: {parent: cell.parent.id}};
+      update: (store, { data: { createcomment } }) => {
+        const options = { query: CellListQuery, variables: { parent: cell.parent.id } };
         let data = null;
 
         try {
@@ -97,7 +94,7 @@ export class EditorCellCommentCreateForm extends Component {
         try {
           data.celllist.map(item => {
             if (item.id === this.props.cell.id) {
-              if(Array.isArray(item.comments)){
+              if (Array.isArray(item.comments)) {
                 item.comments.push(createcomment.comment);
               } else {
                 item.comments = [createcomment.comment];
@@ -111,12 +108,11 @@ export class EditorCellCommentCreateForm extends Component {
         }
 
         try {
-          store.writeQuery({...options, data});
+          store.writeQuery({ ...options, data });
         } catch (error) {
           console.error('Error createComment update.writeQuery: ', error);
           captureException(error);
         }
-
       },
     })
       .then(() => {
@@ -132,29 +128,30 @@ export class EditorCellCommentCreateForm extends Component {
       });
   };
 
-
   toggleLoading = () => {
-    this.setState((state) => ({
+    this.setState(state => ({
       isLoading: !state.isLoading,
-    }))
+    }));
   };
 
   render() {
-    const {handleSubmit} = this.props;
-    const {isLoading} = this.state;
-    return (<Box zIndex={1} right={'10px'} top={'10px'}>
-      <FormStyled onSubmit={() => {
-      }}>
-        <Field
-          disabled={isLoading}
-          onBlur={handleSubmit(this.createComment)}
-          name={'message'}
-          size={'md'}
-          color={'color7'}
-          component={TextAreaBase}/>
-      </FormStyled>
-      <Flex justifyContent={'flex-end'}/>
-    </Box>)
+    const { handleSubmit } = this.props;
+    const { isLoading } = this.state;
+    return (
+      <Box zIndex={1} right={'10px'} top={'10px'}>
+        <FormStyled onSubmit={() => {}}>
+          <Field
+            disabled={isLoading}
+            onBlur={handleSubmit(this.createComment)}
+            name={'message'}
+            size={'md'}
+            color={'color7'}
+            component={TextAreaBase}
+          />
+        </FormStyled>
+        <Flex justifyContent={'flex-end'} />
+      </Box>
+    );
   }
 }
 
@@ -166,17 +163,9 @@ EditorCellCommentCreateForm = graphql(CreateCommentMutation, {
   name: '@apollo/create',
 })(EditorCellCommentCreateForm);
 
-EditorCellCommentCreateForm = connect(
-  store => ({
-    user: getUserFromStore(store),
-  }),
-  dispatch => ({
-    setNotificationSuccess: message => dispatch(success(message)),
-    setNotificationError: message => dispatch(error(message)),
-  }),
-)(EditorCellCommentCreateForm);
+
+EditorCellCommentCreateForm = UserAndNotificationConnectHOC()(EditorCellCommentCreateForm);
 
 EditorCellCommentCreateForm = withApollo(EditorCellCommentCreateForm);
 
 export default EditorCellCommentCreateForm;
-

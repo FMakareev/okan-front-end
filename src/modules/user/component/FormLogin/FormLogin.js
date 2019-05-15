@@ -11,22 +11,20 @@ import { captureException } from '../../../../hocs/withSentry/withSentry';
 import Box from '@lib/ui/Box/Box';
 import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { withPreLoader } from '@lib/ui/withPreLoader/withPreLoader';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
+import { FetchUserAuth } from '../FetchUserAuth/FetchUserAuth';
 
-/** json method */
-import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';
-
-/** ac */
+/** constants */
 import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
-import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
-import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
-import { withPreLoader } from '@lib/ui/withPreLoader/withPreLoader';
 
 const validate = ({ uname, ups }) => {
   const errors = {};
@@ -96,18 +94,8 @@ export class FormLogin extends Component {
       submitting: !submitting,
     }));
 
-    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'no-cors',
-      headers: {
-        Accept: 'text/html,application/xhtml+xml,application/xml',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: jsonToUrlEncoded(value),
-    })
+    return FetchUserAuth(value)
       .then(response => {
-        console.log(22, response);
         this.props.preLoaderToggle();
         if (response.status >= 400 || !document.cookie) {
           throw response;
@@ -115,7 +103,7 @@ export class FormLogin extends Component {
           return this.getUser(value.email);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         const { status } = error;
         this.props.preLoaderToggle();
         this.setState(() => ({ submitting: false, apolloError: null }));

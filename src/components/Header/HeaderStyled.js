@@ -79,7 +79,7 @@ const Title = styled.div`
   ${props => BorderColorProperty({ ...props, borderColor: 'color0' })};
   border-radius: 5px;
   margin-right: 17px;
-  
+
   &:before {
     content: '';
     width: 6px;
@@ -140,23 +140,9 @@ const BoxTop = styled(Box)`
   }
 `;
 
-const BoxBottom = styled(Box)`
-  ${props => FontSizeProperty({ ...props, fontSize: 6 })};
-  ${props => LineHeightProperty({ ...props, lineHeight: 7 })};
-  ${props => color({ ...props, color: 'color11' })};
+const BoxBottom = styled(BoxTop)`
   border-top: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color7' })};
-  ${props => BackgroundColorProperty({ ...props, backgroundColor: 'color0' })};
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  text-align: center;
-  cursor: pointer;
-  min-width: 150px;
-  padding: 5px 0;
-
-  :hover {
-    background-color: #007faf21;
-  }
+  border-radius: 0 0 5px 5px;
 `;
 
 const ButtonBaseStyled = styled(ButtonBase)`

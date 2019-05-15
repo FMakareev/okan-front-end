@@ -11,10 +11,13 @@ import Box from '@lib/ui/Box/Box';
 import TooltipBase from '@lib/ui/TooltipBase/TooltipBase';
 import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 
 /** Components */
 import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
+import { FetchUserAuth } from '../FetchUserAuth/FetchUserAuth';
 
 /** PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
@@ -27,19 +30,17 @@ import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
 import isEmail from '../../../../utils/validation/isEmail';
 import required from '../../../../utils/validation/required';
 
-/** JSON Method */
-import { jsonToUrlEncoded } from '@lib/utils/jsontools/jsonToUrlEncoded';
-
 /** Constatnts */
 import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
-import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
-import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 
 const validate = ({ email, password, retryPas }) => {
   const errors = {};
-
+  console.log('validate: ',email, password, retryPas);
   if (!email) {
     errors.email = 'Обязательно для заполнения';
+  }
+  if (!isEmail(errors.email)) {
+    errors.email = isEmail(errors.email);
   }
 
   if (!password) {
@@ -98,16 +99,7 @@ export class FormRegistration extends Component {
   }
 
   userAuth(value) {
-    return fetch(`${ENDPOINT_CLIENT}/user/auth`, {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'no-cors',
-      headers: {
-        Accept: 'text/html,application/xhtml+xml,application/xml',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: jsonToUrlEncoded(value),
-    })
+    return FetchUserAuth(value)
       .then(response => {
         if (response.status >= 400 || !document.cookie) {
           throw response;
@@ -115,7 +107,7 @@ export class FormRegistration extends Component {
           return this.getUser(value.uname);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         const { status } = error;
         this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
         captureException(error);

@@ -18,7 +18,6 @@ import SelectBase from '@lib/ui/SelectBase/SelectBase';
 /**Image */
 import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
-
 /** Styles property */
 import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
 import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
@@ -29,9 +28,9 @@ import LineHeightProperty from '../../../../styles/styleProperty/LineHeightPrope
 import TemplateListQuery from './TemplateListQuery.graphql';
 import CreateProjectMutation from './CreateProjectMutation.graphql';
 import ProjectListQuery from '../../view/projectList/ProjectListQuery.graphql';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
-const BoxStyled = styled(Box)`
+export const BoxStyled = styled(Box)`
   input {
     padding: 3px 7px;
     border: 0;
@@ -69,8 +68,8 @@ export class FormProjectCreate extends Component {
     pristine: PropTypes.bool,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
-    submitting: PropTypes.bool
-  }
+    submitting: PropTypes.bool,
+  };
 
   constructor(props) {
     super(props);
@@ -111,7 +110,7 @@ export class FormProjectCreate extends Component {
           throw error;
         }
       })
-      .catch((error) => {
+      .catch(error => {
         const { message } = error;
         this.props.setNotificationError(notificationOpts().error);
         captureException(error);
@@ -147,13 +146,7 @@ export class FormProjectCreate extends Component {
           />
         </BoxStyled>
 
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={6}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={6}>
           Список шаблонов
         </Text>
 

@@ -2,20 +2,35 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
 import { Field, getFormValues } from 'redux-form';
-import { Box } from '@lib/ui/Box/Box';
-import AddContractorButton from '../AddContractorButton/AddContractorButton';
-import CreateContractor from '../CreateContractor/CreateContractor';
-import { ROLE_EXTERNALCONTRACTOR, ROLE_USER } from '@lib/shared/roles';
-import { Flex } from '@lib/ui/Flex/Flex';
-import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
-import { SelectContractorFromInnerUserList } from '../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList';
-import required from '@lib/utils/validation/required';
-import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
-import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { connect } from 'react-redux';
+
+/**View*/
+import { Box } from '@lib/ui/Box/Box';
+import { Flex } from '@lib/ui/Flex/Flex';
+import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
+
+/**Image*/
+import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
+
+/**Validation*/
+import required from '@lib/utils/validation/required';
+
+/** Component */
+import AddContractorButton from '../AddContractorButton/AddContractorButton';
+import { SelectContractorFromInnerUserList } from '../SelectContractorFromInnerUserList/SelectContractorFromInnerUserList';
+import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
 import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+
+/** Constants */
+import { ROLE_EXTERNALCONTRACTOR, ROLE_USER } from '@lib/shared/roles';
+
+/** HOC */
 import { captureException } from '../../../../hocs/withSentry/withSentry';
+
+/** Helpers */
+import CreateContractorHelpers from '../helpers/CreateContractorHelpers';
+import {CreateContractor} from "../CreateContractor/CreateContractor";
 
 export class ContractorListField extends Component {
   static defaultProps = {
@@ -138,19 +153,9 @@ export class ContractorListField extends Component {
           } else if (role && role.name === ROLE_EXTERNALCONTRACTOR) {
             return (
               <Flex mb={6}>
-                <Box width={'100%'}>
-                  <CreateContractor
-                    names={{
-                      organizationname: member + '.user.organizationname',
-                      position: member + '.user.position',
-                      firstname: member + '.user.firstname',
-                      lastname: member + '.user.lastname',
-                      patronymic: member + '.user.patronymic',
-                      approvaldate: member + '.approvaldate',
-                      signature: member + '.user.signature',
-                    }}
-                  />
-                </Box>
+                <CreateContractor
+                  names={CreateContractorHelpers(member)}
+                />
                 <Box pl={6}>
                   <ButtonWithImage
                     type={'button'}

@@ -26,6 +26,13 @@ export const TextVariant = {
     textAlign: 'left',
     color: '#333333',
   },
+  documentTitle: {
+    fontSize: '18px',
+    lineHeight: '24px',
+    color: '#00649C',
+    textAlign: 'center',
+    fontFamily: "'Museo Sans 500'",
+  },
 };
 
 export default TextVariant;

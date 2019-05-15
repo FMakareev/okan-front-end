@@ -11,13 +11,15 @@ import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 /** View */
 import Box from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
+import Text from '@lib/ui/Text/Text';
 import Container from '@lib/ui/Container/Container';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
-import ContractorListField from '../ContractorListField/ContractorListField';
-import { Text } from '@lib/ui/Text/Text';
+import FieldArrayInternalUserWithTitle from './FieldArrayInternalUserWithTitle';
+
+/** Image */
 import { SvgSave } from '@lib/ui/Icons/SvgSave';
 
 /** Graphql schema */
@@ -26,8 +28,6 @@ import DocumentItemQuery from '../../graphql/DocumentItemQuery.graphql';
 import CreateContractorApprovalMutation from '../../graphql/CreateContractorApprovalMutation.graphql';
 import UpdateContractorApprovalMutation from '../../graphql/UpdateContractorApprovalMutation.graphql';
 import DeleteContractorMutation from '../../graphql/DeleteContractorMutation.graphql';
-import FieldArrayInternalUser from '../FieldArrayInternalUser/FieldArrayInternalUser';
-import { FieldArrayExternalUser } from '../FieldArrayExternalUser/FieldArrayExternalUser';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = () => ({
@@ -359,8 +359,8 @@ export class FormDocumentSettings extends Component {
         history.push(`/app/project/${options.variables.project}`);
         return response;
       })
-      .catch((error) => {
-        const { message }= error;
+      .catch(error => {
+        const { message } = error;
         this.loadingToggle();
         setNotificationError(notificationOpts().error);
         captureException(error);
@@ -370,9 +370,7 @@ export class FormDocumentSettings extends Component {
   };
 
   render() {
-    const {
-      handleSubmit,
-    } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
@@ -384,45 +382,16 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
 
-            <Container maxWidth={'500px'} width={'100%'}>
-              <Text
-                fontSize={6}
-                lineHeight={8}
-                color={'color7'}
-                textAlign={'center'}
-                mb={6}
-                fontFamily={'primary500'}>
-                Внутренние согласующие ОКАН
-              </Text>
-              <FieldArray name={'internalMatching'} component={FieldArrayInternalUser} />
-            </Container>
+            <FieldArrayInternalUserWithTitle name={'internalMatching'} title={'Внутренние согласующие ОКАН'} />
           </Box>
+          
           <Box px={5} width={'50%'}>
-            <Container mb={9} maxWidth={'500px'} width={'100%'}>
-              <Text
-                fontSize={6}
-                lineHeight={8}
-                color={'color7'}
-                textAlign={'center'}
-                mb={6}
-                fontFamily={'primary500'}>
-                Утверждающие внешние и внутренние
-              </Text>
-              <FieldArray name={'externalAndInternalApprove'} component={ContractorListField} />
-            </Container>
+            <FieldArrayInternalUserWithTitle
+              name={'externalAndInternalApprove'}
+              title={'Утверждающие внешние и внутренние'}
+            />
 
-            <Container maxWidth={'500px'} width={'100%'}>
-              <Text
-                fontSize={6}
-                lineHeight={8}
-                color={'color7'}
-                textAlign={'center'}
-                mb={6}
-                fontFamily={'primary500'}>
-                Внешние согласующие
-              </Text>
-              <FieldArray name={'externalMatching'} component={FieldArrayExternalUser} />
-            </Container>
+            <FieldArrayInternalUserWithTitle name={'externalMatching'} title={'Внешние согласующие'} />
           </Box>
         </Flex>
 

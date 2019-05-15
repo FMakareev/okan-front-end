@@ -1,29 +1,30 @@
-import React, {Component} from 'react';
-import {Field, reduxForm, SubmissionError, Form, getFormValues} from 'redux-form';
-import {graphql} from 'react-apollo';
-import {connect} from 'react-redux';
-import {success, error} from 'react-notification-system-redux';
-import {captureException} from '../../../../hocs/withSentry/withSentry';
+import React, { Component } from 'react';
+import { Field, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
+import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { success, error } from 'react-notification-system-redux';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 import Text from '@lib/ui/Text/Text';
 import PictureUploadPreview from '@lib/ui/PictureUploadPreview/PictureUploadPreview';
 import DayPickerField from '@lib/ui/DayPickerField/DayPickerField';
 import MaskedInputField from '@lib/ui/MaskedInputField/MaskedInputField';
 
 /**PropTypes */
-import {formPropTypes} from '../../../../propTypes/Forms/FormPropTypes';
+import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
 /** Validation */
 import required from '../../../../utils/validation/required';
+import isEmail from '../../../../utils/validation/isEmail';
 
 /** GraphQL schema */
 import CreateUserMutation from './CreateUserMutation.graphql';
-import {TextFieldFirstWrapper} from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
-import {TextFieldLastWrapper} from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
 
 const notificationOpts = () => ({
   success: {
@@ -41,7 +42,7 @@ const notificationOpts = () => ({
 });
 
 export class FormProfileCreateUser extends Component {
-  static propTypes = {...formPropTypes};
+  static propTypes = { ...formPropTypes };
 
   constructor(props) {
     super(props);
@@ -52,7 +53,7 @@ export class FormProfileCreateUser extends Component {
   }
 
   submit(value) {
-    const data = {variables: Object.assign({}, value)};
+    const data = { variables: Object.assign({}, value) };
 
     return this.props['@apollo/create'](data)
       .then(response => {
@@ -60,27 +61,21 @@ export class FormProfileCreateUser extends Component {
         this.props.reset();
         return response;
       })
-      .catch((error) => {
-        const { message,} = error;
+      .catch(error => {
+        const { message } = error;
         this.props.setNotificationError(notificationOpts().error);
         captureException(error);
 
-        throw new SubmissionError({_error: message});
+        throw new SubmissionError({ _error: message });
       });
   }
 
   render() {
-    const {handleSubmit, pristine, submitting, invalid} = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={[13]}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={13}>
           Создать пользователя
         </Text>
 
@@ -155,6 +150,7 @@ export class FormProfileCreateUser extends Component {
           type="text"
           size={'md'}
           variant={'primary'}
+          validate={[required, isEmail]}
         />
 
         <TextFieldLastWrapper mb={11}>

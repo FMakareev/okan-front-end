@@ -11,7 +11,7 @@ import RichTextEditor from '@lib/ui/RichTextEditor/RichTextEditor';
 export const TitlePage = () => {
   return (
     <Box>
-      <Text fz={6} lh={7} color={'color7'} textAlign={'center'} mb={6} fontFamily={'primary500'}>
+      <Text variant={'documentTitle'} mb={6}>
         Титульный лист
       </Text>
 

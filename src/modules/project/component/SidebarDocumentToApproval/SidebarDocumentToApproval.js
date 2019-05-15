@@ -11,13 +11,15 @@ import CheckForChangesInDocQuery from '../../graphql/CheckForChangesInDocQuery.g
 /** Image */
 import { SvgSidebarComment } from '../../../../components/Icons/SvgSidebarComment';
 
+/** View */
+import ButtonDocumentToApproval from '../../utils/ButtonDocumentToApproval';
+
 /** store */
 import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** Constants */
 import { TO_APPROVAL } from '@lib/shared/approvalStatus';
-import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = name => {
   return {
@@ -133,19 +135,19 @@ export class SidebarDocumentToApproval extends Component {
 
   render() {
     const { isLoading } = this.state;
+
     return (
-      <ButtonWithImage
+      <ButtonDocumentToApproval
         isLoading={isLoading}
-        p={'2px'}
-        fontSize={'15px'}
         onClick={event => {
           event.stopPropagation();
           this.submitDocumentToApproval();
         }}
-        title={'Отправить на согласование.'}
-        variant={'outlineGray'}>
-        <SvgSidebarComment />
-      </ButtonWithImage>
+        title={'Отправить на согласование'}
+        size={'toApproval'}
+        variant={'outlineGray'}
+        children={<SvgSidebarComment />}
+      />
     );
   }
 }

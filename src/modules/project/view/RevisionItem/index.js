@@ -1,6 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query} from 'react-apollo';
+import { Query } from 'react-apollo';
+
+/** Component Helpers */
+import WithProjectItem from '../WithProjectItem/WithProjectItem';
 
 /** Graphql schema */
 import RevisionItemQuery from './RevisionItemQuery.graphql';
@@ -9,23 +12,10 @@ import RevisionItemQuery from './RevisionItemQuery.graphql';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 
 /** Components */
-import ProjectEditor from '../../component/ProjectEditor/ProjectEditor';
-import {
-  PROJECT_MODE_REVISION,
-  withProject
-} from '../../component/ProjectContext/ProjectContext';
+import { PROJECT_MODE_REVISION } from '../../component/ProjectContext/ProjectContext';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
-import {ProjectPageWrapper} from "../../component/ProjectPageWrapper/ProjectPageWrapper";
-import {ProjectStore} from "../../component/ProjectStore/ProjectStore";
-import {SideBarWrapper} from "../../component/SideBarWrapper/SideBarWrapper";
-import {ProjectEditorWrapper} from "../../component/ProjectEditorWrapper/ProjectEditorWrapper";
-import {ProjectSidebar} from "../../component/ProjectSidebar/ProjectSidebar";
-
-
-const ProjectSidebarWithProject = withProject(props => <ProjectSidebar {...props} />);
-const ProjectEditorWithProject = withProject(props => <ProjectEditor {...props} />);
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 export class RevisionItem extends Component {
   static propTypes = {
@@ -40,18 +30,15 @@ export class RevisionItem extends Component {
     }),
   };
 
-  state = {};
-
   render() {
     const {
-      match: {params},
+      match: { params },
     } = this.props;
 
     return (
       <ErrorCatch>
-
-        <Query query={RevisionItemQuery} variables={{id: params.revisionid}}>
-          {({loading, data, error}) => {
+        <Query query={RevisionItemQuery} variables={{ id: params.revisionid }}>
+          {({ loading, data, error }) => {
             if (loading) {
               return 'Загрузка...';
             }
@@ -60,28 +47,17 @@ export class RevisionItem extends Component {
               throw Error(error);
             }
             return (
-              <ProjectPageWrapper>
-
-                <ProjectStore
-                  mode={PROJECT_MODE_REVISION}
-                  params={params}
-                  projectitem={{
-                    documents: [data.revisionItem],
-                    id: data.revisionItem.project
-                  }}
-                >
-
-                  <SideBarWrapper id={'SideBarWrapper'}>
-                    <ProjectSidebarWithProject documentitem={data.revisionItem}/>
-                  </SideBarWrapper>
-                  <ProjectEditorWrapper>
-                    <ProjectEditorWithProject sectionid={params.sectionid}/>
-                  </ProjectEditorWrapper>
-
-                </ProjectStore>
-
-              </ProjectPageWrapper>
-
+              <WithProjectItem
+                mode={PROJECT_MODE_REVISION}
+                params={params}
+                projectitem={{
+                  documents: [data.revisionItem],
+                  id: data.revisionItem.project,
+                }}
+                id={'SideBarWrapper'}
+                documentitem={data.revisionItem}
+                sectionid={params.sectionid}
+              />
             );
           }}
         </Query>

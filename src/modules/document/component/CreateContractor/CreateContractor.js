@@ -17,7 +17,6 @@ const fioValid = value => {
 
 export class CreateContractor extends Component {
   render() {
-    console.log('CreateContractor render', this.props);
     const { names } = this.props;
     return (
       <Box>

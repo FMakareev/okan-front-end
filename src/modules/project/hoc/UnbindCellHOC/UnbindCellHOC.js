@@ -1,27 +1,18 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {error, success} from "react-notification-system-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { error, success } from 'react-notification-system-redux';
 import { graphql } from 'react-apollo';
+
+/** Graphql schema */
 import UnbindingCellMutation from './UnbindingCellMutation.graphql';
+
+/** HOC */
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
-const UnbindCellOptions = () => ({
-  success: {
-    title: 'Блок отвязан',
-    message: 'Вы отвязали блок от всех разделов',
-    position: 'tr',
-    autoDismiss: 2,
-  },
-  error: {
-    title: 'Ошибка',
-    message: 'Не удалось отвязать блок',
-    position: 'tr',
-    autoDismiss: 2,
-  },
-});
+import { messageNotificationUnbindCell } from './messageNotificationUnbindCell';
 
 
-export const UnbindCellHOC = ()=> WrappedComponent => {
+export const UnbindCellHOC = () => WrappedComponent => {
   class UnbindCell extends Component {
     constructor(props) {
       super(props);
@@ -39,26 +30,23 @@ export const UnbindCellHOC = ()=> WrappedComponent => {
             cell: id,
           },
         })
-        .then((response) => {
-          if(isNotification){
-            this.props.setNotificationSuccess(UnbindCellOptions().success);
+        .then(response => {
+          if (isNotification) {
+            this.props.setNotificationSuccess(messageNotificationUnbindCell().success);
           }
           return response;
         })
         .catch(error => {
           captureException(error, 'Error unbindCellSubmit: ');
-          if(isNotification){
-            this.props.setNotificationError(UnbindCellOptions().error);
+          if (isNotification) {
+            this.props.setNotificationError(messageNotificationUnbindCell().error);
           }
           return error;
         });
     }
 
     render() {
-      return (<WrappedComponent
-        {...this.props}
-        unbindCellSubmit={this.unbindCellSubmit}
-      />)
+      return <WrappedComponent {...this.props} unbindCellSubmit={this.unbindCellSubmit} />;
     }
   }
 
@@ -73,4 +61,4 @@ export const UnbindCellHOC = ()=> WrappedComponent => {
   )(UnbindCellWithApollo);
 };
 
-export default UnbindCellHOC
+export default UnbindCellHOC;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { graphql, Query } from 'react-apollo';
-import styled from 'styled-components';
 import { success, error } from 'react-notification-system-redux';
 import { Field, reduxForm, SubmissionError, Form, FieldArray, getFormValues } from 'redux-form';
 import UserListQuery from './UserListQuery.graphql';
@@ -22,30 +21,12 @@ import { SvgSave } from '@lib/ui/Icons/SvgSave';
 /**PropTypes */
 import { formPropTypes } from '../../../../propTypes/Forms/FormPropTypes';
 
-/** Styles property */
-import BorderColorProperty from '../../../../styles/styleProperty/BorderColorProperty';
-import BorderRadiusProperty from '../../../../styles/styleProperty/BorderRadiusProperty';
-import FontSizeProperty from '../../../../styles/styleProperty/FontSizeProperty';
-import LineHeightProperty from '../../../../styles/styleProperty/LineHeightProperty';
-
 /** Graphql schema */
 import ProjectSettingsMutation from './ProjectSettingsMutation.graphql';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
-const BoxStyled = styled(Box)`
-  input {
-    padding: 3px 7px;
-    border: 0;
-    text-align: center;
-    ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-    ${props => FontSizeProperty({ ...props, fontSize: 6 })};
-    ${props => LineHeightProperty({ ...props, lineHeight: 8 })};
-  }
-
-  border: 1px solid;
-  ${props => BorderColorProperty({ ...props, borderColor: 'color4' })};
-  ${props => BorderRadiusProperty({ ...props, borderRadius: '5px' })};
-`;
+/** CSS style in other Component */
+import { BoxStyled } from '../FormProjectCreate/FormProjectCreate';
 
 const notificationOpts = () => ({
   success: {
@@ -63,7 +44,6 @@ const notificationOpts = () => ({
 });
 
 export class FormProjectSettings extends Component {
-
   static propTypes = {
     handleSubmit: PropTypes.func,
     invalid: PropTypes.bool,
@@ -90,7 +70,7 @@ export class FormProjectSettings extends Component {
 
         return response;
       })
-      .catch(({ graphQLErrors, message, }) => {
+      .catch(({ graphQLErrors, message }) => {
         this.props.setNotificationError(notificationOpts().error);
 
         captureException(error);
@@ -120,20 +100,13 @@ export class FormProjectSettings extends Component {
           />
         </BoxStyled>
 
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={4}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={4}>
           Согласующие
         </Text>
 
         <Box mb={'45px'}>
           <Query query={UserListQuery}>
             {({ loading, data }) => {
-
               return (
                 <Field
                   isLoading={loading}

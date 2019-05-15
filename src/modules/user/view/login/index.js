@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 /**View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';

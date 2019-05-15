@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 /**View */
@@ -12,13 +12,7 @@ export const ProfileNotification = ({ data }) => {
   return (
     <>
       <Box mb={[8]}>
-        <Text
-          fontSize={6}
-          lineHeight={8}
-          color={'color7'}
-          textAlign={'center'}
-          mb={[4]}
-          fontFamily={'primary500'}>
+        <Text variant={'documentTitle'} mb={4}>
           Оповещения
         </Text>
       </Box>
