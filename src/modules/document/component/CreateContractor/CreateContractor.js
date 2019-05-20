@@ -9,7 +9,7 @@ import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFi
 import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
 
 const fioValid = value => {
-  let mask = /[А-ЯЁ][.][А-ЯЁ][.] [А-ЯЁ][а-яА-ЯёЁ]/;
+  let mask = /[А-ЯЁ][.][А-ЯЁ][.][А-ЯЁ][а-яА-ЯёЁ]/;
   return mask.test(value)
     ? null
     : 'Неверный формат, ФИО должно соответствовать маске "И.О. Фамилия"';
@@ -18,8 +18,9 @@ const fioValid = value => {
 export class CreateContractor extends Component {
   render() {
     const { names } = this.props;
+
     return (
-      <Box>
+      <Box width={'100%'}>
         <TextFieldFirstWrapper>
           <Field
             name={names.organizationname}

@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql, withApollo } from 'react-apollo';
 import { success, error } from 'react-notification-system-redux';
-import { Fields, reduxForm, SubmissionError, Form, getFormValues, FieldArray } from 'redux-form';
+import { Fields, reduxForm, SubmissionError, Form, getFormValues } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { has } from '../../../../utils/has';
+
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
-import Text from '@lib/ui/Text/Text';
 import Container from '@lib/ui/Container/Container';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
+import FieldArrayExternalUserWithTitle from './FieldArrayExternalUserWithTitle';
 import FieldArrayInternalUserWithTitle from './FieldArrayInternalUserWithTitle';
 
 /** Image */
@@ -382,16 +383,22 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
 
-            <FieldArrayInternalUserWithTitle name={'internalMatching'} title={'Внутренние согласующие ОКАН'} />
-          </Box>
-          
-          <Box px={5} width={'50%'}>
             <FieldArrayInternalUserWithTitle
+              name={'internalMatching'}
+              title={'Внутренние согласующие ОКАН'}
+            />
+          </Box>
+
+          <Box px={5} width={'50%'}>
+            <FieldArrayExternalUserWithTitle
               name={'externalAndInternalApprove'}
               title={'Утверждающие внешние и внутренние'}
             />
 
-            <FieldArrayInternalUserWithTitle name={'externalMatching'} title={'Внешние согласующие'} />
+            <FieldArrayExternalUserWithTitle
+              name={'externalMatching'}
+              title={'Внешние согласующие'}
+            />
           </Box>
         </Flex>
 
@@ -430,6 +437,7 @@ FormDocumentSettings = connect(
 FormDocumentSettings = reduxForm({
   form: 'FormDocumentSettings',
 })(FormDocumentSettings);
+
 FormDocumentSettings = withRouter(FormDocumentSettings);
 FormDocumentSettings = withApollo(FormDocumentSettings);
 export default FormDocumentSettings;
