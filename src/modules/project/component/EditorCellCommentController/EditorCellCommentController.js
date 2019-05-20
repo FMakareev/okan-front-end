@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Absolute } from 'rebass';
-// import { connect } from 'react-redux';
 import queryString from 'query-string';
-// import { error, success } from 'react-notification-system-redux';
 import { graphql } from 'react-apollo';
 import { RegistryFactory, RegistrySwitch } from '@lib/ui/RegistryPattern/RegistryPattern';
 
@@ -16,8 +14,6 @@ import { EditorCellCommentCreateForm } from '../EditorCellCommentCreateForm/Edit
 /** View */
 import { Relative } from '@lib/ui/Relative/Relative';
 
-/** Reducer */
-// import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /** graphql query|mutation*/
 import CellListQuery from '../../graphql/CellListAndParentCellQuery.graphql';
@@ -437,6 +433,7 @@ export class EditorCellCommentController extends Component {
               registry={CommentRegistry}
               type={commentControllerMode}
               form={`EditorCellCommentCreateForm-${id}`}
+              onToggleComments={this.onToggleComments}
               cell={this.props}
               onDelete={this.onDeletionNotifications}
               {...this.commentListFilter(comments, commentControllerMode, user.id)}
