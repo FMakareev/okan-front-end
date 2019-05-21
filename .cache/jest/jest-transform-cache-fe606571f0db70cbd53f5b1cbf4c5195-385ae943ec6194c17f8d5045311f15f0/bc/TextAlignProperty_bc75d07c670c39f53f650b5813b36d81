@@ -1,0 +1,26 @@
+00709bc60193c834ac9be87cd29e24ba
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.TextAlignProperty = void 0;
+
+var _styledSystem = require("styled-system");
+
+var TextAlignProperty = (0, _styledSystem.style)({
+  // React prop name
+  prop: 'textAlign',
+  // The corresponding CSS property (defaults to prop argument)
+  cssProperty: 'text-align',
+  // key for theme values
+  key: 'textAlign',
+  // convert number values to pixels
+  numberToPx: false,
+  // shorthand alias React prop name
+  alias: 'ta'
+});
+exports.TextAlignProperty = TextAlignProperty;
+var _default = TextAlignProperty;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlRleHRBbGlnblByb3BlcnR5LmpzIl0sIm5hbWVzIjpbIlRleHRBbGlnblByb3BlcnR5IiwicHJvcCIsImNzc1Byb3BlcnR5Iiwia2V5IiwibnVtYmVyVG9QeCIsImFsaWFzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7O0FBRU8sSUFBTUEsaUJBQWlCLEdBQUcseUJBQU07QUFDckM7QUFDQUMsRUFBQUEsSUFBSSxFQUFFLFdBRitCO0FBR3JDO0FBQ0FDLEVBQUFBLFdBQVcsRUFBRSxZQUp3QjtBQUtyQztBQUNBQyxFQUFBQSxHQUFHLEVBQUUsV0FOZ0M7QUFPckM7QUFDQUMsRUFBQUEsVUFBVSxFQUFFLEtBUnlCO0FBU3JDO0FBQ0FDLEVBQUFBLEtBQUssRUFBRTtBQVY4QixDQUFOLENBQTFCOztlQWFRTCxpQiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHN0eWxlIH0gZnJvbSAnc3R5bGVkLXN5c3RlbSc7XHJcblxyXG5leHBvcnQgY29uc3QgVGV4dEFsaWduUHJvcGVydHkgPSBzdHlsZSh7XHJcbiAgLy8gUmVhY3QgcHJvcCBuYW1lXHJcbiAgcHJvcDogJ3RleHRBbGlnbicsXHJcbiAgLy8gVGhlIGNvcnJlc3BvbmRpbmcgQ1NTIHByb3BlcnR5IChkZWZhdWx0cyB0byBwcm9wIGFyZ3VtZW50KVxyXG4gIGNzc1Byb3BlcnR5OiAndGV4dC1hbGlnbicsXHJcbiAgLy8ga2V5IGZvciB0aGVtZSB2YWx1ZXNcclxuICBrZXk6ICd0ZXh0QWxpZ24nLFxyXG4gIC8vIGNvbnZlcnQgbnVtYmVyIHZhbHVlcyB0byBwaXhlbHNcclxuICBudW1iZXJUb1B4OiBmYWxzZSxcclxuICAvLyBzaG9ydGhhbmQgYWxpYXMgUmVhY3QgcHJvcCBuYW1lXHJcbiAgYWxpYXM6ICd0YScsXHJcbn0pO1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgVGV4dEFsaWduUHJvcGVydHk7XHJcbiJdfQ==

@@ -1,0 +1,23 @@
+2abd6098d5f11c10db907901e6e946b5
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.range = void 0;
+
+// генерирует массив заданной длинны
+var range = function range(len) {
+  var arr = [];
+
+  for (var i = 0; i < len; i++) {
+    arr.push(i);
+  }
+
+  return arr;
+};
+
+exports.range = range;
+var _default = range;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJhbmdlLmpzIl0sIm5hbWVzIjpbInJhbmdlIiwibGVuIiwiYXJyIiwiaSIsInB1c2giXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBQTtBQUNPLElBQU1BLEtBQUssR0FBRyxTQUFSQSxLQUFRLENBQUFDLEdBQUcsRUFBSTtBQUMxQixNQUFNQyxHQUFHLEdBQUcsRUFBWjs7QUFDQSxPQUFLLElBQUlDLENBQUMsR0FBRyxDQUFiLEVBQWdCQSxDQUFDLEdBQUdGLEdBQXBCLEVBQXlCRSxDQUFDLEVBQTFCLEVBQThCO0FBQzVCRCxJQUFBQSxHQUFHLENBQUNFLElBQUosQ0FBU0QsQ0FBVDtBQUNEOztBQUNELFNBQU9ELEdBQVA7QUFDRCxDQU5NOzs7ZUFRUUYsSyIsInNvdXJjZXNDb250ZW50IjpbIi8vINCz0LXQvdC10YDQuNGA0YPQtdGCINC80LDRgdGB0LjQsiDQt9Cw0LTQsNC90L3QvtC5INC00LvQuNC90L3Ri1xyXG5leHBvcnQgY29uc3QgcmFuZ2UgPSBsZW4gPT4ge1xyXG4gIGNvbnN0IGFyciA9IFtdO1xyXG4gIGZvciAobGV0IGkgPSAwOyBpIDwgbGVuOyBpKyspIHtcclxuICAgIGFyci5wdXNoKGkpO1xyXG4gIH1cclxuICByZXR1cm4gYXJyO1xyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgcmFuZ2U7XHJcbiJdfQ==

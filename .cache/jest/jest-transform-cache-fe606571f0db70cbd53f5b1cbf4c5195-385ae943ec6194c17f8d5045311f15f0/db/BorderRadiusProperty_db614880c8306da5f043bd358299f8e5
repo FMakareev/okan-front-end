@@ -1,0 +1,26 @@
+753953365cc9e8367155808949a41431
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.BorderRadiusProperty = void 0;
+
+var _styledSystem = require("styled-system");
+
+var BorderRadiusProperty = (0, _styledSystem.style)({
+  // React prop name
+  prop: 'borderRadius',
+  // The corresponding CSS property (defaults to prop argument)
+  cssProperty: 'border-radius',
+  // key for theme values
+  key: 'borderRadius',
+  // convert number values to pixels
+  numberToPx: true,
+  // shorthand alias React prop name
+  alias: 'br'
+});
+exports.BorderRadiusProperty = BorderRadiusProperty;
+var _default = BorderRadiusProperty;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkJvcmRlclJhZGl1c1Byb3BlcnR5LmpzIl0sIm5hbWVzIjpbIkJvcmRlclJhZGl1c1Byb3BlcnR5IiwicHJvcCIsImNzc1Byb3BlcnR5Iiwia2V5IiwibnVtYmVyVG9QeCIsImFsaWFzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7O0FBRU8sSUFBTUEsb0JBQW9CLEdBQUcseUJBQU07QUFDeEM7QUFDQUMsRUFBQUEsSUFBSSxFQUFFLGNBRmtDO0FBR3hDO0FBQ0FDLEVBQUFBLFdBQVcsRUFBRSxlQUoyQjtBQUt4QztBQUNBQyxFQUFBQSxHQUFHLEVBQUUsY0FObUM7QUFPeEM7QUFDQUMsRUFBQUEsVUFBVSxFQUFFLElBUjRCO0FBU3hDO0FBQ0FDLEVBQUFBLEtBQUssRUFBRTtBQVZpQyxDQUFOLENBQTdCOztlQWFRTCxvQiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHN0eWxlIH0gZnJvbSAnc3R5bGVkLXN5c3RlbSc7XHJcblxyXG5leHBvcnQgY29uc3QgQm9yZGVyUmFkaXVzUHJvcGVydHkgPSBzdHlsZSh7XHJcbiAgLy8gUmVhY3QgcHJvcCBuYW1lXHJcbiAgcHJvcDogJ2JvcmRlclJhZGl1cycsXHJcbiAgLy8gVGhlIGNvcnJlc3BvbmRpbmcgQ1NTIHByb3BlcnR5IChkZWZhdWx0cyB0byBwcm9wIGFyZ3VtZW50KVxyXG4gIGNzc1Byb3BlcnR5OiAnYm9yZGVyLXJhZGl1cycsXHJcbiAgLy8ga2V5IGZvciB0aGVtZSB2YWx1ZXNcclxuICBrZXk6ICdib3JkZXJSYWRpdXMnLFxyXG4gIC8vIGNvbnZlcnQgbnVtYmVyIHZhbHVlcyB0byBwaXhlbHNcclxuICBudW1iZXJUb1B4OiB0cnVlLFxyXG4gIC8vIHNob3J0aGFuZCBhbGlhcyBSZWFjdCBwcm9wIG5hbWVcclxuICBhbGlhczogJ2JyJyxcclxufSk7XHJcblxyXG5leHBvcnQgZGVmYXVsdCBCb3JkZXJSYWRpdXNQcm9wZXJ0eTtcclxuIl19

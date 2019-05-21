@@ -1,0 +1,33 @@
+dc3a993f7aed4ea2fcf2d2ff8afc668c
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.Flex = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _styledSystem = require("styled-system");
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _Box = require("../Box/Box");
+
+var _BackgroundColorProperty = require("../../styles/styleProperty/BackgroundColorProperty");
+
+/**View */
+
+/** Style property */
+var Flex =
+/*#__PURE__*/
+(0, _styledComponents["default"])(_Box.Box).withConfig({
+  componentId: "wterhv-0"
+})(["display:flex;", ";", ";", ";", ";", ";", ";", ";", ";", ";", ";"], _styledSystem.justifyContent, _styledSystem.fontWeight, _styledSystem.alignItems, _styledSystem.alignContent, _styledSystem.flex, _styledSystem.flexBasis, _styledSystem.flexDirection, _styledSystem.flexWrap, _styledSystem.display, _BackgroundColorProperty.BackgroundColorProperty);
+exports.Flex = Flex;
+Flex.propTypes = (0, _objectSpread2["default"])({}, _styledSystem.justifyContent.propTypes, _styledSystem.alignItems.propTypes, _styledSystem.alignContent.propTypes, _styledSystem.flex.propTypes, _styledSystem.flexBasis.propTypes, _styledSystem.flexDirection.propTypes, _styledSystem.flexWrap.propTypes, _styledSystem.display.propTypes);
+var _default = Flex;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkZsZXguanMiXSwibmFtZXMiOlsiRmxleCIsIkJveCIsImp1c3RpZnlDb250ZW50IiwiZm9udFdlaWdodCIsImFsaWduSXRlbXMiLCJhbGlnbkNvbnRlbnQiLCJmbGV4IiwiZmxleEJhc2lzIiwiZmxleERpcmVjdGlvbiIsImZsZXhXcmFwIiwiZGlzcGxheSIsIkJhY2tncm91bmRDb2xvclByb3BlcnR5IiwicHJvcFR5cGVzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQUFBOztBQVdBOztBQUdBOztBQUdBOztBQUpBOztBQUdBO0FBR08sSUFBTUEsSUFBSTtBQUFBO0FBQUcsa0NBQU9DLFFBQVAsQ0FBSDtBQUFBO0FBQUEsd0VBRWJDLDRCQUZhLEVBR2JDLHdCQUhhLEVBSWJDLHdCQUphLEVBS2JDLDBCQUxhLEVBTWJDLGtCQU5hLEVBT2JDLHVCQVBhLEVBUWJDLDJCQVJhLEVBU2JDLHNCQVRhLEVBVWJDLHFCQVZhLEVBV2JDLGdEQVhhLENBQVY7O0FBY1BYLElBQUksQ0FBQ1ksU0FBTCxzQ0FDS1YsNkJBQWVVLFNBRHBCLEVBRUtSLHlCQUFXUSxTQUZoQixFQUdLUCwyQkFBYU8sU0FIbEIsRUFJS04sbUJBQUtNLFNBSlYsRUFLS0wsd0JBQVVLLFNBTGYsRUFNS0osNEJBQWNJLFNBTm5CLEVBT0tILHVCQUFTRyxTQVBkLEVBUUtGLHNCQUFRRSxTQVJiO2VBV2VaLEkiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge1xyXG4gIGp1c3RpZnlDb250ZW50LFxyXG4gIGFsaWduSXRlbXMsXHJcbiAgYWxpZ25Db250ZW50LFxyXG4gIGZsZXgsXHJcbiAgZmxleEJhc2lzLFxyXG4gIGZsZXhEaXJlY3Rpb24sXHJcbiAgZmxleFdyYXAsXHJcbiAgZGlzcGxheSxcclxuICBmb250V2VpZ2h0XHJcbn0gZnJvbSAnc3R5bGVkLXN5c3RlbSc7XHJcbmltcG9ydCBzdHlsZWQgZnJvbSAnc3R5bGVkLWNvbXBvbmVudHMnO1xyXG5cclxuLyoqVmlldyAqL1xyXG5pbXBvcnQgeyBCb3ggfSBmcm9tICcuLi9Cb3gvQm94JztcclxuXHJcbi8qKiBTdHlsZSBwcm9wZXJ0eSAqL1xyXG5pbXBvcnQgeyBCYWNrZ3JvdW5kQ29sb3JQcm9wZXJ0eSB9IGZyb20gJy4uLy4uL3N0eWxlcy9zdHlsZVByb3BlcnR5L0JhY2tncm91bmRDb2xvclByb3BlcnR5JztcclxuXHJcbmV4cG9ydCBjb25zdCBGbGV4ID0gc3R5bGVkKEJveClgXHJcbiAgZGlzcGxheTogZmxleDtcclxuICAke2p1c3RpZnlDb250ZW50fTtcclxuICAke2ZvbnRXZWlnaHR9O1xyXG4gICR7YWxpZ25JdGVtc307XHJcbiAgJHthbGlnbkNvbnRlbnR9O1xyXG4gICR7ZmxleH07XHJcbiAgJHtmbGV4QmFzaXN9O1xyXG4gICR7ZmxleERpcmVjdGlvbn07XHJcbiAgJHtmbGV4V3JhcH07XHJcbiAgJHtkaXNwbGF5fTtcclxuICAke0JhY2tncm91bmRDb2xvclByb3BlcnR5fTtcclxuYDtcclxuXHJcbkZsZXgucHJvcFR5cGVzID0ge1xyXG4gIC4uLmp1c3RpZnlDb250ZW50LnByb3BUeXBlcyxcclxuICAuLi5hbGlnbkl0ZW1zLnByb3BUeXBlcyxcclxuICAuLi5hbGlnbkNvbnRlbnQucHJvcFR5cGVzLFxyXG4gIC4uLmZsZXgucHJvcFR5cGVzLFxyXG4gIC4uLmZsZXhCYXNpcy5wcm9wVHlwZXMsXHJcbiAgLi4uZmxleERpcmVjdGlvbi5wcm9wVHlwZXMsXHJcbiAgLi4uZmxleFdyYXAucHJvcFR5cGVzLFxyXG4gIC4uLmRpc3BsYXkucHJvcFR5cGVzXHJcbn07XHJcblxyXG5leHBvcnQgZGVmYXVsdCBGbGV4O1xyXG4iXX0=

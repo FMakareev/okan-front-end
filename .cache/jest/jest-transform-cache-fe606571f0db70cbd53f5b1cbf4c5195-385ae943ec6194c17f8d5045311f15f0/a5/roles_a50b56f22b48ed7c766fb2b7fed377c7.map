@@ -1,0 +1,1 @@
+{"version":3,"sources":["roles.js"],"names":["ROLE_ADMIN","ROLE_USER","ROLE_EXTERNALCONTRACTOR"],"mappings":";;;;;;AAAO,IAAMA,UAAU,GAAG,OAAnB;;AACA,IAAMC,SAAS,GAAG,MAAlB;;AACA,IAAMC,uBAAuB,GAAG,oBAAhC","sourcesContent":["export const ROLE_ADMIN = 'admin';\r\nexport const ROLE_USER = 'user';\r\nexport const ROLE_EXTERNALCONTRACTOR = 'contractorapproval';\r\n"]}

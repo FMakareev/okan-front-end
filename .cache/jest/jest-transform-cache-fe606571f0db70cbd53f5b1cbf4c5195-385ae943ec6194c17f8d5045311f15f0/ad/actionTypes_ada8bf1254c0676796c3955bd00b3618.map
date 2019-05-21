@@ -1,0 +1,1 @@
+{"version":3,"sources":["actionTypes.js"],"names":["REMOVE_BLOCK","COPY_CELL"],"mappings":";;;;;;;AAAA;AACO,IAAMA,YAAY,GAAG,cAArB;;AACA,IAAMC,SAAS,GAAG,WAAlB","sourcesContent":["/** Экшены для привязки разделов к блокам */\r\nexport const REMOVE_BLOCK = 'REMOVE_BLOCK';\r\nexport const COPY_CELL = 'COPY_CELL';\r\n"]}

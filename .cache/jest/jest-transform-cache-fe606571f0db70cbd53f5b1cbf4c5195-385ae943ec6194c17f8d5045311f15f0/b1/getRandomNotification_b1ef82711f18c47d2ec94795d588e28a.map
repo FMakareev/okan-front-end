@@ -1,0 +1,1 @@
+{"version":3,"sources":["getRandomNotification.js"],"names":["getRandomNotification","faker","random","words"],"mappings":";;;;;;;;;AAAA;;AAEO,IAAMA,qBAAqB,GAAG,SAAxBA,qBAAwB;AAAA,SAAMC,kBAAMC,MAAN,CAAaC,KAAb,EAAN;AAAA,CAA9B","sourcesContent":["import faker from 'faker';\r\n\r\nexport const getRandomNotification = () => faker.random.words();\r\n"]}

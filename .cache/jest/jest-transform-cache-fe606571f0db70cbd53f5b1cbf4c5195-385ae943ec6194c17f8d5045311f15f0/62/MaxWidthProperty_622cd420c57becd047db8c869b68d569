@@ -1,0 +1,27 @@
+198dbdea24a92e77e904210778913123
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.MaxWidthProperty = void 0;
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var MaxWidthProperty = function MaxWidthProperty(_ref) {
+  var maxWidth = _ref.maxWidth;
+
+  if (maxWidth) {
+    return "max-width: ".concat(maxWidth);
+  }
+};
+
+exports.MaxWidthProperty = MaxWidthProperty;
+MaxWidthProperty.propTypes = {
+  maxWidth: _propTypes["default"].string
+};
+var _default = MaxWidthProperty;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIk1heFdpZHRoUHJvcGVydHkuanMiXSwibmFtZXMiOlsiTWF4V2lkdGhQcm9wZXJ0eSIsIm1heFdpZHRoIiwicHJvcFR5cGVzIiwiUHJvcFR5cGVzIiwic3RyaW5nIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFBQTs7QUFDTyxJQUFNQSxnQkFBZ0IsR0FBRyxTQUFuQkEsZ0JBQW1CLE9BQWtCO0FBQUEsTUFBZkMsUUFBZSxRQUFmQSxRQUFlOztBQUNoRCxNQUFJQSxRQUFKLEVBQWM7QUFDWixnQ0FBcUJBLFFBQXJCO0FBQ0Q7QUFDRixDQUpNOzs7QUFNUEQsZ0JBQWdCLENBQUNFLFNBQWpCLEdBQTZCO0FBQzNCRCxFQUFBQSxRQUFRLEVBQUVFLHNCQUFVQztBQURPLENBQTdCO2VBSWVKLGdCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFByb3BUeXBlcyBmcm9tICdwcm9wLXR5cGVzJztcclxuZXhwb3J0IGNvbnN0IE1heFdpZHRoUHJvcGVydHkgPSAoeyBtYXhXaWR0aCB9KSA9PiB7XHJcbiAgaWYgKG1heFdpZHRoKSB7XHJcbiAgICByZXR1cm4gYG1heC13aWR0aDogJHttYXhXaWR0aH1gO1xyXG4gIH1cclxufTtcclxuXHJcbk1heFdpZHRoUHJvcGVydHkucHJvcFR5cGVzID0ge1xyXG4gIG1heFdpZHRoOiBQcm9wVHlwZXMuc3RyaW5nLFxyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgTWF4V2lkdGhQcm9wZXJ0eTtcclxuIl19

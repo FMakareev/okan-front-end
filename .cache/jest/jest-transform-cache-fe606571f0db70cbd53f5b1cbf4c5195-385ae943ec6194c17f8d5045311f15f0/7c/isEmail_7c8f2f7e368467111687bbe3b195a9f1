@@ -1,0 +1,17 @@
+8f26dfeb0bbf03f9db4c99560a89d5ce
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.isEmail = void 0;
+
+var isEmail = function isEmail(value) {
+  var reg = new RegExp(/@okan\.su$/gi);
+  return reg.test(value) ? undefined : 'Некорректный email';
+};
+
+exports.isEmail = isEmail;
+var _default = isEmail;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImlzRW1haWwuanMiXSwibmFtZXMiOlsiaXNFbWFpbCIsInZhbHVlIiwicmVnIiwiUmVnRXhwIiwidGVzdCIsInVuZGVmaW5lZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFPLElBQU1BLE9BQU8sR0FBRyxTQUFWQSxPQUFVLENBQUFDLEtBQUssRUFBSTtBQUM5QixNQUFNQyxHQUFHLEdBQUcsSUFBSUMsTUFBSixDQUFXLGNBQVgsQ0FBWjtBQUNBLFNBQU9ELEdBQUcsQ0FBQ0UsSUFBSixDQUFTSCxLQUFULElBQWtCSSxTQUFsQixHQUE4QixvQkFBckM7QUFDRCxDQUhNOzs7ZUFLUUwsTyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjb25zdCBpc0VtYWlsID0gdmFsdWUgPT4ge1xyXG4gIGNvbnN0IHJlZyA9IG5ldyBSZWdFeHAoL0Bva2FuXFwuc3UkL2dpKTtcclxuICByZXR1cm4gcmVnLnRlc3QodmFsdWUpID8gdW5kZWZpbmVkIDogJ9Cd0LXQutC+0YDRgNC10LrRgtC90YvQuSBlbWFpbCc7XHJcbn07XHJcblxyXG5leHBvcnQgZGVmYXVsdCBpc0VtYWlsO1xyXG4iXX0=

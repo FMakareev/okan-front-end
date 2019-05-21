@@ -1,0 +1,60 @@
+643552de0342976aa8c9c6a4fb6f7c09
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.CheckAuthorization = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _withSentry = require("../../hocs/withSentry/withSentry");
+
+/**
+ * @param {array} role - массив ролей у которых есть доступ к компоненту
+ * @param {object} AccessDeniedCallback - компонент кторый должен быть отображен в случае ошибки
+ * @desc
+ * */
+var CheckAuthorization = function CheckAuthorization() {
+  var role = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var AccessDeniedCallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  return function (WrappedComponent) {
+    return function (props) {
+      try {
+        var user = props.user;
+
+        if (!user || user && user.error) {
+          return _react["default"].createElement(_reactRouterDom.Redirect, {
+            to: '/'
+          });
+        }
+
+        if (user && user.initLoading) {
+          return null;
+        }
+
+        if (user && user.role && user.role.name && role.length && !role.filter(function (item) {
+          return item === user.role.name;
+        }).length) {
+          return AccessDeniedCallback || _react["default"].createElement(_reactRouterDom.Redirect, {
+            to: '/'
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        (0, _withSentry.captureException)(error);
+      }
+
+      return _react["default"].createElement(WrappedComponent, props);
+    };
+  };
+};
+
+exports.CheckAuthorization = CheckAuthorization;
+var _default = CheckAuthorization;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkNoZWNrQXV0aG9yaXphdGlvbi5qcyJdLCJuYW1lcyI6WyJDaGVja0F1dGhvcml6YXRpb24iLCJyb2xlIiwiQWNjZXNzRGVuaWVkQ2FsbGJhY2siLCJXcmFwcGVkQ29tcG9uZW50IiwicHJvcHMiLCJ1c2VyIiwiZXJyb3IiLCJpbml0TG9hZGluZyIsIm5hbWUiLCJsZW5ndGgiLCJmaWx0ZXIiLCJpdGVtIiwiY29uc29sZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUE7O0FBQ0E7O0FBQ0E7O0FBRUE7Ozs7O0FBS08sSUFBSUEsa0JBQWtCLEdBQUcsU0FBckJBLGtCQUFxQjtBQUFBLE1BQUNDLElBQUQsdUVBQVEsRUFBUjtBQUFBLE1BQVlDLG9CQUFaLHVFQUFtQyxJQUFuQztBQUFBLFNBQTRDLFVBQUFDLGdCQUFnQixFQUFJO0FBQzlGLFdBQU8sVUFBQUMsS0FBSyxFQUFJO0FBQ2QsVUFBSTtBQUFBLFlBQ01DLElBRE4sR0FDZUQsS0FEZixDQUNNQyxJQUROOztBQUVGLFlBQUksQ0FBQ0EsSUFBRCxJQUFVQSxJQUFJLElBQUlBLElBQUksQ0FBQ0MsS0FBM0IsRUFBbUM7QUFDakMsaUJBQU8sZ0NBQUMsd0JBQUQ7QUFBVSxZQUFBLEVBQUUsRUFBRTtBQUFkLFlBQVA7QUFDRDs7QUFDRCxZQUFJRCxJQUFJLElBQUlBLElBQUksQ0FBQ0UsV0FBakIsRUFBOEI7QUFDNUIsaUJBQU8sSUFBUDtBQUNEOztBQUNELFlBQUlGLElBQUksSUFBSUEsSUFBSSxDQUFDSixJQUFiLElBQXFCSSxJQUFJLENBQUNKLElBQUwsQ0FBVU8sSUFBL0IsSUFBdUNQLElBQUksQ0FBQ1EsTUFBNUMsSUFBc0QsQ0FBQ1IsSUFBSSxDQUFDUyxNQUFMLENBQVksVUFBQUMsSUFBSTtBQUFBLGlCQUFJQSxJQUFJLEtBQUtOLElBQUksQ0FBQ0osSUFBTCxDQUFVTyxJQUF2QjtBQUFBLFNBQWhCLEVBQTZDQyxNQUF4RyxFQUFnSDtBQUM5RyxpQkFBT1Asb0JBQW9CLElBQUksZ0NBQUMsd0JBQUQ7QUFBVSxZQUFBLEVBQUUsRUFBRTtBQUFkLFlBQS9CO0FBQ0Q7QUFDRixPQVhELENBV0UsT0FBT0ksS0FBUCxFQUFjO0FBQ2RNLFFBQUFBLE9BQU8sQ0FBQ04sS0FBUixDQUFjQSxLQUFkO0FBQ0EsMENBQWlCQSxLQUFqQjtBQUNEOztBQUNELGFBQU8sZ0NBQUMsZ0JBQUQsRUFBc0JGLEtBQXRCLENBQVA7QUFDRCxLQWpCRDtBQWtCRCxHQW5CK0I7QUFBQSxDQUF6Qjs7O2VBcUJRSixrQiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XHJcbmltcG9ydCB7IFJlZGlyZWN0IH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSc7XHJcbmltcG9ydCB7Y2FwdHVyZUV4Y2VwdGlvbn0gZnJvbSBcIi4uLy4uL2hvY3Mvd2l0aFNlbnRyeS93aXRoU2VudHJ5XCI7XHJcblxyXG4vKipcclxuICogQHBhcmFtIHthcnJheX0gcm9sZSAtINC80LDRgdGB0LjQsiDRgNC+0LvQtdC5INGDINC60L7RgtC+0YDRi9GFINC10YHRgtGMINC00L7RgdGC0YPQvyDQuiDQutC+0LzQv9C+0L3QtdC90YLRg1xyXG4gKiBAcGFyYW0ge29iamVjdH0gQWNjZXNzRGVuaWVkQ2FsbGJhY2sgLSDQutC+0LzQv9C+0L3QtdC90YIg0LrRgtC+0YDRi9C5INC00L7Qu9C20LXQvSDQsdGL0YLRjCDQvtGC0L7QsdGA0LDQttC10L0g0LIg0YHQu9GD0YfQsNC1INC+0YjQuNCx0LrQuFxyXG4gKiBAZGVzY1xyXG4gKiAqL1xyXG5leHBvcnQgbGV0IENoZWNrQXV0aG9yaXphdGlvbiA9IChyb2xlID0gW10sIEFjY2Vzc0RlbmllZENhbGxiYWNrID0gbnVsbCkgPT4gV3JhcHBlZENvbXBvbmVudCA9PiB7XHJcbiAgcmV0dXJuIHByb3BzID0+IHtcclxuICAgIHRyeSB7XHJcbiAgICAgIGNvbnN0IHsgdXNlciB9ID0gcHJvcHM7XHJcbiAgICAgIGlmICghdXNlciB8fCAodXNlciAmJiB1c2VyLmVycm9yKSkge1xyXG4gICAgICAgIHJldHVybiA8UmVkaXJlY3QgdG89eycvJ30gLz47XHJcbiAgICAgIH1cclxuICAgICAgaWYgKHVzZXIgJiYgdXNlci5pbml0TG9hZGluZykge1xyXG4gICAgICAgIHJldHVybiBudWxsO1xyXG4gICAgICB9XHJcbiAgICAgIGlmICh1c2VyICYmIHVzZXIucm9sZSAmJiB1c2VyLnJvbGUubmFtZSAmJiByb2xlLmxlbmd0aCAmJiAhcm9sZS5maWx0ZXIoaXRlbSA9PiBpdGVtID09PSB1c2VyLnJvbGUubmFtZSkubGVuZ3RoKSB7XHJcbiAgICAgICAgcmV0dXJuIEFjY2Vzc0RlbmllZENhbGxiYWNrIHx8IDxSZWRpcmVjdCB0bz17Jy8nfSAvPjtcclxuICAgICAgfVxyXG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcclxuICAgICAgY29uc29sZS5lcnJvcihlcnJvcik7XHJcbiAgICAgIGNhcHR1cmVFeGNlcHRpb24oZXJyb3IpO1xyXG4gICAgfVxyXG4gICAgcmV0dXJuIDxXcmFwcGVkQ29tcG9uZW50IHsuLi5wcm9wc30gLz47XHJcbiAgfTtcclxufTtcclxuXHJcbmV4cG9ydCBkZWZhdWx0IENoZWNrQXV0aG9yaXphdGlvbjtcclxuIl19

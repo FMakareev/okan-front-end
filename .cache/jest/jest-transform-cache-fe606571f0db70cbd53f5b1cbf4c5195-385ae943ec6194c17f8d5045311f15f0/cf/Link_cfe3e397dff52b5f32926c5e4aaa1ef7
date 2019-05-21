@@ -1,0 +1,70 @@
+647964ffc6789aa0cd1c74ba31d4aa2f
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.Link = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _styledSystem = require("styled-system");
+
+var _FontSizeProperty = require("../../styles/styleProperty/FontSizeProperty");
+
+/** Style property */
+var Link =
+/*#__PURE__*/
+(0, _styledComponents["default"])(_reactRouterDom.Link).withConfig({
+  componentId: "sc-16q6qw8-0"
+})(["color:#dedede;", ";", ";", ";", ";", ";", ";&:hover{", ";}"], _styledSystem.space, _styledSystem.width, _FontSizeProperty.FontSizeProperty, _styledSystem.display, _styledSystem.color, function (_ref) {
+  var textDecoration = _ref.textDecoration;
+  return "text-decoration: ".concat(textDecoration, ";");
+}, function (props) {
+  return (0, _styledSystem.color)((0, _objectSpread2["default"])({}, props, {
+    color: 'color3'
+  }));
+});
+exports.Link = Link;
+Link.propTypes = {
+  /** Children */
+  children: _propTypes["default"].any,
+
+  /** Description of prop "px: padding-left and padding-right". */
+  px: _propTypes["default"].number,
+
+  /** Description of prop "py: padding-top and padding-bottom". */
+  py: _propTypes["default"].number,
+
+  /** Description of font sizes */
+  fontSize: _propTypes["default"].number,
+
+  /** Description of proline-height. */
+  lh: _propTypes["default"].number,
+
+  /** Description of prop "ml: margin-left". */
+  ml: _propTypes["default"].number,
+
+  /** Description of prop "mb: margin-bottom". */
+  mb: _propTypes["default"].number,
+  textDecoration: _propTypes["default"].string
+};
+Link.defaultProps = {
+  textDecoration: 'none'
+};
+/**
+ * Компонент ссылки
+ * @example ./Link.example.md
+ */
+
+var _default = Link;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkxpbmsuanMiXSwibmFtZXMiOlsiTGluayIsIkRlZmF1bHRMaW5rIiwic3BhY2UiLCJ3aWR0aCIsIkZvbnRTaXplUHJvcGVydHkiLCJkaXNwbGF5IiwiY29sb3IiLCJ0ZXh0RGVjb3JhdGlvbiIsInByb3BzIiwicHJvcFR5cGVzIiwiY2hpbGRyZW4iLCJQcm9wVHlwZXMiLCJhbnkiLCJweCIsIm51bWJlciIsInB5IiwiZm9udFNpemUiLCJsaCIsIm1sIiwibWIiLCJzdHJpbmciLCJkZWZhdWx0UHJvcHMiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUE7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBR0E7O0FBREE7QUFHTyxJQUFNQSxJQUFJO0FBQUE7QUFBRyxrQ0FBT0Msb0JBQVAsQ0FBSDtBQUFBO0FBQUEsbUVBRWJDLG1CQUZhLEVBR2JDLG1CQUhhLEVBSWJDLGtDQUphLEVBS2JDLHFCQUxhLEVBTWJDLG1CQU5hLEVBT2I7QUFBQSxNQUFHQyxjQUFILFFBQUdBLGNBQUg7QUFBQSxvQ0FBNENBLGNBQTVDO0FBQUEsQ0FQYSxFQVVYLFVBQUFDLEtBQUs7QUFBQSxTQUFJLDREQUFXQSxLQUFYO0FBQWtCRixJQUFBQSxLQUFLLEVBQUU7QUFBekIsS0FBSjtBQUFBLENBVk0sQ0FBVjs7QUFjUE4sSUFBSSxDQUFDUyxTQUFMLEdBQWlCO0FBQ2Y7QUFDQUMsRUFBQUEsUUFBUSxFQUFFQyxzQkFBVUMsR0FGTDs7QUFHZjtBQUNBQyxFQUFBQSxFQUFFLEVBQUVGLHNCQUFVRyxNQUpDOztBQUtmO0FBQ0FDLEVBQUFBLEVBQUUsRUFBRUosc0JBQVVHLE1BTkM7O0FBT2Y7QUFDQUUsRUFBQUEsUUFBUSxFQUFFTCxzQkFBVUcsTUFSTDs7QUFTZjtBQUNBRyxFQUFBQSxFQUFFLEVBQUVOLHNCQUFVRyxNQVZDOztBQVdmO0FBQ0FJLEVBQUFBLEVBQUUsRUFBRVAsc0JBQVVHLE1BWkM7O0FBYWY7QUFDQUssRUFBQUEsRUFBRSxFQUFFUixzQkFBVUcsTUFkQztBQWVmUCxFQUFBQSxjQUFjLEVBQUVJLHNCQUFVUztBQWZYLENBQWpCO0FBa0JBcEIsSUFBSSxDQUFDcUIsWUFBTCxHQUFvQjtBQUNsQmQsRUFBQUEsY0FBYyxFQUFFO0FBREUsQ0FBcEI7QUFJQTs7Ozs7ZUFLZVAsSSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBQcm9wVHlwZXMgZnJvbSAncHJvcC10eXBlcyc7XHJcbmltcG9ydCB7IExpbmsgYXMgRGVmYXVsdExpbmsgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJztcclxuaW1wb3J0IHN0eWxlZCBmcm9tICdzdHlsZWQtY29tcG9uZW50cyc7XHJcbmltcG9ydCB7IHNwYWNlLCB3aWR0aCwgZGlzcGxheSwgY29sb3IgfSBmcm9tICdzdHlsZWQtc3lzdGVtJztcclxuXHJcbi8qKiBTdHlsZSBwcm9wZXJ0eSAqL1xyXG5pbXBvcnQgeyBGb250U2l6ZVByb3BlcnR5IH0gZnJvbSAnLi4vLi4vc3R5bGVzL3N0eWxlUHJvcGVydHkvRm9udFNpemVQcm9wZXJ0eSc7XHJcblxyXG5leHBvcnQgY29uc3QgTGluayA9IHN0eWxlZChEZWZhdWx0TGluaylgXHJcbiAgY29sb3I6ICNkZWRlZGU7XHJcbiAgJHtzcGFjZX07XHJcbiAgJHt3aWR0aH07XHJcbiAgJHtGb250U2l6ZVByb3BlcnR5fTtcclxuICAke2Rpc3BsYXl9O1xyXG4gICR7Y29sb3J9O1xyXG4gICR7KHsgdGV4dERlY29yYXRpb24gfSkgPT4gYHRleHQtZGVjb3JhdGlvbjogJHt0ZXh0RGVjb3JhdGlvbn07YH07XHJcblxyXG4gICY6aG92ZXIge1xyXG4gICAgJHtwcm9wcyA9PiBjb2xvcih7IC4uLnByb3BzLCBjb2xvcjogJ2NvbG9yMycgfSl9O1xyXG4gIH1cclxuYDtcclxuXHJcbkxpbmsucHJvcFR5cGVzID0ge1xyXG4gIC8qKiBDaGlsZHJlbiAqL1xyXG4gIGNoaWxkcmVuOiBQcm9wVHlwZXMuYW55LFxyXG4gIC8qKiBEZXNjcmlwdGlvbiBvZiBwcm9wIFwicHg6IHBhZGRpbmctbGVmdCBhbmQgcGFkZGluZy1yaWdodFwiLiAqL1xyXG4gIHB4OiBQcm9wVHlwZXMubnVtYmVyLFxyXG4gIC8qKiBEZXNjcmlwdGlvbiBvZiBwcm9wIFwicHk6IHBhZGRpbmctdG9wIGFuZCBwYWRkaW5nLWJvdHRvbVwiLiAqL1xyXG4gIHB5OiBQcm9wVHlwZXMubnVtYmVyLFxyXG4gIC8qKiBEZXNjcmlwdGlvbiBvZiBmb250IHNpemVzICovXHJcbiAgZm9udFNpemU6IFByb3BUeXBlcy5udW1iZXIsXHJcbiAgLyoqIERlc2NyaXB0aW9uIG9mIHByb2xpbmUtaGVpZ2h0LiAqL1xyXG4gIGxoOiBQcm9wVHlwZXMubnVtYmVyLFxyXG4gIC8qKiBEZXNjcmlwdGlvbiBvZiBwcm9wIFwibWw6IG1hcmdpbi1sZWZ0XCIuICovXHJcbiAgbWw6IFByb3BUeXBlcy5udW1iZXIsXHJcbiAgLyoqIERlc2NyaXB0aW9uIG9mIHByb3AgXCJtYjogbWFyZ2luLWJvdHRvbVwiLiAqL1xyXG4gIG1iOiBQcm9wVHlwZXMubnVtYmVyLFxyXG4gIHRleHREZWNvcmF0aW9uOiBQcm9wVHlwZXMuc3RyaW5nLFxyXG59O1xyXG5cclxuTGluay5kZWZhdWx0UHJvcHMgPSB7XHJcbiAgdGV4dERlY29yYXRpb246ICdub25lJyxcclxufTtcclxuXHJcbi8qKlxyXG4gKiDQmtC+0LzQv9C+0L3QtdC90YIg0YHRgdGL0LvQutC4XHJcbiAqIEBleGFtcGxlIC4vTGluay5leGFtcGxlLm1kXHJcbiAqL1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgTGluaztcclxuIl19

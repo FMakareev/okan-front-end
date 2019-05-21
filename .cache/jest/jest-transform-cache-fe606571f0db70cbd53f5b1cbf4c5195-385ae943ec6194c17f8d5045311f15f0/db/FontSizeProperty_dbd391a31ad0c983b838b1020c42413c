@@ -1,0 +1,26 @@
+a55dedf50ee30dff44468476e3348392
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.FontSizeProperty = void 0;
+
+var _styledSystem = require("styled-system");
+
+var FontSizeProperty = (0, _styledSystem.style)({
+  // React prop name
+  prop: 'fontSize',
+  // The corresponding CSS property (defaults to prop argument)
+  cssProperty: 'font-size',
+  // key for theme values
+  key: 'fontSizes',
+  // convert number values to pixels
+  numberToPx: true,
+  // shorthand alias React prop name
+  alias: 'fz'
+});
+exports.FontSizeProperty = FontSizeProperty;
+var _default = FontSizeProperty;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkZvbnRTaXplUHJvcGVydHkuanMiXSwibmFtZXMiOlsiRm9udFNpemVQcm9wZXJ0eSIsInByb3AiLCJjc3NQcm9wZXJ0eSIsImtleSIsIm51bWJlclRvUHgiLCJhbGlhcyJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOztBQUVPLElBQU1BLGdCQUFnQixHQUFHLHlCQUFNO0FBQ3BDO0FBQ0FDLEVBQUFBLElBQUksRUFBRSxVQUY4QjtBQUdwQztBQUNBQyxFQUFBQSxXQUFXLEVBQUUsV0FKdUI7QUFLcEM7QUFDQUMsRUFBQUEsR0FBRyxFQUFFLFdBTitCO0FBT3BDO0FBQ0FDLEVBQUFBLFVBQVUsRUFBRSxJQVJ3QjtBQVNwQztBQUNBQyxFQUFBQSxLQUFLLEVBQUU7QUFWNkIsQ0FBTixDQUF6Qjs7ZUFhUUwsZ0IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBzdHlsZSB9IGZyb20gJ3N0eWxlZC1zeXN0ZW0nO1xyXG5cclxuZXhwb3J0IGNvbnN0IEZvbnRTaXplUHJvcGVydHkgPSBzdHlsZSh7XHJcbiAgLy8gUmVhY3QgcHJvcCBuYW1lXHJcbiAgcHJvcDogJ2ZvbnRTaXplJyxcclxuICAvLyBUaGUgY29ycmVzcG9uZGluZyBDU1MgcHJvcGVydHkgKGRlZmF1bHRzIHRvIHByb3AgYXJndW1lbnQpXHJcbiAgY3NzUHJvcGVydHk6ICdmb250LXNpemUnLFxyXG4gIC8vIGtleSBmb3IgdGhlbWUgdmFsdWVzXHJcbiAga2V5OiAnZm9udFNpemVzJyxcclxuICAvLyBjb252ZXJ0IG51bWJlciB2YWx1ZXMgdG8gcGl4ZWxzXHJcbiAgbnVtYmVyVG9QeDogdHJ1ZSxcclxuICAvLyBzaG9ydGhhbmQgYWxpYXMgUmVhY3QgcHJvcCBuYW1lXHJcbiAgYWxpYXM6ICdmeicsXHJcbn0pO1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgRm9udFNpemVQcm9wZXJ0eTtcclxuIl19

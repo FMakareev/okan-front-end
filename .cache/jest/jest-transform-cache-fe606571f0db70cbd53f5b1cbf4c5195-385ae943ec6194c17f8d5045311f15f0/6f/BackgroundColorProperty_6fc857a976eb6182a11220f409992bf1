@@ -1,0 +1,26 @@
+f88936a4366abb6ce021d2d10c1ece71
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.BackgroundColorProperty = void 0;
+
+var _styledSystem = require("styled-system");
+
+var BackgroundColorProperty = (0, _styledSystem.style)({
+  // React prop name
+  prop: 'backgroundColor',
+  // The corresponding CSS property (defaults to prop argument)
+  cssProperty: 'background-color',
+  // key for theme values
+  key: 'colors',
+  // convert number values to pixels
+  numberToPx: false,
+  // shorthand alias React prop name
+  alias: 'bgc'
+});
+exports.BackgroundColorProperty = BackgroundColorProperty;
+var _default = BackgroundColorProperty;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkJhY2tncm91bmRDb2xvclByb3BlcnR5LmpzIl0sIm5hbWVzIjpbIkJhY2tncm91bmRDb2xvclByb3BlcnR5IiwicHJvcCIsImNzc1Byb3BlcnR5Iiwia2V5IiwibnVtYmVyVG9QeCIsImFsaWFzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7O0FBRU8sSUFBTUEsdUJBQXVCLEdBQUcseUJBQU07QUFDM0M7QUFDQUMsRUFBQUEsSUFBSSxFQUFFLGlCQUZxQztBQUczQztBQUNBQyxFQUFBQSxXQUFXLEVBQUUsa0JBSjhCO0FBSzNDO0FBQ0FDLEVBQUFBLEdBQUcsRUFBRSxRQU5zQztBQU8zQztBQUNBQyxFQUFBQSxVQUFVLEVBQUUsS0FSK0I7QUFTM0M7QUFDQUMsRUFBQUEsS0FBSyxFQUFFO0FBVm9DLENBQU4sQ0FBaEM7O2VBYVFMLHVCIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgc3R5bGUgfSBmcm9tICdzdHlsZWQtc3lzdGVtJztcclxuXHJcbmV4cG9ydCBjb25zdCBCYWNrZ3JvdW5kQ29sb3JQcm9wZXJ0eSA9IHN0eWxlKHtcclxuICAvLyBSZWFjdCBwcm9wIG5hbWVcclxuICBwcm9wOiAnYmFja2dyb3VuZENvbG9yJyxcclxuICAvLyBUaGUgY29ycmVzcG9uZGluZyBDU1MgcHJvcGVydHkgKGRlZmF1bHRzIHRvIHByb3AgYXJndW1lbnQpXHJcbiAgY3NzUHJvcGVydHk6ICdiYWNrZ3JvdW5kLWNvbG9yJyxcclxuICAvLyBrZXkgZm9yIHRoZW1lIHZhbHVlc1xyXG4gIGtleTogJ2NvbG9ycycsXHJcbiAgLy8gY29udmVydCBudW1iZXIgdmFsdWVzIHRvIHBpeGVsc1xyXG4gIG51bWJlclRvUHg6IGZhbHNlLFxyXG4gIC8vIHNob3J0aGFuZCBhbGlhcyBSZWFjdCBwcm9wIG5hbWVcclxuICBhbGlhczogJ2JnYycsXHJcbn0pO1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgQmFja2dyb3VuZENvbG9yUHJvcGVydHk7XHJcbiJdfQ==

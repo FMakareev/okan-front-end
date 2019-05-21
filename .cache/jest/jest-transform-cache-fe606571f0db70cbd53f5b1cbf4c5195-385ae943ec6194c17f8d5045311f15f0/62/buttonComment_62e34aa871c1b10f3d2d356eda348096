@@ -1,0 +1,29 @@
+3b9676eca14f78a12fe8ee882427d596
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ButtonComment = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var somePropertyButton = {
+  border: 0,
+  minWidth: '20px'
+};
+var ButtonComment = {
+  newComment: (0, _objectSpread2["default"])({
+    fill: '#df4624'
+  }, somePropertyButton),
+  emptyComment: (0, _objectSpread2["default"])({
+    fill: '#848484'
+  }, somePropertyButton),
+  comment: (0, _objectSpread2["default"])({
+    fill: '#006699'
+  }, somePropertyButton)
+};
+exports.ButtonComment = ButtonComment;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJ1dHRvbkNvbW1lbnQuanMiXSwibmFtZXMiOlsic29tZVByb3BlcnR5QnV0dG9uIiwiYm9yZGVyIiwibWluV2lkdGgiLCJCdXR0b25Db21tZW50IiwibmV3Q29tbWVudCIsImZpbGwiLCJlbXB0eUNvbW1lbnQiLCJjb21tZW50Il0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQUFBLElBQU1BLGtCQUFrQixHQUFHO0FBQUVDLEVBQUFBLE1BQU0sRUFBRSxDQUFWO0FBQWFDLEVBQUFBLFFBQVEsRUFBRTtBQUF2QixDQUEzQjtBQUVPLElBQU1DLGFBQWEsR0FBRztBQUMzQkMsRUFBQUEsVUFBVTtBQUFJQyxJQUFBQSxJQUFJLEVBQUU7QUFBVixLQUF3Qkwsa0JBQXhCLENBRGlCO0FBRTNCTSxFQUFBQSxZQUFZO0FBQUlELElBQUFBLElBQUksRUFBRTtBQUFWLEtBQXdCTCxrQkFBeEIsQ0FGZTtBQUczQk8sRUFBQUEsT0FBTztBQUFJRixJQUFBQSxJQUFJLEVBQUU7QUFBVixLQUF3Qkwsa0JBQXhCO0FBSG9CLENBQXRCIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3Qgc29tZVByb3BlcnR5QnV0dG9uID0geyBib3JkZXI6IDAsIG1pbldpZHRoOiAnMjBweCcgfTtcclxuXHJcbmV4cG9ydCBjb25zdCBCdXR0b25Db21tZW50ID0ge1xyXG4gIG5ld0NvbW1lbnQ6IHsgZmlsbDogJyNkZjQ2MjQnLCAuLi5zb21lUHJvcGVydHlCdXR0b24gfSxcclxuICBlbXB0eUNvbW1lbnQ6IHsgZmlsbDogJyM4NDg0ODQnLCAuLi5zb21lUHJvcGVydHlCdXR0b24gfSxcclxuICBjb21tZW50OiB7IGZpbGw6ICcjMDA2Njk5JywgLi4uc29tZVByb3BlcnR5QnV0dG9uIH0sXHJcbn07XHJcblxyXG4iXX0=

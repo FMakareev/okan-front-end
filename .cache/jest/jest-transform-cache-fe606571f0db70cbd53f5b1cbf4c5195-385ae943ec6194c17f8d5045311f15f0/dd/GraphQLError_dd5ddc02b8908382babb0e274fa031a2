@@ -1,0 +1,57 @@
+0b5ec4a874474474c363891885033367
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.GraphQLError = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var GraphQLError = function GraphQLError(error) {
+  switch (error.message) {
+    case 'GraphQL error: User not logged':
+      {
+        return {
+          message: 'error_user_not_logged',
+          redirect: '/logout'
+        };
+      }
+
+    case 'GraphQL error: User session not found':
+      {
+        return {
+          message: 'error_user_session_not_found_title',
+          redirect: '/logout'
+        };
+      }
+
+    case 'GraphQL error: You not accessed':
+      {
+        return {
+          title: 'error_access_denied_title',
+          message: 'error_access_denied_message'
+        };
+      }
+
+    case 'GraphQL error: not found':
+      {
+        return {
+          title: 'error_page_not_found_title',
+          message: 'error_page_not_found_title'
+        };
+      }
+
+    default:
+      return {
+        title: 'error_unexpected_error_title'
+      };
+  }
+};
+
+exports.GraphQLError = GraphQLError;
+var _default = GraphQLError;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkdyYXBoUUxFcnJvci5qcyJdLCJuYW1lcyI6WyJHcmFwaFFMRXJyb3IiLCJlcnJvciIsIm1lc3NhZ2UiLCJyZWRpcmVjdCIsInRpdGxlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFBQTs7QUFFTyxJQUFNQSxZQUFZLEdBQUcsU0FBZkEsWUFBZSxDQUFBQyxLQUFLLEVBQUk7QUFDbkMsVUFBUUEsS0FBSyxDQUFDQyxPQUFkO0FBQ0UsU0FBSyxnQ0FBTDtBQUF1QztBQUNyQyxlQUFPO0FBQ0xBLFVBQUFBLE9BQU8sRUFBRSx1QkFESjtBQUVMQyxVQUFBQSxRQUFRLEVBQUU7QUFGTCxTQUFQO0FBSUQ7O0FBQ0QsU0FBSyx1Q0FBTDtBQUE4QztBQUM1QyxlQUFPO0FBQ0xELFVBQUFBLE9BQU8sRUFBRSxvQ0FESjtBQUVMQyxVQUFBQSxRQUFRLEVBQUU7QUFGTCxTQUFQO0FBSUQ7O0FBQ0QsU0FBSyxpQ0FBTDtBQUF3QztBQUN0QyxlQUFPO0FBQ0xDLFVBQUFBLEtBQUssRUFBRSwyQkFERjtBQUVMRixVQUFBQSxPQUFPLEVBQUU7QUFGSixTQUFQO0FBSUQ7O0FBQ0QsU0FBSywwQkFBTDtBQUFpQztBQUMvQixlQUFPO0FBQUVFLFVBQUFBLEtBQUssRUFBRSw0QkFBVDtBQUF1Q0YsVUFBQUEsT0FBTyxFQUFFO0FBQWhELFNBQVA7QUFDRDs7QUFDRDtBQUNFLGFBQU87QUFDTEUsUUFBQUEsS0FBSyxFQUFFO0FBREYsT0FBUDtBQXZCSjtBQTJCRCxDQTVCTTs7O2VBOEJRSixZIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcclxuXHJcbmV4cG9ydCBjb25zdCBHcmFwaFFMRXJyb3IgPSBlcnJvciA9PiB7XHJcbiAgc3dpdGNoIChlcnJvci5tZXNzYWdlKSB7XHJcbiAgICBjYXNlICdHcmFwaFFMIGVycm9yOiBVc2VyIG5vdCBsb2dnZWQnOiB7XHJcbiAgICAgIHJldHVybiB7XHJcbiAgICAgICAgbWVzc2FnZTogJ2Vycm9yX3VzZXJfbm90X2xvZ2dlZCcsXHJcbiAgICAgICAgcmVkaXJlY3Q6ICcvbG9nb3V0JyxcclxuICAgICAgfTtcclxuICAgIH1cclxuICAgIGNhc2UgJ0dyYXBoUUwgZXJyb3I6IFVzZXIgc2Vzc2lvbiBub3QgZm91bmQnOiB7XHJcbiAgICAgIHJldHVybiB7XHJcbiAgICAgICAgbWVzc2FnZTogJ2Vycm9yX3VzZXJfc2Vzc2lvbl9ub3RfZm91bmRfdGl0bGUnLFxyXG4gICAgICAgIHJlZGlyZWN0OiAnL2xvZ291dCcsXHJcbiAgICAgIH07XHJcbiAgICB9XHJcbiAgICBjYXNlICdHcmFwaFFMIGVycm9yOiBZb3Ugbm90IGFjY2Vzc2VkJzoge1xyXG4gICAgICByZXR1cm4ge1xyXG4gICAgICAgIHRpdGxlOiAnZXJyb3JfYWNjZXNzX2RlbmllZF90aXRsZScsXHJcbiAgICAgICAgbWVzc2FnZTogJ2Vycm9yX2FjY2Vzc19kZW5pZWRfbWVzc2FnZScsXHJcbiAgICAgIH07XHJcbiAgICB9XHJcbiAgICBjYXNlICdHcmFwaFFMIGVycm9yOiBub3QgZm91bmQnOiB7XHJcbiAgICAgIHJldHVybiB7IHRpdGxlOiAnZXJyb3JfcGFnZV9ub3RfZm91bmRfdGl0bGUnLCBtZXNzYWdlOiAnZXJyb3JfcGFnZV9ub3RfZm91bmRfdGl0bGUnIH07XHJcbiAgICB9XHJcbiAgICBkZWZhdWx0OlxyXG4gICAgICByZXR1cm4ge1xyXG4gICAgICAgIHRpdGxlOiAnZXJyb3JfdW5leHBlY3RlZF9lcnJvcl90aXRsZScsXHJcbiAgICAgIH07XHJcbiAgfVxyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgR3JhcGhRTEVycm9yO1xyXG4iXX0=

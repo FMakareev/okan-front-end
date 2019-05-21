@@ -1,0 +1,14 @@
+b4c8626467d69033ab21c107e6f04c00
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.COPY_CELL = exports.REMOVE_BLOCK = void 0;
+
+/** Экшены для привязки разделов к блокам */
+var REMOVE_BLOCK = 'REMOVE_BLOCK';
+exports.REMOVE_BLOCK = REMOVE_BLOCK;
+var COPY_CELL = 'COPY_CELL';
+exports.COPY_CELL = COPY_CELL;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFjdGlvblR5cGVzLmpzIl0sIm5hbWVzIjpbIlJFTU9WRV9CTE9DSyIsIkNPUFlfQ0VMTCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBO0FBQ08sSUFBTUEsWUFBWSxHQUFHLGNBQXJCOztBQUNBLElBQU1DLFNBQVMsR0FBRyxXQUFsQiIsInNvdXJjZXNDb250ZW50IjpbIi8qKiDQrdC60YjQtdC90Ysg0LTQu9GPINC/0YDQuNCy0Y/Qt9C60Lgg0YDQsNC30LTQtdC70L7QsiDQuiDQsdC70L7QutCw0LwgKi9cclxuZXhwb3J0IGNvbnN0IFJFTU9WRV9CTE9DSyA9ICdSRU1PVkVfQkxPQ0snO1xyXG5leHBvcnQgY29uc3QgQ09QWV9DRUxMID0gJ0NPUFlfQ0VMTCc7XHJcbiJdfQ==

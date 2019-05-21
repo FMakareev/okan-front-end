@@ -1,0 +1,61 @@
+416c7f422f59100d2b55c9b6eb4f83c4
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.withSentry = exports.captureMessage = exports.captureException = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var Sentry = _interopRequireWildcard(require("@sentry/browser"));
+
+/**
+ * @desc метод для отправки объекта ошибки в sentry
+ * */
+var captureException = function captureException(error) {
+  var errorTitle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Error: ';
+  console.error(errorTitle, error);
+
+  if (process.env.NODE_ENV === 'production') {
+    Sentry.captureException(error);
+  }
+};
+/**
+ * @desc метод для отправки обычного сообщения в sentry, как правило он не используется
+ * */
+
+
+exports.captureException = captureException;
+
+var captureMessage = function captureMessage(message) {
+  if (process.env.NODE_ENV === 'production') {
+    Sentry.captureMessage(message);
+  }
+};
+/**
+ * @desc
+ * */
+
+
+exports.captureMessage = captureMessage;
+
+var withSentry = function withSentry(WrappedComponent) {
+  return function (props) {
+    return _react["default"].createElement(WrappedComponent, (0, _extends2["default"])({
+      captureException: captureException,
+      captureMessage: captureMessage
+    }, props));
+  };
+};
+
+exports.withSentry = withSentry;
+var _default = withSentry;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndpdGhTZW50cnkuanMiXSwibmFtZXMiOlsiY2FwdHVyZUV4Y2VwdGlvbiIsImVycm9yIiwiZXJyb3JUaXRsZSIsImNvbnNvbGUiLCJwcm9jZXNzIiwiZW52IiwiTk9ERV9FTlYiLCJTZW50cnkiLCJjYXB0dXJlTWVzc2FnZSIsIm1lc3NhZ2UiLCJ3aXRoU2VudHJ5IiwiV3JhcHBlZENvbXBvbmVudCIsInByb3BzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7O0FBQUE7O0FBQ0E7O0FBRUE7OztBQUdPLElBQU1BLGdCQUFnQixHQUFHLFNBQW5CQSxnQkFBbUIsQ0FBQ0MsS0FBRCxFQUFtQztBQUFBLE1BQTNCQyxVQUEyQix1RUFBZCxTQUFjO0FBQ2pFQyxFQUFBQSxPQUFPLENBQUNGLEtBQVIsQ0FBY0MsVUFBZCxFQUEwQkQsS0FBMUI7O0FBQ0EsTUFBSUcsT0FBTyxDQUFDQyxHQUFSLENBQVlDLFFBQVosS0FBeUIsWUFBN0IsRUFBMkM7QUFDekNDLElBQUFBLE1BQU0sQ0FBQ1AsZ0JBQVAsQ0FBd0JDLEtBQXhCO0FBQ0Q7QUFDRixDQUxNO0FBT1A7Ozs7Ozs7QUFHTyxJQUFNTyxjQUFjLEdBQUcsU0FBakJBLGNBQWlCLENBQUNDLE9BQUQsRUFBYTtBQUN6QyxNQUFJTCxPQUFPLENBQUNDLEdBQVIsQ0FBWUMsUUFBWixLQUF5QixZQUE3QixFQUEyQztBQUN6Q0MsSUFBQUEsTUFBTSxDQUFDQyxjQUFQLENBQXNCQyxPQUF0QjtBQUNEO0FBQ0YsQ0FKTTtBQU1QOzs7Ozs7O0FBR08sSUFBSUMsVUFBVSxHQUFHLFNBQWJBLFVBQWEsQ0FBQUMsZ0JBQWdCLEVBQUk7QUFDMUMsU0FBTyxVQUFBQyxLQUFLLEVBQUk7QUFDZCxXQUFPLGdDQUFDLGdCQUFEO0FBQ0wsTUFBQSxnQkFBZ0IsRUFBRVosZ0JBRGI7QUFFTCxNQUFBLGNBQWMsRUFBRVE7QUFGWCxPQUdESSxLQUhDLEVBQVA7QUFLRCxHQU5EO0FBT0QsQ0FSTTs7O2VBVVFGLFUiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xyXG5pbXBvcnQgKiBhcyBTZW50cnkgZnJvbSBcIkBzZW50cnkvYnJvd3NlclwiO1xyXG5cclxuLyoqXHJcbiAqIEBkZXNjINC80LXRgtC+0LQg0LTQu9GPINC+0YLQv9GA0LDQstC60Lgg0L7QsdGK0LXQutGC0LAg0L7RiNC40LHQutC4INCyIHNlbnRyeVxyXG4gKiAqL1xyXG5leHBvcnQgY29uc3QgY2FwdHVyZUV4Y2VwdGlvbiA9IChlcnJvciwgZXJyb3JUaXRsZSA9ICdFcnJvcjogJykgPT4ge1xyXG4gIGNvbnNvbGUuZXJyb3IoZXJyb3JUaXRsZSwgZXJyb3IpO1xyXG4gIGlmIChwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gJ3Byb2R1Y3Rpb24nKSB7XHJcbiAgICBTZW50cnkuY2FwdHVyZUV4Y2VwdGlvbihlcnJvcik7XHJcbiAgfVxyXG59O1xyXG5cclxuLyoqXHJcbiAqIEBkZXNjINC80LXRgtC+0LQg0LTQu9GPINC+0YLQv9GA0LDQstC60Lgg0L7QsdGL0YfQvdC+0LPQviDRgdC+0L7QsdGJ0LXQvdC40Y8g0LIgc2VudHJ5LCDQutCw0Log0L/RgNCw0LLQuNC70L4g0L7QvSDQvdC1INC40YHQv9C+0LvRjNC30YPQtdGC0YHRj1xyXG4gKiAqL1xyXG5leHBvcnQgY29uc3QgY2FwdHVyZU1lc3NhZ2UgPSAobWVzc2FnZSkgPT4ge1xyXG4gIGlmIChwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gJ3Byb2R1Y3Rpb24nKSB7XHJcbiAgICBTZW50cnkuY2FwdHVyZU1lc3NhZ2UobWVzc2FnZSk7XHJcbiAgfVxyXG59O1xyXG5cclxuLyoqXHJcbiAqIEBkZXNjXHJcbiAqICovXHJcbmV4cG9ydCBsZXQgd2l0aFNlbnRyeSA9IFdyYXBwZWRDb21wb25lbnQgPT4ge1xyXG4gIHJldHVybiBwcm9wcyA9PiB7XHJcbiAgICByZXR1cm4gPFdyYXBwZWRDb21wb25lbnRcclxuICAgICAgY2FwdHVyZUV4Y2VwdGlvbj17Y2FwdHVyZUV4Y2VwdGlvbn1cclxuICAgICAgY2FwdHVyZU1lc3NhZ2U9e2NhcHR1cmVNZXNzYWdlfVxyXG4gICAgICB7Li4ucHJvcHN9XHJcbiAgICAvPjtcclxuICB9O1xyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgd2l0aFNlbnRyeTtcclxuIl19

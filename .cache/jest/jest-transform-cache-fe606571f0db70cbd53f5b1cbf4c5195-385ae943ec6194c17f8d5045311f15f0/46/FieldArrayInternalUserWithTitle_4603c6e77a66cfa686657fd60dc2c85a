@@ -1,0 +1,42 @@
+62082b4aa959f018df1d5ffe8f2d8314
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.FieldArrayInternalUserWithTitle = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reduxForm = require("redux-form");
+
+var _Text = _interopRequireDefault(require("@lib/ui/Text/Text"));
+
+var _Container = _interopRequireDefault(require("@lib/ui/Container/Container"));
+
+var _FieldArrayInternalUser = _interopRequireDefault(require("../FieldArrayInternalUser/FieldArrayInternalUser"));
+
+/** View */
+
+/** Component */
+var FieldArrayInternalUserWithTitle = function FieldArrayInternalUserWithTitle(_ref) {
+  var name = _ref.name,
+      title = _ref.title;
+  return _react["default"].createElement(_Container["default"], {
+    maxWidth: '500px',
+    width: '100%'
+  }, _react["default"].createElement(_Text["default"], {
+    variant: 'documentTitle',
+    mb: 6
+  }, title), _react["default"].createElement(_reduxForm.FieldArray, {
+    name: name,
+    component: _FieldArrayInternalUser["default"]
+  }));
+};
+
+exports.FieldArrayInternalUserWithTitle = FieldArrayInternalUserWithTitle;
+var _default = FieldArrayInternalUserWithTitle;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkZpZWxkQXJyYXlJbnRlcm5hbFVzZXJXaXRoVGl0bGUuanMiXSwibmFtZXMiOlsiRmllbGRBcnJheUludGVybmFsVXNlcldpdGhUaXRsZSIsIm5hbWUiLCJ0aXRsZSIsIkZpZWxkQXJyYXlJbnRlcm5hbFVzZXIiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBOztBQUNBOztBQUdBOztBQUNBOztBQUdBOztBQUxBOztBQUlBO0FBR08sSUFBTUEsK0JBQStCLEdBQUcsU0FBbENBLCtCQUFrQyxPQUFxQjtBQUFBLE1BQWxCQyxJQUFrQixRQUFsQkEsSUFBa0I7QUFBQSxNQUFaQyxLQUFZLFFBQVpBLEtBQVk7QUFDbEUsU0FDRSxnQ0FBQyxxQkFBRDtBQUFXLElBQUEsUUFBUSxFQUFFLE9BQXJCO0FBQThCLElBQUEsS0FBSyxFQUFFO0FBQXJDLEtBQ0UsZ0NBQUMsZ0JBQUQ7QUFBTSxJQUFBLE9BQU8sRUFBRSxlQUFmO0FBQWdDLElBQUEsRUFBRSxFQUFFO0FBQXBDLEtBQ0dBLEtBREgsQ0FERixFQUlFLGdDQUFDLHFCQUFEO0FBQVksSUFBQSxJQUFJLEVBQUVELElBQWxCO0FBQXdCLElBQUEsU0FBUyxFQUFFRTtBQUFuQyxJQUpGLENBREY7QUFRRCxDQVRNOzs7ZUFXUUgsK0IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xyXG5pbXBvcnQgeyBGaWVsZEFycmF5IH0gZnJvbSAncmVkdXgtZm9ybSc7XHJcblxyXG4vKiogVmlldyAqL1xyXG5pbXBvcnQgVGV4dCBmcm9tICdAbGliL3VpL1RleHQvVGV4dCc7XHJcbmltcG9ydCBDb250YWluZXIgZnJvbSAnQGxpYi91aS9Db250YWluZXIvQ29udGFpbmVyJztcclxuXHJcbi8qKiBDb21wb25lbnQgKi9cclxuaW1wb3J0IEZpZWxkQXJyYXlJbnRlcm5hbFVzZXIgZnJvbSAnLi4vRmllbGRBcnJheUludGVybmFsVXNlci9GaWVsZEFycmF5SW50ZXJuYWxVc2VyJztcclxuXHJcbmV4cG9ydCBjb25zdCBGaWVsZEFycmF5SW50ZXJuYWxVc2VyV2l0aFRpdGxlID0gKHsgbmFtZSwgdGl0bGUgfSkgPT4ge1xyXG4gIHJldHVybiAoXHJcbiAgICA8Q29udGFpbmVyIG1heFdpZHRoPXsnNTAwcHgnfSB3aWR0aD17JzEwMCUnfT5cclxuICAgICAgPFRleHQgdmFyaWFudD17J2RvY3VtZW50VGl0bGUnfSBtYj17Nn0+XHJcbiAgICAgICAge3RpdGxlfVxyXG4gICAgICA8L1RleHQ+XHJcbiAgICAgIDxGaWVsZEFycmF5IG5hbWU9e25hbWV9IGNvbXBvbmVudD17RmllbGRBcnJheUludGVybmFsVXNlcn0gLz5cclxuICAgIDwvQ29udGFpbmVyPlxyXG4gICk7XHJcbn07XHJcblxyXG5leHBvcnQgZGVmYXVsdCBGaWVsZEFycmF5SW50ZXJuYWxVc2VyV2l0aFRpdGxlO1xyXG4iXX0=

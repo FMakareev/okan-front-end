@@ -1,0 +1,53 @@
+85af811c47c0538b9285070f041f4306
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.client = void 0;
+
+var _apolloClient = require("apollo-client");
+
+var _apolloLinkHttp = require("apollo-link-http");
+
+var _apolloCacheInmemory = require("apollo-cache-inmemory");
+
+var _isomorphicFetch = _interopRequireDefault(require("isomorphic-fetch"));
+
+var _https = _interopRequireDefault(require("https"));
+
+/* global ENDPOINT_SERVER */
+// import mocksClient from './mocksClient';
+var client = function client(req) {
+  // return mocksClient;
+  return new _apolloClient.ApolloClient({
+    ssrMode: true,
+    // Remember that this is the interface the SSR server will use to connect to the
+    // API server, so we need to ensure it isn't firewalled, etc
+    link: (0, _apolloLinkHttp.createHttpLink)({
+      uri: "".concat(ENDPOINT_SERVER, "/graphql"),
+      credentials: 'same-origin',
+      fetch: _isomorphicFetch["default"],
+      headers: {
+        Cookie: req.header('Cookie')
+      },
+
+      /** @desc https://stackoverflow.com/questions/14262986/node-js-hostname-ip-doesnt-match-certificates-altnames */
+      fetchOptions: {
+        agent: new _https["default"].Agent({
+          rejectUnauthorized: false
+        })
+      }
+    }),
+    queryDeduplication: true,
+    connectToDevTools: true,
+    cache: new _apolloCacheInmemory.InMemoryCache()
+  });
+};
+
+exports.client = client;
+var _default = client;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LnNlcnZlci5qcyJdLCJuYW1lcyI6WyJjbGllbnQiLCJyZXEiLCJBcG9sbG9DbGllbnQiLCJzc3JNb2RlIiwibGluayIsInVyaSIsIkVORFBPSU5UX1NFUlZFUiIsImNyZWRlbnRpYWxzIiwiZmV0Y2giLCJoZWFkZXJzIiwiQ29va2llIiwiaGVhZGVyIiwiZmV0Y2hPcHRpb25zIiwiYWdlbnQiLCJodHRwcyIsIkFnZW50IiwicmVqZWN0VW5hdXRob3JpemVkIiwicXVlcnlEZWR1cGxpY2F0aW9uIiwiY29ubmVjdFRvRGV2VG9vbHMiLCJjYWNoZSIsIkluTWVtb3J5Q2FjaGUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUxBO0FBTUE7QUFFTyxJQUFNQSxNQUFNLEdBQUcsU0FBVEEsTUFBUyxDQUFBQyxHQUFHLEVBQUk7QUFDM0I7QUFDQSxTQUFPLElBQUlDLDBCQUFKLENBQWlCO0FBQ3RCQyxJQUFBQSxPQUFPLEVBQUUsSUFEYTtBQUV0QjtBQUNBO0FBQ0FDLElBQUFBLElBQUksRUFBRSxvQ0FBZTtBQUNuQkMsTUFBQUEsR0FBRyxZQUFLQyxlQUFMLGFBRGdCO0FBRW5CQyxNQUFBQSxXQUFXLEVBQUUsYUFGTTtBQUduQkMsTUFBQUEsS0FBSyxFQUFMQSwyQkFIbUI7QUFJbkJDLE1BQUFBLE9BQU8sRUFBRTtBQUNQQyxRQUFBQSxNQUFNLEVBQUVULEdBQUcsQ0FBQ1UsTUFBSixDQUFXLFFBQVg7QUFERCxPQUpVOztBQU9uQjtBQUNBQyxNQUFBQSxZQUFZLEVBQUU7QUFDWkMsUUFBQUEsS0FBSyxFQUFFLElBQUlDLGtCQUFNQyxLQUFWLENBQWdCO0FBQUVDLFVBQUFBLGtCQUFrQixFQUFFO0FBQXRCLFNBQWhCO0FBREs7QUFSSyxLQUFmLENBSmdCO0FBZ0J0QkMsSUFBQUEsa0JBQWtCLEVBQUUsSUFoQkU7QUFpQnRCQyxJQUFBQSxpQkFBaUIsRUFBRSxJQWpCRztBQWtCdEJDLElBQUFBLEtBQUssRUFBRSxJQUFJQyxrQ0FBSjtBQWxCZSxHQUFqQixDQUFQO0FBb0JELENBdEJNOzs7ZUF3QlFwQixNIiwic291cmNlc0NvbnRlbnQiOlsiLyogZ2xvYmFsIEVORFBPSU5UX1NFUlZFUiAqL1xyXG5pbXBvcnQgeyBBcG9sbG9DbGllbnQgfSBmcm9tICdhcG9sbG8tY2xpZW50JztcclxuaW1wb3J0IHsgY3JlYXRlSHR0cExpbmsgfSBmcm9tICdhcG9sbG8tbGluay1odHRwJztcclxuaW1wb3J0IHsgSW5NZW1vcnlDYWNoZSB9IGZyb20gJ2Fwb2xsby1jYWNoZS1pbm1lbW9yeSc7XHJcbmltcG9ydCBmZXRjaCBmcm9tICdpc29tb3JwaGljLWZldGNoJztcclxuaW1wb3J0IGh0dHBzIGZyb20gJ2h0dHBzJztcclxuLy8gaW1wb3J0IG1vY2tzQ2xpZW50IGZyb20gJy4vbW9ja3NDbGllbnQnO1xyXG5cclxuZXhwb3J0IGNvbnN0IGNsaWVudCA9IHJlcSA9PiB7XHJcbiAgLy8gcmV0dXJuIG1vY2tzQ2xpZW50O1xyXG4gIHJldHVybiBuZXcgQXBvbGxvQ2xpZW50KHtcclxuICAgIHNzck1vZGU6IHRydWUsXHJcbiAgICAvLyBSZW1lbWJlciB0aGF0IHRoaXMgaXMgdGhlIGludGVyZmFjZSB0aGUgU1NSIHNlcnZlciB3aWxsIHVzZSB0byBjb25uZWN0IHRvIHRoZVxyXG4gICAgLy8gQVBJIHNlcnZlciwgc28gd2UgbmVlZCB0byBlbnN1cmUgaXQgaXNuJ3QgZmlyZXdhbGxlZCwgZXRjXHJcbiAgICBsaW5rOiBjcmVhdGVIdHRwTGluayh7XHJcbiAgICAgIHVyaTogYCR7RU5EUE9JTlRfU0VSVkVSfS9ncmFwaHFsYCxcclxuICAgICAgY3JlZGVudGlhbHM6ICdzYW1lLW9yaWdpbicsXHJcbiAgICAgIGZldGNoLFxyXG4gICAgICBoZWFkZXJzOiB7XHJcbiAgICAgICAgQ29va2llOiByZXEuaGVhZGVyKCdDb29raWUnKSxcclxuICAgICAgfSxcclxuICAgICAgLyoqIEBkZXNjIGh0dHBzOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzE0MjYyOTg2L25vZGUtanMtaG9zdG5hbWUtaXAtZG9lc250LW1hdGNoLWNlcnRpZmljYXRlcy1hbHRuYW1lcyAqL1xyXG4gICAgICBmZXRjaE9wdGlvbnM6IHtcclxuICAgICAgICBhZ2VudDogbmV3IGh0dHBzLkFnZW50KHsgcmVqZWN0VW5hdXRob3JpemVkOiBmYWxzZSB9KSxcclxuICAgICAgfSxcclxuICAgIH0pLFxyXG4gICAgcXVlcnlEZWR1cGxpY2F0aW9uOiB0cnVlLFxyXG4gICAgY29ubmVjdFRvRGV2VG9vbHM6IHRydWUsXHJcbiAgICBjYWNoZTogbmV3IEluTWVtb3J5Q2FjaGUoKSxcclxuICB9KTtcclxufTtcclxuXHJcbmV4cG9ydCBkZWZhdWx0IGNsaWVudDtcclxuIl19

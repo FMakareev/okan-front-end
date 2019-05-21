@@ -11,6 +11,8 @@ database.sqlite
 
 # Test coverage
 coverage
+.cache
+
 
 # Logs
 npm-debug.log*

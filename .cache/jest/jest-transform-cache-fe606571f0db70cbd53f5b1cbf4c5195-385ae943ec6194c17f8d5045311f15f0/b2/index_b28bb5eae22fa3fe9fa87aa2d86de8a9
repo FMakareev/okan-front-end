@@ -1,0 +1,32 @@
+eff2333b7ba24e853c2f5497b818285d
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.rootReducer = void 0;
+
+var _redux = require("redux");
+
+var _reduxForm = require("redux-form");
+
+var _reactNotificationSystemRedux = require("react-notification-system-redux");
+
+var _reducers = require("./user/reducers");
+
+var _reducers2 = require("./blocksBinding/reducers");
+
+// import { localeReducer as locale } from 'react-localize-redux';
+// import { ReducerFormLogin } from './form/reducers';
+var rootReducer = (0, _redux.combineReducers)({
+  form: _reduxForm.reducer.plugin({// FormLogin: ReducerFormLogin,
+  }),
+  // locale,
+  user: _reducers.ReducerUser,
+  blocksBinding: _reducers2.ReducerBlocksBinding,
+  notifications: _reactNotificationSystemRedux.reducer
+});
+exports.rootReducer = rootReducer;
+var _default = rootReducer;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbInJvb3RSZWR1Y2VyIiwiZm9ybSIsImZvcm1SZWR1Y2VyIiwicGx1Z2luIiwidXNlciIsIlJlZHVjZXJVc2VyIiwiYmxvY2tzQmluZGluZyIsIlJlZHVjZXJCbG9ja3NCaW5kaW5nIiwibm90aWZpY2F0aW9ucyJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOztBQUNBOztBQUdBOztBQUNBOztBQUNBOztBQUpBO0FBQ0E7QUFLTyxJQUFNQSxXQUFXLEdBQUcsNEJBQWdCO0FBQ3pDQyxFQUFBQSxJQUFJLEVBQUVDLG1CQUFZQyxNQUFaLENBQW1CLENBQ3ZCO0FBRHVCLEdBQW5CLENBRG1DO0FBSXpDO0FBQ0FDLEVBQUFBLElBQUksRUFBRUMscUJBTG1DO0FBTXpDQyxFQUFBQSxhQUFhLEVBQUVDLCtCQU4wQjtBQU96Q0MsRUFBQUEsYUFBYSxFQUFiQTtBQVB5QyxDQUFoQixDQUFwQjs7ZUFVUVIsVyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNvbWJpbmVSZWR1Y2VycyB9IGZyb20gJ3JlZHV4JztcclxuaW1wb3J0IHsgcmVkdWNlciBhcyBmb3JtUmVkdWNlciB9IGZyb20gJ3JlZHV4LWZvcm0nO1xyXG4vLyBpbXBvcnQgeyBsb2NhbGVSZWR1Y2VyIGFzIGxvY2FsZSB9IGZyb20gJ3JlYWN0LWxvY2FsaXplLXJlZHV4JztcclxuLy8gaW1wb3J0IHsgUmVkdWNlckZvcm1Mb2dpbiB9IGZyb20gJy4vZm9ybS9yZWR1Y2Vycyc7XHJcbmltcG9ydCB7IHJlZHVjZXIgYXMgbm90aWZpY2F0aW9ucyB9IGZyb20gJ3JlYWN0LW5vdGlmaWNhdGlvbi1zeXN0ZW0tcmVkdXgnO1xyXG5pbXBvcnQgeyBSZWR1Y2VyVXNlciB9IGZyb20gJy4vdXNlci9yZWR1Y2Vycyc7XHJcbmltcG9ydCB7IFJlZHVjZXJCbG9ja3NCaW5kaW5nIH0gZnJvbSAnLi9ibG9ja3NCaW5kaW5nL3JlZHVjZXJzJztcclxuXHJcbmV4cG9ydCBjb25zdCByb290UmVkdWNlciA9IGNvbWJpbmVSZWR1Y2Vycyh7XHJcbiAgZm9ybTogZm9ybVJlZHVjZXIucGx1Z2luKHtcclxuICAgIC8vIEZvcm1Mb2dpbjogUmVkdWNlckZvcm1Mb2dpbixcclxuICB9KSxcclxuICAvLyBsb2NhbGUsXHJcbiAgdXNlcjogUmVkdWNlclVzZXIsXHJcbiAgYmxvY2tzQmluZGluZzogUmVkdWNlckJsb2Nrc0JpbmRpbmcsXHJcbiAgbm90aWZpY2F0aW9ucyxcclxufSk7XHJcblxyXG5leHBvcnQgZGVmYXVsdCByb290UmVkdWNlcjtcclxuIl19

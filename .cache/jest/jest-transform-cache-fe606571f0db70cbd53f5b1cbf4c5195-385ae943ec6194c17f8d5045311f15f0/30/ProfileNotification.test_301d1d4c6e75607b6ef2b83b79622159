@@ -1,0 +1,28 @@
+1815ca2eb4723516e6b2d3a641155146
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactTestRenderer = _interopRequireDefault(require("react-test-renderer"));
+
+var _enzyme = require("enzyme");
+
+var _StyledThemeProvider = require("../../../../styles/StyledThemeProvider");
+
+var _ProfileNotification = require("./ProfileNotification/");
+
+describe('News container initial', function () {
+  var props = {
+    data: {
+      message: '1'
+    }
+  };
+  var newsContainer = (0, _enzyme.shallow)(_react["default"].createElement(_StyledThemeProvider.StyledThemeProvider, null, _react["default"].createElement(_ProfileNotification.ProfileNotification, props))); // передали props
+
+  it('renders properly', function () {
+    expect(newsContainer).toMatchSnapshot();
+  });
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlByb2ZpbGVOb3RpZmljYXRpb24udGVzdC5qcyJdLCJuYW1lcyI6WyJkZXNjcmliZSIsInByb3BzIiwiZGF0YSIsIm1lc3NhZ2UiLCJuZXdzQ29udGFpbmVyIiwiaXQiLCJleHBlY3QiLCJ0b01hdGNoU25hcHNob3QiXSwibWFwcGluZ3MiOiI7Ozs7QUFBQTs7QUFDQTs7QUFDQTs7QUFFQTs7QUFDQTs7QUFFQUEsUUFBUSxDQUFDLHdCQUFELEVBQTJCLFlBQU07QUFDdkMsTUFBTUMsS0FBSyxHQUFHO0FBQ1pDLElBQUFBLElBQUksRUFBRTtBQUNKQyxNQUFBQSxPQUFPLEVBQUU7QUFETDtBQURNLEdBQWQ7QUFNQSxNQUFNQyxhQUFhLEdBQUcscUJBQ3BCLGdDQUFDLHdDQUFELFFBQ0UsZ0NBQUMsd0NBQUQsRUFBeUJILEtBQXpCLENBREYsQ0FEb0IsQ0FBdEIsQ0FQdUMsQ0FXcEM7O0FBRUhJLEVBQUFBLEVBQUUsQ0FBQyxrQkFBRCxFQUFxQixZQUFNO0FBQzNCQyxJQUFBQSxNQUFNLENBQUNGLGFBQUQsQ0FBTixDQUFzQkcsZUFBdEI7QUFDRCxHQUZDLENBQUY7QUFHRCxDQWhCTyxDQUFSIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcclxuaW1wb3J0IHJlbmRlcmVyIGZyb20gJ3JlYWN0LXRlc3QtcmVuZGVyZXInO1xyXG5pbXBvcnQgeyBzaGFsbG93IH0gZnJvbSAnZW56eW1lJztcclxuXHJcbmltcG9ydCB7IFN0eWxlZFRoZW1lUHJvdmlkZXIgfSBmcm9tICcuLi8uLi8uLi8uLi9zdHlsZXMvU3R5bGVkVGhlbWVQcm92aWRlcic7XHJcbmltcG9ydCB7IFByb2ZpbGVOb3RpZmljYXRpb24gfSBmcm9tICcuL1Byb2ZpbGVOb3RpZmljYXRpb24vJztcclxuXHJcbmRlc2NyaWJlKCdOZXdzIGNvbnRhaW5lciBpbml0aWFsJywgKCkgPT4ge1xyXG4gIGNvbnN0IHByb3BzID0ge1xyXG4gICAgZGF0YToge1xyXG4gICAgICBtZXNzYWdlOiAnMScsXHJcbiAgICB9LFxyXG4gIH07XHJcblxyXG4gIGNvbnN0IG5ld3NDb250YWluZXIgPSBzaGFsbG93KFxyXG4gICAgPFN0eWxlZFRoZW1lUHJvdmlkZXI+XHJcbiAgICAgIDxQcm9maWxlTm90aWZpY2F0aW9uIHsuLi5wcm9wc30gLz5cclxuICAgIDwvU3R5bGVkVGhlbWVQcm92aWRlcj4sXHJcbiAgKTsgLy8g0L/QtdGA0LXQtNCw0LvQuCBwcm9wc1xyXG5cclxuICBpdCgncmVuZGVycyBwcm9wZXJseScsICgpID0+IHtcclxuICAgIGV4cGVjdChuZXdzQ29udGFpbmVyKS50b01hdGNoU25hcHNob3QoKTtcclxuICB9KTtcclxufSk7XHJcbiJdfQ==

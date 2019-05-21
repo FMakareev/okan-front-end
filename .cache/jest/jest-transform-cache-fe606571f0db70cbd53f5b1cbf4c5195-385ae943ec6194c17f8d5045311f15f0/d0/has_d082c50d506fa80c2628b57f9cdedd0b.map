@@ -1,0 +1,1 @@
+{"version":3,"sources":["has.js"],"names":["has","Object","prototype","hasOwnProperty"],"mappings":";;;;;;AAAO,IAAMA,GAAG,GAAGC,MAAM,CAACC,SAAP,CAAiBC,cAA7B;;eAEQH,G","sourcesContent":["export const has = Object.prototype.hasOwnProperty;\r\n\r\nexport default has;\r\n"]}

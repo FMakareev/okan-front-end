@@ -1,0 +1,56 @@
+543be5d1201ab80e9d90701b3be99517
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.Th = void 0;
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _styledSystem = require("styled-system");
+
+var _FontSizeProperty = require("../../styles/styleProperty/FontSizeProperty");
+
+var _LineHeightProperty = require("../../styles/styleProperty/LineHeightProperty");
+
+var _TextAlignProperty = require("../../styles/styleProperty/TextAlignProperty");
+
+var _FontFamilyProperty = require("../../styles/FontFamilyProperty");
+
+/** Style property */
+
+/**
+ *  Компонент одной ячейки таблицы, которая обозначается как заголовочная.
+ * @example ./Th.example.md
+ */
+var Th =
+/*#__PURE__*/
+_styledComponents["default"].th.withConfig({
+  componentId: "sc46x0-0"
+})(["", ";", ";", ";", ";", ";", ";", ";"], _styledSystem.space, _styledSystem.color, _styledSystem.width, _FontSizeProperty.FontSizeProperty, _LineHeightProperty.LineHeightProperty, _FontFamilyProperty.FontFamilyProperty, _TextAlignProperty.TextAlignProperty);
+
+exports.Th = Th;
+Th.propTypes = {
+  /**  children React element  */
+  children: _propTypes["default"].any,
+
+  /** columnKey  */
+  columnKey: _propTypes["default"].number,
+
+  /** CSS: pb - padding-bottom  */
+  pb: _propTypes["default"].number,
+
+  /** CSS: pt - padding-top  */
+  pt: _propTypes["default"].number,
+
+  /** CSS : color */
+  color: _propTypes["default"].string
+};
+var _default = Th;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlRoLmpzIl0sIm5hbWVzIjpbIlRoIiwic3R5bGVkIiwidGgiLCJzcGFjZSIsImNvbG9yIiwid2lkdGgiLCJGb250U2l6ZVByb3BlcnR5IiwiTGluZUhlaWdodFByb3BlcnR5IiwiRm9udEZhbWlseVByb3BlcnR5IiwiVGV4dEFsaWduUHJvcGVydHkiLCJwcm9wVHlwZXMiLCJjaGlsZHJlbiIsIlByb3BUeXBlcyIsImFueSIsImNvbHVtbktleSIsIm51bWJlciIsInBiIiwicHQiLCJzdHJpbmciXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBOztBQUNBOztBQUNBOztBQUdBOztBQUNBOztBQUNBOztBQUNBOztBQUpBOztBQU1BOzs7O0FBSU8sSUFBTUEsRUFBRTtBQUFBO0FBQUdDLDZCQUFPQyxFQUFWO0FBQUE7QUFBQSw0Q0FDWEMsbUJBRFcsRUFFWEMsbUJBRlcsRUFHWEMsbUJBSFcsRUFJWEMsa0NBSlcsRUFLWEMsc0NBTFcsRUFNWEMsc0NBTlcsRUFPWEMsb0NBUFcsQ0FBUjs7O0FBVVBULEVBQUUsQ0FBQ1UsU0FBSCxHQUFlO0FBQ2I7QUFDQUMsRUFBQUEsUUFBUSxFQUFFQyxzQkFBVUMsR0FGUDs7QUFHYjtBQUNBQyxFQUFBQSxTQUFTLEVBQUVGLHNCQUFVRyxNQUpSOztBQUtiO0FBQ0FDLEVBQUFBLEVBQUUsRUFBRUosc0JBQVVHLE1BTkQ7O0FBT2I7QUFDQUUsRUFBQUEsRUFBRSxFQUFFTCxzQkFBVUcsTUFSRDs7QUFTYjtBQUNBWCxFQUFBQSxLQUFLLEVBQUVRLHNCQUFVTTtBQVZKLENBQWY7ZUFhZWxCLEUiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUHJvcFR5cGVzIGZyb20gJ3Byb3AtdHlwZXMnO1xyXG5pbXBvcnQgc3R5bGVkIGZyb20gJ3N0eWxlZC1jb21wb25lbnRzJztcclxuaW1wb3J0IHsgc3BhY2UsIGNvbG9yLCB3aWR0aCB9IGZyb20gJ3N0eWxlZC1zeXN0ZW0nO1xyXG5cclxuLyoqIFN0eWxlIHByb3BlcnR5ICovXHJcbmltcG9ydCB7IEZvbnRTaXplUHJvcGVydHkgfSBmcm9tICcuLi8uLi9zdHlsZXMvc3R5bGVQcm9wZXJ0eS9Gb250U2l6ZVByb3BlcnR5JztcclxuaW1wb3J0IHsgTGluZUhlaWdodFByb3BlcnR5IH0gZnJvbSAnLi4vLi4vc3R5bGVzL3N0eWxlUHJvcGVydHkvTGluZUhlaWdodFByb3BlcnR5JztcclxuaW1wb3J0IHsgVGV4dEFsaWduUHJvcGVydHkgfSBmcm9tICcuLi8uLi9zdHlsZXMvc3R5bGVQcm9wZXJ0eS9UZXh0QWxpZ25Qcm9wZXJ0eSc7XHJcbmltcG9ydCB7IEZvbnRGYW1pbHlQcm9wZXJ0eSB9IGZyb20gJy4uLy4uL3N0eWxlcy9Gb250RmFtaWx5UHJvcGVydHknO1xyXG5cclxuLyoqXHJcbiAqICDQmtC+0LzQv9C+0L3QtdC90YIg0L7QtNC90L7QuSDRj9GH0LXQudC60Lgg0YLQsNCx0LvQuNGG0YssINC60L7RgtC+0YDQsNGPINC+0LHQvtC30L3QsNGH0LDQtdGC0YHRjyDQutCw0Log0LfQsNCz0L7Qu9C+0LLQvtGH0L3QsNGPLlxyXG4gKiBAZXhhbXBsZSAuL1RoLmV4YW1wbGUubWRcclxuICovXHJcbmV4cG9ydCBjb25zdCBUaCA9IHN0eWxlZC50aGBcclxuICAke3NwYWNlfTtcclxuICAke2NvbG9yfTtcclxuICAke3dpZHRofTtcclxuICAke0ZvbnRTaXplUHJvcGVydHl9O1xyXG4gICR7TGluZUhlaWdodFByb3BlcnR5fTtcclxuICAke0ZvbnRGYW1pbHlQcm9wZXJ0eX07XHJcbiAgJHtUZXh0QWxpZ25Qcm9wZXJ0eX07XHJcbmA7XHJcblxyXG5UaC5wcm9wVHlwZXMgPSB7XHJcbiAgLyoqICBjaGlsZHJlbiBSZWFjdCBlbGVtZW50ICAqL1xyXG4gIGNoaWxkcmVuOiBQcm9wVHlwZXMuYW55LFxyXG4gIC8qKiBjb2x1bW5LZXkgICovXHJcbiAgY29sdW1uS2V5OiBQcm9wVHlwZXMubnVtYmVyLFxyXG4gIC8qKiBDU1M6IHBiIC0gcGFkZGluZy1ib3R0b20gICovXHJcbiAgcGI6IFByb3BUeXBlcy5udW1iZXIsXHJcbiAgLyoqIENTUzogcHQgLSBwYWRkaW5nLXRvcCAgKi9cclxuICBwdDogUHJvcFR5cGVzLm51bWJlcixcclxuICAvKiogQ1NTIDogY29sb3IgKi9cclxuICBjb2xvcjogUHJvcFR5cGVzLnN0cmluZyxcclxufTtcclxuXHJcbmV4cG9ydCBkZWZhdWx0IFRoO1xyXG4iXX0=

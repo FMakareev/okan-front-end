@@ -1,0 +1,27 @@
+2e1ca3be697b74304e0a7ace2d20c67a
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ReactRoutePropTypes = void 0;
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var ReactRoutePropTypes = {
+  /** react-router-config */
+  location: _propTypes["default"].object,
+
+  /** react-router-config */
+  history: _propTypes["default"].object,
+
+  /** react-router-config */
+  match: _propTypes["default"].object,
+
+  /** react-router-config */
+  route: _propTypes["default"].object
+};
+exports.ReactRoutePropTypes = ReactRoutePropTypes;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlJlYWN0Um91dGVQcm9wVHlwZXMuanMiXSwibmFtZXMiOlsiUmVhY3RSb3V0ZVByb3BUeXBlcyIsImxvY2F0aW9uIiwiUHJvcFR5cGVzIiwib2JqZWN0IiwiaGlzdG9yeSIsIm1hdGNoIiwicm91dGUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBOztBQUVPLElBQU1BLG1CQUFtQixHQUFHO0FBQ2pDO0FBQ0FDLEVBQUFBLFFBQVEsRUFBRUMsc0JBQVVDLE1BRmE7O0FBR2pDO0FBQ0FDLEVBQUFBLE9BQU8sRUFBRUYsc0JBQVVDLE1BSmM7O0FBS2pDO0FBQ0FFLEVBQUFBLEtBQUssRUFBRUgsc0JBQVVDLE1BTmdCOztBQU9qQztBQUNBRyxFQUFBQSxLQUFLLEVBQUVKLHNCQUFVQztBQVJnQixDQUE1QiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBQcm9wVHlwZXMgZnJvbSAncHJvcC10eXBlcyc7XHJcblxyXG5leHBvcnQgY29uc3QgUmVhY3RSb3V0ZVByb3BUeXBlcyA9IHtcclxuICAvKiogcmVhY3Qtcm91dGVyLWNvbmZpZyAqL1xyXG4gIGxvY2F0aW9uOiBQcm9wVHlwZXMub2JqZWN0LFxyXG4gIC8qKiByZWFjdC1yb3V0ZXItY29uZmlnICovXHJcbiAgaGlzdG9yeTogUHJvcFR5cGVzLm9iamVjdCxcclxuICAvKiogcmVhY3Qtcm91dGVyLWNvbmZpZyAqL1xyXG4gIG1hdGNoOiBQcm9wVHlwZXMub2JqZWN0LFxyXG4gIC8qKiByZWFjdC1yb3V0ZXItY29uZmlnICovXHJcbiAgcm91dGU6IFByb3BUeXBlcy5vYmplY3QsXHJcbn07XHJcbiJdfQ==

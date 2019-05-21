@@ -1,0 +1,32 @@
+c542b3a3b0e27ad8bca974d44562813c
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.FormLogo = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Flex = _interopRequireDefault(require("@lib/ui/Flex/Flex"));
+
+var _SvgLogo = require("@lib/ui/Icons/SvgLogo");
+
+/** View */
+
+/** Image */
+var FormLogo = function FormLogo() {
+  return _react["default"].createElement(_Flex["default"], {
+    alignItems: "center",
+    justifyContent: "center",
+    pt: 17,
+    pb: "125px"
+  }, _react["default"].createElement(_SvgLogo.SvgLogo, null));
+};
+
+exports.FormLogo = FormLogo;
+var _default = FormLogo;
+exports["default"] = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkZvcm1Mb2dvLmpzIl0sIm5hbWVzIjpbIkZvcm1Mb2dvIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFBQTs7QUFHQTs7QUFHQTs7QUFKQTs7QUFHQTtBQUdPLElBQU1BLFFBQVEsR0FBRyxTQUFYQSxRQUFXO0FBQUEsU0FDdEIsZ0NBQUMsZ0JBQUQ7QUFBTSxJQUFBLFVBQVUsRUFBQyxRQUFqQjtBQUEwQixJQUFBLGNBQWMsRUFBQyxRQUF6QztBQUFrRCxJQUFBLEVBQUUsRUFBRSxFQUF0RDtBQUEwRCxJQUFBLEVBQUUsRUFBQztBQUE3RCxLQUNFLGdDQUFDLGdCQUFELE9BREYsQ0FEc0I7QUFBQSxDQUFqQjs7O2VBTVFBLFEiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xyXG5cclxuLyoqIFZpZXcgKi9cclxuaW1wb3J0IEZsZXggZnJvbSAnQGxpYi91aS9GbGV4L0ZsZXgnO1xyXG5cclxuLyoqIEltYWdlICovXHJcbmltcG9ydCB7IFN2Z0xvZ28gfSBmcm9tICdAbGliL3VpL0ljb25zL1N2Z0xvZ28nO1xyXG5cclxuZXhwb3J0IGNvbnN0IEZvcm1Mb2dvID0gKCkgPT4gKFxyXG4gIDxGbGV4IGFsaWduSXRlbXM9XCJjZW50ZXJcIiBqdXN0aWZ5Q29udGVudD1cImNlbnRlclwiIHB0PXsxN30gcGI9XCIxMjVweFwiPlxyXG4gICAgPFN2Z0xvZ28gLz5cclxuICA8L0ZsZXg+XHJcbik7XHJcblxyXG5leHBvcnQgZGVmYXVsdCBGb3JtTG9nbztcclxuIl19
