@@ -147,6 +147,12 @@ export class FormDocumentSettings extends Component {
     }
   };
 
+  /**
+   * @param {object} value
+   * @param {array} value.externalAndInternalApprove
+   * @param {array} value.externalMatching
+   * @param {array} value.externalMatching
+   * */
   removeContractorApproval = async value => {
     try {
       const newDate = {

@@ -11,6 +11,7 @@ import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
 import { ROLE_EXTERNALCONTRACTOR } from '@lib/shared/roles';
 import CreateContractorHelpers from '../helpers/CreateContractorHelpers';
+import AddContractorButton from "../AddContractorButton/AddContractorButton";
 
 /** Внутренние согласующие ОКАН*/
 export class FieldArrayExternalUser extends Component {
@@ -44,6 +45,17 @@ export class FieldArrayExternalUser extends Component {
             </Box>
           </Flex>
         ))}
+        <AddContractorButton
+          onChange={(role)=>{
+            fields.push({
+              user: {
+                role: {
+                  name: role,
+                },
+              },
+            });
+          }}
+        />
         <ButtonBase
           type={'button'}
           variant={'large'}
