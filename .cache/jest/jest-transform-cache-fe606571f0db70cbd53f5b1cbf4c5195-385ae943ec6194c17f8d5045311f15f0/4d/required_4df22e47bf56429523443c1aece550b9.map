@@ -1,1 +1,0 @@
-{"version":3,"sources":["required.js"],"names":["required","value","undefined"],"mappings":";;;;;;;AAAO,IAAMA,QAAQ,GAAG,SAAXA,QAAW,CAAAC,KAAK;AAAA,SAAKA,KAAK,GAAGC,SAAH,GAAe,4BAAzB;AAAA,CAAtB;;;eACQF,Q","sourcesContent":["export const required = value => (value ? undefined : 'Обязательно для заполнения');\r\nexport default required;\r\n"]}
