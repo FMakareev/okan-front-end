@@ -7,6 +7,15 @@
     "@emotion/core": "^10.0.6",
     "@emotion/styled": "^10.0.6",
     "@sentry/browser": "5.0.5",
+    "@storybook/addon-actions": "^5.0.11",
+    "@storybook/addon-info": "^5.0.11",
+    "@storybook/addon-knobs": "^5.0.11",
+    "@storybook/addon-links": "^5.0.11",
+    "@storybook/addon-storyshots": "^5.0.11",
+    "@storybook/addon-storyshots-puppeteer": "^5.0.11",
+    "@storybook/addons": "^5.0.11",
+    "@storybook/html": "^5.0.11",
+    "@storybook/react": "^5.0.11",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-cache-invalidation": "^0.0.3",
     "apollo-client": "^2.2.8",
@@ -82,6 +91,7 @@
     "redux-thunk": "^2.2.0",
     "serve-favicon": "^2.5.0",
     "shallowequal": "^1.1.0",
+    "storybook-addon-jsx": "^7.1.2",
     "styled-components": "^4.1.1",
     "styled-system": "^3.1.11",
     "unfetch": "^4.0.1",
@@ -180,7 +190,6 @@
     "build:ssr:dev": "babel-node scripts/build.ssr.js --port=3006 --ENDPOINT_SERVER='\"https://127.0.0.1:5002\"' --ENDPOINT_CLIENT='\"\"' --mode=development  --watch=false --ssr_fetch=false",
     "start:ssr": "babel-node scripts/start.ssr.js --port=3006 --ENDPOINT_SERVER='\"https://okan.test.code-artel.com\"' --ENDPOINT_CLIENT='\"\"' --mode=development --watch=true --ssr_fetch=false",
     "start:ssr:server": "node public/server.js",
-
     "test": "jest",
     "test:snapshot:update": "jest --updateSnapshot",
     "lint:js": "eslint ./src ./tools --color --format stylish --fix",
@@ -190,7 +199,8 @@
     "checkMergeConflict": "babel-node ./tools/checkMergeConflict.js",
     "sg:start": "npx styleguidist server --config ./config/styleguide.config.js",
     "sg:build": "npx styleguidist build --config ./config/styleguide.config.js",
-    "createIndex": "babel-node tools/createIndex.js"
+    "createIndex": "babel-node tools/createIndex.js",
+    "storybook": "start-storybook -p 6006"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/jest-css-modules"

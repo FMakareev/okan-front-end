@@ -7,8 +7,8 @@ import { ButtonVariant } from './variants/buttonVariant';
 import { ButtonSize } from './variants/buttonSize';
 import { ButtonComment } from './variants/buttonComment';
 import { TextVariant } from './variants/textVariant';
-import { InputSize } from '@lib/styles/variants/InputSize';
-import { InputVariant } from '@lib/styles/variants/InputVariant';
+import { InputSize } from './variants/InputSize';
+import { InputVariant } from './variants/InputVariant';
 
 export const ColorPallet = {
   color0: '#FFFFFF',

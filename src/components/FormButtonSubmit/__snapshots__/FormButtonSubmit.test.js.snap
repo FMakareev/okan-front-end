@@ -5,30 +5,30 @@ exports[`FormButtonSubmit: Рендерится без ошибок 1`] = `
   className="sc-bxivhb dUiVDW"
 >
   <div
-    className="sc-1jxwge6-0 wterhv-0 jJEJhM"
+    className="sc-1jxwge6-0 wterhv-0 fCdjsl"
   >
     <button
-      className="sc-8daz6k-1 IebJL mxzgdr-0 jAhdjF"
+      className="sc-8daz6k-1 IebJL mxzgdr-0 gVQTvs"
       size="large"
       type="submit"
     >
       <div
-        className="sc-1jxwge6-0 wterhv-0 emUXmz"
+        className="sc-1jxwge6-0 wterhv-0 eZMgmL"
         width="100%"
       >
         <div
-          className="sc-1jxwge6-0 wterhv-0 kSkEoI"
+          className="sc-1jxwge6-0 wterhv-0 kyYPav"
         >
           Button
         </div>
         <div
-          className="sc-1jxwge6-0 wterhv-0 kSkEoI"
+          className="sc-1jxwge6-0 wterhv-0 fuRcbY"
         >
           <svg
             fill="inherit"
-            height="20"
+            height="1.250em"
             viewBox="0 0 16 20"
-            width="16"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -50,32 +50,46 @@ exports[`FormButtonSubmit: Рендерится прелоадер если isLo
   className="sc-bxivhb dUiVDW"
 >
   <div
-    className="sc-1jxwge6-0 wterhv-0 jJEJhM"
+    className="sc-1jxwge6-0 wterhv-0 fCdjsl"
   >
     <button
-      className="sc-8daz6k-1 IebJL mxzgdr-0 jAhdjF"
+      className="sc-8daz6k-1 IebJL mxzgdr-0 gVQTvs"
       size="large"
       type="submit"
     >
       <div
-        className="sc-1jxwge6-0 wterhv-0 emUXmz"
+        className="sc-1jxwge6-0 wterhv-0 eZMgmL"
         width="100%"
       >
         <div
-          className="sc-1jxwge6-0 wterhv-0 kSkEoI"
+          className="sc-1jxwge6-0 wterhv-0 kyYPav"
         >
           Button
-        </div>
-        <div
-          className="sc-1jxwge6-0 wterhv-0 kSkEoI"
-        >
           <div
-            className="sc-181m7t4-2 fFFOLc"
+            className="sc-1jxwge6-0 sc-181m7t4-0 gCxfwX"
           >
             <div
-              className="sc-181m7t4-1 cVJEPN"
+              className="sc-181m7t4-1 jGYmHw"
             />
           </div>
+        </div>
+        <div
+          className="sc-1jxwge6-0 wterhv-0 fuRcbY"
+        >
+          <svg
+            fill="inherit"
+            height="1.250em"
+            viewBox="0 0 16 20"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M15.1351 8.58297L2.56862 0.197654C2.19712 -0.0365882 1.73582 0.00243778 1.38742 0.00243778C-0.00618175 0.00243778 4.78129e-07 1.14194 4.78129e-07 1.43063V18.5693C4.78129e-07 18.8134 -0.00610045 19.9976 1.38742 19.9976C1.73582 19.9976 2.1972 20.0364 2.56862 19.8023L15.135 11.417C16.1665 10.767 15.9882 9.99997 15.9882 9.99997C15.9882 9.99997 16.1665 9.23289 15.1351 8.58297Z"
+              fill="inherit"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
       </div>
     </button>
