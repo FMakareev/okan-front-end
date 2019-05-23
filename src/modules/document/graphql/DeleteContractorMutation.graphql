@@ -1,11 +1,20 @@
 mutation ($id: String!) {
-  deleteContractorApproval: deletecontractorapproval(id: $id) {
+  deletecontractorapproval(id: $id) {
     contractorapproval {
       id
       approvaldate
       user {
+        id
         firstname
         lastname
+        patronymic
+        position
+        organizationname
+        signature
+        role{
+          id
+          name
+        }
       }
     }
   }

@@ -12,6 +12,23 @@ import {connect} from 'react-redux';
 import {info} from 'react-notification-system-redux';
 
 
+const NotificationItem = ({createat, comment, sender, link}) => (<Box>
+  <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
+    {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
+  </Text>
+  <Text fontWeight={700} color={'color11'} cursor={'default'}>
+    Добавлен&nbsp;
+    <Link target={'_blank'} to={link} color={'color7'}>
+      комментарий&nbsp;
+      "{comment.message}"
+    </Link>
+  </Text>
+  <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
+    Автор: {sender.firstname} {sender.lastname}
+  </Text>
+</Box>);
+
+
 export class NotificationsListObserver extends Component {
   subscribeInstanceToNotifications = null;
 
@@ -69,29 +86,13 @@ export class NotificationsListObserver extends Component {
    * @augments {object} свойства объекта Notification, элемента массива notificationlist из бд
    * */
   setOptions = ({sender, createat, comment, document, cell}) => {
-    let link = `/app/project/${document.project}/${document.id}/${cell.parent.id}?cellid=${comment.cell}&commentid=${comment.id}`;
+    let link = `/app/project/${document.project}/${document.id}${cell.parent? `/${cell.parent.id}`: ''}?cellid=${comment.cell}&commentid=${comment.id}`;
 
     return {
       position: 'br',
       dismissible: 'button',
       autoDismiss: 6,
-      children: (
-        <Box>
-          <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
-            {dayjs(createat).format('DD.MM.YYYY HH:mm:ss')}
-          </Text>
-          <Text fontWeight={700} color={'color11'} cursor={'default'}>
-            Добавлен&nbsp;
-            <Link target={'_blank'} to={link} color={'color7'}>
-              комментарий&nbsp;
-              "{comment.message}"
-            </Link>
-          </Text>
-          <Text fontSize={4} color={'color4'} cursor={'default'} lineHeight={8}>
-            Автор: {sender.firstname} {sender.lastname}
-          </Text>
-        </Box>
-      )
+      children: <NotificationItem link={link} createat={createat} sender={sender} comment={comment}/>,
     };
   };
 

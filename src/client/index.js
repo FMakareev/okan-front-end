@@ -18,7 +18,7 @@ import { documentOffsetTop } from '../utils/dom/documentOffsetTop';
 documentOffsetTop();
 const Store = CreateStore();
 
-export const SentryInstance = Sentry.init({
+export const SentryInstance = process.env.NODE_ENV === 'production' && Sentry.init({
   dsn: 'https://612734293d1f4ba4ae745fcbc7e22330@sentry.io/1431983',
 });
 // should have been called before using it here

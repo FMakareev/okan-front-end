@@ -71,6 +71,7 @@ class DocumentSettingsPage extends Component {
       return {
         ...documentitem,
         internalMatching: documentitem ? documentitem.internalMatching.map(item => item.id) : [],
+        internalApprove: documentitem ? documentitem.internalApprove.map(item => item.id) : [],
       };
     } catch (error) {
       captureException(error);
