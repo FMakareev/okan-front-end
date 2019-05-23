@@ -244,9 +244,7 @@ export class EditorCellCommentController extends Component {
    * */
   getDocumentToWhichTheCellBelongs = (project, documentid) => {
     try {
-      return project.documents.find(item => {
-        return item.id === documentid;
-      });
+      return project.documents.find(item => item.id === documentid);
     } catch (error) {
       console.error('Error getDocumentToWhichTheCellBelongs: ', error);
       captureException(error);
@@ -262,7 +260,7 @@ export class EditorCellCommentController extends Component {
    * */
   userOneOfDocumentPartners = (document, userId) => {
     try {
-      return document.internalMatching
+      return document && document.internalMatching
         ? document.internalMatching.find(item => item.id === userId)
         : null;
     } catch (error) {

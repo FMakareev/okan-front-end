@@ -40,7 +40,7 @@ query ($documentid: String!, $projectid: String!) {
         isHead
       }
     }
-    internalMatching: partners {
+    internalMatching {
       id
       lastname
       firstname
@@ -76,7 +76,7 @@ query ($documentid: String!, $projectid: String!) {
        }
        # null, на согласовании, согласован, не согласован
        approvalstatus
-       internalMatching: partners {
+       internalMatching {
          id
          lastname
          firstname
