@@ -21,6 +21,7 @@
     "apollo-client": "^2.2.8",
     "apollo-link-http": "^1.5.4",
     "apollo-link-schema": "^1.1.4",
+    "babel-plugin-require-context-hook": "^1.0.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "create-index": "^2.3.0",

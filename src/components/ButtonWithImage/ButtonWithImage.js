@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /** View */
 import Flex from '../Flex/Flex';
 import ButtonBase from '../ButtonBase/ButtonBase';
-import { PreloaderWrapper, SpeedingWheel } from '@lib/ui/SmallPreloader/SmallPreloader';
+import { PreloaderWrapper, SpeedingWheel } from '../SmallPreloader/SmallPreloader';
 
 export class ButtonWithImage extends Component {
   static propTypes = {

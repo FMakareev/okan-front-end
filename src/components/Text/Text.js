@@ -10,7 +10,7 @@ import { LineHeightProperty } from '../../styles/styleProperty/LineHeightPropert
 
 /** View */
 import { Box } from '../Box/Box';
-import { WordWrapProperty } from '@lib/styles/styleProperty/WordWrapProperty';
+import { WordWrapProperty } from '../../styles/styleProperty/WordWrapProperty';
 
 const textVariant = variant({
   key: 'variant.text',
