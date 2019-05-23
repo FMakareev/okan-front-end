@@ -27,7 +27,7 @@ query($id: String!){
       }
       # null, на согласовании, согласован, не согласован
       approvalstatus
-      internalMatching: partners {
+      internalMatching {
         id
         lastname
         firstname
@@ -40,7 +40,7 @@ query($id: String!){
     updatedate
     # archive or working
     status
-    internalMatching: partners{
+    partners{
       id
       lastname
       firstname

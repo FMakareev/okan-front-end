@@ -8,7 +8,7 @@ mutation ($id: String!) {
       name
       okancode
       project
-      partners {
+      internalMatching {
         id
         firstname
         lastname
