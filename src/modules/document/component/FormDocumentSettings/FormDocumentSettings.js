@@ -227,7 +227,6 @@ export class FormDocumentSettings extends Component {
    * @desc
    * */
   submitUpdateContractorApproval = value => {
-    console.log('submitUpdateContractorApproval: ', value);
     const variables = {
       ...value.user,
       id: value.id,
@@ -292,7 +291,6 @@ export class FormDocumentSettings extends Component {
         newDate.externalApprove = await this.createContractorApprovalList(
           value.externalApprove,
         );
-        console.log('newDate.externalAndInternalApprove: ', newDate.externalApprove);
       }
       if (has.call(value, 'externalMatching') && Array.isArray(value.externalMatching)) {
         newDate.externalMatching = await this.createContractorApprovalList(value.externalMatching);

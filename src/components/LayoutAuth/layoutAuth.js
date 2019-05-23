@@ -76,7 +76,7 @@ export class LayoutAuth extends Component {
         match: result[0].match,
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error renderRoutes: ',error);
     }
   };
 

@@ -44,7 +44,6 @@ export class FormPersonData extends Component {
   state = {};
 
   submit = value => {
-    console.log('value', value);
   };
   render() {
     const {

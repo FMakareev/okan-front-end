@@ -357,7 +357,6 @@ export class SidebarCreateCell extends Component {
 
   createAttachment = ({prevcell, parent, isHead, contenttype, nextcell, isAttachment}) => {
     const {setNotificationSuccess, project, setNotificationError} = this.props;
-    console.log(3, 'createAttachment');
 
     const variables = {
       ...(prevcell ? {prevcell} : null),

@@ -7,7 +7,6 @@ export const deleteQueryFromCache = (data, value) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
     return data;
   }
 };

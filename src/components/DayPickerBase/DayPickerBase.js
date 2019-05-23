@@ -79,7 +79,6 @@ export class DayPickerBase extends Component {
    * */
   onChangeDatePicker(date) {
     try {
-      console.log(date);
       this.setState({ startDate: new Date(date).toISOString() });
 
       const {
@@ -88,7 +87,7 @@ export class DayPickerBase extends Component {
 
       onChange(new Date(date).toISOString());
     } catch (error) {
-      console.error('Error : ', error);
+      console.error('Error onChangeDatePicker: ', error);
     }
   }
 

@@ -13,60 +13,59 @@ const jsonTranslate = require('../store/reducers/localization/localization.json'
 const langArray = jsonTranslate.map(item => item.code);
 const has = Object.prototype.hasOwnProperty;
 
-app.use(express.static('public'));
-app.use(cookieParser());
+try{
+  app.use(express.static('public'));
+  app.use(cookieParser());
 
-if (langArray.length) {
-  app.use(
-    requestLanguage({
-      languages: langArray,
-      queryName: 'lang',
-      cookie: {
-        name: 'lang',
-        options: {
-          path: '/',
-          maxAge: 3650 * 24 * 3600 * 1000, // 10 years in miliseconds
+  if (langArray.length) {
+    app.use(
+      requestLanguage({
+        languages: langArray,
+        queryName: 'lang',
+        cookie: {
+          name: 'lang',
+          options: {
+            path: '/',
+            maxAge: 3650 * 24 * 3600 * 1000, // 10 years in miliseconds
+          },
+          url: '/lang/{language}',
         },
-        url: '/lang/{language}',
-      },
-    }),
-  );
-}
-
-
-console.log('modules: ', modules);
-
-
-Object.entries(modules).map(([moduleName, value]) => {
-  console.log(moduleName, value);
-  if (has.call(value, 'routes')) {
-    console.log(app);
-    value.routes.forEach(item => {
-      try{
-        app[item.method](item.path, item.callback);
-      } catch(error){
-        console.error(`Error ${moduleName}: `,error);
-      }
-    });
-    return null;
+      }),
+    );
   }
-  console.error(
-    `ERROR:in the module "${moduleName}" there is no property "routes".
+
+
+  Object.entries(modules).map(([moduleName, value]) => {
+    if (has.call(value, 'routes')) {
+      value.routes.forEach(item => {
+        try{
+          app[item.method](item.path, item.callback);
+        } catch(error){
+          console.error(`Error ${moduleName}: `,error);
+        }
+      });
+      return null;
+    }
+    console.error(
+      `ERROR:in the module "${moduleName}" there is no property "routes".
         Add the property "routes" to the module "${moduleName}" and determine at least
         one route otherwise the module will be inaccessible to users.`,
-  );
-  return null;
-});
+    );
+    return null;
+  });
 
-/**
- * @description http://expressjs.com/en/4x/api.html#app.get.method
- * */
-app.use('*', Root);
+  /**
+   * @description http://expressjs.com/en/4x/api.html#app.get.method
+   * */
+  app.use('*', Root);
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port:${PORT}. !!!!!!!!`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server is listening on port:${PORT}. !!!!!!!!`);
+  });
 
+} catch(error){
+  console.error('Error server: ',error);
+}
 //
 // Hot Module Replacement
 // -----------------------------------------------------------------------------

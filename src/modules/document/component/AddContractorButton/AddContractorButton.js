@@ -57,7 +57,6 @@ export class AddContractorButton extends Component {
       }
     } catch (error) {
       captureException(error);
-      console.log('Error eventHandle: ', error);
     }
   };
 
@@ -90,7 +89,6 @@ export class AddContractorButton extends Component {
             zIndex={1}>
             <DropdownMenuList
               onChange={value => {
-                console.log('onChange: ', value);
                 onChange(value);
                 this.onToggleMenu(false);
               }}

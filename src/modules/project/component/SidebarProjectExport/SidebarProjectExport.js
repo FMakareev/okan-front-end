@@ -25,7 +25,6 @@ export class SidebarProjectExport extends React.Component {
     const {
       document: { id, name },
     } = this.props;
-    console.log('SidebarProjectExport: ', this.props);
     return (
       <ButtonBase
         title={'Эспортировать документ'}

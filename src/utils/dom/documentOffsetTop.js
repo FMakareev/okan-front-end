@@ -8,7 +8,6 @@ export const documentOffsetTop = ()=>{
       };
     }
   } catch (e) {
-    console.log('Error documentOffsetTop: ',e);
   }
 
 }

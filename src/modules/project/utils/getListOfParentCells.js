@@ -1,4 +1,5 @@
 import CellItemQuery from './CellItemQuery.graphql';
+import {captureException} from "../../../hocs/withSentry/withSentry";
 
 const has = Object.prototype.hasOwnProperty;
 /**
@@ -16,7 +17,6 @@ export const getListOfParentCells = (client, id, nodes) => {
       },
     })
     .then(response => {
-      // console.log(response);
       const {data} = response;
       if (data && data.cellItem) {
         nodes.push(data.cellItem);

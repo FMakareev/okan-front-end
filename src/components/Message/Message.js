@@ -33,10 +33,6 @@ export class Message extends Component {
 
   static defaultProps = {};
 
-  componentDidCatch(error, info) {
-    console.log(error, info);
-  }
-
   render() {
     const { description, meta } = this.props;
 

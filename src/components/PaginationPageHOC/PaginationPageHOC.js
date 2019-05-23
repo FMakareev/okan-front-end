@@ -61,7 +61,7 @@ export class PaginationPageHOC extends Component {
         );
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error prevPage: ',error);
     }
   };
 
@@ -76,7 +76,7 @@ export class PaginationPageHOC extends Component {
         this.reFetchAfterSetState(fetchMore),
       );
     } catch (error) {
-      console.log(error);
+      console.error('Error nextPage:',error);
     }
   };
 

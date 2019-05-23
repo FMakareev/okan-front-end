@@ -155,7 +155,7 @@ export class TextFieldArray extends Component {
         return id;
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error getOptionName: ',error);
       return id;
     }
   };

@@ -6,7 +6,6 @@ export const getUserFromStore = store => {
   try {
     return store.user;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };

@@ -25,7 +25,6 @@ export const getCurrentLocalize = () => {
 export const changeTranslate = (store, language) => dispatch =>
   import(`../../../../public/messages/${language}.json`)
     .then(response => {
-      console.log('test1:', response);
       dispatch(addTranslationForLanguage(response, language));
       dispatch(setActiveLanguage(language));
 

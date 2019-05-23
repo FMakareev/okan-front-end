@@ -46,8 +46,6 @@ const has = Object.prototype.hasOwnProperty;
 const Wrapper = styled(Flex)`
   cursor: pointer;
   ${({active}) => (active ? 'background-color: #bdbdbd52;' : '')}
-  /* ${props => console.log(props)} */
-
   &:hover {
     background-color: #bdbdbd52;
   }
@@ -232,8 +230,6 @@ export class SidebarCellNode extends Component {
 
   createBindingBlockCopy = (parentCellId, lastChildren, bindAfterCopy, cellToCopy) => {
     const {node} = this.props;
-    console.log('createBindingBlockCopy: ', this.props);
-    console.table({parentCellId, lastChildren, bindAfterCopy, cellToCopy});
 
     if (node.childcell && node.childcell.isHead) {
       /** Удаляет id блока из кэша */
@@ -302,7 +298,6 @@ export class SidebarCellNode extends Component {
             };
 
             let parentCellData = store.readQuery(parentCellOptions);
-            console.log('parentCellData: ',parentCellData);
             /** если у родителя нет детей то созданная при копировании/связывании ячейка становится его потомком */
             if(!parentCellData.cellItem.childcell){
               parentCellData.cellItem.childcell = createcell.cell;
@@ -310,7 +305,6 @@ export class SidebarCellNode extends Component {
 
             parentCellData.cellItem.lastChildren = createcell.cell;
 
-            console.log('parentCellData: ',parentCellData);
             store.writeQuery({
               ...parentCellOptions,
               data: parentCellData,
@@ -383,7 +377,6 @@ export class SidebarCellNode extends Component {
         },
       })
       .then(({data}) => {
-        // console.log('got data', data);
         this.props.setNotificationSuccess(notificationOpts(this.props.node.name).success);
         /** Удаляет id блока из кэша */
         this.props.removeBlock();
