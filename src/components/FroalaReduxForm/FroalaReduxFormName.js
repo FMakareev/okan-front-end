@@ -66,11 +66,10 @@ export class FroalaReduxFormName extends Component {
 
   handleModelChange(event) {
     try {
-      console.log('Froala ReduxForm handleModelChange', event);
       const { input } = this.props;
       input.onChange(event);
     } catch (error) {
-      console.error(error);
+      console.error('handleModelChange: ',error);
     }
   }
 

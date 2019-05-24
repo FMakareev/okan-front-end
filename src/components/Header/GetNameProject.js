@@ -41,7 +41,6 @@ export class GetNameProject extends Component {
         });
       })
       .catch(error => {
-        console.log('getProject error :', error);
       });
   };
 

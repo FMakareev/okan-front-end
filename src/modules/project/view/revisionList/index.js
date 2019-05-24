@@ -28,7 +28,6 @@ export class RevisionListPage extends Component {
     const {
       match: { params },
     } = this.props;
-    // console.log(this.props);
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
@@ -39,7 +38,6 @@ export class RevisionListPage extends Component {
                 id: params && params.id,
               }}>
               {({ loading, error, data }) => {
-                // console.log('RevisionListQuery', data);
                 if (loading) {
                   return <SmallPreloader />;
                 }

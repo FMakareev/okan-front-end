@@ -9,9 +9,9 @@ import Box from '@lib/ui/Box/Box';
 import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
 import { SvgSidebarDelete } from '@lib/ui/Icons/SvgSidebarDelete';
 import { ButtonBase } from '@lib/ui/ButtonBase/ButtonBase';
-import { CreateContractor } from '../CreateContractor/CreateContractor';
 import { ROLE_EXTERNALCONTRACTOR } from '@lib/shared/roles';
 import CreateContractorHelpers from '../helpers/CreateContractorHelpers';
+import CreateContractor from "../CreateContractor/CreateContractor";
 
 /** Внутренние согласующие ОКАН*/
 export class FieldArrayExternalUser extends Component {
@@ -31,7 +31,6 @@ export class FieldArrayExternalUser extends Component {
       <Box mb={'100px'}>
         {fields.map((member, index) => (
           <Flex key={`FieldArrayExternalUser-${fields.name}-${index}`} mb={6}>
-
             <CreateContractor
               names={CreateContractorHelpers(member)}
             />
@@ -59,7 +58,7 @@ export class FieldArrayExternalUser extends Component {
                 role: {
                   name: ROLE_EXTERNALCONTRACTOR,
                 },
-              },
+              }
             });
           }}>
           Добавить контрагента

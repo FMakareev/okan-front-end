@@ -34,7 +34,7 @@ export class LayoutApp extends Component {
 
       return <Component location={location} route={result[0].route} match={result[0].match} />;
     } catch (error) {
-      console.log(error);
+      console.error('Error renderRoutes: ',error);
     }
     return undefined;
   };

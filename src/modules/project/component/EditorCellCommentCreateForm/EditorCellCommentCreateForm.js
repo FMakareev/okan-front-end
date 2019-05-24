@@ -48,11 +48,16 @@ export class EditorCellCommentCreateForm extends Component {
   static propTypes = {
     cell: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
+    onToggleComments: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
     user: PropTypes.object,
   };
+
+  static defaultProps = {
+    onToggleComments: ()=>{},
+  }
 
   constructor(props) {
     super(props);
@@ -117,6 +122,7 @@ export class EditorCellCommentCreateForm extends Component {
     })
       .then(() => {
         this.toggleLoading();
+        this.props.onToggleComments();
         setNotificationSuccess(createCommentNotification().success);
         reset();
       })

@@ -97,7 +97,6 @@ export class EditorCellController extends Component {
         return currentCellRef
       }
     } catch (error) {
-      console.log('objectPath: ',error);
       captureException(error);
       return currentCellRef
     }
@@ -220,21 +219,20 @@ export class EditorCellController extends Component {
               id: this.props.data.parent.id,
             },
           };
-          console.log('updateCell : ', updateCell);
 
           try {
             UpdateCellInCache(store, {...updateCell.cell});
           } catch (e) {
-            console.error('Error in SidebarApprovalStatus change status: ', e);
-            captureException(error);
+            console.error( e);
+            captureException(error,'Error in SidebarApprovalStatus change status: ');
           }
 
           try {
             data = store.readQuery(options);
             data.cellItem.verify = updateCell.cell.verify;
           } catch (error) {
-            console.warn('Warning UpdateCellInCache read: ', error);
-            captureException(error);
+
+            captureException(error, 'Warning UpdateCellInCache read: ');
           }
           try {
             store.writeQuery({...options, data: {...data}});

@@ -5,18 +5,16 @@ import { FieldArray } from 'redux-form';
 import Text from '@lib/ui/Text/Text';
 import Container from '@lib/ui/Container/Container';
 
-/** Component */
-import FieldArrayInternalUser from '../FieldArrayInternalUser/FieldArrayInternalUser';
 
-export const FieldArrayInternalUserWithTitle = ({ name, title }) => {
+export const FieldArrayWithTitle = ({ name, title, component }) => {
   return (
     <Container maxWidth={'500px'} width={'100%'}>
       <Text variant={'documentTitle'} mb={6}>
         {title}
       </Text>
-      <FieldArray name={name} component={FieldArrayInternalUser} />
+      <FieldArray name={name} component={component} />
     </Container>
   );
 };
 
-export default FieldArrayInternalUserWithTitle;
+export default FieldArrayWithTitle;

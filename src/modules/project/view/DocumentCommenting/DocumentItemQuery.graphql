@@ -2,6 +2,9 @@ query ($documentid: String!, $projectid: String!) {
   documentitem(id: $documentid) {
     approvalstatus
     id
+    okancode
+    name
+    project
     authorrevision {
       id
       email
@@ -37,10 +40,7 @@ query ($documentid: String!, $projectid: String!) {
         isHead
       }
     }
-    name
-
-    project
-    internalMatching: partners {
+    internalMatching {
       id
       lastname
       firstname
@@ -57,22 +57,26 @@ query ($documentid: String!, $projectid: String!) {
     author {
       id
     }
-    documents{
+     documents{
        # mongoid
        id
        # id project
        project
        # название шаблона
        name
+       okancode
        # id корневого элемента от которого строится граф разделов
        childcell: children {
          id
          name
+         verify
          isHead
+         isAttachment
+         number
        }
        # null, на согласовании, согласован, не согласован
        approvalstatus
-      internalMatching: partners {
+       internalMatching {
          id
          lastname
          firstname

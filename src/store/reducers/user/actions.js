@@ -34,7 +34,6 @@ export const userInit = (state, request) => dispatch => {
         client
           .query({ query: CurrentUserItemQuery })
           .then(response => {
-            console.log('response:', response);
             const { data } = response;
             if (isBrowser) {
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
@@ -99,7 +98,6 @@ export const userUpdate = () => dispatch => {
           resolve(data.currentuseritem);
         })
         .catch(error => {
-          console.log(error);
           if (isBrowser) {
             localStorage.clear();
           }

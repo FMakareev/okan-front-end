@@ -69,7 +69,6 @@ export class FormCreateFirstCell extends Component {
    * */
   SubmitUpdateDocument = children => {
     const { project, document, setNotificationSuccess, setNotificationError } = this.props;
-    console.log(1, this.props);
     return this.props['UpdateDocumentMutation']({
       variables: {
         id: document.id,

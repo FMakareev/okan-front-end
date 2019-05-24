@@ -10,13 +10,11 @@ import { ic_add } from 'react-icons-kit/md/ic_add';
 import { SvgDownload } from '../../components/Icons/SvgDownload';
 
 /** Image */
-import Image from '../Image/Image';
 import TooltipBase from '../TooltipBase/TooltipBase';
 
 /** Css value */
-import { DropZoneStyled, DropZoneIconWrapper, Img, IconStyled } from './PictureUploadPreviewStyled';
+import { DropZoneStyled, DropZoneIconWrapper, Img } from './PictureUploadPreviewStyled';
 
-const handleDropRejected = (...args) => console.log('reject', args);
 
 /**
  * @example ./PictureUploadPreview.example.md
@@ -64,14 +62,7 @@ export class PictureUploadPreview extends Component {
     this.setState(({ files }) => {
       files: files;
     });
-    console.log(11, this.state.files);
-
     const preview = files[0].preview;
-
-    this.setState({
-      // this.state.preview: preview,
-    });
-    // console.log(11, this.state.preview);
 
     this.getBase64(files[0]);
   }
@@ -84,11 +75,10 @@ export class PictureUploadPreview extends Component {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function() {
-      // console.log(reader.result);
       onChange(reader.result);
     };
     reader.onerror = function(error) {
-      console.log('Error: ', error);
+      console.error('Error: ', error);
     };
   }
 

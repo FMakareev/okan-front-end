@@ -7,13 +7,9 @@ import React from 'react';
 export const changeQueryString = (queryString, targetQS) => {
   let newSearchString = {};
 
-  console.log(1, queryString, targetQS);
-  console.log(2, newSearchString);
-
   for (var key in queryString) {
     if (key === 'searchPhrase') {
       newSearchString = { searchPhrase: queryString[key] };
-      console.log(3, newSearchString);
     }
   }
 

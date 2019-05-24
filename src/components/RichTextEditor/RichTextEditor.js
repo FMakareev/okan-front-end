@@ -74,7 +74,6 @@ export class RichTextEditor extends Component {
    * */
   componentDidUpdate(prevProps) {
     if (prevProps.froalaLoaded !== this.props.froalaLoaded && this.props.froalaLoaded) {
-      console.log('updated');
       this.initButtonsCallbacks();
     }
   }
@@ -148,14 +147,12 @@ export class RichTextEditor extends Component {
         /** Вешаем mouseup на document, т.к. курсор нне наведен на кнопку или копию узла */
       }
       document.onmouseup = e => {
-        console.log('mouseup');
         this.releaseButton(nodePreview, wholeCell, e, button);
       };
       {
         /** Вешаем mouseup на кнопку, т.к. предыдущий обработчик не срабатывает на кнопке */
       }
       button.onmouseup = e => {
-        console.log('mouseup on button');
         this.releaseButton(nodePreview, wholeCell, e, button);
       };
     };
@@ -230,11 +227,10 @@ export class RichTextEditor extends Component {
         },
       })
       .then(({ data }) => {
-        console.log('got data', data);
         this.props.setNotificationSuccess(messageNotificationUnbindCell().success);
       })
       .catch(error => {
-        console.log('there was an error sending the query', error);
+        console.error('Error unbindBlock:', error);
         this.props.setNotificationError(messageNotificationUnbindCell().error);
       });
   };

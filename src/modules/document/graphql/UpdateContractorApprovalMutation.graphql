@@ -2,6 +2,7 @@ mutation($id:String ,$position:String,$firstname:String,$lastname:String,$patron
   updatecontractorapproval(id: $id,position:$position,firstname:$firstname,lastname:$lastname,patronymic:$patronymic,signature:$signature,approvaldate:$approvaldate, userid: $userid,organizationname:$organizationname){
     contractorapproval {
       id
+      approvaldate
       user {
         id
         firstname
@@ -15,7 +16,6 @@ mutation($id:String ,$position:String,$firstname:String,$lastname:String,$patron
           id
         }
       }
-      approvaldate
     }
   }
 }

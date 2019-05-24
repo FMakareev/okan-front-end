@@ -198,7 +198,6 @@ const defaultMocks = {
     },
 
     createrevision: (mutation, props) => {
-      console.log('createrevision: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           faker.random.number(1) ?
@@ -221,7 +220,6 @@ const defaultMocks = {
 
     createcell: (mutation, props) => {
 
-      console.log('cellitem: ', props);
       const {prevcell, parent} = props;
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -268,7 +266,6 @@ const defaultMocks = {
     },
 
     createproject: (mutation, props) => {
-      console.log('createproject: ', props);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve({
@@ -314,9 +311,6 @@ const defaultMocks = {
             ...documentitem(),
             ...props,
           }
-          console.log('documentitem(): ', documentitem());
-          console.log('document: ', document);
-          console.log('document: ', props);
           resolve({
             document:document,
           });

@@ -35,7 +35,6 @@ import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
 
 const validate = ({ email, password, retryPas }) => {
   const errors = {};
-  console.log('validate: ',email, password, retryPas);
   if (!email) {
     errors.email = 'Обязательно для заполнения';
   }
@@ -137,13 +136,7 @@ export class FormRegistration extends Component {
           return Promise.resolve(result);
         }
       })
-      .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
-        // console.log('graphQLErrors: ', graphQLErrors);
-        // console.log('message: ', message);
-        // console.log('networkError: ', networkError);
-        // console.log('rest: ', rest);
-        // console.log('error: ', error);
-
+      .catch(() => {
         setNotificationError(notificationOpts().error);
 
         this.setState(() => ({
@@ -168,7 +161,6 @@ export class FormRegistration extends Component {
 
   submit(value) {
     const data = { variables: Object.assign({}, value) };
-    console.log(123, value);
 
     this.setState(({ submitting, isLoading }) => {
       return { submitting: !submitting, isLoading: !isLoading };
@@ -187,7 +179,6 @@ export class FormRegistration extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
         this.props.setNotificationError(notificationOpts().error);
         this.setState(() => ({
           submitting: false,
@@ -200,7 +191,6 @@ export class FormRegistration extends Component {
   render() {
     const { handleSubmit, pristine, invalid, error } = this.props;
     const { isLoading, apolloError, submitting } = this.state;
-    console.log(pristine, submitting, invalid);
 
     return (
       <Form onSubmit={handleSubmit(this.submit)}>

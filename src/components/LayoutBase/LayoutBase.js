@@ -77,7 +77,6 @@ export class LayoutBase extends PureComponent {
         loading: false,
       }),
       () => {
-        // console.log(`Run: layout - (${indexRoute}), path - ${location.pathname} `)
       },
     );
   };

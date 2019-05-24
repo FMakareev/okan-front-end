@@ -197,8 +197,7 @@ export class SidebarApprovalStatus extends Component {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
           ({data}) => {
             if(!this.equalPrevCellAndNextCell(node, data.cellItem)){
-              // console.log('subscribeInstanceToCellItem', data);
-              // console.log('subscribeInstanceToCellItem => updateNode');
+
               this.props.updateNode(node.id, data.cellItem);
               if (data.cellItem.verify === CELL_STATUS_CHANGED) {
                 this.props.cellCheckStatusChange(node && node.id, data.cellItem.verify);

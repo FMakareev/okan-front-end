@@ -34,13 +34,8 @@ if (langArray.length) {
 }
 
 
-console.log('modules: ', modules);
-
-
 Object.entries(modules).map(([moduleName, value]) => {
-  console.log(moduleName, value);
   if (has.call(value, 'routes')) {
-    console.log(app);
     value.routes.forEach(item => {
       try{
         app[item.method](item.path, item.callback);

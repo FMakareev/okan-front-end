@@ -83,7 +83,6 @@ export class Header extends Component {
     this.setState(({ isOpen }) => {
       return { isOpen: true };
     });
-    console.log(2);
     event.stopPropagation();
   };
 

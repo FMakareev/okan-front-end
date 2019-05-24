@@ -2,22 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql, withApollo } from 'react-apollo';
 import { success, error } from 'react-notification-system-redux';
-import { Fields, reduxForm, SubmissionError, Form, getFormValues, FieldArray } from 'redux-form';
+import {Fields, reduxForm, SubmissionError, Form, getFormValues, FieldArray} from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { has } from '../../../../utils/has';
+
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
 import Flex from '@lib/ui/Flex/Flex';
-import Text from '@lib/ui/Text/Text';
 import Container from '@lib/ui/Container/Container';
 import ButtonWithImage from '@lib/ui/ButtonWithImage/ButtonWithImage';
 
 /** Components */
 import BasicDocumentSettings from '../BasicDocumentSettings/BasicDocumentSettings';
-import FieldArrayInternalUserWithTitle from './FieldArrayInternalUserWithTitle';
 
 /** Image */
 import { SvgSave } from '@lib/ui/Icons/SvgSave';
@@ -29,6 +28,10 @@ import CreateContractorApprovalMutation from '../../graphql/CreateContractorAppr
 import UpdateContractorApprovalMutation from '../../graphql/UpdateContractorApprovalMutation.graphql';
 import DeleteContractorMutation from '../../graphql/DeleteContractorMutation.graphql';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
+import FieldArrayExternalUser from "../FieldArrayExternalUser/FieldArrayExternalUser";
+import FieldArrayWithTitle from "./FieldArrayWithTitle";
+import FieldArrayInternalUser from "../FieldArrayInternalUser/FieldArrayInternalUser";
+import ExternalAndInternalApprovalUser from "../ExternalAndInternalApprovalUser/ExternalAndInternalApprovalUser";
 
 const notificationOpts = () => ({
   success: {
@@ -91,6 +94,10 @@ export class FormDocumentSettings extends Component {
     });
   };
 
+  /**
+   * @param {string} id  утверждающего/согласующего
+   * @return Promise
+   * @desc метод удаления внешнего утверждающего/согласующего на сервере */
   removeContractorApprovalMutation = id => {
     const { client } = this.props;
     return client
@@ -115,58 +122,65 @@ export class FormDocumentSettings extends Component {
    * */
   getDeletedContractor = (nextContractors, prevContractors) => {
     try {
-      let differenceBetweenThePreviousAndTheNext = [];
+      let diffBetweenThePrevAndNext = [];
 
       prevContractors.forEach(prevContractor => {
         let result = nextContractors.find(
           nextContractor => prevContractor.id === nextContractor.id,
         );
         if (!result) {
-          differenceBetweenThePreviousAndTheNext.push(prevContractor);
+          diffBetweenThePrevAndNext.push(prevContractor);
         }
       });
-      return differenceBetweenThePreviousAndTheNext;
+      return diffBetweenThePrevAndNext;
     } catch (error) {
       captureException(error, 'Error transformDocumentApproval: ');
       return error;
     }
   };
 
+  /** @desc метод генерирует массив промисов на удаление списка внешних согласующих/утверждающих */
   createRequestListForRemoveContractorApproval = async value => {
     try {
       return await value.map(async item => {
         const {
-          data: { deleteContractorApproval },
+          data: { deletecontractorapproval },
         } = await this.removeContractorApprovalMutation(item.id);
 
-        return deleteContractorApproval;
+        return deletecontractorapproval;
       });
     } catch (error) {
       captureException(error, 'Error createContractorApprovalList: ');
     }
   };
 
+  /**
+   * @param {object} value
+   * @param {array} value.externalApprove
+   * @param {array} value.externalMatching
+   * @desc метод запускает процесс удаления внешних утверждаюзих/согласующих
+   * */
   removeContractorApproval = async value => {
     try {
       const newDate = {
-        externalAndInternalApprove: [],
+        externalApprove: [],
         externalMatching: [],
       };
       const promiseLists = {
-        externalAndInternalApprove: [],
+        externalApprove: [],
         externalMatching: [],
       };
 
       if (
-        has.call(value, 'externalAndInternalApprove') &&
-        Array.isArray(value.externalAndInternalApprove)
+        has.call(value, 'externalApprove') &&
+        Array.isArray(value.externalApprove)
       ) {
-        newDate.externalAndInternalApprove = this.getDeletedContractor(
-          value.externalAndInternalApprove,
-          this.props.initialValues.externalAndInternalApprove,
+        newDate.externalApprove = this.getDeletedContractor(
+          value.externalApprove,
+          this.props.initialValues.externalApprove,
         );
-        promiseLists.externalAndInternalApprove = await this.createRequestListForRemoveContractorApproval(
-          newDate.externalAndInternalApprove,
+        promiseLists.externalApprove = await this.createRequestListForRemoveContractorApproval(
+          newDate.externalApprove,
         );
       }
       if (has.call(value, 'externalMatching') && Array.isArray(value.externalMatching)) {
@@ -180,9 +194,9 @@ export class FormDocumentSettings extends Component {
       }
 
       /** резолвим промисы */
-      if (promiseLists.externalAndInternalApprove.length) {
-        newDate.externalAndInternalApprove = await Promise.all(
-          promiseLists.externalAndInternalApprove,
+      if (promiseLists.externalApprove.length) {
+        newDate.externalApprove = await Promise.all(
+          promiseLists.externalApprove,
         );
       }
       if (promiseLists.externalMatching.length) {
@@ -219,7 +233,6 @@ export class FormDocumentSettings extends Component {
       approvaldate: value.approvaldate,
       userid: value.user.id,
     };
-    // TODO: заменить заглушку на мутацию
     return this.props.client.mutate({
       mutation: UpdateContractorApprovalMutation,
       variables,
@@ -244,7 +257,7 @@ export class FormDocumentSettings extends Component {
             data: { updatecontractorapproval },
           } = await this.submitUpdateContractorApproval(item);
           contractorapproval = updatecontractorapproval.contractorapproval;
-        } else {
+        } else  {
           const {
             data: { createcontractorapproval },
           } = await this.submitCreateContractorApproval(item);
@@ -260,7 +273,7 @@ export class FormDocumentSettings extends Component {
 
   /**
    * @param {object} value
-   * @param {array} value.externalAndInternalApprove
+   * @param {array} value.externalApprove
    * @param {array} value.externalMatching
    * @return {Promise}
    * @desc метод для преобразования данные формы к виду массивов gql типов ContractorApproval
@@ -268,15 +281,15 @@ export class FormDocumentSettings extends Component {
   transformDocumentApproval = async value => {
     try {
       const newDate = {
-        externalAndInternalApprove: [],
+        externalApprove: [],
         externalMatching: [],
       };
       if (
-        has.call(value, 'externalAndInternalApprove') &&
-        Array.isArray(value.externalAndInternalApprove)
+        has.call(value, 'externalApprove') &&
+        Array.isArray(value.externalApprove)
       ) {
-        newDate.externalAndInternalApprove = await this.createContractorApprovalList(
-          value.externalAndInternalApprove,
+        newDate.externalApprove = await this.createContractorApprovalList(
+          value.externalApprove,
         );
       }
       if (has.call(value, 'externalMatching') && Array.isArray(value.externalMatching)) {
@@ -284,8 +297,8 @@ export class FormDocumentSettings extends Component {
       }
 
       /** резолвим промисы */
-      if (newDate.externalAndInternalApprove.length) {
-        newDate.externalAndInternalApprove = await Promise.all(newDate.externalAndInternalApprove);
+      if (newDate.externalApprove.length) {
+        newDate.externalApprove = await Promise.all(newDate.externalApprove);
       }
       if (newDate.externalMatching.length) {
         newDate.externalMatching = await Promise.all(newDate.externalMatching);
@@ -301,8 +314,10 @@ export class FormDocumentSettings extends Component {
 
   /**
    * @param {object} value
-   * @param {array} value.externalAndInternalApprove
+   * @param {array} value.externalApprove
+   * @param {array} value.internalApprove
    * @param {array} value.externalMatching
+   * @param {array} value.internalMatching
    * @param {array} value.partners
    * @param {string} value.name
    * @param {string} value.customercode
@@ -314,7 +329,10 @@ export class FormDocumentSettings extends Component {
   updateDocument = async value => {
     const { setNotificationError, setNotificationSuccess, history } = this.props;
     this.loadingToggle();
+
+    /** */
     const removeContractorApproval = await this.removeContractorApproval(value);
+
     if (removeContractorApproval.message) {
       setNotificationError(notificationOpts().error);
       throw new SubmissionError({ _error: removeContractorApproval.message });
@@ -328,6 +346,7 @@ export class FormDocumentSettings extends Component {
     }
 
     const options = {
+      mutation: UpdateDocumentMutation,
       variables: Object.assign({}, value, documentApproval),
       update: (store, response) => {
         try {
@@ -340,11 +359,8 @@ export class FormDocumentSettings extends Component {
               id: updatedocument.document.id,
             },
           };
-
           const documentItem = store.readQuery(documentItemOptions);
-
           documentItem.documentitem = updatedocument.document;
-
           store.writeQuery({ ...documentItemOptions, data: documentItem });
         } catch (e) {
           captureException(e, 'Error in FormProjectCreate, method updateDocument : ');
@@ -352,7 +368,7 @@ export class FormDocumentSettings extends Component {
       },
     };
 
-    return this.props['@apollo/update'](options)
+    return this.props.client.mutate(options)
       .then(response => {
         this.loadingToggle();
         setNotificationSuccess(notificationOpts().success);
@@ -363,7 +379,7 @@ export class FormDocumentSettings extends Component {
         const { message } = error;
         this.loadingToggle();
         setNotificationError(notificationOpts().error);
-        captureException(error);
+        captureException(error,'Error catch');
 
         throw new SubmissionError({ _error: message });
       });
@@ -371,6 +387,7 @@ export class FormDocumentSettings extends Component {
 
   render() {
     const { handleSubmit } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.updateDocument)}>
         <Flex mt={9} mb={'100px'} justifyContent={'space-around'}>
@@ -382,16 +399,30 @@ export class FormDocumentSettings extends Component {
               />
             </Container>
 
-            <FieldArrayInternalUserWithTitle name={'internalMatching'} title={'Внутренние согласующие ОКАН'} />
-          </Box>
-          
-          <Box px={5} width={'50%'}>
-            <FieldArrayInternalUserWithTitle
-              name={'externalAndInternalApprove'}
-              title={'Утверждающие внешние и внутренние'}
+            <FieldArrayWithTitle
+              component={FieldArrayInternalUser}
+              name={'internalMatching'}
+              title={'Внутренние согласующие ОКАН'}
             />
+            <FieldArrayWithTitle
+              component={FieldArrayInternalUser}
+              name={'internalApprove'}
+              title={'Внутренние утверждающие ОКАН'}
+            />
+          </Box>
 
-            <FieldArrayInternalUserWithTitle name={'externalMatching'} title={'Внешние согласующие'} />
+          <Box px={5} width={'50%'}>
+
+            <FieldArrayWithTitle
+              name={'externalMatching'}
+              title={'Внешние согласующие'}
+              component={FieldArrayExternalUser}
+            />
+            <FieldArrayWithTitle
+              name={'externalApprove'}
+              title={'Внешние утверждающие'}
+              component={FieldArrayExternalUser}
+            />
           </Box>
         </Flex>
 
@@ -413,9 +444,6 @@ export class FormDocumentSettings extends Component {
   }
 }
 
-FormDocumentSettings = graphql(UpdateDocumentMutation, {
-  name: '@apollo/update',
-})(FormDocumentSettings);
 
 FormDocumentSettings = connect(
   state => ({
@@ -430,6 +458,7 @@ FormDocumentSettings = connect(
 FormDocumentSettings = reduxForm({
   form: 'FormDocumentSettings',
 })(FormDocumentSettings);
+
 FormDocumentSettings = withRouter(FormDocumentSettings);
 FormDocumentSettings = withApollo(FormDocumentSettings);
 export default FormDocumentSettings;

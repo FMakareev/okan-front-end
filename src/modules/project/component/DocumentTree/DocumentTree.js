@@ -1190,7 +1190,6 @@ export class DocumentTree extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <Box
         style={{
