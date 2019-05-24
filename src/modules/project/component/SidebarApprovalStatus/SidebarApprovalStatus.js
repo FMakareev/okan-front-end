@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Query, withApollo} from 'react-apollo';
+import { withApollo} from 'react-apollo';
 import objectPath from 'object-path';
 import styled from 'styled-components';
 
 /** View */
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
-/**Image */
-import {SvgStatus} from '../../../../components/Icons/SvgStatus';
 
 /**Graphql schema */
 import ChangeStatusMutation from '../../graphql/ChangeStatusMutation.graphql';
@@ -94,16 +92,14 @@ export class SidebarApprovalStatus extends Component {
           try {
             UpdateCellInCache(store, {...changestatus.cell});
           } catch (error) {
-            console.error('Error in SidebarApprovalStatus change status: ', error);
-            captureException(error);
+            captureException(error, 'Error in SidebarApprovalStatus change status');
           }
 
           try {
             cell = store.readQuery(options);
             cell.celllist.map(item => (item.verify = changestatus.cell.verify));
           } catch (error) {
-            console.error('Error in readQuery change status: ', error);
-            captureException(error);
+            captureException(error, 'Error in readQuery change status');
           }
           try {
             store.writeQuery({
@@ -113,8 +109,7 @@ export class SidebarApprovalStatus extends Component {
               },
             });
           } catch (error) {
-            console.error('Error in writeQuery change status: ', error);
-            captureException(error);
+            captureException(error, 'Error in writeQuery change status');
           }
 
           let checkChanges = {checkForCellChanges: {}};
@@ -129,8 +124,7 @@ export class SidebarApprovalStatus extends Component {
             checkChanges = store.readQuery(dataCheckForCellChanges);
             checkChanges.checkForCellChanges.answer = false;
           } catch (error) {
-            console.warn('Warning checkForCellChanges read: ', error);
-            captureException(error);
+            captureException(error,'Warning checkForCellChanges read');
           }
 
           try {
@@ -139,8 +133,8 @@ export class SidebarApprovalStatus extends Component {
               data: {checkForCellChanges: {...checkChanges.checkForCellChanges}},
             });
           } catch (error) {
-            console.error('Error changeStatus: ', error);
-            captureException(error);
+
+            captureException(error,'Error changeStatus');
           }
         },
       })
@@ -148,8 +142,7 @@ export class SidebarApprovalStatus extends Component {
         await this.props.cellCheckStatusChange(id, status);
       })
       .catch(error => {
-        console.error(error);
-        captureException(error);
+        captureException(error, 'Error changeStatus');
       });
   };
 
@@ -184,8 +177,7 @@ export class SidebarApprovalStatus extends Component {
       });
       return shallowequal(newPrevCell, nextCell);
     } catch (error) {
-      console.error('Error comparePrevAndNext: ', error);
-      captureException(error);
+      captureException(error,'Error comparePrevAndNext');
     }
   };
 
@@ -207,8 +199,7 @@ export class SidebarApprovalStatus extends Component {
         );
       }
     } catch (error) {
-      console.error('Error initSubscribe: ', error);
-      captureException(error);
+      captureException(error,'Error initSubscribe');
     }
   };
 
@@ -225,47 +216,33 @@ export class SidebarApprovalStatus extends Component {
    * */
   subscribeToCellItem = id => {
     try {
-      // this.changeStatus(id, CELL_STATUS_CHANGED);
       return this.props.client.watchQuery({
         query: CellItemQuery,
         variables: {id: id},
       });
     } catch (error) {
-      console.error('Error: ', error);
-      captureException(error);
+      captureException(error, 'Error subscribeToCellItem');
     }
   };
 
   render() {
-    const {node, client} = this.props;
-    return (
-      <Query query={CheckForCellChangesQuery} variables={{id: node && node.id}}>
-        {({loading, error, data}) => {
-          return (
-            <ButtonBase
-              title={'Статус проверки блока'}
-              variant={'outlineGray'}
-              p={'10px'}
-              disabled={node.childcell && node.childcell.isHead}
-              styled={{
-                backgroundColor: node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff',
-              }}
-              onClick={event => {
-                event.stopPropagation();
-                return this.changeStatus(node.id, CELL_STATUS_CHECKED);
-              }}>
-              <CircleIcon
-                fill={GetStatusColor(
-                  data && data.checkForCellChanges && data.checkForCellChanges.answer
-                    ? CELL_STATUS_CHANGED
-                    : node.verify,
-                )}
-              />
-            </ButtonBase>
-          );
-        }}
-      </Query>
-    );
+    const {node} = this.props;
+    return (<ButtonBase
+      title={'Статус проверки блока'}
+      variant={'outlineGray'}
+      p={'10px'}
+      disabled={node.childcell && node.childcell.isHead}
+      styled={{
+        backgroundColor: node.childcell && node.childcell.isHead ? '#e5e5e5' : '#fff',
+      }}
+      onClick={event => {
+        event.stopPropagation();
+        return this.changeStatus(node.id, CELL_STATUS_CHECKED);
+      }}>
+      <CircleIcon
+        fill={GetStatusColor(node.verify)}
+      />
+    </ButtonBase>);
   }
 }
 
