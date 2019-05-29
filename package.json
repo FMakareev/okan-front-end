@@ -201,7 +201,8 @@
     "sg:start": "npx styleguidist server --config ./config/styleguide.config.js",
     "sg:build": "npx styleguidist build --config ./config/styleguide.config.js",
     "createIndex": "babel-node tools/createIndex.js",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/jest-css-modules"
