@@ -1,120 +1,78 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Icon from 'react-icons-kit';
-import { connect } from 'react-redux';
+import React from 'react';
 
 /** Icons */
-import { ic_add } from 'react-icons-kit/md/ic_add';
+import {ic_add} from 'react-icons-kit/md/ic_add';
 
 /** Image */
-import { SvgDownload } from '../../components/Icons/SvgDownload';
+import {SvgDownload} from '../../components/Icons/SvgDownload';
 
 /** Image */
 import TooltipBase from '../TooltipBase/TooltipBase';
 
 /** Css value */
-import { DropZoneStyled, DropZoneIconWrapper, Img } from './PictureUploadPreviewStyled';
+import {DropZoneStyled, DropZoneIconWrapper, Img} from './PictureUploadPreviewStyled';
 
 
-/**
- * @example ./PictureUploadPreview.example.md
- */
-export class PictureUploadPreview extends Component {
-  constructor() {
-    super();
-    this.state = {
-      preview: null,
-      files: [],
-      error: null,
-    };
-    this.handleDrop = this.handleDrop.bind(this);
-    this.getBase64 = this.getBase64.bind(this);
+class PictureUploadPreview extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {file: '', imagePreviewUrl: ''};
   }
-
-  static propTypes = {
-    /** className */
-    styles: PropTypes.string,
-    /** CSS: margin - bottom */
-    mb: PropTypes.number,
-    /** CSS: border-radius */
-    br: PropTypes.number,
-    /** property of input */
-    value: PropTypes.string,
-    placeholderImage: PropTypes.string,
-    /** loading files or picture */
-    files: PropTypes.object,
-    /** input value */
-    disabled: PropTypes.bool,
-  };
-
-  handleDrop(files) {
-    if (!files.length && !files[0].preview) {
-      return null;
-    }
-
-    if (files[0].size > 600000) {
-      this.setState(() => ({ error: 'Размер картинки не должен превышать : 600КВ' }));
-      return null;
-    } else if (files[0].size < 600000) {
-      this.setState(() => ({ error: null }));
-    }
-
-    this.setState(({ files }) => {
-      files: files;
-    });
-    const preview = files[0].preview;
-
-    this.getBase64(files[0]);
-  }
-
-  getBase64(file) {
+  _handleImageChange(e) {
+    e.preventDefault();
     const {
-      input: { onChange },
+      input: {onChange},
     } = this.props;
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function() {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
       onChange(reader.result);
     };
-    reader.onerror = function(error) {
-      console.error('Error: ', error);
-    };
+
+    reader.readAsDataURL(file)
   }
 
   render() {
     const {
-      input: { value },
-      styles,
-      disabled,
-      mb,
-      br,
+      input: {value},
       placeholder,
-      meta,
+      error
     } = this.props;
 
-    const { preview, error } = this.state;
+    let $imagePreview = null;
+
+    if (value) {
+      $imagePreview = (<Img src={value}/>);
+    } else {
+      $imagePreview = (
+        <DropZoneIconWrapper>
+          <div> {placeholder}</div>
+          <SvgDownload/>
+        </DropZoneIconWrapper>
+      )
+    }
 
     return (
       <TooltipBase isActive={error} warning={error} left={'40%'}>
-        <DropZoneStyled
-          disabled={disabled}
-          br={br}
-          onDrop={this.handleDrop}
-          accept="image/*"
-          multiple={false}>
-          {preview && <Img src={preview} alt="image preview" />}
-          {!preview && value && <Img src={value} alt="logo" className={styles && styles.img} />}
-          {!preview && !value && (
-            <DropZoneIconWrapper disabled={disabled}>
-              <div> {placeholder}</div>
+        <DropZoneStyled>
+          {$imagePreview}
 
-              <div>{SvgDownload()}</div>
-            </DropZoneIconWrapper>
-          )}
+          <input
+            style={{
+              position: 'absolute',
+              opacity: '0',
+              width: '100%',
+              height: '100%',
+              top: '0'
+            }}
+            type="file"
+            onChange={(e) => this._handleImageChange(e)}
+          />
         </DropZoneStyled>
       </TooltipBase>
-    );
+    )
   }
 }
 

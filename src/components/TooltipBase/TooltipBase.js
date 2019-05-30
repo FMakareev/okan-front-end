@@ -37,12 +37,6 @@ export class TooltipBase extends Component {
     isActive: false,
   };
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.isActive !== this.props.isActive) {
-      return true;
-    }
-    return false;
-  }
 
   render() {
     const { warning, position, isActive, children } = this.props;

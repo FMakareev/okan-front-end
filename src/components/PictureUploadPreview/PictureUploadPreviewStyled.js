@@ -8,9 +8,10 @@ import BorderRadiusProperty from '../../styles/styleProperty/BorderRadiusPropert
 import { FontFamilyProperty } from '../../styles/styleProperty/FontFamilyProperty';
 import { BackgroundColorProperty } from '../../styles/styleProperty/BackgroundColorProperty';
 
-export const DropZoneStyled = styled(DropZoneDefault)`
+export const DropZoneStyled = styled.div`
   ${space};
   ${BorderRadiusProperty};
+  position: relative;
   cursor: pointer;
   overflow: hidden;
   height: 58px;
@@ -18,6 +19,7 @@ export const DropZoneStyled = styled(DropZoneDefault)`
   border-bottom-right-radius: 5px;
   border: 1px solid;
   ${props => color({ ...props, color: 'color4' })};
+  background-image: ${({bg})=>`url('${bg}')`};
 `;
 
 export const DropZoneIconWrapper = styled.div`
