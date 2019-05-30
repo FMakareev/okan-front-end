@@ -13,7 +13,6 @@ import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
 import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
 import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
-import { withPreLoader } from '@lib/ui/withPreLoader/withPreLoader';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';
@@ -69,8 +68,6 @@ export class FormLogin extends Component {
     error: PropTypes.any,
     handleSubmit: PropTypes.func,
     history: PropTypes.object,
-    isLoading: PropTypes.bool,
-    preLoaderToggle: PropTypes.func,
     pristine: PropTypes.any,
     setNotificationError: PropTypes.func,
     setNotificationSuccess: PropTypes.func,
@@ -89,14 +86,13 @@ export class FormLogin extends Component {
   }
 
   submit(value) {
-    this.props.preLoaderToggle();
     this.setState(({ submitting }) => ({
       submitting: !submitting,
+      isLoading: true,
     }));
 
     return FetchUserAuth(value)
       .then(response => {
-        this.props.preLoaderToggle();
         if (response.status >= 400 || !document.cookie) {
           throw response;
         } else {
@@ -105,8 +101,7 @@ export class FormLogin extends Component {
       })
       .catch(error => {
         const { status } = error;
-        this.props.preLoaderToggle();
-        this.setState(() => ({ submitting: false, apolloError: null }));
+        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
         captureException(error);
 
         if (status === 401 || status === 403) {
@@ -171,8 +166,9 @@ export class FormLogin extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, isLoading, error } = this.props;
-    const { apolloError } = this.state;
+    const { handleSubmit, pristine, error } = this.props;
+    const { apolloError,isLoading } = this.state;
+    console.log(this.props);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
         <FormLogo />
@@ -193,7 +189,6 @@ export class FormLogin extends Component {
             <Field
               name={'ups'}
               placeholder={'Пароль'}
-              // TextFieldInput={TextFieldWithTooltip}
               component={FieldInputPassword}
             />
           </TextFieldLastWrapper>
@@ -214,7 +209,6 @@ export class FormLogin extends Component {
 FormLogin = withRouter(FormLogin);
 
 FormLogin = withApollo(FormLogin);
-FormLogin = withPreLoader()(FormLogin);
 
 FormLogin = connect(
   null,
