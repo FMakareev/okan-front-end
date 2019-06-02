@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Box} from "@lib/ui/Box/Box";
-
+import { Box } from '../Box/Box';
 
 export const TextFieldFirstWrapper = styled(Box)`
   input {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { space, width, color } from 'styled-system';
+import { space, width, color, border, borders } from 'styled-system';
 
 /** Style property */
 import { FontSizeProperty } from '../../styles/styleProperty/FontSizeProperty';
@@ -14,6 +14,8 @@ import { TextAlignProperty } from '../../styles/styleProperty/TextAlignProperty'
  */
 export const Td = styled.td`
   ${space};
+  ${border};
+  ${borders};
   ${color};
   ${width};
   ${FontSizeProperty};

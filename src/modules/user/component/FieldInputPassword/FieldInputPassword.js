@@ -4,11 +4,11 @@ import { Absolute } from 'rebass';
 import styled from 'styled-components';
 
 /** View */
-import Relative from '@lib/ui/Relative/Relative';
-import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
+import Relative from '../../../../components/Relative/Relative';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
 
 /** Image */
-import { SvgEye } from '@lib/ui/Icons/SvgEye';
+import { SvgEye } from '../../../../components/Icons/SvgEye';
 
 const BtnEye = styled.div`
   cursor: pointer;

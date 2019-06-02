@@ -4,10 +4,14 @@ import Select, { components } from 'react-select';
 import DeepEqual from 'fast-deep-equal';
 
 /** Component */
-import { SvgTriangle } from '@lib/ui/Icons/SvgTriangle';
-import { Text } from '@lib/ui/Text/Text';
-import { InputVariant } from '../../styles/variants/InputVariant';
+import { SvgTriangle } from '../Icons/SvgTriangle';
+import { Text } from '../Text/Text';
+
+/** Utils */
 import has from '../../utils/has';
+
+/** Variant */
+import { InputVariant } from '../../styles/variants/InputVariant';
 
 /**
  * @param {object} theme - объект варианта из темы, импортируем напрямую из папки styles/variant

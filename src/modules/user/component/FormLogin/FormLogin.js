@@ -8,12 +8,12 @@ import { success, error } from 'react-notification-system-redux';
 import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** View */
-import Box from '@lib/ui/Box/Box';
-import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
-import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
-import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
-import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
-import { withPreLoader } from '@lib/ui/withPreLoader/withPreLoader';
+import Box from '../../../../components/Box/Box';
+import FormButtonSubmit from '../../../../components/FormButtonSubmit/FormButtonSubmit';
+import TextFieldWithTooltip from '../../../../components/TextFieldWithTooltip/TextFieldWithTooltip';
+import { TextFieldFirstWrapper } from '../../../../components/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import { TextFieldLastWrapper } from '../../../../components/TextFieldLastWrapper/TextFieldLastWrapper';
+import { withPreLoader } from '../../../../components/withPreLoader/withPreLoader';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';

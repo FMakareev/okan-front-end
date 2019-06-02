@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Query, withApollo} from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 import objectPath from 'object-path';
 import styled from 'styled-components';
 
@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ButtonBase from '../../../../components/ButtonBase/ButtonBase';
 
 /**Image */
-import {SvgStatus} from '../../../../components/Icons/SvgStatus';
+import { SvgStatus } from '../../../../components/Icons/SvgStatus';
 
 /**Graphql schema */
 import ChangeStatusMutation from '../../graphql/ChangeStatusMutation.graphql';
@@ -24,9 +24,9 @@ import {
 } from '@lib/shared/approvalStatus';
 
 /** Utils */
-import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
-import * as shallowequal from "shallowequal";
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
+import * as shallowequal from 'shallowequal';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const GetStatusColor = status => {
   switch (status) {
@@ -45,8 +45,7 @@ const GetStatusColor = status => {
   }
 };
 
-
-const CircleIcon = styled.div`
+export const CircleIcon = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -54,9 +53,9 @@ const CircleIcon = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
-  
-  ${({fill})=>`background-color: ${fill};`}
+  transform: translate(-50%, -50%);
+
+  ${({ fill }) => `background-color: ${fill};`}
 `;
 
 export class SidebarApprovalStatus extends Component {
@@ -82,8 +81,8 @@ export class SidebarApprovalStatus extends Component {
           id,
           status,
         },
-        update: (store, {data: {changestatus}}) => {
-          let cell = {celllist: {}};
+        update: (store, { data: { changestatus } }) => {
+          let cell = { celllist: {} };
           const options = {
             query: CellListQuery,
             variables: {
@@ -92,7 +91,7 @@ export class SidebarApprovalStatus extends Component {
           };
 
           try {
-            UpdateCellInCache(store, {...changestatus.cell});
+            UpdateCellInCache(store, { ...changestatus.cell });
           } catch (error) {
             console.error('Error in SidebarApprovalStatus change status: ', error);
             captureException(error);
@@ -117,7 +116,7 @@ export class SidebarApprovalStatus extends Component {
             captureException(error);
           }
 
-          let checkChanges = {checkForCellChanges: {}};
+          let checkChanges = { checkForCellChanges: {} };
           const dataCheckForCellChanges = {
             query: CheckForCellChangesQuery,
             variables: {
@@ -136,7 +135,7 @@ export class SidebarApprovalStatus extends Component {
           try {
             store.writeQuery({
               ...dataCheckForCellChanges,
-              data: {checkForCellChanges: {...checkChanges.checkForCellChanges}},
+              data: { checkForCellChanges: { ...checkChanges.checkForCellChanges } },
             });
           } catch (error) {
             console.error('Error changeStatus: ', error);
@@ -173,7 +172,7 @@ export class SidebarApprovalStatus extends Component {
       let newPrevCell = Object.assign({}, prevCell);
       /** ищем каких свойств нет в nextCell */
       Object.entries(prevCell).map(([prevKey]) => {
-        let result = Object.entries(nextCell).findIndex(([nextKey]) =>prevKey === nextKey);
+        let result = Object.entries(nextCell).findIndex(([nextKey]) => prevKey === nextKey);
         if (result === -1) {
           removeProps.push(prevKey);
         }
@@ -189,15 +188,13 @@ export class SidebarApprovalStatus extends Component {
     }
   };
 
-
   initSubscribe = () => {
-    const {node} = this.props;
+    const { node } = this.props;
     try {
       if ((!node.childcell && node.isHead) || (node.childcell && !node.childcell.isHead)) {
         this.subscribeInstanceToCellItem = this.subscribeToCellItem(node.id).subscribe(
-          ({data}) => {
-            if(!this.equalPrevCellAndNextCell(node, data.cellItem)){
-
+          ({ data }) => {
+            if (!this.equalPrevCellAndNextCell(node, data.cellItem)) {
               this.props.updateNode(node.id, data.cellItem);
               if (data.cellItem.verify === CELL_STATUS_CHANGED) {
                 this.props.cellCheckStatusChange(node && node.id, data.cellItem.verify);
@@ -228,7 +225,7 @@ export class SidebarApprovalStatus extends Component {
       // this.changeStatus(id, CELL_STATUS_CHANGED);
       return this.props.client.watchQuery({
         query: CellItemQuery,
-        variables: {id: id},
+        variables: { id: id },
       });
     } catch (error) {
       console.error('Error: ', error);
@@ -237,10 +234,10 @@ export class SidebarApprovalStatus extends Component {
   };
 
   render() {
-    const {node, client} = this.props;
+    const { node, client } = this.props;
     return (
-      <Query query={CheckForCellChangesQuery} variables={{id: node && node.id}}>
-        {({loading, error, data}) => {
+      <Query query={CheckForCellChangesQuery} variables={{ id: node && node.id }}>
+        {({ loading, error, data }) => {
           return (
             <ButtonBase
               title={'Статус проверки блока'}
