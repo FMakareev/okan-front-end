@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {
   borderBottom,
-  borders,
+  border,
   borderColor,
   borderRadius,
   boxShadow,
@@ -36,13 +36,13 @@ export const Card = styled(Box)`
   ${backgroundSize};
   ${backgroundRepeat};
   ${opacity};
-  ${borders};
+  ${border};
   ${borderBottom};
   ${BorderRadiusProperty};
 `;
 
 Card.propTypes = {
-  ...borders.propTypes,
+  ...border.propTypes,
   ...borderBottom.propTypes,
   ...borderColor.propTypes,
   ...borderRadius.propTypes,

@@ -4,11 +4,12 @@ exports[`News container initial renders properly 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <StyledThemeProvider>
-    <FieldInputPassword
-      isOpen={true}
-      name="bu"
-      placeholder="bu"
-      type="text"
+    <ProfileNotification
+      data={
+        Object {
+          "message": "1",
+        }
+      }
     />
   </StyledThemeProvider>,
   Symbol(enzyme.__renderer__): Object {
@@ -25,11 +26,12 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "class",
     "props": Object {
-      "children": <FieldInputPassword
-        isOpen={true}
-        name="bu"
-        placeholder="bu"
-        type="text"
+      "children": <ProfileNotification
+        data={
+          Object {
+            "message": "1",
+          }
+        }
       />,
       "theme": Object {
         "borderColor": Object {
@@ -468,12 +470,11 @@ ShallowWrapper {
     "rendered": Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "class",
+      "nodeType": "function",
       "props": Object {
-        "isOpen": true,
-        "name": "bu",
-        "placeholder": "bu",
-        "type": "text",
+        "data": Object {
+          "message": "1",
+        },
       },
       "ref": null,
       "rendered": null,
@@ -487,11 +488,12 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "class",
       "props": Object {
-        "children": <FieldInputPassword
-          isOpen={true}
-          name="bu"
-          placeholder="bu"
-          type="text"
+        "children": <ProfileNotification
+          data={
+            Object {
+              "message": "1",
+            }
+          }
         />,
         "theme": Object {
           "borderColor": Object {
@@ -930,12 +932,11 @@ ShallowWrapper {
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "class",
+        "nodeType": "function",
         "props": Object {
-          "isOpen": true,
-          "name": "bu",
-          "placeholder": "bu",
-          "type": "text",
+          "data": Object {
+            "message": "1",
+          },
         },
         "ref": null,
         "rendered": null,

@@ -13,6 +13,7 @@ ShallowWrapper {
   </StyledThemeProvider>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -38,6 +39,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -89,6 +91,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -193,18 +196,18 @@ ShallowWrapper {
         "variant": Object {
           "buttonComment": Object {
             "comment": Object {
-              "backgroundColor": "#006699",
               "border": 0,
+              "fill": "#006699",
               "minWidth": "20px",
             },
             "emptyComment": Object {
-              "backgroundColor": "#848484",
               "border": 0,
+              "fill": "#848484",
               "minWidth": "20px",
             },
             "newComment": Object {
-              "backgroundColor": "#df4624",
               "border": 0,
+              "fill": "#df4624",
               "minWidth": "20px",
             },
           },
@@ -229,7 +232,12 @@ ShallowWrapper {
               "lineHeight": "16px",
               "padding": "2px 0",
             },
+            "toApproval": Object {
+              "fontSize": "15px",
+              "padding": "2px",
+            },
             "xsmall": Object {
+              "-moz-padding": "0",
               "fontSize": " 14px",
               "fontWeight": 700,
               "lineHeight": "16px",
@@ -238,9 +246,31 @@ ShallowWrapper {
             },
           },
           "buttons": Object {
+            "disabled": Object {
+              "&:hover": Object {
+                "backgroundColor": "#00649c57",
+                "color": "#fff",
+                "fill": "#fff",
+              },
+              "backgroundColor": "#fff",
+              "border": "1px solid #00649c57",
+              "color": "#00649c57",
+              "fill": "#00649c57",
+            },
             "empty": Object {
+              "&:hover": Object {
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
               "backgroundColor": "#ffffff",
               "border": 0,
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "large": Object {
               "&:hover": Object {
@@ -252,6 +282,23 @@ ShallowWrapper {
               "border": "2px solid",
               "color": "#00649C",
               "fill": "#00649C",
+            },
+            "outlineGray": Object {
+              "&:hover": Object {
+                "borderColor": "#00649C",
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
+              "backgroundColor": "#ffffff",
+              "border": "0.5px solid #848484",
+              "borderRadius": "5px",
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "small": Object {
               "&:hover": Object {
@@ -266,14 +313,14 @@ ShallowWrapper {
             },
             "xsmall": Object {
               "&:hover": Object {
-                "backgroundColor": "#fff",
-                "color": "#00649C",
-                "fill": "#00649C",
+                "backgroundColor": "#00649C",
+                "color": "#fff",
+                "fill": "#fff",
               },
-              "backgroundColor": "#00649C",
+              "backgroundColor": "#fff",
               "border": "1px solid #00649C",
-              "color": "#fff",
-              "fill": "#fff",
+              "color": "#00649C",
+              "fill": "#00649C",
             },
           },
           "inputSize": Object {
@@ -283,6 +330,7 @@ ShallowWrapper {
               "padding": "10px 10px",
             },
             "md": Object {
+              "-moz-lineHeight": "20px",
               "fontSize": "16px",
               "lineHeight": "20px",
               "padding": "10px 10px",
@@ -298,6 +346,85 @@ ShallowWrapper {
               "padding": "0 10px",
             },
           },
+          "inputVariant": Object {
+            "default": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "firstField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px 5px 0 0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px 5px 0 0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "lastField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0 0 5px 5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0 0 5px 5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "primary": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "secondary": Object {},
+          },
           "text": Object {
             "document": Object {
               "color": "#4F4F4F",
@@ -307,6 +434,13 @@ ShallowWrapper {
               "marginBottom": "10px",
               "marginTop": "10px",
               "textAlign": "left",
+            },
+            "documentTitle": Object {
+              "color": "#00649C",
+              "fontFamily": "'Museo Sans 500'",
+              "fontSize": "18px",
+              "lineHeight": "24px",
+              "textAlign": "center",
             },
             "firstHeader": Object {
               "color": "#333333",
@@ -334,7 +468,7 @@ ShallowWrapper {
     "rendered": Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
         "children": "Button",
         "size": "large",
@@ -366,6 +500,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -417,6 +552,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -521,18 +657,18 @@ ShallowWrapper {
           "variant": Object {
             "buttonComment": Object {
               "comment": Object {
-                "backgroundColor": "#006699",
                 "border": 0,
+                "fill": "#006699",
                 "minWidth": "20px",
               },
               "emptyComment": Object {
-                "backgroundColor": "#848484",
                 "border": 0,
+                "fill": "#848484",
                 "minWidth": "20px",
               },
               "newComment": Object {
-                "backgroundColor": "#df4624",
                 "border": 0,
+                "fill": "#df4624",
                 "minWidth": "20px",
               },
             },
@@ -557,7 +693,12 @@ ShallowWrapper {
                 "lineHeight": "16px",
                 "padding": "2px 0",
               },
+              "toApproval": Object {
+                "fontSize": "15px",
+                "padding": "2px",
+              },
               "xsmall": Object {
+                "-moz-padding": "0",
                 "fontSize": " 14px",
                 "fontWeight": 700,
                 "lineHeight": "16px",
@@ -566,9 +707,31 @@ ShallowWrapper {
               },
             },
             "buttons": Object {
+              "disabled": Object {
+                "&:hover": Object {
+                  "backgroundColor": "#00649c57",
+                  "color": "#fff",
+                  "fill": "#fff",
+                },
+                "backgroundColor": "#fff",
+                "border": "1px solid #00649c57",
+                "color": "#00649c57",
+                "fill": "#00649c57",
+              },
               "empty": Object {
+                "&:hover": Object {
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
                 "backgroundColor": "#ffffff",
                 "border": 0,
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "large": Object {
                 "&:hover": Object {
@@ -580,6 +743,23 @@ ShallowWrapper {
                 "border": "2px solid",
                 "color": "#00649C",
                 "fill": "#00649C",
+              },
+              "outlineGray": Object {
+                "&:hover": Object {
+                  "borderColor": "#00649C",
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
+                "backgroundColor": "#ffffff",
+                "border": "0.5px solid #848484",
+                "borderRadius": "5px",
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "small": Object {
                 "&:hover": Object {
@@ -594,14 +774,14 @@ ShallowWrapper {
               },
               "xsmall": Object {
                 "&:hover": Object {
-                  "backgroundColor": "#fff",
-                  "color": "#00649C",
-                  "fill": "#00649C",
+                  "backgroundColor": "#00649C",
+                  "color": "#fff",
+                  "fill": "#fff",
                 },
-                "backgroundColor": "#00649C",
+                "backgroundColor": "#fff",
                 "border": "1px solid #00649C",
-                "color": "#fff",
-                "fill": "#fff",
+                "color": "#00649C",
+                "fill": "#00649C",
               },
             },
             "inputSize": Object {
@@ -611,6 +791,7 @@ ShallowWrapper {
                 "padding": "10px 10px",
               },
               "md": Object {
+                "-moz-lineHeight": "20px",
                 "fontSize": "16px",
                 "lineHeight": "20px",
                 "padding": "10px 10px",
@@ -626,6 +807,85 @@ ShallowWrapper {
                 "padding": "0 10px",
               },
             },
+            "inputVariant": Object {
+              "default": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "firstField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px 5px 0 0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px 5px 0 0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "lastField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0 0 5px 5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0 0 5px 5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "primary": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "secondary": Object {},
+            },
             "text": Object {
               "document": Object {
                 "color": "#4F4F4F",
@@ -635,6 +895,13 @@ ShallowWrapper {
                 "marginBottom": "10px",
                 "marginTop": "10px",
                 "textAlign": "left",
+              },
+              "documentTitle": Object {
+                "color": "#00649C",
+                "fontFamily": "'Museo Sans 500'",
+                "fontSize": "18px",
+                "lineHeight": "24px",
+                "textAlign": "center",
               },
               "firstHeader": Object {
                 "color": "#333333",
@@ -662,7 +929,7 @@ ShallowWrapper {
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "function",
+        "nodeType": "class",
         "props": Object {
           "children": "Button",
           "size": "large",
@@ -679,11 +946,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -709,6 +983,7 @@ ShallowWrapper {
   </StyledThemeProvider>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -735,6 +1010,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -786,6 +1062,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -890,18 +1167,18 @@ ShallowWrapper {
         "variant": Object {
           "buttonComment": Object {
             "comment": Object {
-              "backgroundColor": "#006699",
               "border": 0,
+              "fill": "#006699",
               "minWidth": "20px",
             },
             "emptyComment": Object {
-              "backgroundColor": "#848484",
               "border": 0,
+              "fill": "#848484",
               "minWidth": "20px",
             },
             "newComment": Object {
-              "backgroundColor": "#df4624",
               "border": 0,
+              "fill": "#df4624",
               "minWidth": "20px",
             },
           },
@@ -926,7 +1203,12 @@ ShallowWrapper {
               "lineHeight": "16px",
               "padding": "2px 0",
             },
+            "toApproval": Object {
+              "fontSize": "15px",
+              "padding": "2px",
+            },
             "xsmall": Object {
+              "-moz-padding": "0",
               "fontSize": " 14px",
               "fontWeight": 700,
               "lineHeight": "16px",
@@ -935,9 +1217,31 @@ ShallowWrapper {
             },
           },
           "buttons": Object {
+            "disabled": Object {
+              "&:hover": Object {
+                "backgroundColor": "#00649c57",
+                "color": "#fff",
+                "fill": "#fff",
+              },
+              "backgroundColor": "#fff",
+              "border": "1px solid #00649c57",
+              "color": "#00649c57",
+              "fill": "#00649c57",
+            },
             "empty": Object {
+              "&:hover": Object {
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
               "backgroundColor": "#ffffff",
               "border": 0,
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "large": Object {
               "&:hover": Object {
@@ -949,6 +1253,23 @@ ShallowWrapper {
               "border": "2px solid",
               "color": "#00649C",
               "fill": "#00649C",
+            },
+            "outlineGray": Object {
+              "&:hover": Object {
+                "borderColor": "#00649C",
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
+              "backgroundColor": "#ffffff",
+              "border": "0.5px solid #848484",
+              "borderRadius": "5px",
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "small": Object {
               "&:hover": Object {
@@ -963,14 +1284,14 @@ ShallowWrapper {
             },
             "xsmall": Object {
               "&:hover": Object {
-                "backgroundColor": "#fff",
-                "color": "#00649C",
-                "fill": "#00649C",
+                "backgroundColor": "#00649C",
+                "color": "#fff",
+                "fill": "#fff",
               },
-              "backgroundColor": "#00649C",
+              "backgroundColor": "#fff",
               "border": "1px solid #00649C",
-              "color": "#fff",
-              "fill": "#fff",
+              "color": "#00649C",
+              "fill": "#00649C",
             },
           },
           "inputSize": Object {
@@ -980,6 +1301,7 @@ ShallowWrapper {
               "padding": "10px 10px",
             },
             "md": Object {
+              "-moz-lineHeight": "20px",
               "fontSize": "16px",
               "lineHeight": "20px",
               "padding": "10px 10px",
@@ -995,6 +1317,85 @@ ShallowWrapper {
               "padding": "0 10px",
             },
           },
+          "inputVariant": Object {
+            "default": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "firstField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px 5px 0 0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px 5px 0 0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "lastField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0 0 5px 5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0 0 5px 5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "primary": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "secondary": Object {},
+          },
           "text": Object {
             "document": Object {
               "color": "#4F4F4F",
@@ -1004,6 +1405,13 @@ ShallowWrapper {
               "marginBottom": "10px",
               "marginTop": "10px",
               "textAlign": "left",
+            },
+            "documentTitle": Object {
+              "color": "#00649C",
+              "fontFamily": "'Museo Sans 500'",
+              "fontSize": "18px",
+              "lineHeight": "24px",
+              "textAlign": "center",
             },
             "firstHeader": Object {
               "color": "#333333",
@@ -1031,7 +1439,7 @@ ShallowWrapper {
     "rendered": Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
         "children": "Button",
         "leftIcon": <UNDEFINED />,
@@ -1065,6 +1473,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -1116,6 +1525,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -1220,18 +1630,18 @@ ShallowWrapper {
           "variant": Object {
             "buttonComment": Object {
               "comment": Object {
-                "backgroundColor": "#006699",
                 "border": 0,
+                "fill": "#006699",
                 "minWidth": "20px",
               },
               "emptyComment": Object {
-                "backgroundColor": "#848484",
                 "border": 0,
+                "fill": "#848484",
                 "minWidth": "20px",
               },
               "newComment": Object {
-                "backgroundColor": "#df4624",
                 "border": 0,
+                "fill": "#df4624",
                 "minWidth": "20px",
               },
             },
@@ -1256,7 +1666,12 @@ ShallowWrapper {
                 "lineHeight": "16px",
                 "padding": "2px 0",
               },
+              "toApproval": Object {
+                "fontSize": "15px",
+                "padding": "2px",
+              },
               "xsmall": Object {
+                "-moz-padding": "0",
                 "fontSize": " 14px",
                 "fontWeight": 700,
                 "lineHeight": "16px",
@@ -1265,9 +1680,31 @@ ShallowWrapper {
               },
             },
             "buttons": Object {
+              "disabled": Object {
+                "&:hover": Object {
+                  "backgroundColor": "#00649c57",
+                  "color": "#fff",
+                  "fill": "#fff",
+                },
+                "backgroundColor": "#fff",
+                "border": "1px solid #00649c57",
+                "color": "#00649c57",
+                "fill": "#00649c57",
+              },
               "empty": Object {
+                "&:hover": Object {
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
                 "backgroundColor": "#ffffff",
                 "border": 0,
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "large": Object {
                 "&:hover": Object {
@@ -1279,6 +1716,23 @@ ShallowWrapper {
                 "border": "2px solid",
                 "color": "#00649C",
                 "fill": "#00649C",
+              },
+              "outlineGray": Object {
+                "&:hover": Object {
+                  "borderColor": "#00649C",
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
+                "backgroundColor": "#ffffff",
+                "border": "0.5px solid #848484",
+                "borderRadius": "5px",
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "small": Object {
                 "&:hover": Object {
@@ -1293,14 +1747,14 @@ ShallowWrapper {
               },
               "xsmall": Object {
                 "&:hover": Object {
-                  "backgroundColor": "#fff",
-                  "color": "#00649C",
-                  "fill": "#00649C",
+                  "backgroundColor": "#00649C",
+                  "color": "#fff",
+                  "fill": "#fff",
                 },
-                "backgroundColor": "#00649C",
+                "backgroundColor": "#fff",
                 "border": "1px solid #00649C",
-                "color": "#fff",
-                "fill": "#fff",
+                "color": "#00649C",
+                "fill": "#00649C",
               },
             },
             "inputSize": Object {
@@ -1310,6 +1764,7 @@ ShallowWrapper {
                 "padding": "10px 10px",
               },
               "md": Object {
+                "-moz-lineHeight": "20px",
                 "fontSize": "16px",
                 "lineHeight": "20px",
                 "padding": "10px 10px",
@@ -1325,6 +1780,85 @@ ShallowWrapper {
                 "padding": "0 10px",
               },
             },
+            "inputVariant": Object {
+              "default": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "firstField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px 5px 0 0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px 5px 0 0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "lastField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0 0 5px 5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0 0 5px 5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "primary": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "secondary": Object {},
+            },
             "text": Object {
               "document": Object {
                 "color": "#4F4F4F",
@@ -1334,6 +1868,13 @@ ShallowWrapper {
                 "marginBottom": "10px",
                 "marginTop": "10px",
                 "textAlign": "left",
+              },
+              "documentTitle": Object {
+                "color": "#00649C",
+                "fontFamily": "'Museo Sans 500'",
+                "fontSize": "18px",
+                "lineHeight": "24px",
+                "textAlign": "center",
               },
               "firstHeader": Object {
                 "color": "#333333",
@@ -1361,7 +1902,7 @@ ShallowWrapper {
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "function",
+        "nodeType": "class",
         "props": Object {
           "children": "Button",
           "leftIcon": <UNDEFINED />,
@@ -1379,11 +1920,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -1409,6 +1957,7 @@ ShallowWrapper {
   </StyledThemeProvider>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
     "getNode": [Function],
     "render": [Function],
     "simulateError": [Function],
@@ -1435,6 +1984,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -1486,6 +2036,7 @@ ShallowWrapper {
           "color11": "#333333",
           "color12": "#DF4624",
           "color13": "#f2f2f2",
+          "color14": "#fff3c1",
           "color2": "#DEDEDE",
           "color3": "#4F4F4F",
           "color4": "#848484",
@@ -1590,18 +2141,18 @@ ShallowWrapper {
         "variant": Object {
           "buttonComment": Object {
             "comment": Object {
-              "backgroundColor": "#006699",
               "border": 0,
+              "fill": "#006699",
               "minWidth": "20px",
             },
             "emptyComment": Object {
-              "backgroundColor": "#848484",
               "border": 0,
+              "fill": "#848484",
               "minWidth": "20px",
             },
             "newComment": Object {
-              "backgroundColor": "#df4624",
               "border": 0,
+              "fill": "#df4624",
               "minWidth": "20px",
             },
           },
@@ -1626,7 +2177,12 @@ ShallowWrapper {
               "lineHeight": "16px",
               "padding": "2px 0",
             },
+            "toApproval": Object {
+              "fontSize": "15px",
+              "padding": "2px",
+            },
             "xsmall": Object {
+              "-moz-padding": "0",
               "fontSize": " 14px",
               "fontWeight": 700,
               "lineHeight": "16px",
@@ -1635,9 +2191,31 @@ ShallowWrapper {
             },
           },
           "buttons": Object {
+            "disabled": Object {
+              "&:hover": Object {
+                "backgroundColor": "#00649c57",
+                "color": "#fff",
+                "fill": "#fff",
+              },
+              "backgroundColor": "#fff",
+              "border": "1px solid #00649c57",
+              "color": "#00649c57",
+              "fill": "#00649c57",
+            },
             "empty": Object {
+              "&:hover": Object {
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
               "backgroundColor": "#ffffff",
               "border": 0,
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "large": Object {
               "&:hover": Object {
@@ -1649,6 +2227,23 @@ ShallowWrapper {
               "border": "2px solid",
               "color": "#00649C",
               "fill": "#00649C",
+            },
+            "outlineGray": Object {
+              "&:hover": Object {
+                "borderColor": "#00649C",
+                "color": "#00649C",
+                "fill": "#00649C",
+                "stroke": "#00649C",
+              },
+              ":disabled": Object {
+                "backgroundColor": "#e5e5e5",
+                "fill": "#e5e5e5",
+              },
+              "backgroundColor": "#ffffff",
+              "border": "0.5px solid #848484",
+              "borderRadius": "5px",
+              "fill": "#848484",
+              "stroke": "#848484",
             },
             "small": Object {
               "&:hover": Object {
@@ -1663,14 +2258,14 @@ ShallowWrapper {
             },
             "xsmall": Object {
               "&:hover": Object {
-                "backgroundColor": "#fff",
-                "color": "#00649C",
-                "fill": "#00649C",
+                "backgroundColor": "#00649C",
+                "color": "#fff",
+                "fill": "#fff",
               },
-              "backgroundColor": "#00649C",
+              "backgroundColor": "#fff",
               "border": "1px solid #00649C",
-              "color": "#fff",
-              "fill": "#fff",
+              "color": "#00649C",
+              "fill": "#00649C",
             },
           },
           "inputSize": Object {
@@ -1680,6 +2275,7 @@ ShallowWrapper {
               "padding": "10px 10px",
             },
             "md": Object {
+              "-moz-lineHeight": "20px",
               "fontSize": "16px",
               "lineHeight": "20px",
               "padding": "10px 10px",
@@ -1695,6 +2291,85 @@ ShallowWrapper {
               "padding": "0 10px",
             },
           },
+          "inputVariant": Object {
+            "default": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "firstField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "5px 5px 0 0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "5px 5px 0 0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "lastField": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0 0 5px 5px",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0 0 5px 5px",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "primary": Object {
+              "border": "1px solid #848484",
+              "borderRadius": "0",
+              "color": "#333333",
+              "rs": Object {
+                "control": Object {
+                  "border": "1px solid #848484",
+                  "borderRadius": "0",
+                  "color": "#333333",
+                },
+                "dropdownIndicator": Object {},
+                "indicatorSeparator": Object {},
+                "menu": Object {},
+                "option": Object {},
+                "selectContainer": Object {},
+                "singleValue": Object {},
+                "valueContainer": Object {},
+              },
+            },
+            "secondary": Object {},
+          },
           "text": Object {
             "document": Object {
               "color": "#4F4F4F",
@@ -1704,6 +2379,13 @@ ShallowWrapper {
               "marginBottom": "10px",
               "marginTop": "10px",
               "textAlign": "left",
+            },
+            "documentTitle": Object {
+              "color": "#00649C",
+              "fontFamily": "'Museo Sans 500'",
+              "fontSize": "18px",
+              "lineHeight": "24px",
+              "textAlign": "center",
             },
             "firstHeader": Object {
               "color": "#333333",
@@ -1731,7 +2413,7 @@ ShallowWrapper {
     "rendered": Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "function",
+      "nodeType": "class",
       "props": Object {
         "children": "Button",
         "rightIcon": <UNDEFINED />,
@@ -1765,6 +2447,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -1816,6 +2499,7 @@ ShallowWrapper {
             "color11": "#333333",
             "color12": "#DF4624",
             "color13": "#f2f2f2",
+            "color14": "#fff3c1",
             "color2": "#DEDEDE",
             "color3": "#4F4F4F",
             "color4": "#848484",
@@ -1920,18 +2604,18 @@ ShallowWrapper {
           "variant": Object {
             "buttonComment": Object {
               "comment": Object {
-                "backgroundColor": "#006699",
                 "border": 0,
+                "fill": "#006699",
                 "minWidth": "20px",
               },
               "emptyComment": Object {
-                "backgroundColor": "#848484",
                 "border": 0,
+                "fill": "#848484",
                 "minWidth": "20px",
               },
               "newComment": Object {
-                "backgroundColor": "#df4624",
                 "border": 0,
+                "fill": "#df4624",
                 "minWidth": "20px",
               },
             },
@@ -1956,7 +2640,12 @@ ShallowWrapper {
                 "lineHeight": "16px",
                 "padding": "2px 0",
               },
+              "toApproval": Object {
+                "fontSize": "15px",
+                "padding": "2px",
+              },
               "xsmall": Object {
+                "-moz-padding": "0",
                 "fontSize": " 14px",
                 "fontWeight": 700,
                 "lineHeight": "16px",
@@ -1965,9 +2654,31 @@ ShallowWrapper {
               },
             },
             "buttons": Object {
+              "disabled": Object {
+                "&:hover": Object {
+                  "backgroundColor": "#00649c57",
+                  "color": "#fff",
+                  "fill": "#fff",
+                },
+                "backgroundColor": "#fff",
+                "border": "1px solid #00649c57",
+                "color": "#00649c57",
+                "fill": "#00649c57",
+              },
               "empty": Object {
+                "&:hover": Object {
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
                 "backgroundColor": "#ffffff",
                 "border": 0,
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "large": Object {
                 "&:hover": Object {
@@ -1979,6 +2690,23 @@ ShallowWrapper {
                 "border": "2px solid",
                 "color": "#00649C",
                 "fill": "#00649C",
+              },
+              "outlineGray": Object {
+                "&:hover": Object {
+                  "borderColor": "#00649C",
+                  "color": "#00649C",
+                  "fill": "#00649C",
+                  "stroke": "#00649C",
+                },
+                ":disabled": Object {
+                  "backgroundColor": "#e5e5e5",
+                  "fill": "#e5e5e5",
+                },
+                "backgroundColor": "#ffffff",
+                "border": "0.5px solid #848484",
+                "borderRadius": "5px",
+                "fill": "#848484",
+                "stroke": "#848484",
               },
               "small": Object {
                 "&:hover": Object {
@@ -1993,14 +2721,14 @@ ShallowWrapper {
               },
               "xsmall": Object {
                 "&:hover": Object {
-                  "backgroundColor": "#fff",
-                  "color": "#00649C",
-                  "fill": "#00649C",
+                  "backgroundColor": "#00649C",
+                  "color": "#fff",
+                  "fill": "#fff",
                 },
-                "backgroundColor": "#00649C",
+                "backgroundColor": "#fff",
                 "border": "1px solid #00649C",
-                "color": "#fff",
-                "fill": "#fff",
+                "color": "#00649C",
+                "fill": "#00649C",
               },
             },
             "inputSize": Object {
@@ -2010,6 +2738,7 @@ ShallowWrapper {
                 "padding": "10px 10px",
               },
               "md": Object {
+                "-moz-lineHeight": "20px",
                 "fontSize": "16px",
                 "lineHeight": "20px",
                 "padding": "10px 10px",
@@ -2025,6 +2754,85 @@ ShallowWrapper {
                 "padding": "0 10px",
               },
             },
+            "inputVariant": Object {
+              "default": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "firstField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "5px 5px 0 0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "5px 5px 0 0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "lastField": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0 0 5px 5px",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0 0 5px 5px",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "primary": Object {
+                "border": "1px solid #848484",
+                "borderRadius": "0",
+                "color": "#333333",
+                "rs": Object {
+                  "control": Object {
+                    "border": "1px solid #848484",
+                    "borderRadius": "0",
+                    "color": "#333333",
+                  },
+                  "dropdownIndicator": Object {},
+                  "indicatorSeparator": Object {},
+                  "menu": Object {},
+                  "option": Object {},
+                  "selectContainer": Object {},
+                  "singleValue": Object {},
+                  "valueContainer": Object {},
+                },
+              },
+              "secondary": Object {},
+            },
             "text": Object {
               "document": Object {
                 "color": "#4F4F4F",
@@ -2034,6 +2842,13 @@ ShallowWrapper {
                 "marginBottom": "10px",
                 "marginTop": "10px",
                 "textAlign": "left",
+              },
+              "documentTitle": Object {
+                "color": "#00649C",
+                "fontFamily": "'Museo Sans 500'",
+                "fontSize": "18px",
+                "lineHeight": "24px",
+                "textAlign": "center",
               },
               "firstHeader": Object {
                 "color": "#333333",
@@ -2061,7 +2876,7 @@ ShallowWrapper {
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "function",
+        "nodeType": "class",
         "props": Object {
           "children": "Button",
           "rightIcon": <UNDEFINED />,
@@ -2079,11 +2894,18 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
         "lifecycles": Object {
           "componentDidUpdate": Object {
             "onSetState": true,
           },
-          "getDerivedStateFromProps": true,
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,

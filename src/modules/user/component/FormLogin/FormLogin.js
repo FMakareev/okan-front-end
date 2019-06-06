@@ -122,7 +122,6 @@ export class FormLogin extends Component {
 
     return FetchUserAuth(value)
       .then(response => {
-        console.log('FetchUserAuth: ', response);
         if (response.status >= 400 || !document.cookie) {
           return response.json()
         } else {
@@ -135,7 +134,6 @@ export class FormLogin extends Component {
         }
       })
       .catch(error => {
-        console.log('FetchUserAuth error: ', error);
         this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
         throw new SubmissionError(normalizeSubmissionError(error));
       });

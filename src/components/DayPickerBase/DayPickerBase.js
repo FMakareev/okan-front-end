@@ -10,9 +10,9 @@ import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
 
 /** Css */
 import '../../assets/style/react-datepicker-big.css';
-import { Box } from '@lib/ui/Box/Box';
-import { InputVariant } from '@lib/styles/variants/InputVariant';
-import { InputSize } from '@lib/styles/variants/InputSize';
+import { Box } from '../Box/Box';
+import { InputVariant } from '../../styles/variants/InputVariant';
+import { InputSize } from '../../styles/variants/InputSize';
 
 const inputSize = variant({
   key: 'variant.inputSize',

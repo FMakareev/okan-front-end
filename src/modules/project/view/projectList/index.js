@@ -1,46 +1,41 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as Sentry from '@sentry/browser';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 /**PropTypes */
-import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
+import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
 
 /** View */
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
 import Container from '@lib/ui/Container/Container';
-import {ButtonWithImage} from '@lib/ui/ButtonWithImage/ButtonWithImage';
-import {Link} from '@lib/ui/Link/Link';
+import { ButtonWithImage } from '@lib/ui/ButtonWithImage/ButtonWithImage';
+import { Link } from '@lib/ui/Link/Link';
 import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
 import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
-import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 
 /** components */
 import ProjectList from '../../component/ProjectList/ProjectList';
 
 /** Image */
-import {SvgPlay} from '@lib/ui/Icons/SvgPlay';
+import { SvgPlay } from '@lib/ui/Icons/SvgPlay';
 
 /** Graphql schema */
 import ProjectListQuery from './ProjectListQuery.graphql';
 
 /** Redux reducers*/
-import {getUserFromStore} from '../../../../store/reducers/user/selectors';
+import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 const has = Object.prototype.hasOwnProperty;
 
-
-
-
-
 export class ProjectListPage extends Component {
-  static propTypes = {...ReactRoutePropTypes};
+  static propTypes = { ...ReactRoutePropTypes };
 
   state = {};
 
   render() {
-    const {user} = this.props;
+    const { user } = this.props;
 
     return (
       <ErrorCatch>
@@ -51,11 +46,10 @@ export class ProjectListPage extends Component {
               pageSize={5}
               pageNumber={1}
               queryVariables={{
-                id: user && user.id
+                id: user && user.id,
               }}
-              query={ProjectListQuery}
-            >
-              {(props) => (
+              query={ProjectListQuery}>
+              {props => (
                 <PaginationPage
                   {...props}
                   data={props.data && props.data.projectList}
@@ -70,14 +64,12 @@ export class ProjectListPage extends Component {
                 variant={'large'}
                 size={'medium'}
                 children={'Создать проект'}
-                rightIcon={<SvgPlay/>}
+                rightIcon={<SvgPlay />}
                 ml={9}
                 width={'100%'}
                 widthIcon={'10px'}
               />
             </Link>
-
-
           </Container>
         </Flex>
       </ErrorCatch>
