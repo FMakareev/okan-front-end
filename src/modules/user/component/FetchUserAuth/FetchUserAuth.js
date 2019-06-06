@@ -1,5 +1,3 @@
-import { SubmissionError } from 'redux-form';
-import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 /** json method */
 import { jsonToUrlEncoded } from '../../../../utils/jsontools/jsonToUrlEncoded';

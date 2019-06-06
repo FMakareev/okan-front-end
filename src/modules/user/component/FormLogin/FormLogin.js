@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { withApollo } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { Field, reduxForm, SubmissionError, Form } from 'redux-form';
-import { success, error } from 'react-notification-system-redux';
-import { captureException } from '../../../../hocs/withSentry/withSentry';
+import {withApollo} from 'react-apollo';
+import {withRouter} from 'react-router-dom';
+import {Field, reduxForm, SubmissionError, Form} from 'redux-form';
+import {success, error} from 'react-notification-system-redux';
+import {captureException} from '../../../../hocs/withSentry/withSentry';
 
 /** View */
 import Box from '@lib/ui/Box/Box';
 import FormButtonSubmit from '@lib/ui/FormButtonSubmit/FormButtonSubmit';
 import TextFieldWithTooltip from '@lib/ui/TextFieldWithTooltip/TextFieldWithTooltip';
-import { TextFieldFirstWrapper } from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
-import { TextFieldLastWrapper } from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
+import {TextFieldFirstWrapper} from '@lib/ui/TextFieldFirstWrapper/TextFieldFirstWrapper';
+import {TextFieldLastWrapper} from '@lib/ui/TextFieldLastWrapper/TextFieldLastWrapper';
 
 /**Components */
 import FormLogo from '../FormLogo/FormLogo';
 import FieldInputPassword from '../FieldInputPassword/FieldInputPassword';
-import { FetchUserAuth } from '../FetchUserAuth/FetchUserAuth';
+import {FetchUserAuth} from '../FetchUserAuth/FetchUserAuth';
 
 /** constants */
-import { USER_ADD } from '../../../../store/reducers/user/actionTypes';
+import {USER_ADD} from '../../../../store/reducers/user/actionTypes';
 
 /** query */
 import UserEmailItemQuery from './UserEmailItemQuery.graphql';
 
-const validate = ({ uname, ups }) => {
+const validate = ({uname, ups}) => {
   const errors = {};
 
   if (uname === undefined) {
@@ -61,6 +61,35 @@ const notificationOpts = () => ({
   },
 });
 
+
+const dictionaryError = (message)=>{
+  const dict = {
+    "Login or password not found": "Неверный логин или пароль",
+    "User not active": "Акаунт не активирован. Перейдите по ссылке в письме для активации акаунта или обратитесь к администратору.",
+    "AD error": "Акаунт не прошел внутреннюю авторизацию, пожалуйста обратитесь к системному администратору",
+    "ошибка сервера": "{ошибка сервера}",
+  };
+
+  for(let prop in dict){
+    if( prop === message){
+      return dict[prop];
+    }
+  }
+  return 'Произошла не известная ошибка';
+};
+
+const normalizeSubmissionError = (error) => {
+  const data = {
+    _error: dictionaryError(error.message)
+  };
+  for (let prop in error.errors) {
+    if (Array.isArray(error.errors[prop])) {
+      data[prop] = error.errors[prop][0];
+    }
+  }
+  return data;
+}
+
 export class FormLogin extends Component {
   static propTypes = {
     addUser: PropTypes.func,
@@ -82,46 +111,46 @@ export class FormLogin extends Component {
   }
 
   get initialState() {
-    return { submitting: false, apolloError: null };
+    return {submitting: false, apolloError: null};
   }
 
   submit(value) {
-    this.setState(({ submitting }) => ({
+    this.setState(({submitting}) => ({
       submitting: !submitting,
       isLoading: true,
     }));
 
     return FetchUserAuth(value)
       .then(response => {
+        console.log('FetchUserAuth: ', response);
         if (response.status >= 400 || !document.cookie) {
-          throw response;
+          return response.json()
         } else {
           return this.getUser(value.email);
         }
       })
-      .catch(error => {
-        const { status } = error;
-        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
-        captureException(error);
-
-        if (status === 401 || status === 403) {
-          throw new SubmissionError({ _error: 'Не верно введен логин или пароль' });
-        } else {
-          throw new SubmissionError({ _error: 'Пользователь не найден' });
+      .then(response => {
+        if(response.errors){
+          throw response;
         }
+      })
+      .catch(error => {
+        console.log('FetchUserAuth error: ', error);
+        this.setState(() => ({ submitting: false, isLoading: false, apolloError: null }));
+        throw new SubmissionError(normalizeSubmissionError(error));
       });
   }
 
   getUser = email => {
-    const { client, history, setNotificationSuccess, setNotificationError } = this.props;
+    const {client, history, setNotificationSuccess, setNotificationError} = this.props;
     return client
-      .query({ query: UserEmailItemQuery, variables: { email: email } })
+      .query({query: UserEmailItemQuery, variables: {email: email}})
       .then(result => {
         if (result.errors || result.data.currentuseritem === null) {
           // TO DO change this
           throw result;
         } else {
-          this.setState(() => ({ apolloError: null, isLoading: false }));
+          this.setState(() => ({apolloError: null, isLoading: false}));
           this.setUser(result);
           setNotificationSuccess(notificationOpts().success);
 
@@ -129,7 +158,7 @@ export class FormLogin extends Component {
           return Promise.resolve(result);
         }
       })
-      .catch(({ graphQLErrors, message, error, networkError, ...rest }) => {
+      .catch(({graphQLErrors, message, error, networkError, ...rest}) => {
         setNotificationError(notificationOpts().error);
         captureException(error);
         this.setState(() => ({
@@ -142,19 +171,19 @@ export class FormLogin extends Component {
 
   setUser = props => {
     const {
-      data: { currentuseritem },
+      data: {currentuseritem},
     } = props;
 
-    const { addUser } = this.props;
+    const {addUser} = this.props;
 
     addUser(currentuseritem);
 
-    localStorage.setItem('user', JSON.stringify({ ...currentuseritem }));
+    localStorage.setItem('user', JSON.stringify({...currentuseritem}));
   };
 
   mockSubmit = value => {
-    this.setState(({ submitting, isLoading }) => {
-      return { submitting: !submitting, isLoading: !isLoading };
+    this.setState(({submitting, isLoading}) => {
+      return {submitting: !submitting, isLoading: !isLoading};
     });
 
     return new Promise((resolve, reject) => {
@@ -166,12 +195,12 @@ export class FormLogin extends Component {
   };
 
   render() {
-    const { handleSubmit, pristine, error } = this.props;
-    const { apolloError,isLoading } = this.state;
+    const {handleSubmit, pristine, error} = this.props;
+    const {apolloError, isLoading} = this.state;
     console.log(this.props);
     return (
       <Form onSubmit={handleSubmit(this.submit)}>
-        <FormLogo />
+        <FormLogo/>
 
         <Box mb={'100px'}>
           <TextFieldFirstWrapper>
@@ -213,7 +242,7 @@ FormLogin = withApollo(FormLogin);
 FormLogin = connect(
   null,
   dispatch => ({
-    addUser: user => dispatch({ type: USER_ADD, user: user }),
+    addUser: user => dispatch({type: USER_ADD, user: user}),
     setNotificationSuccess: message => dispatch(success(message)),
     setNotificationError: message => dispatch(error(message)),
   }),

@@ -1,4 +1,4 @@
-/* global isBrowser */
+/* global isBrowser, ENDPOINT_CLIENT */
 
 import {
   USER_INIT_LOADING_ERROR,
@@ -10,10 +10,12 @@ import {
   USER_UPDATE_LOADING_START,
   USER_UPDATE_LOADING_SUCCESS,
 } from './actionTypes';
-import { client as browserClient } from '../../../apollo/index.client';
-import { client as serverClient } from '../../../apollo/index.server';
+import {client as browserClient} from '../../../apollo/index.client';
+import {client as serverClient} from '../../../apollo/index.server';
 import CurrentUserItemQuery from './CurrentUserItemQuery.graphql';
-import { resetUserToken } from './resetUserToken';
+import {resetUserToken} from './resetUserToken';
+import {jsonToUrlEncoded} from "@lib/utils/jsontools/jsonToUrlEncoded";
+import fetch from 'isomorphic-fetch';
 
 /**
  * @desc метод инициализации пользователя в системе
@@ -32,13 +34,13 @@ export const userInit = (state, request) => dispatch => {
           type: USER_INIT_LOADING_START,
         });
         client
-          .query({ query: CurrentUserItemQuery })
+          .query({query: CurrentUserItemQuery})
           .then(response => {
-            const { data } = response;
+            const {data} = response;
             if (isBrowser) {
               localStorage.setItem('user', JSON.stringify(data.currentuseritem));
             }
-            dispatch({ type: USER_INIT_LOADING_SUCCESS, user: { ...data.currentuseritem } });
+            dispatch({type: USER_INIT_LOADING_SUCCESS, user: {...data.currentuseritem}});
             resolve(data.currentuseritem);
           })
           .catch(error => {
@@ -88,20 +90,20 @@ export const userUpdate = () => dispatch => {
       });
 
       client()
-        .query({ query: CurrentUserItemQuery })
+        .query({query: CurrentUserItemQuery})
         .then(response => {
-          const { data } = response;
+          const {data} = response;
           if (isBrowser) {
             localStorage.setItem('user', JSON.stringify(data.currentuseritem));
           }
-          dispatch({ type: USER_UPDATE_LOADING_SUCCESS, user: { ...data.currentuseritem } });
+          dispatch({type: USER_UPDATE_LOADING_SUCCESS, user: {...data.currentuseritem}});
           resolve(data.currentuseritem);
         })
         .catch(error => {
           if (isBrowser) {
             localStorage.clear();
           }
-          dispatch({ type: USER_UPDATE_LOADING_ERROR, user: { error: error } });
+          dispatch({type: USER_UPDATE_LOADING_ERROR, user: {error: error}});
           reject(error);
         });
     } catch (error) {
@@ -114,16 +116,6 @@ export const userRemove = () => dispatch => {
   return new Promise((resolve, reject) => {
     try {
       if (isBrowser) {
-        // window.localStorage.clear();
-        // const cookies = document.cookie.split(';');
-
-        // for (let i = 0; i < cookies.length; i += 1) {
-        //   const cookie = cookies[i];
-        //   const eqPos = cookie.indexOf('=');
-        //   const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        //   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-        // }
-
         resetUserToken();
 
         dispatch(USER_REMOVE);
@@ -134,6 +126,28 @@ export const userRemove = () => dispatch => {
     }
   });
 };
+
+// TODO: not working
+export const userLogin = () => dispatch => {
+
+  return new Promise(() => {
+
+    fetch(`${ENDPOINT_CLIENT}/user/auth`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'text/html,application/xhtml+xml,application/xml',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: jsonToUrlEncoded(value),
+    });
+
+  })
+
+
+}
+
 
 export default {
   userInit,
