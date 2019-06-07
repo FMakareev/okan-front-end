@@ -49,9 +49,9 @@ export class NotificationsListObserver extends Component {
 
   componentDidMount() {
     if (isBrowser) {
-      // setTimeout(() => {
-      //   this.observeNotifications();
-      // }, 5000);
+      setTimeout(() => {
+        this.observeNotifications();
+      }, 5000);
     }
   }
 
