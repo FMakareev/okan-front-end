@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /** View */
-import Message from '../Message/Message';
 import CheckboxBase from '../CheckboxBase/CheckboxBase';
 import { Flex } from '../Flex/Flex';
-import { Text } from '../Text/Text';
 import { Box } from '../Box/Box';
 
 /**
