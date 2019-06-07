@@ -7,7 +7,7 @@ import { Box } from '@lib/ui/Box/Box';
 import { ProjectModeState } from '../ProjectContext/ProjectModeState';
 import { EditorAdditionalMenu } from '../EditorAdditionalMenu/EditorAdditionalMenu';
 import { Text } from '@lib/ui/Text/Text';
-import { EditorTypeIcon } from '@lib/ui/EditorTypeIcon/EditorTypeIcon';
+import { EditorTypeIcon } from '../EditorTypeIcon/EditorTypeIcon';
 
 export class EditorCellControllerNumber extends Component {
   static propTypes = {
