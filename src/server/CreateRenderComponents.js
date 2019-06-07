@@ -38,7 +38,7 @@ export const CreateRenderComponents = ({
       reduxState={reduxState}
       content={content}
       asyncState={asyncState}
-      client={ApolloClient}
+      apolloCache={ApolloClient}
     />
   );
 
