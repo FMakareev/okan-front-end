@@ -4,7 +4,7 @@ import serialize from 'serialize-javascript';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const Html = ({ content, client: { cache }, reduxState, asyncState, lang }) => {
+const Html = ({ content, apolloCache, reduxState, asyncState, lang }) => {
   const preLoadedReduxState = reduxState && JSON.stringify(reduxState);
   const helmet = Helmet.renderStatic();
 
@@ -19,14 +19,14 @@ const Html = ({ content, client: { cache }, reduxState, asyncState, lang }) => {
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: content }} />
         <div id="portal" />
-        {/*{cache && (*/}
-        {/*<script*/}
-        {/*charSet="UTF-8"*/}
-        {/*dangerouslySetInnerHTML={{*/}
-        {/*__html: `window.APOLLO_STATE=${JSON.stringify(cache.extract())};`,*/}
-        {/*}}*/}
-        {/*/>*/}
-        {/*)}*/}
+        {apolloCache && (
+          <script
+            charSet="UTF-8"
+            dangerouslySetInnerHTML={{
+              __html: `window.APOLLO_STATE=${JSON.stringify(apolloCache.extract())};`,
+            }}
+          />
+        )}
         {asyncState && (
           <script
             charSet="UTF-8"
