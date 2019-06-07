@@ -38,3 +38,4 @@ src/modules/index.client.js
 src/modules/index.server.js
 *.stackdump
 *.exe
+.cahce
