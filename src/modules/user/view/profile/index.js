@@ -93,6 +93,7 @@ export class ProfilePage extends Component {
                   targetRole={[ROLE_USER, ROLE_ADMIN]}
                   userRole={role && role}>
                   <PaginationPageHOC
+                    fetchPolicy={'no-cache'}
                     queryName={'notificationsList'}
                     queryVariables={() => {
                       if (role && role.name === ROLE_ADMIN) {
