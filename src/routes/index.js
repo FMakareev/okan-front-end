@@ -1,6 +1,6 @@
 import React from 'react';
 import { asyncComponent } from 'react-async-component';
-import * as modules from '../modules/index.client';
+import * as modules from '../modules/index';
 import { connect } from 'react-redux';
 
 /** View */

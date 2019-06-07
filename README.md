@@ -54,7 +54,9 @@ try{
 
 * [captureMessage]('src\hocs\withSentry\withSentry.js') - просто для отправки сообщения ([документация](https://docs.sentry.io/error-reporting/capturing/?platform=javascript#capturing-messages))
 
-### Доступы к аккаунту на котором можо смотреть статистику:
 
-login: fmakareev@code-artel.com
-password: kFBVZuJGdVNw6kb
+
+## компоненты которые не используются
+
+* CheckAuthorization
+

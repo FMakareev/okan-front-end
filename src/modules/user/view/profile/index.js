@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 
 /**View*/
-import SmallPreloader from '@lib/ui/SmallPreloader/SmallPreloader';
 import ErrorCatch from '@lib/ui/ErrorCatch/ErrorCatch';
 import Flex from '@lib/ui/Flex/Flex';
-import { CheckComponentAccessByRole } from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
+import {CheckComponentAccessByRole} from '@lib/ui/CheckComponentAccessByRole/CheckComponentAccessByRole';
 import PaginationPageHOC from '@lib/ui/PaginationPageHOC/PaginationPageHOC';
 import PaginationPage from '@lib/ui/PaginationPage/PaginationPage';
 
@@ -18,22 +16,21 @@ import ProfileNotification from '../../component/ProfileNotification/ProfileNoti
 import FormProfileRecoveryEmail from '../../component/FormProfileRecoveryEmail/FormProfileRecoveryEmail';
 
 /** Components User*/
-import FormPersonData from '../../component/FormPersonData/FormPersonData';
 import FormChangePassword from '../../component/FormChangePassword/FormChangePassword';
 
 /**PropTypes*/
-import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
+import {ReactRoutePropTypes} from '../../../../propTypes/ReactRoutePropTypes';
 
 /** Constants */
-import { ROLE_ADMIN, ROLE_USER } from '../../../../shared/roles';
+import {ROLE_ADMIN, ROLE_USER} from '../../../../shared/roles';
 
 /** Graphql schema */
-import UserItemQuery from './UserItemQuery.graphql';
-import NotificationListQuery from './NotificationListQuery.graphql';
-import DocumentsForApprovalQuery from './DocumentsForApprovalQuery.graphql';
+import NotificationListQuery from '../../graphql/NotificationListQuery.graphql';
+import DocumentsForApprovalQuery from '../../graphql/DocumentsForApprovalQuery.graphql';
 
 /** HOCS */
-import { captureException } from '../../../../hocs/withSentry/withSentry';
+import FormPersonDataWithQuery from "../../component/ProfileRightSide/ProfileRightSide";
+import Box from "@lib/ui/Box/Box";
 
 const LeftColumn = styled(Flex)`
   width: calc(100% - 400px);
@@ -52,11 +49,18 @@ const RightColumn = styled(Flex)`
 `;
 
 export class ProfilePage extends Component {
-  static propTypes = { ...ReactRoutePropTypes, mb: PropTypes.string };
+  static propTypes = {...ReactRoutePropTypes, mb: PropTypes.string};
+
+  static defaultProps = {
+    user: {
+      role: null,
+      id: null
+    }
+  };
 
   render() {
     const {
-      user: { role, id },
+      user: {role, id},
     } = this.props;
 
     return (
@@ -64,88 +68,80 @@ export class ProfilePage extends Component {
         <Flex ml={'10%'} mr={'70px'} mt={9} mb={12} flexDirection={'column'}>
           <Flex justifyContent={'space-between'} mb={'100px'}>
             <LeftColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
-                <PaginationPageHOC
-                  queryName={'documentsForApproval'}
-                  queryVariables={{
-                    user: id,
-                  }}
-                  pageSize={5}
-                  pageNumber={1}
-                  query={DocumentsForApprovalQuery}>
-                  {props => (
-                    <PaginationPage
-                      {...props}
-                      data={props.data && props.data.documentsForApproval}
-                      Consumer={ProfileApproval}
-                    />
-                  )}
-                </PaginationPageHOC>
-              </CheckComponentAccessByRole>
-            </LeftColumn>
-
-            <RightColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
-                <FormProfileCreateUser />
-              </CheckComponentAccessByRole>
-
-              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
-                <Query query={UserItemQuery} variables={{ ...(id ? { id } : null) }}>
-                  {({ loading, error, data }) => {
-                    if (id && loading) {
-                      return <SmallPreloader />;
-                    }
-                    if (error) {
-                      console.error(`Error UserItemQuery: `, error);
-                      captureException(error, `Error UserItemQuery: `);
-                      return null;
-                    }
-                    if (id && data && !data.useritem) {
-                      return null;
-                    }
-                    return (
-                      <FormPersonData
-                        initialValues={data && Object.assign({}, { ...data.useritem })}
+              <Box mb={'100px'}>
+                <CheckComponentAccessByRole targetRole={[ROLE_USER, ROLE_ADMIN]} userRole={role}>
+                  <PaginationPageHOC
+                    queryName={'documentsForApproval'}
+                    queryVariables={{
+                      user: id,
+                    }}
+                    pageSize={5}
+                    pageNumber={1}
+                    query={DocumentsForApprovalQuery}>
+                    {props => (
+                      <PaginationPage
+                        {...props}
+                        data={props.data && props.data.documentsForApproval}
+                        Consumer={ProfileApproval}
                       />
-                    );
-                  }}
-                </Query>
-              </CheckComponentAccessByRole>
-            </RightColumn>
-          </Flex>
-
-          <Flex justifyContent={'space-between'}>
-            <LeftColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole
-                targetRole={[ROLE_USER, ROLE_ADMIN]}
-                userRole={role && role}>
-                <PaginationPageHOC
-                  queryName={'notificationsList'}
-                  queryVariables={{}}
-                  pageSize={5}
-                  pageNumber={1}
-                  query={NotificationListQuery}>
-                  {props => (
-                    <PaginationPage
-                      {...props}
-                      data={props.data && props.data.notificationsList}
-                      Consumer={ProfileNotification}
-                    />
-                  )}
-                </PaginationPageHOC>
-              </CheckComponentAccessByRole>
+                    )}
+                  </PaginationPageHOC>
+                </CheckComponentAccessByRole>
+              </Box>
+              <Box>
+                <CheckComponentAccessByRole
+                  targetRole={[ROLE_USER, ROLE_ADMIN]}
+                  userRole={role && role}>
+                  <PaginationPageHOC
+                    queryName={'notificationsList'}
+                    queryVariables={() => {
+                      if (role && role.name === ROLE_ADMIN) {
+                        return { };
+                      } else if (role && role.name === ROLE_USER) {
+                        return {
+                          userid: id
+                        };
+                      }
+                      return {};
+                    }}
+                    pageSize={5}
+                    pageNumber={1}
+                    query={NotificationListQuery}>
+                    {props => (
+                      <PaginationPage
+                        {...props}
+                        data={props.data && props.data.notificationsList}
+                        Consumer={ProfileNotification}
+                      />
+                    )}
+                  </PaginationPageHOC>
+                </CheckComponentAccessByRole>
+              </Box>
             </LeftColumn>
 
             <RightColumn flexDirection={'column'}>
-              <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
-                <FormProfileRecoveryEmail />
-              </CheckComponentAccessByRole>
+              <Box mb={'100px'}>
+                <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                  <FormProfileCreateUser/>
+                </CheckComponentAccessByRole>
 
-              <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
-                <FormChangePassword />
-              </CheckComponentAccessByRole>
+                <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
+                  <FormPersonDataWithQuery id={id}/>
+                </CheckComponentAccessByRole>
+              </Box>
+
+              <Box>
+                <CheckComponentAccessByRole targetRole={[ROLE_ADMIN]} userRole={role && role}>
+                  <FormProfileRecoveryEmail/>
+                </CheckComponentAccessByRole>
+
+                <CheckComponentAccessByRole targetRole={[ROLE_USER]} userRole={role && role}>
+                  <FormChangePassword/>
+                </CheckComponentAccessByRole>
+              </Box>
             </RightColumn>
           </Flex>
+
         </Flex>
       </ErrorCatch>
     );

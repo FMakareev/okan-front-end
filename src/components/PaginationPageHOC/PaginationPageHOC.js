@@ -83,7 +83,7 @@ export class PaginationPageHOC extends Component {
   render() {
     const { query, queryVariables, queryName } = this.props;
     const { pageNumber, pageSize } = this.state;
-
+    console.log(this.props);
     return (
       <Query
         skip={!query}
