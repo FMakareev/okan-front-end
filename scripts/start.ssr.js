@@ -23,7 +23,7 @@ import { assetsMove } from '../tools/assetsMove';
 
 const start = async () => {
   await clear();
-  await createIndex();
+  createIndex();
   await initMessage();
   await getVariablesesEnvironment();
   assetsMove();

@@ -1,5 +1,5 @@
-mutation ($id: String!, $name: String!, $internalMatching: [String],$isTemplate: Boolean) {
-  updateproject(id: $id, name: $name, partners: $internalMatching, isTemplate: $isTemplate) {
+mutation ($id: String!, $name: String!, $partners: [String], $isTemplate: Boolean) {
+  updateproject(id: $id, name: $name, partners: $partners, isTemplate: $isTemplate) {
     project {
       id
       name
@@ -8,7 +8,10 @@ mutation ($id: String!, $name: String!, $internalMatching: [String],$isTemplate:
         id
         firstname
         lastname
+        __typename
       }
+      __typename
     }
+    __typename
   }
 }

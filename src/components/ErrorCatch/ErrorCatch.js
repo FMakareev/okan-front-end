@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 import GraphQLError from './GraphQLError';
-import RenderError from '../RenderError/RenderError';
+import ErrorView from '../ErrorView/ErrorView';
 
 /**
  * Компонент ошибки
@@ -77,7 +77,7 @@ export class ErrorCatch extends Component {
         return <Redirect to={error.redirect}/>;
       }
       return <div>
-        <RenderError {...error} />
+        <ErrorView {...error} />
       </div>
     }
     if (!children) {

@@ -8,22 +8,20 @@ import Box from '@lib/ui/Box/Box';
 /** Components */
 import ProfileNotificationItem from '../ProfileNotificationItem/ProfileNotificationItem';
 
-export const ProfileNotification = ({ data }) => {
-  return (
-    <>
-      <Box mb={[8]}>
-        <Text variant={'documentTitle'} mb={4}>
-          Оповещения
-        </Text>
-      </Box>
-      {data && data.map(item => <ProfileNotificationItem {...item} />)}
-    </>
-  );
-};
+export const ProfileNotification = ({ data }) => (
+  <>
+    <Box mb={[8]}>
+      <Text variant={'documentTitle'} mb={4}>
+        Оповещения
+      </Text>
+    </Box>
+    {data && data.map(item => <ProfileNotificationItem {...item} />)}
+  </>
+)
 
 ProfileNotification.propTypes = {
   /** message user*/
-  message: PropTypes.string,
+  data: PropTypes.array,
 };
 
 export default ProfileNotification;
