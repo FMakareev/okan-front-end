@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { variant } from 'styled-system';
 import styled from 'styled-components';
 import { asyncComponent } from 'react-async-component';
-import { parseISO } from 'date-fns';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
