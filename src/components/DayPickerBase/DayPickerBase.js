@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { variant } from 'styled-system';
-import { ru } from 'date-fns/locale/ru';
 import styled from 'styled-components';
 import { asyncComponent } from 'react-async-component';
+import { parseISO } from 'date-fns';
 
 /** PropTypes */
 import { fieldInputPropTypes } from '../../propTypes/Forms/FormPropTypes';
@@ -79,13 +79,11 @@ export class DayPickerBase extends Component {
    * */
   onChangeDatePicker(date) {
     try {
-      this.setState({ startDate: new Date(date).toISOString() });
-
+      this.setState({ startDate: new Date(date) });
       const {
         input: { onChange },
       } = this.props;
-
-      onChange(new Date(date).toISOString());
+      onChange(new Date(date));
     } catch (error) {
       console.error('Error onChangeDatePicker: ', error);
     }
@@ -106,7 +104,6 @@ export class DayPickerBase extends Component {
         placeholderText={placeholder}
         dateFormat="dd / MM / yyyy"
         input={input}
-        locale={'ru'}
         popperPlacement="top-end"
         popperModifiers={{ offset: { enabled: true, offset: '-130px, 0px' } }}
         {...this.props}

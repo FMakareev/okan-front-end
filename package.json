@@ -16,7 +16,7 @@
     "cors": "^2.8.4",
     "create-index": "^2.3.0",
     "css-loader": "^1.0.1",
-    "date-fns": "^1.29.0",
+    "date-fns": "^2.0.0-alpha.34",
     "dayjs": "^1.8.0",
     "dayjs-ext": "^2.2.0",
     "dayjs-plugin-utc": "^0.1.0",
