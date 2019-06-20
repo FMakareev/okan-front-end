@@ -10,14 +10,17 @@ import '../../assets/style/froalaname-theme.css';
 
 // Require Font Awesome.
 import 'font-awesome/css/font-awesome.css';
-import {asyncComponent} from "react-async-component";
-import {Box} from "@lib/ui/Box/Box";
-
+import { asyncComponent } from 'react-async-component';
+import { Box } from '@lib/ui/Box/Box';
 
 const FroalaEditorName = asyncComponent({
   resolve: () => import('react-froala-wysiwyg'),
-  LoadingComponent: ()=>(<Box border={'1px solid #848484'} px={'12px'} py={'10px'}>Загрузка</Box>),
-  serverMode: 'defer'
+  LoadingComponent: () => (
+    <Box border={'1px solid #848484'} px={'12px'} py={'10px'}>
+      Загрузка
+    </Box>
+  ),
+  serverMode: 'defer',
 });
 
 export class FroalaReduxFormName extends Component {
@@ -37,7 +40,6 @@ export class FroalaReduxFormName extends Component {
   }
 
   componentWillMount() {
-
     let EditorConfig = {
       placeholderText: 'Введите название блока',
       theme: 'froalaname',
@@ -69,7 +71,7 @@ export class FroalaReduxFormName extends Component {
       const { input } = this.props;
       input.onChange(event);
     } catch (error) {
-      console.error('handleModelChange: ',error);
+      console.error('handleModelChange: ', error);
     }
   }
 
@@ -82,8 +84,7 @@ export class FroalaReduxFormName extends Component {
           onModelChange={this.handleModelChange}
           model={input.value}
           tag={'textarea'}
-          config={{ ...config, ...this.state.EditorConfig,
-            language: 'ru' }}
+          config={{ ...config, ...this.state.EditorConfig, language: 'ru' }}
         />
       </div>
     );

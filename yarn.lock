@@ -5692,10 +5692,10 @@ fresh@0.5.2, fresh@^0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@3.0.0-rc.2:
-  version "3.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.0-rc.2.tgz#ddf5cba4f8072e7bfb5fbca68b1360027a74827c"
-  integrity sha512-PsPLrX5JgX0KAPmplvi2Q8XZ3J1s9gG1mdzVaW9jcKe+5mKoQHzxPjsO03SKbwsIk2hHQCyqXFWrYSbzLNRQWw==
+froala-editor@3.0.0, froala-editor@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.0.tgz#080bf0a071b0f5b6092ce9c3720188dcf6d7a1bb"
+  integrity sha512-93G+GXUNPIiuHIcT/a2lxvQ9kED7pELRV/20csHB45mznBL2PqPmEwosGd/4RBN90ga4VbZQoqQi9ACls/3otg==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -10574,12 +10574,12 @@ react-fast-compare@^2.0.2:
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
 react-froala-wysiwyg@^3.0.0-rc.2:
-  version "3.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/react-froala-wysiwyg/-/react-froala-wysiwyg-3.0.0-rc.2.tgz#6c1d5839b8e4ec7016df10da225d81c5560fa9d8"
-  integrity sha512-dJyMP3KYAf+kV8Phw9467N+Yo4HE0gyON1dKT9j/nsgOKuO3Y6bGAUnRL24LUqcPFKtuhIxGcq0w3yRNNTzoqA==
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-froala-wysiwyg/-/react-froala-wysiwyg-3.0.0.tgz#616ee7a7f0d367e909ced5da1ab0ed5d57e3c70f"
+  integrity sha512-X0HSMqxphCvvFagcXh7AKfwAqQ/WC1ITEyw8f7NU/g33MqbuepVgA18BU7k583ybGdlA2XWsSRhDHFL3zD8Bnw==
   dependencies:
     create-react-class "^15.5.2"
-    froala-editor "3.0.0-rc.2"
+    froala-editor "3.0.0"
 
 react-group@^1.0.6:
   version "1.0.6"
@@ -13018,9 +13018,9 @@ ua-parser-js@0.7.17:
   integrity sha512-uRdSdu1oA1rncCQL7sCj8vSyZkgtL7faaw9Tc9rZ3mGgraQ7+Pdx7w5mnOSF3gw9ZNG6oc+KXfkon3bKuROm0g==
 
 ua-parser-js@^0.7.18:
-  version "0.7.19"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
-  integrity sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.20.tgz#7527178b82f6a62a0f243d1f94fd30e3e3c21098"
+  integrity sha512-8OaIKfzL5cpx8eCMAhhvTlft8GYF8b2eQr6JkCyVdrgjcytyOmPCXrqXFcUnhonRpLlh5yxEZVohm6mzaowUOw==
 
 uglify-js@3.4.x, uglify-js@^3.1.4:
   version "3.4.9"

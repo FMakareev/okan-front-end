@@ -15,19 +15,22 @@ import 'font-awesome/css/font-awesome.css';
 
 // Require block types
 import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
-import {asyncComponent} from "react-async-component";
-import {Box} from "@lib/ui/Box/Box";
+import { asyncComponent } from 'react-async-component';
+import { Box } from '@lib/ui/Box/Box';
 import {
   FROALA_BTN_TITLE_BIND,
   FROALA_BTN_TITLE_COPY,
-  FROALA_BTN_TITLE_UNBIND
-} from "@lib/ui/RichTextEditor/RichTextEditor";
-
+  FROALA_BTN_TITLE_UNBIND,
+} from '@lib/ui/RichTextEditor/RichTextEditor';
 
 const FroalaEditor = asyncComponent({
   resolve: () => import('react-froala-wysiwyg'),
-  LoadingComponent: ()=>(<Box border={'1px solid #848484'} px={'12px'} py={'10px'}>Загрузка...</Box>),
-  serverMode: 'defer'
+  LoadingComponent: () => (
+    <Box border={'1px solid #848484'} px={'12px'} py={'10px'}>
+      Загрузка...
+    </Box>
+  ),
+  serverMode: 'defer',
 });
 
 export class FroalaReduxForm extends Component {
@@ -131,7 +134,7 @@ export class FroalaReduxForm extends Component {
       charCounterCount: false,
       toolbarButtons: toolbarButtons,
       autofocus: true,
-      language: 'ru'
+      language: 'ru',
     };
     this.setState({
       ...this.state,
@@ -153,11 +156,14 @@ export class FroalaReduxForm extends Component {
   }
 
   handleModelChange(event) {
+    console.log(111, this.props.input);
+    console.log(121, event);
+
     try {
       const { input } = this.props;
       input.onChange(event);
     } catch (error) {
-      console.error('Error handleModelChange:',error);
+      console.error('Error handleModelChange:', error);
     }
   }
 
@@ -168,15 +174,15 @@ export class FroalaReduxForm extends Component {
       <div>
         <DefineIcons
           buttonClick={action => {
-            this.props.handleButtonClick(action);
+            return this.props.handleButtonClick(action);
           }}
         />
+
         <FroalaEditor
           onModelChange={this.handleModelChange}
           model={input.value}
           tag={'textarea'}
-          config={{ ...config, ...this.state.EditorConfig,
-            language: 'ru' }}
+          config={{ ...config, ...this.state.EditorConfig, language: 'ru' }}
         />
       </div>
     );

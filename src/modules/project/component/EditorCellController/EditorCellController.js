@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
-import {withRouter} from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 /** Mutation */
 import UpdateCellMutation from '../../graphql/UpdateCellMutation.graphql';
@@ -9,36 +9,33 @@ import CellItemQuery from '../../graphql/CellItemQuery.graphql';
 
 /** Components */
 import EditorCellForm from '../EditorCellForm/EditorCellForm';
-import {EditorCellTitle} from '../EditorCellTitle/EditorCellTitle';
-import {
-  PROJECT_MODE_RC,
-  PROJECT_MODE_RW,
-} from '../ProjectContext/ProjectContext';
+import { EditorCellTitle } from '../EditorCellTitle/EditorCellTitle';
+import { PROJECT_MODE_RC, PROJECT_MODE_RW } from '../ProjectContext/ProjectContext';
 import EditorCellDelete from '../EditorCellDelete/EditorCellDelete';
 
 /** View */
 import Box from '../../../../components/Box/Box';
-import {Flex} from '@lib/ui/Flex/Flex';
+import { Flex } from '@lib/ui/Flex/Flex';
 import EditorCellCommentController from '../EditorCellCommentController/EditorCellCommentController';
 
 /** Redux */
-import {connect} from 'react-redux';
-import {getFormValues} from 'redux-form';
-import {error, success} from 'react-notification-system-redux';
-import {removeBlock} from '../../../../store/reducers/blocksBinding/actions';
+import { connect } from 'react-redux';
+import { getFormValues } from 'redux-form';
+import { error, success } from 'react-notification-system-redux';
+import { removeBlock } from '../../../../store/reducers/blocksBinding/actions';
 
 /** Global */
-import {BLOCK_IMAGE, BLOCK_TABLE} from '../../../../shared/blockType';
-import {ProjectModeState} from '../ProjectContext/ProjectModeState';
-import {Relative} from '@lib/ui/Relative/Relative';
-import {getPosition, getProject} from '../ProjectContext/ProjectContextSelectors';
-import {CELL_STATUS_CHANGED} from '@lib/shared/approvalStatus';
-import {EditorCellContent} from '../EditorCellContent/EditorCellContent';
+import { BLOCK_IMAGE, BLOCK_TABLE } from '../../../../shared/blockType';
+import { ProjectModeState } from '../ProjectContext/ProjectModeState';
+import { Relative } from '@lib/ui/Relative/Relative';
+import { getPosition, getProject } from '../ProjectContext/ProjectContextSelectors';
+import { CELL_STATUS_CHANGED } from '@lib/shared/approvalStatus';
+import { EditorCellContent } from '../EditorCellContent/EditorCellContent';
 import EditorCellControllerNumber from '../EditorCellControllerNumber/EditorCellControllerNumber';
 import shallowequal from 'shallowequal';
-import scrollTo, {linearTween} from '@lib/utils/dom/scrollTo';
-import {UpdateCellInCache} from '../../utils/UpdateCellInCache';
-import {captureException} from "../../../../hocs/withSentry/withSentry";
+import scrollTo, { linearTween } from '@lib/utils/dom/scrollTo';
+import { UpdateCellInCache } from '../../utils/UpdateCellInCache';
+import { captureException } from '../../../../hocs/withSentry/withSentry';
 
 const notificationOpts = () => ({
   success: {
@@ -54,7 +51,7 @@ const notificationOpts = () => ({
 });
 
 /** этот контент froala добавляет в разметку когда запускается на https соединении */
-const FROALA_WATER_MARK = `<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>`
+const FROALA_WATER_MARK = `<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>`;
 
 export class EditorCellController extends Component {
   static propTypes = {
@@ -67,7 +64,7 @@ export class EditorCellController extends Component {
     values: PropTypes.object,
   };
 
-  static defaultProps = {data: ''};
+  static defaultProps = { data: '' };
 
   constructor(props) {
     super(props);
@@ -77,9 +74,8 @@ export class EditorCellController extends Component {
   }
 
   get initialState() {
-    return {editable: false, timer: null, toggleAdditionalMenu: false};
+    return { editable: false, timer: null, toggleAdditionalMenu: false };
   }
-
 
   /**
    * @param {object} currentCellRef объект DOM элемента
@@ -87,18 +83,18 @@ export class EditorCellController extends Component {
    * @desc метод ищет в доме элементы которые отмечены поиском и возвращает первый из массива элементов найденный
    * внутри текущего компонента если же не чего не найдено то вернет ref ссылку на сам компонент
    * */
-  getDOMElementCurrentMark = (currentCellRef) => {
+  getDOMElementCurrentMark = currentCellRef => {
     let markList = [];
-    try{
+    try {
       markList = document.getElementsByClassName(`highlightedContentMark-${this.props.data.id}`);
-      if(markList.length){
+      if (markList.length) {
         return markList[0];
       } else {
-        return currentCellRef
+        return currentCellRef;
       }
     } catch (error) {
       captureException(error);
-      return currentCellRef
+      return currentCellRef;
     }
   };
 
@@ -128,8 +124,9 @@ export class EditorCellController extends Component {
         /** если предыдущее состояние курсора поиска не такое же как новое */
         if (this.props.data.id === nextSearchCursor.cell.id) {
           if (isBrowser) {
-            this.handleScrollToCurrentCell(this.getDOMElementCurrentMark(this.currentCellRef.current));
-
+            this.handleScrollToCurrentCell(
+              this.getDOMElementCurrentMark(this.currentCellRef.current),
+            );
           }
         }
       }
@@ -137,7 +134,7 @@ export class EditorCellController extends Component {
   }
 
   componentDidMount() {
-    const {data} = this.props;
+    const { data } = this.props;
     if (
       this.state.editable &&
       (data.content && (!data.content.content || data.content.content === ''))
@@ -157,7 +154,7 @@ export class EditorCellController extends Component {
    * @desc это метод нужен для сохранения контента через setInterval
    * */
   createAutoSave = () => {
-    const {values, data} = this.props;
+    const { values, data } = this.props;
     if (values && values.content && values.content !== data.content.content) {
       console.info('auto save.');
       this.saveCellContent();
@@ -169,20 +166,20 @@ export class EditorCellController extends Component {
   /** @desc запуск автосохранения */
   startAutoSave = () => {
     const timer = setInterval(this.createAutoSave, 30000);
-    this.setState(state => ({...state, timer: timer}));
+    this.setState(state => ({ ...state, timer: timer }));
   };
 
   /** @desc стоп автосохранения */
   stopAutoSave = () => {
     clearInterval(this.state.timer);
-    this.setState(state => ({...state, timer: null}));
+    this.setState(state => ({ ...state, timer: null }));
   };
 
   /**
    * @desc метод для переключения в режим редактирования ячейки
    * */
   onToggleForm = () => {
-    this.setState(state => ({...state, editable: !state.editable}));
+    this.setState(state => ({ ...state, editable: !state.editable }));
   };
 
   /**
@@ -202,7 +199,11 @@ export class EditorCellController extends Component {
    * @desc Метод для сохранения ячейки
    * */
   saveCellContent() {
-    const content = typeof this.props.values.content ? this.props.values.content.replace(FROALA_WATER_MARK, '') : '';
+    const content = typeof this.props.values.content
+      ? this.props.values.content.replace(FROALA_WATER_MARK, '')
+      : '';
+    console.log(1, this.props.mutate);
+
     return this.props
       .mutate({
         variables: {
@@ -211,8 +212,8 @@ export class EditorCellController extends Component {
           contentname: this.props.values.name,
           verify: CELL_STATUS_CHANGED,
         },
-        update: (store, {data: {updateCell}}) => {
-          let data = {cellItem: {}};
+        update: (store, { data: { updateCell } }) => {
+          let data = { cellItem: {} };
           const options = {
             query: CellItemQuery,
             variables: {
@@ -221,27 +222,24 @@ export class EditorCellController extends Component {
           };
 
           try {
-            UpdateCellInCache(store, {...updateCell.cell});
+            UpdateCellInCache(store, { ...updateCell.cell });
           } catch (e) {
-            console.error( e);
-            captureException(error,'Error in SidebarApprovalStatus change status: ');
+            console.error(e);
+            captureException(error, 'Error in SidebarApprovalStatus change status: ');
           }
 
           try {
             data = store.readQuery(options);
             data.cellItem.verify = updateCell.cell.verify;
           } catch (error) {
-
             captureException(error, 'Warning UpdateCellInCache read: ');
           }
           try {
-            store.writeQuery({...options, data: {...data}});
+            store.writeQuery({ ...options, data: { ...data } });
           } catch (error) {
             console.error(error);
             captureException(error);
           }
-
-
         },
       })
       .then(response => {
@@ -284,19 +282,18 @@ export class EditorCellController extends Component {
   };
 
   onHover = toggle => {
-    this.setState(state => ({...state, toggleAdditionalMenu: toggle}));
+    this.setState(state => ({ ...state, toggleAdditionalMenu: toggle }));
   };
-
 
   render() {
     const {
       data,
-      location: {search},
+      location: { search },
       sectionNumber,
       project,
       parentLetterNumber,
     } = this.props;
-    const {toggleAdditionalMenu, editable} = this.state;
+    const { toggleAdditionalMenu, editable } = this.state;
     return (
       <Relative
         ref={this.currentCellRef}
@@ -367,7 +364,7 @@ export class EditorCellController extends Component {
           <Flex width={'60px'}>
             <ProjectModeState is={PROJECT_MODE_RW}>
               <Box mx={2}>
-                <EditorCellDelete id={data.id} sectionid={project.position.sectionid}/>
+                <EditorCellDelete id={data.id} sectionid={project.position.sectionid} />
               </Box>
             </ProjectModeState>
             <ProjectModeState is={[PROJECT_MODE_RW, PROJECT_MODE_RC]}>
@@ -391,7 +388,7 @@ EditorCellController = graphql(UpdateCellMutation)(EditorCellController);
 EditorCellController = withRouter(EditorCellController);
 
 EditorCellController = connect(
-  (state, {data}) => ({
+  (state, { data }) => ({
     values: getFormValues('EditorCellForm-' + data.id)(state),
   }),
   dispatch => ({

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 
 /** Notification */
-import Notifications, { success, error } from 'react-notification-system-redux';
+import { success, error } from 'react-notification-system-redux';
 
 /** Store */
 import { copyCell, removeBlock } from '../../store/reducers/blocksBinding/actions';
@@ -254,7 +254,7 @@ export class RichTextEditor extends Component {
           <FroalaReduxForm
             {...this.props}
             handleButtonClick={action => {
-              this.getButtonClick(action);
+              return this.getButtonClick(action);
             }}
           />
         )}
