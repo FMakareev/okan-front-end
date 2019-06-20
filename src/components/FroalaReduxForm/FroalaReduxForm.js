@@ -42,7 +42,10 @@ export class FroalaReduxForm extends Component {
 
   get initialState() {
     try {
-      return { model: this.props.input.value };
+      const {input} = this.props;
+      return {
+        model: input && input.value
+      };
     } catch (error) {
       console.error(error);
       return { model: null };
@@ -156,9 +159,6 @@ export class FroalaReduxForm extends Component {
   }
 
   handleModelChange(event) {
-    console.log(111, this.props.input);
-    console.log(121, event);
-
     try {
       const { input } = this.props;
       input.onChange(event);

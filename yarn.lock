@@ -2414,6 +2414,11 @@ babel-types@^6.0.0, babel-types@^6.18.0, babel-types@^6.26.0:
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
+babel@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel/-/babel-6.23.0.tgz#d0d1e7d803e974765beea3232d4e153c0efb90f4"
+  integrity sha1-0NHn2APpdHZb7qMjLU4VPA77kPQ=
+
 babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
@@ -5632,7 +5637,7 @@ follow-redirects@^1.0.0, follow-redirects@^1.2.5:
   dependencies:
     debug "^3.2.6"
 
-font-awesome@^4.7.0:
+font-awesome@>=4.4.0, font-awesome@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
   integrity sha1-j6jPBBGhoxr9B7BtKQK7n8gVoTM=
@@ -5692,10 +5697,13 @@ fresh@0.5.2, fresh@^0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@3.0.0, froala-editor@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.0.tgz#080bf0a071b0f5b6092ce9c3720188dcf6d7a1bb"
-  integrity sha512-93G+GXUNPIiuHIcT/a2lxvQ9kED7pELRV/20csHB45mznBL2PqPmEwosGd/4RBN90ga4VbZQoqQi9ACls/3otg==
+froala-editor@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-2.9.1.tgz#6487b55ad1db9ef0379bfeaa58b35534b28ad589"
+  integrity sha512-ZEyBnZ/J5w87pjh6F8pNdI0owJ8w3fvwqfOnfcVqHblBQ2A1yjeOfOEIsCUM3QbFscHqY2ChArRCfpDpGxy/Vw==
+  dependencies:
+    font-awesome ">=4.4.0"
+    jquery ">=1.11.0"
 
 from2@^2.1.0:
   version "2.3.0"
@@ -7687,7 +7695,7 @@ jest@^23.6.0:
     import-local "^1.0.0"
     jest-cli "^23.6.0"
 
-jquery@^3.3.1:
+jquery@>=1.11.0, jquery@^3.3.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -10573,13 +10581,14 @@ react-fast-compare@^2.0.2:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-froala-wysiwyg@^3.0.0-rc.2:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-froala-wysiwyg/-/react-froala-wysiwyg-3.0.0.tgz#616ee7a7f0d367e909ced5da1ab0ed5d57e3c70f"
-  integrity sha512-X0HSMqxphCvvFagcXh7AKfwAqQ/WC1ITEyw8f7NU/g33MqbuepVgA18BU7k583ybGdlA2XWsSRhDHFL3zD8Bnw==
+react-froala-wysiwyg@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/react-froala-wysiwyg/-/react-froala-wysiwyg-2.9.1.tgz#eebc1e1e9dd1f04b315da9bceed877b8dab300dc"
+  integrity sha512-3GWoOUTe+LuuUdqARPZDdZuneSRcusI3D04oe7v0iDzFzMKRMb4VypNUyP3rHtHEEgzdXHCHrr8g2umDyJfufQ==
   dependencies:
+    babel "^6.23.0"
     create-react-class "^15.5.2"
-    froala-editor "3.0.0"
+    froala-editor "2.9.1"
 
 react-group@^1.0.6:
   version "1.0.6"
