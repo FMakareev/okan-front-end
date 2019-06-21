@@ -15,23 +15,13 @@ import 'font-awesome/css/font-awesome.css';
 
 // Require block types
 import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
-import { asyncComponent } from 'react-async-component';
-import { Box } from '@lib/ui/Box/Box';
 import {
   FROALA_BTN_TITLE_BIND,
   FROALA_BTN_TITLE_COPY,
   FROALA_BTN_TITLE_UNBIND,
 } from '@lib/ui/RichTextEditor/RichTextEditor';
+import {LazyLoadModule} from "@lib/ui/FroalaReduxForm/LazyLoadModule";
 
-const FroalaEditor = asyncComponent({
-  resolve: () => import('react-froala-wysiwyg'),
-  LoadingComponent: () => (
-    <Box border={'1px solid #848484'} px={'12px'} py={'10px'}>
-      Загрузка...
-    </Box>
-  ),
-  serverMode: 'defer',
-});
 
 export class FroalaReduxForm extends Component {
   constructor(props) {
@@ -177,13 +167,12 @@ export class FroalaReduxForm extends Component {
             return this.props.handleButtonClick(action);
           }}
         />
-
-        <FroalaEditor
+        <LazyLoadModule
           onModelChange={this.handleModelChange}
-          model={input.value}
+          model={input && input.value}
           tag={'textarea'}
           config={{ ...config, ...this.state.EditorConfig, language: 'ru' }}
-        />
+          resolve={() => import('react-froala-wysiwyg')} />
       </div>
     );
   }

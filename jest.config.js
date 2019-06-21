@@ -1,5 +1,7 @@
 const { defaults } = require('jest-config');
 
+
+
 module.exports = {
   moduleFileExtensions: [...defaults.moduleFileExtensions, 'js', 'jsx'],
   moduleDirectories: ['node_modules'],
@@ -26,5 +28,6 @@ module.exports = {
     ENDPOINT_CLIENT: 'http://localhost:5001',
     ENDPOINT_SERVER: 'http://localhost:5001',
     isBrowser: true,
+    "window": true,
   },
 };
