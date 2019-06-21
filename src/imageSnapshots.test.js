@@ -6,7 +6,8 @@
 import path from 'path';
 import pupDevices from 'puppeteer/DeviceDescriptors';
 import initStoryshots from '@storybook/addon-storyshots';
-import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
+import {imageSnapshot} from '@storybook/addon-storyshots-puppeteer';
+import puppeteer from "puppeteer";
 
 /** Path to build static story */
 const storybookUrl = path.resolve('storybook-static');
@@ -14,25 +15,39 @@ const storybookUrl = path.resolve('storybook-static');
 /** Path to story */
 const supportedDevices = new Set(['iPad', 'iPhone 5', 'iPhone 6', 'iPhone 7 Plus']);
 
+
 /** Create  */
 const createCustomizePage = pupDevice => page => page.emulate(pupDevice);
 
-for (let supportedDevice of supportedDevices) {
-  /** device config */
-  const pupDevice = pupDevices[supportedDevice];
 
-  if (!pupDevice) {
-    continue;
+
+const RunTest = async () => {
+  const getCustomBrowser = () =>puppeteer.launch({
+    args: ['--no-sandbox ', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+    // executablePath: chromeExecutablePath,
+  });
+
+  for (let supportedDevice of supportedDevices) {
+    /** device config */
+    const pupDevice = pupDevices[supportedDevice];
+
+    if (!pupDevice) {
+      continue;
+    }
+
+    const customizePage = createCustomizePage(pupDevice);
+
+    initStoryshots({
+      framework: 'react',
+      suite: `Image storyshots: ${pupDevice.name}`,
+      test: imageSnapshot({
+        storybookUrl,
+        customizePage,
+        getCustomBrowser
+      }),
+    });
   }
 
-  const customizePage = createCustomizePage(pupDevice);
-
-  initStoryshots({
-    framework: 'react',
-    suite: `Image storyshots: ${pupDevice.name}`,
-    test: imageSnapshot({
-      storybookUrl,
-      customizePage,
-    }),
-  });
 }
+
+RunTest()
