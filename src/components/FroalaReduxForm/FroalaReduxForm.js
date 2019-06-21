@@ -15,20 +15,13 @@ import 'font-awesome/css/font-awesome.css';
 
 // Require block types
 import { BLOCK_TABLE, BLOCK_IMAGE, BLOCK_TEXT, BLOCK_NAME } from '../../shared/blockType';
-import {asyncComponent} from "react-async-component";
-import {Box} from "@lib/ui/Box/Box";
 import {
   FROALA_BTN_TITLE_BIND,
   FROALA_BTN_TITLE_COPY,
-  FROALA_BTN_TITLE_UNBIND
-} from "@lib/ui/RichTextEditor/RichTextEditor";
+  FROALA_BTN_TITLE_UNBIND,
+} from '@lib/ui/RichTextEditor/RichTextEditor';
+import {LazyLoadModule} from "@lib/ui/FroalaReduxForm/LazyLoadModule";
 
-
-const FroalaEditor = asyncComponent({
-  resolve: () => import('react-froala-wysiwyg'),
-  LoadingComponent: ()=>(<Box border={'1px solid #848484'} px={'12px'} py={'10px'}>Загрузка...</Box>),
-  serverMode: 'defer'
-});
 
 export class FroalaReduxForm extends Component {
   constructor(props) {
@@ -39,7 +32,10 @@ export class FroalaReduxForm extends Component {
 
   get initialState() {
     try {
-      return { model: this.props.input.value };
+      const {input} = this.props;
+      return {
+        model: input && input.value
+      };
     } catch (error) {
       console.error(error);
       return { model: null };
@@ -131,7 +127,7 @@ export class FroalaReduxForm extends Component {
       charCounterCount: false,
       toolbarButtons: toolbarButtons,
       autofocus: true,
-      language: 'ru'
+      language: 'ru',
     };
     this.setState({
       ...this.state,
@@ -157,7 +153,7 @@ export class FroalaReduxForm extends Component {
       const { input } = this.props;
       input.onChange(event);
     } catch (error) {
-      console.error('Error handleModelChange:',error);
+      console.error('Error handleModelChange:', error);
     }
   }
 
@@ -168,16 +164,15 @@ export class FroalaReduxForm extends Component {
       <div>
         <DefineIcons
           buttonClick={action => {
-            this.props.handleButtonClick(action);
+            return this.props.handleButtonClick(action);
           }}
         />
-        <FroalaEditor
+        <LazyLoadModule
           onModelChange={this.handleModelChange}
-          model={input.value}
+          model={input && input.value}
           tag={'textarea'}
-          config={{ ...config, ...this.state.EditorConfig,
-            language: 'ru' }}
-        />
+          config={{ ...config, ...this.state.EditorConfig, language: 'ru' }}
+          resolve={() => import('react-froala-wysiwyg')} />
       </div>
     );
   }

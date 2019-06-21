@@ -1,0 +1,5 @@
+ErrorView example:
+
+```js
+<ErrorView />
+```

@@ -16,18 +16,19 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
   moduleNameMapper: {
-    '/.(css|less)$/': 'identity-obj-proxy',
-    '\\.(css|scss)$': '<rootDir>/styleMock.js',
     '^@lib/ui(.*)$': '<rootDir>/src/components$1',
     '^@lib/styles(.*)$': '<rootDir>/src/styles$1',
     '^@lib/utils(.*)$': '<rootDir>/src/utils$1',
     '^@lib/shared(.*)$': '<rootDir>/src/shared$1',
-    '/.(jpg|jpeg|png)$/': '<rootDir>/src/utils/assetsTransformer.js',
+    "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+
   },
   globals: {
     ENDPOINT_CLIENT: 'http://localhost:5001',
     ENDPOINT_SERVER: 'http://localhost:5001',
     isBrowser: true,
+    "window": true,
   },
   roots: ['<rootDir>/src'],
 };

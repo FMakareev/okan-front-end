@@ -8,7 +8,6 @@ import Th from '@lib/ui/Table/Th';
 import Tr from '@lib/ui/Table/Tr';
 import Table from '@lib/ui/Table/Table';
 import Tbody from '@lib/ui/Table/Tbody';
-import FroalaReduxForm from '@lib/ui/FroalaReduxForm/FroalaReduxForm';
 
 /** Components */
 import { RevisionItem } from '../RevisionItem/RevisionItem';

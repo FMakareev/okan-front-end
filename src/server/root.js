@@ -1,5 +1,5 @@
 import React from 'react';
-import {renderToStringWithData} from 'react-apollo';
+import {getDataFromTree} from 'react-apollo';
 import asyncBootstrapper from 'react-async-bootstrapper';
 import {ServerStyleSheet} from 'styled-components';
 import {createAsyncContext} from 'react-async-component';
@@ -54,7 +54,7 @@ export const Root = async (request, response) => {
        * @param {Object} RootComponent - React component
        * @description https://www.apollographql.com/docs/react/features/server-side-rendering.html#renderToStringWithData
        * */
-      renderToStringWithData(RootComponent)
+      getDataFromTree(RootComponent)
         .then(RenderComponents(RouterContext))
         .catch(e => {
           console.error('APOLLO REQUEST ERROR:', e); // eslint-disable-line no-console

@@ -29,10 +29,10 @@ const IconStyled = styled(Icon)`
  * Компонент ошибки
  * @example ./RenderError.example.md
  */
-export const RenderError = ({ title, message, icon, iconColor }) => (
+export const ErrorView = ({ title, message, icon, iconColor }) => (
   <Wrapper p={5}>
     <IconStyled color={iconColor} size={64} icon={icon} />
-    <Text fontSize={7} textAlign={'center'}>
+    <Text fontSize={7} fontWeight={'bold'} textAlign={'center'}>
       {title || 'Error'}
     </Text>
     <Text fontSize={5} wb={'break-all'} color={'#000'}>
@@ -41,18 +41,18 @@ export const RenderError = ({ title, message, icon, iconColor }) => (
   </Wrapper>
 );
 
-RenderError.propTypes = {
+ErrorView.propTypes = {
   /** error */
   title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   message: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   iconColor: PropTypes.string,
 };
-RenderError.defaultProps = {
+ErrorView.defaultProps = {
   title: 'Error',
   message: 'unexpected error',
   icon: ic_error_outline,
   iconColor: 'color6',
 };
 
-export default RenderError;
+export default ErrorView;

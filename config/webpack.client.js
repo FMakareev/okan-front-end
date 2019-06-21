@@ -54,6 +54,12 @@ export const browserConfigGenerator = () => {
         },
       ],
     },
+    resolve: {
+      alias: {
+        FroalaEditor: 'file_name'
+      },
+      modules: ['../node_modules/froala-editor/js','node_modules']
+    },
     plugins: [
       new WriteFileWebpackPlugin(),
       new webpack.DefinePlugin({
@@ -74,31 +80,12 @@ export const browserConfigGenerator = () => {
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
+        FroalaEditor: 'file_name',
       }),
       ...(process.env.ANALYSE ? [new BundleAnalyzerPlugin()] : []),
     ],
-    ...webpackResolve, //   { // ...(process.env.NODE_ENV === 'production' ?
-    //     optimization: {
-    //       minimizer: [
-    //         new UglifyJsPlugin({
-    //           uglifyOptions: {
-    //             compress: {
-    //               unsafe: true,
-    //               inline: true,
-    //               passes: 2,
-    //               drop_console: true,
-    //               keep_fargs: false,
-    //             },
-    //             output: {
-    //               beautify: false,
-    //               comments: false,
-    //             },
-    //             mangle: true,
-    //           },
-    //         }),
-    //       ]
-    //     }
-    //   } : {}),
+    ...webpackResolve,
+
     devtool: 'eval-source-map',
     stats: {
       cached: false,
