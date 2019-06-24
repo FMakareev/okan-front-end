@@ -72,7 +72,9 @@ test('CheckAuthorization: пользователь с не валидной ро
   const Roles = ['Role1', 'Role2', 'Role3'];
   const AccessDeniedCallback = () => <div>AccessDeniedCallback</div>;
 
-  const ComponentConnect = CheckAuthorization(Roles, <AccessDeniedCallback />)(ChildrenComponent);
+  const ComponentConnect = CheckAuthorization(Roles, <AccessDeniedCallback />)(
+    AccessDeniedCallback,
+  );
 
   const wrapper = renderer.create(
     <MemoryRouter initialEntries={['/']}>

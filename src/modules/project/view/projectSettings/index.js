@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import ProjectItemQuery from './ProjectItemQuery.graphql';
 
 /** Redux user */
-import { getUserFromStore } from '../../../../store/reducers/user/selectors';
+// import { getUserFromStore } from '../../../../store/reducers/user/selectors';
 
 /**PropTypes */
 import { ReactRoutePropTypes } from '../../../../propTypes/ReactRoutePropTypes';
@@ -40,7 +40,6 @@ export class ProjectSettingsPage extends Component {
                 id: params.id,
               }}>
               {({ data, error, loading }) => {
-
                 if (loading) {
                   console.error('loading:', loading);
                   return 'Загрузка ...';
@@ -73,8 +72,8 @@ export class ProjectSettingsPage extends Component {
   }
 }
 
-ProjectSettingsPage = connect(state => ({
-  user: getUserFromStore(state),
-}))(ProjectSettingsPage);
+// ProjectSettingsPage = connect(state => ({
+//   user: getUserFromStore(state),
+// }))(ProjectSettingsPage);
 
 export default ProjectSettingsPage;

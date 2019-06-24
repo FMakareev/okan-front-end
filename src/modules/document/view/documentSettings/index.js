@@ -31,7 +31,7 @@ const notificationDocumentSettingsPage = () => ({
   },
 });
 
-class DocumentSettingsPage extends Component {
+export class DocumentSettingsPage extends Component {
   static propTypes = { ...ReactRoutePropTypes };
 
   state = {};

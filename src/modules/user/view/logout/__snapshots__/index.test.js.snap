@@ -2,13 +2,13 @@
 
 exports[`LogOut: рендер без ошибок 1`] = `
 <div
-  className="sc-bxivhb dUiVDW"
+  className="sc-bxivhb gPUjkv"
 >
   <div
     className="sc-181m7t4-2 fFFOLc"
   >
     <div
-      className="sc-181m7t4-1 cVJEPN"
+      className="sc-181m7t4-1 jGYmHw"
     />
   </div>
 </div>

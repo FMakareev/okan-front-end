@@ -2,13 +2,13 @@
 
 exports[`FormButtonSubmit: Рендерится без ошибок 1`] = `
 <div
-  className="sc-bxivhb dUiVDW"
+  className="sc-bxivhb gPUjkv"
 >
   <div
     className="sc-1jxwge6-0 wterhv-0 fCdjsl"
   >
     <button
-      className="sc-8daz6k-1 IebJL mxzgdr-0 gVQTvs"
+      className="sc-8daz6k-1 IebJL mxzgdr-0 cYgIUh"
       size="large"
       type="submit"
     >
@@ -47,13 +47,13 @@ exports[`FormButtonSubmit: Рендерится без ошибок 1`] = `
 
 exports[`FormButtonSubmit: Рендерится прелоадер если isLoading true 1`] = `
 <div
-  className="sc-bxivhb dUiVDW"
+  className="sc-bxivhb gPUjkv"
 >
   <div
     className="sc-1jxwge6-0 wterhv-0 fCdjsl"
   >
     <button
-      className="sc-8daz6k-1 IebJL mxzgdr-0 gVQTvs"
+      className="sc-8daz6k-1 IebJL mxzgdr-0 cYgIUh"
       size="large"
       type="submit"
     >

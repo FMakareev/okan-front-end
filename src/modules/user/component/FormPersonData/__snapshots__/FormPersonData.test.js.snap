@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormPersonData: Рендерится без ошибок 1`] = `
+<div
+  className="sc-bxivhb gPUjkv"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="sc-1jxwge6-0 sc-18ch56c-0 cRBGez"
+      color="color11"
+    >
+      Личные данные
+    </div>
+    <div
+      className="sc-1jxwge6-0 sc-8d86l7-0 hlhfAl"
+    >
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 ggEpMk"
+        color="color11"
+        fontFamily="secondary"
+        fontSize={5}
+      >
+        one
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 bfdiQg"
+        color="color11"
+        fontSize={5}
+      >
+        two
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 bfdiQg"
+        color="color11"
+        fontSize={5}
+      >
+        three
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 bfdiQg"
+        color="color11"
+        fontSize={5}
+      >
+        10.10.10
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 bfdiQg"
+        color="color11"
+        fontSize={5}
+      >
+        one
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 bfdiQg"
+        color="color11"
+        fontSize={5}
+      >
+        8-999-999-99-99
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 sc-8d86l7-1 fBEXza"
+        color="color11"
+        fontSize={5}
+      >
+        one
+      </div>
+    </div>
+  </form>
+</div>
+`;
