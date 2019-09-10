@@ -103,7 +103,10 @@ export class ProjectStore extends Component {
   getCurrentEditorMode = (currentUser, projectAuthor) => {
     try {
       if (this.props.mode) return this.props.mode;
-      if (currentUser.id === projectAuthor.id) {
+
+      const { projectitem } = this.props;
+
+      if (currentUser.id === projectAuthor.id || projectitem.partners.find((user) => user.id === currentUser.id)) {
         return PROJECT_MODE_RW;
       } else {
         return PROJECT_MODE_READ;
