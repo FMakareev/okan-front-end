@@ -1,27 +1,31 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider as ProviderRedux } from 'react-redux';
 
 import { ProjectCreatePage } from './index';
 import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
 
-// test('ProjectCreatePage: рендер без ошибок', () => {
-//   const output = renderer.create(
-//     <StyledThemeProvider>
-//       <BrowserRouter>
-//         <ProjectCreatePage />
-//       </BrowserRouter>
-//     </StyledThemeProvider>,
-//   );
-//   expect(output).toMatchSnapshot();
-// });
+const store = createStore(() => {});
 
 it('ProjectCreatePage: рендер без ошибок', () => {
-  renderer.create(
-    <StyledThemeProvider>
-      <BrowserRouter>
-        <ProjectCreatePage />
-      </BrowserRouter>
-    </StyledThemeProvider>,
-  );
+  const renderWithProps = props => {
+    const defaultProps = {
+      user: {
+        id: '1111',
+      },
+    };
+
+    return shallow(
+      <StyledThemeProvider>
+        <ProviderRedux store={store}>
+          <BrowserRouter>
+            <ProjectCreatePage {...defaultProps} />
+          </BrowserRouter>
+        </ProviderRedux>
+      </StyledThemeProvider>,
+    );
+  };
+  expect(renderWithProps()).toMatchSnapshot();
 });

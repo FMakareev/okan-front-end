@@ -2,266 +2,54 @@
 
 exports[`RevisionListPage: рендер без ошибок 1`] = `
 <div
-  className="sc-bxivhb dUiVDW"
+  className="sc-bxivhb gPUjkv"
 >
-  <div
-    className="sc-1jxwge6-0 wterhv-0 huzleF"
-  >
+  <div>
     <div
-      className="sc-1jxwge6-0 sc-14k9gvj-0 jaDZBy"
-      width="100%"
+      className="sc-1jxwge6-0 dgupjs-0 sc-1kgy4mw-0 iiLzzb"
     >
-      <table
-        className="cqxezr-0 pgdb7-0 kqZcLl"
-        width="100%"
+      <i
+        className="sc-1kgy4mw-1 dQvUyw"
+        color="color6"
+        fill="currentColor"
+        style={
+          Object {
+            "display": "inline-block",
+          }
+        }
       >
-        <tr
-          className="sc-1cxzlk0-0 imvHLU"
+        <svg
+          fill="currentColor"
+          height={64}
+          style={
+            Object {
+              "display": "inline-block",
+              "verticalAlign": "middle",
+            }
+          }
+          viewBox="0 0 24 24"
+          width={64}
         >
-          <th
-            className="sc46x0-0 kpDrKL"
-            color="color11"
-            fontFamily="primary500"
-            fontSize={6}
-            width="100px"
-          >
-            № Ревизии
-          </th>
-          <th
-            className="sc46x0-0 cklyzK"
-            color="color11"
-            fontFamily="primary500"
-            fontSize={6}
-            width="500px"
-          >
-            Ф. И. О.
-          </th>
-          <th
-            className="sc46x0-0 fGAmgj"
-            color="color11"
-            fontFamily="primary500"
-            fontSize={6}
-          >
-            Дата
-          </th>
-          <th
-            className="sc46x0-0 fGAmgj"
-            color="color11"
-            fontFamily="primary500"
-            fontSize={6}
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
           />
-        </tr>
-        <tbody
-          className="obix2s-0 XmuzM"
-        >
-          <tr
-            className="sc-1cxzlk0-0 imvHLU"
-          >
-            <td
-              className="ivgi64-0 pgdb7-1 cjVhKQ"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              1
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 jxsqpP"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              Циалковский Святослав Валентинович
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 jxsqpP"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              12.11.2018
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 cuDIqc"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              <div
-                className="sc-1jxwge6-0 wterhv-0 gKHLdi"
-              >
-                <button
-                  className="mxzgdr-0 laZtVT"
-                >
-                  <svg
-                    fill="none"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      fill="white"
-                      height="29.5"
-                      rx="4.75"
-                      stroke="#848484"
-                      strokeWidth="0.5"
-                      width="29.5"
-                      x="0.25"
-                      y="0.25"
-                    />
-                    <path
-                      d="M9.6015 14.5299C10.4955 14.1372 11.3507 13.9407 12.1665 13.9407H23V11.9555C23 11.1946 22.7135 10.5408 22.1403 9.99492C21.5673 9.44903 20.8818 9.17613 20.0831 9.17613H12.9997V8.77912C12.9997 8.01816 12.7133 7.36472 12.1404 6.81896C11.5675 6.27307 10.8817 6 10.0831 6H5.91661C5.11801 6 4.43224 6.27303 3.8593 6.81896C3.28636 7.36477 3 8.01821 3 8.77916V20.6896C3 20.7228 3.00223 20.7746 3.00657 20.845C3.01085 20.9152 3.01313 20.967 3.01313 21L3.07817 20.926L7.46615 16.0125C7.99563 15.4169 8.70744 14.9226 9.6015 14.5299Z"
-                      fill="#848484"
-                    />
-                    <path
-                      d="M25.692 16.1629C25.4867 16.0544 25.2522 16 24.9885 16H12.3372C11.8256 16 11.2694 16.148 10.6687 16.4439C10.0679 16.7401 9.60082 17.1 9.26758 17.5253L5.36056 22.4749C5.12019 22.7665 5 23.0416 5 23.3001C5 23.55 5.10276 23.7292 5.30815 23.8373C5.51354 23.9458 5.74801 24 6.01164 24H18.6633C19.1749 24 19.7308 23.852 20.3317 23.5563C20.9324 23.2605 21.3993 22.9001 21.7327 22.4749L25.6397 17.5253C25.88 17.2336 26 16.9588 26 16.7001C26.0002 16.4503 25.8976 16.2712 25.692 16.1629Z"
-                      fill="#848484"
-                    />
-                  </svg>
-                </button>
-                <button
-                  className="mxzgdr-0 laZtVT"
-                >
-                  <svg
-                    fill="none"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      fill="white"
-                      height="29.5"
-                      rx="4.75"
-                      stroke="#848484"
-                      strokeWidth="0.5"
-                      width="29.5"
-                      x="0.25"
-                      y="0.25"
-                    />
-                    <path
-                      d="M7.40039 11.9998H11.1004C11.3766 11.9998 11.6004 12.2236 11.6004 12.4998V19.1362C11.6004 19.4124 11.8243 19.6362 12.1004 19.6362H16.7005C16.9767 19.6362 17.2005 19.4124 17.2005 19.1362V12.4998C17.2005 12.2236 17.4244 11.9998 17.7005 11.9998H21.4006L14.4005 5.99969L7.40039 11.9998Z"
-                      fill="#848484"
-                      stroke="#848484"
-                      strokeWidth="0.25"
-                    />
-                    <path
-                      d="M22.3002 21H6.5C6.22386 21 6 21.2239 6 21.5V23.5C6 23.7762 6.22386 24 6.5 24H22.3002C22.5764 24 22.8002 23.7762 22.8002 23.5V21.5C22.8002 21.2239 22.5764 21 22.3002 21Z"
-                      fill="#848484"
-                      stroke="#848484"
-                      strokeWidth="0.25"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr
-            className="sc-1cxzlk0-0 imvHLU"
-          >
-            <td
-              className="ivgi64-0 pgdb7-1 cjVhKQ"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              1
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 jxsqpP"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              Циалковский Святослав Валентинович
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 jxsqpP"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              12.11.2018
-            </td>
-            <td
-              className="ivgi64-0 pgdb7-1 gVHgiV"
-              color="#333333"
-              fontFamily="primary300"
-              fontSize="18px"
-            >
-              <div
-                className="sc-1jxwge6-0 wterhv-0 gKHLdi"
-              >
-                <button
-                  className="mxzgdr-0 laZtVT"
-                >
-                  <svg
-                    fill="none"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      fill="white"
-                      height="29.5"
-                      rx="4.75"
-                      stroke="#848484"
-                      strokeWidth="0.5"
-                      width="29.5"
-                      x="0.25"
-                      y="0.25"
-                    />
-                    <path
-                      d="M9.6015 14.5299C10.4955 14.1372 11.3507 13.9407 12.1665 13.9407H23V11.9555C23 11.1946 22.7135 10.5408 22.1403 9.99492C21.5673 9.44903 20.8818 9.17613 20.0831 9.17613H12.9997V8.77912C12.9997 8.01816 12.7133 7.36472 12.1404 6.81896C11.5675 6.27307 10.8817 6 10.0831 6H5.91661C5.11801 6 4.43224 6.27303 3.8593 6.81896C3.28636 7.36477 3 8.01821 3 8.77916V20.6896C3 20.7228 3.00223 20.7746 3.00657 20.845C3.01085 20.9152 3.01313 20.967 3.01313 21L3.07817 20.926L7.46615 16.0125C7.99563 15.4169 8.70744 14.9226 9.6015 14.5299Z"
-                      fill="#848484"
-                    />
-                    <path
-                      d="M25.692 16.1629C25.4867 16.0544 25.2522 16 24.9885 16H12.3372C11.8256 16 11.2694 16.148 10.6687 16.4439C10.0679 16.7401 9.60082 17.1 9.26758 17.5253L5.36056 22.4749C5.12019 22.7665 5 23.0416 5 23.3001C5 23.55 5.10276 23.7292 5.30815 23.8373C5.51354 23.9458 5.74801 24 6.01164 24H18.6633C19.1749 24 19.7308 23.852 20.3317 23.5563C20.9324 23.2605 21.3993 22.9001 21.7327 22.4749L25.6397 17.5253C25.88 17.2336 26 16.9588 26 16.7001C26.0002 16.4503 25.8976 16.2712 25.692 16.1629Z"
-                      fill="#848484"
-                    />
-                  </svg>
-                </button>
-                <button
-                  className="mxzgdr-0 laZtVT"
-                >
-                  <svg
-                    fill="none"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    width="30"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      fill="white"
-                      height="29.5"
-                      rx="4.75"
-                      stroke="#848484"
-                      strokeWidth="0.5"
-                      width="29.5"
-                      x="0.25"
-                      y="0.25"
-                    />
-                    <path
-                      d="M7.40039 11.9998H11.1004C11.3766 11.9998 11.6004 12.2236 11.6004 12.4998V19.1362C11.6004 19.4124 11.8243 19.6362 12.1004 19.6362H16.7005C16.9767 19.6362 17.2005 19.4124 17.2005 19.1362V12.4998C17.2005 12.2236 17.4244 11.9998 17.7005 11.9998H21.4006L14.4005 5.99969L7.40039 11.9998Z"
-                      fill="#848484"
-                      stroke="#848484"
-                      strokeWidth="0.25"
-                    />
-                    <path
-                      d="M22.3002 21H6.5C6.22386 21 6 21.2239 6 21.5V23.5C6 23.7762 6.22386 24 6.5 24H22.3002C22.5764 24 22.8002 23.7762 22.8002 23.5V21.5C22.8002 21.2239 22.5764 21 22.3002 21Z"
-                      fill="#848484"
-                      stroke="#848484"
-                      strokeWidth="0.25"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        </svg>
+      </i>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 egWvTL"
+        color="color11"
+        fontSize={7}
+        fontWeight="bold"
+      >
+        Error
+      </div>
+      <div
+        className="sc-1jxwge6-0 sc-18ch56c-0 iyPpaZ"
+        color="#000"
+        fontSize={5}
+      >
+        unexpected error
+      </div>
     </div>
   </div>
 </div>

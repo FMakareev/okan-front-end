@@ -8,8 +8,9 @@ exports[`Disabled checkbox 1`] = `
 
 .c1 + label {
   position: relative;
-  cursor: pointer;
+  display: block;
   padding: 0;
+  cursor: pointer;
 }
 
 .c1 + label:before {
@@ -19,10 +20,13 @@ exports[`Disabled checkbox 1`] = `
   top: 0px;
   width: 32px;
   height: 32px;
-  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
+  background-image: url(test-file-stub) !important;
+  background-repeat: no-repeat;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-;) !important;background-repeat:no-repeat;box-sizing:border-box;} .c1:checked + label:before {
+.c1:checked + label:before {
   display: none;
 }
 
@@ -32,6 +36,7 @@ exports[`Disabled checkbox 1`] = `
 }
 
 .c1:disabled + label:before {
+  -webkit-box-shadow: none;
   box-shadow: none;
   background-color: #ddd;
 }
@@ -43,16 +48,9 @@ exports[`Disabled checkbox 1`] = `
   top: -2px;
   width: 32px;
   height: 32px;
-  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
+  background-image: url(test-file-stub) !important;
+  background-repeat: no-repeat;
 }
-
-;) !important;background-repeat:no-repeat;}
-
-
-
-
-
-
 
 .c0 {
   font-family: system-ui,sans-serif;
@@ -69,13 +67,15 @@ exports[`Disabled checkbox 1`] = `
     className=""
   >
     <input
-      checked={false}
       className="c1"
-      id="styled-checkbox-1"
+      id="styled-checkbox-undefined"
+      name="partnersundefined"
+      target="div"
+      toString={[Function]}
       type="checkbox"
     />
     <label
-      htmlFor="styled-checkbox-1"
+      htmlFor="styled-checkbox-undefined"
     >
       CheckboxBase
     </label>
@@ -91,8 +91,9 @@ exports[`Enabled checkbox 1`] = `
 
 .c1 + label {
   position: relative;
-  cursor: pointer;
+  display: block;
   padding: 0;
+  cursor: pointer;
 }
 
 .c1 + label:before {
@@ -102,10 +103,13 @@ exports[`Enabled checkbox 1`] = `
   top: 0px;
   width: 32px;
   height: 32px;
-  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
+  background-image: url(test-file-stub) !important;
+  background-repeat: no-repeat;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-;) !important;background-repeat:no-repeat;box-sizing:border-box;} .c1:checked + label:before {
+.c1:checked + label:before {
   display: none;
 }
 
@@ -115,6 +119,7 @@ exports[`Enabled checkbox 1`] = `
 }
 
 .c1:disabled + label:before {
+  -webkit-box-shadow: none;
   box-shadow: none;
   background-color: #ddd;
 }
@@ -126,16 +131,9 @@ exports[`Enabled checkbox 1`] = `
   top: -2px;
   width: 32px;
   height: 32px;
-  background-image: url(process:function process(src) { return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
+  background-image: url(test-file-stub) !important;
+  background-repeat: no-repeat;
 }
-
-;) !important;background-repeat:no-repeat;}
-
-
-
-
-
-
 
 .c0 {
   font-family: system-ui,sans-serif;
@@ -152,13 +150,16 @@ exports[`Enabled checkbox 1`] = `
     className=""
   >
     <input
-      checked={false}
+      checked={true}
       className="c1"
-      id="styled-checkbox-1"
+      id="styled-checkbox-undefined"
+      name="partnersundefined"
+      target="div"
+      toString={[Function]}
       type="checkbox"
     />
     <label
-      htmlFor="styled-checkbox-1"
+      htmlFor="styled-checkbox-undefined"
     >
       CheckboxBase
     </label>

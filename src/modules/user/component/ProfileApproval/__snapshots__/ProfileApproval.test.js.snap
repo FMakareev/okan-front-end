@@ -5,7 +5,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <StyledThemeProvider>
     <ProfileApproval
-      data={
+      0={
         Object {
           "name": "1",
           "number": "2",
@@ -28,7 +28,7 @@ ShallowWrapper {
     "nodeType": "class",
     "props": Object {
       "children": <ProfileApproval
-        data={
+        0={
           Object {
             "name": "1",
             "number": "2",
@@ -474,7 +474,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "function",
       "props": Object {
-        "data": Object {
+        "0": Object {
           "name": "1",
           "number": "2",
         },
@@ -492,7 +492,7 @@ ShallowWrapper {
       "nodeType": "class",
       "props": Object {
         "children": <ProfileApproval
-          data={
+          0={
             Object {
               "name": "1",
               "number": "2",
@@ -938,7 +938,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "function",
         "props": Object {
-          "data": Object {
+          "0": Object {
             "name": "1",
             "number": "2",
           },
@@ -962,7 +962,10 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromProps": true,
+          "getDerivedStateFromError": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
@@ -970,6 +973,8 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
 }
 `;

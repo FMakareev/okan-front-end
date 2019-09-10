@@ -2,16 +2,16 @@
 
 exports[`Registration: рендер без ошибок 1`] = `
 <div
-  className="sc-bxivhb dUiVDW"
+  className="sc-bxivhb gPUjkv"
 >
   <div
-    className="sc-1jxwge6-0 sc-14k9gvj-0 cVVuAF"
+    className="sc-1jxwge6-0 sc-14k9gvj-0 cOaJZq"
   >
     <form
       onSubmit={[Function]}
     >
       <div
-        className="sc-1jxwge6-0 wterhv-0 dKkgGY"
+        className="sc-1jxwge6-0 wterhv-0 dDWSKF"
       >
         <svg
           fill="none"
@@ -35,19 +35,22 @@ exports[`Registration: рендер без ошибок 1`] = `
         </svg>
       </div>
       <div
-        className="sc-1jxwge6-0 kLIEsI"
+        className="sc-1jxwge6-0 iFZKBC"
       >
         <div
-          className="sc-1jxwge6-0 sc-7tqxms-0 kWCBFY"
+          className="sc-1jxwge6-0 xia342-0 dtYKfA"
         >
           <div
-            className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
           >
             <input
-              aria-required={false}
-              className="wsrc07-0 hLuBZV"
+              autoComplete="off"
+              className="wsrc07-0 hADynb"
               fontFamily="secondary"
-              fontSize={9}
               name="email"
               onBlur={[Function]}
               onChange={[Function]}
@@ -55,22 +58,30 @@ exports[`Registration: рендер без ошибок 1`] = `
               onDrop={[Function]}
               onFocus={[Function]}
               placeholder="Логин"
+              size="lg"
               type="text"
+              value=""
+            />
+            <div
+              className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
             />
           </div>
         </div>
         <div
-          className="sc-1jxwge6-0 f6qeq-0 zZslI"
+          className="sc-1jxwge6-0 f6qeq-0 bldcpi"
           width="100%"
         >
           <div
-            className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
           >
             <input
-              aria-required={false}
-              className="wsrc07-0 hLuBZV"
+              autoComplete="off"
+              className="wsrc07-0 hZcLbR"
               fontFamily="secondary"
-              fontSize={9}
               name="password"
               onBlur={[Function]}
               onChange={[Function]}
@@ -78,14 +89,19 @@ exports[`Registration: рендер без ошибок 1`] = `
               onDrop={[Function]}
               onFocus={[Function]}
               placeholder="Пароль"
+              size="lg"
               type="password"
+              value=""
+            />
+            <div
+              className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
             />
           </div>
           <div
             className="sc-cJSrbW ipLTMg sc-TOsTZ kWOehK"
           >
-            <button
-              className="mxzgdr-0 kADgQh"
+            <div
+              className="mahu7d-0 ljEFPw"
               onClick={[Function]}
             >
               <div
@@ -109,24 +125,27 @@ exports[`Registration: рендер без ошибок 1`] = `
                   />
                 </svg>
               </div>
-            </button>
+            </div>
           </div>
         </div>
         <div
-          className="sc-1jxwge6-0 sc-7tqxms-1 kHZJFl"
+          className="sc-1jxwge6-0 sc-14vcye7-0 bCGyhw"
         >
           <div
-            className="sc-1jxwge6-0 f6qeq-0 zZslI"
+            className="sc-1jxwge6-0 f6qeq-0 bldcpi"
             width="100%"
           >
             <div
-              className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
+              style={
+                Object {
+                  "position": "relative",
+                }
+              }
             >
               <input
-                aria-required={false}
-                className="wsrc07-0 hLuBZV"
+                autoComplete="off"
+                className="wsrc07-0 hZcLbR"
                 fontFamily="secondary"
-                fontSize={9}
                 name="retryPas"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -134,14 +153,19 @@ exports[`Registration: рендер без ошибок 1`] = `
                 onDrop={[Function]}
                 onFocus={[Function]}
                 placeholder="Потвердите пароль"
+                size="lg"
                 type="password"
+                value=""
+              />
+              <div
+                className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
               />
             </div>
             <div
               className="sc-cJSrbW ipLTMg sc-TOsTZ kWOehK"
             >
-              <button
-                className="mxzgdr-0 kADgQh"
+              <div
+                className="mahu7d-0 ljEFPw"
                 onClick={[Function]}
               >
                 <div
@@ -165,53 +189,53 @@ exports[`Registration: рендер без ошибок 1`] = `
                     />
                   </svg>
                 </div>
-              </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
+        className="sc-1jxwge6-0 wterhv-0 fCdjsl"
       >
-        <div
-          className="sc-1jxwge6-0 wterhv-0 kYiXPH"
+        <button
+          className="sc-8daz6k-1 IebJL mxzgdr-0 cYgIUh"
+          disabled={true}
+          size="large"
+          type="submit"
         >
-          <button
-            className="mxzgdr-0 ejVutQ"
-            disabled={true}
-            size="large"
-            type="submit"
+          <div
+            className="sc-1jxwge6-0 wterhv-0 eZMgmL"
+            width="100%"
           >
             <div
-              className="sc-1jxwge6-0 wterhv-0 lePFiI"
-              width="100%"
+              className="sc-1jxwge6-0 wterhv-0 kyYPav"
             >
               <div
-                className="sc-1jxwge6-0 wterhv-0 BIsEB"
+                className="sc-kgAjT vsc45g-0 fmuNov sc-TOsTZ kjYrri"
               >
                 Войти
               </div>
-              <div
-                className="sc-1jxwge6-0 wterhv-0 dYUJvw"
-              >
-                <svg
-                  fill="inherit"
-                  height="20"
-                  viewBox="0 0 16 20"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M15.1351 8.58297L2.56862 0.197654C2.19712 -0.0365882 1.73582 0.00243778 1.38742 0.00243778C-0.00618175 0.00243778 4.78129e-07 1.14194 4.78129e-07 1.43063V18.5693C4.78129e-07 18.8134 -0.00610045 19.9976 1.38742 19.9976C1.73582 19.9976 2.1972 20.0364 2.56862 19.8023L15.135 11.417C16.1665 10.767 15.9882 9.99997 15.9882 9.99997C15.9882 9.99997 16.1665 9.23289 15.1351 8.58297Z"
-                    fill="inherit"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
             </div>
-          </button>
-        </div>
+            <div
+              className="sc-1jxwge6-0 wterhv-0 bLCDhq"
+            >
+              <svg
+                fill="inherit"
+                height="1.250em"
+                viewBox="0 0 16 20"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clipRule="evenodd"
+                  d="M15.1351 8.58297L2.56862 0.197654C2.19712 -0.0365882 1.73582 0.00243778 1.38742 0.00243778C-0.00618175 0.00243778 4.78129e-07 1.14194 4.78129e-07 1.43063V18.5693C4.78129e-07 18.8134 -0.00610045 19.9976 1.38742 19.9976C1.73582 19.9976 2.1972 20.0364 2.56862 19.8023L15.135 11.417C16.1665 10.767 15.9882 9.99997 15.9882 9.99997C15.9882 9.99997 16.1665 9.23289 15.1351 8.58297Z"
+                  fill="inherit"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        </button>
       </div>
     </form>
   </div>

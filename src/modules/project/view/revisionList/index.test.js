@@ -6,12 +6,20 @@ import { RevisionListPage } from './index';
 import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
 
 test('RevisionListPage: рендер без ошибок', () => {
-  const output = renderer.create(
-    <StyledThemeProvider>
-      <BrowserRouter>
-        <RevisionListPage />
-      </BrowserRouter>
-    </StyledThemeProvider>,
-  );
-  expect(output).toMatchSnapshot();
+  const renderWithProps = props => {
+    const defaultProps = {
+      match: {
+        params: { token: 'randomToken' },
+      },
+    };
+
+    return renderer.create(
+      <StyledThemeProvider>
+        <BrowserRouter>
+          <RevisionListPage {...defaultProps} />
+        </BrowserRouter>
+      </StyledThemeProvider>,
+    );
+  };
+  expect(renderWithProps({})).toMatchSnapshot();
 });

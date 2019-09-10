@@ -1,16 +1,21 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
+
 import { BrowserRouter } from 'react-router-dom';
 
 import { StyledThemeProvider } from '../../styles/StyledThemeProvider';
 import Header from './Header';
 
 test('Header: Рендерится без ошибок', () => {
-  renderer.create(
-    <StyledThemeProvider>
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    </StyledThemeProvider>,
-  );
+  const renderWithProps = props => {
+    return shallow(
+      <StyledThemeProvider>
+        <BrowserRouter>
+          <Header />
+        </BrowserRouter>
+      </StyledThemeProvider>,
+    );
+  };
+
+  expect(renderWithProps()).toMatchSnapshot();
 });

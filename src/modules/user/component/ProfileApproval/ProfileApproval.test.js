@@ -6,16 +6,15 @@ import { StyledThemeProvider } from '../../../../styles/StyledThemeProvider';
 import { ProfileApproval } from './ProfileApproval';
 
 describe('ProfileApproval', () => {
-  const props = {
-    data: {
+  const data = [
+    {
       name: '1',
       number: '2',
     },
-  };
-
+  ];
   const newsContainer = shallow(
     <StyledThemeProvider>
-      <ProfileApproval {...props} />
+      <ProfileApproval {...data} />
     </StyledThemeProvider>,
   ); // передали props
 

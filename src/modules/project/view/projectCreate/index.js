@@ -22,14 +22,16 @@ export class ProjectCreatePage extends Component {
   state = {};
 
   render() {
-    const { user } = this.props;
+    const {
+      user: { id },
+    } = this.props;
     return (
       <ErrorCatch>
         <Flex mt={9} justifyContent={'center'}>
           <Container maxWidth={'500px'} width={'100%'}>
             <FormProjectCreate
               initialValues={{
-                author: user.id,
+                author: id,
               }}
             />
           </Container>
